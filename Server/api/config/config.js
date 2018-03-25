@@ -4,5 +4,5 @@ module.exports = {
     ENV: 'dev',
     MONGO_URI: this.env === 'prod' ? '' : 'mongodb://localhost:27017/nawwar',
     PORT: 3000,
-    SECRET: 'placeholder'
+    SECRET: ';iN.yVt,Tmu44cZkX#.|tS>s`4xb;-oRe66iMz0[L^e9;ltF_5"DUvPphj:f:&'
 };
