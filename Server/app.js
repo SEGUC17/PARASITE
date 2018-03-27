@@ -28,29 +28,29 @@ app.use(cookieParser());
 app.use('/api', router);
 
 
-
 // mongoose Database connection
 require('./api/config/DBConnection');
 
 
-
 // 500 internal server error handler
-app.use(function(err, req, res, next) {
-  if (err.statusCode === 404) return next();
+app.use(function (err, req, res, next) {
+  if (err.statusCode === 404) {
+    return next();
+  }
   res.status(500).json({
     // Never leak the stack trace of the err if running in production mode
-    err: process.env.NODE_ENV === 'production' ? null : err,
-    msg: '500 Internal Server Error',
-    data: null
+    data: null,
+    err: config.ENV === 'prod' ? null : err,
+    msg: '500 Internal Server Error'
   });
 });
 
 // 404 error handler
-app.use(function(req, res) {
+app.use(function (req, res) {
   res.status(404).json({
+    data: null,
     err: null,
-    msg: '404 Not Found',
-    data: null
+    msg: '404 Not Found'
   });
 });
 
