@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { MarketComponent } from './market/market.component';
 const routes = [
-{ path: '', redirectTo: '/dashboard', pathMatch: 'full' }
+  { path: 'market', component: MarketComponent }
 ];
 @NgModule({
   imports: [
@@ -14,4 +15,4 @@ const routes = [
     RouterModule
   ]
 })
-export class AppRoutingModule { }
+export class MarketRoutingModule { }
