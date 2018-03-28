@@ -69,7 +69,7 @@
         "keyword-spacing": "error",
         "line-comment-position": "error",
         "linebreak-style": [
-            "error",
+            "off",
             "unix"
         ],
         "lines-around-comment": "error",
@@ -200,7 +200,7 @@
         "padding-line-between-statements": "error",
         "prefer-arrow-callback": "off",
         "prefer-const": "error",
-        "prefer-destructuring": "error",
+        "prefer-destructuring": "off",
         "prefer-numeric-literals": "error",
         "prefer-promise-reject-errors": "error",
         "prefer-reflect": "error",

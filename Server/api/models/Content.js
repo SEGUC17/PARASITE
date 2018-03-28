@@ -9,6 +9,11 @@ var contentSchema = mongoose.Schema({
         trim: false,
         type: String
     },
+    category: {
+        required: true,
+        trim: true,
+        type: String
+    },
     creator: {
         trim: true,
         type: String
@@ -17,6 +22,12 @@ var contentSchema = mongoose.Schema({
         trim: false,
         type: String
     },
+    section: {
+        required: true,
+        trim: true,
+        type: String
+    },
+    tags: { type: [String] },
     title: {
         required: true,
         trim: true,
