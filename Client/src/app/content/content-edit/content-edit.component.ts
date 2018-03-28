@@ -10,7 +10,6 @@ export class ContentEditComponent implements OnInit {
   public editor;
   public content;
   public editorOut;
-  public trustedOut;
   public editorContent = `<h1>Hello there, I am Reda :D<h1>`;
   public editorOptions = {
     placeholder: 'insert content here'
@@ -29,8 +28,7 @@ export class ContentEditComponent implements OnInit {
   }
   onContentChanged({ quill, html, text }) {
     console.log('content changed dude', quill, html, text);
-    this.editorOut = html;
-    this.trustedOut = this.sanitizer.bypassSecurityTrustHtml(this.editorOut);
+    this.editorOut = this.sanitizer.bypassSecurityTrustHtml(html);
   }
   ngOnInit() {
     setTimeout(() => {
