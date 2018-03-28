@@ -27,8 +27,8 @@ export class ContentEditComponent implements OnInit {
     this.editor = quill;
     console.log('quill is here', quill);
   }
-  onContentChanged({ quill, html, text }) {
-    console.log('content changed dude', quill, html, text);
+  onContentChanged({html, text }) {
+    console.log('content changed', html, text);
     this.editorOut = html;
     this.trustedOut = this.sanitizer.bypassSecurityTrustHtml(this.editorOut);
   }

@@ -48,6 +48,10 @@ export class AppComponent implements OnDestroy {
     {
       url: '/activities/9',
       name: 'Random Activity'
+    },
+    {
+      url: '/admin',
+      name: 'Admin Control'
     }
   ];
   mobileQuery: MediaQueryList;
