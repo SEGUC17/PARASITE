@@ -1,10 +1,67 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   title = 'app';
+  links = [
+    {
+      url: '/dashboard',
+      name: 'Dashboard'
+    },
+    {
+      url: '/content-edit',
+      name: 'Content Edit'
+    },
+    {
+      url: '/auth/login',
+      name: 'Login'
+    },
+    {
+      url: '/profile',
+      name: 'Profile'
+    },
+    {
+      url: 'message',
+      name: 'Messaging'
+    },
+    {
+      url: '/market',
+      name: 'Market'
+    },
+    {
+      url: '/schedule/0',
+      name: 'Random Schedule'
+    },
+    {
+      url: '/study-plan/0',
+      name: 'Random Study Plan'
+    },
+    {
+      url: '/psychologist/0',
+      name: 'Psychologist'
+    },
+    {
+      url: '/activities/9',
+      name: 'Random Activity'
+    }
+  ];
+  mobileQuery: MediaQueryList;
+  private _mobileQueryListener: () => void;
+
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = function () {
+      changeDetectorRef.detectChanges();
+    };
+    this.mobileQuery.addListener(this._mobileQueryListener);
+
+  }
+  ngOnDestroy() {
+    this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
 }
