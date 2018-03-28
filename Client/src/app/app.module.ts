@@ -17,9 +17,9 @@ import { MatIconModule } from '@angular/material';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { MatButtonModule } from '@angular/material/button';
 import { AdminModule } from './admin/admin.module';
-
+import { MatButtonModule } from '@angular/material/button';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -33,6 +33,7 @@ import { AdminModule } from './admin/admin.module';
     MatSidenavModule,
     MatListModule,
     MatButtonModule,
+    FlexLayoutModule,
     DashboardModule,
     AdminModule,
     ProfileModule,

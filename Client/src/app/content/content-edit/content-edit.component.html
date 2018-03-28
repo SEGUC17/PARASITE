@@ -1,7 +1,5 @@
-<quill-editor [(ngModel)]="editorContent"
-              [options]="editorOptions"
-              (blur)="onEditorBlured($event)"
-              (focus)="onEditorFocused($event)"
-              (ready)="onEditorCreated($event)"
-              (change)="onContentChanged($event)"></quill-editor>
-<div *ngIf="trustedOut" [innerHTML]="trustedOut"></div>
+<div fxLayout="row" fxLayoutAlign="center">
+<quill-editor  fxFlex="50"  [(ngModel)]="editorContent" [options]="editorOptions" (blur)="onEditorBlured($event)"
+    (focus)="onEditorFocused($event)" (ready)="onEditorCreated($event)" (change)="onContentChanged($event)"></quill-editor>
+<div *ngIf="editorOut" class="preview" fxFlex="50" [innerHTML]="editorOut"></div>
+</div>
