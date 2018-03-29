@@ -46,7 +46,7 @@ export class AppComponent implements OnDestroy {
       name: 'Random Study Plan'
     },
     {
-      url: '/psychologist/0',
+      url: '/psychologist/view/0',
       name: 'Psychologist'
     },
     {
