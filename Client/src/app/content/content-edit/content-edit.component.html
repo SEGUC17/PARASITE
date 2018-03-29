@@ -1,11 +1,22 @@
-<div class="content-container" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2%">
-    <div fxLayout="column" fxFlex="50">
-        <quill-editor class="text-editor"[(ngModel)]="editorContent" [options]="editorOptions" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)"
+<mat-horizontal-stepper class="content-container">
+    <mat-step label="Content Data">
+        <mat-form-field hintLabel="Enter a link of the main video of the content if exists">
+            <mat-icon matPrefix>link</mat-icon>
+            <input matInput #videoLink placeholder="Video link goes here">
+        </mat-form-field>
+        <mat-form-field hintLabel="Enter the title of the content">
+            <input matInput #contentTitle placeholder="The title goes here">
+        </mat-form-field>
+    </mat-step>
+    <mat-step label="Content Description">
+        <quill-editor class="text-editor" [(ngModel)]="editorContent" [options]="editorOptions" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)"
             (ready)="onEditorCreated($event)" (change)="onContentChanged($event)"></quill-editor>
-        <div fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="center">
-            <button>hello1</button>
-        </div>
 
-    </div>
-    <div *ngIf="editorOut" class="ql-editor preview" fxFlex="50" [innerHTML]="editorOut"></div>
-</div>
+    </mat-step>
+    <mat-step label="Content Preview">
+        <div *ngIf="editorOut" class="ql-editor preview" fxFlex="50" [innerHTML]="editorOut"></div>
+    </mat-step>
+    <mat-step label="Submit">
+        <h1>This is step 3</h1>
+    </mat-step>
+</mat-horizontal-stepper>

@@ -2,8 +2,6 @@
     word-wrap: break-word;
     overflow-y: auto;
     text-align: justify;
-    border: solid 1px;
-    margin-right: 4%;
 }
 
 .text-editor{
