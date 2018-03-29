@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+// import { ViewRequestsComponent } from './view-requests/view-requests.component';
 
 @NgModule({
   imports: [
