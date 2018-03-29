@@ -1,5 +1,5 @@
 .content-card {
-  max-width: 400px;
+  margin: 2%;
 }
 
 .content-tag {
@@ -11,3 +11,8 @@
     background-size: cover;
   }
 
+.content-container{
+  margin: 5%;
+  display: flex;
+  flex-wrap: wrap;
+}

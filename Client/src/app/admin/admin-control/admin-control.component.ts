@@ -1,40 +1,39 @@
-import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {ViewVerifiedContributerRequestsComponent} from "../view-verified-contributer-requests/view-verified-contributer-requests.component";
+import { OnInit, Output, ViewChild} from '@angular/core';
+import {ViewVerifiedContributerRequestsComponent} from '../view-verified-contributer-requests/view-verified-contributer-requests.component';
 
+import {ViewResourcesIdeasRequestsComponent } from '../view-resources-ideas-requests/view-resources-ideas-requests.component'
+import {AdminService} from '../../admin.service';
 
 @Component({
   selector: 'app-admin-control',
   templateUrl: './admin-control.component.html',
   styleUrls: ['./admin-control.component.css']
 })
+
 export class AdminControlComponent implements OnInit {
 
   @ViewChild(ViewVerifiedContributerRequestsComponent) VcComponent;
 
+  @ViewChild(ViewResourcesIdeasRequestsComponent) _ResIReq;
 
-  constructor() { }
+  constructor(private _adminService: AdminService) { }
 
   ngOnInit() {
+
+  }
+  goToResIReq() {
+    this._ResIReq.test();
+    console.log(this._adminService.test());
   }
 
-
-
-  test (){
-    var el = document.getElementById("comp");
+  removeElementByID (stringID) {
+    let el = document.getElementById(stringID);
     el.parentNode.removeChild(el);
-    console.log("hi");
   }
 
-  addEL(){
-    var el = document.getElementById("comp");
-    el.parentNode.appendChild(el);
-
-  }
-
-  viewVCRequests(){
+  viewVCRequests() {
     this.VcComponent.testAccess();
 
   }
-
-
 }
+
