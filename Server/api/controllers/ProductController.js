@@ -17,6 +17,38 @@ module.exports.getRequests = function (req, res, next) {
         });
     });
 };
+//createproduct
+
+module.exports.createProduct = function(req, res, next) {
+    
+    Product.create(req.body, function(err, product) {
+      if (err) {
+        return next(err);
+      }
+      res.status(201).json({
+        err: null,
+        msg: 'Product was created successfully.',
+        data: product
+      });
+    });
+  };
+  //createproduct end
+
+//createProductRequest start
+  module.exports.createProductRequest = function(req, res, next) {
+    ProductRequest.create(req.body, function(err, productreq) {
+      if (err) {
+        return next(err);
+      }
+      res.status(201).json({
+        err: null,
+        msg: 'Product was created successfully.',
+        data: productreq
+      });
+    });
+  };
+  //createProductRequest end
+
 
 module.exports.evaluateRequest = function (req, res, next) {
     if (req.body.result) {
