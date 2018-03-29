@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AddPsychologistRequest } from './AddPsychologistRequest'
+import { AddPsychRequestService } from '../add-psych-request.service'
 
 @Component({
   selector: 'app-add-psych-request',
@@ -15,7 +16,7 @@ export class AddPsychRequestComponent implements OnInit {
 	days: string[];
 
 
-  constructor() {
+  constructor(private RequestService : AddPsychRequestService) {
   	
   }
 
@@ -66,6 +67,7 @@ export class AddPsychRequestComponent implements OnInit {
 		state: "Pending"
 	};
   	console.log(req);
+    this.RequestService.addRequest(req).subscribe();
   }
 
 }

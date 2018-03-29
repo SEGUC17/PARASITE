@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
+import { AddPsychRequestService } from './psychologist/add-psych-request.service'
 import { MarketModule } from './market/market.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,12 +22,15 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
@@ -49,7 +53,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FormsModule
   ],
   providers: [
-    MediaMatcher
+    MediaMatcher,
+    AddPsychRequestService
   ],
   bootstrap: [AppComponent]
 })
