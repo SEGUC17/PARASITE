@@ -79,7 +79,7 @@ var userSchema = mongoose.Schema({
     },
     schedule: {
         default: [],
-        type: []
+        type: [calendarEventSchema]
     },
     studyPlans: {
         default: [],
