@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var compression = require('compression');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
+var expressSession = require('express-session');
 var passport = require('passport');
 
 //config file
@@ -23,6 +24,9 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(expressSession({ secret: 'mySecretKey' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 //router
 app.use('/api', router);
