@@ -1,0 +1,63 @@
+<div>
+  <form class="category-management-form">
+    <td></td>
+    <mat-form-field class="category-management-full-width">
+      <input matInput placeholder="Create New Category" disabled value="Please Fill the Next Infos ">
+    </mat-form-field>
+
+
+    <table class="category-management-full-width" cellspacing="0">
+      <tr>
+        <td>
+
+
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Category Name"></textarea>
+          </mat-form-field>
+        </td>
+
+        <td>
+          <div class="button-row">
+            <button mat-raised-button color="primary">Create</button>
+          </div>
+
+
+        </td>
+      </tr>
+    </table>
+
+
+
+    <table class="category-management-full-width" cellspacing="0">
+      <tr>
+        <td>
+          <mat-form-field>
+            <mat-select placeholder="Create Section">
+              <mat-option *ngFor="let option of options" [value]="option.value">
+                {{ option.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+
+        <td>
+          <mat-form-field class="example-full-width">
+            <textarea matInput placeholder="Selection Name"></textarea>
+          </mat-form-field>
+        </td>
+
+        <td>
+          <div class="button-row">
+            <button mat-raised-button color="primary">Create</button>
+          </div>
+
+
+        </td>
+
+      </tr>
+    </table>
+  </form>
+
+
+
+</div>

@@ -1,3 +1,30 @@
-<p>
-  profile works!
-</p>
+<div id = "wrapper">
+    <div id = "PPDiv">
+      <img id = "PP" src= "../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
+      <br>
+      <label id="ProfileName" >Fulan el Fulany{{Name}}</label> <br> <br>  
+    </div>
+
+  <button id="btnRequestContributerValidation" click="requestContributerValidation()">make me Valid Contributer</button>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'London')">About</button>
+        <button class="tablinks" onclick="openTab(event, 'Paris')">Personal Schedule</button>
+        <button class="tablinks" onclick="openTab(event, 'Tokyo')">List of Children</button>
+        <button class="tablinks" onclick="openTab(event, 'Tokyo')">Study Plans</button>
+      </div>      
+      <button id="btnRequestContributerValidation" click="">make me Valid Contributer</button>
+
+
+
+    <div id = "personalinfo">
+      <h3>Personal Info:</h3>
+
+      <label>Username: {{Username}}</label> <br> <br>
+      <label>Email: {{Email}}</label> <br> <br>
+      <label>Birthday: {{Birthday}}</label> <br> <br>
+      <label>Age: {{Age}}</label> <br> <br>
+      <label>Address: {{Address}}</label> <br> <br>
+      <label>Phone: {{Phone}}</label> <br> <br>
+
+    </div>
+</div>
