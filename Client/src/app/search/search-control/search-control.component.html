@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Connect to Other Parents !</title>
+    </head>
+    <body ng-app="instantsearch">
+        <div ng-controller="instantSearchCtrl">
+            <div class="bar">
+                <input type="text" class="search" ng-model="searchString" placeholder="Enter your search terms" />
+            </div>
+            <ul class="search-control">
+                <li ng-repeat="i in Parents | searchFor:searchString">
+                    <p>{{i.title}}
+                </li>
+            </ul>
+        </div>
+    </body>
+    <script src="js/site.js"></script>
+</html>

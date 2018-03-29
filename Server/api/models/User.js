@@ -26,6 +26,16 @@ var userSchema = mongoose.Schema({
         required: false,
         type: [String]
     },
+    educationLevels: {
+      default: [],
+      required: flase,
+      type:[String]
+    },
+    educationSystems:{
+      default: [],
+      required: flase,
+      type:[String]
+    }
     email: {
         lowercase: true,
         match: /\S+@\S+\.\S+/,
