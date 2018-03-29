@@ -22,6 +22,7 @@ import { SearchModule } from './search/search.module';
 import { SearchService } from './search.service';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MarketModule,
     ActivitiesModule,
     MessagingModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [
     MediaMatcher,

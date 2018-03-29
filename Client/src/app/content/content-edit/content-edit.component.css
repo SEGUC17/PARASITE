@@ -1,18 +1,23 @@
-.preview{
+.preview {
     word-wrap: break-word;
     overflow-y: auto;
     text-align: justify;
-    border: solid 1px;
-    margin-right: 4%;
 }
 
-.text-editor{
-    overflow-y:auto;
+.text-editor {
+    overflow-y: auto;
     min-height: 90%;
     max-height: 90%;
     margin-left: 4%;
 }
-.content-container{
+
+.content-container {
     margin-top: 2%;
-    height:90%;
+    height: 90%;
+}
+
+.meta-input {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    width: 100%;
 }

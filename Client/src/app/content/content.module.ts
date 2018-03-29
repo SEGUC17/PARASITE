@@ -8,6 +8,12 @@ import { MatCardModule } from '@angular/material/card';
 import { ContentListViewComponent } from './content-list-view/content-list-view.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material';
+import { MatInputModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { ContentService } from './content.service';
 
 @NgModule({
   imports: [
@@ -15,10 +21,16 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ContentRoutingModule,
     FlexLayoutModule,
     FormsModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatInputModule,
+    MatIconModule,
     QuillEditorModule,
     MatCardModule,
     MatChipsModule
   ],
+  providers: [ContentService],
   declarations: [ContentEditComponent, ContentListViewComponent]
 })
 export class ContentModule { }

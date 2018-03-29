@@ -46,7 +46,7 @@ export class AppComponent implements OnDestroy {
       name: 'Random Study Plan'
     },
     {
-      url: '/psychologist/0',
+      url: '/psychologist/view/0',
       name: 'Psychologist'
     },
     {
@@ -58,9 +58,15 @@ export class AppComponent implements OnDestroy {
       name: 'Admin Control'
     },
     {
+
       url: '/search',
       name: 'Search'
     }
+
+      url: '/admin/category',
+      name: 'Admin Category Control'
+  }
+
   ];
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
