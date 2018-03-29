@@ -5,9 +5,11 @@
 
 
 // ---------------------- Reuirements ---------------------- //
+require('./CalendarEvent.js');
+require('./StudyPlan.js');
 var mongoose = require('mongoose'),
-    calendarEventSchema = mongoose.model("CalnedarEvent").schema,
-    studyPlanSchema = mongoose.model("StudyPlan").schema;;
+    calendarEventSchema = mongoose.model("CalendarEvent").schema,
+    studyPlanSchema = mongoose.model("StudyPlan").schema;
 // ---------------------- End of Requiremenets ---------------------- //
 
 

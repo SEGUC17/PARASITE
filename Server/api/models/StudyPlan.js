@@ -6,7 +6,7 @@
 
 // ---------------------- Reuirements ---------------------- //
 var mongoose = require('mongoose'),
-    calendarEventSchema = mongoose.model("CalnedarEvent").schema;
+    calendarEventSchema = mongoose.model("CalendarEvent").schema;
 // ---------------------- End of Requiremenets ---------------------- //
 
 
@@ -28,7 +28,7 @@ var studyPlanSchema = mongoose.Schema({
     },
     description: {
         required: true,
-        type: any
+        type: {}
     },
     assigned: {
         type: Boolean,

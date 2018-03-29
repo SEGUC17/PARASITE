@@ -11,8 +11,8 @@ var mongoose = require('mongoose');
 
 // ---------------------- Schemas ---------------------- //
 var calendarEventSchema = mongoose.Schema({
-    id: { 
-        type: string | number,
+    id: {
+        type: {},
     },
     start: {
         type: Date,
@@ -26,10 +26,10 @@ var calendarEventSchema = mongoose.Schema({
         require: true
     },
     color: {
-        type: Mixed
+        type: {}
     },
     actions: {
-        type: [any]
+        type: [{}]
     },
     allDay: {
         type: Boolean
@@ -38,19 +38,21 @@ var calendarEventSchema = mongoose.Schema({
         type: String
     },
     resizable: {
-        beforeStart?: boolean,
-        afterEnd?: boolean
+        type: {
+            beforeStart: Boolean,
+            afterEnd: Boolean
+        }
     },
     draggable: {
         type: Boolean
     },
     meta: {
-        type: Mixed
+        type: {}
     }
 });
 // ---------------------- End of Schemas ---------------------- //
 
 
 // ---------------------- Models ---------------------- //
-var StudyPlan = mongoose.model('CalendarEvent', calendarEventSchema);
+var CalendarEvent = mongoose.model('CalendarEvent', calendarEventSchema);
 // ---------------------- End of Models ---------------------- //
