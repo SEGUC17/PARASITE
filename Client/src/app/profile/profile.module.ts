@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile/profile.component';
 import {HttpClientModule} from '@angular/common/http';
-import {ProfileService} from './profile.service';
+
+import { ProfileService } from './profile.service';
+
 
 @NgModule({
   imports: [
@@ -10,6 +12,9 @@ import {ProfileService} from './profile.service';
     HttpClientModule
   ],
   declarations: [ProfileComponent],
-  providers: [ProfileService]
+  providers: [
+    ProfileService
+  ]
+
 })
 export class ProfileModule { }
