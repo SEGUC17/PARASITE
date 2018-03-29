@@ -1,14 +1,18 @@
-<h1><a routerLink="/dashboard">Dashboard</a></h1>
-<h1><a routerLink="/content-edit">Content Edit</a></h1>
-<h1><a routerLink="/activities/9">Activity</a></h1>
-<h1><a routerLink="/auth/login">Login</a></h1>
-<h1><a routerLink="/profile">Profile</a></h1>
-<h1><a routerLink="/message">Message</a></h1>
-<h1><a routerLink="/schedule/0">Schedule</a></h1>
-<h1><a routerLink="/study-plan/0">Study Plan</a></h1>
-<h1><a routerLink="/psychologist/0">Psychologist</a></h1>
-<h1><a routerLink="/market"> Market</a></h1>
-<div>
-  <h3>View is here</h3>
-<router-outlet></router-outlet>
+<div class="main-container" [class.is-mobile]="mobileQuery.matches">
+  <mat-toolbar class="header" color="primary">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1 class="title">Nawwar</h1>
+  </mat-toolbar>
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+      <mat-nav-list>
+        <a mat-list-item *ngFor="let link of links" routerLink="{{link.url}}">{{link.name}}</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>
