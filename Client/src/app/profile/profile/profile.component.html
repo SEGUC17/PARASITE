@@ -2,29 +2,38 @@
     <div id = "PPDiv">
       <img id = "PP" src= "../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
       <br>
-      <label id="ProfileName" >Fulan el Fulany{{Name}}</label> <br> <br>  
+      <label id="ProfileName" >{{Name}}</label>
+      <br>
+      <label id="Badge" >Badge goes here</label>
+      <button id="btnRequestContributerValidation" click="requestContributerValidation()">Make me a verified contributor</button>
     </div>
-
-  <button id="btnRequestContributerValidation" click="requestContributerValidation()">make me Valid Contributer</button>
+    <br>
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'London')">About</button>
-        <button class="tablinks" onclick="openTab(event, 'Paris')">Personal Schedule</button>
-        <button class="tablinks" onclick="openTab(event, 'Tokyo')">List of Children</button>
-        <button class="tablinks" onclick="openTab(event, 'Tokyo')">Study Plans</button>
-      </div>      
-      <button id="btnRequestContributerValidation" click="">make me Valid Contributer</button>
+        <button id = "personalinfobtn" class="tablinks" (click)="openInfo()">About</button>
+        <button class="tablinks" (click)="openSched()">Personal Schedule</button>
+        <button class="tablinks" (click)="openChildren()">List of Children</button>
+        <button class="tablinks" (click)="openPlan()">Study Plans</button>
+      </div>
 
 
 
-    <div id = "personalinfo">
+    <div id = "personalinfo" class = "tabcontent">
       <h3>Personal Info:</h3>
 
-      <label>Username: {{Username}}</label> <br> <br>
-      <label>Email: {{Email}}</label> <br> <br>
-      <label>Birthday: {{Birthday}}</label> <br> <br>
-      <label>Age: {{Age}}</label> <br> <br>
-      <label>Address: {{Address}}</label> <br> <br>
-      <label>Phone: {{Phone}}</label> <br> <br>
-
+      <label>Username: {{Username}}</label> <br> 
+      <label>Email: {{Email}}</label> <br> 
+      <label>Birthday: {{Birthday}}</label> <br>
+      <label>Age: {{Age}}</label> <br> 
+      <label>Address: {{Address}}</label> <br> 
+      <label>Phone: {{Phone}}</label> <br>
+    </div>
+    <div id = "schedule" class = "tabcontent">
+      <h3>Personal Schedule:</h3>
+    </div>
+    <div id = "children" class = "tabcontent">
+      <h3>Your Children:</h3>
+    </div>
+    <div id = "studyplans" class = "tabcontent">
+      <h3>Your Study Plans:</h3>
     </div>
 </div>
