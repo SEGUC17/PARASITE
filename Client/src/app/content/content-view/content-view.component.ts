@@ -10,6 +10,7 @@ export class ContentViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }
