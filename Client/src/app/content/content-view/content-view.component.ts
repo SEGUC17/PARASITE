@@ -20,7 +20,7 @@ export class ContentViewComponent implements OnInit {
     });
   }
 
-  getContentById(id: String): void {
+  getContentById(id: any): void {
     const self = this;
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;

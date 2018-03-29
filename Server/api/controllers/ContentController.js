@@ -141,19 +141,10 @@ module.exports.createContent = function (req, res, next) {
 };
 
 module.exports.getContentById = function (req, res, next) {
-    console.log(req.params.id);
-    console.log(mongoose.Types.ObjectId.isValid('53cb6b9b4f4ddef1ad47f943'));
 
-    console.log(mongoose.Types.ObjectId.isValid('bleurgh'));
-    console.log(mongoose.Types.ObjectId.isValid('1m'));
-
-    // fails although it should be 1m as well!
-    console.
-        log(mongoose.types.ObjectId.
-            isValid('Success!' + String(req.params.id)));
-
-    if (!mongoose.types.ObjectId.isValid(req.params.id)) {
-        console.log('Not valid id!');
+    try {
+        ObjectIdValidator.isObjectId(req.params.id);
+    } catch (error) {
 
         return res.status(422).json({
             data: null,
@@ -164,22 +155,16 @@ module.exports.getContentById = function (req, res, next) {
 
     Content.findById(req.params.id).exec(function (err, content) {
         if (err) {
-            console.log(err);
-
             return next(err);
         }
 
         if (!content) {
-            console.log('!Content');
-
             return res.status(404).json({
                 data: null,
                 err: 'The requested product was not found.',
                 msg: null
             });
         }
-
-        console.log('Safe');
 
         return res.status(200).json({
             data: content,
