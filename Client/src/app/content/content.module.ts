@@ -4,11 +4,15 @@ import { ContentEditComponent } from './content-edit/content-edit.component';
 import { ContentRoutingModule } from './content-routing.module';
 import { FormsModule } from '@angular/forms';
 import { QuillEditorModule } from 'ngx-quill-editor';
+import { MatCardModule } from '@angular/material/card';
+import { ContentListViewComponent } from './content-list-view/content-list-view.component';
+import { MatChipsModule } from '@angular/material/chips';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -19,8 +23,10 @@ import { MatInputModule } from '@angular/material';
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    QuillEditorModule
+    QuillEditorModule,
+    MatCardModule,
+    MatChipsModule
   ],
-  declarations: [ContentEditComponent]
+  declarations: [ContentEditComponent, ContentListViewComponent]
 })
 export class ContentModule { }
