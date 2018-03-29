@@ -1,7 +1,3 @@
-.header{
-    position: fixed;
-    z-index: 2;
-}
 .main-container{
     display: flex;
     flex-direction: column;
