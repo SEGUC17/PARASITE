@@ -23,8 +23,7 @@ module.exports.getNumberOfContentPages = function (req, res, next) {
                     msg: 'Number of pages was retrieved'
                 });
             });
-    }
-    if (req.params.category) {
+    } else if (req.params.category) {
         Content.find({ category: req.params.category }).count().
             exec(function (err, count) {
                 var numberOfPages =
@@ -79,8 +78,7 @@ module.exports.getContentPage = function (req, res, next) {
                     msg: 'Page retrieved successfully'
                 });
             });
-    }
-    if (req.params.category) {
+    } else if (req.params.category) {
         Content.find({ category: req.params.category }).
             skip((pageNumber - 1) * numberOfEntriesPerPage).
             limit(numberOfEntriesPerPage).
@@ -124,5 +122,6 @@ module.exports.getContentById = function(req, res, next) {
             msg: null
         });
     }
+    //TODO add the rest of the logic
 
 };
