@@ -1,0 +1,28 @@
+<div class="content-container">
+<mat-card *ngFor="let content of contents" class="content-card">
+  <mat-card-header>
+    <div mat-card-avatar class="creator-avatar"></div>
+    <mat-card-title>
+      <a [href]="content.creatorProfileLink">
+        {{content.creator}}
+      </a>
+    </mat-card-title>
+    <mat-card-subtitle>
+      Contributor
+    </mat-card-subtitle>
+  </mat-card-header>
+  <a routerLink="/content/{{content._id}}">
+    <mat-card-content>
+      <mat-card-title>{{content.title}}</mat-card-title>
+      <img mat-card-image [src]="content.image" />
+    </mat-card-content>
+  </a>
+  <mat-card-footer>
+    <mat-chip-list>
+      <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
+        {{tag}}
+      </mat-chip>
+    </mat-chip-list>
+  </mat-card-footer>
+</mat-card>
+</div>

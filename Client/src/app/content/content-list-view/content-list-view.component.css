@@ -1,0 +1,18 @@
+.content-card {
+  margin: 2%;
+}
+
+.content-tag {
+  margin: 1%;
+}
+
+.creator-avatar {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+
+.content-container{
+  margin: 5%;
+  display: flex;
+  flex-wrap: wrap;
+}
