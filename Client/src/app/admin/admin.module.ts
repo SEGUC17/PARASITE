@@ -23,16 +23,16 @@ import { FormsModule } from '@angular/forms';
     MatSelectModule,
     FormsModule
   ],
+  declarations: [AdminControlComponent,
+    ViewResourcesIdeasRequestsComponent,
+    ViewVerifiedContributerRequestsComponent,
+    CategoryManagementComponent],
   exports: [
     MatButtonModule
 
   ],
   providers: [
     AdminService
-  ],
-  declarations: [AdminControlComponent,
-    ViewResourcesIdeasRequestsComponent,
-    ViewVerifiedContributerRequestsComponent,
-    CategoryManagementComponent]
+  ]
 })
 export class AdminModule { }
