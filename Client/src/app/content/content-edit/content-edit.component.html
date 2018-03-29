@@ -1,5 +1,11 @@
-<div fxLayout="row" fxLayoutAlign="center">
-<quill-editor  fxFlex="50"  [(ngModel)]="editorContent" [options]="editorOptions" (blur)="onEditorBlured($event)"
-    (focus)="onEditorFocused($event)" (ready)="onEditorCreated($event)" (change)="onContentChanged($event)"></quill-editor>
-<div *ngIf="editorOut" class="preview" fxFlex="50" [innerHTML]="editorOut"></div>
+<div class="content-container" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="2%">
+    <div fxLayout="column" fxFlex="50">
+        <quill-editor class="text-editor"[(ngModel)]="editorContent" [options]="editorOptions" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)"
+            (ready)="onEditorCreated($event)" (change)="onContentChanged($event)"></quill-editor>
+        <div fxLayout="row" fxLayoutGap="2%" fxLayoutAlign="center">
+            <button>hello1</button>
+        </div>
+
+    </div>
+    <div *ngIf="editorOut" class="ql-editor preview" fxFlex="50" [innerHTML]="editorOut"></div>
 </div>
