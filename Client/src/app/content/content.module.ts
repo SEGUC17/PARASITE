@@ -12,7 +12,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
-
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   imports: [
     CommonModule,
@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material';
     FormsModule,
     MatStepperModule,
     MatFormFieldModule,
+    MatButtonModule,
     MatInputModule,
     MatIconModule,
     QuillEditorModule,

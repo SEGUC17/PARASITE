@@ -1,20 +1,42 @@
 <mat-horizontal-stepper class="content-container">
     <mat-step label="Content Data">
-        <mat-form-field hintLabel="Enter a link of the main video of the content if exists">
-            <mat-icon matPrefix>link</mat-icon>
-            <input matInput #videoLink placeholder="Video link goes here">
-        </mat-form-field>
-        <mat-form-field hintLabel="Enter the title of the content">
-            <input matInput #contentTitle placeholder="The title goes here">
-        </mat-form-field>
+        <mat-card class="offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-5">
+            <mat-form-field class="meta-input" hintLabel="Enter a link of the main video of the content if exists">
+                <mat-icon matPrefix>link</mat-icon>
+                <input matInput #videoLink placeholder="Video link goes here">
+            </mat-form-field>
+            <mat-form-field class="meta-input" hintLabel="Enter the title of the content">
+                <input matInput #contentTitle placeholder="The title goes here">
+            </mat-form-field>
+            <mat-form-field class="meta-input" hintLabel="Enter tags so that your content reaches more people">
+                    <mat-chip-list #tagList>
+                      <mat-chip *ngFor="let tag of tags" [selectable]="true"
+                               [removable]="true" (remove)="remove(tag)">
+                        {{tag.name}}
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                      </mat-chip>
+                      <input placeholder="New tag ..."
+                             [matChipInputFor]="tagList"
+                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                             [matChipInputAddOnBlur]="addOnBlur"
+                             (matChipInputTokenEnd)="add($event)" />
+                    </mat-chip-list>
+                  </mat-form-field>
+            <mat-form-field class="meta-input" hintLabel="Enter the category of choice here">
+                <input matInput #contentCategory placeholder="Category...">
+            </mat-form-field>
+            <mat-form-field class="meta-input" hintLabel="Enter a section from your category of choice">
+                <input matInput #contentSection placeholder="Section..." />
+            </mat-form-field>
+        </mat-card>
+        <button mat-button matStepperNext>Next</button>
     </mat-step>
     <mat-step label="Content Description">
         <quill-editor class="text-editor" [(ngModel)]="editorContent" [options]="editorOptions" (blur)="onEditorBlured($event)" (focus)="onEditorFocused($event)"
             (ready)="onEditorCreated($event)" (change)="onContentChanged($event)"></quill-editor>
-
     </mat-step>
     <mat-step label="Content Preview">
-        <div *ngIf="editorOut" class="ql-editor preview" fxFlex="50" [innerHTML]="editorOut"></div>
+        <div *ngIf="editorOut" class="ql-editor preview" [innerHTML]="editorOut"></div>
     </mat-step>
     <mat-step label="Submit">
         <h1>This is step 3</h1>
