@@ -8,6 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { ContentListViewComponent } from './content-list-view/content-list-view.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ContentService } from './content.service';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatCardModule,
     MatChipsModule
   ],
+  providers: [ContentService],
   declarations: [ContentEditComponent, ContentListViewComponent]
 })
 export class ContentModule { }

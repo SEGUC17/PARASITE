@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
+import { ContentService } from '../content.service';
 
 @Component({
   selector: 'app-content-list-view',
@@ -81,7 +82,7 @@ export class ContentListViewComponent implements OnInit {
     tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
   }];
 
-  constructor() { }
+  constructor(private contentService: ContentService ) { }
 
   ngOnInit() {
   }
