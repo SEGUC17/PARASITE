@@ -18,6 +18,10 @@ export class AppComponent implements OnDestroy {
       name: 'Content Edit'
     },
     {
+      url: '/content-list-view',
+      name: 'Content List View'
+    },
+    {
       url: '/auth/login',
       name: 'Login'
     },

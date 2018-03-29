@@ -4,6 +4,7 @@ import { ContentEditComponent } from './content-edit/content-edit.component';
 import { ContentRoutingModule } from './content-routing.module';
 import { FormsModule } from '@angular/forms';
 import { QuillEditorModule } from 'ngx-quill-editor';
+import { ContentListViewComponent } from './content-list-view/content-list-view.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -11,6 +12,6 @@ import { QuillEditorModule } from 'ngx-quill-editor';
     FormsModule,
     QuillEditorModule
   ],
-  declarations: [ContentEditComponent]
+  declarations: [ContentEditComponent, ContentListViewComponent]
 })
 export class ContentModule { }
