@@ -60,13 +60,13 @@ module.exports.getNumberOfContentPages = function (req, res, next) {
 
 module.exports.getContentPage = function (req, res, next) {
     var pageNumber = req.params.pageNumber;
-    var elementsPerPage = req.params.elementsPerPage;
+    var numberOfEntriesPerPage = req.params.numberOfEntriesPerPage;
     if (req.params.category && req.params.section) {
         Content.find({
             category: req.params.category,
             section: req.params.section
-        }).skip((pageNumber - 1) * elementsPerPage).
-            limit(elementsPerPage).
+        }).skip((pageNumber - 1) * numberOfEntriesPerPage).
+            limit(numberOfEntriesPerPage).
             exec(function (err, contents) {
                 if (err) {
                     return next(err);
@@ -81,8 +81,8 @@ module.exports.getContentPage = function (req, res, next) {
     }
     if (req.params.category) {
         Content.find({ category: req.params.category }).
-            skip((pageNumber - 1) * elementsPerPage).
-            limit(elementsPerPage).
+            skip((pageNumber - 1) * numberOfEntriesPerPage).
+            limit(numberOfEntriesPerPage).
             exec(function (err, contents) {
                 if (err) {
                     return next(err);
@@ -96,8 +96,8 @@ module.exports.getContentPage = function (req, res, next) {
 
             });
     } else {
-        Content.find().skip((pageNumber - 1) * elementsPerPage).
-            limit(elementsPerPage).
+        Content.find().skip((pageNumber - 1) * numberOfEntriesPerPage).
+            limit(numberOfEntriesPerPage).
             exec(function (err, contents) {
                 if (err) {
                     return next(err);
