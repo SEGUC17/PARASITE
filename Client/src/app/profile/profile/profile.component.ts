@@ -10,6 +10,8 @@ import { ProfileService } from '../profile.service';
 export class ProfileComponent implements OnInit {
 
 
+  isOwner = false;
+
   Name: String = "Fulan el Fulany";
   Username: String;
   Age: Number;
@@ -17,7 +19,7 @@ export class ProfileComponent implements OnInit {
   Address: String;
   Phone: String;
   Birthday: Date;
-  info = true;
+  pInfo = true;
   children = false;
   plan = false;
   sched = false;
@@ -34,26 +36,28 @@ export class ProfileComponent implements OnInit {
   }
 
   openInfo(){
-    this.info = true;
+    this.pInfo = true;
     this.children = false;
     this.plan = false;
     this.sched = false;
     document.getElementById("personalinfobtn").className += "active";
+    console.log(this.pInfo);
   }
   openSched(){
-    this.info = false;
+    this.pInfo = false;
     this.children = false;
     this.plan = false;
     this.sched = true;
+    console.log(this.pInfo);
   }
   openPlans(){
-    this.info = false;
+    this.pInfo = false;
     this.children = false;
     this.plan = true;
     this.sched = false;
   }
   openChildren(){
-    this.info = false;
+    this.pInfo = false;
     this.children = true;
     this.plan = false;
     this.sched = false;

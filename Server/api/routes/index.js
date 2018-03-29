@@ -16,10 +16,12 @@ router.post('/signup', userController.signUp);
 router.post('/signin', userController.signIn);
 // ---------------------- End of User Controller --------------- //
 
-router.post(
-  '/profile/VerifiedContributerRequest',
-  profileController.requestUserValidation
-);
+
+//-------------------- Profile Module Endpoints ------------------//
+router.post('/profile/VerifiedContributerRequest',profileController.requestUserValidation);
+router.get('/profile/:username',profileController.getUserInfo);
+//------------------- End of Profile module Endpoints-----------//
+
 
 // --------------Content Module Endpoints---------------------- //
 router.get(
