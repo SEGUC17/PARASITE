@@ -61,8 +61,8 @@ export class AppComponent implements OnDestroy {
 
       url: '/search',
       name: 'Search'
-    }
-
+    },
+    {
       url: '/admin/category',
       name: 'Admin Category Control'
   }
