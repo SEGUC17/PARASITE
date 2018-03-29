@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { ContentService } from './content.service';
+import { ContentViewComponent } from './content-view/content-view.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,6 @@ import { ContentService } from './content.service';
     MatChipsModule
   ],
   providers: [ContentService],
-  declarations: [ContentEditComponent, ContentListViewComponent]
+  declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent]
 })
 export class ContentModule { }
