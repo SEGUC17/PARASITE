@@ -1,3 +1,4 @@
+/* eslint-disable*/
 var mongoose = require('mongoose');
 
 var productSchema = mongoose.Schema({
@@ -31,11 +32,6 @@ var productSchema = mongoose.Schema({
   },
   description: {
     type: String,
-    trim: true
-  },
-  state: {        // Approved\Pending
-    type: String,
-    default: "Pending",
     trim: true
   },
   createdAt: {
