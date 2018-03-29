@@ -1,7 +1,5 @@
-<p>
-  content-list-view works!
-</p>
-<mat-card class="content-card">
+<div class="content-container">
+<mat-card *ngFor="let content of contents" class="content-card">
   <mat-card-header>
     <div mat-card-avatar class="creator-avatar"></div>
     <mat-card-title>
@@ -27,3 +25,4 @@
     </mat-chip-list>
   </mat-card-footer>
 </mat-card>
+</div>
