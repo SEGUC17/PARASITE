@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-content-list-view',
@@ -8,9 +7,13 @@ import {MatCardModule} from '@angular/material/card';
 })
 export class ContentListViewComponent implements OnInit {
 
-  content: Object = {title: 'Best Resource for Learning C#',
-creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-creatorAvatar: 'assets/images/content-view/profiletest.jpg'} ;
+  content: Object = {
+    title: 'Best Resource for Learning C#',
+    contentImage: 'assets/images/content-view/contentimagetest.jpg',
+    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
+    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
+    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
+  };
 
   constructor() { }
 

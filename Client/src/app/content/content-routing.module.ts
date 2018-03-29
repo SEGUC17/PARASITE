@@ -4,7 +4,7 @@ import { ContentEditComponent } from './content-edit/content-edit.component';
 import { ContentListViewComponent } from './content-list-view/content-list-view.component';
 const routes = [
   { path: 'content-edit', component: ContentEditComponent },
-  { path: 'contnet-list-view', component: ContentListViewComponent}
+  { path: 'content-list-view', component: ContentListViewComponent}
 ];
 @NgModule({
   imports: [
