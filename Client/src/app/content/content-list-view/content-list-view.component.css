@@ -1,0 +1,13 @@
+.content-card {
+  max-width: 400px;
+}
+
+.content-tag {
+  margin: 1%;
+}
+
+.creator-avatar {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+
