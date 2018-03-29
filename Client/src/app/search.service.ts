@@ -8,6 +8,6 @@ export class SearchService {
   constructor(private http: HttpClient) { }
 
   getParents(): Observable<any> {
-    return this.http.get<any>(`${this.Url}api/User/Search`); 
+    return this.http.get<any>(`${this.Url}api/User/Search`);
 }
 }
