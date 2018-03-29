@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
+var ObjectIdValidator = require('../utils/validators/is-object-id');
 
 module.exports.getNumberOfContentPages = function (req, res, next) {
 
@@ -111,4 +112,17 @@ module.exports.getContentPage = function (req, res, next) {
 
             });
     }
+};
+
+module.exports.getContentById = function(req, res, next) {
+    var id = req.params.id;
+
+    if (!ObjectIdValidator.isObjectId(id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The Content Id is not valid.',
+            msg: null
+        });
+    }
+
 };
