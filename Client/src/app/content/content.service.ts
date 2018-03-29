@@ -14,7 +14,7 @@ export class ContentService {
   getContentPage(numberOfEntriesPerPage: any, pageNumber: any, category: any, section: any): Observable<any> {
     // TODO handle what happens with nulls by testing
     const self = this;
-    return this.http.get('content/getContentPage/' + numberOfEntriesPerPage +
+    return this.http.get(self.endpoint + 'content/getContentPage/' + numberOfEntriesPerPage +
       '/' + pageNumber + '/' + category + '/' + section)
       .pipe(
         catchError(self.handleError('getContentPage', []))
@@ -24,10 +24,18 @@ export class ContentService {
   getNumberOfContentPages(numberOfEntriesPerPage: any, category: any, section: any): Observable<any> {
     // TODO handle what happens with nulls by testing
     const self = this;
-    return this.http.get('content/numberOfContentPages/' +
+    return this.http.get(self.endpoint + 'content/numberOfContentPages/' +
       numberOfEntriesPerPage + '/' + category + '/' + section)
       .pipe(
         catchError(self.handleError('getNumberOfContentPages', []))
+      );
+  }
+
+  getContentById(id: any): Observable<any> {
+    const self = this;
+    return this.http.get(self.endpoint + 'content/view/' + id)
+      .pipe(
+        catchError(self.handleError('getContentById', []))
       );
   }
 
