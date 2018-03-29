@@ -31,6 +31,7 @@ router.get(
   '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
   contentController.getNumberOfContentPages
 );
+router.get('/content/view/:id', contentController.getContentById);
 router.post('/content/create', contentController.createContent);
 
 module.exports = router;
