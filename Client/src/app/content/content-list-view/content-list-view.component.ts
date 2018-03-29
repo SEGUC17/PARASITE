@@ -31,6 +31,8 @@ export class ContentListViewComponent implements OnInit {
       self.selectedCategory, self.selectedSection)
       .subscribe(function (retriedNumberOfPages) {
         self.totalNumberOfPages = retriedNumberOfPages.data;
+        // for debugging
+        console.log('Total Number of Pages: ' + self.totalNumberOfPages );
         self.getContentPage();
       });
   }

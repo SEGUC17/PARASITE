@@ -59,8 +59,8 @@ module.exports.getNumberOfContentPages = function (req, res, next) {
 };
 
 module.exports.getContentPage = function (req, res, next) {
-    var pageNumber = req.params.pageNumber;
-    var numberOfEntriesPerPage = req.params.numberOfEntriesPerPage;
+    var pageNumber = Number(req.params.pageNumber);
+    var numberOfEntriesPerPage = Number(req.params.numberOfEntriesPerPage);
     if (req.params.category && req.params.section) {
         Content.find({
             category: req.params.category,
