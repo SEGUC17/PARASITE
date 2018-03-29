@@ -29,4 +29,4 @@ state: {
 }
 
 });
-mongoose.model('Messaging', messagingSchema);
+mongoose.model('Message', messagingSchema);

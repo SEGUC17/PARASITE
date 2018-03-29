@@ -1,3 +1,17 @@
 <p>
   messaging works!
 </p>
+
+<label>Sender:
+  <input #sender />
+</label>
+<label>Receiver:
+  <input #receiver />
+</label>
+<label>Body:
+  <input #body />
+</label>
+
+<button (click)="send({body: body.value, sender: sender.value, recipient: receiver.value}); sender.value=''; receiver.value=''; body.value=''">
+  Send
+</button>
