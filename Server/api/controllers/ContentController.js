@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
 
-module.exports.getContentPage = function (req, res, next) {
+module.exports.getNumberOfContentPages = function (req, res, next) {
     Content.find().exec(function (err, count) {
         if (err) {
             return next(err);
@@ -16,6 +16,6 @@ module.exports.getContentPage = function (req, res, next) {
     });
 }
 
-module.exports.getNumberOfContentPages = function (req, res, next) {
+module.exports.getContentPage = function (req, res, next) {
 
 }
