@@ -10,7 +10,7 @@ const routes = [
 ];
 @NgModule({
   imports: [
-    
+
     RouterModule.forRoot(routes)
   ],
   exports: [
