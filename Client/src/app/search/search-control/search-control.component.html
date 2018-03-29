@@ -5,14 +5,14 @@
     <body ng-app="instantsearch">
         <div ng-controller="instantSearchCtrl">
             <div class="bar">
-                <input type="text" class="search" ng-model="searchString" placeholder="Enter your search terms" />
+                <input type="text" class="search-control" ng-model="searchString" placeholder="Enter your search terms" />
             </div>
             <ul class="search-control">
-                <li ng-repeat="i in Parents | searchFor:searchString">
-                    <p>{{i.title}}
+                <li ng-repeat="i in parents | searchFor:searchString">
+                    <p>{{i.username}}
                 </li>
-            </ul>
-        </div>
+            </ul> -->
+         </div>
     </body>
     <script src="js/site.js"></script>
 </html>

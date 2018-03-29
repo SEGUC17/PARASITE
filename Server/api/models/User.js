@@ -28,14 +28,14 @@ var userSchema = mongoose.Schema({
     },
     educationLevels: {
       default: [],
-      required: flase,
+      required: false,
       type:[String]
     },
     educationSystems:{
       default: [],
-      required: flase,
+      required: false,
       type:[String]
-    }
+    },
     email: {
         lowercase: true,
         match: /\S+@\S+\.\S+/,

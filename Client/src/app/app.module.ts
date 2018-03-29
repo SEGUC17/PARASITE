@@ -18,6 +18,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
+import { SearchModule } from './search/search.module';
+import { searchService } from './search.service';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -36,6 +38,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FlexLayoutModule,
     DashboardModule,
     AdminModule,
+    SearchModule,
     ProfileModule,
     ContentModule,
     AuthModule,
@@ -48,7 +51,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     AppRoutingModule
   ],
   providers: [
-    MediaMatcher
+    MediaMatcher,
+    SearchService
   ],
   bootstrap: [AppComponent]
 })

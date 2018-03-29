@@ -56,6 +56,10 @@ export class AppComponent implements OnDestroy {
     {
       url: '/admin',
       name: 'Admin Control'
+    },
+    {
+      url: '/search',
+      name: 'Search'
     }
   ];
   mobileQuery: MediaQueryList;

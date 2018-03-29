@@ -1,36 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-
+import { SearchService } from '../../search.service';
+import { DatePipe, CurrencyPipe } from '@angular/common';
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  selector: 'app-search-control',
+  templateUrl: './search-control.component.html',
+  styleUrls: ['./search-control.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchControlComponent implements OnInit {
+   parents: string[];
 
-  hb: any;
-  source: any;
-  constructor() {
-
-    this.themeService.getJsTheme().subscribe(theme => {
-      var colors = theme.variables;
-      this.hb = {
-        class: 'btn-hero-success',
-        default: {
-          gradientLeft: `adjust-hue(${colors.success}, 20deg)`,
-          gradientRight: colors.success,
-        },
-        cosmic: {
-          gradientLeft: `adjust-hue(${colors.success}, 20deg)`,
-          gradientRight: colors.success,
-          bevel: `shade(${colors.success}, 14%)`,
-          shadow: 'rgba (33, 7, 77, 0.5)',
-          glow: `adjust-hue(${colors.success}, 10deg)`,
-        }
-      }
-    });
+constructor(private searchService: SearchService) {
+}
+getParents(){
+    this.searchService.getParents().subscribe(res=>this.parents = res.data);
 }
 
-  ngOnInit() {
-  }
+ngOnInit() {
+}
 
 }

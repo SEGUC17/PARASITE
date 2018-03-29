@@ -1,55 +1,55 @@
 var mongoose = require('mongoose'),
   moment = require('moment'),
-  StringValidate = require('../utils/Validators/'),
-  Parent = mongoose.model('User');
+  User = mongoose.model('User'),
+  StringValidate = require('../utils/validators/');
 
   module.exports.Search = function(req, res, next) {
 
-    // Parent.find({ Username: { $regex : ".*"+ req.query.search +".*", $options:'i' } }, function(err, result){
+    // User.find({ Username: { $regex : ".*"+ req.query.search +".*", $options:'i' } }, function(err, result){
     //
     //      return res.status(200).json({result: result})
     //
     //   });
 
-    Parent.find(req.params.username).exec(function(err, parent) {
-      if (!StringValidate.isString(req.params.username)) {
-    return res.status(422).json({
-      err: null,
-      msg: 'Username must be valid',
-      data: null
-    });
-  }
+    User.find(req.params.username).exec(function(err, user) {
+  //     if (!StringValidate.isString(req.params.username)) {
+  //   return res.status(422).json({
+  //     err: null,
+  //     msg: 'username must be valid',
+  //     data: null
+  //   });
+  // }
       if (err) {
         return next(err);
       }
       res.status(200).json({
         err: null,
         msg:
-          'Parent with username ' +
-          req.params.username +' is retrievred successfully'
-        data: parent
+          'User with username ' +
+          req.params.username +' is retrievred successfully',
+        data: user
       });
     });
   };
 
   //to be altered
   module.exports.viewProfile = function(req, res, next) {
-    Parent.find(req.params.username).exec(function(err, parent) {
+    User.find(req.params.username).exec(function(err, user) {
       if (err) {
         return next(err);
       }
       res.status(200).json({
         err: null,
         msg:
-          'Parent with username ' +
-          req.params.username +' is retrievred successfully'
-        data: parent
+          'User with username ' +
+          req.params.username +' is retrievred successfully',
+        data: user
       });
     });
   };
 
   module.exports.FilterByLevelOfEducation = function(req, res, next) {
-    Parent.find(req.params.levelOfEducation).exec(function(err, parent) {
+    User.find(req.params.levelOfEducation).exec(function(err, user) {
       if (!StringValidate.isString(req.params.username)) {
     return res.status(422).json({
       err: null,
@@ -63,9 +63,9 @@ var mongoose = require('mongoose'),
       res.status(200).json({
         err: null,
         msg:
-          'Parent with username ' +
-          req.params.username +' is retrievred successfully'
-        data: parent
+          'User with username ' +
+          req.params.username +' is retrievred successfully',
+        data: user
       });
     });
   };
