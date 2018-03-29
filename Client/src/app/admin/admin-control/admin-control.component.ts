@@ -18,7 +18,6 @@ export class AdminControlComponent implements OnInit {
   }
   goToResIReq() {
     this._ResIReq.test();
-
     console.log(this._adminService.test());
   }
 }

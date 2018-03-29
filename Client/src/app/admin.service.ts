@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class AdminService {
 
-    test():any{
-    var x = "ana fel service"; 
+    test(): any {
+    let x = 'in service';
     return x;
     }
 }
