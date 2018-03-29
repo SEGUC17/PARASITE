@@ -10,7 +10,14 @@ import { ProfileService } from '../profile.service';
 export class ProfileComponent implements OnInit {
 
   constructor(private _ProfileService: ProfileService) { }
-
+  Name: String = "Fulan el Fulany";
+  Username: String;
+  Age: Number;
+  Email: String;
+  Address: String;
+  Phone: String;
+  Birthday: Date;
+  
   ngOnInit() {
 
   }
