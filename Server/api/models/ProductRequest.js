@@ -1,4 +1,3 @@
-/* eslint-disable*/
 var mongoose = require('mongoose'),
 Product = mongoose.model('Product'),
 productSchema = Product.schema;
@@ -9,3 +8,5 @@ var productRequestSchema = mongoose.Schema({
         type: [productSchema]
     }
 });
+
+mongoose.model('ProductRequest', productRequestSchema);
