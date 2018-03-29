@@ -13,10 +13,12 @@
       Contributor
     </mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
-    <mat-card-title>{{content.title}}</mat-card-title>
-    <img mat-card-image [src]="content.contentImage" />
-  </mat-card-content>
+  <a routerLink="/content/{{content.id}}">
+    <mat-card-content>
+      <mat-card-title>{{content.title}}</mat-card-title>
+      <img mat-card-image [src]="content.contentImage" />
+    </mat-card-content>
+  </a>
   <mat-card-footer>
     <mat-chip-list>
       <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">

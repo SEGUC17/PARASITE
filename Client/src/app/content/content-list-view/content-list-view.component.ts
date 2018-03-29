@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Content} from '../content';
 
 @Component({
   selector: 'app-content-list-view',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentListViewComponent implements OnInit {
 
-  content: Object = {
+  content: Content = {
+    id: '198387492',
     title: 'Best Resource for Learning C#',
     contentImage: 'assets/images/content-view/contentimagetest.jpg',
     creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
