@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var helmet = require('helmet');
 var expressSession = require('express-session');
 var passport = require('passport');
+var cors = require('cors');
 
 //config file
 var config = require('./api/config/config');
@@ -22,6 +23,7 @@ var app = express();
 app.set(config.SECRET);
 
 //middleware
+app.use(cors());
 app.use(helmet());
 app.use(compression());
 app.use(logger('dev'));
