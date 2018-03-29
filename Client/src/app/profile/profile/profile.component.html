@@ -3,29 +3,32 @@
       <img id = "PP" src= "../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
       <br>
       <label id="ProfileName" >{{Name}}</label>
+      
       <br>
-      <label id="Badge" >Badge goes here</label>
-      <button id="btnRequestContributerValidation" click="requestContributerValidation()">Make me a verified contributor</button>
+      <label id="Badge" >Badge goes here</label><br>
+      <button style="margin-left: 40px">Direct Message</button>
+      <button id="btnRequestContributerValidation" class = "RightSideBtns" click="requestContributerValidation()">Make me a verified contributor</button>
+
     </div>
     <br>
     <div class="tab">
         <button id = "personalinfobtn" class="tablinks" (click)="openInfo()">About</button>
         <button class="tablinks" (click)="openSched()">Personal Schedule</button>
         <button class="tablinks" (click)="openChildren()">List of Children</button>
-        <button class="tablinks" (click)="openPlan()">Study Plans</button>
+        <button class="tablinks" (click)="openPlans()">Study Plans</button>
       </div>
 
 
 
-    <div id = "personalinfo" class = "tabcontent">
-      <h3>Personal Info:</h3>
+    <div id = "personalinfo" class = "tabcontent" ng-if="!(pInfo && children && plan && sched)">
+        <h3>Personal Info:</h3>
 
-      <label>Username: {{Username}}</label> <br> 
-      <label>Email: {{Email}}</label> <br> 
-      <label>Birthday: {{Birthday}}</label> <br>
-      <label>Age: {{Age}}</label> <br> 
-      <label>Address: {{Address}}</label> <br> 
-      <label>Phone: {{Phone}}</label> <br>
+        <label>Username: {{Username}}</label> <br> 
+        <label>Email: {{Email}}</label> <br> 
+        <label>Birthday: {{Birthday}}</label> <br>
+        <label>Age: {{Age}}</label> <br> 
+        <label>Address: {{Address}}</label> <br> 
+        <label>Phone: {{Phone}}</label> <br>
     </div>
     <div id = "schedule" class = "tabcontent">
       <h3>Personal Schedule:</h3>
