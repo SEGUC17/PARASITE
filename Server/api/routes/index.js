@@ -1,10 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var passport = require('local-passport');
 
 var userController = require('../controllers/UserController');
-var profileController = require('../controllers/profile-controller');
-var contentCtrl = require('../controllers/ContentController');
+var profileController = require('../controllers/ProfileController');
+var contentController = require('../controllers/ContentController');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -26,11 +25,11 @@ router.post(
 router.get(
   '/content/getContentPage/:numberOfEntriesPerPage' +
   '/:pageNumber/:category/:section',
-  contentCtrl.getContentPage
+  contentController.getContentPage
 );
 router.get(
   '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
-  contentCtrl.getNumberOfContentPages
+  contentController.getNumberOfContentPages
 );
 
 module.exports = router;
