@@ -11,6 +11,8 @@ import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
 import { MarketModule } from './market/market.module';
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -26,7 +28,8 @@ import { MarketModule } from './market/market.module';
     MarketModule,
     ActivitiesModule,
     MessagingModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

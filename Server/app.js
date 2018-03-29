@@ -6,6 +6,7 @@ var compression = require('compression');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
 var passport = require('passport');
+var AddPsychRequest = require('./api/models/AddPsychologistRequest');
 
 //config file
 var config = require('./api/config/config');
