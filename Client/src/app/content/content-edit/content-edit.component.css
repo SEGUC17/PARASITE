@@ -1,4 +1,18 @@
 .preview{
     word-wrap: break-word;
+    overflow-y: auto;
     text-align: justify;
+    border: solid 1px;
+    margin-right: 4%;
+}
+
+.text-editor{
+    overflow-y:auto;
+    min-height: 90%;
+    max-height: 90%;
+    margin-left: 4%;
+}
+.content-container{
+    margin-top: 2%;
+    height:90%;
 }
