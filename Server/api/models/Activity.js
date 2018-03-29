@@ -5,7 +5,7 @@ timestamps = require('mongoose-timestamp-date-unix');
 
 var Schema = mongoose.Schema;
 
-var ActivitySchema = Schema({
+var activitySchema = Schema({
     /*
         Activity Schema
 
@@ -47,7 +47,7 @@ var ActivitySchema = Schema({
 });
 
 // Adds CreatedAt, UpdatedAt fields in Unix format
-ActivitySchema.plugin(timestamps);
-ActivitySchema.plugin(mongoosePaginate);
+activitySchema.plugin(timestamps);
+activitySchema.plugin(mongoosePaginate);
 
-mongoose.model('Activity', ActivitySchema);
+var Activity = mongoose.model('Activity', activitySchema);

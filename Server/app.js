@@ -7,8 +7,13 @@ var bodyParser = require('body-parser');
 var helmet = require('helmet');
 var passport = require('passport');
 
+
 //config file
 var config = require('./api/config/config');
+
+// mongoose Database connection
+require('./api/config/DBConnection');
+
 //router
 var router = require('./api/routes/index');
 
@@ -26,11 +31,6 @@ app.use(cookieParser());
 
 //router
 app.use('/api', router);
-
-
-// mongoose Database connection
-require('./api/config/DBConnection');
-
 
 // 500 internal server error handler
 app.use(function (err, req, res, next) {

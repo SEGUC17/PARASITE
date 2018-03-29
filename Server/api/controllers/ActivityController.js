@@ -1,7 +1,7 @@
 var mongoose = require('mongoose'),
-auth = require('basic-auth'),
-Validation = require('../utils/Validations'),
-Activity = mongoose.model('Activity');
+    auth = require('basic-auth'),
+    Validators = require('../utils/validators'),
+    Activity = mongoose.model('Activity');
 
 
 
@@ -17,7 +17,7 @@ module.exports.getActivities = function (req, res, next) {
 
     // TODO: getting user info from headers
     var page = req.body.page;
-    var valid = Validations.isNumber(page);
+    var valid = page && Validators.isInteger(page);
     if (!valid) {
         page = 1;
     }
