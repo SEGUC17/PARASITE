@@ -5,7 +5,9 @@
 
 
 // ---------------------- Reuirements ---------------------- //
-var mongoose = require('mongoose');
+var mongoose = require('mongoose'),
+    calendarEventSchema = mongoose.model("CalnedarEvent").schema,
+    studyPlanSchema = mongoose.model("StudyPlan").schema;;
 // ---------------------- End of Requiremenets ---------------------- //
 
 
@@ -74,6 +76,14 @@ var userSchema = mongoose.Schema({
     verified: {
         default: false,
         type: Boolean
+    },
+    schedule: {
+        default: [],
+        type: []
+    },
+    studyPlans: {
+        default: [],
+        type: [studyPlanSchema]
     }
 });
 // ---------------------- End of Schemas ---------------------- //
