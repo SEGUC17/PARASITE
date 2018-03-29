@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+//import {} from 
 @Component({
   selector: 'app-view-resources-ideas-requests',
   templateUrl: './view-resources-ideas-requests.component.html',
@@ -10,6 +10,10 @@ export class ViewResourcesIdeasRequestsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  test(){
+    console.log("test worked hgvhgvgvh");
   }
 
 }
