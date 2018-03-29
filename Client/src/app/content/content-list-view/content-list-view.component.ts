@@ -9,82 +9,13 @@ import { ContentService } from '../content.service';
 })
 export class ContentListViewComponent implements OnInit {
 
-  contents: Content[] = [{
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  },
-  {
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  },
-  {
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  },
-  {
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  },
-  {
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  },
-  {
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  },
-  {
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  },
-  {
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  },
-  {
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  }];
+  contents: Content[];
 
   constructor(private contentService: ContentService ) { }
 
   ngOnInit() {
   }
+
+  // TODO methods to call service
 
 }

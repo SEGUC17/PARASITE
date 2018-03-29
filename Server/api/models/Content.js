@@ -18,6 +18,14 @@ var contentSchema = mongoose.Schema({
         trim: true,
         type: String
     },
+    creatorAvatarLink: {
+        trim: true,
+        type: String
+    },
+    creatorProfileLink: {
+        trim: true,
+        type: String
+    },
     image: {
         trim: false,
         type: String
