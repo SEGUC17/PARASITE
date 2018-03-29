@@ -1,19 +1,19 @@
 <div class="main-container" [class.is-mobile]="mobileQuery.matches">
-  <mat-toolbar class="header" color="primary">
-    <button mat-icon-button (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <h1 class="title">Nawwar</h1>
-  </mat-toolbar>
+  <header>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <h1 class="title">Nawwar</h1>
+    </mat-toolbar>
+  </header>
   <mat-sidenav-container class="sidenav-container">
-    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'over'" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
       <mat-nav-list>
         <a mat-list-item *ngFor="let link of links" routerLink="{{link.url}}">{{link.name}}</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-      <h1>just another trial LOL</h1>
-      <h3>View is here</h3>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>

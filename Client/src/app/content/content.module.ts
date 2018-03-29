@@ -7,11 +7,13 @@ import { QuillEditorModule } from 'ngx-quill-editor';
 import { MatCardModule } from '@angular/material/card';
 import { ContentListViewComponent } from './content-list-view/content-list-view.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
     CommonModule,
     ContentRoutingModule,
+    FlexLayoutModule,
     FormsModule,
     QuillEditorModule,
     MatCardModule,
