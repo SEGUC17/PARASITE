@@ -6,14 +6,21 @@ import { ViewResourcesIdeasRequestsComponent } from './view-resources-ideas-requ
 import {
   ViewVerifiedContributerRequestsComponent
 } from './view-verified-contributer-requests/view-verified-contributer-requests.component';
-import {MatButtonModule} from '@angular/material/button';
-import {AdminService} from '../admin.service';
+import { AdminService } from '../admin.service';
+import { CategoryManagementComponent } from './category-management/category-management.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
-    MatButtonModule
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule
   ],
   exports: [
     MatButtonModule
@@ -22,6 +29,9 @@ import {AdminService} from '../admin.service';
   providers: [
     AdminService
   ],
-  declarations: [AdminControlComponent, ViewResourcesIdeasRequestsComponent, ViewVerifiedContributerRequestsComponent]
+  declarations: [AdminControlComponent,
+    ViewResourcesIdeasRequestsComponent,
+    ViewVerifiedContributerRequestsComponent,
+    CategoryManagementComponent]
 })
 export class AdminModule { }

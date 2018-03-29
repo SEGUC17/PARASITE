@@ -13,6 +13,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
+import { ContentService } from './content.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatCardModule,
     MatChipsModule
   ],
+  providers: [ContentService],
   declarations: [ContentEditComponent, ContentListViewComponent]
 })
 export class ContentModule { }

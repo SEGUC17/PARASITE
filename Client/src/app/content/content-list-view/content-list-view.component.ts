@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {Content} from '../content';
+import { Content } from '../content';
+import { ContentService } from '../content.service';
 
 @Component({
   selector: 'app-content-list-view',
@@ -8,82 +9,40 @@ import {Content} from '../content';
 })
 export class ContentListViewComponent implements OnInit {
 
-  contents: Content[] = [ {
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  },
-  {
-  id: '198387492',
-  title: 'Best Resource for Learning C#',
-  contentImage: 'assets/images/content-view/contentimagetest.jpg',
-  creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-  creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-  tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-},
-{
-id: '198387492',
-title: 'Best Resource for Learning C#',
-contentImage: 'assets/images/content-view/contentimagetest.jpg',
-creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-},
-{
-id: '198387492',
-title: 'Best Resource for Learning C#',
-contentImage: 'assets/images/content-view/contentimagetest.jpg',
-creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-},
-{
-id: '198387492',
-title: 'Best Resource for Learning C#',
-contentImage: 'assets/images/content-view/contentimagetest.jpg',
-creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-},
-{
-id: '198387492',
-title: 'Best Resource for Learning C#',
-contentImage: 'assets/images/content-view/contentimagetest.jpg',
-creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-},
-{
-id: '198387492',
-title: 'Best Resource for Learning C#',
-contentImage: 'assets/images/content-view/contentimagetest.jpg',
-creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-},
-{
-id: '198387492',
-title: 'Best Resource for Learning C#',
-contentImage: 'assets/images/content-view/contentimagetest.jpg',
-creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-},
-{
-id: '198387492',
-title: 'Best Resource for Learning C#',
-contentImage: 'assets/images/content-view/contentimagetest.jpg',
-creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-}];
+  contents: Content[];
+  currentPageNumber: number;
+  numberOfEntriesPerPage = 10;
+  selectedCategory: String;
+  selectedSection: String;
+  totalNumberOfPages: number;
 
-  constructor() { }
+  constructor(private contentService: ContentService ) { }
 
   ngOnInit() {
+    this.currentPageNumber = 1;
+    this.intitializeViewWithFirstPage();
+  }
+
+  // TODO methods to call service
+  // retrieves the number of content pages and displays the first page
+  intitializeViewWithFirstPage(): void {
+    const self = this;
+    this.contentService.getNumberOfContentPages(self.numberOfEntriesPerPage,
+      self.selectedCategory, self.selectedSection)
+      .subscribe(function (retriedNumberOfPages) {
+        self.totalNumberOfPages = retriedNumberOfPages.data;
+        self.getContentPage();
+      });
+  }
+
+  // retrieves the contents of a particular page according to currentPageNumber
+  getContentPage(): void {
+    const self = this;
+    this.contentService.getContentPage(self.numberOfEntriesPerPage,
+      self.currentPageNumber, self.selectedCategory, self.selectedSection)
+      .subscribe(function (retrievedContents) {
+        self.contents = retrievedContents.data;
+      });
   }
 
 }
