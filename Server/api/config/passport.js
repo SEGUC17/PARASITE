@@ -28,21 +28,46 @@ module.exports = function (passport) {
                             null,
                             false,
                             req.flash(
-                                'signupMessageDupUser',
+                                'signupMessage',
                                 'Username is already in use!'
                             )
                         );
                     }
                     newUser.username = username;
                     newUser.password = password;
-                    newUser.save(function(err2) {
+                    newUser.save(function (err2) {
                         if (err2) {
                             throw err2;
-                        } else {
-                            return done(null, newUser);
                         }
+
+                        return done(null, newUser);
                     });
                 });
+            });
+        }
+    ));
+    passport.use('local-signin', new LocalStrategy(
+        {
+            passReqToCallback: true,
+            passwordField: 'password',
+            usernameField: 'username'
+        },
+        function (req, username, password, done) {
+            User.findOne(username, function (err, user) {
+                if (err) {
+                    return done(err);
+                } else if (!user || !user.validPassword(password)) {
+                    return done(
+                        null,
+                        false,
+                        req.flash(
+                            'loginMessage',
+                            'Wrong username or password!'
+                        )
+                    );
+                }
+
+                return done(null, user);
             });
         }
     ));
