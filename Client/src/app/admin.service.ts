@@ -9,7 +9,7 @@ const httpOptions = {
 export class AdminService {
 
     test(): String {
-      let x = 'ana fel service';
-      return x;
+    let x = 'in service';
+    return x;
     }
 }

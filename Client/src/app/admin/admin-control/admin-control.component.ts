@@ -1,7 +1,6 @@
-import { OnInit, Output, ViewChild} from '@angular/core';
+import { OnInit, Output, ViewChild, Component} from '@angular/core';
 import {ViewVerifiedContributerRequestsComponent} from '../view-verified-contributer-requests/view-verified-contributer-requests.component';
-
-import {ViewResourcesIdeasRequestsComponent } from '../view-resources-ideas-requests/view-resources-ideas-requests.component'
+import {ViewResourcesIdeasRequestsComponent } from '../view-resources-ideas-requests/view-resources-ideas-requests.component';
 import {AdminService} from '../../admin.service';
 
 @Component({

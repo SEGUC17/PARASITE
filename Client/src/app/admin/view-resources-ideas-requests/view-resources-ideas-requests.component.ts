@@ -12,7 +12,7 @@ export class ViewResourcesIdeasRequestsComponent implements OnInit {
   }
 
   test() {
-    console.log('test worked');
+    console.log('child component called ');
   }
 
 }
