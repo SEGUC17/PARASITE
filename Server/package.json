@@ -14,6 +14,7 @@
     "helmet": "^3.12.0",
     "moment": "^2.21.0",
     "mongoose": "^5.0.11",
+    "mongoose-paginate": "^5.0.3",
     "mongoose-timestamp-date-unix": "^0.6.2",
     "morgan": "~1.9.0",
     "passport": "^0.4.0",
