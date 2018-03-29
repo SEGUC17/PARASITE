@@ -6,16 +6,16 @@
     </div>
 
     <div class="tab">
-        <button class="tablinks" onclick="openTab(event, 'London')">About</button>
-        <button class="tablinks" onclick="openTab(event, 'Paris')">Personal Schedule</button>
-        <button class="tablinks" onclick="openTab(event, 'Tokyo')">List of Children</button>
-        <button class="tablinks" onclick="openTab(event, 'Tokyo')">Study Plans</button>
+        <button class="tablinks" onclick="openTab(event, 'personalinfo')">About</button>
+        <button class="tablinks" onclick="openTab(event, 'personalschedule')">Personal Schedule</button>
+        <button class="tablinks" onclick="openTab(event, 'children')">List of Children</button>
+        <button class="tablinks" onclick="openTab(event, 'plans')">Study Plans</button>
       </div>      
       <button id="btnRequestContributerValidation" click="">make me Valid Contributer</button>
 
 
 
-    <div id = "personalinfo">
+    <div id = "personalinfo" class="tabcontent">
       <h3>Personal Info:</h3>
 
       <label>Username: {{Username}}</label> <br> <br>
@@ -26,4 +26,9 @@
       <label>Phone: {{Phone}}</label> <br> <br>
 
     </div>
+
+    <div id="personalschedule" class="tabcontent">
+        <h3>Your Personal Schedule:</h3>
+    </div>
+
 </div>

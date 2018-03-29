@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-profile',
@@ -13,8 +14,9 @@ export class ProfileComponent implements OnInit {
     
   }
 
+  status: boolean = false;
 
-  createProduct(evt,tabname): void {
+  openTab(evt: Event,tabname): void {
     var i, tabcontent, tablinks;
 
     // Get all elements with class="tabcontent" and hide them
@@ -31,7 +33,8 @@ export class ProfileComponent implements OnInit {
 
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabname).style.display = "block";
-    evt.currentTarget.className += " active";
+    //evt.currentTarget.className += " active";
+    //evt.target.
   }
 
 
