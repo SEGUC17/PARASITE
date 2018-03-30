@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-market',
@@ -11,5 +12,8 @@ export class MarketComponent implements OnInit {
 
   ngOnInit() {
   }
+//method getsellername.. or try hyperlink
+//
+
 
 }
