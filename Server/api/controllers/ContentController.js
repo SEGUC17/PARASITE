@@ -160,3 +160,28 @@ module.exports.getContentById = function (req, res, next) {
     });
 
 };
+
+module.exports.getContentByCreator = function (req, res, next) {
+    console.log(req.params.creator);
+    if (!req.params.creator) {
+        return res.status(422).json({
+            data: null,
+            err: 'The Creator username is not valid.',
+            msg: null
+        });
+    }
+
+    Content.find({ creator: req.params.creator }).
+        exec(function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'The contents created by' +
+                    'the user were retrieved successfully'
+            });
+        });
+};

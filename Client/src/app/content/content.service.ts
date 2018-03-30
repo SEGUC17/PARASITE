@@ -48,6 +48,14 @@ export class ContentService {
       );
   }
 
+  getContentByCreator(username: any): Observable<any> {
+    const self = this;
+    return this.http.get(self.endpoint + 'content/username/' + username)
+      .pipe(
+        catchError(self.handleError('getContentByCreator', []))
+      );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
 
     return function (error: any): Observable<T> {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
 import { PageEvent } from '@angular/material';
-import { Inject} from '@angular/core';
+import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
@@ -13,6 +13,9 @@ import { DOCUMENT } from '@angular/platform-browser';
 export class ContentListViewComponent implements OnInit {
 
   contents: Content[];
+  myContributions: Content[];
+  // TODO set username
+  username: String = 'Omar K.';
   currentPageNumber: number;
   numberOfEntriesPerPage = 3;
   selectedCategory: String = 'NoCat';
@@ -67,4 +70,19 @@ export class ContentListViewComponent implements OnInit {
     // TODO add scrolling functionality
   }
 
+  tabChanged(event): void {
+    if (event.tab.textLabel === 'My Contributions' && !this.myContributions) {
+      console.log('Entered tab changed, and retrieving contributions.');
+      this.getMyContributions();
+    }
+  }
+
+  getMyContributions(): void {
+    const self = this;
+    this.contentService.
+      getContentByCreator(self.username).
+      subscribe(function (retrievedContents) {
+        self.myContributions = retrievedContents.data;
+      });
+  }
 }

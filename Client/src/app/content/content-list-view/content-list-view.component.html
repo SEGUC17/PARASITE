@@ -1,32 +1,66 @@
-<div class="content-container">
-  <mat-card *ngFor="let content of contents" class="content-card">
-    <mat-card-header>
-      <div mat-card-avatar class="creator-avatar"></div>
-      <mat-card-title>
-        <a [href]="content.creatorProfileLink">
-          {{content.creator}}
+<mat-tab-group (selectedTabChange)="tabChanged($event)">
+  <mat-tab label="Browse Resources and Ideas">
+    <div class="content-container">
+      <mat-card *ngFor="let content of contents" class="content-card">
+        <mat-card-header>
+          <div mat-card-avatar class="creator-avatar"></div>
+          <mat-card-title>
+            <a [href]="content.creatorProfileLink">
+              {{content.creator}}
+            </a>
+          </mat-card-title>
+          <mat-card-subtitle>
+            Contributor
+          </mat-card-subtitle>
+        </mat-card-header>
+        <a routerLink="/content-view/{{content._id}}">
+          <mat-card-content>
+            <mat-card-title>{{content.title}}</mat-card-title>
+            <img mat-card-image [src]="content.image" />
+          </mat-card-content>
         </a>
-      </mat-card-title>
-      <mat-card-subtitle>
-        Contributor
-      </mat-card-subtitle>
-    </mat-card-header>
-    <a routerLink="/content-view/{{content._id}}">
-      <mat-card-content>
-        <mat-card-title>{{content.title}}</mat-card-title>
-        <img mat-card-image [src]="content.image" />
-      </mat-card-content>
-    </a>
-    <mat-card-footer>
-      <mat-chip-list>
-        <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
-          {{tag}}
-        </mat-chip>
-      </mat-chip-list>
-    </mat-card-footer>
-  </mat-card>
-</div>
-<div class="paginator">
-  <mat-paginator [length]="totalNumberOfEntries" [pageSize]="numberOfEntriesPerPage" (page)="onPaginateChange($event)">
-  </mat-paginator>
-</div>
+        <mat-card-footer>
+          <mat-chip-list>
+            <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
+              {{tag}}
+            </mat-chip>
+          </mat-chip-list>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+    <div class="paginator">
+      <mat-paginator [length]="totalNumberOfEntries" [pageSize]="numberOfEntriesPerPage" (page)="onPaginateChange($event)">
+      </mat-paginator>
+    </div>
+  </mat-tab>
+  <mat-tab label="My Contributions">
+    <div class="content-container">
+      <mat-card *ngFor="let content of myContributions" class="content-card">
+        <mat-card-header>
+          <div mat-card-avatar class="creator-avatar"></div>
+          <mat-card-title>
+            <a [href]="content.creatorProfileLink">
+              {{content.creator}}
+            </a>
+          </mat-card-title>
+          <mat-card-subtitle>
+            Contributor
+          </mat-card-subtitle>
+        </mat-card-header>
+        <a routerLink="/content-view/{{content._id}}">
+          <mat-card-content>
+            <mat-card-title>{{content.title}}</mat-card-title>
+            <img mat-card-image [src]="content.image" />
+          </mat-card-content>
+        </a>
+        <mat-card-footer>
+          <mat-chip-list>
+            <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
+              {{tag}}
+            </mat-chip>
+          </mat-chip-list>
+        </mat-card-footer>
+      </mat-card>
+    </div>
+  </mat-tab>
+</mat-tab-group>

@@ -33,5 +33,9 @@ router.get(
 );
 router.get('/content/view/:id', contentController.getContentById);
 router.post('/content/create', contentController.createContent);
+router.get(
+  '/content/username/:creator',
+  contentController.getContentByCreator
+);
 
 module.exports = router;
