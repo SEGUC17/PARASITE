@@ -5,12 +5,29 @@
     <body ng-app="instantsearch">
         <div ng-controller="instantSearchCtrl">
             <div class="bar">
-              <select #drop onselect="getParentsBytag(drop.value)" name="tag" ng-model="filter">
- <option value="educationLevels">Saab</option>
- <option value="educationSystems">Mercedes</option>
+              <select #drop onselect="getParentsBytag(drop.value);add($event)" name="tag" ng-model="filter" >
 
-</select>
-                <input #box (keyup.enter)="getParents(box.value)"  (blur)="getParents(box.value); box.value='' " name="search" type="text" class="search-control" ng-model="username" placeholder="Enter your search terms" />
+                <option value="username">Username</option>
+                <option value="educationLevels">Education Levels</option>
+                <option value="educationSystems">Education Systems</option>
+
+              </select>
+
+              <mat-form-field class="demo-chip-list">
+  <mat-chip-list #chipList>
+    <mat-chip  *ngFor="let tag of tags" [selectable]="selectable"
+[removable]="removable" (remove)="remove(fruit)" selected="true" color="primary">
+{{tag}}
+<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
+                <input #box (keyup.enter)="getParents(box.value)"
+                (blur)="getParents(box.value); box.value='' "
+                name="search" type="text" class="search-control"
+                ng-model="username" placeholder="Search"
+
+                 />
+               </mat-chip-list>
+</mat-form-field>
             </div>
             <ul class="search-control">
               <mat-card *ngFor="let parent of parents" class="parent-card">

@@ -41,6 +41,10 @@ var mongoose = require('mongoose'),
         data: user
       });
     });
+    User.paginate().then(function(result) {
+        // result.docs - array of plain javascript objects
+        // result.limit - 20
+    });
   };
 
   //to be altered
@@ -79,6 +83,10 @@ var mongoose = require('mongoose'),
         data: user
       });
     });
+    User.paginate().then(function(result) {
+        // result.docs - array of plain javascript objects
+        // result.limit - 20
+    });
   };
 
   module.exports.FilterBySystemOfEducation = function(req, res, next) {
@@ -100,5 +108,9 @@ var mongoose = require('mongoose'),
           req.params.educationSystems +' is retrievred successfully',
         data: user
       });
+    });
+    User.paginate().then(function(result) {
+        // result.docs - array of plain javascript objects
+        // result.limit - 20
     });
   };
