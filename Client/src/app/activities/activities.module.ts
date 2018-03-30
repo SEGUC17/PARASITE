@@ -11,6 +11,7 @@ import { ActivityComponent } from './activity/activity.component';
 import { ActivitiesRoutingModule } from './activities-routing.module';
 import { ActivityService } from './activity.service';
 import { ActivityCreateComponent } from './activity-create/activity-create.component';
+import { ActivityDetailComponent } from './activity-detail/activity-detail.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import { ActivityCreateComponent } from './activity-create/activity-create.compo
     MatInputModule,
     MatButtonModule
   ],
-  declarations: [ActivityComponent, ActivityCreateComponent],
+  declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent],
   providers: [ActivityService]
 })
 export class ActivitiesModule { }

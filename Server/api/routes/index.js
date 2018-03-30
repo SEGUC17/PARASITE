@@ -26,6 +26,7 @@ router.get('/', function (req, res, next) {
 
 // --------------------- Activity Contoller -------------------- //
 router.get('/activities', ActivityController.getActivities );
+router.get('/activities/:activityId', ActivityController.getActivity);
 router.post('/activities', ActivityController.postActivity);
 // --------------------- End of Activity Controller ------------ //
 
