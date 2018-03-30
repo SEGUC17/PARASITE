@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var contentreqschema = mongoose.schema({
+var contentreqschema = mongoose.Schema({
     contentID: { type: String },
     contentTitle: {
         trim: true,

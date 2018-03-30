@@ -18,13 +18,14 @@ router.post('/signin', userController.signIn);
 // ---------------------- End of User Controller --------------- //
 
 // -------------- Admin Contoller ---------------------- //
-router.get('/admin/ContentRequests', adminController.getContentReqs);
+//router.get('/admin/ContentRequests', adminController.test);
 
 // --------------End Of Admin Contoller ---------------------- //
 
 
 //-------------------- Profile Module Endpoints ------------------//
-router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+router.post(
+'/profile/VerifiedContributerRequest', profileController.requestUserValidation);
 router.get('/profile/:username', profileController.getUserInfo);
 //------------------- End of Profile module Endpoints-----------//
 
