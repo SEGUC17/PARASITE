@@ -148,3 +148,56 @@ module.exports.postActivity = function (req, res, next) {
     });
 }
 
+module.exports.reviewActivity = function (req, res, next){
+    /*
+        Middleware for reviewing an activity by admin
+
+        BODY:
+        {
+            _id: String | activity id
+            status: string | verfied || rejected
+        }
+
+        @author: Wessam
+    */
+
+    // NOT TESTED
+
+    var user_id = req.sender;
+    var activityId = req.body.get("_id");
+    var newStatus = req.body.get("status");
+
+    if(!activityId || ! newStatus){
+        return res.status(422).json({
+            err: "Activity id and new status must be added to body.",
+            msg: null,
+            data: null
+        })
+    }
+
+    var isAdmin = false;
+
+    if (user_id) {
+        user = User.findById(user_id);
+        isAdmin = user.isAdmin;
+    }
+
+    if(!isAdmin){
+        return res.status(403).json({
+            err: "Only an admin can review activities",
+            msg: null,
+            data: null
+        })
+    }
+
+    Activity.findByIdAndUpdate(activityId, {status: newStatus}, function(err, activity){
+        if(err){
+            return next(err);
+        }
+        res.status(204).json({
+            err: null,
+            msg: "Activity status is updated",
+            data: activity
+        })
+    });
+}
