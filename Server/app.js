@@ -34,6 +34,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(expressSession({ secret: 'mySecretKey' }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -45,6 +46,7 @@ initPassport(passport);
 //router
 var router = require('./api/routes/index')(passport);
 app.use('/api', router);
+
 // 500 internal server error handler
 app.use(function (err, req, res, next) {
   if (err.statusCode === 404) {
