@@ -41,17 +41,18 @@ export class ActivityComponent implements OnInit {
     )
   }
 
+
   updateLayout(res) {
     /*
       Setting new values comming from 
       the response
     */
+    document.querySelector(".mat-sidenav-content").scrollTop = 0;
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
     this.pageIndex = res.data.pageIndex;
     this.canCreate = true;
-    console.log(this.activities[0].image);
     for(let activity of this.activities){
       if(!activity.image){
         activity.image = "assets/images/activity-view/default-activity-image.jpg";
