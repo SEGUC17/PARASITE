@@ -16,10 +16,10 @@ export class ProfileComponent implements OnInit {
   }
 
   requestContributerValidation() {
-
+    console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
   }
 
-  createProduct(evt,tabname): void {
+  createProduct(evt, tabname): void {
     var i, tabcontent, tablinks;
 
     // Get all elements with class="tabcontent" and hide them

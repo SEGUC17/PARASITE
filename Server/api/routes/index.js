@@ -34,7 +34,7 @@ module.exports = function (passport) {
 
 //-------------------- Profile Module Endpoints ------------------//
 router.post(
-'/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+'/profile/VerifiedContributerReques', profileController.requestUserValidation);
 router.get('/profile/:username', profileController.getUserInfo);
 //------------------- End of Profile module Endpoints-----------//
 
