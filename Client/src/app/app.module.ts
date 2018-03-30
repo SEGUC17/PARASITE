@@ -23,7 +23,7 @@ import { SearchService } from './search/search.service';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
-
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -50,7 +50,8 @@ import { HttpClientModule } from '@angular/common/http';
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule, 
+    FormsModule
   ],
   providers: [
     MediaMatcher,
