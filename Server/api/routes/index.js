@@ -29,9 +29,11 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
-  // --------------------- Activity Contoller -------------------- //
+// --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
-  // --------------------- End of Activity Controller ------------ //
+  router.get('/activities/:activityId', ActivityController.getActivity);
+  router.post('/activities', ActivityController.postActivity);
+// --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isUnAuthenticated, passport.authenticate('local-signup'));
