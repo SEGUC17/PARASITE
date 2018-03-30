@@ -40,7 +40,7 @@ module.exports = function (passport) {
 // ---------------------- End of User Controller --------------- //
 
 // -------------- Admin Contoller ---------------------- //
-router.get('/admin/ContentRequests', adminController.test);
+router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
 
 // --------------End Of Admin Contoller ---------------------- //
 
