@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
+// import {FormControl, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-market',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MarketComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  goToCreate(){
+    this.router.navigateByUrl('/market/createProduct');
   }
 
 }

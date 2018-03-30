@@ -1,0 +1,157 @@
+
+<div id = "form" >
+<mat-form-field>  
+  <input matInput placeholder="Product's name" name="name"> 
+  </mat-form-field>
+  
+  <div >     
+  <mat-form-field>
+    <textarea matInput placeholder="Products description" name="description"></textarea>
+  </mat-form-field>
+  </div>
+
+  <div>
+  <mat-form-field>
+    <input matInput placeholder="Price" type="double" name="price" class="example-right-align">
+    <span matPrefix>$&nbsp;</span>
+  </mat-form-field>
+  </div>
+
+  <div>
+      <label for="acquiringType">Product is up for</label>
+      <div>
+  <mat-form-field>
+      <mat-select matInput name="acquiringType">
+    <mat-select placeholder="Select">
+      <mat-option value="option">borrow</mat-option>
+      <mat-option value="option">sell</mat-option>
+    </mat-select>
+
+    </mat-select>
+  </mat-form-field>
+</div>
+
+</div>
+
+  <mat-form-field>
+    <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" class="example-right-align">
+  </mat-form-field>
+</div>
+
+
+<div  class="form-group">
+    <div id="image">
+  <form action="/action_page.php">
+    <input type="file" name="pic" accept="image/*">
+  </form>
+</div>
+</div>
+
+
+<div> 
+    <button id="submit" type="submit"  >Create Product</button>
+    <!-- <button id="submit" type="submit" [disabled]="!product.form.valid" >Create Product</button> -->
+
+  </div>
+
+
+
+
+
+<!-- 
+  <nb-card>
+    <nb-card-body>
+      <div class="flex-centered offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-5">
+        <h2 class="title text-center">Create Product</h2>
+        <form (ngSubmit)="createProduct()" #createproduct="ngForm">
+  
+
+  
+          <div class="form-group">
+            <div>
+              <label for="name">Product Name</label>
+              <input type="text" id="name" class="form-control" required [(ngModel)]="formInput.name" name="name" #name="ngModel" required>
+              <div [hidden]="name.valid || name.untouched" class="alert text-danger">
+                Product Name is required
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div>
+              <label for="description">Product's description:</label>
+              <input type="text" id="description" class="form-control" required [(ngModel)]="formInput.description" description="description" #description="ngModel" required>
+              <div [hidden]="description.valid || description.untouched" class="alert text-danger">Required
+              </div>
+            </div>
+          </div>
+
+          <mat-form-field>
+            <input matInput placeholder="Price" type="double" class="example-right-align">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+  
+          <div class="form-group">
+            <label for="type">Product up for</label>
+            <select class="form-control" id="acquiringType" required [(ngModel)]="formInput.acquiringType" name="acquiringType" #acquiringType="ngModel">
+              <option value="borrow">borrow</option>
+              <option value="sell">sell</option>
+            </select>
+            <div [hidden]="type.valid || type.untouched" class="alert text-danger">
+              Please choose an acquiringType!
+            </div>
+          </div>
+
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" class="example-right-align">
+      </mat-form-field> 
+
+    
+
+  
+ -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div>
+  <div class="subsection" data-filter="images">
+<p>If you’d like, you can <button type="button" 
+  class="btn_link"
+   onclick="TS.client.ui.files.$upload.trigger('click');">upload a new image</button>.</p>
+  </div>   -->
+      
