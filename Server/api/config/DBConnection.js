@@ -16,3 +16,4 @@ mongoose.connect(config.MONGO_URI).
     //TODO: add models
 require('../models/Content');
 require('../models/User');
+require('../models/AddPsychologistRequest');

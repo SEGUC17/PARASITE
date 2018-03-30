@@ -3,7 +3,8 @@ var mongoose = require('mongoose'),
 //  Validations = require('../utils/Validations'),
   Request = mongoose.model('AddPsychologistRequest');
 
-module.exports.createRequest = function(req, res, next) {
+module.exports.addRequest = function(req, res, next) {
+  console.log("hiiiiiiiiii");
  /* var valid =
     req.body.firstName &&
     Validations.isString(req.body.firstName) &&
