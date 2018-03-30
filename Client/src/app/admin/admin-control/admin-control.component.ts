@@ -1,4 +1,4 @@
-import { OnInit, Output, ViewChild, Component} from '@angular/core';
+import { OnInit, Input, Output, ViewChild, Component} from '@angular/core';
 import {ViewVerifiedContributerRequestsComponent} from '../view-verified-contributer-requests/view-verified-contributer-requests.component';
 import {ViewResourcesIdeasRequestsComponent } from '../view-resources-ideas-requests/view-resources-ideas-requests.component';
 import {AdminService} from '../../admin.service';
@@ -15,23 +15,23 @@ export class AdminControlComponent implements OnInit {
 
   @ViewChild(ViewResourcesIdeasRequestsComponent) _ResIReq;
 
+  hideVCRequest: any = 1;
+  hideContentReqs: any = 1;
+
   constructor(private _adminService: AdminService) { }
 
   ngOnInit() {
 
   }
+
   goToResIReq() {
-    this._ResIReq.test();
+    this.hideContentReqs = 1 - this.hideContentReqs;
     console.log(this._adminService.test());
   }
 
-  removeElementByID (stringID) {
-    let el = document.getElementById(stringID);
-    el.parentNode.removeChild(el);
-  }
-
   viewVCRequests() {
-    this.VcComponent.testAccess();
+    console.log('gonna hide the component');
+    this.hideVCRequest = 1 - this.hideVCRequest;  // changing the visibility of the component
 
   }
 }

@@ -12,13 +12,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-// import { ViewRequestsComponent } from './view-requests/view-requests.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   imports: [
     CommonModule,
     AdminRoutingModule,
     MatButtonModule,
+    MatButtonToggleModule,
     MatInputModule,
     MatSelectModule,
     FormsModule
@@ -28,7 +29,8 @@ import { FormsModule } from '@angular/forms';
     ViewVerifiedContributerRequestsComponent,
     CategoryManagementComponent],
   exports: [
-    MatButtonModule
+    MatButtonModule,
+    MatButtonToggleModule
 
   ],
   providers: [

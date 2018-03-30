@@ -10,11 +10,11 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
 
   constructor(private _adminService: AdminService) { }
 
+  displayedString: String = 'no data yet';
+
   ngOnInit() {
+    this.displayedString = this._adminService.getVerifiedContributerRequests();
   }
 
-  testAccess() {
-
-  }
 
 }
