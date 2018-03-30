@@ -50,15 +50,17 @@ module.exports.getNumberOfContentPages = function (req, res, next) {
 };
 
 module.exports.getContentPage = function (req, res, next) {
-    var pageNumber = Number(req.params.pageNumber);
-    var numberOfEntriesPerPage = Number(req.params.numberOfEntriesPerPage);
     if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
-        Content.find({
-            category: req.params.category,
-            section: req.params.section
-        }).skip((pageNumber - 1) * numberOfEntriesPerPage).
-            limit(numberOfEntriesPerPage).
-            exec(function (err, contents) {
+        Content.paginate(
+            {
+                category: req.params.category,
+                section: req.params.section
+            },
+            {
+                limit: Number(req.params.numberOfEntriesPerPage),
+                page: Number(req.params.pageNumber)
+            },
+            function (err, contents) {
                 if (err) {
                     return next(err);
                 }
@@ -68,11 +70,16 @@ module.exports.getContentPage = function (req, res, next) {
                     err: null,
                     msg: 'Page retrieved successfully'
                 });
-            });
+            }
+        );
     } else if (req.params.category === 'NoCat') {
-        Content.find().skip((pageNumber - 1) * numberOfEntriesPerPage).
-            limit(numberOfEntriesPerPage).
-            exec(function (err, contents) {
+        Content.paginate(
+            {},
+            {
+                limit: Number(req.params.numberOfEntriesPerPage),
+                page: Number(req.params.pageNumber)
+            },
+            function (err, contents) {
                 if (err) {
                     return next(err);
                 }
@@ -82,12 +89,16 @@ module.exports.getContentPage = function (req, res, next) {
                     err: null,
                     msg: 'Page retrieved successfully'
                 });
-            });
+            }
+        );
     } else {
-        Content.find({ category: req.params.category }).
-            skip((pageNumber - 1) * numberOfEntriesPerPage).
-            limit(numberOfEntriesPerPage).
-            exec(function (err, contents) {
+        Content.paginate(
+            { creator: req.params.category },
+            {
+                limit: Number(req.params.numberOfEntriesPerPage),
+                page: Number(req.params.pageNumber)
+            },
+            function (err, contents) {
                 if (err) {
                     return next(err);
                 }
@@ -97,7 +108,8 @@ module.exports.getContentPage = function (req, res, next) {
                     err: null,
                     msg: 'Page retrieved successfully'
                 });
-            });
+            }
+        );
     }
 };
 
