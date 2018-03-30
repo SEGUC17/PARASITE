@@ -75,6 +75,7 @@ module.exports = function (passport) {
                 }
                 // --- End of Not Empty Check --- //
 
+
                 // --- Check birthdate With isChild --- //
                 if (!isChild && ((new Date().getFullYear() - birthdate.getFullYear()) < 13)) {
                     return done(null, false, { 'signUpMessage': 'Under 13 Must Be Child!' });
@@ -89,6 +90,11 @@ module.exports = function (passport) {
                 // --- End of Trimming & Lowering Cases--- //  
 
                 
+                // --- Password Length --- //
+                if(newUser.password.length < 8) {
+                    return done(null, false, { 'signUpMessage': 'Password Length Must Be Greater Than 8!' });
+                }
+                // --- End of Password Length --- //
 
 
 
