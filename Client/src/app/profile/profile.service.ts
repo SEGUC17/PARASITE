@@ -10,16 +10,21 @@ const httpOptions = {
 @Injectable()
 
 export class ProfileService {
-    
-// TODO: Write Profile Service AUTHOR: Maher
 
+// ------------- Profile Page Method(s) -------------- AUTHOR: H
+  constructor(private http: HttpClient) { }
 
-//-------------- Profile Page Method(s) -------------- AUTHOR: H
-    constructor(private http: HttpClient) { }
+  private Url = 'http://localhost:3000/api/profile/'
+  getUserInfo(username: String): Observable<any> {
+      return this.http.get(`${this.Url}/${username}`);
+    }
 
-    private Url = '/profile/';
-    getUserInfo(username: String): Observable<any> {
-        return this.http.get(`${this.Url}/${username}`);
-      }
+// --------Sending Contributer Validation Request --------- AUTHOR: Maher
+  makeContributerValidationRequest(): any {
+    // TODO: Send an HTTP POST for the request (Maher).
+    alert('the Request is sent el mafrood AUTHOR: Maher');
+    return this.http.post(this.Url + 'VerifiedContributerRequest', 'maherUSERNAME');
+  }
+
 
 }
