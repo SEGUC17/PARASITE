@@ -19,6 +19,10 @@
     "morgan": "~1.9.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
+<<<<<<< HEAD
+=======
+    "bcryptjs": "^2.4.3",
+>>>>>>> f5e2b113f51e11ac8a94b2a49849e5c0c473f15b
     "bcrypt-nodejs": "*",
     "connect-flash": "*"
   },

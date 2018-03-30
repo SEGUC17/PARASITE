@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var ContentRequest = mongoose.model('ContentRequest');
 
 //module.exports.test = function(req, res) {
 //    var testvalue = 'salma';
@@ -12,6 +11,7 @@ var ContentRequest = mongoose.model('ContentRequest');
 //};
 
 
+<<<<<<< HEAD
 //module.exports.getContentReqs = function(req, res, next) {
 //    ContentRequest.find({}).exec(function(err, contentRequests) {
 //      if (err) {
@@ -24,3 +24,5 @@ var ContentRequest = mongoose.model('ContentRequest');
 //      });
 //    });
 //  };
+=======
+>>>>>>> f5e2b113f51e11ac8a94b2a49849e5c0c473f15b
