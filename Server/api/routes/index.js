@@ -16,6 +16,12 @@ var isAuthenticated = function (req, res, next) {
   }
 };
 
+var isUnAuthenticated = function (req, res, next) {
+  if (!req.isAuthenticated()) {
+    return next();
+  }
+};
+
 module.exports = function (passport) {
 
   /* GET home page. */
@@ -24,14 +30,11 @@ module.exports = function (passport) {
   });
 
   // --------------------- Activity Contoller -------------------- //
-  router.get(
-    '/activities',
-    ActivityController.getActivities
-  );
+  router.get('/activities', ActivityController.getActivities);
   // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/signup', passport.authenticate('local-signup'));
+  router.post('/signup', isUnAuthenticated, passport.authenticate('local-signup'));
   router.post('/signin', passport.authenticate('local-signin'));
   // ---------------------- End of User Controller --------------- //
 
