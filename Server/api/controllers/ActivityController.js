@@ -46,3 +46,62 @@ module.exports.getActivities = function (req, res, next) {
         });
     });
 }
+
+module.exports.postActivity = function(req, res, next){
+    /*
+        Middleware for creating an activity
+
+        BODY:
+        {
+            name : String
+            description : String
+            price : Number
+            fromDateTime : Date | 1522409945
+            toDateTime : Date | 1522419945
+            image : String
+        }
+
+        Only verified contributors can create 
+        activities with status = pending
+        While admins create activities 
+        with status = verified
+
+        @author: Wessam
+    */
+
+    var user_id = req.sender;
+
+    var isAdmin = false;
+    var isVerified = false;
+
+    if (user_id) {
+        user = User.findById(user_id);
+        isAdmin = user.isAdmin;
+        isVerified = user.isVerified;
+    }
+
+    if(!(isAdmin || isVerified)){
+        return res.status(403).json({
+            err: null,
+            msg: "Only admins and verified users can create activities.",
+            data: null
+        });
+    }
+
+    status = isAdmin? 'verified': 'pending';
+    // adding status to the body of the request
+    req.body.status = status;
+
+    Activity.create(req.body, function(err, activity){
+        if(err){
+            return next(err);
+        }
+        res.status(201).json({
+            err: null,
+            message: "Activity created successfully.",
+            data: activity
+        });
+    });
+
+
+}
