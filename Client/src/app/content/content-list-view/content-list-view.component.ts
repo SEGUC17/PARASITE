@@ -8,6 +8,7 @@ import { ContentService } from '../content.service';
   styleUrls: ['./content-list-view.component.css']
 })
 export class ContentListViewComponent implements OnInit {
+
   contents: Content[];
   currentPageNumber: number;
   numberOfEntriesPerPage = 10;

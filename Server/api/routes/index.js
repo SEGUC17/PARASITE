@@ -4,6 +4,7 @@
 var express = require('express');
 var router = express.Router();
 var productCtrl = require('../controllers/ProductController');
+
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
@@ -78,4 +79,3 @@ module.exports = function (passport) {
   return router;
 };
 
-module.exports = router;

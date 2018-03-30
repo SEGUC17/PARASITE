@@ -1,4 +1,3 @@
-
 var mongoose = require('mongoose'),
   moment = require('moment'),
   Validations = require('../utils/validators'),

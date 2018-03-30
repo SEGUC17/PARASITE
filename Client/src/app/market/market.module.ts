@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MarketComponent } from './market/market.component';
-import { CreateProductComponent } from './create-product/create-product.component';
 import { MarketRoutingModule } from './market-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule, MatOptionModule, MatSelectModule } from '@angular/material';
@@ -21,6 +20,6 @@ import { MarketService } from './market.service';
     FormsModule
   ],
   providers: [MarketService],
-  declarations: [MarketComponent, CreateProductComponent, ProductDetailComponent]
+  declarations: [MarketComponent, ProductDetailComponent]
 })
 export class MarketModule { }
