@@ -34,8 +34,12 @@ router.get(
 router.get('/content/view/:id', contentController.getContentById);
 router.post('/content/create', contentController.createContent);
 router.get(
-  '/content/username/:creator',
+  '/content/username/:creator/:pageSize/:pageNumber',
   contentController.getContentByCreator
+);
+router.get(
+  '/content/username/count/:creator',
+  contentController.getNumberOfContentByCreator
 );
 
 module.exports = router;
