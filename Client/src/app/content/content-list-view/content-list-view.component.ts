@@ -12,8 +12,8 @@ export class ContentListViewComponent implements OnInit {
   contents: Content[];
   currentPageNumber: number;
   numberOfEntriesPerPage = 10;
-  selectedCategory: String;
-  selectedSection: String;
+  selectedCategory: String = 'NoCat';
+  selectedSection: String = 'NoSec';
   totalNumberOfPages: number;
 
   constructor(private contentService: ContentService ) { }
