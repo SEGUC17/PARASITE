@@ -3,6 +3,9 @@
 var express = require('express');
 var router = express.Router();
 
+
+var addPsychReqCtrl = require('../controllers/AddPsychologistRequestController');
+var userController = require('../controllers/UserController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
 var passport = require('../passport/init');
@@ -18,6 +21,8 @@ router.get('/', function (req, res, next) {
   res.send('Server Works');
 });
 
+// ------------- psychologist's requests Controller ------------- //
+router.post('/psychologist/request/add/addRequest', addPsychReqCtrl.addRequest);
 
 // ---------------------- User Controller ---------------------- //
 module.exports = function (passport) {

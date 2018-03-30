@@ -10,7 +10,9 @@ import { AppComponent } from './app.component';
 import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
+import { AddPsychRequestService } from './psychologist/add-psych-request.service'
 import { MarketModule } from './market/market.module';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material';
@@ -47,10 +49,12 @@ import { HttpClientModule } from '@angular/common/http';
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
+    FormsModule,
     HttpClientModule
   ],
   providers: [
-    MediaMatcher
+    MediaMatcher,
+    AddPsychRequestService
   ],
   bootstrap: [AppComponent]
 })
