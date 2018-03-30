@@ -26,6 +26,10 @@ export class AppComponent implements OnDestroy {
       name: 'Login'
     },
     {
+      url: '/auth/signup',
+      name: 'Signup'
+    },
+    {
       url: '/profile',
       name: 'Profile'
     },
