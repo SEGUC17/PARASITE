@@ -79,11 +79,7 @@ export class ContentListViewComponent implements OnInit {
   }
 
   scrollToTheTop(): void {
-    console.log('Scrolling!');
-    // TODO add scrolling functionality
-
-    // this.document.getElementById('test').scrollIntoView(false);
-    // this.document.getElementById('test').scrollTo(0, 0);
+    document.querySelector('.mat-sidenav-content').scrollTop = 0;
   }
 
   tabChanged(event): void {
