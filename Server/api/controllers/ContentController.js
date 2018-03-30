@@ -3,16 +3,22 @@ var Content = mongoose.model('Content');
 var ObjectIdValidator = require('../utils/validators/is-object-id');
 
 module.exports.getNumberOfContentPages = function (req, res, next) {
-
-    if (req.params.category && req.params.section) {
+    if (req.params.category !== 'NoCat' &&
+        req.params.section !== 'NoSec') {
         Content.find({
             category: req.params.category,
             section: req.params.section
         }).count().
             exec(function (err, count) {
+                console.log('EntriesPerPage: ' +
+                    Number(req.params.numberOfEntriesPerPage));
+                console.log(count);
                 var numberOfPages =
-                    Math.ceil(count / req.params.numberOfEntriesPerPage);
+                    Math.
+                        ceil(Number(count) /
+                            Number(req.params.numberOfEntriesPerPage));
 
+                console.log('Number of Pages: ' + numberOfPages);
                 if (err) {
                     return next(err);
                 }
@@ -23,24 +29,24 @@ module.exports.getNumberOfContentPages = function (req, res, next) {
                     msg: 'Number of pages was retrieved'
                 });
             });
-    } else if (req.params.category) {
-        Content.find({ category: req.params.category }).count().
-            exec(function (err, count) {
-                var numberOfPages =
-                    Math.ceil(count / req.params.numberOfEntriesPerPage);
-
-                if (err) {
-                    return next(err);
-                }
-
-                return res.status(200).json({
-                    data: numberOfPages,
-                    err: null,
-                    msg: 'Number of pages was retrieved'
-                });
-            });
-    } else {
+    } else if (req.params.category === 'NoCat') {
         Content.find().count().
+        exec(function (err, count) {
+            var numberOfPages =
+                Math.ceil(count / req.params.numberOfEntriesPerPage);
+
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: numberOfPages,
+                err: null,
+                msg: 'Number of pages was retrieved'
+            });
+        });
+    } else {
+        Content.find({ category: req.params.category }).count().
             exec(function (err, count) {
                 var numberOfPages =
                     Math.ceil(count / req.params.numberOfEntriesPerPage);
@@ -61,7 +67,7 @@ module.exports.getNumberOfContentPages = function (req, res, next) {
 module.exports.getContentPage = function (req, res, next) {
     var pageNumber = Number(req.params.pageNumber);
     var numberOfEntriesPerPage = Number(req.params.numberOfEntriesPerPage);
-    if (req.params.category && req.params.section) {
+    if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
         Content.find({
             category: req.params.category,
             section: req.params.section
@@ -78,23 +84,7 @@ module.exports.getContentPage = function (req, res, next) {
                     msg: 'Page retrieved successfully'
                 });
             });
-    } else if (req.params.category) {
-        Content.find({ category: req.params.category }).
-            skip((pageNumber - 1) * numberOfEntriesPerPage).
-            limit(numberOfEntriesPerPage).
-            exec(function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-
-            });
-    } else {
+    } else if (req.params.category === 'NoCat') {
         Content.find().skip((pageNumber - 1) * numberOfEntriesPerPage).
             limit(numberOfEntriesPerPage).
             exec(function (err, contents) {
@@ -107,8 +97,22 @@ module.exports.getContentPage = function (req, res, next) {
                     err: null,
                     msg: 'Page retrieved successfully'
                 });
-
             });
+    } else {
+        Content.find({ category: req.params.category }).
+        skip((pageNumber - 1) * numberOfEntriesPerPage).
+        limit(numberOfEntriesPerPage).
+        exec(function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'Page retrieved successfully'
+            });
+        });
     }
 };
 
