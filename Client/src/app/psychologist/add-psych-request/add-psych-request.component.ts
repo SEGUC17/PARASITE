@@ -26,8 +26,9 @@ export class AddPsychRequestComponent implements OnInit {
 
 
   submitReq(): void{
+    
   	var req = this.request;
-  	console.log(this.request);
+
   	if(this.sat){
   		var d1 = ["Saturday"]; var d2 = this.days; d1 = d1.concat(d2);
   		this.days = d1;
@@ -59,14 +60,14 @@ export class AddPsychRequestComponent implements OnInit {
   	req = {
   		firstName:(<HTMLInputElement>document.getElementById("psychFirstName")).value,
   		lastName: (<HTMLInputElement>document.getElementById("psychLastName")).value,
-		phone: parseInt((<HTMLInputElement>document.getElementById("psychPhoneNumber")).value),
-		address: (<HTMLInputElement>document.getElementById("psychAddress")).value,
-		email: (<HTMLInputElement>document.getElementById("psychEmail")).value ,
-		daysOff: this.days,
-		priceRange: parseInt((<HTMLInputElement>document.getElementById("psychPriceRange")).value),
-		state: "Pending"
-	};
-  	console.log(req);
+  		phone: parseInt((<HTMLInputElement>document.getElementById("psychPhoneNumber")).value),
+  		address: (<HTMLInputElement>document.getElementById("psychAddress")).value,
+  		email: (<HTMLInputElement>document.getElementById("psychEmail")).value ,
+  		daysOff: this.days,
+  		priceRange: parseInt((<HTMLInputElement>document.getElementById("psychPriceRange")).value),
+  		state: "Pending"
+	  };
+
     this.RequestService.addRequest(req).subscribe();
   }
 

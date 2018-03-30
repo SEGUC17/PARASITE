@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var helmet = require('helmet');
 var expressSession = require('express-session');
 var passport = require('passport');
-var AddPsychRequest = require('./api/models/AddPsychologistRequest');
 var cors = require('cors');
 
 //config file

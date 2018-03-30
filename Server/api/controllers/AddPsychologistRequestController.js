@@ -4,7 +4,6 @@ var mongoose = require('mongoose'),
   Request = mongoose.model('AddPsychologistRequest');
 
 module.exports.addRequest = function(req, res, next) {
-  console.log("hiiiiiiiiii");
  /* var valid =
     req.body.firstName &&
     Validations.isString(req.body.firstName) &&
@@ -21,6 +20,7 @@ module.exports.addRequest = function(req, res, next) {
 
   Request.create(req.body, function(err, request) {
     if (err) {
+      console.log(err);
       return next(err);
     }
     res.status(201).json({
