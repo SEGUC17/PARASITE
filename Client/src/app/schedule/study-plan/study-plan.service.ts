@@ -23,7 +23,7 @@ export class StudyPlanService {
   }
 
   createStudyPlan(username: String, studyPlan: StudyPlan): Observable<any> {
-    return this.http.post(this.endpoint + 'study-plan/createStudyPlan/' + username, studyPlan);
+    return this.http.patch(this.endpoint + 'study-plan/createStudyPlan/' + username, studyPlan);
   }
 
 }
