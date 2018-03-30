@@ -1,6 +1,5 @@
-.container-fluid {
-    margin-top: 2%;
-    height: 90%;
+.container {
+    margin-top: 1%;
 }
 .button-row {
     display: flex;
