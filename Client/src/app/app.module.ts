@@ -19,7 +19,7 @@ import { MatListModule } from '@angular/material/list';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
 import { SearchModule } from './search/search.module';
-import { SearchService } from './search.service';
+import { SearchService } from './search/search.service';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';

@@ -5,24 +5,23 @@
     <body ng-app="instantsearch">
         <div ng-controller="instantSearchCtrl">
             <div class="bar">
-                <input type="text" class="search-control" ng-model="searchString" placeholder="Enter your search terms" />
+              <select #drop onselect="getParentsBytag(drop.value)" name="tag" ng-model="filter">
+ <option value="educationLevels">Saab</option>
+ <option value="educationSystems">Mercedes</option>
+
+</select>
+                <input #box (keyup.enter)="getParents(box.value)"  (blur)="getParents(box.value); box.value='' " name="search" type="text" class="search-control" ng-model="username" placeholder="Enter your search terms" />
             </div>
             <ul class="search-control">
-                <!-- <li ng-repeat="i in parents | searchFor:searchString">
-                    <p>{{i.username}}
-                </li> -->
-                <!-- <label for="Username" [style.display]="block">Parent Username : </label> -->
-                <!-- <ion-item *ngFor="let item of parents;">
-                  {{item.username}}
-                </ion-item> -->
-                <li *ngFor="let parent of parents">
-                  {{ parent.username }}
-                </li>
-                <mat-chip-list class="mat-chip-list-stacked" aria-orientation="vertical">
-                  <mat-chip>Educational Level</mat-chip>
-                  <mat-chip>Educational System</mat-chip>
-                </mat-chip-list>
-
+              <mat-card *ngFor="let parent of parents" class="parent-card">
+                <mat-card-header>
+                  <mat-card-title>
+                    <a [href]="content.creatorProfileLink">
+                      {{parent.username}}
+                    </a>
+                  </mat-card-title>
+                </mat-card-header>
+              </mat-card>
 
             </ul>
 
