@@ -23,7 +23,7 @@ export class ProfileService {
   makeContributerValidationRequest(): any {
     // TODO: Send an HTTP POST for the request (Maher).
     console.log('the Request is sent el mafrood AUTHOR: Maher');
-    return this.http.post('http://localhost:3000/api/profile/VerifiedContributerReques', 'maherUSERNAME');
+    return this.http.post('http://localhost:3000/api/profile/VerifiedContributerRequest', 'maherUSERNAME');
   }
 
 

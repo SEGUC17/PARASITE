@@ -41,7 +41,7 @@ var VCRSchema = mongoose.Schema({
 
 var VerifiedContributerRequest = mongoose.model('VerifiedContributerRequest', VCRSchema, 'VerifiedContributerRequest');
 
-module.exports.createVCR = function(VCR){
+module.exports.createVCR = function(VCR) {
     console.log(VCR);
 
     var vcr = new VerifiedContributerRequest(VCR);
@@ -51,6 +51,27 @@ module.exports.createVCR = function(VCR){
         console.log(VcrAfter.name + " saved to VCR collection.");
     });
 
+}
+
+
+
+module.exports.getAll = function(){
+
+
+    db.collection("VerifiedContributerRequest").find({}).toArray(function(err, result) {
+        if (err) throw err;
+
+        var filteredVCRs = result.filter(
+            r => (r.status == "pending")
+    );
+
+
+
+        console.log(filteredVCRs);
+        db.close();
+
+        return filteredVCRs;
+    });
 
 }
 

@@ -37,7 +37,7 @@ module.exports = function (passport) {
 
   // -------------- Admin Contoller ---------------------- //
   router.get('/admin/ContentRequests', adminController.test);
-
+  router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
   // --------------End Of Admin Contoller ---------------------- //
 
 
