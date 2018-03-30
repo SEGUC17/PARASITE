@@ -26,9 +26,18 @@ module.exports = function (passport) {
 };
 // ---------------------- End of User Controller --------------- //
 
+<<<<<<< HEAD
+// -------------- Admin Contoller ---------------------- //
+//router.get('/admin/ContentRequests', adminController.test);
+
+// --------------End Of Admin Contoller ---------------------- //
+
+=======
+>>>>>>> f5e2b113f51e11ac8a94b2a49849e5c0c473f15b
 
 //-------------------- Profile Module Endpoints ------------------//
-router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+router.post(
+'/profile/VerifiedContributerRequest', profileController.requestUserValidation);
 router.get('/profile/:username', profileController.getUserInfo);
 //------------------- End of Profile module Endpoints-----------//
 
