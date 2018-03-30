@@ -8,10 +8,19 @@
                 <input type="text" class="search-control" ng-model="searchString" placeholder="Enter your search terms" />
             </div>
             <ul class="search-control">
-                <li ng-repeat="i in parents | searchFor:searchString">
+                <!-- <li ng-repeat="i in parents | searchFor:searchString">
                     <p>{{i.username}}
+                </li> -->
+                <!-- <label for="Username" [style.display]="block">Parent Username : </label> -->
+                <!-- <ion-item *ngFor="let item of parents;">
+                  {{item.username}}
+                </ion-item> -->
+                <li *ngFor="let parent of parents">
+                  {{ parent.username }}
                 </li>
-            </ul> -->
+
+            </ul>
+
          </div>
     </body>
     <script src="js/site.js"></script>

@@ -1,0 +1,9 @@
+#wrapper {
+width : 800px;
+margin : 0 auto;
+background-color : #FFF;
+}
+#contentarea {
+clear : both;
+padding : 25px 0;
+} 
