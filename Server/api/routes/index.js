@@ -3,7 +3,6 @@
 
 var express = require('express');
 var router = express.Router();
-productCtrl = require('../controllers/ProductController');
 
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
@@ -64,10 +63,3 @@ router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
   return router;
 };
 
-router.post('/productrequest/createproduct', productCtrl.createProduct);
-router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
-
-// router.get('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
-router.get('/productrequest/getRequests', productCtrl.getRequests);
-
-module.exports = router;

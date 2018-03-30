@@ -1,43 +1,30 @@
+import { Injectable } from '@angular/core';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
-var mongoose = require('mongoose'),
-  moment = require('moment'),
-  Validations = require('../utils/validators'),
-  User = mongoose.model('User');
-  //VCRSchema = mongoose.model('VerifiedContributerRequest');
-  VCRSchema = require('../models/VerifiedContributerRequest');
-  adminController = require('./AdminController');
-
-module.exports.requestUserValidation = function(req, res, next) {
-
-  const newRequest = {
-    status:'pending',
-    bio: 'hello world bio',
-    name: 'maher',
-    AvatarLink: 'maher.com',
-    ProfileLink: 'profilemaher.com',
-    image: 'imageMaher.com',
-  };
-    console.log('inside profile controller before calling createVCR');
-
-  VCRSchema.createVCR(newRequest);
-
-    console.log('inside profile controller and finishing');
-
+const httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 
+@Injectable()
 
-//--------------------------- Profile Info ------------------------- AUTHOR: H
+export class ProfileService {
 
-module.exports.getUserInfo = function(req, res, next) {
-    User.findOne({ username: req.params.username}).exec(function(err, userInfo) {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).json({
-        err: null,
-        msg: 'User info retrieved successfully',
-        data: userInfo
-      });
-    });
-  };
+// ------------- Profile Page Method(s) -------------- AUTHOR: H
+  constructor(private http: HttpClient) { }
+
+  private Url = 'http://localhost:3000/api/profile/'
+  getUserInfo(username: String): Observable<any> {
+      return this.http.get(`${this.Url}/${username}`);
+    }
+
+// --------Sending Contributer Validation Request --------- AUTHOR: Maher
+  makeContributerValidationRequest(): any {
+    // TODO: Send an HTTP POST for the request (Maher).
+    console.log('the Request is sent el mafrood AUTHOR: Maher');
+    return this.http.post('http://localhost:3000/api/profile/VerifiedContributerRequest', 'maherUSERNAME');
+  }
+
+
+}
