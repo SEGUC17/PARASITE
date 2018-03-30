@@ -17,3 +17,5 @@ mongoose.connect(config.MONGO_URI).
 require('../models/Content');
 require('../models/User');
 require('../models/AddPsychologistRequest');
+require('../models/ContentRequest');
+
