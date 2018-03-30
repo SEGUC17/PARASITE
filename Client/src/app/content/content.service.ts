@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { Content } from './content';
 
 @Injectable()
 export class ContentService {
@@ -36,6 +37,14 @@ export class ContentService {
     return this.http.get(self.endpoint + 'content/view/' + id)
       .pipe(
         catchError(self.handleError('getContentById', []))
+      );
+  }
+
+  createContent(content: Content): Observable<any> {
+    const self = this;
+    return this.http.post(self.endpoint + 'content/create', content)
+      .pipe(
+        catchError(self.handleError('Create Content'))
       );
   }
 
