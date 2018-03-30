@@ -13,12 +13,22 @@ var isAuthenticated = function (req, res, next) {
   }
 };
 
+//.............................productcontroler/marketplace............................//
+productCtrl = require('../controllers/ProductController');
+
+router.post('/productrequest/createProduct', productCtrl.createProduct);
+router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
+
+// router.get('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
+router.get('/productrequest/getRequests', productCtrl.getRequests);
+
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.send('Server Works');
 });
 
-
+//.........................end of productcontroler/marketplace............................//
 // ---------------------- User Controller ---------------------- //
 module.exports = function (passport) {
   router.post('/signup', passport.authenticate('local-signup'));

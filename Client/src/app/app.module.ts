@@ -21,6 +21,8 @@ import { AdminModule } from './admin/admin.module';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
+//import { MatInputModule, MatOptionModule, MatSelectModule } from '@angular/material';
+//import{MatFormFieldModule} from '@angular/material';
 
 
 @NgModule({
@@ -29,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   imports: [
     BrowserModule,
+    //MatInputModule, MatOptionModule, MatSelectModule,MatFormFieldModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatSidenavModule,

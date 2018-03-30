@@ -1,18 +1,21 @@
 
+<form (ngSubmit)="createProduct()" #createproduct="ngForm">
+<!-- <div class="form-group" > -->
+
 <div id = "form" >
 <mat-form-field>  
-  <input matInput placeholder="Product's name" name="name"> 
+  <input matInput placeholder="Product's name" name="name" [(ngModel)]="formInput.name"> 
   </mat-form-field>
   
   <div >     
   <mat-form-field>
-    <textarea matInput placeholder="Products description" name="description"></textarea>
+    <textarea matInput placeholder="Products description" name="description" [(ngModel)]="formInput.description"></textarea>
   </mat-form-field>
   </div>
 
   <div>
   <mat-form-field>
-    <input matInput placeholder="Price" type="double" name="price" class="example-right-align">
+    <input matInput placeholder="Price" type="double" name="price" class="example-right-align" [(ngModel)]="formInput.price">
     <span matPrefix>$&nbsp;</span>
   </mat-form-field>
   </div>
@@ -21,10 +24,10 @@
       <label for="acquiringType">Product is up for</label>
       <div>
   <mat-form-field>
-      <mat-select matInput name="acquiringType">
-    <mat-select placeholder="Select">
-      <mat-option value="option">borrow</mat-option>
-      <mat-option value="option">sell</mat-option>
+      <mat-select matInput name="acquiringType" [(ngModel)]="formInput.acquiringType">
+    <mat-select placeholder="Select"  name="acquiringType" >
+      <mat-option value="borrow"  name="borrow">borrow</mat-option>
+      <mat-option value="sell"  name="sell" >sell</mat-option>
     </mat-select>
 
     </mat-select>
@@ -34,28 +37,27 @@
 </div>
 
   <mat-form-field>
-    <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" class="example-right-align">
+     <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" [(ngModel)]="formInput.rentPeriod" class="example-right-align">
   </mat-form-field>
 </div>
 
 
 <div  class="form-group">
-    <div id="image">
+    <div id="image" >
   <form action="/action_page.php">
-    <input type="file" name="pic" accept="image/*">
+    <input type="file" name="pic" [(ngModel)]="formInput.pic"  accept="image/*">
   </form>
 </div>
 </div>
 
 
 <div> 
-    <button id="submit" type="submit"  >Create Product</button>
-    <!-- <button id="submit" type="submit" [disabled]="!product.form.valid" >Create Product</button> -->
+    <button id="submit" type="submit" (ngSubmit)="createProduct()" >Create Product</button>
 
   </div>
+<!-- </div> -->
 
-
-
+</form>
 
 
 <!-- 

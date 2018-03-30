@@ -5,16 +5,9 @@ import { CreateProductComponent } from './create-product/create-product.componen
 import { MarketRoutingModule } from './market-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule, MatOptionModule, MatSelectModule } from '@angular/material';
-//import { MatFormFieldControl} from '@angular/material';
 import{MatFormFieldModule, MatButtonModule} from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
-//herer;jdhdbvjxj
-
-
-
-// import { QuillEditorModule } from 'ngx-quill-editor';
-// import { FlexLayoutModule } from '@angular/flex-layout';
-
+import {CreateProductService} from './create-product/create-product.service'
 
 @NgModule({
   imports: [
@@ -34,6 +27,7 @@ import { RouterModule, Routes } from '@angular/router';
      FormsModule
     // QuillEditorModule
   ],
+  providers: [CreateProductService],
   declarations: [MarketComponent, CreateProductComponent]
 })
 export class MarketModule { }
