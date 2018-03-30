@@ -9,9 +9,26 @@ import { ProfileService } from '../profile.service';
 
 export class ProfileComponent implements OnInit {
 
+//---------- FLAGS --------------------
+//User Flags
+  currIsOwner = false;
+  currIsParent = false;
+  currIsChild = false;
+  currIsIndependent = false;
 
-  isOwner = false;
+  visitedIsParent = false;
+  visitedIsChild = false;
+  VisitedIsIndependent = false;
 
+//Tab Navigation Flags
+  pInfo = true;
+  children = false;
+  plan = false;
+  sched = false;
+
+//------------------------------------
+
+//---------- User Info ---------------
   Name: String = "Fulan el Fulany";
   Username: String;
   Age: Number;
@@ -19,70 +36,59 @@ export class ProfileComponent implements OnInit {
   Address: String;
   Phone: String;
   Birthday: Date;
-  pInfo = true;
-  children = false;
-  plan = false;
-  sched = false;
+//------------------------------------
 
   constructor(private _ProfileService: ProfileService) { }
 
 
   ngOnInit() {
-
+      //Retrieve all current/visited user data and set all the variables
   }
 
   requestContributerValidation() {
 
   }
 
-  openInfo(){
+  openInfo(): void{
     this.pInfo = true;
     this.children = false;
     this.plan = false;
     this.sched = false;
-    document.getElementById("personalinfobtn").className += "active";
-    console.log(this.pInfo);
+    document.getElementById("personalinfobtn").className = "active";
+    document.getElementById("schedbtn").className = "";
+    document.getElementById("childbtn").className = "";
+    document.getElementById("plansbtn").className = "";
   }
-  openSched(){
+  openSched(): void{
     this.pInfo = false;
     this.children = false;
     this.plan = false;
     this.sched = true;
-    console.log(this.pInfo);
+    document.getElementById("personalinfobtn").className = "";
+    document.getElementById("schedbtn").className = "active";
+    document.getElementById("childbtn").className = "";
+    document.getElementById("plansbtn").className = "";
   }
-  openPlans(){
+  openPlans(): void{
     this.pInfo = false;
     this.children = false;
     this.plan = true;
     this.sched = false;
+    document.getElementById("personalinfobtn").className = "";
+    document.getElementById("schedbtn").className = "";
+    document.getElementById("childbtn").className = "";
+    document.getElementById("plansbtn").className = "active";
   }
-  openChildren(){
+  openChildren(): void{
     this.pInfo = false;
     this.children = true;
     this.plan = false;
     this.sched = false;
+    document.getElementById("personalinfobtn").className = "";
+    document.getElementById("schedbtn").className = "";
+    document.getElementById("childbtn").className = "active";
+    document.getElementById("plansbtn").className = "";
   }
-  // openTab(evt: Event,tabname): void {
-  //   var i, tabcontent, tablinks;
-
-  //   // Get all elements with class="tabcontent" and hide them
-  //   tabcontent = document.getElementsByClassName("tabcontent");
-  //   for (i = 0; i < tabcontent.length; i++) {
-  //       tabcontent[i].style.display = "none";
-  //   }
-
-  //   // Get all elements with class="tablinks" and remove the class "active"
-  //   tablinks = document.getElementsByClassName("tablinks");
-  //   for (i = 0; i < tablinks.length; i++) {
-  //       if(!(tablinks[i].getElementById()))
-  //       tablinks[i].className = tablinks[i].className.replace("active", "");
-  //   }
-
-  //   // Show the current tab, and add an "active" class to the button that opened the tab
-  //   document.getElementById(tabname).style.display = "block";
-  //   document.getElementById(tabname + "btn").className += "active";
-  //   //evt.currentTarget.className += " active";
-  // }
 
 
 }

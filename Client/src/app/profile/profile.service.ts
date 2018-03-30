@@ -18,8 +18,8 @@ export class ProfileService {
     constructor(private http: HttpClient) { }
 
     private Url = '/profile/';
-    getUserInfo(product, newProduct): Observable<any> {
-        return this.http.get(`${this.Url}/${product._id}`);
+    getUserInfo(username: String): Observable<any> {
+        return this.http.get(`${this.Url}/${username}`);
       }
 
 }

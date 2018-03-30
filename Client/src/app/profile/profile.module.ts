@@ -4,12 +4,14 @@ import { ProfileComponent } from './profile/profile.component';
 import {HttpClientModule} from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from './profile.service';
+import { BrowserModule } from '@angular/platform-browser';
 
 
 @NgModule({
   imports: [
     ProfileRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserModule
   ],
   declarations: [ProfileComponent],
   providers: [

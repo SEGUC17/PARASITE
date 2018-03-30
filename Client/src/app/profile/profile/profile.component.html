@@ -7,22 +7,27 @@
       <br>
       <label id="Badge" >Badge goes here</label><br>
       <button style="margin-left: 40px">Direct Message</button>
-      <button id="btnRequestContributerValidation" class = "RightSideBtns" click="requestContributerValidation()">Make me a verified contributor</button>
-
+      <div class = "RightSideBtns">
+          <button id="btnRequestContributerValidation"  click="requestContributerValidation()">Make me a verified contributor</button>
+          <button *ngIf = "true">Add as a parent</button>
+          <button *ngIf = "true">Link to my child</button>
+          <button *ngIf = "true">Make Independent</button>
+          <button *ngIf = "true">Unlink</button>
+      </div>
     </div>
     <br>
     <div class="tab">
         <button id = "personalinfobtn" class="tablinks" (click)="openInfo()">About</button>
-        <button class="tablinks" (click)="openSched()">Personal Schedule</button>
-        <button class="tablinks" (click)="openChildren()">List of Children</button>
-        <button class="tablinks" (click)="openPlans()">Study Plans</button>
+        <button id="schedbtn" class="tablinks" (click)="openSched()" *ngIf = "true" >Personal Schedule</button>
+        <button id="childbtn" class="tablinks" (click)="openChildren()">List of Children</button>
+        <button id="plansbtn" class="tablinks" (click)="openPlans()">Study Plans</button>
       </div>
 
 
 
-    <div id = "personalinfo" class = "tabcontent" ng-if="!(pInfo && children && plan && sched)">
+    <div id = "personalinfo" class = "tabcontent" *ngIf = "pInfo">
         <h3>Personal Info:</h3>
-
+ 
         <label>Username: {{Username}}</label> <br> 
         <label>Email: {{Email}}</label> <br> 
         <label>Birthday: {{Birthday}}</label> <br>
@@ -30,13 +35,13 @@
         <label>Address: {{Address}}</label> <br> 
         <label>Phone: {{Phone}}</label> <br>
     </div>
-    <div id = "schedule" class = "tabcontent">
+    <div id = "schedule" class = "tabcontent" *ngIf = "sched">
       <h3>Personal Schedule:</h3>
     </div>
-    <div id = "children" class = "tabcontent">
+    <div id = "children" class = "tabcontent" *ngIf = "children">
       <h3>Your Children:</h3>
     </div>
-    <div id = "studyplans" class = "tabcontent">
+    <div id = "studyplans" class = "tabcontent" *ngIf = "plan">
       <h3>Your Study Plans:</h3>
     </div>
 </div>
