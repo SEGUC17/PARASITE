@@ -1,4 +1,3 @@
-
 var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -8,6 +7,7 @@ var helmet = require('helmet');
 var expressSession = require('express-session');
 var passport = require('passport');
 var cors = require('cors');
+
 
 //config file
 var config = require('./api/config/config');
@@ -21,6 +21,10 @@ var router = require('./api/routes/index');
 //express app
 var app = express();
 app.set(config.SECRET);
+
+// Disabling etag for testing
+// @author: Wessam
+app.disable('etag');
 
 //middleware
 app.use(cors());

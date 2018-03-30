@@ -1,3 +1,18 @@
-<p>
-  activity works!
-</p>
+<mat-paginator 
+  [length]="numberOfElements" 
+  [pageSize]="pageSize" 
+  [pageIndex]="pageIndex" 
+  (page)="pageEvent = getActivities($event)">
+</mat-paginator>
+<div class="activities-container">
+  <mat-card *ngFor="let activity of activities" class="activity-card">
+    <h3>{{ activity.name }}</h3>
+    <a routerLink="/activities/{{activity._id}}">
+      <h1 id="activities-header">Activities</h1>
+      <img mat-card-lg-image [src]="activity.image" />
+    </a>
+    <p class="time">From: {{ activity.fromDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
+    <p class="time">To: {{ activity.toDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
+    <p class="price">{{ activity.price | currency: 'EGP'}}</p>
+  </mat-card>
+</div>
