@@ -35,16 +35,9 @@ module.exports = function (passport) {
   router.post('/signin', passport.authenticate('local-signin'));
   // ---------------------- End of User Controller --------------- //
 
-<<<<<<< HEAD
 // -------------- Admin Contoller ---------------------- //
 router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
-router.get('/admin/ContentRequests', adminController.test);
-
-=======
-  // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/ContentRequests', adminController.test);
-  router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
->>>>>>> 3d0a333ed854c7eed47c8a1ee6cfd181a1733cc9
+router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
   // --------------End Of Admin Contoller ---------------------- //
 
 
