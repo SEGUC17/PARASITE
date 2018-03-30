@@ -4,6 +4,7 @@ var router = express.Router();
 var userController = require('../controllers/UserController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
+var adminController = require('../controllers/AdminController');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -15,6 +16,11 @@ router.get('/', function (req, res, next) {
 router.post('/signup', userController.signUp);
 router.post('/signin', userController.signIn);
 // ---------------------- End of User Controller --------------- //
+
+// -------------- Admin Contoller ---------------------- //
+router.get('/admin/ContentRequests', adminController.getContentReqs);
+
+// --------------End Of Admin Contoller ---------------------- //
 
 
 //-------------------- Profile Module Endpoints ------------------//
@@ -36,7 +42,3 @@ router.get(
 
 module.exports = router;
 
-// -------------- Admin Contoller ---------------------- //
-
-
-// --------------End Of Admin Contoller ---------------------- //
