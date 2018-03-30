@@ -4,6 +4,7 @@ var mongoose = require('mongoose'),
   User = mongoose.model('User');
   //VCRSchema = mongoose.model('VerifiedContributerRequest');
   VCRSchema = require('../models/VerifiedContributerRequest');
+  adminController = require('./AdminController');
 
 module.exports.requestUserValidation = function(req, res, next) {
 

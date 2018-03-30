@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var ContentRequest = mongoose.model('ContentRequest');
+var VCR = require('../models/VerifiedContributerRequest');
 
 module.exports.test = function(req, res) {
     res.status(200).json({
@@ -11,6 +12,7 @@ module.exports.test = function(req, res) {
 
 //------------------------------------------------------------------------//
 
+<<<<<<< HEAD
 module.exports.viewPendingReqs = function(req, res, next) {
    ContentRequest.find({}).exec(function(err, contentRequests) {
      if (err) {
@@ -52,3 +54,27 @@ module.exports.viewPendingReqs = function(req, res, next) {
       });
     });
   };
+=======
+//module.exports.getContentReqs = function(req, res, next) {
+//    ContentRequest.find({}).exec(function(err, contentRequests) {
+//      if (err) {
+//        return next(err);
+//      }
+//      res.status(200).json({
+//        data: contentRequests,
+//        err: null,
+//        msg: 'Products retrieved successfully.'
+//      });
+//    });
+//  };
+
+module.exports.getVCRs = function(req, res, next) {
+    var allVCRs = VCR.getAll();
+
+    res.status(200).json({
+        err: null,
+        msg: 'Products retrieved successfully.',
+        data: allVCRs
+    });
+};
+>>>>>>> 3d0a333ed854c7eed47c8a1ee6cfd181a1733cc9
