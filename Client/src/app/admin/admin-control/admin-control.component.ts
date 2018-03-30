@@ -26,7 +26,8 @@ export class AdminControlComponent implements OnInit {
 
   goToResIReq() {
     this.hideContentReqs = 1 - this.hideContentReqs;
-    console.log(this._adminService.test());
+    console.log('in parent, redirecting to child');
+    this._ResIReq.viewPendingReqs();
   }
 
   viewVCRequests() {
