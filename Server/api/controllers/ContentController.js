@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
 
+
 module.exports.getNumberOfContentPages = function (req, res, next) {
     if (req.params.category !== 'NoCat' &&
         req.params.section !== 'NoSec') {
@@ -171,8 +172,13 @@ module.exports.getContentByCreator = function (req, res, next) {
         });
     }
 
-    Content.find({ creator: req.params.creator }).
-        exec(function (err, contents) {
+    Content.paginate(
+        { creator: req.params.creator },
+        {
+            limit: Number(req.params.pageSize),
+            page: Number(req.params.pageNumber)
+        },
+        function (err, contents) {
             if (err) {
                 return next(err);
             }
@@ -182,6 +188,31 @@ module.exports.getContentByCreator = function (req, res, next) {
                 err: null,
                 msg: 'The contents created by' +
                     'the user were retrieved successfully'
+            });
+        }
+    );
+};
+
+module.exports.getNumberOfContentByCreator = function (req, res, next) {
+    if (!req.params.creator) {
+        return res.status(422).json({
+            data: null,
+            err: 'The Creator username is not valid.',
+            msg: null
+        });
+    }
+
+    Content.
+        find({ creator: req.params.creator }).count().
+        exec(function (err, count) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: count,
+                err: null,
+                msg: 'Number of content by creator retrieved successfully'
             });
         });
 };
