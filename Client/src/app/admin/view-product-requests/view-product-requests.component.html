@@ -1,4 +1,4 @@
-<mat-card *ngFor="let mockReq of mockRequests; let i = index">
+<mat-card *ngFor="let mockReq of requests; let i = index">
   <mat-card-header>
     <mat-card-title>{{mockReq.name}}</mat-card-title>
     <mat-card-subtitle>Sold by {{mockReq.seller}}</mat-card-subtitle>
@@ -6,9 +6,9 @@
   {{mockReq.image}}
   <mat-card-content>
     <h3>This item is up for {{mockReq.acquiringType}}</h3>
-    <h2 *ngIf="mockReq.acquiringType === 'Sale'">{{mockReq.price | currency}}</h2>
-    <h2 *ngIf="mockReq.acquiringType === 'Rent'">{{mockReq.price | currency}} a day</h2>
-    <h3 *ngIf="mockReq.acquiringType === 'Rent'">For up to {{mockReq.rentPeriod}} days</h3>
+    <h3 *ngIf="mockReq.acquiringType === 'sell'">{{mockReq.price | currency}}</h3>
+    <h3 *ngIf="mockReq.acquiringType === 'rent'">{{mockReq.price | currency}} a day</h3>
+    <h3 *ngIf="mockReq.acquiringType === 'rent'">For up to {{mockReq.rentPeriod}} days</h3>
     <p>
       {{mockReq.description}}
     </p>

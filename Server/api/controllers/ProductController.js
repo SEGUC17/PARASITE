@@ -93,14 +93,15 @@ module.exports.getProduct = function (req, res, next) {
 };
 
 module.exports.getRequests = function (req, res, next) {
-    ProductRequest.find({}).exec(function (err, products) {
+    console.log('Got here');
+    ProductRequest.find({}).exec(function (err, requests) {
         if (err) {
             return next(err);
         }
         res.status(200).json({
-            data: products,
+            data: requests,
             err: null,
-            msg: 'Products retrieved successfully.'
+            msg: 'Requests retrieved successfully.'
         });
     });
 };
@@ -130,7 +131,7 @@ module.exports.createProductRequest = function (req, res, next) {
         res.status(201).json({
             data: productreq,
             err: null,
-            msg: 'Product was created successfully.'
+            msg: 'Product Request was created successfully.'
         });
     });
 };
@@ -138,26 +139,27 @@ module.exports.createProductRequest = function (req, res, next) {
 
 
 module.exports.evaluateRequest = function (req, res, next) {
+    console.log('Got here');
     if (req.body.result) {
         var newProduct;
         // Validate the productID
-        if (!Validations.isObjectId(req.body.requestID)) {
+        if (!Validations.isObjectId(req.body._id)) {
             return res.status(422).json({
                 data: null,
-                err: null,
-                msg: 'productID parameter must be a valid ObjectId.'
+                err: 'productID parameter must be a valid ObjectId.',
+                msg: null
             });
         }
 
         // Ensure the request still exists
-        ProductRequest.findById(req.body.requestId).exec(function (err, product) {
+        ProductRequest.findById(req.body._id).exec(function (err, productReq) {
             if (err) {
                 return next(err);
             }
-            if (!product) {
+            if (!productReq) {
                 return res
                     .status(404)
-                    .json({ err: null, msg: 'Product not found.', data: null });
+                    .json({ err: null, msg: 'Request not found.', data: null });
             }
             // If found, make the newProduct to insert
             newProduct = {
@@ -171,34 +173,35 @@ module.exports.evaluateRequest = function (req, res, next) {
                 createdAt: req.body.createdAt
             };
             // Delete the request
-            ProductRequest.deleteOne({ _id: req.body.requestID }, function (err, product) {
+            ProductRequest.deleteOne({ _id: req.body._id }, function (err, product) {
                 if (err) {
                     return next(err);
                 }
                 // Insert the product
-                Product.create(newProduct, function (err, product) {
+                Product.insertOne(newProduct, function (err, product) {
                     if (err) {
                         return next(err);
                     }
                     res.status(201).json({
                         err: null,
                         msg: 'Request accepted and product added to database.',
-                        data: product
+                        data: newProduct
                     });
                 });
             })
         });
     }
     else {
-        if (!Validations.isObjectId(req.body.requestID)) {
+        if (!Validations.isObjectId(req.body._id)) {
             return res.status(422).json({
                 data: null,
                 err: null,
                 msg: 'productID parameter must be a valid ObjectId.'
             });
         }
+        console.log('Got here');
         // Simply delete the request and notify the user
-        ProductRequest.findByIdAndRemove(req.body.requestID, function (err, product) {
+        ProductRequest.findByIdAndRemove(req.body._id, function (err, product) {
             if (err) {
                 return next(err);
             }
