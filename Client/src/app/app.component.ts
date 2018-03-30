@@ -18,6 +18,10 @@ export class AppComponent implements OnDestroy {
       name: 'Content Edit'
     },
     {
+      url: '/content-list-view',
+      name: 'Content List View'
+    },
+    {
       url: '/auth/login',
       name: 'Login'
     },
@@ -52,7 +56,11 @@ export class AppComponent implements OnDestroy {
     {
       url: '/admin',
       name: 'Admin Control'
-    }
+    },
+    {
+      url: '/admin/category',
+      name: 'Admin Category Control'
+  }
   ];
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;

@@ -5,11 +5,17 @@ var cookieParser = require('cookie-parser');
 var compression = require('compression');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
+var expressSession = require('express-session');
 var passport = require('passport');
 var AddPsychRequest = require('./api/models/AddPsychologistRequest');
+var cors = require('cors');
 
 //config file
 var config = require('./api/config/config');
+
+// mongoose Database connection
+require('./api/config/DBConnection');
+
 //router
 var router = require('./api/routes/index');
 
@@ -18,21 +24,19 @@ var app = express();
 app.set(config.SECRET);
 
 //middleware
+app.use(cors());
 app.use(helmet());
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(expressSession({ secret: 'mySecretKey' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 //router
 app.use('/api', router);
-
-
-// mongoose Database connection
-require('./api/config/DBConnection');
-
-
 // 500 internal server error handler
 app.use(function (err, req, res, next) {
   if (err.statusCode === 404) {
