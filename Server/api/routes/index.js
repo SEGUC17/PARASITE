@@ -3,6 +3,7 @@
 
 var express = require('express');
 var router = express.Router();
+productCtrl = require('../controllers/ProductController');
 
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
@@ -38,9 +39,9 @@ module.exports = function (passport) {
   router.post('/signin', passport.authenticate('local-signin'));
   // ---------------------- End of User Controller --------------- //
 
-  // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/ContentRequests', adminController.test);
-
+// -------------- Admin Contoller ---------------------- //
+router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
+router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
   // --------------End Of Admin Contoller ---------------------- //
 
 
@@ -66,3 +67,10 @@ module.exports = function (passport) {
   return router;
 };
 
+router.post('/productrequest/createproduct', productCtrl.createProduct);
+router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
+
+// router.get('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
+router.get('/productrequest/getRequests', productCtrl.getRequests);
+
+module.exports = router;
