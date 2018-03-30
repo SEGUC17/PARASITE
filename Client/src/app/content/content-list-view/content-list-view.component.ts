@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
+import { PageEvent } from '@angular/material';
+import { Inject} from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-content-list-view',
@@ -11,12 +14,13 @@ export class ContentListViewComponent implements OnInit {
 
   contents: Content[];
   currentPageNumber: number;
-  numberOfEntriesPerPage = 10;
+  numberOfEntriesPerPage = 3;
   selectedCategory: String = 'NoCat';
   selectedSection: String = 'NoSec';
   totalNumberOfPages: number;
+  totalNumberOfEntries: number;
 
-  constructor(private contentService: ContentService ) { }
+  constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
     this.currentPageNumber = 1;
@@ -30,9 +34,10 @@ export class ContentListViewComponent implements OnInit {
     this.contentService.getNumberOfContentPages(self.numberOfEntriesPerPage,
       self.selectedCategory, self.selectedSection)
       .subscribe(function (retriedNumberOfPages) {
-        self.totalNumberOfPages = retriedNumberOfPages.data;
+        self.totalNumberOfEntries = retriedNumberOfPages.data;
+        self.totalNumberOfPages = Math.ceil(self.totalNumberOfEntries / self.numberOfEntriesPerPage);
         // for debugging
-        console.log('Total Number of Pages: ' + self.totalNumberOfPages );
+        console.log('Total Number of Pages: ' + self.totalNumberOfPages);
         self.getContentPage();
       });
   }
@@ -45,6 +50,21 @@ export class ContentListViewComponent implements OnInit {
       .subscribe(function (retrievedContents) {
         self.contents = retrievedContents.data;
       });
+  }
+
+  onPaginateChange(event): void {
+    // pages in the paginator are numbered starting by zero
+    // To retrieve correct page from database, add 1
+    this.currentPageNumber = event.pageIndex + 1;
+    // update the content array
+    this.getContentPage();
+
+    this.scrollToTheTop();
+  }
+
+  scrollToTheTop(): void {
+    console.log('Scrolling!');
+    // TODO add scrolling functionality
   }
 
 }

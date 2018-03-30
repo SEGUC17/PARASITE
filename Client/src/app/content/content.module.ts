@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { ContentService } from './content.service';
 import { ContentViewComponent } from './content-view/content-view.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { ContentViewComponent } from './content-view/content-view.component';
     MatIconModule,
     QuillEditorModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatPaginatorModule
   ],
   providers: [ContentService],
   declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent]

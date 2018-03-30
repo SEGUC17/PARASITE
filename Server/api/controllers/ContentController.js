@@ -10,21 +10,12 @@ module.exports.getNumberOfContentPages = function (req, res, next) {
             section: req.params.section
         }).count().
             exec(function (err, count) {
-                console.log('EntriesPerPage: ' +
-                    Number(req.params.numberOfEntriesPerPage));
-                console.log(count);
-                var numberOfPages =
-                    Math.
-                        ceil(Number(count) /
-                            Number(req.params.numberOfEntriesPerPage));
-
-                console.log('Number of Pages: ' + numberOfPages);
                 if (err) {
                     return next(err);
                 }
 
                 return res.status(200).json({
-                    data: numberOfPages,
+                    data: count,
                     err: null,
                     msg: 'Number of pages was retrieved'
                 });
@@ -32,15 +23,12 @@ module.exports.getNumberOfContentPages = function (req, res, next) {
     } else if (req.params.category === 'NoCat') {
         Content.find().count().
         exec(function (err, count) {
-            var numberOfPages =
-                Math.ceil(count / req.params.numberOfEntriesPerPage);
-
             if (err) {
                 return next(err);
             }
 
             return res.status(200).json({
-                data: numberOfPages,
+                data: count,
                 err: null,
                 msg: 'Number of pages was retrieved'
             });
@@ -48,15 +36,12 @@ module.exports.getNumberOfContentPages = function (req, res, next) {
     } else {
         Content.find({ category: req.params.category }).count().
             exec(function (err, count) {
-                var numberOfPages =
-                    Math.ceil(count / req.params.numberOfEntriesPerPage);
-
                 if (err) {
                     return next(err);
                 }
 
                 return res.status(200).json({
-                    data: numberOfPages,
+                    data: count,
                     err: null,
                     msg: 'Number of pages was retrieved'
                 });
