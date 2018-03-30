@@ -1,53 +1,13 @@
-<p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p><p>
-  activity works!
-</p>
+<mat-paginator 
+  [length]="numberOfElements" 
+  [pageSize]="pageSize" 
+  [pageIndex]="pageIndex"
+  (page)="pageEvent = getActivities($event)">
+</mat-paginator>
+<div class="activities-container">
+  <mat-card *ngFor="let activity of activities" class="activity-card">
+    <a routerLink="/activities/{{activity._id}}">
+      {{ activity.name }}
+    </a>
+  </mat-card>
+</div>

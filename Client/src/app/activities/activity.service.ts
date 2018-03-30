@@ -16,9 +16,9 @@ export class ActivityService {
 
   constructor(private http: HttpClient) { }
 
-  getActivities(): Observable<any> {
+  getActivities(page): Observable<any> {
     
-    return this.http.get<any>(this.activitiesUrl).pipe( );
+    return this.http.get<any>(`${this.activitiesUrl}?page=${page}`).pipe( );
   }
 
 }

@@ -1,6 +1,5 @@
 var mongoose = require('mongoose'),
     auth = require('basic-auth'),
-    Validators = require('../utils/validators'),
     Activity = mongoose.model('Activity');
 
 
@@ -16,12 +15,12 @@ module.exports.getActivities = function (req, res, next) {
     */
 
     // TODO: getting user info from headers
-    var page = req.body.page;
-    var valid = page && Validators.isInteger(page);
+    var pageN = Number(req.query.page);
+    var valid = pageN && (!isNaN(pageN));
     if (!valid) {
-        page = 1;
+        pageN = 1;
     }
-    Activity.paginate({}, { page: page, limit: 10}, function(err, activities){
+    Activity.paginate({}, { page: pageN, limit: 10}, function(err, activities){
         if(err){
             return next(err);
         }
