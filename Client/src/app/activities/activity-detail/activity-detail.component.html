@@ -1,3 +1,9 @@
-<p>
-  activity-detail works!
-</p>
+<mat-card class="activity-card">
+  <h3 id="activities-header">{{ activity.name }}</h3>
+  <img mat-card-lg-image [src]="activity.image" />
+  <p class="description">{{ activity.description }}</p>
+  <p class="time">From: {{ activity.fromDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
+  <p class="time">To: {{ activity.toDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
+  <p class="price">{{ activity.price | currency: 'EGP'}}</p>
+  
+</mat-card>

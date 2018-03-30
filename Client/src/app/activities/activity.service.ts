@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 
 import { apiUrl } from '../variables';
 import { ActivityCreate } from './activity';
+import { Router } from '@angular/router';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,7 +20,7 @@ export class ActivityService {
 
   private activitiesUrl = apiUrl + 'activities';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   getActivities(page): Observable<any> {
     // Getting all activities
@@ -28,7 +29,14 @@ export class ActivityService {
     );
   }
 
+  getActivity(activityId): Observable<any> {
+    return this.http.get<any>(`${this.activitiesUrl}/${activityId}`).pipe(
+      catchError(this.handleError('retrivingActivity', []))
+    );
+  }
+
   postActivities(activity: ActivityCreate): Observable<any> {
+    //TODO: redirect to activities incase some error happens
     return this.http.post<any>(this.activitiesUrl, activity).pipe(
       catchError(this.handleError('creatingActivity', []))
     );
@@ -38,7 +46,6 @@ export class ActivityService {
     return function (error: any): Observable<T> {
 
       console.error(error); // log to console instead
-
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };

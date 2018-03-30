@@ -66,17 +66,6 @@ module.exports.getActivity = function (req, res, next) {
         isAdmin = user.isAdmin;
     }
 
-    var pageN = Number(req.query.page);
-    var valid = pageN && (!isNaN(pageN));
-    if (!valid) {
-        pageN = 1;
-    }
-    // Filtering unverified activities
-    // for non Admin users
-    var filter = {};
-    if (!isAdmin) {
-        filter.status = 'verified';
-    }
     Activity.findById(activity_id, function (err, activity) {
         if (err) {
             return next(err);
@@ -91,8 +80,6 @@ module.exports.getActivity = function (req, res, next) {
                     data: null
                 });
             }
-
-
         }
         return res.status(200).json({
             err: null,
