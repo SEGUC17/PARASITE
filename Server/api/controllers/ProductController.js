@@ -1,4 +1,4 @@
-/* eslint-disable*/
+/* eslint-disable */
 var mongoose = require('mongoose');
 var moment = require('moment');
 var Validations = require('../utils/validators/is-object-id');
@@ -6,21 +6,17 @@ var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
 module.exports.getNumberOfMarketPages = function (req, res, next) {
     var toFind = {};
-    if (req.params.price) {
-        if (req.params.name) {
+    if (req.body.price) {
+        if (req.body.name) {
             toFind = {
-                price: { $lt: req.params.price },
-                name: req.params.name
+                name: req.body.name,
+                price: { $lt: req.body.price }
             };
+        } else {
+            toFind = { price: { $lt: req.body.price } };
         }
-        else {
-            toFind = { price: { $lt: req.params.price } };
-        }
-    }
-    else {
-        if (req.params.name) {
-            toFind = { name: req.params.name };
-        }
+    } else if (req.body.name) {
+        toFind = { name: req.body.name };
     }
     Product.find(toFind).count().
         exec(function (err, count) {
@@ -41,26 +37,23 @@ module.exports.getNumberOfMarketPages = function (req, res, next) {
 
 module.exports.getMarketPage = function (req, res, next) {
     var toFind = {};
-    if (req.params.price) {
-        if (req.params.name) {
+    var pageNumber = { num: req.params.pageNumber };
+    var numberOfEntriesPerPage = { num: req.params.numberOfEntriesPerPage };
+    if (req.body.price) {
+        if (req.body.name) {
             toFind = {
-                price: { $lt: req.params.price },
-                name: req.params.name
+                name: req.body.name,
+                price: { $lt: req.body.price }
             };
+        } else {
+            toFind = { price: { $lt: req.body.price } };
         }
-        else {
-            toFind = { price: { $lt: req.params.price } };
-        }
+    } else if (req.body.name) {
+        toFind = { name: req.body.name };
     }
-    else {
-        if (req.params.name) {
-            toFind = { name: req.params.name };
-        }
-    }
-    var pageNumber = req.params.pageNumber;
-    var numberOfEntriesPerPage = req.params.numberOfEntriesPerPage;
-    Product.find(toFind).skip((pageNumber - 1) * numberOfEntriesPerPage).
-        limit(numberOfEntriesPerPage).
+    Product.find(toFind).
+        skip((pageNumber.num - 1) * numberOfEntriesPerPage.num).
+        limit(numberOfEntriesPerPage.num).
         exec(function (err, contents) {
             if (err) {
                 return next(err);
@@ -77,9 +70,9 @@ module.exports.getMarketPage = function (req, res, next) {
 module.exports.getProduct = function (req, res, next) {
     if (!Validations.isObjectId(req.params.productId)) {
         return res.status(422).json({
+            data: null,
             err: 'productId parameter must be a valid ObjectId.',
-            msg: null,
-            data: null
+            msg: null
         });
     }
     Product.findById(req.params.productId).exec(function (err, product) {
@@ -120,9 +113,9 @@ module.exports.createProduct = function (req, res, next) {
             return next(err);
         }
         res.status(201).json({
+            data: product,
             err: null,
-            msg: 'Product was created successfully.',
-            data: product
+            msg: 'Product was created successfully.'
         });
     });
 };
@@ -135,9 +128,9 @@ module.exports.createProductRequest = function (req, res, next) {
             return next(err);
         }
         res.status(201).json({
+            data: productreq,
             err: null,
-            msg: 'Product was created successfully.',
-            data: productreq
+            msg: 'Product was created successfully.'
         });
     });
 };

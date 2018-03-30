@@ -1,5 +1,5 @@
-var mongoose = require('mongoose'),
-Product = mongoose.model('Product'),
+var mongoose = require('mongoose');
+var Product = mongoose.model('Product'),
 productSchema = Product.schema;
 
 var productRequestSchema = mongoose.Schema({

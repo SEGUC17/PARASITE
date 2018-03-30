@@ -1,0 +1,23 @@
+<div class="product-container">
+    <mat-card *ngFor="let product of products" class="product-card">
+      <mat-card-header>
+        <div mat-card-avatar class="product-avatar"></div>
+        <mat-card-title>
+          {{product.name}}
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{product.sellerName}}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <a routerLink="/market/{{product._id}}">
+        <mat-card-content>
+          <mat-card-title>{{product.price}}</mat-card-title>
+          <img mat-card-image [src]="product.image" />
+        </mat-card-content>
+      </a>
+    </mat-card>
+  </div>
+  <div class="paginator">
+    <mat-paginator [length]="totalNumberOfPages" [pageSize]="entriesPerPage" (page)="onPaginateChange($event)">
+    </mat-paginator>
+  </div>

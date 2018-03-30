@@ -8,9 +8,11 @@ router.get('/', function (req, res, next) {
 });
 // --------------Product Controller---------------------- //
 router.get('/market/getMarketPage/:numberOfEntriesPerPage/' +
-':pageNumber/:name/:price', productCtrl.getMarketPage);
-router.get('/market/numberOfMarketPages/:numberOfEntriesPerPage/' +
-':name/:price', productCtrl.getNumberOfMarketPages);
+':pageNumber', productCtrl.getMarketPage);
+router.get(
+'/market/numberOfMarketPages/:numberOfEntriesPerPage/',
+productCtrl.getNumberOfMarketPages
+);
 router.get('/product/getProduct/:productId', productCtrl.getProduct);
 router.post('/productrequest/createproduct', productCtrl.createProduct);
 router.post('/productrequest/' +

@@ -1,10 +1,18 @@
-.example-form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
+.product-card {
+  margin: 2%;
+}
+
+.product-tag {
+  margin: 1%;
+}
+
+.product-avatar {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
   }
-  
-  .example-full-width {
-    width: 100%;
-  }
-  
+
+.product-container{
+  margin: 5%;
+  display: flex;
+  flex-wrap: wrap;
+}
