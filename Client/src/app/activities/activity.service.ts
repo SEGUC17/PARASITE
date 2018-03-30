@@ -11,13 +11,16 @@ const httpOptions = {
 
 @Injectable()
 export class ActivityService {
+  /*
+    @author: Wessam
+  */
 
   private activitiesUrl = apiUrl + 'activities';
 
   constructor(private http: HttpClient) { }
 
   getActivities(page): Observable<any> {
-    
+    // Getting all activities
     return this.http.get<any>(`${this.activitiesUrl}?page=${page}`).pipe( );
   }
 

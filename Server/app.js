@@ -22,6 +22,10 @@ var router = require('./api/routes/index');
 var app = express();
 app.set(config.SECRET);
 
+// Disabling etag for testing
+// @author: Wessam
+app.disable('etag');
+
 //middleware
 app.use(cors());
 app.use(helmet());
