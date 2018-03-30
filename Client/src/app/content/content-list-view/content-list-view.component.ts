@@ -81,6 +81,9 @@ export class ContentListViewComponent implements OnInit {
   scrollToTheTop(): void {
     console.log('Scrolling!');
     // TODO add scrolling functionality
+
+    // this.document.getElementById('test').scrollIntoView(false);
+    // this.document.getElementById('test').scrollTo(0, 0);
   }
 
   tabChanged(event): void {
