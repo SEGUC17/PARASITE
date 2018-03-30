@@ -113,6 +113,15 @@ module.exports = function (passport) {
                 // --- End of Trimming & Lowering Cases--- //  
 
 
+                // --- Password Encryption --- //
+                Encryption.hashPassword(newUser.password, function(err, hash) {
+                    if(err) {
+                        return done(err);
+                    }
+
+                    newUser.password = hash;
+                });
+                // --- End of Password Encryption --- //
 
 
 
