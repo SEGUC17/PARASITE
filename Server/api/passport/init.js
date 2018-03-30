@@ -2,9 +2,10 @@
 /* eslint-disable max-len */
 
 // ---------------------- Requirements ---------------------- //
+var mongoose = require('mongoose');
 var signUp = require('./signUp');
 var signIn = require('./signIn');
-var User = require('../models/User');
+var User = mongoose.model('User');
 // ---------------------- End of Requirements ---------------------- //
 
 

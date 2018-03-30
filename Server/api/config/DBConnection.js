@@ -18,3 +18,4 @@ require('../models/Content');
 require('../models/User');
 
 require('../models/VerifiedContributerRequest');
+require('../models/ContentRequest');
