@@ -10,9 +10,9 @@ module.exports.test = function(req, res) {
     });
 };
 
-//------------------------------------------------------------------------//
+         //-------------------------------------------//
 
-<<<<<<< HEAD
+
 module.exports.viewPendingReqs = function(req, res, next) {
    ContentRequest.find({}).exec(function(err, contentRequests) {
      if (err) {
@@ -28,7 +28,8 @@ module.exports.viewPendingReqs = function(req, res, next) {
    });
  };
 
-//------------------------------------------------------------------------//
+         //-------------------------------------------//
+
  module.exports.updateProduct = function(req, res, next) {
     ContentRequest.findByIdAndUpdate(
       req.params.productId,
@@ -54,20 +55,7 @@ module.exports.viewPendingReqs = function(req, res, next) {
       });
     });
   };
-=======
-//module.exports.getContentReqs = function(req, res, next) {
-//    ContentRequest.find({}).exec(function(err, contentRequests) {
-//      if (err) {
-//        return next(err);
-//      }
-//      res.status(200).json({
-//        data: contentRequests,
-//        err: null,
-//        msg: 'Products retrieved successfully.'
-//      });
-//    });
-//  };
-
+         //-------------------------------------------//
 module.exports.getVCRs = function(req, res, next) {
     var allVCRs = VCR.getAll();
 
@@ -77,4 +65,3 @@ module.exports.getVCRs = function(req, res, next) {
         data: allVCRs
     });
 };
->>>>>>> 3d0a333ed854c7eed47c8a1ee6cfd181a1733cc9
