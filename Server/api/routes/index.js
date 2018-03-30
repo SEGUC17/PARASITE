@@ -5,6 +5,7 @@ var router = express.Router();
 
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
+var passport = require('../passport/init');
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {

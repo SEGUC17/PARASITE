@@ -3,7 +3,7 @@
 
 // ---------------------- Requirements ---------------------- //
 var mongoose = require('mongoose');
-var Encryption = require('../utils/encryption');
+var Encryption = require('../utils/encryption/encryption');
 var LocalStrategy = require('passport-local').Strategy;
 var User = mongoose.model('User');
 var newUser = new User();
