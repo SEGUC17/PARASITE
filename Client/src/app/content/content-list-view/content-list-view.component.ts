@@ -17,7 +17,7 @@ export class ContentListViewComponent implements OnInit {
   // TODO set username
   username: String = 'Omar K.';
   currentPageNumber: number;
-  numberOfEntriesPerPage = 3;
+  numberOfEntriesPerPage = 12;
   selectedCategory: String = 'NoCat';
   selectedSection: String = 'NoSec';
   totalNumberOfPages: number;
