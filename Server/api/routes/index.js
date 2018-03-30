@@ -4,9 +4,15 @@ var express = require('express'),
  User = require('../models/User'),
  Searchctrl = require('../controllers/SearchController');
 
-var userController = require('../controllers/UserController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
+var passport = require('../passport/init');
+
+var isAuthenticated = function (req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+};
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -16,14 +22,24 @@ router.get('./User/Search',Searchctrl.Search);
 
 
 // ---------------------- User Controller ---------------------- //
-router.post('/signup', userController.signUp);
-router.post('/signin', userController.signIn);
+module.exports = function (passport) {
+  router.post('/signup', passport.authenticate('local-signup'));
+  router.post('/signin', passport.authenticate('local-signin'));
+};
 // ---------------------- End of User Controller --------------- //
 
+// -------------- Admin Contoller ---------------------- //
+//router.get('/admin/ContentRequests', adminController.test);
+
+// --------------End Of Admin Contoller ---------------------- //
+
+
+//-------------------- Profile Module Endpoints ------------------//
 router.post(
-  '/profile/VerifiedContributerRequest',
-  profileController.requestUserValidation
-);
+'/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+router.get('/profile/:username', profileController.getUserInfo);
+//------------------- End of Profile module Endpoints-----------//
+
 
 // --------------Content Module Endpoints---------------------- //
 router.get(
