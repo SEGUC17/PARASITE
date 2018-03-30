@@ -82,9 +82,9 @@ module.exports = function (passport) {
                 }
                 // --- End of Check birthdate With isChild --- //
 
-                
+
                 // --- Email Regex Match --- //
-                if(!newUser.email.match(/\S+@\S+\.\S+/)) {
+                if (!newUser.email.match(/\S+@\S+\.\S+/)) {
                     return done(null, false, { 'signUpMessage': 'Email Is Not Valid!' });
                 }
                 // --- End of Email Regex Match --- //
@@ -95,6 +95,15 @@ module.exports = function (passport) {
                     return done(null, false, { 'signUpMessage': 'Password Length Must Be Greater Than 8!' });
                 }
                 // --- End of Password Length --- //
+
+
+                // --- Phone Regex Match ---//
+                for (i = 0; i < newUser.phone.length; i++) {
+                    if (!newUser.phone[i].match(/^\d+$/)) {
+                        return done(null, false, { 'signUpMessage': 'Phone Is Not Valid!' });
+                    }
+                }
+                // --- End of Phone Regex Match ---//
 
 
                 // --- Trimming & Lowering Cases--- //
