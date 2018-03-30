@@ -17,9 +17,9 @@ var newUser = new User();
 var isArray = require('../utils/validators/is-array');
 var isBoolean = require('../utils/validators/is-boolean');
 var isDate = require('../utils/validators/is-date');
-var isEmpty = require('../utils/validators/is-empty');
 var isInteger = require('../utils/validators/is-integer');
 var isString = require('../utils/validators/is-string');
+var isNotEmpty = require('../utils/validators/not-empty');
 // ---------------------- End of Validators ---------------------- //
 
 
@@ -30,6 +30,7 @@ module.exports = function (passport) {
         function (req, username, password, done) {
             var findOrCreateUser = function () {
 
+                // --- Variable Assign --- //
                 newUser.address = req.body.address;
                 newUser.birthdate = req.body.birthdate;
                 newUser.children = req.body.children;
@@ -40,6 +41,7 @@ module.exports = function (passport) {
                 newUser.password = req.body.password;
                 newUser.phone = req.body.phone;
                 newUser.username = req.body.username;
+                // --- End of Variable Assign --- //
 
                 // --- Type Check --- //
                 try {
@@ -59,6 +61,20 @@ module.exports = function (passport) {
                 // --- End of Type Check --- //
 
 
+                // --- Not Empty Check --- //
+                try {
+                    isNotEmpty.isNotEmpty(newUser.birthdate);
+                    isNotEmpty.isNotEmpty(newUser.email);
+                    isNotEmpty.isNotEmpty(newUser.isChild);
+                    isNotEmpty.isNotEmpty(newUser.isParent);
+                    isNotEmpty.isNotEmpty(newUser.isTeacher);
+                    isNotEmpty.isNotEmpty(newUser.password);
+                    isNotEmpty.isNotEmpty(newUser.username);
+                } catch (err) {
+                    return done(null, false, { 'signUpMessage': err.message });
+                }
+                // --- End of Not Empty Check --- //
+
                 // --- Check birthdate With isChild --- //
                 if (!isChild && ((new Date().getFullYear() - birthdate.getFullYear()) < 13)) {
                     return done(null, false, { 'signUpMessage': 'Under 13 Must Be Child!' });
@@ -71,6 +87,8 @@ module.exports = function (passport) {
                 newUser.email = newUser.email.toLowerCase().trim();
                 newUser.username = newUser.username.toLowerCase().trim();
                 // --- End of Trimming & Lowering Cases--- //  
+
+                
 
 
 
