@@ -42,6 +42,7 @@ export class StudyPlanComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.fetchEvents();
   }
 
   fetchEvents(): void {

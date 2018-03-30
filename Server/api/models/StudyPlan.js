@@ -28,7 +28,7 @@ var studyPlanSchema = mongoose.Schema({
     },
     description: {
         required: true,
-        type: {}
+        type: String
     },
     assigned: {
         type: Boolean,
