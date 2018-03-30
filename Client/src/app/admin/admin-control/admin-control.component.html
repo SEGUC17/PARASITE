@@ -1,10 +1,21 @@
 <p>
   admin-control works!
+<br/><br/>
 
 <button (click)="viewVCRequests()"  mat-raised-button>View Verified Contributer requests</button>
 <app-view-verified-contributer-requests [hidden]="hideVCRequest == 1" ></app-view-verified-contributer-requests>
-<br/>
-<button mat-raised-button (click)="goToResIReq()" > Resources Requests </button>
-<app-view-resources-ideas-requests id = "ResIReqView"></app-view-resources-ideas-requests>
+<br/><br/>
 
+<mat-button-toggle
+   (click)="goToResIReq()">
+   Content Requests
+</mat-button-toggle>
+
+<br/>
+<app-view-resources-ideas-requests 
+  [hidden]="hideContentReqs ==1 " >
+</app-view-resources-ideas-requests>
+<br/><br/>
 </p>
+
+

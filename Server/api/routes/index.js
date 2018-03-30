@@ -18,8 +18,8 @@ router.post('/signin', userController.signIn);
 
 
 //-------------------- Profile Module Endpoints ------------------//
-router.post('/profile/VerifiedContributerRequest',profileController.requestUserValidation);
-router.get('/profile/:username',profileController.getUserInfo);
+router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+router.get('/profile/:username', profileController.getUserInfo);
 //------------------- End of Profile module Endpoints-----------//
 
 
@@ -35,3 +35,8 @@ router.get(
 );
 
 module.exports = router;
+
+// -------------- Admin Contoller ---------------------- //
+
+
+// --------------End Of Admin Contoller ---------------------- //
