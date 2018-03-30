@@ -64,7 +64,7 @@ export class ContentListViewComponent implements OnInit {
     this.contentService.getContentPage(self.numberOfEntriesPerPage,
       self.currentPageNumber, self.selectedCategory, self.selectedSection)
       .subscribe(function (retrievedContents) {
-        self.contents = retrievedContents.data;
+        self.contents = retrievedContents.data.docs;
       });
   }
 
