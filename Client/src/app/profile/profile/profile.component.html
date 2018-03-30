@@ -3,12 +3,12 @@
       <img id = "PP" src= "../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
       <br>
       <label id="ProfileName" >{{Name}}</label>
-      
+
       <br>
       <label id="Badge" >Badge goes here</label><br>
       <button style="margin-left: 40px">Direct Message</button>
       <div class = "RightSideBtns">
-          <button id="btnRequestContributerValidation"  click="requestContributerValidation()">Make me a verified contributor</button>
+          <button id="btnRequestContributerValidation"  (click)="requestContributerValidation()">Make me a verified contributor</button>
           <button *ngIf = "true">Add as a parent</button>
           <button *ngIf = "true">Link to my child</button>
           <button *ngIf = "true">Make Independent</button>
@@ -27,12 +27,12 @@
 
     <div id = "personalinfo" class = "tabcontent" *ngIf = "pInfo">
         <h3>Personal Info:</h3>
- 
-        <label>Username: {{Username}}</label> <br> 
-        <label>Email: {{Email}}</label> <br> 
+
+        <label>Username: {{Username}}</label> <br>
+        <label>Email: {{Email}}</label> <br>
         <label>Birthday: {{Birthday}}</label> <br>
-        <label>Age: {{Age}}</label> <br> 
-        <label>Address: {{Address}}</label> <br> 
+        <label>Age: {{Age}}</label> <br>
+        <label>Address: {{Address}}</label> <br>
         <label>Phone: {{Phone}}</label> <br>
     </div>
     <div id = "schedule" class = "tabcontent" *ngIf = "sched">

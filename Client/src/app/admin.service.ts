@@ -8,8 +8,12 @@ const httpOptions = {
 @Injectable()
 export class AdminService {
 
-    test(): String {
-    let x = 'in service';
-    return x;
+    getVerifiedContributerRequests(): any {
+      // Make an HTTP GET Request AUTHOR: Maher.
+      return 'Here are the requested Elements';
+    }
+
+    test() {
+      // Test
     }
 }

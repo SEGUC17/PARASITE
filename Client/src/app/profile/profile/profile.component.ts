@@ -46,7 +46,7 @@ export class ProfileComponent implements OnInit {
   }
 
   requestContributerValidation() {
-
+    this._ProfileService.makeContributerValidationRequest();
   }
 
   openInfo(): void{
