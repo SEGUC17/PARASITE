@@ -12,8 +12,5 @@ export class MarketComponent implements OnInit {
 
   ngOnInit() {
   }
-//method getsellername.. or try hyperlink
-//
-
 
 }

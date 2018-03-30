@@ -5,6 +5,7 @@ import { CreateProductComponent } from './create-product/create-product.componen
 import { MarketRoutingModule } from './market-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule, MatOptionModule, MatSelectModule } from '@angular/material';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
 //import { MatFormFieldControl} from '@angular/material';
 
 
@@ -27,6 +28,6 @@ import { MatInputModule, MatOptionModule, MatSelectModule } from '@angular/mater
      FormsModule
     // QuillEditorModule
   ],
-  declarations: [MarketComponent, CreateProductComponent]
+  declarations: [MarketComponent, CreateProductComponent, ProductDetailComponent]
 })
 export class MarketModule { }
