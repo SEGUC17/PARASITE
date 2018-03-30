@@ -1,1 +1,10 @@
-@import '../../../../node_modules/angular-calendar/css/angular-calendar.css';
+.container-fluid {
+    margin-top: 2%;
+    height: 90%;
+}
+.button-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
