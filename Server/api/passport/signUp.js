@@ -5,9 +5,25 @@ var mongoose = require('mongoose');
 var Encryption = require('../utils/encryption/encryption');
 var LocalStrategy = require('passport-local').Strategy;
 var User = mongoose.model('User');
-var newUser = new User();
 // ---------------------- End of Requirements ---------------------- //
 
+
+// ---------------------- Variables ---------------------- //
+var newUser = new User();
+// ---------------------- End of Variables ---------------------- //
+
+
+// ---------------------- Validators ---------------------- //
+var isArray = require('../utils/validators/is-array');
+var isBoolean = require('../utils/validators/is-boolean');
+var isDateInFuture = require('../utils/validators/is-date-in-future');
+var isEmpty = require('../utils/validators/is-empty');
+var isInteger = require('../utils/validators/is-integer');
+var isString = require('../utils/validators/is-string');
+// ---------------------- End of Validators ---------------------- //
+
+
+// ---------------------- Passport ---------------------- //
 module.exports = function (passport) {
     passport.use('local-signup', new LocalStrategy(
         { passReqToCallback: true },
@@ -16,22 +32,34 @@ module.exports = function (passport) {
 
                 newUser.address = req.body.address;
                 newUser.birthdate = req.body.birthdate;
-                newUser.children = [];
+                newUser.children = req.body.children;
                 newUser.email = req.body.email;
-                newUser.isAdmin = false;
                 newUser.isChild = req.body.isChild;
                 newUser.isParent = req.body.isParent;
                 newUser.isTeacher = req.body.isTeacher;
                 newUser.password = req.body.password;
                 newUser.phone = req.body.phone;
                 newUser.username = req.body.username;
-                newUser.verified = req.body.verified;
 
-                User.findOne({ 'username': username.trim().toLowerCase() }, function (err, user) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                User.findOne({ 'username': newUser.username }, function (err, user) {
                     if (err) {
                         return done(err);
                     } else if (user) {
-                        return done(null, false);
+                        return done(null, false, {"signUpMessage": "Username Exists!"});
                     }
                 });
 
@@ -43,7 +71,9 @@ module.exports = function (passport) {
                     return done(null, newUser);
                 });
             };
+            
             process.nextTick(findOrCreateUser);
         }
     ));
 };
+// ---------------------- End of Passport ---------------------- //
