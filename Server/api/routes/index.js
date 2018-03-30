@@ -18,7 +18,6 @@ router.post('/signin', userController.signIn);
 // ---------------------- End of User Controller --------------- //
 
 // -------------- Admin Contoller ---------------------- //
-router.get('/admin/ContentRequests', adminController.getContentReqs);
 
 // --------------End Of Admin Contoller ---------------------- //
 
