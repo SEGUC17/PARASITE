@@ -5,7 +5,9 @@ var router = express.Router();
 
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
+var adminController = require('../controllers/AdminController');
 var passport = require('../passport/init');
+
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
@@ -27,7 +29,7 @@ module.exports = function (passport) {
 // ---------------------- End of User Controller --------------- //
 
 // -------------- Admin Contoller ---------------------- //
-//router.get('/admin/ContentRequests', adminController.test);
+router.get('/admin/ContentRequests', adminController.test);
 
 // --------------End Of Admin Contoller ---------------------- //
 
