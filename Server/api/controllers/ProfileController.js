@@ -2,15 +2,27 @@ var mongoose = require('mongoose'),
   moment = require('moment'),
   Validations = require('../utils/validators'),
   User = mongoose.model('User');
-
+  //VCRSchema = mongoose.model('VerifiedContributerRequest');
+  VCRSchema = require('../models/VerifiedContributerRequest');
 
 module.exports.requestUserValidation = function(req, res, next) {
-//TODO: make a request
-//Author: Maher
-console.log('in the server elhamdullah');
-res.writeHead(200, { 'Content-Type': 'text/plain' });
-res.end('FROM SERVER: making request');
+
+  const newRequest = {
+    status:'pending',
+    bio: 'hello world bio',
+    name: 'maher',
+    AvatarLink: 'maher.com',
+    ProfileLink: 'profilemaher.com',
+    image: 'imageMaher.com',
+  };
+    console.log('inside profile controller before calling createVCR');
+
+  VCRSchema.createVCR(newRequest);
+
+    console.log('inside profile controller and finishing');
+
 };
+
 
 
 //--------------------------- Profile Info ------------------------- AUTHOR: H
