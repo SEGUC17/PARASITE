@@ -82,19 +82,26 @@ module.exports = function (passport) {
                 }
                 // --- End of Check birthdate With isChild --- //
 
+                
+                // --- Email Regex Match --- //
+                if(!newUser.email.match(/\S+@\S+\.\S+/)) {
+                    return done(null, false, { 'signUpMessage': 'Email Is Not Valid!' });
+                }
+                // --- End of Email Regex Match --- //
+
+
+                // --- Password Length --- //
+                if (newUser.password.length < 8) {
+                    return done(null, false, { 'signUpMessage': 'Password Length Must Be Greater Than 8!' });
+                }
+                // --- End of Password Length --- //
+
 
                 // --- Trimming & Lowering Cases--- //
                 newUser.address = newUser.address.toLowerCase();
                 newUser.email = newUser.email.toLowerCase().trim();
                 newUser.username = newUser.username.toLowerCase().trim();
                 // --- End of Trimming & Lowering Cases--- //  
-
-                
-                // --- Password Length --- //
-                if(newUser.password.length < 8) {
-                    return done(null, false, { 'signUpMessage': 'Password Length Must Be Greater Than 8!' });
-                }
-                // --- End of Password Length --- //
 
 
 
