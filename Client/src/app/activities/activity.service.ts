@@ -5,6 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 import { apiUrl } from '../variables';
+import { ActivityCreate } from './activity';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -23,7 +24,13 @@ export class ActivityService {
   getActivities(page): Observable<any> {
     // Getting all activities
     return this.http.get<any>(`${this.activitiesUrl}?page=${page}`).pipe(
-      catchError(this.handleError('getNumberOfContentPages', []))
+      catchError(this.handleError('getNumberOfActivityPages', []))
+    );
+  }
+
+  postActivities(activity: ActivityCreate): Observable<any> {
+    return this.http.post<any>(this.activitiesUrl, activity).pipe(
+      catchError(this.handleError('creatingActivity', []))
     );
   }
 

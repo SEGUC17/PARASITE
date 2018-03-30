@@ -6,6 +6,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ActivityComponent } from './activity/activity.component';
 import { ActivitiesRoutingModule } from './activities-routing.module';
 import { ActivityService } from './activity.service';
+import { ActivityCreateComponent } from './activity-create/activity-create.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import { ActivityService } from './activity.service';
     MatCardModule,
     MatPaginatorModule
   ],
-  declarations: [ActivityComponent],
+  declarations: [ActivityComponent, ActivityCreateComponent],
   providers: [ActivityService]
 })
 export class ActivitiesModule { }

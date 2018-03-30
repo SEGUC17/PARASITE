@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
+import { apiUrl } from '../../variables';
 
 @Component({
   selector: 'app-activity',
@@ -16,6 +17,8 @@ export class ActivityComponent implements OnInit {
   numberOfElements: Number;
   pageSize: Number;
   pageIndex: Number;
+  canCreate: Boolean;
+  private createUrl = "/create-activity";
 
   constructor( private activityService: ActivityService) { }
 
@@ -47,6 +50,7 @@ export class ActivityComponent implements OnInit {
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
     this.pageIndex = res.data.pageIndex;
+    this.canCreate = true;
     console.log(this.activities[0].image);
     for(let activity of this.activities){
       if(!activity.image){
@@ -54,4 +58,5 @@ export class ActivityComponent implements OnInit {
       }
     }
   }
+
 }
