@@ -21,7 +21,7 @@ module.exports.viewPendingReqs = function(req, res, next) {
      res.status(200).json({
        data: pendingContentRequests,
        err: null,
-       msg: 'Products retrieved successfully.'
+       msg: 'Requests retrieved successfully.'
      });
    });
  };

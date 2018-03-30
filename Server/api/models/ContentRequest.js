@@ -6,8 +6,9 @@ var contentreqschema = mongoose.Schema({
             {
             ref: 'Content',
             type: Schema.Types.ObjectId
-        }
-    ],
+            }
+        ]
+    },
     contentTitle: {
         trim: true,
         type: String
@@ -40,12 +41,12 @@ var contentreqschema = mongoose.Schema({
         type: String
     },
     status: {
-        enum: [
+     default: 'pending',
+     enum: [
             'approved',
             'disapproved',
             'pending'
     ],
-        default: 'pending',
         type: String
     }
 });
