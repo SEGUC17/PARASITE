@@ -11,7 +11,6 @@ var mongoose = require('mongoose');
 //};
 
 
-<<<<<<< HEAD
 //module.exports.getContentReqs = function(req, res, next) {
 //    ContentRequest.find({}).exec(function(err, contentRequests) {
 //      if (err) {
@@ -24,5 +23,3 @@ var mongoose = require('mongoose');
 //      });
 //    });
 //  };
-=======
->>>>>>> f5e2b113f51e11ac8a94b2a49849e5c0c473f15b

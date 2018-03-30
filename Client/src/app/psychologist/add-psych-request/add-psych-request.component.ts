@@ -1,6 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { AddPsychologistRequest } from './AddPsychologistRequest'
 import { AddPsychRequestService } from '../add-psych-request.service'
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-add-psych-request',
@@ -9,11 +19,28 @@ import { AddPsychRequestService } from '../add-psych-request.service'
 })
 export class AddPsychRequestComponent implements OnInit {
 
-	request: AddPsychologistRequest; 
-	sat: boolean = false; sun: boolean = false; mon: boolean = false;
-	tue: boolean = false; wed: boolean = false; thu: boolean = false; 
-	fri: boolean = false; 
+	request: AddPsychologistRequest;
 	days: string[];
+
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
+
+  fNameFormControl = new FormControl('', [
+    Validators.required
+  ]);
+
+  lNameFormControl = new FormControl('', [
+    Validators.required
+  ]);
+
+  daysOff = new FormControl();
+
+  daysOfWeek = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+
+  matcher = new MyErrorStateMatcher();
 
 
   constructor(private RequestService : AddPsychRequestService) {
@@ -21,54 +48,43 @@ export class AddPsychRequestComponent implements OnInit {
   }
 
   ngOnInit() {
-	this.days = [];
+    this.days = [];
   }
 
 
+  chooseDay(day: string[]): void {
+    this.days = day;
+  }
+
   submitReq(): void{
-    
-  	var req = this.request;
 
-  	if(this.sat){
-  		var d1 = ["Saturday"]; var d2 = this.days; d1 = d1.concat(d2);
-  		this.days = d1;
-  	}
-  	if(this.sun){
-  		var d1 = ["Sunday"]; var d2 = this.days; d1 = d1.concat(d2);
-  		this.days = d1;
-  	}
-  	if(this.mon){
-  		var d1 = ["Monday"]; var d2 = this.days; d1 = d1.concat(d2);
-  		this.days = d1;
-  	}
-  	if(this.tue){
-  		var d1 = ["Tuesday"]; var d2 = this.days; d1 = d1.concat(d2);
-  		this.days = d1;
-  	}
-  	if(this.wed){
-  		var d1 = ["Wednesday"]; var d2 = this.days; d1 = d1.concat(d2);
-  		this.days = d1;
-  	}
-  	if(this.thu){
-  		var d1 = ["Thursday"]; var d2 = this.days; d1 = d1.concat(d2);
-  		this.days = d1;
-  	}
-  	if(this.fri){
-  		var d1 = ["Friday"]; var d2 = this.days; d1 = d1.concat(d2);
-  		this.days = d1;
-  	}
-  	req = {
-  		firstName:(<HTMLInputElement>document.getElementById("psychFirstName")).value,
-  		lastName: (<HTMLInputElement>document.getElementById("psychLastName")).value,
-  		phone: parseInt((<HTMLInputElement>document.getElementById("psychPhoneNumber")).value),
-  		address: (<HTMLInputElement>document.getElementById("psychAddress")).value,
-  		email: (<HTMLInputElement>document.getElementById("psychEmail")).value ,
-  		daysOff: this.days,
-  		priceRange: parseInt((<HTMLInputElement>document.getElementById("psychPriceRange")).value),
-  		state: "Pending"
-	  };
+    var error = false;
 
-    this.RequestService.addRequest(req).subscribe();
+    if(((<HTMLInputElement>document.getElementById("psychFirstName")).value) == "" 
+      || ((<HTMLInputElement>document.getElementById("psychFirstName")).value) === 'undefined' 
+      || ((<HTMLInputElement>document.getElementById("psychLastName")).value) == ""
+      || ((<HTMLInputElement>document.getElementById("psychLastName")).value) === 'undefined' 
+      || ((<HTMLInputElement>document.getElementById("psychEmail")).value) == "" 
+      || ((<HTMLInputElement>document.getElementById("psychEmail")).value) === 'undefined' ){
+            error = true;
+    }
+
+    if(!error){
+    	var req = this.request;
+
+    	req = {
+    		firstName:((<HTMLInputElement>document.getElementById("psychFirstName")).value).toString(),
+    		lastName: (<HTMLInputElement>document.getElementById("psychLastName")).value,
+    		phone: parseInt((<HTMLInputElement>document.getElementById("psychPhoneNumber")).value),
+    		address: (<HTMLInputElement>document.getElementById("psychAddress")).value,
+    		email: (<HTMLInputElement>document.getElementById("psychEmail")).value ,
+    		daysOff: this.days,
+    		priceRange: parseInt((<HTMLInputElement>document.getElementById("psychPriceRange")).value),
+    		state: "Pending"
+  	  };
+
+      this.RequestService.addRequest(req).subscribe()
+    };
   }
 
 }

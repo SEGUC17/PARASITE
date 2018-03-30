@@ -1,13 +1,13 @@
 
 export class AddPsychologistRequest {
   
-  firstName: string;
-  lastName: string;
+  firstName: String;
+  lastName: String;
   phone: number;
-  address: string;
-  email: string;
-  daysOff: string[];
+  address: String;
+  email: String;
+  daysOff: String[];
   priceRange: number;
-  state: string;
+  state: String;
 
 };

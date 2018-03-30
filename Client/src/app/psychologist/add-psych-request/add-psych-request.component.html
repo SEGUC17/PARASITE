@@ -1,21 +1,82 @@
-<p>
-  Request to add contact information:
-</p>
-
 <form>
-	First name: <br> <input type="text" id="psychFirstName"> <br> 
-	Last name: <br> <input type="text" id="psychLastName"> <br> 
-	Phone Number: <br> <input type="tel" id="psychPhoneNumber"> <br> 
-	Adress: <br> <input type="text" id="psychAddress"> <br> 
-	E-mail address: <br> <input type="email" id="psychEmail"> <br> 
-	Days Off: <br> 
-	<input type="checkbox" name="saturdayOff" [(ngModel)] = "sat" > Saturday
-	<input type="checkbox" name="sundayOff" [(ngModel)] = "sun" /> Sunday <br>
-	<input type="checkbox" name="mondayOff" [(ngModel)] = "mon" > Monday
-	<input type="checkbox" name="tuesdayOff" [(ngModel)] = "tue" > Tuesday <br>
-	<input type="checkbox" name="wednesdayOff" [(ngModel)] = "wed" > Wednesday
-	<input type="checkbox" name="thursdayOff" [(ngModel)] = "thu" > Thursday <br>
-	<input type="checkbox" name="fridayOff" [(ngModel)] = "fri" > Friday <br>
-	Maximum Price Range: <br> <input type="number" id="psychPriceRange"> <br>
-	<button type="button" id="11" (click)="submitReq()"> Submit </button> <br>
+	<div align="center">
+
+		<mat-card class="request-form">
+			<mat-card-title>
+			  Request to add contact information:
+			</mat-card-title>
+
+			<div align="left">
+				<mat-card-content>
+					 <mat-form-field>
+						    <input matInput placeholder="First Name:*" id="psychFirstName" [formControl]="fNameFormControl"
+						           [errorStateMatcher]="matcher">
+						    <mat-error *ngIf="fNameFormControl.hasError('required')">
+						      First Name is <strong>required</strong>
+						    </mat-error>
+
+  					</mat-form-field>
+
+  					<mat-form-field>
+						    <input matInput placeholder="Last Name:*" id="psychLastName" [formControl]="lNameFormControl"
+						           [errorStateMatcher]="matcher">
+						    <mat-error *ngIf="lNameFormControl.hasError('required')">
+						      Last Name is <strong>required</strong>
+						    </mat-error>
+
+  					</mat-form-field> <br>
+
+  					<mat-form-field>
+						    <input matInput placeholder="Phone Number:" id="psychPhoneNumber">
+					</mat-form-field> <br>
+
+  					<mat-form-field>
+						    <input matInput placeholder="Address:" id="psychAddress">
+					</mat-form-field> <br>
+
+  					<mat-form-field>
+						    <input matInput placeholder="email:*" id="psychEmail" [formControl]="emailFormControl"
+						           [errorStateMatcher]="matcher">
+						    <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+						      Please enter a valid email address
+						    </mat-error>
+						    <mat-error *ngIf="emailFormControl.hasError('required')">
+						      Email is <strong>required</strong>
+						    </mat-error>
+
+  					</mat-form-field> <br>
+
+					<mat-form-field>
+					  <mat-select placeholder="Days Off:" [formControl]="daysOff" (change)="chooseDay($event.value)" 
+					  	multiple >
+					    <mat-option *ngFor="let day of daysOfWeek" [value]="day">{{day}}</mat-option>
+					  </mat-select>
+					</mat-form-field> <br>
+
+
+  					<mat-form-field>
+						    <input matInput placeholder="Maximum Price Range:" id="psychPriceRange">
+					</mat-form-field> <br>
+
+				</mat-card-content>
+
+			<div align="center">
+				<mat-card-actions>
+				    <button mat-button id="11" (click)="submitReq()">Submit</button>
+			 	</mat-card-actions>
+			 </div>
+
+			<br>
+		 	<mat-card-footer>
+		 		<p>
+				     Fields marked with "*" are required.
+				</p>
+		 	</mat-card-footer>
+
+			</div>
+
+	</mat-card>
+	</div>
 </form>
+
+
