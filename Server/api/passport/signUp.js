@@ -53,8 +53,8 @@ module.exports = function (passport) {
                     isString.isString(newUser.password);
                     isArray.isArray(newUser.phone);
                     isString.isString(newUser.username);
-                } catch (e) {
-                    return done(null, false, { "signUpMessage": e });
+                } catch (err) {
+                    return done(err);
                 }
                 // --- End of Type Check --- //
 
