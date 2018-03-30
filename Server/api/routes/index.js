@@ -1,3 +1,9 @@
+var express = require('express');
+
+var router = express.Router();
+  
+var ActivityController = require('../controllers/ActivityController');
+var userController = require('../controllers/UserController');
 /* eslint-disable max-len */
 
 var express = require('express');
@@ -20,6 +26,11 @@ router.get('/', function (req, res, next) {
   res.send('Server Works');
 });
 
+// --------------------- Activity Contoller -------------------- //
+router.get(
+  '/activities',
+  ActivityController.getActivities );
+// --------------------- End of Activity Controller ------------ //
 
 // ---------------------- User Controller ---------------------- //
 module.exports = function (passport) {
