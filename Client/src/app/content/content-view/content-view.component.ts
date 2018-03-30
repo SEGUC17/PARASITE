@@ -24,7 +24,6 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
-      console.log('Object retrieved was: ' + self.content);
     });
   }
 

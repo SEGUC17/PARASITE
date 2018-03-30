@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
-var ObjectIdValidator = require('../utils/validators/is-object-id');
 
 module.exports.getNumberOfContentPages = function (req, res, next) {
     if (req.params.category !== 'NoCat' &&
@@ -22,17 +21,17 @@ module.exports.getNumberOfContentPages = function (req, res, next) {
             });
     } else if (req.params.category === 'NoCat') {
         Content.find().count().
-        exec(function (err, count) {
-            if (err) {
-                return next(err);
-            }
+            exec(function (err, count) {
+                if (err) {
+                    return next(err);
+                }
 
-            return res.status(200).json({
-                data: count,
-                err: null,
-                msg: 'Number of pages was retrieved'
+                return res.status(200).json({
+                    data: count,
+                    err: null,
+                    msg: 'Number of pages was retrieved'
+                });
             });
-        });
     } else {
         Content.find({ category: req.params.category }).count().
             exec(function (err, count) {
@@ -85,19 +84,19 @@ module.exports.getContentPage = function (req, res, next) {
             });
     } else {
         Content.find({ category: req.params.category }).
-        skip((pageNumber - 1) * numberOfEntriesPerPage).
-        limit(numberOfEntriesPerPage).
-        exec(function (err, contents) {
-            if (err) {
-                return next(err);
-            }
+            skip((pageNumber - 1) * numberOfEntriesPerPage).
+            limit(numberOfEntriesPerPage).
+            exec(function (err, contents) {
+                if (err) {
+                    return next(err);
+                }
 
-            return res.status(200).json({
-                data: contents,
-                err: null,
-                msg: 'Page retrieved successfully'
+                return res.status(200).json({
+                    data: contents,
+                    err: null,
+                    msg: 'Page retrieved successfully'
+                });
             });
-        });
     }
 };
 
@@ -131,10 +130,7 @@ module.exports.createContent = function (req, res, next) {
 
 module.exports.getContentById = function (req, res, next) {
 
-    try {
-        ObjectIdValidator.isObjectId(req.params.id);
-    } catch (error) {
-
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(422).json({
             data: null,
             err: 'The Content Id is not valid.',
