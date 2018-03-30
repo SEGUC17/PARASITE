@@ -1,4 +1,3 @@
-
 var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -9,6 +8,7 @@ var expressSession = require('express-session');
 var passport = require('passport');
 var cors = require('cors');
 
+
 //config file
 var config = require('./api/config/config');
 
@@ -16,11 +16,15 @@ var config = require('./api/config/config');
 require('./api/config/DBConnection');
 
 //router
-var router = require('./api/routes/index');
+
 
 //express app
 var app = express();
 app.set(config.SECRET);
+
+// Disabling etag for testing
+// @author: Wessam
+app.disable('etag');
 
 //middleware
 app.use(cors());
@@ -34,7 +38,12 @@ app.use(expressSession({ secret: 'mySecretKey' }));
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Initialize Passport
+var initPassport = require('./api/passport/init');
+initPassport(passport);
+
 //router
+var router = require('./api/routes/index')(passport);
 app.use('/api', router);
 // 500 internal server error handler
 app.use(function (err, req, res, next) {

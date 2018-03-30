@@ -26,6 +26,10 @@ export class AppComponent implements OnDestroy {
       name: 'Login'
     },
     {
+      url: '/auth/signup',
+      name: 'Signup'
+    },
+    {
       url: '/profile',
       name: 'Profile'
     },
@@ -50,7 +54,7 @@ export class AppComponent implements OnDestroy {
       name: 'Psychologist'
     },
     {
-      url: '/activities/9',
+      url: '/activities',
       name: 'Random Activity'
     },
     {
