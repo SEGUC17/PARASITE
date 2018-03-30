@@ -1,7 +1,9 @@
 var express = require('express'),
-ActivityController = require('../controllers/ActivityController');
-var router = express.Router();
+  passport = require('passport');
 
+var router = express.Router();
+  
+var ActivityController = require('../controllers/ActivityController');
 var userController = require('../controllers/UserController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
@@ -11,7 +13,11 @@ router.get('/', function (req, res, next) {
   res.send('Server Works');
 });
 
-router.get('/activities', ActivityController.getActivities );
+// --------------------- Activity Contoller -------------------- //
+router.get(
+  '/activities',
+  ActivityController.getActivities );
+// --------------------- End of Activity Controller ------------ //
 
 // ---------------------- User Controller ---------------------- //
 router.post('/signup', userController.signUp);
