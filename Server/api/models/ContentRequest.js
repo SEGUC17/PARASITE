@@ -1,10 +1,7 @@
 var mongoose = require('mongoose');
 var contentreqschema = mongoose.schema({
-    contentID: {
-        type: String
-    },
+    contentID: { type: String },
     contentTitle: {
-        required: true,
         trim: true,
         type: String
     },
@@ -22,6 +19,14 @@ var contentreqschema = mongoose.schema({
     date: {
         default: Date.now,
         type: Date
+    },
+    requestType: {
+        enum: [
+            'create',
+            'update'
+        ],
+        required: true,
+        type: String
     },
     status: {
         enum: [
