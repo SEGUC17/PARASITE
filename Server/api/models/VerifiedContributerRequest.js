@@ -62,7 +62,7 @@ module.exports.getAll = function(){
         if (err) throw err;
 
         var filteredVCRs = result.filter(
-            r => (r.status == "pending")
+            r => (r.status == "pending") // this is not an error, Don't Panic :D
     );
 
 
