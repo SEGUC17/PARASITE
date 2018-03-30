@@ -17,3 +17,6 @@ var mongoose = require('mongoose')
 require('../models/Activity');
 require('../models/Content');
 require('../models/User');
+
+require('../models/VerifiedContributerRequest');
+require('../models/ContentRequest');
