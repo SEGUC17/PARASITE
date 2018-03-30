@@ -29,7 +29,7 @@ module.exports.getVCRs = function(req, res, next) {
 
     res.status(200).json({
         err: null,
-        msg: 'Products retrieved successfully.',
+        msg: 'VCRs retrieved successfully.',
         data: allVCRs
     });
 };
