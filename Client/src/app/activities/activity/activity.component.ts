@@ -47,5 +47,11 @@ export class ActivityComponent implements OnInit {
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
     this.pageIndex = res.data.pageIndex;
+    console.log(this.activities[0].image);
+    for(let activity of this.activities){
+      if(!activity.image){
+        activity.image = "assets/images/activity-view/default-activity-image.jpg";
+      }
+    }
   }
 }

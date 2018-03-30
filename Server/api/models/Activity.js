@@ -49,7 +49,11 @@ var activitySchema = Schema({
             // Making sure that fromDate is less than toDate
             return isTimestamp(time) && this.fromDateTime <= time;
         }, 'fromDate has to be less than toDate']
-   }    
+   },
+   image: {
+       data: Buffer,
+       type: String
+   }
 });
 
 // Adds CreatedAt, UpdatedAt fields in Unix format

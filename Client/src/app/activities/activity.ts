@@ -9,4 +9,5 @@ export class Activity {
     toDateTime : Date;
     createdAt : Date;
     updatedAt : Date;
+    image : String;
 }
