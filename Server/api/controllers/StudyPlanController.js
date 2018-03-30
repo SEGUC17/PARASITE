@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
     StudyPlan = mongoose.model('StudyPlan');
 
 module.exports.getPerosnalStudyPlans = function (req, res, next) {
-    User.findOne({ username: req.username }, function (err, user) {
+    User.findOne({ username: req.params.username }, function (err, user) {
         if (err)
             return next(err);
 
@@ -17,13 +17,13 @@ module.exports.getPerosnalStudyPlans = function (req, res, next) {
 };
 
 module.exports.getPerosnalStudyPlan = function (req, res, next) {
-    User.findOne({ username: req.username }, function (err, user) {
+    User.findOne({ username: req.params.username }, function (err, user) {
         if (err)
             return next(err);
 
         var target = null;
         for (let studyPlan of user.studyPlans)
-            if (req.studyPlanID.equals(studyPlan._id)) {
+            if (req.params.studyPlanID.equals(studyPlan._id)) {
                 target = studyPlan;
                 break;
             }
@@ -43,7 +43,7 @@ module.exports.getPerosnalStudyPlan = function (req, res, next) {
 };
 
 module.exports.getPublishedStudyPlan = function (req, res, next) {
-    StudyPlan.findById(req.studyPlanID, function (err, studyPlan) {
+    StudyPlan.findById(req.params.studyPlanID, function (err, studyPlan) {
         if (err)
             return next(err);
 
@@ -56,12 +56,12 @@ module.exports.getPublishedStudyPlan = function (req, res, next) {
 };
 
 module.exports.createStudyPlan = function (req, res, next) {
-    User.findOneAndUpdate({ username: req.username }, { $push: { 'studyPlans': req.studyPlan } }, function (err, user) {
+    User.findOneAndUpdate({ username: req.params.username }, { $push: { 'studyPlans': req.body } }, function (err, user) {
         if (err)
             return next(err);
             
         res.status(201).json({
-            data: user,
+            data: null,
             err: null,
             msg: 'Study plan created cuccesfully.'
         });
