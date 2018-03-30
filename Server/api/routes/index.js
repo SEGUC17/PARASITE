@@ -1,10 +1,14 @@
 /* eslint-disable max-len */
+/* eslint-disable max-statements */
 
 var express = require('express');
 var router = express.Router();
 
+var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
+var adminController = require('../controllers/AdminController');
+
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
@@ -19,6 +23,13 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
+  // --------------------- Activity Contoller -------------------- //
+  router.get(
+    '/activities',
+    ActivityController.getActivities
+  );
+  // --------------------- End of Activity Controller ------------ //
+
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', passport.authenticate('local-signup'));
   router.post('/signin', passport.authenticate('local-signin'));
@@ -27,7 +38,7 @@ module.exports = function (passport) {
   // ---------------------- End of User Controller --------------- //
 
   // -------------- Admin Contoller ---------------------- //
-  //router.get('/admin/ContentRequests', adminController.test);
+  router.get('/admin/ContentRequests', adminController.test);
 
   // --------------End Of Admin Contoller ---------------------- //
 

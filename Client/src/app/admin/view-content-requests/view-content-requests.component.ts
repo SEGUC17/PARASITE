@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminService } from '../../admin.service';
 @Component({
   selector: 'app-view-content-requests',
   templateUrl: './view-content-requests.component.html',
@@ -6,13 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewContentRequestsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _adminService: AdminService) { }
 
   ngOnInit() {
   }
 
-  test() {
+
+  test(): void {
     console.log('child component called ');
+    let self = this;
+     this._adminService.test().subscribe(function(res) {
+      console.log('back from server');
+      console.log(res.data);
+      console.log(res.msg);
+     });
   }
 
 }

@@ -1,14 +1,13 @@
 var mongoose = require('mongoose');
+var ContentRequest = mongoose.model('ContentRequest');
 
-//module.exports.test = function(req, res) {
-//    var testvalue = 'salma';
-//    console.log(testvalue);
-//    res.status(200).json({
-//        data: testvalue,
-//        err: null,
-//       msg: 'AdminController work!'
-//    });
-//};
+module.exports.test = function(req, res) {
+    res.status(200).json({
+        data: 'Perfection',
+        err: null,
+        msg: 'AdminController works!'
+    });
+};
 
 
 //module.exports.getContentReqs = function(req, res, next) {
