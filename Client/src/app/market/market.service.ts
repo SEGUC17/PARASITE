@@ -10,7 +10,7 @@ export class MarketService {
   constructor(private http: HttpClient) { }
   getMarketPage(entriesPerPage: number, pageNumber: number, limiters: any): Observable<any> {
     return this.http.get(this.host + 'market/getMarketPage/' + entriesPerPage +
-      '/' + pageNumber,limiters)
+      '/' + pageNumber, limiters)
       .pipe(
         catchError(this.handleError('getMarketPage', []))
       );
