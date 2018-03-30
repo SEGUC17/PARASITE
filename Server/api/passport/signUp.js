@@ -53,14 +53,17 @@ module.exports = function (passport) {
                     isString.isString(newUser.password);
                     isArray.isArray(newUser.phone);
                     isString.isString(newUser.username);
-                } catch(e) {
-                    return done(null, false, {"signUpMessage": e});
+                } catch (e) {
+                    return done(null, false, { "signUpMessage": e });
                 }
                 // --- End of Type Check --- //
 
-                
 
-
+                // --- Trimming & Lowering Cases--- //
+                newUser.address = newUser.address.toLowerCase();
+                newUser.email = newUser.email.toLowerCase().trim();
+                newUser.username = newUser.username.toLowerCase().trim();
+                // --- End of Trimming & Lowering Cases--- //  
 
 
 
@@ -74,7 +77,7 @@ module.exports = function (passport) {
                     if (err) {
                         return done(err);
                     } else if (user) {
-                        return done(null, false, {"signUpMessage": "Username Exists!"});
+                        return done(null, false, { "signUpMessage": "Username Exists!" });
                     }
                 });
 
@@ -86,7 +89,7 @@ module.exports = function (passport) {
                     return done(null, newUser);
                 });
             };
-            
+
             process.nextTick(findOrCreateUser);
         }
     ));
