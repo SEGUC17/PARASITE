@@ -23,7 +23,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 //import { NgModule } from '@angular/core';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'angular-calendar';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -50,7 +50,8 @@ import { CalendarModule } from 'angular-calendar';
     MessagingModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    HttpClientModule
   ],
   providers: [
     MediaMatcher
