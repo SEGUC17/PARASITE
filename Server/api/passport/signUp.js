@@ -54,9 +54,16 @@ module.exports = function (passport) {
                     isArray.isArray(newUser.phone);
                     isString.isString(newUser.username);
                 } catch (err) {
-                    return done(err);
+                    return done(null, false, { 'signUpMessage': err.message });
                 }
                 // --- End of Type Check --- //
+
+
+                // --- Check birthdate With isChild --- //
+                if (!isChild && ((new Date().getFullYear() - birthdate.getFullYear()) < 13)) {
+                    return done(null, false, { 'signUpMessage': 'Under 13 Must Be Child!' });
+                }
+                // --- End of Check birthdate With isChild --- //
 
 
                 // --- Trimming & Lowering Cases--- //
@@ -77,7 +84,7 @@ module.exports = function (passport) {
                     if (err) {
                         return done(err);
                     } else if (user) {
-                        return done(null, false, { "signUpMessage": "Username Exists!" });
+                        return done(null, false, { 'signUpMessage': 'Username Exists!' });
                     }
                 });
 
