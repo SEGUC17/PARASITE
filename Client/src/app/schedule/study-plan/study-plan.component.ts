@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { CalendarEvent } from 'calendar-utils';
+import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { StudyPlan } from './study-plan';
+import { Subject } from 'rxjs/Subject';
 import {
   isSameMonth,
   isSameDay,
@@ -10,7 +11,10 @@ import {
   endOfWeek,
   startOfDay,
   endOfDay,
-  format
+  format,
+  subDays,
+  addDays,
+  addHours
 } from 'date-fns';
 
 const colors: any = {
@@ -34,10 +38,34 @@ const colors: any = {
   styleUrls: ['./study-plan.component.css']
 })
 export class StudyPlanComponent implements OnInit {
+  @ViewChild('modalContent') modalContent: TemplateRef<any>;
   view: string = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
   studyPlan: StudyPlan;
+  activeDayIsOpen: boolean = true;
+  actions: CalendarEventAction[] = [
+    {
+      label: '<i class="fa fa-fw fa-pencil"></i>',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.handleEvent('Edited', event);
+      }
+    },
+    {
+      label: '<i class="fa fa-fw fa-times"></i>',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.events = this.events.filter(iEvent => iEvent !== event);
+        this.handleEvent('Deleted', event);
+      }
+    }
+  ];
+
+  modalData: {
+    action: string;
+    event: CalendarEvent;
+  };
+
+  refresh: Subject<any> = new Subject();
 
   constructor() { }
 
@@ -60,17 +88,81 @@ export class StudyPlanComponent implements OnInit {
 
     this.events = [
       {
-        title: 'Draggable event',
-        color: colors.yellow,
-        start: new Date(),
-        draggable: true
+        start: subDays(startOfDay(new Date()), 1),
+        end: addDays(new Date(), 1),
+        title: 'A 3 day event',
+        color: colors.red,
+        actions: this.actions
       },
       {
-        title: 'A non draggable event',
-        color: colors.blue,
-        start: new Date()
+        start: startOfDay(new Date()),
+        title: 'An event with no end date',
+        color: colors.yellow,
+        actions: this.actions
+      },
+      {
+        start: subDays(endOfMonth(new Date()), 3),
+        end: addDays(endOfMonth(new Date()), 3),
+        title: 'A long event that spans 2 months',
+        color: colors.blue
+      },
+      {
+        start: addHours(startOfDay(new Date()), 2),
+        end: new Date(),
+        title: 'A draggable and resizable event',
+        color: colors.yellow,
+        actions: this.actions,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true
+        },
+        draggable: true
       }
     ]
+  }
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+        this.viewDate = date;
+      }
+    }
+  }
+
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd
+  }: CalendarEventTimesChangedEvent): void {
+    event.start = newStart;
+    event.end = newEnd;
+    this.handleEvent('Dropped or resized', event);
+    this.refresh.next();
+  }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    this.modalData = { event, action };
+  }
+
+  addEvent(): void {
+    this.events.push({
+      title: 'New event',
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
+      color: colors.red,
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true
+      }
+    });
+    this.refresh.next();
   }
 
   publish(): void {

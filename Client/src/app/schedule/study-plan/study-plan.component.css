@@ -1,5 +1,6 @@
 .container {
     margin-top: 1%;
+    max-width: 1400px;
 }
 .button-row {
     display: flex;
