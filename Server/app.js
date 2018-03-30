@@ -1,11 +1,12 @@
-
 var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var compression = require('compression');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
+var expressSession = require('express-session');
 var passport = require('passport');
+var cors = require('cors');
 
 
 //config file
@@ -22,16 +23,19 @@ var app = express();
 app.set(config.SECRET);
 
 //middleware
+app.use(cors());
 app.use(helmet());
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(expressSession({ secret: 'mySecretKey' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 //router
 app.use('/api', router);
-
 // 500 internal server error handler
 app.use(function (err, req, res, next) {
   if (err.statusCode === 404) {

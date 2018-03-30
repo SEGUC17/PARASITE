@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material';
 
 @Component({
   selector: 'app-content-edit',
@@ -7,36 +9,43 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./content-edit.component.css']
 })
 export class ContentEditComponent implements OnInit {
-  public editor;
-  public content;
+  private editor;
   public editorOut;
-  public editorContent = `<h1>Hello there, I am Reda :D<h1>`;
-  public editorOptions = {
+  public editorContent = `<h1>Nawwar :D<h1>`;
+  private editorOptions = {
     placeholder: 'insert content here'
   };
+  separatorKeysCodes = [ENTER, COMMA, SPACE];
+  tags = [];
+
   constructor(private sanitizer: DomSanitizer) {
   }
-  onEditorBlured(quill) {
-    console.log('editor blur!', quill);
+  onContentChanged(quill) {
+    this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
   }
-  onEditorFocused(quill) {
-    console.log('editor focused!', quill);
+  add(event: MatChipInputEvent): void {
+    let input = event.input;
+    let value = event.value;
+
+    // Add tag
+    if ((value || '').trim()) {
+      this.tags.push({ name: value.trim() });
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
   }
-  onEditorCreated(quill) {
-    this.editor = quill;
-    console.log('quill is here', quill);
-  }
-  onContentChanged({ quill, html, text }) {
-    console.log('content changed dude', quill, html, text);
-    this.editorOut = this.sanitizer.bypassSecurityTrustHtml(html);
+
+  // Remove a tag
+  remove(tag: any): void {
+    let index = this.tags.indexOf(tag);
+
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+    }
   }
   ngOnInit() {
-    setTimeout(() => {
-      this.editorContent = '<h1>content changed!</h1>';
-      console.log('you can use the quill instance object to do something', this.editor);
-      // this.editor.disable();
-    }, 2800);
-
-
   }
 }

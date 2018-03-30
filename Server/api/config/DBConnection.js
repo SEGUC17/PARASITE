@@ -15,3 +15,5 @@ var mongoose = require('mongoose')
     
     //TODO: add models
 require('../models/Activity');
+require('../models/Content');
+require('../models/User');
