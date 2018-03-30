@@ -10,7 +10,51 @@ module.exports.test = function(req, res) {
     });
 };
 
+//------------------------------------------------------------------------//
 
+<<<<<<< HEAD
+module.exports.viewPendingReqs = function(req, res, next) {
+   ContentRequest.find({}).exec(function(err, contentRequests) {
+     if (err) {
+       return next(err);
+     }
+     var pendingContentRequests = contentRequests.filter(r => r.status=='pending');
+
+     res.status(200).json({
+       data: pendingContentRequests,
+       err: null,
+       msg: 'Requests retrieved successfully.'
+     });
+   });
+ };
+
+//------------------------------------------------------------------------//
+ module.exports.updateProduct = function(req, res, next) {
+    ContentRequest.findByIdAndUpdate(
+      req.params.productId,
+      {
+        $set: req.body
+      },
+      { new: true }
+    ).exec(function(err, updatedProduct) {
+      if (err) {
+        return next(err);
+      }
+      if (!updatedProduct) {
+        return res.status(404).json({
+            data: null,
+            err: null,
+            msg: 'Product not found.'
+             });
+      }
+      res.status(200).json({
+        data: updatedProduct,
+        err: null,
+        msg: 'Product was updated successfully.'
+      });
+    });
+  };
+=======
 //module.exports.getContentReqs = function(req, res, next) {
 //    ContentRequest.find({}).exec(function(err, contentRequests) {
 //      if (err) {
@@ -33,3 +77,4 @@ module.exports.getVCRs = function(req, res, next) {
         data: allVCRs
     });
 };
+>>>>>>> 3d0a333ed854c7eed47c8a1ee6cfd181a1733cc9

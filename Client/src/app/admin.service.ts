@@ -8,7 +8,7 @@ const httpOptions = {
 
 
 export class AdminService {
-private URL = 'http://localhost:3000/api/admin/ContentRequests';
+private URL = 'http://localhost:3000/api/admin/PendingContentRequests';
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +17,7 @@ private URL = 'http://localhost:3000/api/admin/ContentRequests';
       return 'Here are the requested Elements';
     }
 
-    test(): any {
+    viewPendingReqs(): any {
       console.log('in service');
       return this.http.get<any> (this.URL);
     }
