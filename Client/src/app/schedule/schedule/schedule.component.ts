@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
 import { ScheduleService } from './schedule.service';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-schedule',
@@ -11,6 +12,7 @@ export class ScheduleComponent implements OnInit {
 
   // TODO: To be obtained from server in viewPersonalSchedule by Dalia
   schedule: CalendarEvent[];
+  refresh: Subject<any> = new Subject();
 
   constructor(private scheduleService: ScheduleService) { }
   // FIXME: Temporary Constant
@@ -39,6 +41,7 @@ export class ScheduleComponent implements OnInit {
         this.schedule.push(newEvent);
       }
     }
+    this.refresh.next();
   }
 
   editEvent(oldEvent: CalendarEvent, title: string, start: Date, end: Date, targetUser: String) {
@@ -59,6 +62,7 @@ export class ScheduleComponent implements OnInit {
         this.createEvent(title, start, end, targetUser);
       }
     }
+    this.refresh.next();
   }
 
   deleteEvent(event: CalendarEvent, targetUser: String) {
@@ -73,6 +77,7 @@ export class ScheduleComponent implements OnInit {
         this.schedule.splice(index, 1);
       }
     }
+    this.refresh.next();
   }
 
   saveScheduleChanges(targetUser: String) {
@@ -82,6 +87,7 @@ export class ScheduleComponent implements OnInit {
     if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
       this.scheduleService.saveScheduleChanges(targetUser, this.schedule);
     }
+    this.refresh.next();
   }
 
 
