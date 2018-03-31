@@ -5,9 +5,6 @@ var mongoose = require('mongoose');
 var Encryption = require('../utils/encryption/encryption');
 var LocalStrategy = require('passport-local').Strategy;
 var User = mongoose.model('User');
-
-var isDuplicatedUser = false;
-var isDuplicatedEmail = false;
 // ---------------------- End of "Requirements" ---------------------- //
 
 
@@ -140,37 +137,42 @@ module.exports = function (passport) {
                 // --- End of "Trimming & Lowering Cases"--- //
 
 
-                // --- Check: Duplicate Username --- //
-                User.findOne({ 'username': newUser.username }, function (err, user) {
-                    if (err) {
-                        return done(err);
-                    } else if (user) {
-                        isDuplicatedUser = true;
-                        req.res.code = 400;
-                        req.res.msg = 'Username Exists!';
-                        return done(null, false, { 'signUpMessage': 'Username Exists!' });
-                    }
-                });
-                // --- End of "Check: Duplicate Username" --- //
-
-                // --- Add User --- //
-                Encryption.hashPassword(newUser.password, function (err, hash) {
-                    if (err) {
-                        return done(err);
-                    }
-
-                    newUser.password = hash;
-                    newUser.save(function (err) {
+                // --- Check: Duplicate Username/Email --- //
+                User.findOne({
+                    $or: [
+                        { 'username': newUser.username },
+                        { 'email': newUser.email }
+                    ]
+                },
+                    function (err, user) {
                         if (err) {
-                            done(err);
+                            return done(err);
+                        } else if (user) {
+                            req.res.code = 400;
+                            req.res.msg = 'Duplicate Exists!';
+                            return done(null, false, { 'signUpMessage': 'Duplicate Exists!' });
                         }
 
-                        req.res.code = 201;
-                        req.res.msg = 'Sign Up Successfully!';
-                        return done(null, newUser);
+                        // --- Add User --- //
+                        Encryption.hashPassword(newUser.password, function (err, hash) {
+                            if (err) {
+                                return done(err);
+                            }
+
+                            newUser.password = hash;
+                            newUser.save(function (err) {
+                                if (err) {
+                                    throw err;
+                                }
+
+                                req.res.code = 201;
+                                req.res.msg = 'Sign Up Successfully!';
+                                return done(null, newUser);
+                            });
+                        });
+                        // --- End of "Add User" --- //
                     });
-                });
-                // --- End of "Add User" --- //
+                // --- End of "Check: Duplicate Username/Email" --- //
 
 
             };
