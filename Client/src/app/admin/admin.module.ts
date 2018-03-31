@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminControlComponent } from './admin-control/admin-control.component';
 import { AdminRoutingModule } from './admin-routing.module';
-//import { ViewResourcesIdeasRequestsComponent } from './view-resources-ideas-requests/view-resources-ideas-requests.component';
+// import { ViewResourcesIdeasRequestsComponent } from './view-resources-ideas-requests/view-resources-ideas-requests.component';
 import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
+import { PsychRequestsService } from './view-psych-requests/psych-requests.service';
 
 import {
   ViewVerifiedContributerRequestsComponent
@@ -14,7 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
 
 @NgModule({
   imports: [
@@ -29,14 +31,14 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
   declarations: [AdminControlComponent,
     ViewContentRequestsComponent,
     ViewVerifiedContributerRequestsComponent,
-    CategoryManagementComponent],
+    CategoryManagementComponent,
+    ViewPsychRequestsComponent],
   exports: [
     MatButtonModule,
     MatButtonToggleModule
-
   ],
   providers: [
-    AdminService
+    AdminService, PsychRequestsService
   ]
 })
 export class AdminModule { }

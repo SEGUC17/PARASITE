@@ -23,6 +23,9 @@ router.get('/', function (req, res, next) {
 
 // ------------- psychologist's requests Controller ------------- //
 router.post('/psychologist/request/add/addRequest', addPsychReqCtrl.addRequest);
+router.get('/psychologist/request/getRequests', addPsychReqCtrl.getRequests);
+router.post('/psychologist/request/evalRequest', addPsychReqCtrl.evaluateRequest);
+
 
 // ---------------------- User Controller ---------------------- //
 module.exports = function (passport) {

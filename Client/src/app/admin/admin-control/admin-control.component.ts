@@ -1,7 +1,8 @@
-import { OnInit, Input, Output, ViewChild, Component} from '@angular/core';
-import {ViewVerifiedContributerRequestsComponent} from '../view-verified-contributer-requests/view-verified-contributer-requests.component';
-import {ViewContentRequestsComponent } from '../view-content-requests/view-content-requests.component';
-import {AdminService} from '../../admin.service';
+import { OnInit, Input, Output, ViewChild, Component } from '@angular/core';
+import { Router } from '@angular/router'
+import { ViewVerifiedContributerRequestsComponent } from '../view-verified-contributer-requests/view-verified-contributer-requests.component';
+import { ViewContentRequestsComponent } from '../view-content-requests/view-content-requests.component';
+import { AdminService } from '../../admin.service';
 
 @Component({
   selector: 'app-admin-control',
@@ -18,7 +19,8 @@ export class AdminControlComponent implements OnInit {
   hideVCRequest: any = 1;
   hideContentReqs: any = 1;
 
-  constructor(private _adminService: AdminService) { }
+  constructor(private _adminService: AdminService,
+    private router: Router) { }
 
   ngOnInit() {
 
@@ -27,6 +29,10 @@ export class AdminControlComponent implements OnInit {
   goToResIReq() {
     this.hideContentReqs = 1 - this.hideContentReqs;
     console.log(this._adminService.test());
+  }
+
+  goToPsychReq() {
+    this.router.navigateByUrl('/admin/PsychRequests');
   }
 
   viewVCRequests() {

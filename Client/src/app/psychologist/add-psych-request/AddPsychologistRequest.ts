@@ -1,6 +1,6 @@
 
 export class AddPsychologistRequest {
-  
+
   firstName: String;
   lastName: String;
   phone: number;
@@ -10,4 +10,4 @@ export class AddPsychologistRequest {
   priceRange: number;
   state: String;
 
-};
+}
