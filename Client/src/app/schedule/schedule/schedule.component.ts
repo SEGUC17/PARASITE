@@ -2,10 +2,9 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent} from 'angular-calendar';
-//import { Schedule } from './schedule';
+// import { Schedule } from './schedule';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
-<<<<<<< HEAD
 import {
   isSameMonth,
   isSameDay,
@@ -44,12 +43,12 @@ const colors: any = {
 })
 export class ScheduleComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  view: string = 'month';
+  view: 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
-  //studyPlan: StudyPlan;
-   //schedule: Schedule;
-  activeDayIsOpen: boolean = true;
+  // studyPlan: StudyPlan;
+  // schedule: Schedule;
+  activeDayIsOpen: Boolean = true;
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -75,7 +74,6 @@ export class ScheduleComponent implements OnInit {
   // TODO: To be obtained from server in viewPersonalSchedule by Dalia
   refresh: Subject<any> = new Subject();
   schedule: CalendarEvent[];
-  refresh: Subject<any> = new Subject();
 
   constructor(private scheduleService: ScheduleService) { }
   // FIXME: Temporary Constant
@@ -138,7 +136,7 @@ fetchEvents(): void {
       },
       draggable: true
     }
-  ]
+  ];
 }
 dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
   if (isSameMonth(date, this.viewDate)) {
@@ -186,19 +184,19 @@ addEvent(): void {
 
 
 publish(): void {
-  alert("Implement Publish Study Plan!");
+  alert('Implement Publish Study Plan!');
 }
 
 copy(): void {
-  alert("Implement Copy Study Plan!");
+  alert('Implement Copy Study Plan!');
 }
 
 assign(): void {
-  alert("Implement Assign Study Plan!");
+  alert('Implement Assign Study Plan!');
 }
 
 edit(): void {
-  alert("Implement Edit Study Plan!");
+  alert('Implement Edit Study Plan!');
 }
 
   createEvent(title: string, start: Date, end: Date, targetUser: String) {
