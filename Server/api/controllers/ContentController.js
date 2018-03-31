@@ -4,57 +4,7 @@
 var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
 var Category = mongoose.model('Category');
-<<<<<<< HEAD
-=======
 var ContentRequest = mongoose.model('ContentRequest');
-
-module.exports.getNumberOfContentPages = function (req, res, next) {
-    if (req.params.category !== 'NoCat' &&
-        req.params.section !== 'NoSec') {
-        Content.find({
-            category: req.params.category,
-            section: req.params.section
-        }).count().
-            exec(function (err, count) {
-                if (err) {
-                    return next(err);
-                }
-
-                return res.status(200).json({
-                    data: count,
-                    err: null,
-                    msg: 'Number of pages was retrieved'
-                });
-            });
-    } else if (req.params.category === 'NoCat') {
-        Content.find().count().
-            exec(function (err, count) {
-                if (err) {
-                    return next(err);
-                }
-
-                return res.status(200).json({
-                    data: count,
-                    err: null,
-                    msg: 'Number of pages was retrieved'
-                });
-            });
-    } else {
-        Content.find({ category: req.params.category }).count().
-            exec(function (err, count) {
-                if (err) {
-                    return next(err);
-                }
-
-                return res.status(200).json({
-                    data: count,
-                    err: null,
-                    msg: 'Number of pages was retrieved'
-                });
-            });
-    }
-};
->>>>>>> 50cc90bbf91c92b23c95b2f3e4fa164eae505f0e
 
 module.exports.getContentPage = function (req, res, next) {
     if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
@@ -185,33 +135,8 @@ module.exports.getContentByCreator = function (req, res, next) {
     );
 };
 
-<<<<<<< HEAD
+
 // TODO: manage permissions specific behavior for content creation
-=======
-module.exports.getNumberOfContentByCreator = function (req, res, next) {
-    if (!req.params.creator) {
-        return res.status(422).json({
-            data: null,
-            err: 'The Creator username is not valid.',
-            msg: null
-        });
-    }
-
-    Content.
-        find({ creator: req.params.creator }).count().
-        exec(function (err, count) {
-            if (err) {
-                return next(err);
-            }
-
-            return res.status(200).json({
-                data: count,
-                err: null,
-                msg: 'Number of content by creator retrieved successfully'
-            });
-        });
-};
-
 var handleAdminCreate = function (req, res, next) {
     req.body.approved = true;
     Content.create(req.body, function (contentError, content) {
@@ -259,7 +184,6 @@ var handleNonAdminCreate = function (req, res, next) {
 
 /*eslint max-statements: ["error", 50]*/
 
->>>>>>> 50cc90bbf91c92b23c95b2f3e4fa164eae505f0e
 module.exports.createContent = function (req, res, next) {
     var valid = req.body.title &&
         req.body.body &&
