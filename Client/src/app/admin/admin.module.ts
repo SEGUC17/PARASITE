@@ -24,18 +24,10 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatSelectModule,
     FormsModule
   ],
-<<<<<<< HEAD
-  declarations: [AdminControlComponent,
-    ViewResourcesIdeasRequestsComponent,
-    ViewVerifiedContributerRequestsComponent,
-    CategoryManagementComponent],
-||||||| merged common ancestors
-=======
   declarations: [AdminControlComponent,
     ViewContentRequestsComponent,
     ViewVerifiedContributerRequestsComponent,
     CategoryManagementComponent],
->>>>>>> master
   exports: [
     MatButtonModule,
     MatButtonToggleModule
