@@ -14,7 +14,7 @@ module.exports.sendMessage = function(req, res, next) {
   if (!valid) {
     return res.status(422).json({
       err: null,
-      msg: 'body(String) and sender(String) and recipient(String) are required fields.',
+      msg: 'body and sender and recipient are required fields.',
       data: null
     });
   }
