@@ -21,7 +21,7 @@ export class ContentListViewComponent implements OnInit {
   username: String = 'Omar K.';
 
   // shared between myContributions and content list
-  numberOfEntriesPerPage = 12;
+  numberOfEntriesPerPage = 3;
 
   // for content list pagination
   totalNumberOfPages: number;
@@ -60,6 +60,7 @@ export class ContentListViewComponent implements OnInit {
     // pages in the paginator are numbered starting by zero
     // To retrieve correct page from database, add 1
     this.currentPageNumber = event.pageIndex + 1;
+
     // update the content array
     this.getContentPage();
 
@@ -72,7 +73,6 @@ export class ContentListViewComponent implements OnInit {
 
   tabChanged(event): void {
     if (event.tab.textLabel === 'My Contributions' && !this.myContributions) {
-      console.log('Entered tab changed, and retrieving contributions.');
       this.getMyContributionsPage();
     }
   }

@@ -1,6 +1,6 @@
 export interface Content {
     _id?: String;
-    approved: Boolean;
+    approved?: Boolean;
     body: String;
     category: String;
     creator: String;
