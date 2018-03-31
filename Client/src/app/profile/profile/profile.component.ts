@@ -1,48 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
-
-=======
 import { ProfileService } from '../profile.service';
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-<<<<<<< HEAD
-export class ProfileComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-    
-  }
-
-
-  createProduct(evt,tabname): void {
-    var i, tabcontent, tablinks;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(tabname).style.display = "block";
-    evt.currentTarget.className += " active";
-  }
-
-
-  
-=======
-
 
 export class ProfileComponent implements OnInit {
 
@@ -66,7 +29,7 @@ sched = false;
 
 //------------------------------------
 
-//---------- User Info ---------------
+//---------- Current User Info ---------------
 Name: String = "Fulan el Fulany";
 Username: String;
 Age: Number;
@@ -74,7 +37,21 @@ Email: String;
 Address: String;
 Phone: String;
 Birthday: Date;
+listOfChildren: any[];
+id: any;
+//-------------------------------------
+//---------Visited User Info-----------
+vName: String = "Fulan el Fulany";
+vUsername: String;
+vAge: Number;
+vEmail: String;
+vAddress: String;
+vPhone: String;
+vBirthday: Date;
+vlistOfChildren: any[];
+vId: any;
 //------------------------------------
+listOfUncommonChildren: any[];
 
 
   constructor(private _ProfileService: ProfileService) { }
@@ -128,6 +105,27 @@ Birthday: Date;
     document.getElementById("plansbtn").className = "";
 }
 
+showChildren(): void {
 
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
+  var self = this;
+  this._ProfileService.getListOfUncommonChildren()
+    .subscribe(function(prods) {
+      self.listOfUncommonChildren = prods.data;
+      self.listOfUncommonChildren = self.listOfUncommonChildren
+    });
+
+  this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
+  
+document.getElementById("childrenLinks").classList.toggle("show");
+}
+
+addChild(child): void{
+  var newList = this.listOfChildren.push(child);
+  this._ProfileService.linkAnotherParent(newList,this.vId).subscribe(() => console.log('Child Added!'));
+
+}
+
+
+
+
 }

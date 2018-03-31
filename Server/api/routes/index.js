@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable max-statements */
-
 var express = require('express');
 var router = express.Router();
 
@@ -14,16 +11,12 @@ var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-
-  return next(new Error('User Is Logged In!'));
 };
 
 var isUnAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();
   }
-
-  return next(new Error('User Is Not Logged In!'));
 };
 
 module.exports = function (passport) {
@@ -51,21 +44,9 @@ router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
 
 
   //-------------------- Profile Module Endpoints ------------------//
-  router.post(
-    '/profile/VerifiedContributerRequest',
-    profileController.requestUserValidation
-  );
-  router.get(
-    '/profile/:username',
-    profileController.getUserInfo
-  );
-  router.get(
-    '/profile/LinkAnotherParent/:parentID',
-    profileController.linkAnotherParent
-  );
-
-
-  router.get('/profile/:userId/getChildren', profileController.getProduct);
+  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+  router.get('/profile/:username', profileController.getUserInfo);
+  router.get('/profile/LinkAnotherParent/:parentId',profileController.linkAnotherParent)
   //------------------- End of Profile module Endpoints-----------//
 
 
