@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { QuillEditorModule } from 'ngx-quill-editor';
 import {
   NgbDatepickerModule,
   NgbTimepickerModule
@@ -28,7 +29,8 @@ import {
     FormsModule,
     NgbModule,
     NgbDatepickerModule.forRoot(),
-    NgbTimepickerModule.forRoot()
+    NgbTimepickerModule.forRoot(),
+    QuillEditorModule
   ],
   declarations: [ScheduleComponent, StudyPlanComponent, CalendarHeaderComponent, DateTimePickerComponent],
   providers: [StudyPlanService, ScheduleService]

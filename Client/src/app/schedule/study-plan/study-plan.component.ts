@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { StudyPlan } from './study-plan';
 import { Subject } from 'rxjs/Subject';
+import { DomSanitizer } from '@angular/platform-browser';
 import {
   isSameMonth,
   isSameDay,
@@ -39,11 +40,20 @@ const colors: any = {
 })
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  view: string = 'month';
+  view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
+  description = this.sanitizer.bypassSecurityTrustHtml(
+    `<h1 class=\"ql-align-center\"><strong>lofi hiphop radio 🎧 beats to study/relax</strong></h1>
+     <iframe
+       class=\"ql-video ql-align-center\" allowfullscreen=\"true\"
+       src=\"https://www.youtube.com/embed/i6qXZa-N_ow?showinfo=0\" frameborder=\"0\">
+     </iframe>
+     <p class=\"ql-align-center\"><br></p>`
+  );
+
   studyPlan: StudyPlan;
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: Boolean = true;
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -67,7 +77,7 @@ export class StudyPlanComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.fetchEvents();
@@ -118,7 +128,7 @@ export class StudyPlanComponent implements OnInit {
         },
         draggable: true
       }
-    ]
+    ];
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -166,19 +176,19 @@ export class StudyPlanComponent implements OnInit {
   }
 
   publish(): void {
-    alert("Implement Publish Study Plan!");
+    alert('Implement Publish Study Plan!');
   }
 
   copy(): void {
-    alert("Implement Copy Study Plan!");
+    alert('Implement Copy Study Plan!');
   }
 
   assign(): void {
-    alert("Implement Assign Study Plan!");
+    alert('Implement Assign Study Plan!');
   }
 
   edit(): void {
-    alert("Implement Edit Study Plan!");
+    alert('Implement Edit Study Plan!');
   }
 
 }

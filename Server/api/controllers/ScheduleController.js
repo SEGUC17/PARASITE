@@ -1,3 +1,3 @@
-var mongoose = require('mongoose'),
-    User = mongoose.model('User'),
-    CalendarEvent = mongoose.model('CalendarEvent');
+var mongoose = require('mongoose');
+var CalendarEvent = mongoose.model('CalendarEvent'),
+    User = mongoose.model('User');
