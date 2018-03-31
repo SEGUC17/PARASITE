@@ -42,7 +42,7 @@ export class ContentService {
 
   createContent(content: Content): Observable<any> {
     const self = this;
-    return this.http.post(self.endpoint + 'content/create', content)
+    return this.http.post(self.endpoint + 'content', content)
       .pipe(
         catchError(self.handleError('Create Content'))
       );

@@ -22,24 +22,59 @@ router.post(
 );
 
 // --------------Content Module Endpoints---------------------- //
+
+// Content Management
+
+// Create a category
+router.post('/content/category', contentController.createCategory);
+// Create a section
+
+router.patch(
+  '/content/category/:id/section',
+  contentController.createSection
+);
+
+//Category retrieval
+router.get('/content/category', contentController.getCategories);
+
+
+// Content Retrieval
+
+// Get a number of content pages
+router.get(
+  '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
+  contentController.getNumberOfContentPages
+);
+
+// Get a page of content
 router.get(
   '/content/getContentPage/:numberOfEntriesPerPage' +
   '/:pageNumber/:category/:section',
   contentController.getContentPage
 );
-router.get(
-  '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
-  contentController.getNumberOfContentPages
-);
+
+// Get a a certain content by ID
 router.get('/content/view/:id', contentController.getContentById);
-router.post('/content/create', contentController.createContent);
+
+
+// Get the contents of a user
 router.get(
   '/content/username/:creator/:pageSize/:pageNumber',
   contentController.getContentByCreator
 );
+
+//Get the total number of contents of a user
 router.get(
   '/content/username/count/:creator',
   contentController.getNumberOfContentByCreator
 );
+
+//Content Production
+
+// Create new Content
+router.post('/content', contentController.createContent);
+
+
+// -------------------------------------------------------------------- //
 
 module.exports = router;
