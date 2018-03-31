@@ -20,12 +20,9 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
-//import { NgModule } from '@angular/core';
-//import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
-
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -55,7 +52,7 @@ import {FormsModule} from "@angular/forms";
     CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule
-],
+  ],
   providers: [
     MediaMatcher
   ],

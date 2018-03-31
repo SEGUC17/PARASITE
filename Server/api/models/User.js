@@ -7,9 +7,9 @@
 // ---------------------- Reuirements ---------------------- //
 require('./CalendarEvent.js');
 require('./StudyPlan.js');
-var mongoose = require('mongoose'),
-    calendarEventSchema = mongoose.model("CalendarEvent").schema,
-    studyPlanSchema = mongoose.model("StudyPlan").schema;
+var mongoose = require('mongoose');
+var calendarEventSchema = mongoose.model('CalendarEvent').schema,
+    studyPlanSchema = mongoose.model('StudyPlan').schema;
 // ---------------------- End of Requiremenets ---------------------- //
 
 
@@ -65,6 +65,14 @@ var userSchema = mongoose.Schema({
         trim: true,
         type: [String]
     },
+    schedule: {
+        default: [],
+        type: [calendarEventSchema]
+    },
+    studyPlans: {
+        default: [],
+        type: [studyPlanSchema]
+    },
     username: {
         index: true,
         lowercase: true,
@@ -77,14 +85,6 @@ var userSchema = mongoose.Schema({
     verified: {
         default: false,
         type: Boolean
-    },
-    schedule: {
-        default: [],
-        type: [calendarEventSchema]
-    },
-    studyPlans: {
-        default: [],
-        type: [studyPlanSchema]
     }
 });
 // ---------------------- End of Schemas ---------------------- //

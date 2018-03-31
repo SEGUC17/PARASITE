@@ -5,38 +5,38 @@
 
 
 // ---------------------- Reuirements ---------------------- //
-var mongoose = require('mongoose'),
-    calendarEventSchema = mongoose.model("CalendarEvent").schema;
+var mongoose = require('mongoose');
+var calendarEventSchema = mongoose.model('CalendarEvent').schema;
 // ---------------------- End of Requiremenets ---------------------- //
 
 
 // ---------------------- Schemas ---------------------- //
 var studyPlanSchema = mongoose.Schema({
-    title: {
-        required: true,
-        trim: true,
-        type: String
+    assigned: {
+        default: false,
+        type: Boolean
     },
     creator: {
         required: true,
         trim: true,
         type: String
     },
-    events: {
-        required: true,
-        type: [calendarEventSchema]
-    },
     description: {
         required: true,
         type: String
     },
-    assigned: {
-        type: Boolean,
-        default: false
+    events: {
+        required: true,
+        type: [calendarEventSchema]
     },
     published: {
-        type: Boolean,
-        default: false
+        default: false,
+        type: Boolean
+    },
+    title: {
+        required: true,
+        trim: true,
+        type: String
     }
 });
 // ---------------------- End of Schemas ---------------------- //

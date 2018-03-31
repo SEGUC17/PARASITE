@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
-var CalendarEvent = mongoose.model('CalendarEvent');
-var User = mongoose.model('User');
+var CalendarEvent = mongoose.model('CalendarEvent'),
+    User = mongoose.model('User');
 
-    module.exports.updateSchedule = function (req, res, next) {
-        User.findOneAndUpdate(
-            { username: req.params.username },
-             { $set: { 'schedule': req.body } },
-         function (err, user) {
+module.exports.updateSchedule = function (req, res, next) {
+    User.findOneAndUpdate(
+        { username: req.params.username },
+        { $set: { 'schedule': req.body } },
+        function (err, user) {
             if (err) {
                 return next(err);
             }
@@ -17,4 +17,4 @@ var User = mongoose.model('User');
             });
         }
     );
-    };
+};
