@@ -34,6 +34,12 @@ var userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
+    firstName: {
+        index: true,
+        required: true,
+        sparse: true,
+        type: String
+    },
     isAdmin: {
         default: false,
         type: Boolean
@@ -49,6 +55,12 @@ var userSchema = mongoose.Schema({
     isTeacher: {
         default: false,
         type: Boolean
+    },
+    lastName: {
+        index: true,
+        required: true,
+        sparse: true,
+        type: String
     },
     password: {
         required: true,
