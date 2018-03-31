@@ -59,13 +59,13 @@ router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
     '/profile/:username',
     profileController.getUserInfo
   );
-  router.get(
-    '/profile/LinkAnotherParent/:parentID',
-    profileController.linkAnotherParent
-  );
+  // router.get(
+  //   '/profile/LinkAnotherParent/:parentID',
+  //   profileController.linkAnotherParent
+  // );
 
 
-  router.get('/profile/:userId/getChildren', profileController.getProduct);
+//  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
 

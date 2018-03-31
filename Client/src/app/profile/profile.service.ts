@@ -1,19 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-<<<<<<< HEAD
-=======
 import { Observable } from 'rxjs/Observable';
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-<<<<<<< HEAD
-@Injectable()
-export class ProfileService {
-// TODO: Write Profile Service AUTHOR: Maher
-=======
 
 @Injectable()
 
@@ -22,7 +14,7 @@ export class ProfileService {
 // ------------- Profile Page Method(s) -------------- AUTHOR: H
   constructor(private http: HttpClient) { }
 
-  private Url = 'http://localhost:3000/api/profile/'
+  private Url = 'http://localhost:3000/api/profile/';
   getUserInfo(username: String): Observable<any> {
       return this.http.get(`${this.Url}/${username}`);
     }
@@ -35,5 +27,4 @@ export class ProfileService {
   }
 
 
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 }
