@@ -13,7 +13,7 @@ import { PsychologistModule } from './psychologist/psychologist.module';
 import { MarketModule } from './market/market.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material';
+import { MatIconModule, MatDialogContent, MatDialogModule } from '@angular/material';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -39,6 +39,7 @@ import {FormsModule} from '@angular/forms';
     AdminModule,
     ProfileModule,
     ContentModule,
+    MatDialogModule,
     AuthModule,
     ScheduleModule,
     PsychologistModule,

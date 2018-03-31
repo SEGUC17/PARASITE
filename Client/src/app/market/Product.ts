@@ -1,6 +1,11 @@
+export enum type {
+    'rent',
+    'sell',
+    'rent/sell'
+}
 export class Product {
     _id: String;
-    acquiringType: String;
+    acquiringType: type;
     createdAt: Date;
     description: String;
     image: String;

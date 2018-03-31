@@ -9,6 +9,8 @@ import { MatCardModule } from '@angular/material';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MarketService } from './market.service';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -16,14 +18,18 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatCardModule,
     MatInputModule,
     MatOptionModule,
+    MatButtonModule,
     MatSelectModule,
     MatGridListModule,
     MatPaginatorModule,
+    MatDialogModule,
     MatButtonModule,
     MatTabsModule,
     FormsModule
   ],
-  providers: [MarketService],
+  providers: [MarketService, { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: [] }],
+  entryComponents: [MarketComponent, ProductDetailComponent],
   declarations: [MarketComponent, ProductDetailComponent]
 })
 export class MarketModule { }

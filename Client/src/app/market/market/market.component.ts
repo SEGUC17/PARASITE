@@ -5,6 +5,8 @@ import { PageEvent } from '@angular/material';
 import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { Product } from '../Product';
+import { ProductDetailComponent } from '../product-detail/product-detail.component';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
@@ -12,18 +14,30 @@ import { Product } from '../Product';
 })
 export class MarketComponent implements OnInit {
 
-  products: any[];
+
+  products: Product[];
   currentPageNumber: number;
   entriesPerPage = 25;
   selectedName: String = 'NA';
   selectedPrice = 0;
   numberOfPages: number;
   numberOfProducts: number;
-  constructor(private marketService: MarketService, @Inject(DOCUMENT) private document: Document) { }
+  constructor(public dialog: MatDialog, private marketService: MarketService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
     this.currentPageNumber = 1;
     this.firstPage();
+  }
+  openDialog(prod: any): void {
+    let dialogRef = this.dialog.open(ProductDetailComponent, {
+      width: '1000px',
+      height: '400px',
+      data: { product: prod }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   getPage(): void {
