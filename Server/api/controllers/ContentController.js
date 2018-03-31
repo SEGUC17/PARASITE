@@ -1,6 +1,11 @@
-var mongoose = require('mongoose').set('debug', true);
+/* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
+
+
+var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
 var Category = mongoose.model('Category');
+var ContentRequest = mongoose.model('ContentRequest');
+
 module.exports.getNumberOfContentPages = function (req, res, next) {
     if (req.params.category !== 'NoCat' &&
         req.params.section !== 'NoSec') {
@@ -201,31 +206,99 @@ module.exports.getNumberOfContentByCreator = function (req, res, next) {
         });
 };
 
-// TODO: manage permissions specific behavior for content creation
-module.exports.createContent = function (req, res, next) {
-    var valid = req.body.title &&
-        req.body.body &&
-        req.body.category &&
-        req.body.section;
-    if (!valid) {
-        return res.status.json({
-            data: null,
-            err: 'content metadata not supplied',
-            msg: null
-        });
-    }
-    delete req.body.touchDate;
-    Content.create(req.body, function (err, content) {
-        if (err) {
-            return next(err);
+var handleAdminCreate = function (req, res, next) {
+    req.body.approved = true;
+    Content.create(req.body, function (contentError, content) {
+        if (contentError) {
+            return next(contentError);
         }
-        res.status(201).json({
+
+        return res.status(201).json({
             data: content,
             err: null,
             msg: 'Content was created successfully'
         });
     });
+};
 
+var handleNonAdminCreate = function (req, res, next) {
+    req.body.approved = false;
+    Content.create(req.body, function (contentError, content) {
+        if (contentError) {
+            return next(contentError);
+        }
+        ContentRequest.create({
+            contentID: content._id,
+            contentTitle: content.title,
+            contentType: content.type,
+            creator: req.user._id,
+            requestType: 'create'
+        }, function (requestError, contentRequest) {
+            if (requestError) {
+                return next(requestError);
+            }
+
+            return res.status(201).json({
+                data: [
+                    content,
+                    contentRequest
+                ],
+                err: null,
+                msg: 'Created content and made a request successfully'
+            });
+        });
+    });
+};
+
+
+/*eslint max-statements: ["error", 50]*/
+
+module.exports.createContent = function (req, res, next) {
+    var valid = req.body.title &&
+        req.body.body &&
+        req.body.category &&
+        req.body.section &&
+        req.body.creator;
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'content metadata is not supplied',
+            msg: null
+        });
+    }
+    Category.findOne({ name: req.body.category }, function (err, category) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!category) {
+            return res.status(422).json({
+                data: null,
+                err: 'the category supplied is invalid',
+                msg: null
+            });
+        }
+        var sectionNames = category.sections.map(function (section) {
+            return section.name;
+        });
+        if (!sectionNames.includes(req.body.section)) {
+            return res.status(422).json({
+                data: null,
+                err: 'the section supplied is invalid',
+                msg: null
+            });
+        }
+        delete req.body.touchDate;
+        delete req.body.approved;
+        // admin handler for now open for anyone
+        // TODO fix permissions on auth ready
+        if (!req.user) {
+            return handleAdminCreate(req, res, next);
+        }
+
+        // non admin handler, toggle condition to activate
+        handleNonAdminCreate(req, res, next);
+    });
 
 };
 
