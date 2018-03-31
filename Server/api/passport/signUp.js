@@ -148,8 +148,6 @@ module.exports = function (passport) {
                         if (err) {
                             return done(err);
                         } else if (user) {
-                            req.res.code = 400;
-                            req.res.msg = 'Duplicate Exists!';
                             return done(null, false, { 'signUpMessage': 'Duplicate Exists!' });
                         }
 
@@ -173,8 +171,6 @@ module.exports = function (passport) {
                         // --- End of "Add User" --- //
                     });
                 // --- End of "Check: Duplicate Username/Email" --- //
-
-
             };
 
 
