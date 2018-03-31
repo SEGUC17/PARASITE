@@ -15,12 +15,16 @@ var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
+
+  return next(new Error('User Is Logged In!'));
 };
 
 var isUnAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();
   }
+
+  return next(new Error('User Is Not Logged In!'));
 };
 
 module.exports = function (passport) {
@@ -47,22 +51,44 @@ module.exports = function (passport) {
 
   // --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
-  // --------------------- End of Activity Controller ------------ //
+  router.get('/activities/:activityId', ActivityController.getActivity);
+  router.post('/activities', ActivityController.postActivity);
+// --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isUnAuthenticated, passport.authenticate('local-signup'));
   router.post('/signin', isUnAuthenticated, passport.authenticate('local-signin'));
   // ---------------------- End of User Controller --------------- //
 
-  // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
-  router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
+// -------------- Admin Contoller ---------------------- //
+router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
+router.get(
+'/admin/PendingContentRequests',
+adminController.viewPendingContReqs
+);
+router.patch(
+'/admin/RespondContentRequest/:ContentRequestId',
+adminController.respondContentRequest
+);
   // --------------End Of Admin Contoller ---------------------- //
 
 
   //-------------------- Profile Module Endpoints ------------------//
-  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
-  router.get('/profile/:username', profileController.getUserInfo);
+  router.post(
+    '/profile/VerifiedContributerRequest',
+    profileController.requestUserValidation
+  );
+  router.get(
+    '/profile/:username',
+    profileController.getUserInfo
+  );
+  // router.get(
+  //   '/profile/LinkAnotherParent/:parentID',
+  //   profileController.linkAnotherParent
+  // );
+
+
+//  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
 
