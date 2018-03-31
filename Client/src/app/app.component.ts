@@ -26,10 +26,13 @@ export class AppComponent implements OnDestroy {
       name: 'Login'
     },
     {
+<<<<<<< HEAD
+=======
       url: '/auth/signup',
       name: 'Signup'
     },
     {
+>>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
       url: '/profile',
       name: 'Profile'
     },
@@ -50,21 +53,33 @@ export class AppComponent implements OnDestroy {
       name: 'Random Study Plan'
     },
     {
+<<<<<<< HEAD
+      url: '/psychologist/0',
+      name: 'Psychologist'
+    },
+    {
+      url: '/activities/9',
+=======
       url: '/psychologist/view/0',
       name: 'Psychologist'
     },
     {
       url: '/activities',
+>>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
       name: 'Random Activity'
     },
     {
       url: '/admin',
       name: 'Admin Control'
+<<<<<<< HEAD
+    }
+=======
     },
     {
       url: '/admin/category',
       name: 'Admin Category Control'
   }
+>>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
   ];
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
