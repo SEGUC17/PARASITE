@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-export class Content {
-    id: String;
-    title: String;
-    contentImage: String;
-    creatorUsername: String;
-    creatorProfileLink: String;
-    creatorAvatar: String;
-    tags: String[];
-=======
 export interface Content {
     _id?: String;
     approved: Boolean;
@@ -24,5 +14,4 @@ export interface Content {
     type: String;
     update?: String;
     video?: String;
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 }

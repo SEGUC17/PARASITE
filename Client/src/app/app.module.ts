@@ -20,12 +20,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
-<<<<<<< HEAD
-
-=======
 import { HttpClientModule } from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 
 @NgModule({
   declarations: [
@@ -50,13 +46,9 @@ import {FormsModule} from "@angular/forms";
     MarketModule,
     ActivitiesModule,
     MessagingModule,
-<<<<<<< HEAD
-    AppRoutingModule
-=======
     AppRoutingModule,
     HttpClientModule, 
     FormsModule
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
   ],
   providers: [
     MediaMatcher
