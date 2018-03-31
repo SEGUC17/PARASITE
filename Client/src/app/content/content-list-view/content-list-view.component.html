@@ -1,4 +1,4 @@
-<mat-tab-group (selectedTabChange)="tabChanged($event)">
+<mat-tab-group (selectedTabChange)="tabChanged($event)" dynamicHeight>
   <mat-tab label="Browse Resources and Ideas">
     <div class="row" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
       <mat-card *ngFor="let content of contents" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
@@ -30,23 +30,23 @@
     </div>
   </mat-tab>
   <mat-tab label="My Contributions">
-    <div class="row">
-      <mat-card *ngFor="let content of myContributions" class="m-1 col-lg-3 col-md-6 col-12">
+    <div class="row" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
+      <mat-card *ngFor="let content of myContributions" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
         <mat-card-header>
-          <div mat-card-avatar class="creator-avatar"></div>
+          <div mat-card-avatar [ngStyle]="{'background-image':'url(' + content.creatorAvatarLink + ')'}" class="creator-avatar"></div>
           <mat-card-title>
             <a [href]="content.creatorProfileLink">
               {{content.creator}}
             </a>
           </mat-card-title>
-          <mat-card-subtitle>
+          <mat-card-subtitle class="small-title">
             Contributor
           </mat-card-subtitle>
         </mat-card-header>
         <a routerLink="/content-view/{{content._id}}">
-          <mat-card-content>
-            <mat-card-title>{{content.title}}</mat-card-title>
+          <mat-card-content class="mt-2">
             <img mat-card-image [src]="content.image" />
+            <p class="mat-typography">{{content.title}}</p>
           </mat-card-content>
         </a>
         <mat-card-footer>

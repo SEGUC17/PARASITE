@@ -131,7 +131,7 @@ module.exports.getContentById = function (req, res, next) {
         if (!content) {
             return res.status(404).json({
                 data: null,
-                err: 'The requested product was not found.',
+                err: 'The requested content was not found.',
                 msg: null
             });
         }
