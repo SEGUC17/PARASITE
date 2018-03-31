@@ -1,10 +1,11 @@
-<<<<<<< HEAD
+
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent} from 'angular-calendar';
 //import { Schedule } from './schedule';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
+<<<<<<< HEAD
 import {
   isSameMonth,
   isSameDay,
@@ -74,6 +75,7 @@ export class ScheduleComponent implements OnInit {
   // TODO: To be obtained from server in viewPersonalSchedule by Dalia
   refresh: Subject<any> = new Subject();
   schedule: CalendarEvent[];
+  refresh: Subject<any> = new Subject();
 
   constructor(private scheduleService: ScheduleService) { }
   // FIXME: Temporary Constant
@@ -212,6 +214,7 @@ edit(): void {
         this.schedule.push(newEvent);
       }
     }
+    this.refresh.next();
   }
 
   editEvent(oldEvent: CalendarEvent, title: string, start: Date, end: Date, targetUser: String) {
@@ -232,6 +235,7 @@ edit(): void {
         this.createEvent(title, start, end, targetUser);
       }
     }
+    this.refresh.next();
   }
 
   deleteEvent(event: CalendarEvent, targetUser: String) {
@@ -246,6 +250,7 @@ edit(): void {
         this.schedule.splice(index, 1);
       }
     }
+    this.refresh.next();
   }
 
   saveScheduleChanges(targetUser: String) {
@@ -255,6 +260,7 @@ edit(): void {
     if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
       this.scheduleService.saveScheduleChanges(targetUser, this.schedule);
     }
+    this.refresh.next();
   }
 
 
