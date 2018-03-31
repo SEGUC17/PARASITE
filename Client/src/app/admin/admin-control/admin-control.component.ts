@@ -27,13 +27,11 @@ export class AdminControlComponent implements OnInit {
   goToResIReq() {
     this.hideContentReqs = 1 - this.hideContentReqs;
     console.log('in parent, redirecting to child');
-    this._ResIReq.viewPendingReqs();
   }
 
   viewVCRequests() {
     console.log('gonna hide the component');
     this.hideVCRequest = 1 - this.hideVCRequest;  // changing the visibility of the component
-
   }
 }
 

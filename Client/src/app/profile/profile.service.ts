@@ -20,11 +20,15 @@ export class ProfileService {
     }
 
 // --------Sending Contributer Validation Request --------- AUTHOR: Maher
-  makeContributerValidationRequest(): any {
+  makeContributerValidationRequest(requestObj): any {
     // TODO: Send an HTTP POST for the request (Maher).
     console.log('the Request is sent el mafrood AUTHOR: Maher');
-    return this.http.post('http://localhost:3000/api/profile/VerifiedContributerRequest', 'maherUSERNAME');
+    return this.http.post(
+      this.Url + 'VerifiedContributerRequest',
+      { obj: requestObj }
+      );
   }
+
 
 
 }

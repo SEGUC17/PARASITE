@@ -16,7 +16,14 @@ export class ProfileComponent implements OnInit {
   }
 
   requestContributerValidation() {
-    console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
+    console.log(this._ProfileService.makeContributerValidationRequest({
+      status: 'pending',
+      bio: 'hello world bio',
+      name: 'maher',
+      AvatarLink: 'maher.com',
+      ProfileLink: 'profilemaher.com',
+      image: 'imageMaher.com',
+    }).subscribe());
   }
 
   createProduct(evt, tabname): void {

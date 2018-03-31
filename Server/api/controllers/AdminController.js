@@ -1,14 +1,9 @@
 var mongoose = require('mongoose');
 var ContentRequest = mongoose.model('ContentRequest');
-var VCR = require('../models/VerifiedContributerRequest');
+var VCRmodel = mongoose.model('VerifiedContributerRequest');
+mongoose.connect('mongodb://localhost/nawwar');
+mongoose.set('debug',true);
 
-module.exports.test = function(req, res) {
-    res.status(200).json({
-        data: 'Perfection',
-        err: null,
-        msg: 'AdminController works!'
-    });
-};
 
          //-------------------------------------------//
 
@@ -18,7 +13,9 @@ module.exports.viewPendingReqs = function(req, res, next) {
      if (err) {
        return next(err);
      }
-     var pendingContentRequests = contentRequests.filter(r => r.status=='pending');
+     var pendingContentRequests = contentRequests.filter(function(request){
+         return request.status === 'approved';
+     });
 
      res.status(200).json({
        data: pendingContentRequests,
@@ -29,39 +26,50 @@ module.exports.viewPendingReqs = function(req, res, next) {
  };
 
          //-------------------------------------------//
-
- module.exports.updateProduct = function(req, res, next) {
-    ContentRequest.findByIdAndUpdate(
-      req.params.productId,
-      {
-        $set: req.body
-      },
-      { new: true }
-    ).exec(function(err, updatedProduct) {
-      if (err) {
-        return next(err);
-      }
-      if (!updatedProduct) {
-        return res.status(404).json({
-            data: null,
-            err: null,
-            msg: 'Product not found.'
-             });
-      }
-      res.status(200).json({
-        data: updatedProduct,
-        err: null,
-        msg: 'Product was updated successfully.'
-      });
-    });
-  };
-         //-------------------------------------------//
 module.exports.getVCRs = function(req, res, next) {
-    var allVCRs = VCR.getAll();
+    var filteredVCRs = null;
+    try {
+        mongoose.connection.collection("VerifiedContributerRequest").find({}).toArray(function(err, result) {
+            if (err) throw err;
 
-    res.status(200).json({
-        err: null,
-        msg: 'VCRs retrieved successfully.',
-        data: allVCRs
-    });
+            filteredVCRs = result.filter(function(request){
+                return request.status === req.params.FilterBy;
+            });
+            console.log('retrieved all VCRs');
+            res.status(200).json({
+                err: null,
+                msg: 'VCRs retrieved successfully.',
+                data: filteredVCRs
+            });
+
+
+        });
+    }
+    catch(e){
+        res.status(500).json({
+            err: null,
+            msg: 'VCRs retrieval failed.',
+            data: null
+        });
+        return;
+    }
+
+
 };
+
+module.exports.VCRResponde = function(req, res, next) {
+
+    VCRmodel.update(
+        {_id: req.params.targetId},
+        { $set: { status: req.body.responce } },
+        {new: true},
+        function(err, res) {
+            if(err) {
+                console.log(err.msg);
+                throw err;
+            }
+            console.log("1 document updated");
+        });
+
+
+}

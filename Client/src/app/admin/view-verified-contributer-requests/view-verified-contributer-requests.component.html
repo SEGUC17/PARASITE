@@ -1,3 +1,10 @@
 <p>
-  {{displayedString}}
+  <input #VCRequestID placeholder="VCrequest ID">
+  <input #filterByID placeholder="Filter By">
+
+  <button (click)="AcceptVCR(VCRequestID.value)"  mat-raised-button>Accept</button>
+  <button (click)="RejectVCR(VCRequestID.value)"  mat-raised-button>Reject</button>
+<br>
+  <button (click)="viewVCRs(filterByID.value)"  mat-raised-button>View Verified Contributer requests</button>
+
 </p>

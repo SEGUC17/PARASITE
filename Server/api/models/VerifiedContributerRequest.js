@@ -53,24 +53,36 @@ module.exports.createVCR = function(VCR) {
 
 }
 
+module.exports.update = function(id ,responce){
+    var Query = {_id: id};
+    var newvalue = { $set: { name: responce } };
+    console.log('going to update the request status');
+    db.collection("VerifiedContributerRequest").findByIdAndUpdate(id,newvalue,{new: true},function(err, res) {
+        if (err) {
+            throw err;
+        }
+        console.log(res.status);
+        console.log("1 document updated");
+        db.close();
+    });
+
+}
 
 
-module.exports.getAll = function(){
+module.exports.getAll = function()  {
 
 
     db.collection("VerifiedContributerRequest").find({}).toArray(function(err, result) {
-        if (err) throw err;
+    if (err) throw err;
 
-        var filteredVCRs = result.filter(
-            r => (r.status == "pending") // this is not an error, Don't Panic :D
-    );
+    var filteredVCRs = result.filter(function(request){
+        return request.status == 'pending';
+    });
 
+    db.close();
+    console.log(filteredVCRs);
+    return filteredVCRs
 
-
-        console.log(filteredVCRs);
-        db.close();
-
-        return filteredVCRs;
     });
 
 }

@@ -8,19 +8,13 @@ var mongoose = require('mongoose'),
 
 module.exports.requestUserValidation = function(req, res, next) {
 
-  const newRequest = {
-    status:'pending',
-    bio: 'hello world bio',
-    name: 'maher',
-    AvatarLink: 'maher.com',
-    ProfileLink: 'profilemaher.com',
-    image: 'imageMaher.com',
-  };
-    console.log('inside profile controller before calling createVCR');
 
-  VCRSchema.createVCR(newRequest);
 
-    console.log('inside profile controller and finishing');
+  console.log('inside profile controller before calling createVCR');
+
+  VCRSchema.createVCR(req.body.obj);
+
+  console.log('inside profile controller and finishing');
 
 };
 

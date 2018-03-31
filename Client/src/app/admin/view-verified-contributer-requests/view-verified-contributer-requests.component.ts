@@ -13,8 +13,27 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   displayedString: String = 'no data yet';
 
   ngOnInit() {
-    this.displayedString = this._adminService.getVerifiedContributerRequests();
   }
 
+  viewVCRs(FilteredBy) {
+    var self = this;
+    this._adminService.viewPendingVCR(FilteredBy).subscribe(function (res) {
+      self.displayedString = res.msg;
+      if (res.msg === 'VCRs retrieved successfully.') {
+        console.log(res.data);
+        console.log('loaded response.data');
+      } else {
+        console.log('failed');
+      }
+    });
+  }
+
+  AcceptVCR(id) {
+    this._adminService.respondToContributerValidationRequest(id, 'approved');
+  }
+
+  RejectVCR(id) {
+    this._adminService.respondToContributerValidationRequest('5abe5db07fb5c232bc5ca012', 'disapproved');
+  }
 
 }
