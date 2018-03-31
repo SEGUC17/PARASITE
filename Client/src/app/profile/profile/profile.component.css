@@ -29,36 +29,18 @@
 
 /* Style the tab content */
 .tabcontent {
-<<<<<<< HEAD
-    display: none;
-=======
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
     padding: 6px 12px;
     border: 1px solid #ccc;
     border-top: none;
 }
 
 #wrapper{
-<<<<<<< HEAD
-    margin-top: 10px;
-=======
     margin-top: 25px;
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
     margin-left: 50px;
     margin-right: 50px;
     margin-bottom: 50px;
 }
 
-<<<<<<< HEAD
-#personalinfo{
-    margin-top: 100px;
-    margin-left: 50px;
-}
-
-#ProfileName {
-    font-weight: bold;
-    font-size: 20px;
-=======
 #ProfileName {
     font-weight: bold;
     font-size: 20px;
@@ -137,5 +119,4 @@
 
 #settingsbtn{
     float: right;
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 }

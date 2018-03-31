@@ -1,19 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-<<<<<<< HEAD
-=======
 import { Observable } from 'rxjs/Observable';
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-<<<<<<< HEAD
-@Injectable()
-export class ProfileService {
-// TODO: Write Profile Service AUTHOR: Maher
-=======
 
 @Injectable()
 
@@ -42,5 +34,4 @@ export class ProfileService {
   }
 
 
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 }
