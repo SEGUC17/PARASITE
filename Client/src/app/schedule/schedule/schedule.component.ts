@@ -40,7 +40,7 @@ const colors: any = {
 })
 export class ScheduleComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  view: 'month';
+  view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
   // schedule: Schedule;
