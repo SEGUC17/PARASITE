@@ -1,14 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-<<<<<<< HEAD
-import { ActivityComponent } from './activity/activity.component';
-import { ActivitiesRoutingModule } from './activities-routing.module';
-@NgModule({
-  imports: [
-    ActivitiesRoutingModule
-  ],
-  declarations: [ActivityComponent]
-=======
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,6 +26,5 @@ import { ActivityDetailComponent } from './activity-detail/activity-detail.compo
   ],
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent],
   providers: [ActivityService]
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 })
 export class ActivitiesModule { }
