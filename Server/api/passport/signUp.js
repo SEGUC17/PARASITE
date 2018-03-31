@@ -118,25 +118,10 @@ module.exports = function (passport) {
                 newUser.address = (newUser.address) ? newUser.address.toLowerCase() : newUser.address;
                 newUser.email = (newUser.email) ? newUser.email.toLowerCase().trim() : newUser.email;
                 newUser.username = (newUser.username) ? newUser.username.toLowerCase().trim() : newUser.username;
-                // --- End of "Trimming & Lowering Cases"--- //  
+                // --- End of "Trimming & Lowering Cases"--- //
 
 
-                // --- Password Encryption --- //
-                Encryption.hashPassword(newUser.password, function (err, hash) {
-                    if (err) {
-                        return done(err);
-                    }
-
-                    newUser.password = hash;
-                });
-                // --- End of "Password Encryption" --- //
-
-
-
-
-
-
-
+                // --- Check: Duplicate Username --- //
                 User.findOne({ 'username': newUser.username }, function (err, user) {
                     if (err) {
                         return done(err);
@@ -144,14 +129,27 @@ module.exports = function (passport) {
                         return done(null, false, { 'signUpMessage': 'Username Exists!' });
                     }
                 });
+                // --- End of "Check: Duplicate Username" --- //
 
-                newUser.save(function (err) {
+
+                // --- Add User --- //
+                Encryption.hashPassword(newUser.password, function (err, hash) {
                     if (err) {
-                        throw err;
+                        return done(err);
                     }
 
-                    return done(null, newUser);
+                    newUser.password = hash;
+                    newUser.save(function (err) {
+                        if (err) {
+                            throw err;
+                        }
+
+                        return done(null, newUser);
+                    });
                 });
+                // --- End of "Add User" --- //
+
+
             };
 
 
