@@ -149,7 +149,6 @@ module.exports = function (passport) {
                 });
                 // --- End of "Check: Duplicate Username" --- //
 
-
                 // --- Add User --- //
                 Encryption.hashPassword(newUser.password, function (err, hash) {
                     if (err) {
@@ -159,7 +158,7 @@ module.exports = function (passport) {
                     newUser.password = hash;
                     newUser.save(function (err) {
                         if (err) {
-                            throw err;
+                            done(err);
                         }
 
                         req.res.code = 201;
