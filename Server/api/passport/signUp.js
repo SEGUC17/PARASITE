@@ -29,6 +29,10 @@ module.exports = function (passport) {
         { passReqToCallback: true },
         function (req, username, password, done) {
             var findOrCreateUser = function () {
+                // --- Security Check --- //
+                req.user = null;
+                req.res = { 'code': 0, 'msg': '' };
+                // --- End of "Security Check" --- //
 
 
                 // --- Variable Assign --- //
@@ -62,6 +66,8 @@ module.exports = function (passport) {
                     isArray((newUser.phone) ? newUser.phone : []);
                     isString((newUser.username) ? newUser.username : '');
                 } catch (err) {
+                    req.res.code = 400;
+                    req.res.msg = err.message;
                     return done(null, false, { 'signUpMessage': err.message });
                 }
                 // --- End of "Check: Type" --- //
@@ -79,6 +85,8 @@ module.exports = function (passport) {
                     isNotEmpty(newUser.password);
                     isNotEmpty(newUser.username);
                 } catch (err) {
+                    req.res.code = 400;
+                    req.res.msg = err.message;
                     return done(null, false, { 'signUpMessage': err.message });
                 }
                 // --- End of "Check: Not Empty" --- //
@@ -86,6 +94,8 @@ module.exports = function (passport) {
 
                 // --- Check: birthdate With isChild --- //
                 if (!newUser.isChild && ((new Date().getFullYear() - newUser.birthdate.getFullYear()) < 13)) {
+                    req.res.code = 400;
+                    req.res.msg = 'Under 13 Must Be Child!';
                     return done(null, false, { 'signUpMessage': 'Under 13 Must Be Child!' });
                 }
                 // --- End of "Check: birthdate With isChild" --- //
@@ -93,6 +103,8 @@ module.exports = function (passport) {
 
                 // --- Check: Email Regex Match --- //
                 if (!newUser.email.match(/\S+@\S+\.\S+/)) {
+                    req.res.code = 400;
+                    req.res.msg = 'Email Is Not Valid!';
                     return done(null, false, { 'signUpMessage': 'Email Is Not Valid!' });
                 }
                 // --- End of "Check: Email Regex Match" --- //
@@ -100,6 +112,8 @@ module.exports = function (passport) {
 
                 // --- Check: Password Length --- //
                 if (newUser.password.length < 8) {
+                    req.res.code = 400;
+                    req.res.msg = 'Password Length Must Be Greater Than 8!';
                     return done(null, false, { 'signUpMessage': 'Password Length Must Be Greater Than 8!' });
                 }
                 // --- End of "Check: Password Length" --- //
@@ -108,6 +122,8 @@ module.exports = function (passport) {
                 // --- Check: Phone Regex Match ---//
                 for (i = 0; i < newUser.phone.length; i++) {
                     if (!newUser.phone[i].match(/^\d+$/)) {
+                        req.res.code = 400;
+                        req.res.msg = 'Phone Is Not Valid!';
                         return done(null, false, { 'signUpMessage': 'Phone Is Not Valid!' });
                     }
                 }
@@ -126,6 +142,8 @@ module.exports = function (passport) {
                     if (err) {
                         return done(err);
                     } else if (user) {
+                        req.res.code = 400;
+                        req.res.msg = 'Username Exists!';
                         return done(null, false, { 'signUpMessage': 'Username Exists!' });
                     }
                 });
@@ -144,6 +162,8 @@ module.exports = function (passport) {
                             throw err;
                         }
 
+                        req.res.code = 201;
+                        req.res.msg = 'Sign Up Successfully!';
                         return done(null, newUser);
                     });
                 });

@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable max-statements */
+
 // ---------------------- Requirements ---------------------- //
 var mongoose = require('mongoose');
 var Encryption = require('../utils/encryption/encryption');
@@ -6,9 +9,6 @@ var User = mongoose.model('User');
 
 var newUser = new User();
 // ---------------------- End of "Requirements" ---------------------- //
-
-
-
 
 
 // ---------------------- Validators ---------------------- //
@@ -21,23 +21,16 @@ var isNotEmpty = require('../utils/validators/not-empty');
 // ---------------------- End of "Validators" ---------------------- //
 
 
-
-module.exports.signUp = function (err, res, newUser, message, next) {
-    if (err) {
-        return next(err);
-    } else if (newUser) {
-        return res.status(201).json({
-            data: newUser,
+module.exports.signUp = function (req, res, next) {
+    if (req.res) {
+        return res.status(req.res.code).json({
+            data: req.user,
             err: null,
-            msg: 'Sign Up Is Success'
+            msg: req.res.msg
         });
     }
 
-    return res.status(400).json({
-        data: null,
-        err: null,
-        msg: message.signUpMessage
-    });
+    return next();
 };
 
 module.exports.signIn = function (req, res, next) {
@@ -45,7 +38,7 @@ module.exports.signIn = function (req, res, next) {
         if (err) {
             return next(err);
         } else if (!user.validPassword(req.password)) {
-            res.status(422).json({
+            return res.status(422).json({
                 data: user,
                 err: null,
                 msg: 'Failed!'
@@ -61,15 +54,16 @@ module.exports.signIn = function (req, res, next) {
 };
 
 
-module.exports.signUp = function (req, res, next) {
+module.exports.signUpChild = function (req, res, next) {
 
-    if (req.user.isParent == false) {
+    if (req.user.isParent === false) {
         return res.status(401).json({
             data: null,
             err: null,
             msg: 'user is not a parent!'
         });
-    }//end if
+    }
+    //end if
 
     // --- Variable Assign --- //
     newUser.address = req.body.address;
@@ -88,26 +82,27 @@ module.exports.signUp = function (req, res, next) {
 
 
     try {
-        isString((newUser.address) ? newUser.address : '');
-        isDate((newUser.birthdate) ? newUser.birthdate : new Date());
-        isArray((newUser.children) ? newUser.children : []);
-        isString((newUser.email) ? newUser.email : '');
-        isString((newUser.firstName) ? newUser.firstName : '');
-        isBoolean((newUser.isChild) ? newUser.isChild : false);
-        isBoolean((newUser.isParent) ? newUser.isParent : false);
-        isBoolean((newUser.isTeacher) ? newUser.isTeacher : false);
-        isString((newUser.lastName) ? newUser.lastName : '');
-        isString((newUser.password) ? newUser.password : '');
-        isArray((newUser.phone) ? newUser.phone : []);
-        isString((newUser.username) ? newUser.username : '');
+        isString(newUser.address ? newUser.address : '');
+        isDate(newUser.birthdate ? newUser.birthdate : new Date());
+        isArray(newUser.children ? newUser.children : []);
+        isString(newUser.email ? newUser.email : '');
+        isString(newUser.firstName ? newUser.firstName : '');
+        isBoolean(newUser.isChild ? newUser.isChild : false);
+        isBoolean(newUser.isParent ? newUser.isParent : false);
+        isBoolean(newUser.isTeacher ? newUser.isTeacher : false);
+        isString(newUser.lastName ? newUser.lastName : '');
+        isString(newUser.password ? newUser.password : '');
+        isArray(newUser.phone ? newUser.phone : []);
+        isString(newUser.username ? newUser.username : '');
 
     } catch (err) {
         return res.status(401).json({
             data: null,
             err: null,
-            msg: "your message does not match the required data entries!" + err.message
+            msg: 'your message does not match the required data entries!' + err.message
         });
-    }//end catch
+    }
+    //end catch
 
     try {
         isNotEmpty(newUser.birthdate);
@@ -119,14 +114,14 @@ module.exports.signUp = function (req, res, next) {
         isNotEmpty(newUser.lastName);
         isNotEmpty(newUser.password);
         isNotEmpty(newUser.username);
-    }
-    catch (err) {
+    } catch (err) {
         return res.status(401).json({
             data: null,
             err: null,
-            msg: "you are missing a required data entry!" + err.message
+            msg: 'you are missing a required data entry!' + err.message
         });
-    }//end catch
+    }
+    //end catch
 
 
     newUser.save(function (err) {
@@ -137,7 +132,7 @@ module.exports.signUp = function (req, res, next) {
         return res.status(201).json({
             data: newUser,
             err: null,
-            msg: "Success!"
+            msg: 'Success!'
         });
     });
 };
