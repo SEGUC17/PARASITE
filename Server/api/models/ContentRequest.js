@@ -20,6 +20,10 @@ var contentreqschema = mongoose.Schema({
     ],
         type: String
     },
+    createdOn: {
+        default: Date.now,
+        type: Date
+    },
     creator: {
         type: [
             {
@@ -27,10 +31,6 @@ var contentreqschema = mongoose.Schema({
                 type: Schema.Types.ObjectId
             }
         ]
-    },
-    date: {
-        default: Date.now,
-        type: Date
     },
     requestType: {
         enum: [
@@ -48,7 +48,8 @@ var contentreqschema = mongoose.Schema({
             'pending'
     ],
         type: String
-    }
+    },
+    updatedOn: { type: Date }
 });
 
 var ContentRequest = mongoose.model('ContentRequest', contentreqschema);
