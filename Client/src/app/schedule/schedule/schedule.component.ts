@@ -2,7 +2,6 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent} from 'angular-calendar';
-// import { Schedule } from './schedule';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
 import {
@@ -71,9 +70,8 @@ export class ScheduleComponent implements OnInit {
   };
 
 
-  // TODO: To be obtained from server in viewPersonalSchedule by Dalia
   refresh: Subject<any> = new Subject();
-  schedule: CalendarEvent[];
+  schedule: CalendarEvent[];    // TODO: To be obtained from server in viewPersonalSchedule by Dalia
 
   constructor(private scheduleService: ScheduleService) { }
   // FIXME: Temporary Constant
