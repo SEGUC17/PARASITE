@@ -5,9 +5,9 @@
 
 var express = require('express'),
  router = express.Router(),
- User = require('../models/User'),
- Searchctrl = require('../controllers/SearchController');
+ User = require('../models/User');
 
+var SearchController = require('../controllers/SearchController');
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
@@ -24,8 +24,11 @@ var isAuthenticated = function (req, res, next) {
 router.get('/', function (req, res, next) {
   res.send('Server Works');
 });
-router.get('./User/Search',Searchctrl.Search);
-
+  // --------------------- Search Contoller -------------------- //
+router.get('./User/Search',SearchController.Search);
+router.get('./User/FilterByLevelOfEducation',SearchController.FilterByLevelOfEducation);
+router.get('./User/FilterBySystemOfEducation',SearchController.FilterBySystemOfEducation);
+  // --------------------- End of Search Controller ------------ //
 
 module.exports = function (passport) {
 

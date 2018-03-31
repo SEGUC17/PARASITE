@@ -14,15 +14,17 @@ var mongoose = require('mongoose'),
       });
     });
   };
-  module.exports.Search = function(req, res, next) {
+  module.exports.Search = function(req, res, next) 
+  {
 
-    if (!StringValidate.isString(req.params.username)) {
+    if (!StringValidate.isString(req.params.username)) 
+    {
       return res.status(422).json({
         err: null,
         msg: 'username must be valid',
         data: null
   });
-  }
+    }
     User.findOne({ username: req.body.username ,isParent :true}).exec(function(err, user) {
       if (err) {
         return next(err);
