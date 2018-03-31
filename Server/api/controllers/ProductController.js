@@ -139,17 +139,9 @@ module.exports.createProductRequest = function (req, res, next) {
 
 
 module.exports.evaluateRequest = function (req, res, next) {
-    console.log('Got here');
     if (req.body.result) {
+        console.log('Got here, True');
         var newProduct;
-        // Validate the productID
-        if (!Validations.isObjectId(req.body._id)) {
-            return res.status(422).json({
-                data: null,
-                err: 'productID parameter must be a valid ObjectId.',
-                msg: null
-            });
-        }
 
         // Ensure the request still exists
         ProductRequest.findById(req.body._id).exec(function (err, productReq) {
@@ -178,7 +170,7 @@ module.exports.evaluateRequest = function (req, res, next) {
                     return next(err);
                 }
                 // Insert the product
-                Product.insertOne(newProduct, function (err, product) {
+                Product.create(newProduct, function (err, product) {
                     if (err) {
                         return next(err);
                     }
@@ -192,14 +184,8 @@ module.exports.evaluateRequest = function (req, res, next) {
         });
     }
     else {
-        if (!Validations.isObjectId(req.body._id)) {
-            return res.status(422).json({
-                data: null,
-                err: null,
-                msg: 'productID parameter must be a valid ObjectId.'
-            });
-        }
-        console.log('Got here');
+        console.log(req.body._id);
+
         // Simply delete the request and notify the user
         ProductRequest.findByIdAndRemove(req.body._id, function (err, product) {
             if (err) {
@@ -208,7 +194,7 @@ module.exports.evaluateRequest = function (req, res, next) {
             // TODO Notify user
 
             // When done, send response
-            res.status(200).json({
+            return res.status(200).json({
                 err: null,
                 msg: 'Request rejected and user notified.',
                 data: product
