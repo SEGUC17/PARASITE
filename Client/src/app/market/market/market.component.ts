@@ -12,7 +12,7 @@ import { Product } from '../Product';
 })
 export class MarketComponent implements OnInit {
 
-  products: Product[];
+  products: any[];
   currentPageNumber: number;
   entriesPerPage = 15;
   selectedName: String = 'NA';
@@ -34,7 +34,10 @@ export class MarketComponent implements OnInit {
     };
     self.marketService.getMarketPage(self.entriesPerPage,
       self.currentPageNumber, limiters)
-      .subscribe(products => self.products = products.data);
+      .subscribe(function (products) {
+        console.log(products.data);
+        self.products = products.data.docs;
+      });
   }
 
   firstPage(): void {
