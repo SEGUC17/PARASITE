@@ -7,6 +7,7 @@ var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
 var adminController = require('../controllers/AdminController');
+var messageController = require('../controllers/MessageController');
 
 
 var isAuthenticated = function (req, res, next) {
@@ -128,6 +129,8 @@ module.exports = function (passport) {
   // Create new Content
   router.post('/content', contentController.createContent);
 
+  //Send message 
+  router.post('/message/sendMessage', MessageController.sendMessage);
 
   // -------------------------------------------------------------------- //
   module.exports = router;

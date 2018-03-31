@@ -3,15 +3,15 @@
 </p>
 
 <label>Sender:
-  <input #sender />
+  <input #sender [(ngModel)]=Sender/>
 </label>
 <label>Receiver:
-  <input #receiver />
+  <input #receiver [(ngModel)]=Receiver/>
 </label>
 <label>Body:
-  <input #body />
+  <input #body [(ngModel)]=Body/>
 </label>
-
-<button (click)="send({body: body.value, sender: sender.value, recipient: receiver.value}); sender.value=''; receiver.value=''; body.value=''">
+<!--sender.value=''; receiver.value=''; body.value=''"-->
+<button (click)="send()" >
   Send
 </button>

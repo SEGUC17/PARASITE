@@ -1,22 +1,31 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../messaging.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
-  styleUrls: ['./messaging.component.css']
+  styleUrls: ['./messaging.component.css'],
+  providers: [MessageService]
 })
 export class MessagingComponent implements OnInit {
 
-  constructor() { }
+
+  Body: String = "";
+  Sender: String = "";
+  Receiver: String = "";
+  msg: any;
+
+  constructor(private messageService: MessageService) { }
 
   ngOnInit() {
   }
 
-  /*send(message: any): void {
+  send(): void {
     var self = this;
-    this.messageService.send(message)
+    this.msg = {'body': this.Body, 'sender': this.Sender, 'recipient': this.Receiver};
+    this.messageService.send(this.msg)
       .subscribe(res => console.log(res.json()));
-  }*/
+  }
 
 }

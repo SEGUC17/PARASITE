@@ -11,7 +11,8 @@ module.exports.sendMessage = function(req, res, next) {
     Validations.isString(req.body.sender)&&
     req.body.recipient &&
     Validations.isString(req.body.recipient);
-  if (!valid) {
+  
+    if (!valid) {
     return res.status(422).json({
       err: null,
       msg: 'body and sender and recipient are required fields.',
