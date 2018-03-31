@@ -1,52 +1,6 @@
 var mongoose = require('mongoose').set('debug', true);
 var Content = mongoose.model('Content');
 var Category = mongoose.model('Category');
-module.exports.getNumberOfContentPages = function (req, res, next) {
-    if (req.params.category !== 'NoCat' &&
-        req.params.section !== 'NoSec') {
-        Content.find({
-            category: req.params.category,
-            section: req.params.section
-        }).count().
-            exec(function (err, count) {
-                if (err) {
-                    return next(err);
-                }
-
-                return res.status(200).json({
-                    data: count,
-                    err: null,
-                    msg: 'Number of pages was retrieved'
-                });
-            });
-    } else if (req.params.category === 'NoCat') {
-        Content.find().count().
-            exec(function (err, count) {
-                if (err) {
-                    return next(err);
-                }
-
-                return res.status(200).json({
-                    data: count,
-                    err: null,
-                    msg: 'Number of pages was retrieved'
-                });
-            });
-    } else {
-        Content.find({ category: req.params.category }).count().
-            exec(function (err, count) {
-                if (err) {
-                    return next(err);
-                }
-
-                return res.status(200).json({
-                    data: count,
-                    err: null,
-                    msg: 'Number of pages was retrieved'
-                });
-            });
-    }
-};
 
 module.exports.getContentPage = function (req, res, next) {
     if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
@@ -175,30 +129,6 @@ module.exports.getContentByCreator = function (req, res, next) {
             });
         }
     );
-};
-
-module.exports.getNumberOfContentByCreator = function (req, res, next) {
-    if (!req.params.creator) {
-        return res.status(422).json({
-            data: null,
-            err: 'The Creator username is not valid.',
-            msg: null
-        });
-    }
-
-    Content.
-        find({ creator: req.params.creator }).count().
-        exec(function (err, count) {
-            if (err) {
-                return next(err);
-            }
-
-            return res.status(200).json({
-                data: count,
-                err: null,
-                msg: 'Number of content by creator retrieved successfully'
-            });
-        });
 };
 
 // TODO: manage permissions specific behavior for content creation

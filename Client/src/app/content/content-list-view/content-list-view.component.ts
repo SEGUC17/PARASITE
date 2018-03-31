@@ -40,22 +40,7 @@ export class ContentListViewComponent implements OnInit {
   ngOnInit() {
     this.currentPageNumber = 1;
     this.myContributionsCurrentPageNumber = 1;
-    this.intitializeContentViewWithFirstPage();
-  }
-
-  // TODO methods to call service
-  // retrieves the number of content pages and displays the first page
-  intitializeContentViewWithFirstPage(): void {
-    const self = this;
-    this.contentService.getNumberOfContentPages(self.numberOfEntriesPerPage,
-      self.selectedCategory, self.selectedSection)
-      .subscribe(function (retriedNumberOfEntries) {
-        self.totalNumberOfEntries = retriedNumberOfEntries.data;
-        self.totalNumberOfPages = Math.ceil(self.totalNumberOfEntries / self.numberOfEntriesPerPage);
-        // for debugging
-        console.log('Total Number of Pages: ' + self.totalNumberOfPages);
-        self.getContentPage();
-      });
+    this.getContentPage();
   }
 
   // retrieves the contents of a particular page according to currentPageNumber
@@ -65,6 +50,9 @@ export class ContentListViewComponent implements OnInit {
       self.currentPageNumber, self.selectedCategory, self.selectedSection)
       .subscribe(function (retrievedContents) {
         self.contents = retrievedContents.data.docs;
+        self.totalNumberOfEntries = retrievedContents.data.total;
+        self.totalNumberOfPages = retrievedContents.data.pages;
+        console.log('Total Number of Pages: ' + self.totalNumberOfPages);
       });
   }
 
@@ -85,29 +73,18 @@ export class ContentListViewComponent implements OnInit {
   tabChanged(event): void {
     if (event.tab.textLabel === 'My Contributions' && !this.myContributions) {
       console.log('Entered tab changed, and retrieving contributions.');
-      this.intitializeMyContributionsViewWithFirstPage();
+      this.getMyContributionsPage();
     }
   }
 
-  intitializeMyContributionsViewWithFirstPage(): void {
-    const self = this;
-    this.contentService.getNumberOfContentByCreator(self.username)
-      .subscribe(function (retrievedNumberOfEntries) {
-        self.myContributionsTotalNumberOfEntries = retrievedNumberOfEntries.data;
-        self.myContributionsTotalNumberOfPages = Math.ceil(self.myContributionsTotalNumberOfEntries / self.numberOfEntriesPerPage);
-        // for debugging
-        console.log('Total Number of Pages My Contributions: ' + self.myContributionsTotalNumberOfPages);
-        self.getMyContributionsPage();
-      });
-
-  }
   getMyContributionsPage(): void {
     const self = this;
     this.contentService.
       getContentByCreator(self.username, self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber).
       subscribe(function (retrievedContents) {
         self.myContributions = retrievedContents.data.docs;
-        console.log(self.myContributions);
+        self.myContributionsTotalNumberOfEntries = retrievedContents.data.total;
+        self.myContributionsTotalNumberOfPages = retrievedContents.data.pages;
       });
   }
 
