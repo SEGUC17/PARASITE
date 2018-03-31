@@ -34,6 +34,19 @@ module.exports.signUp = function (req, res, next) {
 };
 
 module.exports.signIn = function (req, res, next) {
+    if (req.user) {
+        return res.status(200).json({
+            data: req.user,
+            err: null,
+            msg: 'Sign In Successfully!'
+        });
+    }
+
+    return res.status(400).json({
+        data: req.user,
+        err: null,
+        msg: 'Wrong Username Or Password!'
+    });
 };
 
 

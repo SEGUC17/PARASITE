@@ -48,7 +48,7 @@ module.exports = function (passport) {
 
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
-  router.post('/signin', isNotAuthenticated, passport.authenticate('local-signin'));
+  router.post('/signin', isNotAuthenticated, passport.authenticate('local-signin'), userController.signIn);
   // ---------------------- End of User Controller --------------- //
 
   // -------------- Admin Contoller ---------------------- //
