@@ -13,8 +13,8 @@ export class MessageService {
 
   constructor(private http: HttpClient) { }
 
-  /*send(message: any): Observable<any> {
+  send(message: any): Observable<any> {
     return this.http.post<any>("http://localhost:3000/api/message/sendMessage", message, httpOptions);
-  }*/
+  }
 
 }
