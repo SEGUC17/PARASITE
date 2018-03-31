@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+<<<<<<< HEAD
     "body-parser": "~1.18.2",
     "compression": "^1.7.2",
     "cookie-parser": "~1.4.3",
@@ -17,6 +18,26 @@
     "morgan": "~1.9.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
+=======
+    "bcryptjs": "^2.4.3",
+    "body-parser": "~1.18.2",
+    "compression": "^1.7.2",
+    "connect-flash": "*",
+    "cookie-parser": "~1.4.3",
+    "cors": "^2.8.4",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "express-session": "^1.15.6",
+    "helmet": "^3.12.0",
+    "moment": "^2.21.0",
+    "mongoose": "^5.0.11",
+    "mongoose-paginate": "^5.0.3",
+    "mongoose-timestamp-date-unix": "^0.6.2",
+    "morgan": "~1.9.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "validate.io-timestamp": "^1.0.2"
+>>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
   },
   "devDependencies": {
     "eslint": "^4.19.1"

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .preview{
     word-wrap: break-word;
     overflow-y: auto;
@@ -8,11 +9,38 @@
 
 .text-editor{
     overflow-y:auto;
+=======
+.preview {
+    word-wrap: break-word;
+    overflow-y: auto;
+    text-align: justify;
+}
+
+.text-editor {
+    overflow-y: auto;
+>>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
     min-height: 90%;
     max-height: 90%;
     margin-left: 4%;
 }
+<<<<<<< HEAD
 .content-container{
     margin-top: 2%;
     height:90%;
+=======
+
+.content-container {
+    margin-top: 2%;
+    height: 90%;
+}
+
+.meta-input {
+    margin-top: 3%;
+    margin-bottom: 3%;
+    width: 100%;
+}
+
+.edit-stepper {
+    background-color: #fafafa;
+>>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 }

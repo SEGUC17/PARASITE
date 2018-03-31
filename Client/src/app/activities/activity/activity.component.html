@@ -1,3 +1,27 @@
+<<<<<<< HEAD
 <p>
   activity works!
 </p>
+=======
+<mat-paginator 
+  [length]="numberOfElements" 
+  [pageSize]="pageSize" 
+  [pageIndex]="pageIndex" 
+  (page)="pageEvent = getActivities($event)">
+</mat-paginator>
+<div id="creation" *ngIf="canCreate">
+    <a class="btn btn-primary" href="{{createUrl}}">Create Activity</a> 
+</div>
+<div class="activities-container">
+  <mat-card *ngFor="let activity of activities" class="activity-card">
+    <a routerLink="/activities/{{activity._id}}">
+      <h3 id="activities-header">{{ activity.name }}</h3>
+      <img mat-card-lg-image [src]="activity.image" />
+    </a>
+    <p class="time">From: {{ activity.fromDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
+    <p class="time">To: {{ activity.toDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
+    <p class="price">{{ activity.price | currency: 'EGP'}}</p>
+  </mat-card>
+
+</div>
+>>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
