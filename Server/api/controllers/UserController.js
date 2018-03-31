@@ -1,16 +1,21 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
-module.exports.signUp = function (req, res, next) {
-    User.create(req.body, function (err, user) {
-        if (err) {
-            return next(err);
-        }
-        res.status(201).json({
-            data: user,
+module.exports.signUp = function (err, res, newUser, message, next) {
+    if (err) {
+        return next(err);
+    } else if (newUser) {
+        return res.status(201).json({
+            data: newUser,
             err: null,
-            msg: 'Success!'
+            msg: 'Sign Up Is Success'
         });
+    }
+
+    return res.status(400).json({
+        data: null,
+        err: null,
+        msg: message.signUpMessage
     });
 };
 

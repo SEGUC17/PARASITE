@@ -30,31 +30,37 @@ module.exports = function (passport) {
         function (req, username, password, done) {
             var findOrCreateUser = function () {
 
+
                 // --- Variable Assign --- //
                 newUser.address = req.body.address;
                 newUser.birthdate = req.body.birthdate;
                 newUser.children = req.body.children;
                 newUser.email = req.body.email;
+                newUser.firstName = req.body.firstName;
                 newUser.isChild = req.body.isChild;
                 newUser.isParent = req.body.isParent;
                 newUser.isTeacher = req.body.isTeacher;
+                newUser.lastName = req.body.lastName;
                 newUser.password = req.body.password;
                 newUser.phone = req.body.phone;
                 newUser.username = req.body.username;
                 // --- End of "Variable Assign" --- //
 
+
                 // --- Check: Type --- //
                 try {
-                    isString((newUser.address)?newUser.address:'');
-                    isDate((newUser.birthdate)?newUser.birthdate:new Date());
-                    isArray((newUser.children)?newUser.children:[]);
-                    isString((newUser.email)?newUser.email:'');
-                    isBoolean((newUser.isChild)?newUser.isChild:false);
-                    isBoolean((newUser.isParent)?newUser.isParent:false);
-                    isBoolean((newUser.isTeacher)?newUser.isTeacher:false);
-                    isString((newUser.password)?newUser.password:'');
-                    isArray((newUser.phone)?newUser.phone:[]);
-                    isString((newUser.username)?newUser.username:'');
+                    isString((newUser.address) ? newUser.address : '');
+                    isDate((newUser.birthdate) ? newUser.birthdate : new Date());
+                    isArray((newUser.children) ? newUser.children : []);
+                    isString((newUser.email) ? newUser.email : '');
+                    isString((newUser.firstName) ? newUser.firstName : '');
+                    isBoolean((newUser.isChild) ? newUser.isChild : false);
+                    isBoolean((newUser.isParent) ? newUser.isParent : false);
+                    isBoolean((newUser.isTeacher) ? newUser.isTeacher : false);
+                    isString((newUser.lastName) ? newUser.lastName : '');
+                    isString((newUser.password) ? newUser.password : '');
+                    isArray((newUser.phone) ? newUser.phone : []);
+                    isString((newUser.username) ? newUser.username : '');
                 } catch (err) {
                     return done(null, false, { 'signUpMessage': err.message });
                 }
@@ -65,9 +71,11 @@ module.exports = function (passport) {
                 try {
                     isNotEmpty(newUser.birthdate);
                     isNotEmpty(newUser.email);
+                    isNotEmpty(newUser.firstName);
                     isNotEmpty(newUser.isChild);
                     isNotEmpty(newUser.isParent);
                     isNotEmpty(newUser.isTeacher);
+                    isNotEmpty(newUser.lastName);
                     isNotEmpty(newUser.password);
                     isNotEmpty(newUser.username);
                 } catch (err) {
@@ -107,15 +115,15 @@ module.exports = function (passport) {
 
 
                 // --- Trimming & Lowering Cases--- //
-                newUser.address = (newUser.address)?newUser.address.toLowerCase():newUser.address;
-                newUser.email = (newUser.email)?newUser.email.toLowerCase().trim():newUser.email;
-                newUser.username = (newUser.username)?newUser.username.toLowerCase().trim():newUser.username;
+                newUser.address = (newUser.address) ? newUser.address.toLowerCase() : newUser.address;
+                newUser.email = (newUser.email) ? newUser.email.toLowerCase().trim() : newUser.email;
+                newUser.username = (newUser.username) ? newUser.username.toLowerCase().trim() : newUser.username;
                 // --- End of "Trimming & Lowering Cases"--- //  
 
 
                 // --- Password Encryption --- //
-                Encryption.hashPassword(newUser.password, function(err, hash) {
-                    if(err) {
+                Encryption.hashPassword(newUser.password, function (err, hash) {
+                    if (err) {
                         return done(err);
                     }
 
@@ -146,7 +154,12 @@ module.exports = function (passport) {
                 });
             };
 
+
+            // --- Executing findOrCreateUser --- //
             process.nextTick(findOrCreateUser);
+            // --- End of "Executing findOrCreateUser" --- //
+
+
         }
     ));
 };
