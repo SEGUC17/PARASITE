@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { StudyPlanComponent } from './study-plan/study-plan.component';
 import { ScheduleRoutingModule } from './schedule-routing.module';
+import { CalendarModule } from 'angular-calendar';
 import { StudyPlanService } from './study-plan/study-plan.service';
 import { ScheduleService } from './schedule/schedule.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CalendarModule } from 'angular-calendar';
 import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,9 +19,12 @@ import {
   NgbTimepickerModule
 } from '@ng-bootstrap/ng-bootstrap';
 
+
+
 @NgModule({
   imports: [
     ScheduleRoutingModule,
+    CommonModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot(),
     MatCardModule,

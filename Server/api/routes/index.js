@@ -9,6 +9,7 @@ var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
 var studyPlanController = require('../controllers/StudyPlanController');
 var adminController = require('../controllers/AdminController');
+var scheduleController = require('../controllers/ScheduleController');
 
 
 var isAuthenticated = function (req, res, next) {
@@ -57,6 +58,9 @@ module.exports = function (passport) {
   router.get('/profile/:username', profileController.getUserInfo);
   //------------------- End of Profile module Endpoints-----------//
 
+  // ---------------Schedule Controller Endpoints ---------------//
+  router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
+  // ------------End of Schedule Controller Endpoints -----------//
 
   // --------------Content Module Endpoints---------------------- //
   router.get(
