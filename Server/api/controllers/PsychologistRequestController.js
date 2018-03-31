@@ -6,9 +6,6 @@ var mongoose = require('mongoose'),
   Psychologists = mongoose.model('Psychologist');
 
 module.exports.addRequest = function (req, res, next) {
-  if (!(typeof req.body.firstName === 'string')) {
-    console.log("T.T")
-  }
   var valid =
     req.body.firstName &&
     req.body.lastName &&
