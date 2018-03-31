@@ -31,11 +31,11 @@ module.exports = function (passport) {
   });
 
   // --------------Product Controller---------------------- //
-  router.get('/market/getMarketPage/:numberOfEntriesPerPage/' +
-    ':pageNumber', productCtrl.getMarketPage);
+  router.get('/market/getMarketPage/:entriesPerPage/:' +
+    'pageNumber/:name/:price', productCtrl.getMarketPage);
   router.get(
-    '/market/numberOfMarketPages/:numberOfEntriesPerPage/',
-    productCtrl.getNumberOfMarketPages
+    '/market/getNumberOfProducts/:name/:price',
+    productCtrl.getNumberOfProducts
   );
   router.get('/product/getProduct/:productId', productCtrl.getProduct);
   router.post('/productrequest/createproduct', productCtrl.createProduct);

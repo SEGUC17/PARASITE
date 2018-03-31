@@ -18,8 +18,8 @@ module.exports.getActivities = function (req, res, next) {
     var user_id = req.sender;
 
     var isAdmin = false;
-    
-    if(user_id){
+
+    if (user_id) {
         user = User.findById(user_id);
         isAdmin = user.isAdmin;
     }
@@ -32,11 +32,11 @@ module.exports.getActivities = function (req, res, next) {
     // Filtering unverified activities
     // for non Admin users
     var filter = {};
-    if(!isAdmin){
+    if (!isAdmin) {
         filter.status = 'verified';
     }
-    Activity.paginate(filter, { page: pageN, limit: 10}, function(err, activities){
-        if(err){
+    Activity.paginate(filter, { page: pageN, limit: 10 }, function (err, activities) {
+        if (err) {
             return next(err);
         }
         res.status(200).json({

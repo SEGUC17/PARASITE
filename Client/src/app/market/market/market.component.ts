@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MarketService } from '../market.service';
 import { PageEvent } from '@angular/material';
-import { Inject} from '@angular/core';
+import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { Product } from '../Product';
 @Component({
@@ -15,10 +15,10 @@ export class MarketComponent implements OnInit {
   products: Product[];
   currentPageNumber: number;
   entriesPerPage = 15;
-  selectedName: String = 'tshirt';
-  selectedPrice = 100;
-  totalNumberOfPages: number;
-
+  selectedName: String = 'NA';
+  selectedPrice = 0;
+  numberOfPages: number;
+  numberOfProducts: number;
   constructor(private marketService: MarketService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
@@ -26,28 +26,28 @@ export class MarketComponent implements OnInit {
     this.firstPage();
   }
 
-  firstPage(): void {
+  getPage(): void {
+    const self = this;
     const limiters = {
-      price: this.selectedPrice,
-      name: this.selectedName
+      price: self.selectedPrice,
+      name: self.selectedName
     };
-    this.marketService.numberOfMarketPages(this.entriesPerPage,
-      limiters)
-      .subscribe(function (numberOfPages) {
-        this.totalNumberOfPages = numberOfPages.data;
-        this.getPage();
-      });
+    self.marketService.getMarketPage(self.entriesPerPage,
+      self.currentPageNumber, limiters)
+      .subscribe(products => self.products = products.data);
   }
 
-  getPage(): void {
+  firstPage(): void {
+    const self = this;
     const limiters = {
-      price: this.selectedPrice,
-      name: this.selectedName
+      price: self.selectedPrice,
+      name: self.selectedName
     };
-    this.marketService.getMarketPage(this.entriesPerPage,
-      this.currentPageNumber, limiters)
-      .subscribe(function (products) {
-        this.products = products.data;
+    this.marketService.numberOfMarketPages(limiters)
+      .subscribe(function (numberOfProducts) {
+        self.numberOfProducts = numberOfProducts.data;
+        self.numberOfPages = Math.ceil(self.numberOfProducts / self.entriesPerPage);
+        self.getPage();
       });
   }
 

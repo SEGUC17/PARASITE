@@ -1,4 +1,4 @@
-export interface Product {
+export class Product {
     _id: String;
     acquiringType: String;
     createdAt: Date;

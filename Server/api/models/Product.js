@@ -1,6 +1,6 @@
 
 var mongoose = require('mongoose');
-
+var mongoosePaginate = require('mongoose-paginate');
 var productSchema = mongoose.Schema({
   acquiringType: {
     enum: [
@@ -47,5 +47,5 @@ var productSchema = mongoose.Schema({
     type: String
   }
 });
-
+productSchema.plugin(mongoosePaginate);
 mongoose.model('Product', productSchema);
