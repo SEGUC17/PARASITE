@@ -9,7 +9,7 @@ var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
 var studyPlanController = require('../controllers/StudyPlanController');
 var adminController = require('../controllers/AdminController');
-var scheduleController = require('../controller/ScheduleController');
+var scheduleController = require('../controllers/ScheduleController');
 
 
 var isAuthenticated = function (req, res, next) {
