@@ -1,46 +1,50 @@
-var mongoose = require('mongoose'),
-  moment = require('moment'),
-  User = mongoose.model('User'),
-  StringValidate = require('../utils/validators/');
+var mongoose = require('mongoose');
+
+ var moment = require('moment');
+
+ var User = mongoose.model('User');
+ var StringValidate = require('../utils/validators/');
   module.exports.getUsers = function(req, res, next) {
-    Product.find({}).exec(function(err, products) {
+    User.find({}).exec(function(err, products) {
       if (err) {
         return next(err);
       }
       res.status(200).json({
+        data: products,
         err: null,
-        msg: 'Products retrieved successfully.',
-        data: products
+        msg: 'Products retrieved successfully.'
       });
     });
   };
-  module.exports.Search = function(req, res, next) 
-  {
+  module.exports.Search = function(req, res, next) {
 
-    if (!StringValidate.isString(req.params.username)) 
-    {
+    if (!StringValidate.isString(req.params.username)) {
       return res.status(422).json({
+        data: null,
         err: null,
-        msg: 'username must be valid',
-        data: null
+        msg: 'username must be valid'
   });
     }
-    User.findOne({ username: req.body.username ,isParent :true}).exec(function(err, user) {
+    User.findOne({
+      isParent: true,
+      username: req.body.username
+      }).exec(function(err, user) {
       if (err) {
         return next(err);
       }
-      if (!product)
-      {
-        return res
-       .status(404)
-       .json({ err: null, msg: 'User not found.', data: null });
+      if (!User) {
+        return res.status(404).json({
+          data: null,
+          err: null,
+          msg: 'User not found.'
+          });
       }
       res.status(200).json({
+        data: user,
         err: null,
         msg:
           'User with username ' +
-          req.params.username +' is retrievred successfully',
-        data: user
+          req.params.username + ' is retrievred successfully'
       });
     });
     User.paginate().then(function(result) {
@@ -56,33 +60,36 @@ var mongoose = require('mongoose'),
         return next(err);
       }
       res.status(200).json({
+        data: user,
         err: null,
         msg:
           'User with username ' +
-          req.params.username +' is retrievred successfully',
-        data: user
+          req.params.username + ' is retrievred successfully'
       });
     });
   };
 
   module.exports.FilterByLevelOfEducation = function(req, res, next) {
-    User.findOne({ educationLevels: req.body.educationLevels,isParent :true }).exec(function(err, user) {
+    User.findOne({
+      educationLevels: req.body.educationLevels,
+      isParent: true
+      }).exec(function(err, user) {
       if (!StringValidate.isString(req.body.educationLevels)) {
     return res.status(422).json({
+      data: null,
       err: null,
-      msg: 'Level Of Education must be valid',
-      data: null
+      msg: 'Level Of Education must be valid'
     });
   }
       if (err) {
         return next(err);
       }
       res.status(200).json({
+        data: user,
         err: null,
         msg:
           'User that has children with education levels ' +
-          req.params.educationLevels +' is retrievred successfully',
-        data: user
+          req.params.educationLevels + ' is retrievred successfully'
       });
     });
     User.paginate().then(function(result) {
@@ -92,23 +99,26 @@ var mongoose = require('mongoose'),
   };
 
   module.exports.FilterBySystemOfEducation = function(req, res, next) {
-    User.findOne({ educationSystems: req.body.educationSystems ,isParent :true}).exec(function(err, user) {
+    User.findOne({
+      educationSystems: req.body.educationSystems,
+      isParent: true
+    }).exec(function(err, user) {
       if (!StringValidate.isString(req.body.educationSystems)) {
     return res.status(422).json({
+      data: null,
       err: null,
-      msg: 'Level Of Education must be valid',
-      data: null
+      msg: 'Level Of Education must be valid'
     });
   }
       if (err) {
         return next(err);
       }
       res.status(200).json({
+        data: user,
         err: null,
         msg:
           'User that has children with education levels ' +
-          req.params.educationSystems +' is retrievred successfully',
-        data: user
+          req.params.educationSystems + ' is retrievred successfully'
       });
     });
     User.paginate().then(function(result) {

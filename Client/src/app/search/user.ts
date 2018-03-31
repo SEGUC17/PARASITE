@@ -1,9 +1,9 @@
-export class User{
+export class User {
   address: String;
   birthdate: Date;
   children: [String];
-  educationLevels:[String];
-  educationSystems:[String];
+  educationLevels: [String];
+  educationSystems: [String];
   email: String;
   isAdmin: Boolean;
   isChild: Boolean;
@@ -12,5 +12,5 @@ export class User{
   password: String;
   phone: [String];
   username: String;
-  verified:Boolean;
+  verified: Boolean;
 }

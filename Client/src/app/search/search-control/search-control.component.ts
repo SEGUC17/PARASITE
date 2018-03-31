@@ -11,13 +11,13 @@ import {ENTER, COMMA} from '@angular/cdk/keycodes';
 })
 export class SearchControlComponent implements OnInit {
    parents: User[];
-   parent:string;
-   tag:string;
-   tags:string[];
-   visible: boolean = true;
-  selectable: boolean = true;
-  removable: boolean = true;
-  addOnBlur: boolean = true;
+   parent: string;
+   tag: string;
+   tags: string[];
+   visible: Boolean = true;
+  selectable: Boolean = true;
+  removable: Boolean = true;
+  addOnBlur: Boolean = true;
 
   // Enter, comma
   separatorKeysCodes = [ENTER, COMMA];
@@ -50,17 +50,17 @@ export class SearchControlComponent implements OnInit {
 constructor(private searchService: SearchService) {
   this.tags = [];
 }
-getParents(username:string){
-  switch(this.tag){
-    case 'username': this.searchService.getParents(username).subscribe(res=>this.parents = res.data);
-    case 'educationLevels':this.searchService.searchByEducationLevel(this.tag).subscribe(res=>this.parents = res.data);
-    case 'educationSystems':this.searchService.searchByEducationSystems(this.tag).subscribe(res=>this.parents = res.data);
+getParents(username: string) {
+  switch (this.tag) {
+    case 'username': this.searchService.getParents(username).subscribe(res => this.parents = res.data); break;
+    case 'educationLevels': this.searchService.searchByEducationLevel(this.tag).subscribe(res => this.parents = res.data); break;
+    case 'educationSystems': this.searchService.searchByEducationSystems(this.tag).subscribe(res => this.parents = res.data); break;
 
   }
 
 
 }
-getParentsBytag(tag:string){
+getParentsBytag(tag: string) {
   this.tag = tag;
   this.tags = [tag];
 }
