@@ -17,6 +17,9 @@ export class ContentListViewComponent implements OnInit {
   // content created by the current user
   myContributions: Content[];
 
+  // categories for the general contents view
+  categories = [];
+
   // TODO set username
   username: String = 'Omar K.';
 
@@ -41,6 +44,7 @@ export class ContentListViewComponent implements OnInit {
     this.currentPageNumber = 1;
     this.myContributionsCurrentPageNumber = 1;
     this.getContentPage();
+    this.getCategories();
   }
 
   // retrieves the contents of a particular page according to currentPageNumber
@@ -96,5 +100,19 @@ export class ContentListViewComponent implements OnInit {
     this.getMyContributionsPage();
 
     this.scrollToTheTop();
+  }
+
+  getCategories(): void {
+    const self = this;
+    this.contentService.getCategories()
+      .subscribe(function (retrievedCategories) {
+        self.categories = retrievedCategories.data;
+      });
+  }
+
+  changeCategoryAndSection(category: any, section: any ): void {
+    this.selectedCategory = category;
+    this.selectedSection = section;
+    this.getContentPage();
   }
 }

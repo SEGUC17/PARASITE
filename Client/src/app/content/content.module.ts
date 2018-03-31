@@ -15,8 +15,10 @@ import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { ContentService } from './content.service';
 import { ContentViewComponent } from './content-view/content-view.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -33,7 +35,9 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatCardModule,
     MatChipsModule,
     MatPaginatorModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSidenavModule,
+    MatExpansionModule
   ],
   providers: [ContentService],
   declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent]
