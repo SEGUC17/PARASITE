@@ -49,6 +49,7 @@ router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
   //-------------------- Profile Module Endpoints ------------------//
   router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
   router.get('/profile/:username', profileController.getUserInfo);
+  router.get('/profile/LinkAnotherParent/:parentID',profileController.linkAnotherParent)
   //------------------- End of Profile module Endpoints-----------//
 
 
