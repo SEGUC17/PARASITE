@@ -29,27 +29,27 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
-// --------------------- Activity Contoller -------------------- //
+  // --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
   router.post('/activities', ActivityController.postActivity);
-// --------------------- End of Activity Controller ------------ //
+  // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isUnAuthenticated, passport.authenticate('local-signup'));
   router.post('/signin', isUnAuthenticated, passport.authenticate('local-signin'));
   // ---------------------- End of User Controller --------------- //
 
-// -------------- Admin Contoller ---------------------- //
-router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
-router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
+  // -------------- Admin Contoller ---------------------- //
+  router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
+  router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
   // --------------End Of Admin Contoller ---------------------- //
 
 
   //-------------------- Profile Module Endpoints ------------------//
   router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
   router.get('/profile/:username', profileController.getUserInfo);
-  router.get('/profile/LinkAnotherParent/:parentID',profileController.linkAnotherParent)
+  router.get('/profile/LinkAnotherParent/:parentID', profileController.linkAnotherParent);
   //------------------- End of Profile module Endpoints-----------//
 
 
