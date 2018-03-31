@@ -5,7 +5,7 @@ var User = mongoose.model('User');
     module.exports.updateSchedule = function (req, res, next) {
         User.findOneAndUpdate(
             { username: req.params.username },
-             { $push: { 'schedule': req.body } },
+             { $set: { 'schedule': req.body } },
          function (err, user) {
             if (err) {
                 return next(err);

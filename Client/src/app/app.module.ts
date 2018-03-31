@@ -24,10 +24,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 //import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
-<<<<<<< HEAD
-=======
+
 import {FormsModule} from "@angular/forms";
->>>>>>> Scheduling
 
 @NgModule({
   declarations: [
@@ -53,15 +51,11 @@ import {FormsModule} from "@angular/forms";
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
-<<<<<<< HEAD
     BrowserAnimationsModule,
     CalendarModule.forRoot(),
-    HttpClientModule
-=======
-    HttpClientModule, 
+    HttpClientModule,
     FormsModule
->>>>>>> Scheduling
-  ],
+],
   providers: [
     MediaMatcher
   ],
