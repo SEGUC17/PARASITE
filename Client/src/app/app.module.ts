@@ -10,10 +10,11 @@ import { AppComponent } from './app.component';
 import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
-import { AddPsychRequestService } from './psychologist/add-psych-request.service'
+import { AddPsychRequestService } from './psychologist/add-psych-request.service';
 import { MarketModule } from './market/market.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -35,6 +36,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatCardModule,
     MatButtonModule,
     FlexLayoutModule,
     DashboardModule,

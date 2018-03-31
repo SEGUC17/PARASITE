@@ -13,6 +13,8 @@ import { AdminService } from '../admin.service';
 import { CategoryManagementComponent } from './category-management/category-management.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -24,7 +26,9 @@ import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-req
     AdminRoutingModule,
     MatButtonModule,
     MatButtonToggleModule,
+    MatCardModule,
     MatInputModule,
+    MatChipsModule,
     MatSelectModule,
     FormsModule
   ],

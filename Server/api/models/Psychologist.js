@@ -12,7 +12,7 @@ var psychSchema = mongoose.Schema({
     trim: true
   },
   phone: {
-    type: Number
+    type: String
   },
   address: {
     type: String,

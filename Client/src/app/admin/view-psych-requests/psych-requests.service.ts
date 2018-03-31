@@ -21,9 +21,9 @@ export class PsychRequestsService {
     return this.http.get<any>(this.getterUrl);
   }
 
-  evalRequest(productReq: any): Observable<any> {
+  evalRequest(psychReq: any): Observable<any> {
     console.log('Got here');
-    return this.http.post<any>(this.evalUrl, productReq, httpOptions);
+    return this.http.post<any>(this.evalUrl, psychReq, httpOptions);
   }
 
 }

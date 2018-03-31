@@ -1,3 +1,19 @@
-<p>
-  view-psych-requests works!
-</p>
+<mat-card *ngFor="let mockReq of requests; let i = index">
+  <mat-card-header>
+    <mat-card-title><h3>{{mockReq.firstName}} {{mockReq.lastName}}</h3></mat-card-title>
+    <mat-card-subtitle>{{mockReq.address}}</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-chip-list>
+      <p>Days off:   </p>
+      <mat-chip *ngFor="let day of mockReq.daysOff">{{day}}</mat-chip>
+    </mat-chip-list>
+    <p>Email: {{mockReq.email}}</p>
+    <p>Phone Address: {{mockReq.phone}}</p>
+    <p>Consultations costs start from <b>{{mockReq.priceRange | currency}}</b></p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="acceptReq(i)">Accept the Request and Add to the Address Book</button>
+    <button mat-raised-button (click)="rejectReq(i)">Reject the Request and Notify the Applicant</button>
+  </mat-card-actions>
+</mat-card>
