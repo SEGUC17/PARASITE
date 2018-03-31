@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 
-var addPsychReqCtrl = require('../controllers/PsychologistRequestController');
+var psychReqCtrl = require('../controllers/PsychologistRequestController');
 var userController = require('../controllers/UserController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
@@ -22,7 +22,7 @@ router.get('/', function (req, res, next) {
 });
 
 // ------------- psychologist's requests Controller ------------- //
-router.post('/psychologist/request/add/addRequest', addPsychReqCtrl.addRequest);
+router.post('/psychologist/request/add/addRequest', psychReqCtrl.addRequest);
 
 // ---------------------- User Controller ---------------------- //
 module.exports = function (passport) {
