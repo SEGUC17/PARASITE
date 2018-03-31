@@ -5,6 +5,9 @@ var mongoose = require('mongoose');
 var Encryption = require('../utils/encryption/encryption');
 var LocalStrategy = require('passport-local').Strategy;
 var User = mongoose.model('User');
+
+var isDuplicatedUser = false;
+var isDuplicatedEmail = false;
 // ---------------------- End of "Requirements" ---------------------- //
 
 
@@ -142,6 +145,7 @@ module.exports = function (passport) {
                     if (err) {
                         return done(err);
                     } else if (user) {
+                        isDuplicatedUser = true;
                         req.res.code = 400;
                         req.res.msg = 'Username Exists!';
                         return done(null, false, { 'signUpMessage': 'Username Exists!' });
