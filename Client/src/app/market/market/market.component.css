@@ -1,15 +1,4 @@
 .example-card {
-  max-width: 400px;
-  float: left;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-  transition: 0.3s;
-  border-radius: 5px; /* 5px rounded corners */
-  padding: 8px;
+  width: 24.9%;
   margin: 4px;
-  float: left;
-}
-
-.example-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-  background-size: cover;
 }

@@ -1,20 +1,30 @@
+<mat-tab-group (selectedTabChange)="tabChanged($event)" dynamicHeight>
+  <mat-tab label="Market">
+    <mat-card>
+      Filters
+    </mat-card>
+    <mat-card>
+      <div class="row justify-content-md-center" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
+        <mat-card *ngFor="let product of products" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
+          <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+          <mat-card-content class="mt-2">
+            <mat-card-title style="width:100%; color:#3f51b5">{{product.name}}</mat-card-title>
+            <mat-card-subtitle>{{product.price}} EGP</mat-card-subtitle>
+          </mat-card-content>
+          <a routerLink="/market/{{product._id}}">
+            <button mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">View</button>
+          </a>
+          <mat-card-actions>
 
-<mat-card *ngFor="let product of products" class="example-card" >
-  <mat-card-header>
-    <mat-card-title>{{product.name}}</mat-card-title>
-    <mat-card-subtitle>{{product.price || currency}}</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-  <mat-card-content>
-    <p>
-      {{product.description}}
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>Acquire</button>
-  </mat-card-actions>
-</mat-card>
-<div class="paginator">
-  <mat-paginator [length]="this.numberOfEntries" [pageSize]="this.entriesPerPage" (page)="onPaginateChange($event)">
-  </mat-paginator>
-</div>
+
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </mat-card>
+
+    <div class="paginator">
+      <mat-paginator [length]="numberOfProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChange($event)">
+      </mat-paginator>
+    </div>
+  </mat-tab>
+</mat-tab-group>

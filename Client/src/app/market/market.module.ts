@@ -8,6 +8,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import { MatCardModule } from '@angular/material';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MarketService } from './market.service';
+import {MatTabsModule} from '@angular/material/tabs';
 @NgModule({
   imports: [
     CommonModule,
@@ -19,6 +20,7 @@ import { MarketService } from './market.service';
     MatGridListModule,
     MatPaginatorModule,
     MatButtonModule,
+    MatTabsModule,
     FormsModule
   ],
   providers: [MarketService],

@@ -14,7 +14,7 @@ export class MarketComponent implements OnInit {
 
   products: any[];
   currentPageNumber: number;
-  entriesPerPage = 15;
+  entriesPerPage = 25;
   selectedName: String = 'NA';
   selectedPrice = 0;
   numberOfPages: number;
@@ -35,7 +35,6 @@ export class MarketComponent implements OnInit {
     self.marketService.getMarketPage(self.entriesPerPage,
       self.currentPageNumber, limiters)
       .subscribe(function (products) {
-        console.log(products.data);
         self.products = products.data.docs;
       });
   }
