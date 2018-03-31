@@ -4,7 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 
-var addPsychReqCtrl = require('../controllers/AddPsychologistRequestController');
+var addPsychReqCtrl = require('../controllers/PsychologistRequestController');
 var userController = require('../controllers/UserController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');

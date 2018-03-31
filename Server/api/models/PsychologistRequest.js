@@ -32,13 +32,7 @@ var psychReqSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  },
-  state: {        // approved\rejected\pending
-    type: String,
-    required: true,
-    default: "Pending",
-    trim: true
   }
 });
 
-mongoose.model('AddPsychologistRequest', psychReqSchema);
+mongoose.model('PsychologistRequest', psychReqSchema);
