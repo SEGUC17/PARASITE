@@ -66,7 +66,3 @@ module.exports.getUserInfo = function(req, res, next) {
       });
     });
   };
-
-  module.exports.linkAnotherParent = function(req, res, next) {
- 
-  };

@@ -69,11 +69,7 @@
         "keyword-spacing": "error",
         "line-comment-position": "error",
         "linebreak-style": [
-<<<<<<< HEAD
-            "error",
-=======
             "off",
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
             "unix"
         ],
         "lines-around-comment": "error",
@@ -81,16 +77,12 @@
         "lines-between-class-members": "error",
         "max-depth": "error",
         "max-len": "error",
-<<<<<<< HEAD
-        "max-lines": "error",
-=======
         "max-lines": [
             "error",
             {
                 "max": 700
             }
         ],
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
         "max-nested-callbacks": "error",
         "max-params": "off",
         "max-statements": "error",
@@ -112,11 +104,7 @@
         "no-catch-shadow": "error",
         "no-confusing-arrow": "error",
         "no-continue": "error",
-<<<<<<< HEAD
-        "no-console":"off",
-=======
         "no-console": "off",
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
         "no-div-regex": "error",
         "no-duplicate-imports": "error",
         "no-else-return": "error",
@@ -189,11 +177,7 @@
         "no-unneeded-ternary": "error",
         "no-unused-expressions": "error",
         "no-use-before-define": "error",
-<<<<<<< HEAD
-        "no-unused-vars":"warn",
-=======
         "no-unused-vars": "warn",
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
         "no-useless-call": "error",
         "no-useless-computed-key": "error",
         "no-useless-concat": "error",
@@ -221,17 +205,10 @@
         "padding-line-between-statements": "error",
         "prefer-arrow-callback": "off",
         "prefer-const": "error",
-<<<<<<< HEAD
-        "prefer-destructuring": "error",
-        "prefer-numeric-literals": "error",
-        "prefer-promise-reject-errors": "error",
-        "prefer-reflect": "error",
-=======
         "prefer-destructuring": "off",
         "prefer-numeric-literals": "error",
         "prefer-promise-reject-errors": "error",
         "prefer-reflect": "off",
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
         "prefer-rest-params": "error",
         "prefer-spread": "error",
         "prefer-template": "off",
@@ -275,11 +252,7 @@
             "never"
         ],
         "valid-jsdoc": "error",
-<<<<<<< HEAD
-        "vars-on-top": "error",
-=======
         "vars-on-top": "off",
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
         "wrap-iife": "error",
         "wrap-regex": "error",
         "yield-star-spacing": "error",

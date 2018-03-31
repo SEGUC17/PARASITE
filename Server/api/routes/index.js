@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable max-statements */
 
 var express = require('express');
@@ -32,28 +33,20 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
-  // --------------------- Activity Contoller -------------------- //
+// --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
   router.post('/activities', ActivityController.postActivity);
-  // --------------------- End of Activity Controller ------------ //
+// --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-  router.post(
-    '/signup',
-    isUnAuthenticated,
-    passport.authenticate('local-signup')
-  );
-  router.post(
-    '/signin',
-    isUnAuthenticated,
-    passport.authenticate('local-signin')
-  );
+  router.post('/signup', isUnAuthenticated, passport.authenticate('local-signup'));
+  router.post('/signin', isUnAuthenticated, passport.authenticate('local-signin'));
   // ---------------------- End of User Controller --------------- //
 
-  // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
-  router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
+// -------------- Admin Contoller ---------------------- //
+router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
+router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
   // --------------End Of Admin Contoller ---------------------- //
 
 
@@ -75,61 +68,18 @@ module.exports = function (passport) {
   router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
+
   // --------------Content Module Endpoints---------------------- //
-
-  // Content Management
-
-  // Create a category
-  router.post('/content/category', contentController.createCategory);
-  // Create a section
-
-  router.patch(
-    '/content/category/:id/section',
-    contentController.createSection
-  );
-
-  //Category retrieval
-  router.get('/content/category', contentController.getCategories);
-
-
-  // Content Retrieval
-
-  // Get a number of content pages
-  router.get(
-    '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
-    contentController.getNumberOfContentPages
-  );
-
-  // Get a page of content
   router.get(
     '/content/getContentPage/:numberOfEntriesPerPage' +
     '/:pageNumber/:category/:section',
     contentController.getContentPage
   );
-
-  // Get a a certain content by ID
-  router.get('/content/view/:id', contentController.getContentById);
-
-
-  // Get the contents of a user
   router.get(
-    '/content/username/:creator/:pageSize/:pageNumber',
-    contentController.getContentByCreator
+    '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
+    contentController.getNumberOfContentPages
   );
 
-  //Get the total number of contents of a user
-  router.get(
-    '/content/username/count/:creator',
-    contentController.getNumberOfContentByCreator
-  );
-
-  //Content Production
-
-  // Create new Content
-  router.post('/content', contentController.createContent);
-
-
-  // -------------------------------------------------------------------- //
   module.exports = router;
 
   return router;

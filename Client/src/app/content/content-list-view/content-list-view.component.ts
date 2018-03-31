@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
-import {Content} from '../content';
-=======
 import { Content } from '../content';
 import { ContentService } from '../content.service';
 import { PageEvent } from '@angular/material';
 import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 
 @Component({
   selector: 'app-content-list-view',
@@ -15,23 +11,6 @@ import { DOCUMENT } from '@angular/platform-browser';
   styleUrls: ['./content-list-view.component.css']
 })
 export class ContentListViewComponent implements OnInit {
-<<<<<<< HEAD
-
-  content: Content = {
-    id: '198387492',
-    title: 'Best Resource for Learning C#',
-    contentImage: 'assets/images/content-view/contentimagetest.jpg',
-    creatorUsername: 'OmarK', creatorProfileLink: 'http://mywebsite.com/OmarK',
-    creatorAvatar: 'assets/images/content-view/profiletest.jpg',
-    tags: ['programming', 'beginner', 'C#', 'clickbait', 'life', 'mood', 'fatality', 'engineering concepts', 'computer science']
-  };
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-=======
   // general contents for viewing
   contents: Content[];
 
@@ -141,5 +120,4 @@ export class ContentListViewComponent implements OnInit {
 
     this.scrollToTheTop();
   }
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
 }

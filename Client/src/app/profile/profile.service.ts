@@ -26,13 +26,6 @@ export class ProfileService {
   getUserInfo(username: String): Observable<any> {
       return this.http.get(`${this.Url}/${username}`);
     }
-  
-  private linkAnotherParentUrl = 'http://localhost:3000/api/profile/LinkAnotherParent/'
-  linkAnotherParent(Parent, Child): Observable<any>{
-    return this.http.patch<any>(`${this.linkAnotherParentUrl}/${Parent._id}`, Child, httpOptions);
-    
-  }
-
 
 // --------Sending Contributer Validation Request --------- AUTHOR: Maher
   makeContributerValidationRequest(): any {
