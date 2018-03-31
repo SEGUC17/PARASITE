@@ -1,3 +1,5 @@
+/* eslint no-underscore-dangle: ["error", {"allow" : ["_id"]}] */
+
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/nawwar');
 var ContentRequest = mongoose.model('ContentRequest');
@@ -35,34 +37,72 @@ module.exports.viewPendingContReqs = function(req, res, next) {
          //-------------------------------------------//
 
  module.exports.respondContentRequest = function(req, res, next) {
+
+    console.log('in server');
+    var requestedRequest = null;
+    mongoose.connection.collection('ContentRequest').find({}).
+     toArray(function(err, contentRequests) {
+        if (err) {
+            console.log(err.msg);
+            throw err;
+          }
+        requestedRequest = contentRequests.filter(function(givenId) {
+        return givenId._id === req.params.ContentRequestId;
+         });
+     });
+     var objectid = requestedRequest[0]._id;
+     console.log(requestedRequest);
+     console.log(objectid);
      mongoose.connection.collection('ContentRequest').
-      findByIdAndUpdate(
-      req.params.ContentRequestId,
-      {
-          $set: {
-          status: req.body
-        }
-      },
-      { new: true }
-    ).toArray(function(err, updatedContentRequest) {
-      if (err) {
-        return next(err);
-      }
-      if (!updatedContentRequest) {
-        return res.status(404).json({
-            data: null,
+     updateOne(
+         { _id: objectid },
+         { $set: { status: 'disapproved' } },
+        function(err, updatedContentRequest) {
+            if (err) {
+            return next(err);
+            }
+            if (!updatedContentRequest) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'ContentRequest not found.'
+                });
+            }
+            res.status(200).json({
+            data: updatedContentRequest,
             err: null,
-            msg: 'ContentRequest not found.'
-             });
+            msg: 'ContentRequest was ' +
+            updatedContentRequest.status + ' successfully.'
+            });
       }
-      res.status(200).json({
-        data: updatedContentRequest,
-        err: null,
-        msg: 'ContentRequest was ' +
-        updatedContentRequest.status + ' successfully.'
-      });
-    });
-  };
+    );
+    };
+//  module.exports.respondContentRequest = function(req, res, next) {
+//      mongoose.connection.collection('ContentRequest').
+//       findByIdAndUpdate(
+//       req.params.ContentRequestId,
+//       { $set: { status: req.body } },
+//       { new: true }
+//     ).
+//     exec(function(err, updatedContentRequest) {
+//       if (err) {
+//         return next(err);
+//       }
+//       if (!updatedContentRequest) {
+//         return res.status(404).json({
+//             data: null,
+//             err: null,
+//             msg: 'ContentRequest not found.'
+//              });
+//       }
+//       res.status(200).json({
+//         data: updatedContentRequest,
+//         err: null,
+//         msg: 'ContentRequest was ' +
+//         updatedContentRequest.status + ' successfully.'
+//       });
+//     });
+//   };
 
          //-------------------------------------------//
 module.exports.getVCRs = function(req, res, next) {
