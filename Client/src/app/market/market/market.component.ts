@@ -17,7 +17,7 @@ export class MarketComponent implements OnInit {
 
   products: Product[];
   currentPageNumber: number;
-  entriesPerPage = 25;
+  entriesPerPage = 5;
   selectedName: String = 'NA';
   selectedPrice = 0;
   numberOfPages: number;

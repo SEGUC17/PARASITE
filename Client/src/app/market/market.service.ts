@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
-import {products} from './mock-products';
 @Injectable()
 export class MarketService {
   host: String = 'http://localhost:3000/api/';
