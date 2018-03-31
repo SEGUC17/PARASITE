@@ -34,7 +34,11 @@
     "@angular/cli": "1.6.7",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
+<<<<<<< HEAD
     "@types/jasmine": "~2.8.3",
+=======
+    "@types/jasmine": "^2.8.6",
+>>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
     "codelyzer": "^4.0.1",
