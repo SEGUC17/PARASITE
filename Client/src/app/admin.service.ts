@@ -25,7 +25,7 @@ private respondContentRequestURL = 'admin/RespondContentRequest/';
 
     respondContentRequest( response ): any {
       console.log('Im going to change it to ' + response);
-      return this.http.patch<any> (this.baseURL + this.respondContentRequestURL + '5abe6a92a4f07c31ee2e501e', 'disapproved');
+      return this.http.patch<any> (this.baseURL + this.respondContentRequestURL + '5abf96c5ac6b02b8b9a15240', {str: response} );
     }
 
 

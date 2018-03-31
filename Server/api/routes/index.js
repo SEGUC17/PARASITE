@@ -51,16 +51,16 @@ module.exports = function (passport) {
   );
   // ---------------------- End of User Controller --------------- //
 
-<<<<<<< HEAD
 // -------------- Admin Contoller ---------------------- //
 router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
-router.get('/admin/PendingContentRequests', adminController.viewPendingContReqs);
-router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
-=======
-  // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
-  router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
->>>>>>> 4ca0d584b3d2e065c0ad0317f308673de87b7e82
+router.get(
+'/admin/PendingContentRequests',
+adminController.viewPendingContReqs
+);
+router.patch(
+'/admin/RespondContentRequest/:ContentRequestId',
+adminController.respondContentRequest
+);
   // --------------End Of Admin Contoller ---------------------- //
 
 
@@ -79,7 +79,7 @@ router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.r
   );
 
 
-  router.get('/profile/:userId/getChildren', profileController.getProduct);
+ // router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
   // --------------Content Module Endpoints---------------------- //

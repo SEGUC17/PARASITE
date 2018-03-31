@@ -52,4 +52,4 @@ var contentreqschema = mongoose.Schema({
     updatedOn: { type: Date }
 });
 
-var ContentRequest = mongoose.model('ContentRequest', contentreqschema);
+var ContentRequest = mongoose.model('ContentRequest', contentreqschema,'ContentRequest');

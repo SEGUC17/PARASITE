@@ -30,4 +30,13 @@ export class ViewContentRequestsComponent implements OnInit {
 
     });
   }
+  disapproveContentRequest(): any {
+    let self = this;
+    self._adminService.respondContentRequest('disapproved').subscribe(function(res) {
+      console.log('back from server');
+      console.log(res.data);
+      console.log(res.msg);
+
+    });
+  }
 }
