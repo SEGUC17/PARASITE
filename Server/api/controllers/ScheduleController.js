@@ -13,7 +13,7 @@ var User = mongoose.model('User');
             res.status(200).json({
                 data: user,
                 err: null,
-                msg: 'Schedule updated cuccesfully.'
+                msg: 'Schedule updated succesfully.'
             });
         }
     );
