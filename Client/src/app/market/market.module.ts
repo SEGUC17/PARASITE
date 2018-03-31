@@ -20,12 +20,8 @@ import {CreateProductService} from './create-product/create-product.service'
     MatFormFieldModule,
     MatSelectModule,
     MatButtonModule,
-    
-
-    // ,
-    // FlexLayoutModule,
-     FormsModule
-    // QuillEditorModule
+    FormsModule
+   
   ],
   providers: [CreateProductService],
   declarations: [MarketComponent, CreateProductComponent]

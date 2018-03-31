@@ -20,7 +20,22 @@ module.exports.getRequests = function (req, res, next) {
 //createproduct
 
 module.exports.createProduct = function(req, res, next) {
-    
+//     if(!(typeof Product.body.name === 'string')) {
+//         console.log("please insert product's name as a string")
+//      }
+//      var valid =
+//      Product.body.name &&
+//      Product.body.price &&
+//      Product.body.acquiringType &&
+//      Product.body.image &&
+//      Product.body.description;
+//    if (!valid) {
+//      return res.status(422).json({
+//        err: null,
+//        msg: 'name(String) price(Number) and acquiringType(String) and image(String) and description(String) are required fields.',
+//        data: null
+//      });
+//    }
     Product.create(req.body, function(err, product) {
       if (err) {
         return next(err);
