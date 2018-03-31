@@ -1,16 +1,11 @@
-<<<<<<< HEAD
-<p>
-  activity works!
-</p>
-=======
-<mat-paginator 
-  [length]="numberOfElements" 
-  [pageSize]="pageSize" 
-  [pageIndex]="pageIndex" 
+<mat-paginator
+  [length]="numberOfElements"
+  [pageSize]="pageSize"
+  [pageIndex]="pageIndex"
   (page)="pageEvent = getActivities($event)">
 </mat-paginator>
 <div id="creation" *ngIf="canCreate">
-    <a class="btn btn-primary" href="{{createUrl}}">Create Activity</a> 
+    <a class="btn btn-primary" href="{{createUrl}}">Create Activity</a>
 </div>
 <div class="activities-container">
   <mat-card *ngFor="let activity of activities" class="activity-card">
@@ -24,4 +19,3 @@
   </mat-card>
 
 </div>
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337
