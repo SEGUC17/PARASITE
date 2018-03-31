@@ -12,7 +12,6 @@ export class SignupComponent implements OnInit {
 
 
   Firstname: String = "";
-
   Lastname: String = "";
   Username: String = "";
   Password: String = "";
@@ -58,9 +57,9 @@ export class SignupComponent implements OnInit {
       this.AllisWell=false;
 
     }
-    this.User={'firstname': this.Firstname , 'lastname': this.Lastname, 'username':this.Username, 'password': this.Password, 'birthdate': this.Birthdate, 'email': this.Email, 'phone':this.Phone, 'address': this.Address, 'isParent': this.Parent, 'isChild': this.Student, 'isTeacher':this.Teacher};
 //to be continued
 if(this.AllisWell) {
+  this.User={'firstName': this.Firstname , 'lastName': this.Lastname, 'username':this.Username, 'password': this.Password, 'birthdate': this.Birthdate, 'email': this.Email, 'phone':this.Phone, 'address': this.Address, 'isParent': this.Parent, 'isChild': this.Student, 'isTeacher':this.Teacher};
       console.log(this.Firstname, this.Username, this.Password);
       var self = this;
       self.authService.signUp(this.User).subscribe();
