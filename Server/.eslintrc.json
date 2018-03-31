@@ -77,7 +77,12 @@
         "lines-between-class-members": "error",
         "max-depth": "error",
         "max-len": "error",
-        "max-lines": "error",
+        "max-lines": [
+            "error",
+            {
+                "max": 700
+            }
+        ],
         "max-nested-callbacks": "error",
         "max-params": "off",
         "max-statements": "error",
@@ -99,7 +104,7 @@
         "no-catch-shadow": "error",
         "no-confusing-arrow": "error",
         "no-continue": "error",
-        "no-console":"off",
+        "no-console": "off",
         "no-div-regex": "error",
         "no-duplicate-imports": "error",
         "no-else-return": "error",
@@ -172,7 +177,7 @@
         "no-unneeded-ternary": "error",
         "no-unused-expressions": "error",
         "no-use-before-define": "error",
-        "no-unused-vars":"warn",
+        "no-unused-vars": "warn",
         "no-useless-call": "error",
         "no-useless-computed-key": "error",
         "no-useless-concat": "error",
