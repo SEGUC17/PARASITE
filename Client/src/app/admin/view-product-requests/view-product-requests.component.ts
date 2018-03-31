@@ -32,7 +32,13 @@ export class ViewProductRequestsComponent implements OnInit {
   requests: any[];
 
   constructor(private services: ProductRequestsService) {
-    // TODO send request to database to get products
+    let self = this;
+    this.services.getProductRequests().subscribe(function (res) {
+      if (res.msg === 'Requests retrieved successfully.') {
+        self.requests = res.data;
+        console.log(self.requests);
+      }
+    });
   }
 
   ngOnInit() {
@@ -40,10 +46,26 @@ export class ViewProductRequestsComponent implements OnInit {
 
   acceptReq(index) {
     console.log('Accepted ' + index);
+    let reqToSend = this.requests[index];
+    reqToSend['result'] = true;
+    console.log(reqToSend);
+    this.services.evalRequest(reqToSend).subscribe(function (res) {
+      if (res.msg === 'Request accepted and product added to database.') {
+        console.log(res.data);
+      }
+    });
   }
 
   rejectReq(index) {
     console.log('Rejected ' + index);
+    let reqToSend = this.requests[index];
+    reqToSend['result'] = false;
+    console.log(reqToSend);
+    this.services.evalRequest(reqToSend).subscribe(function (res) {
+      if (res.msg === 'Request rejected and user notified.') {
+        console.log(res.data);
+      }
+    });
   }
 
 }

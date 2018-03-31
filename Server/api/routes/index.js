@@ -3,8 +3,8 @@
 
 var express = require('express');
 var router = express.Router();
-var productCtrl = require('../controllers/ProductController');
 
+var productCtrl = require('../controllers/ProductController');
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
@@ -41,7 +41,7 @@ module.exports = function (passport) {
   router.post('/productrequest/createproduct', productCtrl.createProduct);
   router.post('/productrequest/' +
     'createProductRequest', productCtrl.createProductRequest);
-  router.get('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
+  router.post('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
   router.get('/productrequest/getRequests', productCtrl.getRequests);
   // --------------End Of Product Contoller ---------------------- //
 
@@ -81,4 +81,3 @@ module.exports = function (passport) {
 
   return router;
 };
-
