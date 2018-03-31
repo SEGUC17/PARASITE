@@ -11,7 +11,9 @@ export class SignupComponent implements OnInit {
   constructor(private location: Location, private authService: AuthService) { }
 
 
-  Fullname: String = "";
+  Firstname: String = "";
+
+  Lastname: String = "";
   Username: String = "";
   Password: String = "";
   ConfirmPassword: String = "";
@@ -26,15 +28,16 @@ export class SignupComponent implements OnInit {
   Div2 = false;
   Div3 = false;
  AllisWell: Boolean= true;
+ User : any;
   ngOnInit() {
   }
 
 
 
 
-  register(user: any): void {
+  register(): void {
     //checking that password and confirm password match and all required entries are there
-    //this.checked();
+    //this.checked();ser: any
     
     if (!(this.Password === this.ConfirmPassword)) {
       this.showDiv1();
@@ -42,7 +45,7 @@ export class SignupComponent implements OnInit {
     }
 
 
-    if (this.Fullname == "" || this.Username == "" || this.Email == "" || this.Birthdate == null) {
+    if (this.Firstname == "" || this.Lastname == "" || this.Username == "" || this.Email == "" || this.Birthdate == null) {
       this.showDiv2();
       this.AllisWell=false;
 
@@ -55,11 +58,12 @@ export class SignupComponent implements OnInit {
       this.AllisWell=false;
 
     }
-
+    this.User={'firstname': this.Firstname , 'lastname': this.Lastname, 'username':this.Username, 'password': this.Password, 'birthdate': this.Birthdate, 'email': this.Email, 'phone':this.Phone, 'address': this.Address, 'isParent': this.Parent, 'isChild': this.Student, 'isTeacher':this.Teacher};
 //to be continued
 if(this.AllisWell) {
+      console.log(this.Firstname, this.Username, this.Password);
       var self = this;
-      self.authService.signUp(user).subscribe();
+      self.authService.signUp(this.User).subscribe();
     }//end else
     
   }//end method
