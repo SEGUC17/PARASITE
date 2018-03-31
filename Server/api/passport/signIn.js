@@ -28,27 +28,38 @@ module.exports = function (passport) {
     passport.use('local-signin', new LocalStrategy(
         { passReqToCallback: true },
         function (req, username, password, done) {
-            User.findOne({ 'username': username },
-                function (err, user) {
-                    if (err) {
-                        return done(err);
-                    } else if (!user) {
-                        return done(null, false, { 'signInMessage': 'Wrong Username Or Password!' });
-                    }
-
-                    Encryption.comparePasswordToHash(password, user.password, function (
-                        err,
-                        passwordMatches
-                    ) {
+            var signInIfExist = function () {
+                // --- Username Verfication --- //
+                User.findOne({ 'username': username },
+                    function (err, user) {
                         if (err) {
-                            return next(err);
-                        } else if (!passwordMatches) {
+                            return done(err);
+                        } else if (!user) {
                             return done(null, false, { 'signInMessage': 'Wrong Username Or Password!' });
                         }
 
-                        return done(null, user);
+                        // --- Password Verification --- //
+                        Encryption.comparePasswordToHash(password, user.password, function (
+                            err,
+                            passwordMatches
+                        ) {
+                            if (err) {
+                                return next(err);
+                            } else if (!passwordMatches) {
+                                return done(null, false, { 'signInMessage': 'Wrong Username Or Password!' });
+                            }
+
+                            return done(null, user);
+                        });
+                        // --- End of "Password Verification" --- //
                     });
-                });
+                // --- End of "Username Verfication" --- //
+            };
+
+
+            // --- Executing signInIfExist --- //
+            process.nextTick(signInIfExist);
+            // --- End of "Executing signInIfExist" --- //
         }));
 };
 // ---------------------- End of "Passport" ---------------------- //

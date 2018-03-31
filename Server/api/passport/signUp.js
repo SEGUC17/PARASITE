@@ -29,6 +29,8 @@ module.exports = function (passport) {
         { passReqToCallback: true },
         function (req, username, password, done) {
             var findOrCreateUser = function () {
+
+                
                 // --- Security Check --- //
                 req.user = null;
                 req.res = { 'code': 0, 'msg': '' };
