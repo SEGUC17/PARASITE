@@ -14,6 +14,9 @@ import { MatIconModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { ContentService } from './content.service';
+import { ContentViewComponent } from './content-view/content-view.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -28,9 +31,11 @@ import { ContentService } from './content.service';
     MatIconModule,
     QuillEditorModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatPaginatorModule,
+    MatTabsModule
   ],
   providers: [ContentService],
-  declarations: [ContentEditComponent, ContentListViewComponent]
+  declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent]
 })
 export class ContentModule { }

@@ -14,6 +14,16 @@ var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
+
+  return next(new Error('User Is Logged In!'));
+};
+
+var isUnAuthenticated = function (req, res, next) {
+  if (!req.isAuthenticated()) {
+    return next();
+  }
+
+  return next(new Error('User Is Not Logged In!'));
 };
 
 module.exports = function (passport) {
@@ -23,16 +33,15 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
-  // --------------------- Activity Contoller -------------------- //
-  router.get(
-    '/activities',
-    ActivityController.getActivities
-  );
-  // --------------------- End of Activity Controller ------------ //
+// --------------------- Activity Contoller -------------------- //
+  router.get('/activities', ActivityController.getActivities);
+  router.get('/activities/:activityId', ActivityController.getActivity);
+  router.post('/activities', ActivityController.postActivity);
+// --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/signup', passport.authenticate('local-signup'));
-  router.post('/signin', passport.authenticate('local-signin'));
+  router.post('/signup', isUnAuthenticated, passport.authenticate('local-signup'));
+  router.post('/signin', isUnAuthenticated, passport.authenticate('local-signin'));
   // ---------------------- End of User Controller --------------- //
 
   // -------------- Admin Contoller ---------------------- //
@@ -43,8 +52,21 @@ module.exports = function (passport) {
 
 
   //-------------------- Profile Module Endpoints ------------------//
-  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
-  router.get('/profile/:username', profileController.getUserInfo);
+  router.post(
+    '/profile/VerifiedContributerRequest',
+    profileController.requestUserValidation
+  );
+  router.get(
+    '/profile/:username',
+    profileController.getUserInfo
+  );
+  // router.get(
+  //   '/profile/LinkAnotherParent/:parentID',
+  //   profileController.linkAnotherParent
+  // );
+
+
+//  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
 

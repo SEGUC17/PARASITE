@@ -14,7 +14,7 @@ export class ProfileService {
 // ------------- Profile Page Method(s) -------------- AUTHOR: H
   constructor(private http: HttpClient) { }
 
-  private Url = 'http://localhost:3000/api/profile/'
+  private Url = 'http://localhost:3000/api/profile/';
   getUserInfo(username: String): Observable<any> {
       return this.http.get(`${this.Url}/${username}`);
     }
