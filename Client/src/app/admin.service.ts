@@ -23,9 +23,8 @@ private respondContentRequestURL = 'admin/RespondContentRequest/';
       return this.http.get<any> (this.baseURL + this.viewPendingContReqsURL);
     }
 
-    respondContentRequest( response ): any {
-      console.log('Im going to change it to ' + response);
-      return this.http.patch<any> (this.baseURL + this.respondContentRequestURL + '5abf96c5ac6b02b8b9a15240', {str: response} );
+    respondContentRequest( response , id): any {
+      return this.http.patch<any> (this.baseURL + this.respondContentRequestURL + id , {str: response} );
     }
 
 

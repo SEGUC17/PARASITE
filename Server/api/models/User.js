@@ -52,7 +52,9 @@ var userSchema = mongoose.Schema({
     },
     password: {
         required: true,
-        type: String
+        trim: true,
+        type: String,
+        unique: true
     },
     phone: {
         match: /^\d+$/,

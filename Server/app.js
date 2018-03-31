@@ -4,10 +4,9 @@ var cookieParser = require('cookie-parser');
 var compression = require('compression');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
-var expressSession = require('express-session');
 var passport = require('passport');
+var expressSession = require('express-session');
 var cors = require('cors');
-
 
 //config file
 var config = require('./api/config/config');
@@ -15,13 +14,11 @@ var config = require('./api/config/config');
 // mongoose Database connection
 require('./api/config/DBConnection');
 
-//router
-
-
 //express app
 var app = express();
 app.set(config.SECRET);
 
+//middleware
 // Disabling etag for testing
 // @author: Wessam
 app.disable('etag');

@@ -9,7 +9,7 @@ module.exports = function checkEmpty(value) {
   if (typeof value === 'undefined') {
     return true;
   }
-  else if (value === null || value === '' || value === 0) {
+  else if (value === null || value === '' || value === 0 || value === false) {
     return true;
   }
   else if (typeof value === 'string' && !value.match(/\S/)) {
