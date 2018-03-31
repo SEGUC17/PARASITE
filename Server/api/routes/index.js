@@ -44,10 +44,23 @@ router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
 
 
   //-------------------- Profile Module Endpoints ------------------//
-  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
-  router.get('/profile/:username', profileController.getUserInfo);
-  router.get('/profile/LinkAnotherParent/:parentId',profileController.linkAnotherParent)
-  //------------------- End of Profile module Endpoints-----------//
+
+  router.post(
+    '/profile/VerifiedContributerRequest',
+    profileController.requestUserValidation
+  );
+  router.get(
+    '/profile/:username',
+    profileController.getUserInfo
+  );
+  // router.get(
+  //   '/profile/LinkAnotherParent/:parentID',
+  //   profileController.linkAnotherParent
+  // );
+
+
+//  router.get('/profile/:userId/getChildren', profileController.getProduct);
+//------------------- End of Profile module Endpoints-----------//
 
 
   // --------------Content Module Endpoints---------------------- //

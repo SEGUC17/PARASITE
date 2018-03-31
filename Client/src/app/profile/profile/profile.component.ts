@@ -10,7 +10,7 @@ import { ProfileService } from '../profile.service';
 export class ProfileComponent implements OnInit {
 
 
-  //---------- FLAGS --------------------
+//---------- FLAGS --------------------
 //User Flags
 currIsOwner = false;
 currIsParent = false;
@@ -54,6 +54,7 @@ vId: any;
 listOfUncommonChildren: any[];
 
 
+
   constructor(private _ProfileService: ProfileService) { }
 
   ngOnInit() {
@@ -64,7 +65,7 @@ listOfUncommonChildren: any[];
     console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
   }
 
-  openInfo(): void{
+  openInfo(): void {
     this.pInfo = true;
     this.children = false;
     this.plan = false;
@@ -74,7 +75,7 @@ listOfUncommonChildren: any[];
     document.getElementById("childbtn").className = "";
     document.getElementById("plansbtn").className = "";
   }
-  openSched(): void{
+  openSched(): void {
     this.pInfo = false;
     this.children = false;
     this.plan = false;
@@ -84,7 +85,7 @@ listOfUncommonChildren: any[];
     document.getElementById("childbtn").className = "";
     document.getElementById("plansbtn").className = "";
   }
-  openPlans(): void{
+  openPlans(): void {
     this.pInfo = false;
     this.children = false;
     this.plan = true;
@@ -94,7 +95,7 @@ listOfUncommonChildren: any[];
     document.getElementById("childbtn").className = "";
     document.getElementById("plansbtn").className = "active";
   }
-  openChildren(): void{
+  openChildren(): void {
     this.pInfo = false;
     this.children = true;
     this.plan = false;
@@ -103,7 +104,7 @@ listOfUncommonChildren: any[];
     document.getElementById("schedbtn").className = "";
     document.getElementById("childbtn").className = "active";
     document.getElementById("plansbtn").className = "";
-}
+  }
 
 showChildren(): void {
 
