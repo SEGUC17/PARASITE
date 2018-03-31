@@ -38,8 +38,15 @@ module.exports = function (passport) {
   // ---------------------- End of User Controller --------------- //
 
 // -------------- Admin Contoller ---------------------- //
-router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
 router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
+router.get(
+'/admin/PendingContentRequests',
+adminController.viewPendingContReqs
+);
+router.patch(
+'/admin/RespondContentRequest/:ContentRequestId',
+adminController.respondContentRequest
+);
   // --------------End Of Admin Contoller ---------------------- //
 
 
