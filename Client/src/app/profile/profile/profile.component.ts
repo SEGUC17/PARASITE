@@ -65,66 +65,16 @@ listOfUncommonChildren: any[];
     console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
   }
 
-  openInfo(): void {
-    this.pInfo = true;
-    this.children = false;
-    this.plan = false;
-    this.sched = false;
-    document.getElementById("personalinfobtn").className = "active";
-    document.getElementById("schedbtn").className = "";
-    document.getElementById("childbtn").className = "";
-    document.getElementById("plansbtn").className = "";
-  }
-  openSched(): void {
-    this.pInfo = false;
-    this.children = false;
-    this.plan = false;
-    this.sched = true;
-    document.getElementById("personalinfobtn").className = "";
-    document.getElementById("schedbtn").className = "active";
-    document.getElementById("childbtn").className = "";
-    document.getElementById("plansbtn").className = "";
-  }
-  openPlans(): void {
-    this.pInfo = false;
-    this.children = false;
-    this.plan = true;
-    this.sched = false;
-    document.getElementById("personalinfobtn").className = "";
-    document.getElementById("schedbtn").className = "";
-    document.getElementById("childbtn").className = "";
-    document.getElementById("plansbtn").className = "active";
-  }
-  openChildren(): void {
-    this.pInfo = false;
-    this.children = true;
-    this.plan = false;
-    this.sched = false;
-    document.getElementById("personalinfobtn").className = "";
-    document.getElementById("schedbtn").className = "";
-    document.getElementById("childbtn").className = "active";
-    document.getElementById("plansbtn").className = "";
+  showChildren(): void {
+    this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0); 
+    document.getElementById("childrenLinks").classList.toggle("show");
   }
 
-showChildren(): void {
+  addChild(child): void{
+    this.listOfChildren.push(child);
+    this._ProfileService.linkAnotherParent(this.listOfChildren,this.vId).subscribe();
 
-  var self = this;
-  this._ProfileService.getListOfUncommonChildren()
-    .subscribe(function(prods) {
-      self.listOfUncommonChildren = prods.data;
-      self.listOfUncommonChildren = self.listOfUncommonChildren
-    });
-
-  this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
-  
-document.getElementById("childrenLinks").classList.toggle("show");
-}
-
-addChild(child): void{
-  var newList = this.listOfChildren.push(child);
-  this._ProfileService.linkAnotherParent(newList,this.vId).subscribe(() => console.log('Child Added!'));
-
-}
+  }
 
 
 

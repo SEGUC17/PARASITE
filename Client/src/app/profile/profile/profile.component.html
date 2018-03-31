@@ -9,51 +9,60 @@
       <label id="ProfileName" >{{Name}}</label>
 
       <br>
-      <label id="Badge" >Badge goes here</label><br>
-      <button style="margin-left: 40px">Direct Message</button>
+      <label id="Badge">Badge goes here</label><br>
+      <button mat-raised-button style="margin-left: 40px">Direct Message</button>
+
       <div class = "RightSideBtns">
-          <button id="btnRequestContributerValidation"  (click)="requestContributerValidation()">Make me a verified contributor</button>
-          <button *ngIf = "true">Add as a parent</button>
+          <button mat-raised-button id="btnRequestContributerValidation"  (click)="requestContributerValidation()">Make me a verified contributor</button>
+          <button mat-raised-button *ngIf = "true">Add as a parent</button>
           <span class="dropdown" *ngIf = "true">
-            <button id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
+            <button mat-raised-button id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
             <tr *ngFor = "let child of listOfUncommonChildren" id="childrenLinks" class = dropdown-content >
               <td>{{child}}</td>
               <td><button class = "myButton" (click)="addChild(child)"><i class="fa fa-plus"></i></button></td>
             </tr>
           </span> 
-          <button *ngIf = "true">Make Independent</button>
-          <button *ngIf = "true">Unlink</button>
+          <button mat-raised-button *ngIf = "true">Make Independent</button>
+          <button mat-raised-button *ngIf = "true">Unlink</button>
       </div>
     </div>
     <br>
     <div class="tab">
-        <button id = "personalinfobtn" class="tablinks" (click)="openInfo()">About</button>
-        <button id="schedbtn" class="tablinks" (click)="openSched()" *ngIf = "true" >Personal Schedule</button>
-        <button id="childbtn" class="tablinks" (click)="openChildren()">List of Children</button>
-        <button id="plansbtn" class="tablinks" (click)="openPlans()">Study Plans</button>
-        <button id ="settingsbtn" class ="tablinks">Edit Info</button>
+      <mat-tab-group>
+        <mat-tab label="About">
+          <div id = "personalinfo" class = "tabcontent" *ngIf = "pInfo">
+            <h3 style="font-weight: bold">Personal Info:</h3>
+    
+            <label>Username: {{Username}}</label> <br>
+            <label>Email: {{Email}}</label> <br>
+            <label>Birthday: {{Birthday}}</label> <br>
+            <label>Age: {{Age}}</label> <br>
+            <label>Address: {{Address}}</label> <br>
+            <label>Phone: {{Phone}}</label> <br>
+          </div>
+        </mat-tab>
+        <mat-tab label="Personal Schedule">
+          <div id = "schedule" class = "tabcontent">
+            <h3>Personal Schedule:</h3>
+          </div>
+        </mat-tab>
+        <mat-tab label="List of children">
+          <div id = "children" class = "tabcontent">
+            <h3>Your Children:</h3>
+          </div>
+        </mat-tab>
+        <mat-tab label="Study Plans">
+          <div id = "studyplans" class = "tabcontent">
+            <h3>Your Study Plans:</h3>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
       </div>
 
 
 
-    <div id = "personalinfo" class = "tabcontent" *ngIf = "pInfo">
-        <h3>Personal Info:</h3>
 
-        <label>Username: {{Username}}</label> <br>
-        <label>Email: {{Email}}</label> <br>
-        <label>Birthday: {{Birthday}}</label> <br>
-        <label>Age: {{Age}}</label> <br>
-        <label>Address: {{Address}}</label> <br>
-        <label>Phone: {{Phone}}</label> <br>
-    </div>
-    <div id = "schedule" class = "tabcontent" *ngIf = "sched">
-      <h3>Personal Schedule:</h3>
-    </div>
-    <div id = "children" class = "tabcontent" *ngIf = "children">
-      <h3>Your Children:</h3>
-    </div>
-    <div id = "studyplans" class = "tabcontent" *ngIf = "plan">
-      <h3>Your Study Plans:</h3>
-    </div>
+
+
+
 </div>
-

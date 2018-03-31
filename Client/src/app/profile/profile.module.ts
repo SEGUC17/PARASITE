@@ -6,12 +6,17 @@ import { CommonModule } from '@angular/common';
 import { ProfileService } from './profile.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { ChildernComponent } from './profile/childern/childern.component';
+import { MatTabsModule, MatButtonModule, MatMenuModule, MatChipsModule } from '@angular/material';
 
 @NgModule({
   imports: [
     ProfileRoutingModule,
     HttpClientModule,
-    BrowserModule
+    BrowserModule,
+    MatTabsModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatChipsModule
   ],
   declarations: [ProfileComponent, ChildernComponent],
   providers: [
