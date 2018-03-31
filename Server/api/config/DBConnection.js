@@ -13,14 +13,9 @@ mongoose.connect(config.MONGO_URI).
 
     });
 
-<<<<<<< HEAD
-    //TODO: add models
-=======
-//TODO: add models
 require('../models/Activity');
 require('../models/Content');
 require('../models/User');
 require('../models/Category');
 require('../models/VerifiedContributerRequest');
 require('../models/ContentRequest');
->>>>>>> cab72541f277f1ee5298f2968b6dcac34b18f337

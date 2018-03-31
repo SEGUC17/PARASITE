@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var mongoosePaginate = require('mongoose-paginate');
 var contentSchema = mongoose.Schema({
     approved: {
         required: true,
@@ -62,5 +61,5 @@ var contentSchema = mongoose.Schema({
         type: String
     }
 });
-contentSchema.plugin(mongoosePaginate);
+
 var Content = mongoose.model('Content', contentSchema);
