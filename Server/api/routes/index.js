@@ -14,12 +14,16 @@ var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
+
+  return next(new Error('User Is Logged In!'));
 };
 
 var isUnAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();
   }
+
+  return next(new Error('User Is Not Logged In!'));
 };
 
 module.exports = function (passport) {
