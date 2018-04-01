@@ -7,6 +7,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { Product } from '../Product';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
@@ -27,9 +28,13 @@ export class MarketComponent implements OnInit {
   userItems: Product[];
   userItemsCurrentPage: number;
 
-  constructor(public dialog: MatDialog, private marketService: MarketService, @Inject(DOCUMENT) private document: Document) { }
+  constructor(public dialog: MatDialog, public router: Router,
+    private marketService: MarketService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
+    if (!this.user) {
+      this.router.navigate(['/']);
+    }
     this.userItemsCurrentPage = 1;
     this.currentPageNumber = 1;
     this.firstPage();

@@ -17,7 +17,6 @@ export class MarketService {
     return this.http.get(url).pipe(
       catchError(this.handleError('getMarketPage', []))
     );
-    // return of(products);
   }
   numberOfMarketPages(limiters: any): Observable<any> {
     let url = this.host + 'market/getNumberOfProducts/' +
@@ -29,7 +28,6 @@ export class MarketService {
     return this.http.get(url).pipe(
       catchError(this.handleError('getNumberOfProducts', []))
     );
-    // return of(products.length);
   }
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
