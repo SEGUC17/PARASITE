@@ -19,6 +19,12 @@
       <mat-form-field>
       <input matInput [(ngModel)]="activity.toDateN" name="toDateN" required type="datetime-local" placeholder="to">
     </mat-form-field>
-    <button mat-button type="submit" [disabled]="!activityForm.form.valid">Submit</button>
+    <div 
+      [hidden]="!activity.toDateN || !activity.fromDateN || activity.toDateN > activity.fromDateN" 
+      class="alert alert-danger">
+      From date can't be after to date
+    </div>
+    <button mat-button type="submit"
+    [disabled]="!activityForm.form.valid || activity.toDateN <= activity.fromDateN">Submit</button>
   </form>
 </mat-card>

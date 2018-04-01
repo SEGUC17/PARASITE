@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-activity-create',
@@ -22,8 +23,8 @@ export class ActivityCreateComponent implements OnInit {
   };
 
   constructor( 
-    private activityService: ActivityService,
-    private route: ActivatedRoute
+    private router: Router,
+    private activityService: ActivityService
   ) { }
 
   ngOnInit() {
@@ -32,12 +33,10 @@ export class ActivityCreateComponent implements OnInit {
   createActivity(){
     this.activity.fromDateTime = new Date(this.activity.fromDateN).getTime();
     this.activity.toDateTime = new Date(this.activity.toDateN).getTime();
-    console.log(this.activity.fromDateTime);
     this.activityService.postActivities(this.activity).subscribe(
-      function(res){
-        if(res.status == 201){
-          console.log(this.route.url);
-        }
+      res => {
+          console.log(res);
+          this.router.navigate([`activities/${res.data._id}`]);
       }
     )
   }
