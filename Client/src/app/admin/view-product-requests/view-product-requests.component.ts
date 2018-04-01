@@ -9,14 +9,13 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class ViewProductRequestsComponent implements OnInit {
 
-  requests: any[];
+  requests: any[] = [];
 
   constructor(private services: ProductRequestsService) {
     let self = this;
     this.services.getProductRequests().subscribe(function (res) {
       if (res.msg === 'Requests retrieved successfully.') {
         self.requests = res.data;
-        console.log(self.requests);
       }
     });
   }
@@ -28,13 +27,14 @@ export class ViewProductRequestsComponent implements OnInit {
     let reqToSend = this.requests[index];
     reqToSend['result'] = true;
     console.log(reqToSend);
+
+    let self = this;
     this.services.evalRequest(reqToSend).subscribe(function (res) {
       if (res.msg === 'Request accepted and product added to database.') {
-        let i = this.requests.indexOf(this.requests[index], 0);
+        let i = self.requests.indexOf(self.requests[index], 0);
         if (index > -1) {
-          this.requests.splice(i, 1);
+          self.requests.splice(i, 1);
         }
-        console.log(res.data);
       }
     });
   }
@@ -43,13 +43,14 @@ export class ViewProductRequestsComponent implements OnInit {
     let reqToSend = this.requests[index];
     reqToSend['result'] = false;
     console.log(reqToSend);
+
+    let self = this;
     this.services.evalRequest(reqToSend).subscribe(function (res) {
       if (res.msg === 'Request rejected and user notified.') {
-        let i = this.requests.indexOf(this.requests[index], 0);
+        let i = self.requests.indexOf(self.requests[index], 0);
         if (index > -1) {
-          this.requests.splice(i, 1);
+          self.requests.splice(i, 1);
         }
-        console.log(res.data);
       }
     });
   }

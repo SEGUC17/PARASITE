@@ -24,7 +24,6 @@ export class ProductRequestsService {
   }
 
   evalRequest(productReq: any): Observable<any> {
-    console.log('Got here');
     return this.http.post<any>(this.evalUrl, productReq, httpOptions);
   }
 

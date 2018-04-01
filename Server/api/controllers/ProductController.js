@@ -4,6 +4,7 @@ var moment = require('moment');
 var Validations = require('../utils/validators/is-object-id');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
+
 module.exports.getNumberOfProducts = function (req, res, next) {
     var toFind = {};
     var reqPrice = Number(req.params.price);
@@ -25,7 +26,7 @@ module.exports.getNumberOfProducts = function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            console.log(count+' number of products');
+            console.log(count + ' number of products');
             return res.status(200).json({
                 data: count,
                 err: null,
@@ -142,72 +143,69 @@ module.exports.getRequests = function (req, res, next) {
 };
 //createproduct
 
-module.exports.createProduct = function(req, res, next) {
-    if(!(typeof Product.body.name === 'string')) {
+module.exports.createProduct = function (req, res, next) {
+    if (!(typeof req.body.name === 'string')) {
         console.log("please insert product's name as a string")
-     }
-     var valid =
-     Product.body.name &&
-     Product.body.price &&
-     Product.body.acquiringType &&
-     Product.body.image &&
-     Product.body.description;
-   if (!valid) {
-     return res.status(422).json({
-       err: null,
-       msg: 'name(String) price(Number) and acquiringType(String) and image(String) and description(String) are required fields.',
-       data: null
-     });
-   }
+    }
+    var valid =
+        req.body.name &&
+        req.body.price &&
+        req.body.acquiringType &&
+        req.body.image &&
+        req.body.description;
+    if (!valid) {
+        return res.status(422).json({
+            err: null,
+            msg: 'name(String) price(Number) and acquiringType(String) and image(String) and description(String) are required fields.',
+            data: null
+        });
+    }
 
+    Product.create(req.body, function (err, product) {
 
-
-
-    Product.create(req.body, function(err, product) {
-    
-      if (err) {
-        return next(err);
-      }
-      res.status(201).json({
-        err: null,
-        msg: 'Product was created successfully.',
-        data: product
-      });
+        if (err) {
+            return next(err);
+        }
+        res.status(201).json({
+            err: null,
+            msg: 'Product was created successfully.',
+            data: product
+        });
     });
-  };
-  //createproduct end
+};
+//createproduct end
 
 // function readURL(input) {
 
 //     if (input.files && input.files[0]) {
 //       var reader = new FileReader();
-  
+
 //       reader.onload = function(e) {
 //         $('#blah').attr('src', e.target.result);
 //       }
-  
+
 //       reader.readAsDataURL(input.files[0]);
 //     }
 //   }
-  
+
 //   $("#imgInp").change(function() {
 //     readURL(this);
 //   });
-  
+
 //createProductRequest start
-  module.exports.createProductRequest = function(req, res, next) {
-    ProductRequest.create(req.body, function(err, productreq) {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).json({
-        err: null,
-        msg: 'ProductRequest was created successfully.',
-        data: productreq
-      });
+module.exports.createProductRequest = function (req, res, next) {
+    ProductRequest.create(req.body, function (err, productreq) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            err: null,
+            msg: 'ProductRequest was created successfully.',
+            data: productreq
+        });
     });
-  };
-  //createProductRequest end
+};
+//createProductRequest end
 
 
 module.exports.evaluateRequest = function (req, res, next) {
