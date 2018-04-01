@@ -30,9 +30,9 @@ export class ViewProductRequestsComponent implements OnInit {
     console.log(reqToSend);
     this.services.evalRequest(reqToSend).subscribe(function (res) {
       if (res.msg === 'Request accepted and product added to database.') {
-        let i = this.mockRequests.indexOf(this.mockRequests[index], 0);
+        let i = this.requests.indexOf(this.requests[index], 0);
         if (index > -1) {
-          this.mockRequests.splice(i, 1);
+          this.requests.splice(i, 1);
         }
         console.log(res.data);
       }
@@ -45,9 +45,9 @@ export class ViewProductRequestsComponent implements OnInit {
     console.log(reqToSend);
     this.services.evalRequest(reqToSend).subscribe(function (res) {
       if (res.msg === 'Request rejected and user notified.') {
-        let i = this.mockRequests.indexOf(this.mockRequests[index], 0);
+        let i = this.requests.indexOf(this.requests[index], 0);
         if (index > -1) {
-          this.mockRequests.splice(i, 1);
+          this.requests.splice(i, 1);
         }
         console.log(res.data);
       }
