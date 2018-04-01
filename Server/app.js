@@ -24,15 +24,22 @@ app.set(config.SECRET);
 app.disable('etag');
 
 //middleware
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:4200'
+}));
 app.use(helmet());
 app.use(compression());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-app.use(expressSession({ secret: 'mySecretKey' }));
+app.use(expressSession({
+  cookie: { maxAge: 12 * 60 * 60 * 1000 },
+  resave: true,
+  saveUninitialized: false,
+  secret: 'NAWWAR'
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
