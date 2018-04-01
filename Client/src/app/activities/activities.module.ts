@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ActivityComponent } from './activity/activity.component';
 import { ActivitiesRoutingModule } from './activities-routing.module';
 import { ActivityService } from './activity.service';
+import { AuthService } from '../auth/auth.service';
 import { ActivityCreateComponent } from './activity-create/activity-create.component';
 import { ActivityDetailComponent } from './activity-detail/activity-detail.component';
 
@@ -27,6 +28,6 @@ import { ActivityDetailComponent } from './activity-detail/activity-detail.compo
     FormsModule
   ],
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent],
-  providers: [ActivityService]
+  providers: [ActivityService, AuthService]
 })
 export class ActivitiesModule { }

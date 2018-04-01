@@ -5,7 +5,7 @@
   (page)="pageEvent = getActivities($event)">
 </mat-paginator>
 <div id="creation" *ngIf="canCreate">
-    <a class="btn btn-primary" href="{{createUrl}}">Create Activity</a> 
+    <a class="btn btn-primary" [hidden]="!user || !(user.isAdmin || user.verified)" href="{{createUrl}}">Create Activity</a> 
 </div>
 <div class="activities-container">
   <mat-card *ngFor="let activity of activities" class="activity-card">
