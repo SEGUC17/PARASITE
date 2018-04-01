@@ -84,64 +84,57 @@ module.exports = function (passport) {
   //  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
-  // --------------Content Module Endpoints---------------------- //
+    // --------------Content Module Endpoints---------------------- //
 
-  // Content Managemen
+    // Content Managemen
 
-  // Create a category
-  router.post('/content/category', contentController.createCategory);
-  // Create a section
+    // Create a category
+    router.post('/content/category', contentController.createCategory);
+    // Create a section
 
-  router.patch(
-    '/content/category/:id/section',
-    contentController.createSection
-  );
+    router.patch(
+      '/content/category/:id/section',
+      contentController.createSection
+    );
 
-  //Category retrieval
-  router.get('/content/category', contentController.getCategories);
+    //Category retrieval
+    router.get('/content/category', contentController.getCategories);
 
 
-  // Content Retrieval
+    // Content Retrieval
 
-  // Get a number of content pages
-  router.get(
-    '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
-    contentController.getNumberOfContentPages
-  );
-
-  // Get a page of content
-  router.get(
-    '/content/getContentPage/:numberOfEntriesPerPage' 
+    // Get a page of content
+    router.get(
+      '/content/getContentPage/:numberOfEntriesPerPage' +
       '/:pageNumber/:category/:section',
-    contentController.getContentPage
-  );
+      contentController.getContentPage
+    );
 
-  // Get a a certain content by ID
-  router.get('/content/view/:id', contentController.getContentById);
+    // Get the contents of a user
+    router.get(
+      '/content/username/:creator/:pageSize/:pageNumber',
+      contentController.getContentByCreator
+    );
+
+    // Get content by id
+    router.get(
+      '/content/view/:id',
+      contentController.getContentById
+    );
+
+    // Get Categories
+    router.get(
+      '/content/category',
+      contentController.getCategories
+    );
+
+    //Content Production
+
+    // Create new Content
+    router.post('/content', contentController.createContent);
 
 
-  // Get the contents of a user
-  router.get(
-    '/content/username/:creator/:pageSize/:pageNumber',
-    contentController.getContentByCreator
-  );
-
-  //Get the total number of contents of a user
-  router.get(
-    '/content/username/count/:creator',
-    contentController.getNumberOfContentByCreator
-  );
-
-  //Content Production
-
-  // Create new Content
-  router.post('/content', contentController.createContent);
-
-
-  // -------------------------------------------------------------------- //
-
-
-  // -------------------------------------------------------------------- //
+    // -------------------------------------------------------------------- //
   module.exports = router;
 
   return router;
