@@ -37,7 +37,7 @@ export class AddPsychRequestComponent implements OnInit {
 
   daysOff = new FormControl();
 
-  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri'];
+  daysOfWeek = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 
   matcher = new MyErrorStateMatcher();

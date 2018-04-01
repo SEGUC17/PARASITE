@@ -25,6 +25,11 @@ var isAuthenticated = function (req, res, next) {
   });
 };
 
+// ------------- psychologist's requests Controller ------------- //
+router.post('/psychologist/request/add/addRequest', addPsychReqCtrl.addRequest);
+router.get('/psychologist/request/getRequests', addPsychReqCtrl.getRequests);
+router.post('/psychologist/request/evalRequest', addPsychReqCtrl.evaluateRequest);
+
 var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();
@@ -44,18 +49,11 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
-  // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist', addPsychReqCtrl.getPsychologists);
-  router.post('/psychologist/request/add/addRequest', addPsychReqCtrl.addRequest);
-  router.get('/psychologist/request/getRequests', addPsychReqCtrl.getRequests);
-  router.post('/psychologist/request/evalRequest', addPsychReqCtrl.evaluateRequest);
-  // ------------- psychologist's requests Controller ------------- //
-
-  // --------------------- Activity Contoller -------------------- //
+// --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
   router.post('/activities', ActivityController.postActivity);
-  // --------------------- End of Activity Controller ------------ //
+// --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
@@ -71,16 +69,16 @@ module.exports = function (passport) {
   });
   // ---------------------- End of User Controller --------------- //
 
-  // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
-  router.get(
-    '/admin/PendingContentRequests',
-    adminController.viewPendingContReqs
-  );
-  router.patch(
-    '/admin/RespondContentRequest/:ContentRequestId',
-    adminController.respondContentRequest
-  );
+// -------------- Admin Contoller ---------------------- //
+router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
+router.get(
+'/admin/PendingContentRequests',
+adminController.viewPendingContReqs
+);
+router.patch(
+'/admin/RespondContentRequest/:ContentRequestId',
+adminController.respondContentRequest
+);
   // --------------End Of Admin Contoller ---------------------- //
 
 
@@ -99,7 +97,7 @@ module.exports = function (passport) {
   // );
 
 
-  //  router.get('/profile/:userId/getChildren', profileController.getProduct);
+//  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
 
