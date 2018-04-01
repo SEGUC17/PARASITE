@@ -85,21 +85,60 @@ module.exports = function (passport) {
   //------------------- End of Profile module Endpoints-----------//
 
   // --------------Content Module Endpoints---------------------- //
+
+  // Content Managemen
+
+  // Create a category
+  router.post('/content/category', contentController.createCategory);
+  // Create a section
+
+  router.patch(
+    '/content/category/:id/section',
+    contentController.createSection
+  );
+
+  //Category retrieval
+  router.get('/content/category', contentController.getCategories);
+
+
+  // Content Retrieval
+
+  // Get a number of content pages
+  router.get(
+    '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
+    contentController.getNumberOfContentPages
+  );
+
   // Get a page of content
   router.get(
-    '/content/getContentPage/:numberOfEntriesPerPage' +
-    '/:pageNumber/:category/:section',
+    '/content/getContentPage/:numberOfEntriesPerPage' 
+      '/:pageNumber/:category/:section',
     contentController.getContentPage
   );
+
+  // Get a a certain content by ID
+  router.get('/content/view/:id', contentController.getContentById);
+
+
+  // Get the contents of a user
   router.get(
     '/content/username/:creator/:pageSize/:pageNumber',
     contentController.getContentByCreator
+  );
+
+  //Get the total number of contents of a user
+  router.get(
+    '/content/username/count/:creator',
+    contentController.getNumberOfContentByCreator
   );
 
   //Content Production
 
   // Create new Content
   router.post('/content', contentController.createContent);
+
+
+  // -------------------------------------------------------------------- //
 
 
   // -------------------------------------------------------------------- //
