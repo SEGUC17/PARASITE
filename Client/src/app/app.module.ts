@@ -25,7 +25,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
 
-
 @NgModule({
   declarations: [
     AppComponent
@@ -51,8 +50,8 @@ import { HttpClientModule } from '@angular/common/http';
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
-    FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     MediaMatcher,

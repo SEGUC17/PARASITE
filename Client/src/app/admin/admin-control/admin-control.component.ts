@@ -28,7 +28,7 @@ export class AdminControlComponent implements OnInit {
 
   goToResIReq() {
     this.hideContentReqs = 1 - this.hideContentReqs;
-    console.log(this._adminService.test());
+    this._ResIReq.viewPendingContReqs();
   }
 
   goToPsychReq() {

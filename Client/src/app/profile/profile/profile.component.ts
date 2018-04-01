@@ -9,8 +9,9 @@ import { ProfileService } from '../profile.service';
 
 export class ProfileComponent implements OnInit {
 
-//---------- FLAGS --------------------
-//User Flags
+
+  //---------- FLAGS --------------------
+  //User Flags
   currIsOwner = false;
   currIsParent = false;
   currIsChild = false;
@@ -20,15 +21,15 @@ export class ProfileComponent implements OnInit {
   visitedIsChild = false;
   VisitedIsIndependent = false;
 
-//Tab Navigation Flags
+  //Tab Navigation Flags
   pInfo = true;
   children = false;
   plan = false;
   sched = false;
 
-//------------------------------------
+  //------------------------------------
 
-//---------- User Info ---------------
+  //---------- User Info ---------------
   Name: String = "Fulan el Fulany";
   Username: String;
   Age: Number;
@@ -36,20 +37,20 @@ export class ProfileComponent implements OnInit {
   Address: String;
   Phone: String;
   Birthday: Date;
-//------------------------------------
+  //------------------------------------
+
 
   constructor(private _ProfileService: ProfileService) { }
 
-
   ngOnInit() {
-      //Retrieve all current/visited user data and set all the variables
+
   }
 
   requestContributerValidation() {
-    this._ProfileService.makeContributerValidationRequest();
+    console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
   }
 
-  openInfo(): void{
+  openInfo(): void {
     this.pInfo = true;
     this.children = false;
     this.plan = false;
@@ -59,7 +60,7 @@ export class ProfileComponent implements OnInit {
     document.getElementById("childbtn").className = "";
     document.getElementById("plansbtn").className = "";
   }
-  openSched(): void{
+  openSched(): void {
     this.pInfo = false;
     this.children = false;
     this.plan = false;
@@ -69,7 +70,7 @@ export class ProfileComponent implements OnInit {
     document.getElementById("childbtn").className = "";
     document.getElementById("plansbtn").className = "";
   }
-  openPlans(): void{
+  openPlans(): void {
     this.pInfo = false;
     this.children = false;
     this.plan = true;
@@ -79,7 +80,7 @@ export class ProfileComponent implements OnInit {
     document.getElementById("childbtn").className = "";
     document.getElementById("plansbtn").className = "active";
   }
-  openChildren(): void{
+  openChildren(): void {
     this.pInfo = false;
     this.children = true;
     this.plan = false;
