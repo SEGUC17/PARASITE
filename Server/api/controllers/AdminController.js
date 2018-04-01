@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/nawwar');
 var ContentRequest = mongoose.model('ContentRequest');
 var VCR = require('../models/VerifiedContributerRequest');
+var Content = mongoose.model('Content');
 
 module.exports.viewPendingContReqs = function(req, res, next) {
    ContentRequest.find({}).
