@@ -37,7 +37,7 @@ Email: String;
 Address: String;
 Phone: String;
 Birthday: Date;
-listOfChildren: any[];
+listOfChildren: any[] = ["Ahmed", "Gannah", "Mahmoud"];
 id: any;
 //-------------------------------------
 //---------Visited User Info-----------
@@ -48,9 +48,10 @@ vEmail: String;
 vAddress: String;
 vPhone: String;
 vBirthday: Date;
-vlistOfChildren: any[];
-vId: any;
+vlistOfChildren: any[] = ["Ahmed", "Mariam","Rahma"];
+vId: any = "5ac0caaf1e46aabc13fec58c";
 //------------------------------------
+listOfAllChildren: any[];
 listOfUncommonChildren: any[];
 
 
@@ -58,21 +59,17 @@ listOfUncommonChildren: any[];
   constructor(private _ProfileService: ProfileService) { }
 
   ngOnInit() {
-
+    //this.listOfAllChildren = this.listOfChildren.concat(this.vlistOfChildren);
+    this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
   }
 
   requestContributerValidation() {
     console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
   }
 
-  showChildren(): void {
-    this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0); 
-    document.getElementById("childrenLinks").classList.toggle("show");
-  }
-
   addChild(child): void{
-    this.listOfChildren.push(child);
-    this._ProfileService.linkAnotherParent(this.listOfChildren,this.vId).subscribe();
+    this.vlistOfChildren.push(child);
+    this._ProfileService.linkAnotherParent(this.vlistOfChildren,this.vId).subscribe();
 
   }
 
