@@ -1,4 +1,40 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
+import { StudyPlan } from '../study-plan';
+import { StudyPlanService } from '../study-plan.service';
+import { Subject } from 'rxjs/Subject';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
+import {
+  isSameMonth,
+  isSameDay,
+  startOfMonth,
+  endOfMonth,
+  startOfWeek,
+  endOfWeek,
+  startOfDay,
+  endOfDay,
+  format,
+  subDays,
+  addDays,
+  addHours
+} from 'date-fns';
+
+const colors: any = {
+  red: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3'
+  },
+  blue: {
+    primary: '#1e90ff',
+    secondary: '#D1E8FF'
+  },
+  yellow: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA'
+  }
+};
 
 @Component({
   selector: 'app-study-plan-edit-view',
@@ -6,10 +42,152 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./study-plan-edit-view.component.css']
 })
 export class StudyPlanEditViewComponent implements OnInit {
+  @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  type: String;
+  _id: String;
+  username: String = 'alby';
+  studyPlan: StudyPlan;
+  view = 'month';
+  viewDate: Date = new Date();
+  title: String;
+  events: CalendarEvent[];
+  description: SafeHtml;
+  activeDayIsOpen: Boolean = true;
+  refresh: Subject<any> = new Subject();
+  private editor;
+  public editorOut;
+  public editorContent = ``;
+  private editorOptions = {
+    placeholder: 'insert content here'
+  };
+  separatorKeysCodes = [ENTER, COMMA, SPACE];
+  modalData: {
+    action: string;
+    event: CalendarEvent;
+  };
+  actions: CalendarEventAction[] = [
+    {
+      label: '<i class="fa fa-fw fa-pencil"></i>',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.handleEvent('Edited', event);
+      }
+    },
+    {
+      label: '<i class="fa fa-fw fa-times"></i>',
+      onClick: ({ event }: { event: CalendarEvent }): void => {
+        this.events = this.events.filter(iEvent => iEvent !== event);
+        this.handleEvent('Deleted', event);
+      }
+    }
+  ];
 
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) {
+    this.studyPlan = {
+      creator: '',
+      description: '',
+      events: [],
+      title: ''
+    };
+    this.events = [];
+    this.route.params.subscribe(params => {
+      this.type = params.type;
+      this._id = params.id;
+    });
+  }
 
   ngOnInit() {
+    if (this.type === 'edit') {
+      this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
+        .subscribe(res => {
+          this.studyPlan = res.data;
+          this.title = this.studyPlan.title;
+          this.events = this.studyPlan.events;
+          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
+          for (let index = 0; index < this.events.length; index++) {
+            this.events[index].start = new Date(this.events[index].start);
+            this.events[index].end = new Date(this.events[index].end);
+          }
+        });
+    }
+  }
+
+  fetchEvents(): void {
+    const getStart: any = {
+      month: startOfMonth,
+      week: startOfWeek,
+      day: startOfDay
+    }[this.view];
+
+    const getEnd: any = {
+      month: endOfMonth,
+      week: endOfWeek,
+      day: endOfDay
+    }[this.view];
+  }
+
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+        this.viewDate = date;
+      }
+    }
+  }
+
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd
+  }: CalendarEventTimesChangedEvent): void {
+    event.start = newStart;
+    event.end = newEnd;
+    this.handleEvent('Dropped or resized', event);
+    this.refresh.next();
+  }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    this.modalData = { event, action };
+  }
+
+  addEvent(): void {
+    this.events.push({
+      title: 'New event',
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
+      color: colors.red,
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true
+      }
+    });
+    this.refresh.next();
+  }
+
+  create(): void {
+    if (!this.title || !this.description || !this.events.length) {
+      alert('A Study Plan needs a title, a description, and at least one event.');
+      return;
+    }
+    this.studyPlan.title = this.title;
+    this.studyPlan.description = this.description;
+    this.studyPlan.events = this.events;
+    this.studyPlan.creator = this.username;
+    this.studyPlanService.createStudyPlan(this.username, this.studyPlan).subscribe(
+      res => {
+        alert(res.msg);
+      }
+    );
+  }
+
+  onContentChanged(quill) {
+    this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
+    this.description = String(this.editorOut);
   }
 
 }

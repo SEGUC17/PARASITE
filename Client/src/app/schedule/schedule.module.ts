@@ -16,6 +16,7 @@ import { DateTimePickerComponent } from './date-time-picker/date-time-picker.com
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { QuillEditorModule } from 'ngx-quill-editor';
+import { MatInputModule } from '@angular/material/input';
 import {
   NgbDatepickerModule,
   NgbTimepickerModule
@@ -40,7 +41,8 @@ import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/st
     NgbDatepickerModule.forRoot(),
     NgbTimepickerModule.forRoot(),
     QuillEditorModule,
-    MatDividerModule
+    MatDividerModule,
+    MatInputModule
   ],
   declarations: [
     ScheduleComponent,

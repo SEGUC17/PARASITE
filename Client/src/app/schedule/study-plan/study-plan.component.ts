@@ -74,7 +74,6 @@ export class StudyPlanComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) {
     this.studyPlan = {
-      _id: '',
       creator: '',
       description: '',
       events: [],

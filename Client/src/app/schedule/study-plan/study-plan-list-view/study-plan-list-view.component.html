@@ -6,7 +6,7 @@
       [pageIndex]="pageIndex"
       (page)="getStudyPlans($event)"
       ></mat-paginator>
-    <div *ngIf="type === 'personal'">
+    <div *ngIf="type === 'published'">
       <a mat-raised-button routerLink="../study-plan-edit/create" color="primary">Create A New Study Plan</a>
       <br /><br />
       <mat-divider></mat-divider>
