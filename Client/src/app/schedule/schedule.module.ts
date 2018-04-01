@@ -20,6 +20,7 @@ import {
   NgbTimepickerModule
 } from '@ng-bootstrap/ng-bootstrap';
 import { StudyPlanListViewComponent } from './study-plan/study-plan-list-view/study-plan-list-view.component';
+import { PublishedStudyPlansComponent } from './study-plan/published-study-plans/published-study-plans.component';
 
 
 
@@ -38,7 +39,7 @@ import { StudyPlanListViewComponent } from './study-plan/study-plan-list-view/st
     NgbTimepickerModule.forRoot(),
     QuillEditorModule
   ],
-  declarations: [ScheduleComponent, StudyPlanComponent, CalendarHeaderComponent, DateTimePickerComponent, StudyPlanListViewComponent],
+  declarations: [ScheduleComponent, StudyPlanComponent, CalendarHeaderComponent, DateTimePickerComponent, StudyPlanListViewComponent, PublishedStudyPlansComponent],
   providers: [StudyPlanService, ScheduleService]
 })
 export class ScheduleModule { }

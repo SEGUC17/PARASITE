@@ -9,7 +9,7 @@ module.exports.getPublishedStudyPlans = function (req, res, next) {
         {},
         {
             limit: 20,
-            page: 0
+            page: 1
         }, function (err, result) {
 
             if (err) {
@@ -55,7 +55,8 @@ module.exports.PublishStudyPlan = function (req, res, next) {
 
 var findStudyPlan = function (studyPlans, studyPlanID) {
     for (var index = 0; index < studyPlans.length; index += 1) {
-        if (studyPlanID.equals(studyPlans[index])) {
+        if (studyPlans[index]._id &&
+            studyPlans[index]._id.equals(studyPlanID)) {
             return studyPlans[index];
         }
     }
@@ -65,9 +66,13 @@ var findStudyPlan = function (studyPlans, studyPlanID) {
 
 module.exports.getPerosnalStudyPlan = function (req, res, next) {
     User.findOne({ username: req.params.username }, function (err, user) {
+        console.log('hi');
+
         if (err) {
             return next(err);
         }
+
+        console.log('bye');
 
         var target = findStudyPlan(user.studyPlans, req.params.studyPlanID);
 
@@ -80,7 +85,7 @@ module.exports.getPerosnalStudyPlan = function (req, res, next) {
         }
 
         return res.status(200).json({
-            //data: target,
+            data: target,
             err: null,
             msg: 'Study plan retrieved successfully.'
         });
@@ -106,6 +111,10 @@ module.exports.createStudyPlan = function (req, res, next) {
         { username: req.params.username },
         { $push: { 'studyPlans': req.body } },
         function (err) {
+            console.log('start');
+            console.log(req.params.username);
+            console.log(req.body);
+            console.log('end');
             if (err) {
                 return next(err);
             }

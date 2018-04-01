@@ -20,6 +20,6 @@ module.exports = function(passport) {
         });
     });
     signUp(passport);
-    //signIn(passport);
+    signIn(passport);
 };
 // ---------------------- End of Passport ---------------------- //

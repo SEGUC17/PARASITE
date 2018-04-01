@@ -38,6 +38,12 @@ var userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
+    firstName: {
+        index: true,
+        required: true,
+        sparse: true,
+        type: String
+    },
     isAdmin: {
         default: false,
         type: Boolean
@@ -54,11 +60,15 @@ var userSchema = mongoose.Schema({
         default: false,
         type: Boolean
     },
+    lastName: {
+        index: true,
+        required: true,
+        sparse: true,
+        type: String
+    },
     password: {
         required: true,
-        trim: true,
-        type: String,
-        unique: true
+        type: String
     },
     phone: {
         match: /^\d+$/,

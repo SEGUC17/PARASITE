@@ -11,12 +11,12 @@ export class StudyPlanService {
 
   constructor(private http: HttpClient) { }
 
-  getPerosnalStudyPlans(username: String): Observable<any> {
-    return this.http.get(this.endpoint + 'study-plan/getPerosnalStudyPlans/' + username);
+  getPersonalStudyPlans(username: String): Observable<any> {
+    return this.http.get(this.endpoint + 'study-plan/getPersonalStudyPlans/' + username);
   }
 
   getPersonalStudyPlan(username: String, studyPlanID: String): Observable<any> {
-    return this.http.get(this.endpoint + 'study-plan/getPerosnalStudyPlan/' + username + '/' + studyPlanID);
+    return this.http.get(this.endpoint + 'study-plan/getPersonalStudyPlan/' + username + '/' + studyPlanID);
   }
 
   getPublishedStudyPlan(studyPlanID: String): Observable<any> {

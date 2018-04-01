@@ -45,6 +45,7 @@ export class ScheduleComponent implements OnInit {
   events: CalendarEvent[] = [];
   // schedule: Schedule;
   activeDayIsOpen: Boolean = true;
+  refresh: Subject<any> = new Subject();
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -67,8 +68,6 @@ export class ScheduleComponent implements OnInit {
   };
 
 
-  refresh: Subject<any> = new Subject();
-  schedule: CalendarEvent[];    // TODO: To be obtained from server in viewPersonalSchedule by Dalia
 
   constructor(private scheduleService: ScheduleService) { }
   // FIXME: Temporary Constant
@@ -204,7 +203,7 @@ export class ScheduleComponent implements OnInit {
       };
       const indexChild = this.thisUser.children.indexOf(targetUser);
       if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
-        this.schedule.push(newEvent);
+        this.events.push(newEvent);
       }
     }
     this.refresh.next();
@@ -219,12 +218,12 @@ export class ScheduleComponent implements OnInit {
         end: end
       };
       const indexChild = this.thisUser.children.indexOf(targetUser);
-      const index = this.schedule.indexOf(oldEvent);
+      const index = this.events.indexOf(oldEvent);
       if (index === -1) {
         return; // Error: Event not found
       }
       if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
-        this.schedule.splice(index, 1);
+        this.events.splice(index, 1);
         this.createEvent(title, start, end, targetUser);
       }
     }
@@ -235,13 +234,13 @@ export class ScheduleComponent implements OnInit {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     if (this.thisUser.isParent) {
       const indexChild = this.thisUser.children.indexOf(targetUser);
-      const index = this.schedule.indexOf(event);
+      const index = this.events.indexOf(event);
       if (index === -1) {
         return;
       }
       // Error: Event not found
       if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
-        this.schedule.splice(index, 1);
+        this.events.splice(index, 1);
       }
     }
     this.refresh.next();
@@ -252,7 +251,7 @@ export class ScheduleComponent implements OnInit {
     // TODO: To be implemented in backend
     const indexChild = this.thisUser.children.indexOf(targetUser);
     if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
-      this.scheduleService.saveScheduleChanges(targetUser, this.schedule);
+      this.scheduleService.saveScheduleChanges(targetUser, this.events);
     }
     this.refresh.next();
   }
