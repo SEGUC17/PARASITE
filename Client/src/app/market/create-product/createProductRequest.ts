@@ -1,12 +1,10 @@
 export class createProductRequest {
-  
     name: String;
-    price:Number;
+    price: Number;
     seller: String;
-    image:String;
+    image: String;
     acquiringType: String;
-    rentPeriod:Number;
+    rentPeriod: Number;
     description: String;
     createdAt: Date;
-  
-  };
+}

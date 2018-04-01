@@ -1,79 +1,61 @@
-
-
+<h1 mat-dialog-title style="font-size: 35px; font-weight: bold">Product's Information</h1>
 <form (ngSubmit)="createProduct()" #createproduct="ngForm">
-<!-- <div class="form-group" > -->
+  <mat-card style="float:left;width:460px;height:430px">
+    <mat-form-field>
+      <input matInput placeholder="Product's name" name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
+    </mat-form-field>
 
-<div id = "form" >
-<mat-form-field>  
-  <input matInput placeholder="Product's name" name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name"> 
-  </mat-form-field>
-  
-  <div >     
-  <mat-form-field>
-    <textarea matInput placeholder="Products description" name="description" id="description" [(ngModel)]="formInput.description"></textarea>
-  </mat-form-field>
-  </div>
-
-  <div>
-  <mat-form-field>
-    <input matInput placeholder="Price" type="double" name="price" id="price" class="example-right-align" [(ngModel)]="formInput.price">
-    <span matPrefix>$&nbsp;</span>
-  </mat-form-field>
-  </div>
-
-
-  <div>
-      <div>
-  <mat-form-field>
-    <mat-select matInput placeholder="Product is up for" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
-      <mat-option value="rent"  name="rent">rent</mat-option>
-      <mat-option value="sell"  name="sell" >sell</mat-option>
-      <mat-option value="rent/sell"  name="rent/sell" >rent/sell</mat-option>
-
-    </mat-select>
-  </mat-form-field>
-</div>
-</div>
-
-<div>
-
-  <mat-form-field>
-     <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod" [(ngModel)]="formInput.rentPeriod" class="example-right-align">
-  </mat-form-field>
-</div>
-
- <div>
+    <div>
       <mat-form-field>
-       <input matInput placeholder="image URL" name="imageURL" id="imageURL" hintLabel="Image URL " [(ngModel)]="formInput.imageURL"> 
-       </mat-form-field>
- </div>
+        <textarea matInput placeholder="Products description" name="description" id="description" [(ngModel)]="formInput.description"></textarea>
+      </mat-form-field>
+    </div>
 
- 
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="Price" type="double" name="price" id="price" class="example-right-align" [(ngModel)]="formInput.price">
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+    </div>
 
 
-</div>
+    <div>
+      <div>
+        <mat-form-field>
+          <mat-select matInput placeholder="Product is up for" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
+            <mat-option value="rent" name="rent">rent</mat-option>
+            <mat-option value="sell" name="sell">sell</mat-option>
+            <mat-option value="rent/sell" name="rent/sell">rent/sell</mat-option>
 
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
 
+    <div>
 
-<div  class="form-group">
-    <div id="pic" >
-  <form action="/action_page.php">
-    <input type="file" name="pic" id="pic" [(ngModel)]="formInput.pic"  accept="image/*" capture>
-  </form>    
-</div>
-<!-- <div><img image src="https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150" alt="Product's Picture" id="image"/> </div> -->
-<div>
-  <img image src= {{formInput.imageURL}} alt="Product's Picture" id="image"/> 
-</div>
-</div>
+      <mat-form-field>
+        <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod" [(ngModel)]="formInput.rentPeriod"
+          class="example-right-align">
+      </mat-form-field>
+    </div>
 
-<div> 
-    <!-- <button mat-button class="md-raised md-primary" id="submit" type="submit" style="width:15%; background:#3f51b5; color:white" (click)="createProduct()">Create Product</button> -->
-    <button mat-button id="submit" type="submit" (ngSubmit)="createProduct()" >Create Product</button>
-
-  </div>
-<!-- </div> -->
-
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="image URL" name="imageURL" id="imageURL" hintLabel="Image URL " [(ngModel)]="formInput.imageURL">
+      </mat-form-field>
+    </div>
+  </mat-card>
+  <mat-card style="float: right; width:260px;height:400px;" class="mat-elevation-z0">
+    <img mat-card-image src={{formInput.imageURL}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
+      style="height:300px; width:260px;" alt="Product's Picture" />
+    <form action="/action_page.php">
+      <input type="file" name="pic" id="pic" [(ngModel)]="formInput.pic" accept="image/*" capture>
+    </form>
+    <mat-card-actions>
+      <button mat-button style="margin-top:30px;float:right;width:50%;background:#3f51b5; color:white">Create Product</button>
+    </mat-card-actions>
+  </mat-card>
 </form>
 
 
@@ -90,4 +72,3 @@
   class="btn_link"
    onclick="TS.client.ui.files.$upload.trigger('click');">upload a new image</button>.</p>
   </div>   -->
-      

@@ -8,6 +8,7 @@ import { Product } from '../Product';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { CreateProductComponent } from '../create-product/create-product.component';
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
@@ -55,7 +56,15 @@ export class MarketComponent implements OnInit {
   }
 
   goToCreate() {
-    this.router.navigateByUrl('/market/createProduct');
+    let dialogRef = this.dialog.open(CreateProductComponent, {
+      width: '850px',
+      height: '550px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   getPage(): void {

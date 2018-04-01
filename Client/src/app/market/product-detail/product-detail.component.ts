@@ -11,8 +11,5 @@ export class ProductDetailComponent {
   constructor(public dialogRef: MatDialogRef<ProductDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
 
 }

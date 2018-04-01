@@ -1,82 +1,70 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MarketService } from '../market.service';
 import { createProductRequest } from './createProductRequest';
-
+import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
   styleUrls: ['./create-product.component.css']
 })
-export class CreateProductComponent implements OnInit {
+export class CreateProductComponent {
 
-  constructor(private MarketService: MarketService) { } //do i need a route here?
-  ngOnInit() {
-    console.log('entered create');
-   }
+  constructor(private marketService: MarketService, public dialogRef: MatDialogRef<CreateProductComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
   productrequest: createProductRequest;
-
   formInput = <any>{};
-
-  createProductRequest(product: any) { //should the paramerters be empty
-    var user = { //their fns are under development, so used as a variable
-      name: user,
+  createProductRequest(product: any) {
+    let user = {
+      _id: String,
       isAdmin: false,
-    }
-    //  var userr = getUser
-    var pro = {
+    };
+    let pro = {
       name: this.formInput.name,
       price: this.formInput.price,
-      seller: user.name,//......................incorrect, please check 
+      seller: user._id,
       image: this.formInput.imageURL,
       acquiringType: this.formInput.acquiringType,
       rentPeriod: this.formInput.rentPeriod,
       description: this.formInput.description,
       createdAt: new Date,
     };
-    
+    let error = false;
 
-
-    var error = false;
-
-    if (((<HTMLInputElement>document.getElementById('acquiringType')).value) == ""
-      || ((<HTMLInputElement>document.getElementById('description')).value) === ""
-      // || ((<HTMLInputElement>document.getElementById("rentPeriod")).value) == ""
-      || ((<HTMLInputElement>document.getElementById('price')).value) === ""
-      || ((<HTMLInputElement>document.getElementById('pic')).value) == ""
-      || ((<HTMLInputElement>document.getElementById('name')).value) === "") {
-        
+    if (((<HTMLInputElement>document.getElementById('acquiringType')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('description')).value) === ''
+      // || ((<HTMLInputElement>document.getElementById('rentPeriod')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('price')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('pic')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('name')).value) === '') {
       error = true;
-    
-
     }
     // if((typeof pro.price != 'number')) {
-    //   console.log("incorrect");
+    //   console.log('incorrect');
     //   error=true
     // }
     if (!error) {
-      var productrequest = this.productrequest;
-      // var self = this;
-      this.MarketService.createProductRequest(pro).subscribe(function (res) {
-        alert("request was sent");
+      let productrequest = this.productrequest;
+      // let self = this;
+      this.marketService.createProductRequest(pro).subscribe(function (res) {
+        alert('request was sent');
 
       });
     } else {
-      alert("REQUEST FAILED: Please make sure you have all data written");
+      alert('REQUEST FAILED: Please make sure you have all data written');
     }
-   
   }
 
   createProduct(product: any) {
-    var user = { //their fns are under development, so used as a variable
-      name: 'ahmed',
+    let user = {
+      _id: 'ahmed',
       isAdmin: false,
-    }
+    };
 
-    var pro = {
+    let pro = {
       name: this.formInput.name,
       price: this.formInput.price,
-      seller: user.name,//......................incorrect, please check 
+      seller: user._id,
       image: this.formInput.imageURL,
       acquiringType: this.formInput.acquiringType,
       rentPeriod: this.formInput.rentPeriod,
@@ -85,41 +73,36 @@ export class CreateProductComponent implements OnInit {
     };
     console.log(pro);
 
-    var error = false;
+    let error = false;
 
-    if (((<HTMLInputElement>document.getElementById('acquiringType')).value) == ""
-      || ((<HTMLInputElement>document.getElementById('description')).value) === ""
-      // || ((<HTMLInputElement>document.getElementById("rentPeriod")).value) == ""
-      || ((<HTMLInputElement>document.getElementById('price')).value) === ""
-      || ((<HTMLInputElement>document.getElementById('pic')).value) == ""
-      || ((<HTMLInputElement>document.getElementById('name')).value) === "") {
+    if (((<HTMLInputElement>document.getElementById('acquiringType')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('description')).value) === ''
+      // || ((<HTMLInputElement>document.getElementById('rentPeriod')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('price')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('pic')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('name')).value) === '') {
       error = true;
     }
     if (!error) {
-      if (user.isAdmin == true) {
-        var self = this;
-        this.MarketService.createProduct(pro).subscribe(function (res) {
-          alert("Product created");
-
+      if (user.isAdmin === true) {
+        let self = this;
+        this.marketService.createProduct(pro).subscribe(function (res) {
+          alert('Product created');
+          this.dialogRef.close();
         });
-      }
-      else {
-        var self = this;
-        this.MarketService.createProductRequest(pro).subscribe(function (res) {
+      } else {
+        let self = this;
+        this.marketService.createProductRequest(pro).subscribe(function (res) {
           console.log(res.data);
-          alert("request was sent");
+          alert('request was sent');
+          this.dialogRef.close();
         });
       }
     } else {
-      alert("REQUEST FAILED: Please make sure you have all data written");
+      alert('REQUEST FAILED: Please make sure you have all data written');
     }
   }
-
-
-
-
-
-  
 }
+
 
 
