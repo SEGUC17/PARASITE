@@ -15,20 +15,18 @@ export class ProfileService {
 constructor(private http: HttpClient) { }
 
 
-private Url = 'http://localhost:3000/api/profile/'
+private Url = 'http://localhost:3000/api/profile'
 getUserInfo(username: String): Observable<any> {
     return this.http.get(`${this.Url}/${username}`);
   }
 
+
 private linkAnotherParentUrl = 'http://localhost:3000/api/profile/LinkAnotherParent/'
-linkAnotherParent(childrenList, vId): Observable<any>{
-  return this.http.patch<any>(`${this.linkAnotherParentUrl}/${vId}`, childrenList, httpOptions);
+linkAnotherParent(children, vId): Observable<any>{
+  return this.http.put<any>(`${this.linkAnotherParentUrl}/${vId}`, children, httpOptions);
   
 }
 
-getListOfUncommonChildren(): Observable<any>{
-  return 
-}
 
 private UnlinkUrl = 'http://localhost:3000/api/profile/Unlink/'
 Unlink(childrenList): Observable<any>{

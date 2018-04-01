@@ -16,11 +16,12 @@
           <button mat-raised-button id="btnRequestContributerValidation"  (click)="requestContributerValidation()">Make me a verified contributor</button>
           <button mat-raised-button id="linkToParent" *ngIf = "true" (click)= "linkToParent()">Add as a parent</button>
           <span class="dropdown" *ngIf = "true">
-            <button mat-raised-button id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
-            <tr *ngFor = "let child of listOfUncommonChildren" id="childrenLinks" class = dropdown-content >
-              <td>{{child}}</td>
-              <td><button class = "myButton" (click)="addChild(child)"><i class="fa fa-plus"></i></button></td>
-            </tr>
+            <button mat-raised-button [matMenuTriggerFor]="menu" id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
+            <mat-menu #menu="matMenu">
+                <button *ngFor="let child of listOfUncommonChildren" mat-menu-item (click) = "addChild(child)" >
+                  <span>{{child}}</span>
+                </button>
+              </mat-menu>
           </span> 
           <button mat-raised-button >Make Independent</button>
           <span class="dropdown" *ngIf = "true">
