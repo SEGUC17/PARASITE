@@ -11,7 +11,7 @@
 <label>Body:
   <input #body [(ngModel)]=Body/>
 </label>
-<!--sender.value=''; receiver.value=''; body.value=''"-->
-<button (click)="send()" >
+
+<button (click)="send(); sender.value=''; receiver.value=''; body.value=''">
   Send
 </button>
