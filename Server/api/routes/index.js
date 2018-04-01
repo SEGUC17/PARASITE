@@ -84,25 +84,57 @@ module.exports = function (passport) {
   //  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
-  // --------------Content Module Endpoints---------------------- //
-  // Get a page of content
-  router.get(
-    '/content/getContentPage/:numberOfEntriesPerPage' +
-    '/:pageNumber/:category/:section',
-    contentController.getContentPage
-  );
-  router.get(
-    '/content/username/:creator/:pageSize/:pageNumber',
-    contentController.getContentByCreator
-  );
+    // --------------Content Module Endpoints---------------------- //
 
-  //Content Production
+    // Content Managemen
 
-  // Create new Content
-  router.post('/content', contentController.createContent);
+    // Create a category
+    router.post('/content/category', contentController.createCategory);
+    // Create a section
+
+    router.patch(
+      '/content/category/:id/section',
+      contentController.createSection
+    );
+
+    //Category retrieval
+    router.get('/content/category', contentController.getCategories);
 
 
-  // -------------------------------------------------------------------- //
+    // Content Retrieval
+
+    // Get a page of content
+    router.get(
+      '/content/getContentPage/:numberOfEntriesPerPage' +
+      '/:pageNumber/:category/:section',
+      contentController.getContentPage
+    );
+
+    // Get the contents of a user
+    router.get(
+      '/content/username/:creator/:pageSize/:pageNumber',
+      contentController.getContentByCreator
+    );
+
+    // Get content by id
+    router.get(
+      '/content/view/:id',
+      contentController.getContentById
+    );
+
+    // Get Categories
+    router.get(
+      '/content/category',
+      contentController.getCategories
+    );
+
+    //Content Production
+
+    // Create new Content
+    router.post('/content', contentController.createContent);
+
+
+    // -------------------------------------------------------------------- //
   module.exports = router;
 
   return router;
