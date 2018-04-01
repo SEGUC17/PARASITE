@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
+import { apiUrl } from '../../variables';
 
 @Component({
   selector: 'app-activity',
@@ -16,8 +17,10 @@ export class ActivityComponent implements OnInit {
   numberOfElements: Number;
   pageSize: Number;
   pageIndex: Number;
+  canCreate: Boolean;
+  private createUrl = "/create-activity";
 
-  constructor( private activityService: ActivityService) { }
+  constructor(private activityService: ActivityService) { }
 
   ngOnInit() {
     this.getActivities(null);
@@ -30,7 +33,7 @@ export class ActivityComponent implements OnInit {
       @var event: An object that gets fired by mat-paginator
     */
     let page = 1;
-    if(event){
+    if (event) {
       page = event.pageIndex + 1;
     }
     this.activityService.getActivities(page).subscribe(
@@ -38,20 +41,23 @@ export class ActivityComponent implements OnInit {
     )
   }
 
+
   updateLayout(res) {
     /*
       Setting new values comming from 
       the response
     */
+    document.querySelector(".mat-sidenav-content").scrollTop = 0;
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
     this.pageIndex = res.data.pageIndex;
-    console.log(this.activities[0].image);
-    for(let activity of this.activities){
-      if(!activity.image){
+    this.canCreate = true;
+    for (let activity of this.activities) {
+      if (!activity.image) {
         activity.image = "assets/images/activity-view/default-activity-image.jpg";
       }
     }
   }
+
 }
