@@ -10,7 +10,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import { MarketService } from './market.service';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
-
+import {MatSliderModule,
+MatSlideToggleModule} from '@angular/material';
 @NgModule({
   imports: [
     CommonModule,
@@ -24,6 +25,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angula
     MatPaginatorModule,
     MatDialogModule,
     MatButtonModule,
+    MatSliderModule,
+    MatSlideToggleModule,
     MatTabsModule,
     FormsModule
   ],

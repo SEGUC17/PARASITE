@@ -19,9 +19,10 @@ export class MarketComponent implements OnInit {
   currentPageNumber: number;
   entriesPerPage = 5;
   selectedName: String = 'NA';
-  selectedPrice = 0;
+  selectedPrice = -1;
   numberOfPages: number;
   numberOfProducts: number;
+  myItems: Product[];
   constructor(public dialog: MatDialog, private marketService: MarketService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
@@ -43,7 +44,7 @@ export class MarketComponent implements OnInit {
   getPage(): void {
     const self = this;
     const limiters = {
-      price: self.selectedPrice,
+      price: self.selectedPrice + 1,
       name: self.selectedName
     };
     self.marketService.getMarketPage(self.entriesPerPage,
@@ -56,7 +57,7 @@ export class MarketComponent implements OnInit {
   firstPage(): void {
     const self = this;
     const limiters = {
-      price: self.selectedPrice,
+      price: self.selectedPrice + 1,
       name: self.selectedName
     };
     this.marketService.numberOfMarketPages(limiters)
@@ -66,7 +67,15 @@ export class MarketComponent implements OnInit {
         self.getPage();
       });
   }
-
+  clearLimits(): void {
+    this.selectedName = 'NA';
+    this.selectedPrice = -1;
+    this.firstPage();
+  }
+  tabChanged(event): void {
+    if (event.tab.textLabel === 'My items' && !this.myItems) {
+    }
+  }
   onPaginateChange(event): void {
     this.currentPageNumber = event.pageIndex + 1;
     this.getPage();
