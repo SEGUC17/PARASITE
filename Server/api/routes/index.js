@@ -52,6 +52,7 @@ module.exports = function (passport) {
   router.get('/study-plan/getPerosnalStudyPlan/:username/:studyPlanID', studyPlanController.getPerosnalStudyPlan);
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/getPublishedStudyPlan/:username', studyPlanController.createStudyPlan);
+  router.post('study-plan/PublishStudyPlan', studyPlanController.PublishStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //

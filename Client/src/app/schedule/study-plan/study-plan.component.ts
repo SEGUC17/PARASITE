@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { StudyPlan } from './study-plan';
+import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer } from '@angular/platform-browser';
 import {
@@ -77,7 +78,7 @@ export class StudyPlanComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer, private studyPlanService: StudyPlanService) { }
 
   ngOnInit() {
     this.fetchEvents();
@@ -176,6 +177,7 @@ export class StudyPlanComponent implements OnInit {
   }
 
   publish(): void {
+    this.studyPlanService.PublishStudyPlan(this.studyPlan);
     alert('Implement Publish Study Plan!');
   }
 

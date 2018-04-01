@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { StudyPlan } from './study-plan';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class StudyPlanService {
@@ -28,5 +29,10 @@ export class StudyPlanService {
 
   getPublishedStudyPlans(): Observable<any> {
     return this.http.get(this.endpoint + 'study-plan/getPublishedStudyPlans ');
+  }
+
+  PublishStudyPlan(studyPlan: StudyPlan): Observable<any> {
+    return this.http.post(this.endpoint + 'study-plan/PublishStudyPlan', studyPlan);
+
   }
 }

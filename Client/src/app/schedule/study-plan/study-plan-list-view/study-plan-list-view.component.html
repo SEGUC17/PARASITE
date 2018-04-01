@@ -1,4 +1,8 @@
-<mat-paginator [length]="numberOfElements" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="studyPlans = getPublishedPLans()"></mat-paginator>
+<mat-paginator [length]="numberOfElements" 
+[pageSize]="pageSize"
+ [pageIndex]="pageIndex"
+  (page)="studyPlans = getPublishedPLans()"
+  ></mat-paginator>
 <div class="publishedPLans-container">
   <mat-card *ngFor="let plan of studyPlans" class="publishedPlans-card">
     <mat-card-title>{{plan.title}}</mat-card-title>

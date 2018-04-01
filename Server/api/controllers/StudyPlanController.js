@@ -40,6 +40,19 @@ module.exports.getPerosnalStudyPlans = function (req, res, next) {
     });
 };
 
+module.exports.PublishStudyPlan = function (req, res, next) {
+    StudyPlan.create(req.body, function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.status(201).json({
+            err: null,
+            msg: 'StudyPlan was published successfully.'
+
+        });
+    });
+};
+
 var findStudyPlan = function (studyPlans, studyPlanID) {
     for (var index = 0; index < studyPlans.length; index += 1) {
         if (studyPlanID.equals(studyPlans[index])) {
