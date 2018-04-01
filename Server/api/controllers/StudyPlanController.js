@@ -5,11 +5,13 @@ var CalendarEvent = mongoose.model('CalendarEvent'),
 
 
 module.exports.getPublishedStudyPlans = function (req, res, next) {
+    console.log(req.params.pageNumber);
+    console.log(req.params.pageNumber + 1);
     StudyPlan.paginate(
         {},
         {
             limit: 20,
-            page: 1
+            page: req.params.pageNumber
         }, function (err, result) {
 
             if (err) {
@@ -36,6 +38,19 @@ module.exports.getPerosnalStudyPlans = function (req, res, next) {
             data: user.studyPlans,
             err: null,
             msg: 'Study plans retrieved successfully.'
+        });
+    });
+};
+
+module.exports.PublishStudyPlan = function (req, res, next) {
+    StudyPlan.create(req.body, function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.status(201).json({
+            err: null,
+            msg: 'StudyPlan was published successfully.'
+
         });
     });
 };

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { StudyPlan } from './study-plan';
+import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { StudyPlanService } from './study-plan.service';
 import {
   isSameMonth,
   isSameDay,
@@ -206,6 +206,7 @@ export class StudyPlanComponent implements OnInit {
   }
 
   publish(): void {
+    this.studyPlanService.PublishStudyPlan(this.studyPlan);
     alert('Implement Publish Study Plan!');
   }
 
