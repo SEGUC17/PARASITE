@@ -22,16 +22,6 @@ export class ContentService {
       );
   }
 
-  getNumberOfContentPages(numberOfEntriesPerPage: any, category: any, section: any): Observable<any> {
-    // TODO handle what happens with nulls by testing
-    const self = this;
-    return this.http.get(self.endpoint + 'content/numberOfContentPages/' +
-      numberOfEntriesPerPage + '/' + category + '/' + section)
-      .pipe(
-        catchError(self.handleError('getNumberOfContentPages', []))
-      );
-  }
-
   getContentById(id: any): Observable<any> {
     const self = this;
     return this.http.get(self.endpoint + 'content/view/' + id)
@@ -53,14 +43,6 @@ export class ContentService {
     return this.http.get(self.endpoint + 'content/username/' + username + '/' + pageSize + '/' + pageNumber)
       .pipe(
         catchError(self.handleError('getContentByCreator', []))
-      );
-  }
-
-  getNumberOfContentByCreator(username: any): Observable<any> {
-    const self = this;
-    return this.http.get(self.endpoint + 'content/username/count/' + username)
-      .pipe(
-        catchError(self.handleError('getNumberOfContentByCreator', []))
       );
   }
 

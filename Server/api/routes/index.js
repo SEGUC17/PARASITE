@@ -96,6 +96,18 @@ module.exports = function (passport) {
     contentController.getContentByCreator
   );
 
+  // Get content by id
+  router.get(
+    '/content/view/:id',
+    contentController.getContentById
+  );
+
+  // Get Categories
+  router.get(
+    '/content/category',
+    contentController.getCategories
+  );
+
   //Content Production
 
   // Create new Content
