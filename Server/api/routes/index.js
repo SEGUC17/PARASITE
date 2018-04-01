@@ -4,6 +4,7 @@
 var express = require('express');
 var router = express.Router();
 
+var userController = require('../controllers/UserController');
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
@@ -15,15 +16,23 @@ var isAuthenticated = function (req, res, next) {
     return next();
   }
 
-  return next(new Error('User Is Logged In!'));
+  return res.status(401).json({
+    data: null,
+    error: null,
+    msg: 'User Is Not Logged In!'
+  });
 };
 
-var isUnAuthenticated = function (req, res, next) {
+var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();
   }
 
-  return next(new Error('User Is Not Logged In!'));
+  return res.status(403).json({
+    data: null,
+    error: null,
+    msg: 'User Is Already Logged In!'
+  });
 };
 
 module.exports = function (passport) {
@@ -40,8 +49,8 @@ module.exports = function (passport) {
 // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/signup', isUnAuthenticated, passport.authenticate('local-signup'));
-  router.post('/signin', isUnAuthenticated, passport.authenticate('local-signin'));
+  router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
+  router.post('/signin', isNotAuthenticated, passport.authenticate('local-signin'), userController.signIn);
   // ---------------------- End of User Controller --------------- //
 
 // -------------- Admin Contoller ---------------------- //
