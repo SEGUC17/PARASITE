@@ -148,6 +148,12 @@ module.exports.postActivity = function (req, res, next) {
         var user = User.findById(userId);
         isAdmin = user.isAdmin;
         isVerified = user.isVerified;
+    } else {
+        return res.status(401).json({
+            data: null,
+            err: null,
+            msg: 'You have to login to create an activity.'
+        });
     }
 
     if (!(isAdmin || isVerified)) {
