@@ -1,6 +1,18 @@
 <p>
-  view-content-requests works!
-  <button (click)="approveContentRequest('5abf96c5ac6b02b8b9a15240')"  mat-raised-button>Approve</button>
-
-  <button (click)="disapproveContentRequest('5abf96c5ac6b02b8b9a15240')"  mat-raised-button>Disapprove</button>
+  
+<mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>contentTitle</mat-card-title>
+      <mat-card-subtitle>ContentType</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        Creator , Date
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="approveContentRequest('5abf96c5ac6b02b8b9a15240')"> Approve </button>
+      <button mat-button (click)="disapproveContentRequest('5abf96c5ac6b02b8b9a15240')">Disapprove </button>
+    </mat-card-actions>
+  </mat-card>
 </p>

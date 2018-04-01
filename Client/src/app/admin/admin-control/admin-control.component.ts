@@ -23,11 +23,12 @@ export class AdminControlComponent implements OnInit {
   ngOnInit() {
 
   }
-
-  goToResIReq() {
-    this.hideContentReqs = 1 - this.hideContentReqs;
-    this._ResIReq.viewPendingContReqs();
+  onSelectChange(event) {
+    if (event.index === 1) {
+      this._ResIReq.viewPendingContReqs();
   }
+}
+
 
   viewVCRequests() {
     console.log('gonna hide the component');

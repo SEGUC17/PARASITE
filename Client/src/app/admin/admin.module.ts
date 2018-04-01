@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatCardModule} from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -22,7 +24,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatButtonToggleModule,
     MatInputModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatCardModule,
+    MatTabsModule
   ],
   declarations: [AdminControlComponent,
     ViewContentRequestsComponent,
