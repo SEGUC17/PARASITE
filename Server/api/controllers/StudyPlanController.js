@@ -5,8 +5,6 @@ var CalendarEvent = mongoose.model('CalendarEvent'),
 
 
 module.exports.getPublishedStudyPlans = function (req, res, next) {
-    console.log(req.params.pageNumber);
-    console.log(req.params.pageNumber + 1);
     StudyPlan.paginate(
         {},
         {
@@ -68,13 +66,9 @@ var findStudyPlan = function (studyPlans, studyPlanID) {
 
 module.exports.getPerosnalStudyPlan = function (req, res, next) {
     User.findOne({ username: req.params.username }, function (err, user) {
-        console.log('hi');
-
         if (err) {
             return next(err);
         }
-
-        console.log('bye');
 
         var target = findStudyPlan(user.studyPlans, req.params.studyPlanID);
 
@@ -113,10 +107,6 @@ module.exports.createStudyPlan = function (req, res, next) {
         { username: req.params.username },
         { $push: { 'studyPlans': req.body } },
         function (err) {
-            console.log('start');
-            console.log(req.params.username);
-            console.log(req.body);
-            console.log('end');
             if (err) {
                 return next(err);
             }

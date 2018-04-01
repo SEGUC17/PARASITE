@@ -32,37 +32,6 @@ var calendarEventSchema = mongoose.Schema({
         require: true,
         type: String
     }
-    // end: {
-    //     type: Date
-    // },
-    // title: {
-    //     type: String,
-    //     require: true
-    // },
-    // color: {
-    //     type: {}
-    // },
-    // actions: {
-    //     type: [{}]
-    // },
-    // allDay: {
-    //     type: Boolean
-    // },
-    // cssClass: {
-    //     type: String
-    // },
-    // resizable: {
-    //     type: {
-    //         beforeStart: Boolean,
-    //         afterEnd: Boolean
-    //     }
-    // },
-    // draggable: {
-    //     type: Boolean
-    // },
-    // meta: {
-    //     type: {}
-    // }
 });
 // ---------------------- End of Schemas ---------------------- //
 
