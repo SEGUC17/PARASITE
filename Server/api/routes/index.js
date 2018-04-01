@@ -8,6 +8,7 @@ var router = express.Router();
 var User = require('../models/User');
 
 var SearchController = require('../controllers/SearchController');
+var userController = require('../controllers/UserController');
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
@@ -18,8 +19,15 @@ var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
+
+  return res.status(401).json({
+    data: null,
+    error: null,
+    msg: 'User Is Not Signed In!'
+  });
 };
 
+<<<<<<< HEAD
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.send('Server Works');
@@ -31,6 +39,19 @@ router.get('./User/Search/:username', SearchController.Search);
 router.get('./User/FilterByLevelOfEducation/:level', SearchController.FilterByLevelOfEducation);
 router.get('./User/FilterBySystemOfEducation/:system', SearchController.FilterBySystemOfEducation);
   // --------------------- End of Search Controller ------------ //
+=======
+var isNotAuthenticated = function (req, res, next) {
+  if (!req.isAuthenticated()) {
+    return next();
+  }
+
+  return res.status(403).json({
+    data: null,
+    error: null,
+    msg: 'User Is Already Signed In!'
+  });
+};
+>>>>>>> master
 
 module.exports = function (passport) {
 
@@ -39,24 +60,60 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
-  // --------------------- Activity Contoller -------------------- //
+// --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
-  // --------------------- End of Activity Controller ------------ //
+  router.get('/activities/:activityId', ActivityController.getActivity);
+  router.post('/activities', ActivityController.postActivity);
+// --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
+<<<<<<< HEAD
   router.post('/signup', isAuthenticated, passport.authenticate('local-signup'));
   router.post('/signin', isAuthenticated, passport.authenticate('local-signin'));
+=======
+  router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
+  router.post('/signin', isNotAuthenticated, passport.authenticate('local-signin'), userController.signIn);
+  router.get('/signout', function (req, res) {
+    req.logout();
+
+    return res.status(200).json({
+      data: null,
+      error: null,
+      msg: 'Sign Out Successfully!'
+    });
+  });
+>>>>>>> master
   // ---------------------- End of User Controller --------------- //
 
 // -------------- Admin Contoller ---------------------- //
-router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
 router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
+router.get(
+'/admin/PendingContentRequests',
+adminController.viewPendingContReqs
+);
+router.patch(
+'/admin/RespondContentRequest/:ContentRequestId',
+adminController.respondContentRequest
+);
   // --------------End Of Admin Contoller ---------------------- //
 
 
   //-------------------- Profile Module Endpoints ------------------//
-  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
-  router.get('/profile/:username', profileController.getUserInfo);
+  router.post(
+    '/profile/VerifiedContributerRequest',
+    profileController.requestUserValidation
+  );
+  router.get(
+    '/profile/:username',
+    profileController.getUserInfo
+  );
+  // router.get(
+  //   '/profile/LinkAnotherParent/:parentID',
+  //   profileController.linkAnotherParent
+  // );
+
+
+//  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
 

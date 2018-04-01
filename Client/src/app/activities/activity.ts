@@ -11,3 +11,12 @@ export class Activity {
     updatedAt : Date;
     image : String;
 }
+
+export class ActivityCreate {
+    name: String;
+    description: String;
+    price: Number;
+    fromDateTime: Date;
+    toDateTime: Date;
+    image: String;
+}

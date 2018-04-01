@@ -4,10 +4,9 @@ var cookieParser = require('cookie-parser');
 var compression = require('compression');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
-var expressSession = require('express-session');
 var passport = require('passport');
+var expressSession = require('express-session');
 var cors = require('cors');
-
 
 //config file
 var config = require('./api/config/config');
@@ -15,13 +14,11 @@ var config = require('./api/config/config');
 // mongoose Database connection
 require('./api/config/DBConnection');
 
-//router
-
-
 //express app
 var app = express();
 app.set(config.SECRET);
 
+//middleware
 // Disabling etag for testing
 // @author: Wessam
 app.disable('etag');
@@ -34,7 +31,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(expressSession({ secret: 'mySecretKey' }));
+app.use(expressSession({
+  cookie: { maxAge: 12 * 60 * 60 * 1000 },
+  resave: true,
+  saveUninitialized: true,
+  secret: 'NAWWAR'
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
