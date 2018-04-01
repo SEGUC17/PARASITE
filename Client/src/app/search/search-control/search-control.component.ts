@@ -31,10 +31,10 @@ export class SearchControlComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     let input = event.input;
     let value = event.value;
+    console.log('entered');
 
-    // Add our fruit
     if ((value || '').trim()) {
-      this.tags.push(value.trim());
+      this.tag = (value.trim());
     }
 
     // Reset the input value
@@ -42,10 +42,13 @@ export class SearchControlComponent implements OnInit {
       input.value = '';
     }
   }
+  addTag(s: string): void {
+    this.tag = s;
+  }
 
   remove(tag: any): void {
     let index = this.tags.indexOf(tag);
-
+    this.tag = '';
     if (index >= 0) {
       this.tags.splice(index, 1);
     }
@@ -60,7 +63,7 @@ constructor(private searchService: SearchService) {
   this.sKey = '';
 }
 getParents(s: string) {
-
+  console.log('entered');
   switch (this.tag) {
     case 'username': this.searchService.getParents(this.sKey + s).subscribe(res => this.parents = res.data); break;
     case 'educationLevels': this.searchService.searchByEducationLevel(this.sKey + s).subscribe(res => this.parents = res.data); break;
@@ -81,12 +84,7 @@ getParentsBytag(tag: string) {
 goToProfile(username: string) {
 this.searchService.viewProfile(username);
 }
-// getNumberOfPages(): void {
-//   this.searchService.getNumberOfPages(this.numberPerPage)
-//     .subscribe(function (retrivedNumberOfPages) {
-//       this.totPages = retrivedNumberOfPages.data;
-//     });
-// }
+
 getPage(event: any): void {
   let page = 1;
     if ( event ) {
@@ -101,6 +99,7 @@ getPage(event: any): void {
 
 ngOnInit() {
   this.currPage = 1;
+  this.tag = 'username';
 }
 
 }

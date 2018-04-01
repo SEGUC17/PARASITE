@@ -15,7 +15,7 @@ var mongoose = require('mongoose');
   };
   module.exports.Search = function(req, res, next) {
 
-    if (!StringValidate.isString(req.params.username)) {
+    if (!StringValidate.isString(req.any.username)) {
       return res.status(422).json({
         data: null,
         err: null,
@@ -29,7 +29,8 @@ var mongoose = require('mongoose');
     }
     User.paginate({
       limit: 10,
-       page: pageN
+       page: pageN,
+       username: req.any.username
       }, function(err, user) {
         if (err) {
           return next(err);
@@ -51,22 +52,6 @@ var mongoose = require('mongoose');
   });
   };
 
-  //to be altered
-  module.exports.viewProfile = function(req, res, next) {
-    User.findOne({ username: req.body.username }).exec(function(err, user) {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).json({
-        data: user,
-        err: null,
-        msg:
-          'User with username ' +
-          req.params.username + ' is retrievred successfully'
-      });
-    });
-  };
-
   module.exports.FilterByLevelOfEducation = function(req, res, next) {
     var pageN = Number(req.query.page);
     var valid = pageN && !isNaN(pageN);
@@ -77,7 +62,8 @@ var mongoose = require('mongoose');
       educationLevels: req.body.educationLevels,
       isParent: true,
       limit: 10,
-       page: pageN
+       page: pageN,
+       username: req.params.username
 
       }, function(err, user) {
         if (!StringValidate.isString(req.body.educationLevels)) {
@@ -146,7 +132,8 @@ module.exports.getPage = function(req, res, next) {
       educationSystems: req.body.educationSystems,
       isParent: true,
       limit: 10,
-       page: pageN
+       page: pageN,
+       username: req.params.username
       }, function(err, user) {
         if (!StringValidate.isString(req.body.educationSystems)) {
           return res.status(422).json({

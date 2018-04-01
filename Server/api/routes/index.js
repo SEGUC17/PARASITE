@@ -27,7 +27,6 @@ var isAuthenticated = function (req, res, next) {
   });
 };
 
-<<<<<<< HEAD
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.send('Server Works');
@@ -39,7 +38,6 @@ router.get('./User/Search/:username', SearchController.Search);
 router.get('./User/FilterByLevelOfEducation/:level', SearchController.FilterByLevelOfEducation);
 router.get('./User/FilterBySystemOfEducation/:system', SearchController.FilterBySystemOfEducation);
   // --------------------- End of Search Controller ------------ //
-=======
 var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();
@@ -51,7 +49,6 @@ var isNotAuthenticated = function (req, res, next) {
     msg: 'User Is Already Signed In!'
   });
 };
->>>>>>> master
 
 module.exports = function (passport) {
 
@@ -67,10 +64,6 @@ module.exports = function (passport) {
 // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-<<<<<<< HEAD
-  router.post('/signup', isAuthenticated, passport.authenticate('local-signup'));
-  router.post('/signin', isAuthenticated, passport.authenticate('local-signin'));
-=======
   router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
   router.post('/signin', isNotAuthenticated, passport.authenticate('local-signin'), userController.signIn);
   router.get('/signout', function (req, res) {
@@ -82,7 +75,6 @@ module.exports = function (passport) {
       msg: 'Sign Out Successfully!'
     });
   });
->>>>>>> master
   // ---------------------- End of User Controller --------------- //
 
 // -------------- Admin Contoller ---------------------- //

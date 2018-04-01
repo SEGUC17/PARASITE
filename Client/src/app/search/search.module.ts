@@ -10,6 +10,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
+import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchService } from './search.service';
@@ -27,7 +28,8 @@ import { SearchService } from './search.service';
     MatIconModule,
     MatCardModule,
     MatChipsModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule
   ],
   declarations: [SearchControlComponent],
   providers: [SearchService]
