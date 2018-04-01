@@ -70,8 +70,8 @@ export class ScheduleComponent implements OnInit {
 
 
   // TODO: To be obtained from server in viewPersonalSchedule by Dalia
-  refresh: Subject<any> = new Subject();
-  schedule: CalendarEvent[];
+//  refresh: Subject<any> = new Subject();
+ schedule: CalendarEvent[];
 
 
   constructor(private scheduleService: ScheduleService) { }
@@ -81,10 +81,10 @@ export class ScheduleComponent implements OnInit {
     isParent: true,
     isTeacher: false,
     isAdmin: false,
-    username: 'realGuy',
-  };
+    username: 'alby',
+  };//change name
 
-  targetUser = 'realGuy';
+  targetUser = 'alby';
 
 
 
@@ -113,6 +113,14 @@ export class ScheduleComponent implements OnInit {
     });
   }
 
+
+  // getPersonalSchedule(): void {
+  //   this.schedueService.getPersonalSchedule().subscribe(res => {
+  //     this.schedule. = res.data;
+  //     //this.events = this.studyPlan.events;
+  //   });
+  // }
+
   fetchEvents(): void {
     const getStart: any = {
       month: startOfMonth,
@@ -126,39 +134,39 @@ export class ScheduleComponent implements OnInit {
       day: endOfDay
     }[this.view];
 
-    this.events = [
-      {
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        actions: this.actions
-      },
-      {
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        actions: this.actions
-      },
-      {
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue
-      },
-      {
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        actions: this.actions,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        },
-        draggable: true
-      }
-    ];
+    // this.events = [
+    //   {
+    //     start: subDays(startOfDay(new Date()), 1),
+    //     end: addDays(new Date(), 1),
+    //     title: 'A 3 day event',
+    //     color: colors.red,
+    //     actions: this.actions
+    //   },
+    //   {
+    //     start: startOfDay(new Date()),
+    //     title: 'An event with no end date',
+    //     color: colors.yellow,
+    //     actions: this.actions
+    //   },
+    //   {
+    //     start: subDays(endOfMonth(new Date()), 3),
+    //     end: addDays(endOfMonth(new Date()), 3),
+    //     title: 'A long event that spans 2 months',
+    //     color: colors.blue
+    //   },
+    //   {
+    //     start: addHours(startOfDay(new Date()), 2),
+    //     end: new Date(),
+    //     title: 'A draggable and resizable event',
+    //     color: colors.yellow,
+    //     actions: this.actions,
+    //     resizable: {
+    //       beforeStart: true,
+    //       afterEnd: true
+    //     },
+    //     draggable: true
+    //   }
+    // ];
   }
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
