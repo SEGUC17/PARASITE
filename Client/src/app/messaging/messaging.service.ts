@@ -22,5 +22,11 @@ export class MessageService {
   send(message: any): Observable<any> {
     return this.http.post<any>('http://localhost:3000/api/message/sendMessage', message, httpOptions);
   }
+  
+  deleteMessage(message: any): Observable<any> {
+    // const id = prodId;
+    const url = `${this.deleteUrl}/${id}`;
+    return this.http.delete<any>(url, httpOptions);
+  }
 
 }
