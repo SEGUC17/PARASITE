@@ -86,10 +86,14 @@ module.exports.getActivity = function (req, res, next) {
         if (err) {
             return next(err);
         }
+        var creatorId = activity.creator;
+        var creator = User.findById(creatorId);
+        activity.creator = creator;
+
         console.log(activity.status);
         if (activity.status !== 'verified') {
-            //TODO: checking if the user is the activity owner
-            if (!isAdmin) {
+
+            if (!isAdmin || creatorId !== userId) {
                 return res.status(403).json({
                     data: null,
                     err: 'this activity isn\'t verified yet',
