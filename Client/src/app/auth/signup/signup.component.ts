@@ -50,8 +50,9 @@ export class SignupComponent implements OnInit {
 
     }
 
-    if (this.Student ==true && this.Teacher == true && this.Parent == true) //can't be a student & a parent/teacher
-     
+    if ((this.Student ==true && this.Teacher == true && this.Parent == true) ||  //can't be a student & a parent/teacher
+    (this.Student ==true && this.Teacher == true && this.Parent == false) ||
+    (this.Student ==true && this.Teacher == false && this.Parent == true))
     {
       this.showDiv3();
       this.AllisWell=false;
