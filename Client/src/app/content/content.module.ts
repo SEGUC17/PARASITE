@@ -21,7 +21,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SafeResourceUrlPipe } from './safe-resource-url.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
-
+import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
+import { AdminModule } from '../admin/admin.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -39,7 +40,8 @@ import { SafeHtmlPipe } from './safe-html.pipe';
     MatPaginatorModule,
     MatTabsModule,
     MatSidenavModule,
-    MatExpansionModule
+    MatExpansionModule,
+    AdminModule
   ],
   providers: [ContentService],
   declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent, SafeResourceUrlPipe, SafeHtmlPipe]
