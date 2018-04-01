@@ -33,8 +33,10 @@ export class LoginComponent implements OnInit {
            this.AllisWell=false;    
         }
 
+        this.User = {'username': this.Username, 'password': this.Password};
         if(this.AllisWell==true)
         {
+          
           self.authService.Login(this.User).subscribe(); 
         }
 
