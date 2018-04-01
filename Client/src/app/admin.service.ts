@@ -30,6 +30,7 @@ export class AdminService {
     return this.http.patch<any>(this.baseURL + this.respondContentRequestURL + id, { str: response });
   }
 
+  // create a category for content (resrouces and ideas) to be classified into
   createCategory(category: any): Observable<any> {
     const self = this;
     return this.http.post(self.baseURL + 'content/category', category)
@@ -40,6 +41,7 @@ export class AdminService {
       );
   }
 
+  // create a section for content (resources and ideas) to be classified into
   createSection(categoryId: any, section: any): Observable<any> {
     const self = this;
     return this.http.post(self.baseURL + 'content/category/' + categoryId + '/section', section)
@@ -50,6 +52,7 @@ export class AdminService {
     );
   }
 
+  // general error handler
   private handleError<T>(operation = 'operation', result?: T) {
 
     return function (error: any): Observable<T> {
