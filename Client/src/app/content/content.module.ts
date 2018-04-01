@@ -17,6 +17,8 @@ import { ContentService } from './content.service';
 import { ContentViewComponent } from './content-view/content-view.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTabsModule} from '@angular/material/tabs';
+import { SafeResourceUrlPipe } from './safe-resource-url.pipe';
+import { SafeHtmlPipe } from './safe-html.pipe';
 
 @NgModule({
   imports: [
@@ -36,6 +38,6 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatTabsModule
   ],
   providers: [ContentService],
-  declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent]
+  declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent, SafeResourceUrlPipe, SafeHtmlPipe]
 })
 export class ContentModule { }

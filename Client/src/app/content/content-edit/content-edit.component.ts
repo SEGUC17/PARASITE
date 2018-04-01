@@ -13,15 +13,14 @@ import { Content } from '../content';
 })
 export class ContentEditComponent implements OnInit {
   private editor;
-  public editorOut;
-  public editorContent = `<h1>Nawwar :D<h1>`;
+  public videoInput;
   private editorOptions = {
     placeholder: 'insert content here'
   };
   separatorKeysCodes = [ENTER, COMMA, SPACE];
   public content: Content = {
     approved: false,
-    body: '',
+    body: `<h1>Nawwar :D<h1>`,
     category: '',
     section: '',
     creator: 'Reda',
@@ -34,10 +33,6 @@ export class ContentEditComponent implements OnInit {
     type: 'resource'
   };
   constructor(private sanitizer: DomSanitizer, private contentService: ContentService) {
-  }
-  onContentChanged(quill) {
-    this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
-    this.content.body = String(this.editorOut);
   }
 
   // Add a tag chip event handler
@@ -65,9 +60,14 @@ export class ContentEditComponent implements OnInit {
     }
   }
 
+
   // create content
   createContent(content: Content): void {
     this.contentService.createContent(content).subscribe();
+  }
+
+  getSafeUrl() {
+    this.content.video = this.videoInput;
   }
   ngOnInit() {
   }
