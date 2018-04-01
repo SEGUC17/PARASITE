@@ -6,6 +6,7 @@
 
 // ---------------------- Reuirements ---------------------- //
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 // ---------------------- End of Requiremenets ---------------------- //
 
 
@@ -89,5 +90,6 @@ var userSchema = mongoose.Schema({
 
 
 // ---------------------- Models ---------------------- //
+productSchema.plugin(mongoosePaginate);
 var User = mongoose.model('User', userSchema);
 // ---------------------- End of Models ---------------------- //
