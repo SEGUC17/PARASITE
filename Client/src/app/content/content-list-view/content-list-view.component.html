@@ -16,8 +16,16 @@
   <mat-sidenav-content>
     <mat-tab-group #myTabGroup (selectedTabChange)="tabChanged($event)" dynamicHeight>
       <mat-tab label="Browse Resources and Ideas">
+        <div class="row">
+          <div class="col" align="center">
+            <mat-form-field>
+              <input matInput type="text" placeholder="Search" />
+            </mat-form-field>
+            <button mat-raised-button color="primary">Search</button>
+            <button mat-raised-button color="primary" (click)="sidenav.toggle()">Categories</button>
+          </div>
+        </div>
         <div class="row" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
-            <button mat-raised-button color="primary" class="float-right" (click)="sidenav.toggle()">Categories</button>
           <mat-card *ngFor="let content of contents" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
             <mat-card-header>
               <div mat-card-avatar [ngStyle]="{'background-image':'url(' + content.creatorAvatarLink + ')'}" class="creator-avatar"></div>
