@@ -4,7 +4,7 @@
     <mat-paginator [length]="numberOfElements" 
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
-      (page)="studyPlans = getStudyPlans()"
+      (page)="getStudyPlans($event)"
       ></mat-paginator>
     <div *ngIf="type === 'personal'">
       <a mat-raised-button routerLink="../study-plan-edit/create" color="primary">Create A New Study Plan</a>

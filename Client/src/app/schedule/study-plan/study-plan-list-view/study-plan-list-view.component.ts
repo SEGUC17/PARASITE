@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
+import { PageEvent } from '@angular/material/paginator';
 
 
 
@@ -23,9 +24,10 @@ export class StudyPlanListViewComponent implements OnInit {
     this.getStudyPlans();
   }
 
-  getStudyPlans() {
+  getStudyPlans(pageEvent?: PageEvent) {
+    console.log(pageEvent);
     if (this.type === 'published') {
-      this.studyPlanService.getPublishedStudyPlans().subscribe(
+      this.studyPlanService.getPublishedStudyPlans(pageEvent ? pageEvent.pageIndex + 1 : 1).subscribe(
         res => this.updateLayout(res));
     } else {
       this.studyPlanService.getPersonalStudyPlans(this.username).subscribe(
