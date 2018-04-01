@@ -34,7 +34,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(expressSession({ secret: 'mySecretKey' }));
+app.use(expressSession({
+  cookie: { maxAge: 12 * 60 * 60 * 1000 },
+  resave: true,
+  saveUninitialized: true,
+  secret: 'NAWWAR'
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
