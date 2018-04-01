@@ -26,4 +26,7 @@ export class StudyPlanService {
     return this.http.patch(this.endpoint + 'study-plan/createStudyPlan/' + username, studyPlan);
   }
 
+  getPublishedStudyPlans(): Observable<any> {
+    return this.http.get(this.endpoint + 'study-plan/getPublishedStudyPlans ');
+  }
 }

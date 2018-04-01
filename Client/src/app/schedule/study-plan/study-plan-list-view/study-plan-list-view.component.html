@@ -1,0 +1,11 @@
+<mat-paginator [length]="numberOfElements" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="studyPlans = getPublishedPLans()"></mat-paginator>
+<div class="publishedPLans-container">
+  <mat-card *ngFor="let plan of studyPlans" class="publishedPlans-card">
+    <mat-card-title>{{plan.title}}</mat-card-title>
+    <mat-card-subtitle>{{plan.creator}}</mat-card-subtitle>
+    <mat-card-content>{{plan.description}}</mat-card-content>
+    <mat-card-actions>
+      <a mat-raised-button routerLink="">View</a>
+    </mat-card-actions>
+  </mat-card>
+</div>

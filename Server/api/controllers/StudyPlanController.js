@@ -3,6 +3,22 @@ var mongoose = require('mongoose'),
     CalendarEvent = mongoose.model('CalendarEvent'),
     StudyPlan = mongoose.model('StudyPlan');
 
+
+module.exports.getPublishedStudyPlans = function (req, res, next) {
+    StudyPlan.paginate({}, { page: 0, limit: 20 }, function (err, result) {
+
+        if (err)
+            return next(err);
+
+        return res.status(200).json({
+            data: user.studyPlans,
+            err: null,
+            msg: 'Study plans retrieved successfully.'
+        });
+    });
+}
+
+
 module.exports.getPerosnalStudyPlans = function (req, res, next) {
     User.findOne({ username: req.params.username }, function (err, user) {
         if (err)
@@ -59,7 +75,7 @@ module.exports.createStudyPlan = function (req, res, next) {
     User.findOneAndUpdate({ username: req.params.username }, { $push: { 'studyPlans': req.body } }, function (err, user) {
         if (err)
             return next(err);
-            
+
         res.status(201).json({
             data: null,
             err: null,

@@ -5,8 +5,10 @@
 
 
 // ---------------------- Reuirements ---------------------- //
-var mongoose = require('mongoose'),
-    calendarEventSchema = mongoose.model("CalendarEvent").schema;
+
+var calendarEventSchema = mongoose.model('CalendarEvent').schema;
+var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 // ---------------------- End of Requiremenets ---------------------- //
 
 
@@ -41,6 +43,8 @@ var studyPlanSchema = mongoose.Schema({
 });
 // ---------------------- End of Schemas ---------------------- //
 
+
+studyPlanSchema.plugin(mongoosePaginate);
 
 // ---------------------- Models ---------------------- //
 var StudyPlan = mongoose.model('StudyPlan', studyPlanSchema);

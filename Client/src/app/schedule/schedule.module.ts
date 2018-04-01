@@ -13,10 +13,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import {
   NgbDatepickerModule,
   NgbTimepickerModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { StudyPlanListViewComponent } from './study-plan/study-plan-list-view/study-plan-list-view.component';
 
 @NgModule({
   imports: [
@@ -25,12 +27,13 @@ import {
     CalendarModule.forRoot(),
     MatCardModule,
     MatButtonModule,
+    MatPaginatorModule,
     FormsModule,
     NgbModule,
     NgbDatepickerModule.forRoot(),
     NgbTimepickerModule.forRoot()
   ],
-  declarations: [ScheduleComponent, StudyPlanComponent, CalendarHeaderComponent, DateTimePickerComponent],
+  declarations: [ScheduleComponent, StudyPlanComponent, CalendarHeaderComponent, DateTimePickerComponent, StudyPlanListViewComponent],
   providers: [StudyPlanService, ScheduleService]
 })
 export class ScheduleModule { }

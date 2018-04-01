@@ -39,11 +39,11 @@ const colors: any = {
 })
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  view: string = 'month';
+  view: String = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
   studyPlan: StudyPlan;
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen = true;
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -118,7 +118,7 @@ export class StudyPlanComponent implements OnInit {
         },
         draggable: true
       }
-    ]
+    ];
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -166,19 +166,20 @@ export class StudyPlanComponent implements OnInit {
   }
 
   publish(): void {
-    alert("Implement Publish Study Plan!");
+
+    alert('Implement Publish Study Plan!');
   }
 
   copy(): void {
-    alert("Implement Copy Study Plan!");
+    alert('Implement Copy Study Plan!');
   }
 
   assign(): void {
-    alert("Implement Assign Study Plan!");
+    alert('Implement Assign Study Plan!');
   }
 
   edit(): void {
-    alert("Implement Edit Study Plan!");
+    alert('Implement Edit Study Plan!');
   }
 
 }
