@@ -43,75 +43,66 @@
           <div class="clearfix"></div>
         </h3>
 
-        <table class="table table-bordered">
+        <h4 style="overflow-y:scroll; height:800px;">
+          <table class="table table-bordered">
 
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Primary color</th>
-              <th>Secondary color</th>
-              <th>Starts at</th>
-              <th>Ends at</th>
-              <th>Remove</th>
-            </tr>
-          </thead>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Primary color</th>
+                <th>Secondary color</th>
+                <th>Starts at</th>
+                <th>Ends at</th>
+                <th>Remove</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            <tr *ngFor="let event of events; let index = index">
-              <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  [(ngModel)]="event.title"
-                  (keyup)="refresh.next()">
-              </td>
-              <td>
-                <input
-                  type="color"
-                  [(ngModel)]="event.color.primary"
-                  (change)="refresh.next()">
-              </td>
-              <td>
-                <input
-                  type="color"
-                  [(ngModel)]="event.color.secondary"
-                  (change)="refresh.next()">
-              </td>
-              <td>
-                <app-date-time-picker
-                  [(ngModel)]="event.start"
-                  (ngModelChange)="refresh.next()"
-                  placeholder="Not set">
-                </app-date-time-picker>
-              </td>
-              <td>
-                <app-date-time-picker
-                  [(ngModel)]="event.end"
-                  (ngModelChange)="refresh.next()"
-                  placeholder="Not set">
-                </app-date-time-picker>
-              </td>
-              <td>
-                <button
-                  class="btn btn-danger"
-                  (click)="events.splice(index, 1); refresh.next()">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
+            <tbody>
+              <tr *ngFor="let event of events; let index = index">
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="event.title"
+                    (keyup)="refresh.next()">
+                </td>
+                <td>
+                  <input
+                    type="color"
+                    [(ngModel)]="event.color.primary"
+                    (change)="refresh.next()">
+                </td>
+                <td>
+                  <input
+                    type="color"
+                    [(ngModel)]="event.color.secondary"
+                    (change)="refresh.next()">
+                </td>
+                <td>
+                  <app-date-time-picker
+                    [(ngModel)]="event.start"
+                    (ngModelChange)="refresh.next()"
+                    placeholder="Not set">
+                  </app-date-time-picker>
+                </td>
+                <td>
+                  <app-date-time-picker
+                    [(ngModel)]="event.end"
+                    (ngModelChange)="refresh.next()"
+                    placeholder="Not set">
+                  </app-date-time-picker>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    (click)="events.splice(index, 1); refresh.next()">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            </tbody>
 
-        </table>
-  </mat-card>
-  <mat-card>
-   TODO Insert Description Here
-  </mat-card>
-  <mat-card>
-      <div class="button-row">
-          <button mat-raised-button (click)="publish()" color="primary">Publish</button>
-          <button mat-raised-button (click)="copy()" color="primary">Copy</button>
-          <button mat-raised-button (click)="assign()" color="primary">Assign</button>
-          <button mat-raised-button (click)="edit()" color="primary">Edit</button>
-        </div>
+          </table>
+        </h4>
   </mat-card>
 </div>
