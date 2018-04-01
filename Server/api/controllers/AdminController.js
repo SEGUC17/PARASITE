@@ -1,7 +1,6 @@
 /* eslint no-underscore-dangle: ["error", {"allow" : ["_id"]}] */
 
 var mongoose = require('mongoose');
-mongoose.set('debug', true);
 mongoose.connect('mongodb://localhost/nawwar');
 var ContentRequest = mongoose.model('ContentRequest');
 var VCR = require('../models/VerifiedContributerRequest');
@@ -26,9 +25,9 @@ module.exports.viewPendingContReqs = function(req, res, next) {
 module.exports.getVCRs = function(req, res, next) {
     var allVCRs = VCR.getAll();
     res.status(200).json({
+        data: allVCRs,
         err: null,
-        msg: 'VCRs retrieved successfully.',
-        data: allVCRs
+        msg: 'VCRs retrieved successfully.'
     });
 };
 
