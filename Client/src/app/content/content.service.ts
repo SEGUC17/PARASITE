@@ -53,6 +53,16 @@ export class ContentService {
       );
   }
 
+  // delete content (ideas or categories) by id
+  deleteContent(contentId: any): Observable<any> {
+    const self = this;
+    return this.http.delete(self.endpoint + 'content/' + contentId)
+    .pipe(
+      catchError(self.handleError('deleteContent', []))
+    );
+  }
+
+  // general error handler
   private handleError<T>(operation = 'operation', result?: T) {
 
     return function (error: any): Observable<T> {
