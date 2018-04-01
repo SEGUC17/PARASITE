@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-var CalendarEvent = mongoose.model('CalendarEvent');
-var User = mongoose.model('User');
+var CalendarEvent = mongoose.model('CalendarEvent'),
+    User = mongoose.model('User');
 
 module.exports.getPersonalSchedule = function (req, res, next) {
     User.findOne({ username: req.params.username }, function (err, user) {
@@ -24,10 +24,10 @@ module.exports.getPersonalSchedule = function (req, res, next) {
                 return next(err);
             }
             res.status(200).json({
-                data: user,
+                data: user.schedule,
                 err: null,
                 msg: 'Schedule updated succesfully.'
             });
         }
     );
-    };
+};

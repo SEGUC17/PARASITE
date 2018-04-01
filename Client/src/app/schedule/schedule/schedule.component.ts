@@ -1,8 +1,5 @@
-
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
-
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent} from 'angular-calendar';
-//import { Schedule } from './schedule';
+import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
 import {
@@ -43,12 +40,13 @@ const colors: any = {
 })
 export class ScheduleComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  view: string = 'month';
+  view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
-  //studyPlan: StudyPlan;
-   //schedule: Schedule;
-  activeDayIsOpen: boolean = true;
+  eventsInitial: CalendarEvent[] = [];
+  // schedule: Schedule;
+  activeDayIsOpen: Boolean = true;
+  refresh: Subject<any> = new Subject();
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -78,7 +76,7 @@ export class ScheduleComponent implements OnInit {
 
   constructor(private scheduleService: ScheduleService) { }
   // FIXME: Temporary Constant
-   thisUser = {
+  thisUser = {
     children: [],
     isParent: true,
     isTeacher: false,
@@ -86,121 +84,173 @@ export class ScheduleComponent implements OnInit {
     username: 'realGuy',
   };
 
+  targetUser = 'realGuy';
+
 
 
   ngOnInit() {
     this.fetchEvents();
+    this.events.forEach(element => {
+      const anEvent: CalendarEvent = {
+        id : element.id,
+        start : element.start,
+        end : element.end,
+        title : element.title,
+        color : {
+          primary : element.color.primary,
+          secondary : element.color.secondary
+        },
+        actions : element.actions,
+        allDay : element.allDay,
+        cssClass : element.cssClass,
+        resizable : element.resizable,
+        draggable : element.draggable,
+        meta : element.meta
+      };
+      anEvent.color.primary = element.color.primary;
+      anEvent.color.secondary = element.color.secondary;
+      this.eventsInitial.push(anEvent);
+    });
   }
 
-fetchEvents(): void {
-  const getStart: any = {
-    month: startOfMonth,
-    week: startOfWeek,
-    day: startOfDay
-  }[this.view];
+  fetchEvents(): void {
+    const getStart: any = {
+      month: startOfMonth,
+      week: startOfWeek,
+      day: startOfDay
+    }[this.view];
 
-  const getEnd: any = {
-    month: endOfMonth,
-    week: endOfWeek,
-    day: endOfDay
-  }[this.view];
+    const getEnd: any = {
+      month: endOfMonth,
+      week: endOfWeek,
+      day: endOfDay
+    }[this.view];
 
-  this.events =  [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      actions: this.actions
-    },
-    {
+    this.events = [
+      {
+        start: subDays(startOfDay(new Date()), 1),
+        end: addDays(new Date(), 1),
+        title: 'A 3 day event',
+        color: colors.red,
+        actions: this.actions
+      },
+      {
+        start: startOfDay(new Date()),
+        title: 'An event with no end date',
+        color: colors.yellow,
+        actions: this.actions
+      },
+      {
+        start: subDays(endOfMonth(new Date()), 3),
+        end: addDays(endOfMonth(new Date()), 3),
+        title: 'A long event that spans 2 months',
+        color: colors.blue
+      },
+      {
+        start: addHours(startOfDay(new Date()), 2),
+        end: new Date(),
+        title: 'A draggable and resizable event',
+        color: colors.yellow,
+        actions: this.actions,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true
+        },
+        draggable: true
+      }
+    ];
+  }
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+        this.viewDate = date;
+      }
+    }
+  }
+
+  isChanged(): boolean {
+    return JSON.stringify(this.events) !== JSON.stringify(this.eventsInitial);
+  }
+
+  cancel() {
+    this.events = [];
+    this.eventsInitial.forEach(element => {
+      const anEvent: CalendarEvent = {
+        id : element.id,
+        start : element.start,
+        end : element.end,
+        title : element.title,
+        color : {
+          primary : element.color.primary,
+          secondary : element.color.secondary
+        },
+        actions : element.actions,
+        allDay : element.allDay,
+        cssClass : element.cssClass,
+        resizable : element.resizable,
+        draggable : element.draggable,
+        meta : element.meta
+      };
+      anEvent.color.primary = element.color.primary;
+      anEvent.color.secondary = element.color.secondary;
+      this.events.push(anEvent);
+    });
+  }
+
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd
+  }: CalendarEventTimesChangedEvent): void {
+    event.start = newStart;
+    event.end = newEnd;
+    this.handleEvent('Dropped or resized', event);
+    this.refresh.next();
+  }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    this.modalData = { event, action };
+  }
+
+  addEvent(): void {
+    this.events.push({
+      title: 'New event',
       start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-      actions: this.actions
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: new Date(),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      actions: this.actions,
+      end: endOfDay(new Date()),
+      color: colors.red,
+      draggable: true,
       resizable: {
         beforeStart: true,
         afterEnd: true
-      },
-      draggable: true
-    }
-  ]
-}
-dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-  if (isSameMonth(date, this.viewDate)) {
-    if (
-      (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-      events.length === 0
-    ) {
-      this.activeDayIsOpen = false;
-    } else {
-      this.activeDayIsOpen = true;
-      this.viewDate = date;
-    }
+      }
+    });
+    this.refresh.next();
   }
-}
-
-eventTimesChanged({
-  event,
-  newStart,
-  newEnd
-}: CalendarEventTimesChangedEvent): void {
-  event.start = newStart;
-  event.end = newEnd;
-  this.handleEvent('Dropped or resized', event);
-  this.refresh.next();
-}
-
-handleEvent(action: string, event: CalendarEvent): void {
-  this.modalData = { event, action };
-}
-
-addEvent(): void {
-  this.events.push({
-    title: 'New event',
-    start: startOfDay(new Date()),
-    end: endOfDay(new Date()),
-    color: colors.red,
-    draggable: true,
-    resizable: {
-      beforeStart: true,
-      afterEnd: true
-    }
-  });
-  this.refresh.next();
-}
 
 
-publish(): void {
-  alert("Implement Publish Study Plan!");
-}
+  publish(): void {
+    alert('Implement Publish Study Plan!');
+  }
 
-copy(): void {
-  alert("Implement Copy Study Plan!");
-}
+  copy(): void {
+    alert('Implement Copy Study Plan!');
+  }
 
-assign(): void {
-  alert("Implement Assign Study Plan!");
-}
+  assign(): void {
+    alert('Implement Assign Study Plan!');
+  }
 
-edit(): void {
-  alert("Implement Edit Study Plan!");
-}
+  edit(): void {
+    alert('Implement Edit Study Plan!');
+  }
 
-  createEvent(title: string, start: Date, end: Date, targetUser: String) {
+  createEvent(title: string, start: Date, end: Date) {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     if (this.thisUser.isParent) {
       const newEvent = {
@@ -208,15 +258,15 @@ edit(): void {
         start: start,
         end: end
       };
-      const indexChild = this.thisUser.children.indexOf(targetUser);
-      if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
-        this.schedule.push(newEvent);
+      const indexChild = this.thisUser.children.indexOf(this.targetUser);
+      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+        this.events.push(newEvent);
       }
     }
     this.refresh.next();
   }
 
-  editEvent(oldEvent: CalendarEvent, title: string, start: Date, end: Date, targetUser: String) {
+  editEvent(oldEvent: CalendarEvent, title: string, start: Date, end: Date) {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     if (this.thisUser.isParent) {
       const newEvent = {
@@ -224,42 +274,67 @@ edit(): void {
         start: start,
         end: end
       };
-      const indexChild = this.thisUser.children.indexOf(targetUser);
-      const index = this.schedule.indexOf(oldEvent);
+      const indexChild = this.thisUser.children.indexOf(this.targetUser);
+      const index = this.events.indexOf(oldEvent);
       if (index === -1) {
         return; // Error: Event not found
       }
-      if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
-        this.schedule.splice(index, 1);
-        this.createEvent(title, start, end, targetUser);
+      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+        this.events.splice(index, 1);
+        this.createEvent(title, start, end);
       }
     }
     this.refresh.next();
   }
 
-  deleteEvent(event: CalendarEvent, targetUser: String) {
+  deleteEvent(event: CalendarEvent) {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     if (this.thisUser.isParent) {
-      const indexChild = this.thisUser.children.indexOf(targetUser);
-      const index = this.schedule.indexOf(event);
+      const indexChild = this.thisUser.children.indexOf(this.targetUser);
+      const index = this.events.indexOf(event);
       if (index === -1) {
-        return; }
-        // Error: Event not found
-      if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
-        this.schedule.splice(index, 1);
+        return;
+      }
+      // Error: Event not found
+      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+        this.events.splice(index, 1);
       }
     }
     this.refresh.next();
   }
 
-  saveScheduleChanges(targetUser: String) {
+  saveScheduleChanges() {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     // TODO: To be implemented in backend
-    const indexChild = this.thisUser.children.indexOf(targetUser);
-    if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
-      this.scheduleService.saveScheduleChanges(targetUser, this.schedule);
+    if (this.isChanged) {
+      const indexChild = this.thisUser.children.indexOf(this.targetUser);
+      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+        this.scheduleService.saveScheduleChanges(this.targetUser, this.events);
+      }
+      this.refresh.next();
+      this.eventsInitial = [];
+      this.events.forEach(element => {
+        const anEvent: CalendarEvent = {
+          id : element.id,
+          start : element.start,
+          end : element.end,
+          title : element.title,
+          color : {
+            primary : element.color.primary,
+            secondary : element.color.secondary
+          },
+          actions : element.actions,
+          allDay : element.allDay,
+          cssClass : element.cssClass,
+          resizable : element.resizable,
+          draggable : element.draggable,
+          meta : element.meta
+        };
+        anEvent.color.primary = element.color.primary;
+        anEvent.color.secondary = element.color.secondary;
+        this.eventsInitial.push(anEvent);
+      });
     }
-    this.refresh.next();
   }
 
 

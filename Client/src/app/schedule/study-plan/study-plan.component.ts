@@ -1,7 +1,10 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { StudyPlan } from './study-plan';
+import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 import {
   isSameMonth,
   isSameDay,
@@ -39,11 +42,20 @@ const colors: any = {
 })
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  view: string = 'month';
-  viewDate: Date = new Date();
-  events: CalendarEvent[] = [];
+  type: String;
+  _id: String;
+  username: String;
   studyPlan: StudyPlan;
-  activeDayIsOpen: boolean = true;
+  view = 'month';
+  viewDate: Date = new Date();
+  events: CalendarEvent[];
+  description: SafeHtml;
+  activeDayIsOpen: Boolean = true;
+  refresh: Subject<any> = new Subject();
+  modalData: {
+    action: string;
+    event: CalendarEvent;
+  };
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -60,17 +72,45 @@ export class StudyPlanComponent implements OnInit {
     }
   ];
 
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-
-  refresh: Subject<any> = new Subject();
-
-  constructor() { }
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) {
+    this.studyPlan = {
+      _id: '',
+      creator: '',
+      description: '',
+      events: [],
+      title: ''
+    };
+    this.events = [];
+    this.route.params.subscribe(params => {
+      this.type = params.type;
+      this._id = params.id;
+    });
+  }
 
   ngOnInit() {
-    this.fetchEvents();
+    if (this.type === 'personal') {
+      this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
+        .subscribe(res => {
+          this.studyPlan = res.data;
+          this.events = this.studyPlan.events;
+          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
+          for (let index = 0; index < this.events.length; index++) {
+            this.events[index].start = new Date(this.events[index].start);
+            this.events[index].end = new Date(this.events[index].end);
+          }
+        });
+    } else {
+      this.studyPlanService.getPublishedStudyPlan(this._id)
+        .subscribe(res => {
+          this.studyPlan = res.data;
+          this.events = this.studyPlan.events;
+          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
+          for (let index = 0; index < this.events.length; index++) {
+            this.events[index].start = new Date(this.events[index].start);
+            this.events[index].end = new Date(this.events[index].end);
+          }
+        });
+    }
   }
 
   fetchEvents(): void {
@@ -118,7 +158,7 @@ export class StudyPlanComponent implements OnInit {
         },
         draggable: true
       }
-    ]
+    ];
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -166,19 +206,20 @@ export class StudyPlanComponent implements OnInit {
   }
 
   publish(): void {
-    alert("Implement Publish Study Plan!");
+    this.studyPlanService.PublishStudyPlan(this.studyPlan);
+    alert('Implement Publish Study Plan!');
   }
 
   copy(): void {
-    alert("Implement Copy Study Plan!");
+    alert('Implement Copy Study Plan!');
   }
 
   assign(): void {
-    alert("Implement Assign Study Plan!");
+    alert('Implement Assign Study Plan!');
   }
 
   edit(): void {
-    alert("Implement Edit Study Plan!");
+    alert('Implement Edit Study Plan!');
   }
 
 }

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { StudyPlan } from './study-plan';
+import { Router } from '@angular/router';
+import { PageEvent } from '@angular/material/paginator';
 
 @Injectable()
 export class StudyPlanService {
@@ -10,12 +12,12 @@ export class StudyPlanService {
 
   constructor(private http: HttpClient) { }
 
-  getPerosnalStudyPlans(username: String): Observable<any> {
-    return this.http.get(this.endpoint + 'study-plan/getPerosnalStudyPlans/' + username);
+  getPersonalStudyPlans(username: String): Observable<any> {
+    return this.http.get(this.endpoint + 'study-plan/getPersonalStudyPlans/' + username);
   }
 
   getPersonalStudyPlan(username: String, studyPlanID: String): Observable<any> {
-    return this.http.get(this.endpoint + 'study-plan/getPerosnalStudyPlan/' + username + '/' + studyPlanID);
+    return this.http.get(this.endpoint + 'study-plan/getPersonalStudyPlan/' + username + '/' + studyPlanID);
   }
 
   getPublishedStudyPlan(studyPlanID: String): Observable<any> {
@@ -26,4 +28,12 @@ export class StudyPlanService {
     return this.http.patch(this.endpoint + 'study-plan/createStudyPlan/' + username, studyPlan);
   }
 
+  getPublishedStudyPlans(pageNumber: Number): Observable<any> {
+    return this.http.get(this.endpoint + 'study-plan/getPublishedStudyPlans/' + pageNumber);
+  }
+
+  PublishStudyPlan(studyPlan: StudyPlan): Observable<any> {
+    return this.http.post(this.endpoint + 'study-plan/PublishStudyPlan', studyPlan);
+
+  }
 }

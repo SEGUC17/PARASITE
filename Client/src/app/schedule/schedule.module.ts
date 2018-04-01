@@ -10,13 +10,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule } from '@angular/forms';
 import { DateTimePickerComponent } from './date-time-picker/date-time-picker.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { QuillEditorModule } from 'ngx-quill-editor';
 import {
   NgbDatepickerModule,
   NgbTimepickerModule
 } from '@ng-bootstrap/ng-bootstrap';
+import { StudyPlanListViewComponent } from './study-plan/study-plan-list-view/study-plan-list-view.component';
+import { PublishedStudyPlansComponent } from './study-plan/published-study-plans/published-study-plans.component';
+import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/study-plan-edit-view.component';
 
 
 
@@ -28,12 +34,23 @@ import {
     CalendarModule.forRoot(),
     MatCardModule,
     MatButtonModule,
+    MatPaginatorModule,
     FormsModule,
     NgbModule,
     NgbDatepickerModule.forRoot(),
-    NgbTimepickerModule.forRoot()
+    NgbTimepickerModule.forRoot(),
+    QuillEditorModule,
+    MatDividerModule
   ],
-  declarations: [ScheduleComponent, StudyPlanComponent, CalendarHeaderComponent, DateTimePickerComponent],
+  declarations: [
+    ScheduleComponent,
+    StudyPlanComponent,
+    CalendarHeaderComponent,
+    DateTimePickerComponent,
+    StudyPlanListViewComponent,
+    PublishedStudyPlansComponent,
+    StudyPlanEditViewComponent
+  ],
   providers: [StudyPlanService, ScheduleService]
 })
 export class ScheduleModule { }

@@ -11,12 +11,26 @@ var mongoose = require('mongoose');
 
 // ---------------------- Schemas ---------------------- //
 var calendarEventSchema = mongoose.Schema({
-    id: {
-        type: {},
+    actions: { type: [{}] },
+    allDay: { type: Boolean },
+    color: { type: {} },
+    cssClass: { type: String },
+    draggable: { type: Boolean },
+    end: { type: Date },
+    meta: { type: {} },
+    resizable: {
+        type: {
+            afterEnd: Boolean,
+            beforeStart: Boolean
+        }
     },
     start: {
-        type: Date,
-        require: true
+        require: true,
+        type: Date
+    },
+    title: {
+        require: true,
+        type: String
     }
     // end: {
     //     type: Date
