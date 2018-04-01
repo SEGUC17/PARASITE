@@ -19,7 +19,7 @@ var isAuthenticated = function (req, res, next) {
   return res.status(401).json({
     data: null,
     error: null,
-    msg: 'User Is Not Logged In!'
+    msg: 'User Is Not Signed In!'
   });
 };
 
@@ -31,7 +31,7 @@ var isNotAuthenticated = function (req, res, next) {
   return res.status(403).json({
     data: null,
     error: null,
-    msg: 'User Is Already Logged In!'
+    msg: 'User Is Already Signed In!'
   });
 };
 
@@ -51,6 +51,15 @@ module.exports = function (passport) {
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
   router.post('/signin', isNotAuthenticated, passport.authenticate('local-signin'), userController.signIn);
+  router.get('/signout', function (req, res) {
+    req.logout();
+
+    return res.status(200).json({
+      data: null,
+      error: null,
+      msg: 'Sign Out Successfully!'
+    });
+  });
   // ---------------------- End of User Controller --------------- //
 
 // -------------- Admin Contoller ---------------------- //
