@@ -19,7 +19,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
-
+import { SafeResourceUrlPipe } from './safe-resource-url.pipe';
+import { SafeHtmlPipe } from './safe-html.pipe';
+import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
+import { AdminModule } from '../admin/admin.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -37,9 +40,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatPaginatorModule,
     MatTabsModule,
     MatSidenavModule,
-    MatExpansionModule
+    MatExpansionModule,
+    AdminModule
   ],
   providers: [ContentService],
-  declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent]
+  declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent, SafeResourceUrlPipe, SafeHtmlPipe]
 })
 export class ContentModule { }
