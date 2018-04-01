@@ -15,10 +15,18 @@
                     <input matInput [(ngModel)]="videoInput" #content.video name="video" placeholder="Video link goes here" (blur)="getSafeUrl()">
                 </mat-form-field>
                 <mat-form-field class="meta-input" hintLabel="Enter the category of choice here">
-                    <input matInput required [(ngModel)]="content.category" name="category" placeholder="Category...">
+                    <mat-select placeholder="Category..." required name="category" [(ngModel)]="content.category" (selectionChange)="getSections()">
+                        <mat-option *ngFor="let category of categories" [value]="category.name">
+                            {{category.name}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field class="meta-input" hintLabel="Enter a section from your category of choice">
-                    <input matInput required [(ngModel)]="content.section" name="section" placeholder="Section..." />
+                    <mat-select placeholder="Section..." required name="section" [(ngModel)]="content.section">
+                        <mat-option *ngFor="let section of requiredSections" [value]="section.name">
+                            {{section.name}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field class="meta-input" hintLabel="Enter tags so that your content reaches more people">
                     <mat-chip-list #tagList>

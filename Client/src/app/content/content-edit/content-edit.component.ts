@@ -5,7 +5,9 @@ import { MatChipInputEvent } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { ContentService } from '../content.service';
 import { Content } from '../content';
-
+import { Router } from '@angular/router';
+import { Category } from '../category';
+import { Section } from '../section';
 @Component({
   selector: 'app-content-edit',
   templateUrl: './content-edit.component.html',
@@ -13,13 +15,14 @@ import { Content } from '../content';
 })
 export class ContentEditComponent implements OnInit {
   private editor;
-  public videoInput;
-  private editorOptions = {
+  public videoInput: string;
+  public categories: Category[];
+  public requiredSections: Section[];
+  private editorOptions: Object = {
     placeholder: 'insert content here'
   };
   separatorKeysCodes = [ENTER, COMMA, SPACE];
   public content: Content = {
-    approved: false,
     body: `<h1>Nawwar :D<h1>`,
     category: '',
     section: '',
@@ -32,7 +35,7 @@ export class ContentEditComponent implements OnInit {
     touchDate: new Date(),
     type: 'resource'
   };
-  constructor(private sanitizer: DomSanitizer, private contentService: ContentService) {
+  constructor(private sanitizer: DomSanitizer, private contentService: ContentService, private router: Router) {
   }
 
   // Add a tag chip event handler
@@ -63,12 +66,46 @@ export class ContentEditComponent implements OnInit {
 
   // create content
   createContent(content: Content): void {
-    this.contentService.createContent(content).subscribe();
+    const self = this;
+    this.contentService.createContent(content).subscribe(function (res) {
+      // TODO(Universal Error Handler/ Modal Errors)
+      if (!res) {
+        return;
+      }
+      self.router.navigateByUrl('content-view/' + res.data._id);
+    });
   }
 
+  // retrieve all categories from server
+  getCategories(): void {
+    const self = this;
+    this.contentService.getCategories().subscribe(function (res) {
+      if (!res || !res.data) {
+        return [];
+      }
+      self.categories = res.data;
+    });
+  }
+
+  // transfer video link input to security bypass URL
   getSafeUrl() {
     this.content.video = this.videoInput;
   }
+
+  getSections() {
+    console.log('I am here');
+    const self = this;
+    console.log(self.content.category);
+    const matchCategoryName = function (category) {
+      return category.name === self.content.category;
+    };
+    const selectedCategory: Category = this.categories.filter(matchCategoryName)[0];
+
+    this.requiredSections = selectedCategory.sections;
+  }
+
+
   ngOnInit() {
+    this.getCategories();
   }
 }
