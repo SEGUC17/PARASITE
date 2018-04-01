@@ -23,6 +23,8 @@ var isNotEmpty = require('../utils/validators/not-empty');
 
 module.exports.signUp = function (req, res, next) {
     if (req.res) {
+        delete req.user.password;
+
         return res.status(req.res.code).json({
             data: req.user,
             err: null,
@@ -35,6 +37,8 @@ module.exports.signUp = function (req, res, next) {
 
 module.exports.signIn = function (req, res, next) {
     if (req.user) {
+        delete req.user.password;
+
         return res.status(200).json({
             data: req.user,
             err: null,
