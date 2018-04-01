@@ -16,18 +16,26 @@ export class MarketService {
   constructor(private http: HttpClient) { }
 
   getMarketPage(entriesPerPage: number, pageNumber: number, limiters: any): Observable<any> {
-    return this.http.get(this.host + 'market/getMarketPage/' + entriesPerPage +
-      '/' + pageNumber, limiters)
-      .pipe(
-        catchError(this.handleError('getMarketPage', []))
-      );
+    let url = this.host + 'market/getMarketPage/' + entriesPerPage +
+      '/' + pageNumber + '/' + limiters.name + '/' + limiters.price;
+    if (limiters.seller) {
+      url = this.host + 'market/getMarketPage/' + entriesPerPage +
+        '/' + pageNumber + '/' + limiters.seller;
+    }
+    return this.http.get(url).pipe(
+      catchError(this.handleError('getMarketPage', []))
+    );
   }
-  numberOfMarketPages(entriesPerPage: number, limiters: any): Observable<any> {
-    return this.http.get(this.host + 'market/numberOfMarketPages/' +
-       entriesPerPage, limiters)
-      .pipe(
-        catchError(this.handleError('getNumberOfMarketPages', []))
-      );
+  numberOfMarketPages(limiters: any): Observable<any> {
+    let url = this.host + 'market/getNumberOfProducts/' +
+      limiters.name + '/' + limiters.price;
+    if (limiters.seller) {
+      url = this.host + 'market/getNumberOfProducts/' +
+        limiters.seller;
+    }
+    return this.http.get(url).pipe(
+      catchError(this.handleError('getNumberOfProducts', []))
+    );
   }
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
@@ -36,36 +44,11 @@ export class MarketService {
     };
   }
 
-  //createproduct, createproductreq//
-createProduct(product: any): Observable<any> {
-  return this.http.post<any>("http://localhost:3000/api/productrequest/createproduct",product, httpOptions);
+  // createproduct, createproductreq//
+  createProduct(product: any): Observable<any> {
+    return this.http.post<any>(this.host + 'productrequest/createproduct', product, httpOptions);
+  }
+  createProductRequest(request: any): Observable<any> {
+    return this.http.post<any>(this.host + 'productrequest/createProductRequest', request, httpOptions);
+  }
 }
-createProductRequest(request: any): Observable<any> {
-  return this.http.post<any>("http://localhost:3000/api/productrequest/createProductRequest",request, httpOptions);
-}
-}
-
-
-// import { Injectable } from '@angular/core';
-// import { Observable } from 'rxjs/Observable';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-
-// const httpOptions = {
-//   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-// };
-
-// @Injectable()
-// export class CreateProductService { //create product, sendrequest
-
-//     constructor(private http:HttpClient) { }
-
-// createProduct(product: any): Observable<any> {
-//         return this.http.post<any>("http://localhost:3000/api/productrequest/createproduct",product, httpOptions);
-//       }
-// createProductRequest(request: any): Observable<any> {
-//         return this.http.post<any>("http://localhost:3000/api/productrequest/createProductRequest",request, httpOptions);
-//       }
-      
-    
-//       }

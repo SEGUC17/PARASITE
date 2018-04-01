@@ -8,7 +8,9 @@ const httpOptions = {
 
 
 export class AdminService {
-private URL = 'http://localhost:3000/api/admin/PendingContentRequests';
+private baseURL = 'http://localhost:3000/api/';
+private viewPendingContReqsURL = 'admin/PendingContentRequests';
+private respondContentRequestURL = 'admin/RespondContentRequest/';
 
   constructor(private http: HttpClient) {}
 
@@ -17,12 +19,13 @@ private URL = 'http://localhost:3000/api/admin/PendingContentRequests';
       return 'Here are the requested Elements';
     }
 
-    viewPendingReqs(): any {
-      console.log('in service');
-      return this.http.get<any> (this.URL);
+    viewPendingContReqs(): any {
+      return this.http.get<any> (this.baseURL + this.viewPendingContReqsURL);
     }
 
-    getProducts(): any {
-      return this.http.get<any[]>(this.URL);
-  }
+    respondContentRequest( response , id): any {
+      return this.http.patch<any> (this.baseURL + this.respondContentRequestURL + id , {str: response} );
+    }
+
+
 }

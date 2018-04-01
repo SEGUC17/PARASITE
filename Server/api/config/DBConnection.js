@@ -18,5 +18,6 @@ require('../models/ProductRequest');
 require('../models/Activity');
 require('../models/Content');
 require('../models/User');
+require('../models/Category');
 require('../models/VerifiedContributerRequest');
 require('../models/ContentRequest');

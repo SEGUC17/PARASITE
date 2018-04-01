@@ -11,33 +11,33 @@ export class ProfileComponent implements OnInit {
 
 
   //---------- FLAGS --------------------
-//User Flags
-currIsOwner = false;
-currIsParent = false;
-currIsChild = false;
-currIsIndependent = false;
+  //User Flags
+  currIsOwner = false;
+  currIsParent = false;
+  currIsChild = false;
+  currIsIndependent = false;
 
-visitedIsParent = false;
-visitedIsChild = false;
-VisitedIsIndependent = false;
+  visitedIsParent = false;
+  visitedIsChild = false;
+  VisitedIsIndependent = false;
 
-//Tab Navigation Flags
-pInfo = true;
-children = false;
-plan = false;
-sched = false;
+  //Tab Navigation Flags
+  pInfo = true;
+  children = false;
+  plan = false;
+  sched = false;
 
-//------------------------------------
+  //------------------------------------
 
-//---------- User Info ---------------
-Name: String = "Fulan el Fulany";
-Username: String;
-Age: Number;
-Email: String;
-Address: String;
-Phone: String;
-Birthday: Date;
-//------------------------------------
+  //---------- User Info ---------------
+  Name: String = "Fulan el Fulany";
+  Username: String;
+  Age: Number;
+  Email: String;
+  Address: String;
+  Phone: String;
+  Birthday: Date;
+  //------------------------------------
 
 
   constructor(private _ProfileService: ProfileService) { }
@@ -50,7 +50,7 @@ Birthday: Date;
     console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
   }
 
-  openInfo(): void{
+  openInfo(): void {
     this.pInfo = true;
     this.children = false;
     this.plan = false;
@@ -60,7 +60,7 @@ Birthday: Date;
     document.getElementById("childbtn").className = "";
     document.getElementById("plansbtn").className = "";
   }
-  openSched(): void{
+  openSched(): void {
     this.pInfo = false;
     this.children = false;
     this.plan = false;
@@ -70,7 +70,7 @@ Birthday: Date;
     document.getElementById("childbtn").className = "";
     document.getElementById("plansbtn").className = "";
   }
-  openPlans(): void{
+  openPlans(): void {
     this.pInfo = false;
     this.children = false;
     this.plan = true;
@@ -80,7 +80,7 @@ Birthday: Date;
     document.getElementById("childbtn").className = "";
     document.getElementById("plansbtn").className = "active";
   }
-  openChildren(): void{
+  openChildren(): void {
     this.pInfo = false;
     this.children = true;
     this.plan = false;
@@ -89,7 +89,7 @@ Birthday: Date;
     document.getElementById("schedbtn").className = "";
     document.getElementById("childbtn").className = "active";
     document.getElementById("plansbtn").className = "";
-}
+  }
 
 
 }

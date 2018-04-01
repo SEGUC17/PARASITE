@@ -10,7 +10,9 @@ export class AuthService {
   endpoint: String = 'http://localhost:3000/api/'
 
   signUp(user: any): Observable<any>{
-           return this.http.post<any>("http://localhost:3000/api/signUp",user);
+    console.log(user);
+           return this.http.post<any>("http://localhost:3000/api/signup",user);
+          
   }
 
 

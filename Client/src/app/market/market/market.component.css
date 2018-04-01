@@ -1,31 +1,20 @@
-.product-card {
-  margin: 2%;
-}
 
-.product-tag {
-  margin: 1%;
-}
-
-.product-avatar {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
+.margin10 {
+    margin: 10px;
   }
-
-.product-container{
-  margin: 5%;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-
-#submit {     
-  /* width: 70px;           */
-  height: 40px;         
-  position: absolute;
-  top: 2%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-  background-color:rgb(45, 128, 156) ;
-  right: 50%;
-  margin-bottom: -50px;     
-  right: 10px;     
-}
+  
+  .section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .widthFloat{
+    width: 60px;
+    float:left;
+  }
+  
+  .mat-slider-horizontal {
+    width: 280px;
+  }

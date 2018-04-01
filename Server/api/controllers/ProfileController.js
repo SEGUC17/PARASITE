@@ -1,11 +1,37 @@
 var mongoose = require('mongoose'),
-  moment = require('moment'),
-  Validations = require('../utils/validators'),
-  User = mongoose.model('User');
-  //VCRSchema = mongoose.model('VerifiedContributerRequest');
-  VCRSchema = require('../models/VerifiedContributerRequest');
-  adminController = require('./AdminController');
+User = mongoose.model('User');
+moment = require('moment'),
+Validations = require('../utils/validators'),
+User = mongoose.model('User');
+//VCRSchema = mongoose.model('VerifiedContributerRequest');
+VCRSchema = require('../models/VerifiedContributerRequest');
+adminController = require('./AdminController');
 
+
+
+
+
+module.exports.getChildren = function (req, res, next) {
+   
+    User.findById(req.params.userId).exec(function (err, user) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!user) {
+            return res
+                .status(404)
+                .json({ err: null, msg: 'User not found.', data: null });
+        }
+
+        res.status(200).json({
+            err: null,
+            msg: 'Children retrieved successfully.',
+            data: user.children
+        });
+    });
+};
+ 
 module.exports.requestUserValidation = function(req, res, next) {
 
   const newRequest = {
