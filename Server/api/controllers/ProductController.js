@@ -5,7 +5,6 @@ var Validations = require('../utils/validators/is-object-id');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
 module.exports.getNumberOfProducts = function (req, res, next) {
-    console.log('entered pages');
     var toFind = {};
     var reqPrice = Number(req.params.price);
     var reqName = req.params.name;
@@ -26,7 +25,7 @@ module.exports.getNumberOfProducts = function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            console.log(count);
+            console.log(count+' number of products');
             return res.status(200).json({
                 data: count,
                 err: null,

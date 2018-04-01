@@ -2,7 +2,7 @@
   <mat-tab label="Market">
     <mat-card>
       <mat-card-content>
-       <h2 style="margin-left: 13px;margin-top:12px;float:left">Price</h2>
+        <h2 style="margin-left: 13px;margin-top:12px;float:left">Price</h2>
         <mat-slider class="example-margin" [disabled]=false [invert]=false [max]=10000 [min]=0 [step]=1 [thumb-label]=false [tick-interval]=false
           [(ngModel)]="selectedPrice" [vertical]=false>
         </mat-slider>
@@ -13,23 +13,21 @@
         </section>
       </mat-card-content>
       <mat-card-content>
-          <h2 style="margin-left: 13px;margin-top:12px;float:left">Item</h2>
-           <section class="example-section">
-             <mat-form-field style="margin: 10px;">
-               <input matInput placeholder="Value" [(ngModel)]="selectedName">
-             </mat-form-field>
-             <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.firstPage()">Filter</button>
-           
-             <button mat-button class="md-raised md-primary example-margin" style="background:#3f51b5; color:white" (click)="this.clearLimits()">Clear</button>
-           </section>
-         </mat-card-content>
-   
+        <h2 style="margin-left: 13px;margin-top:12px;float:left">Item</h2>
+        <section class="example-section">
+          <mat-form-field style="margin: 10px;">
+            <input matInput placeholder="Value" [(ngModel)]="selectedName">
+          </mat-form-field>
+          <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.firstPage()">Filter</button>
 
+          <button mat-button class="md-raised md-primary example-margin" style="background:#3f51b5; color:white" (click)="this.clearLimits()">Clear</button>
+        </section>
+      </mat-card-content>
     </mat-card>
     <mat-card>
       <div class="row justify-content-md-center" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
         <mat-card *ngFor="let product of products" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
-          <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" style="height:200px">
+          <img mat-card-image src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';" alt="Photo of product" style="height:200px">
           <mat-card-content class="mt-2">
             <mat-card-title style="width:100%; color:#3f51b5">{{product.name}}</mat-card-title>
             <mat-card-subtitle>{{product.price}} EGP</mat-card-subtitle>
@@ -54,7 +52,7 @@
     <mat-card>
       <div class="row justify-content-md-center" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
         <mat-card *ngFor="let product of userItems" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
-          <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu" style="height:200px">
+          <img mat-card-image src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';" alt="Photo of product" style="height:200px">
           <mat-card-content class="mt-2">
             <mat-card-title style="width:100%; color:#3f51b5">{{product.name}}</mat-card-title>
             <mat-card-subtitle>{{product.price}} EGP</mat-card-subtitle>

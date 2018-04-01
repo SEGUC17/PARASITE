@@ -30,19 +30,23 @@ export class MarketComponent implements OnInit {
   constructor(public dialog: MatDialog, private marketService: MarketService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
+    this.userItemsCurrentPage = 1;
     this.currentPageNumber = 1;
     this.firstPage();
   }
   openDialog(prod: any): void {
-    let dialogRef = this.dialog.open(ProductDetailComponent, {
-      width: '1000px',
-      height: '400px',
-      data: { product: prod }
-    });
+    if (prod) {
+      let dialogRef = this.dialog.open(ProductDetailComponent, {
+        width: '1000px',
+        height: '400px',
+        data: { product: prod }
+      });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+      });
+    }
+
   }
 
   getPage(): void {
@@ -61,7 +65,8 @@ export class MarketComponent implements OnInit {
   firstPage(): void {
     const self = this;
     const limiters = {
-      seller: self.user._id
+      price: self.selectedPrice + 1,
+      name: self.selectedName
     };
     this.marketService.numberOfMarketPages(limiters)
       .subscribe(function (numberOfProducts) {
