@@ -9,44 +9,45 @@ import { ProfileService } from '../profile.service';
 
 export class ProfileComponent implements OnInit {
 
-//---------- FLAGS --------------------
-//User Flags
-  currIsOwner = false;
-  currIsParent = false;
-  currIsChild = false;
-  currIsIndependent = false;
 
-  visitedIsParent = false;
-  visitedIsChild = false;
-  VisitedIsIndependent = false;
+  //---------- FLAGS --------------------
+//User Flags
+currIsOwner = false;
+currIsParent = false;
+currIsChild = false;
+currIsIndependent = false;
+
+visitedIsParent = false;
+visitedIsChild = false;
+VisitedIsIndependent = false;
 
 //Tab Navigation Flags
-  pInfo = true;
-  children = false;
-  plan = false;
-  sched = false;
+pInfo = true;
+children = false;
+plan = false;
+sched = false;
 
 //------------------------------------
 
 //---------- User Info ---------------
-  Name: String = "Fulan el Fulany";
-  Username: String;
-  Age: Number;
-  Email: String;
-  Address: String;
-  Phone: String;
-  Birthday: Date;
+Name: String = "Fulan el Fulany";
+Username: String;
+Age: Number;
+Email: String;
+Address: String;
+Phone: String;
+Birthday: Date;
 //------------------------------------
+
 
   constructor(private _ProfileService: ProfileService) { }
 
-
   ngOnInit() {
-      //Retrieve all current/visited user data and set all the variables
+
   }
 
   requestContributerValidation() {
-    this._ProfileService.makeContributerValidationRequest();
+    console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
   }
 
   openInfo(): void{
@@ -88,7 +89,7 @@ export class ProfileComponent implements OnInit {
     document.getElementById("schedbtn").className = "";
     document.getElementById("childbtn").className = "active";
     document.getElementById("plansbtn").className = "";
-  }
+}
 
 
 }

@@ -5,25 +5,30 @@ import { CreateProductComponent } from './create-product/create-product.componen
 import { MarketRoutingModule } from './market-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule, MatOptionModule, MatSelectModule } from '@angular/material';
-import{MatFormFieldModule, MatButtonModule} from '@angular/material';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MarketService } from './market.service';
+import { MatFormFieldModule, MatButtonModule } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
-import {CreateProductService} from './create-product/create-product.service'
-
+// import { CreateProductService } from './create-product/create-product.service';
 @NgModule({
   imports: [
-   
     CommonModule,
     MarketRoutingModule,
-    RouterModule,
+    MatCardModule,
     MatInputModule,
     MatOptionModule,
-    MatFormFieldModule,
     MatSelectModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
     MatButtonModule,
-    FormsModule
-   
+    FormsModule,
+    RouterModule
   ],
-  providers: [CreateProductService],
-  declarations: [MarketComponent, CreateProductComponent]
+  providers: [MarketService,
+    //  CreateProductService
+    ],
+  declarations: [MarketComponent, ProductDetailComponent, CreateProductComponent]
 })
 export class MarketModule { }

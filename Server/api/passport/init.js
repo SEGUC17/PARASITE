@@ -11,15 +11,15 @@ var User = mongoose.model('User');
 
 // ---------------------- Passport ---------------------- //
 module.exports = function(passport) {
-    passport.serializeUser(function(user, next) {
-        next(null, user._id);
+    passport.serializeUser(function(user, done) {
+        done(null, user._id);
     });
-    passport.deserializeUser(function(id, next) {
+    passport.deserializeUser(function(id, done) {
         User.findById(id, function(err, user) {
-            next(err, user);
+            done(err, user);
         });
     });
     signUp(passport);
-    signIn(passport);
+    //signIn(passport);
 };
 // ---------------------- End of Passport ---------------------- //

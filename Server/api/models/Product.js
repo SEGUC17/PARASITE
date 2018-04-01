@@ -1,43 +1,49 @@
-/* eslint-disable*/
 var mongoose = require('mongoose');
-
 var productSchema = mongoose.Schema({
-  name: {
-    type: String,
+  acquiringType: {
+    enum: [
+      'rent',
+      'sell',
+      'rent/sell'
+    ],
     required: true,
-    trim: true
-  },
-  price: {
-    type: Number,
-    required: true,
-    min: 0
-  },
-  seller: {
-    type: String,  // hyperlink to user's profile
-    required: true,
-    trim: true
-  },
-  image: {
-    data: Buffer,
-    contentType: String
-  },
-  acquiringType: { // rent\sell
-    type: String,
-    required: true,
-    trim: true
-  },
-  rentPeriod: {   // in days
-    type: Number,
-    min: 1
-  },
-  description: {
-    type: String,
-    trim: true
+    trim: true,
+    type: String
   },
   createdAt: {
-    type: Date,
-    default: Date.now
+    default: Date.now,
+    type: Date
   },
+  description: {
+    trim: true,
+    type: String
+  },
+  image: {
+    contentType: String,
+    data: Buffer
+  },
+  name: {
+    required: true,
+    trim: true,
+    type: String
+  },
+  price: {
+    min: 0,
+    required: true,
+    type: Number
+  },
+  //in days
+  rentPeriod: {
+    min: 1,
+    required: false,
+    type: Number
+  },
+  seller: {
+    required: true,
+    trim: true,
+    // hyperlink to user's profile
+    type: String
+  }
 });
 
 mongoose.model('Product', productSchema);

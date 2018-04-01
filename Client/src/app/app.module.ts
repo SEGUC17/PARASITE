@@ -21,9 +21,7 @@ import { AdminModule } from './admin/admin.module';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
-//import { MatInputModule, MatOptionModule, MatSelectModule } from '@angular/material';
-//import{MatFormFieldModule} from '@angular/material';
-
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -50,7 +48,8 @@ import { HttpClientModule } from '@angular/common/http';
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     MediaMatcher

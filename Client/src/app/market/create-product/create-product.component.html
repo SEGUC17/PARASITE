@@ -1,4 +1,5 @@
 
+
 <form (ngSubmit)="createProduct()" #createproduct="ngForm">
 <!-- <div class="form-group" > -->
 
@@ -20,127 +21,60 @@
   </mat-form-field>
   </div>
 
+
   <div>
-      <label for="acquiringType">Product is up for</label>
       <div>
   <mat-form-field>
-      <mat-select matInput name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
-    <mat-select placeholder="Select"  name="acquiringType" >
-      <mat-option value="borrow"  name="borrow">borrow</mat-option>
+    <mat-select matInput placeholder="Product is up for" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
+      <mat-option value="rent"  name="rent">rent</mat-option>
       <mat-option value="sell"  name="sell" >sell</mat-option>
-    </mat-select>
+      <mat-option value="rent/sell"  name="rent/sell" >rent/sell</mat-option>
 
     </mat-select>
   </mat-form-field>
 </div>
-
 </div>
+
+<div>
 
   <mat-form-field>
      <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod" [(ngModel)]="formInput.rentPeriod" class="example-right-align">
   </mat-form-field>
 </div>
 
+ <div>
+      <mat-form-field>
+       <input matInput placeholder="image URL" name="imageURL" id="imageURL" hintLabel="Image URL " [(ngModel)]="formInput.imageURL"> 
+       </mat-form-field>
+ </div>
+
+ 
+
+
+</div>
+
+
 
 <div  class="form-group">
-    <div id="image" >
+    <div id="pic" >
   <form action="/action_page.php">
-    <input type="file" name="pic" id="pic" [(ngModel)]="formInput.pic"  accept="image/*">
-  </form>
+    <input type="file" name="pic" id="pic" [(ngModel)]="formInput.pic"  accept="image/*" capture>
+  </form>    
+</div>
+<!-- <div><img image src="https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150" alt="Product's Picture" id="image"/> </div> -->
+<div>
+  <img image src= {{formInput.imageURL}} alt="Product's Picture" id="image"/> 
 </div>
 </div>
-
 
 <div> 
-    <button id="submit" type="submit" (ngSubmit)="createProduct()" >Create Product</button>
+    <!-- <button mat-button class="md-raised md-primary" id="submit" type="submit" style="width:15%; background:#3f51b5; color:white" (click)="createProduct()">Create Product</button> -->
+    <button mat-button id="submit" type="submit" (ngSubmit)="createProduct()" >Create Product</button>
 
   </div>
 <!-- </div> -->
 
 </form>
-
-
-<!-- 
-  <nb-card>
-    <nb-card-body>
-      <div class="flex-centered offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-5">
-        <h2 class="title text-center">Create Product</h2>
-        <form (ngSubmit)="createProduct()" #createproduct="ngForm">
-  
-
-  
-          <div class="form-group">
-            <div>
-              <label for="name">Product Name</label>
-              <input type="text" id="name" class="form-control" required [(ngModel)]="formInput.name" name="name" #name="ngModel" required>
-              <div [hidden]="name.valid || name.untouched" class="alert text-danger">
-                Product Name is required
-              </div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div>
-              <label for="description">Product's description:</label>
-              <input type="text" id="description" class="form-control" required [(ngModel)]="formInput.description" description="description" #description="ngModel" required>
-              <div [hidden]="description.valid || description.untouched" class="alert text-danger">Required
-              </div>
-            </div>
-          </div>
-
-          <mat-form-field>
-            <input matInput placeholder="Price" type="double" class="example-right-align">
-            <span matPrefix>$&nbsp;</span>
-          </mat-form-field>
-  
-          <div class="form-group">
-            <label for="type">Product up for</label>
-            <select class="form-control" id="acquiringType" required [(ngModel)]="formInput.acquiringType" name="acquiringType" #acquiringType="ngModel">
-              <option value="borrow">borrow</option>
-              <option value="sell">sell</option>
-            </select>
-            <div [hidden]="type.valid || type.untouched" class="alert text-danger">
-              Please choose an acquiringType!
-            </div>
-          </div>
-
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" class="example-right-align">
-      </mat-form-field> 
-
-    
-
-  
- -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

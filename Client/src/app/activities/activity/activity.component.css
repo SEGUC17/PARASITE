@@ -1,0 +1,8 @@
+mat-paginator {
+    position: fixed;
+    z-index: 1;
+}
+
+.activities-container {
+    margin-top: 3%;
+}
