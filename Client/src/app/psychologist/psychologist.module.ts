@@ -10,7 +10,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { PsychologistComponent } from './psychologist/psychologist.component';
 import { AddPsychRequestComponent } from './add-psych-request/add-psych-request.component';
 import { PsychologistRoutingModule } from './psychologist-routing.module';
-
+import {MatChipsModule} from '@angular/material';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +18,7 @@ import { PsychologistRoutingModule } from './psychologist-routing.module';
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
+    MatChipsModule,
     MatInputModule,
     MatIconModule,
     MatSelectModule,

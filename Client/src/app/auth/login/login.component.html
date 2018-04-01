@@ -1,3 +1,23 @@
 <p>
-  login works!
+Please enter your username and password to login
 </p>
+
+
+
+<div>UserName: <input #username [(ngModel)]=Username  placeholder="Username.."required/></div> 
+<div>Password: <input type="password" #password [(ngModel)]=Password placeholder="*****..." required/> </div> 
+
+
+
+<div>
+  <input type="submit" class="btn btn-hero-success main-btn"  (click) ="login()"  value="Submit">
+  <input type="submit" class="btn btn-hero-success main-btn" (click)="redirect()"    value="Back">
+ 
+</div>
+
+
+<div *ngIf ="Div1">  
+
+  <label>
+   Sorry you must insert your username and password in order to login!
+  </label>

@@ -1,3 +1,28 @@
-<p>
-  psychologist works!
-</p>
+<mat-card>
+  <h1 style="font-size: 35px; font-weight: bold">Verified Psychologists</h1>
+  <div class="row" style="height:250px">
+    <mat-card *ngFor="let psych of psychologists" style="width:32%; margin:5px">
+      <mat-card-title>{{psych.firstName}} {{psych.lastName}}</mat-card-title>
+      <li>
+        <span style="font-weight: bold">Phone:</span>
+        <span>{{psych.phone}}</span>
+      </li>
+      <li>
+        <span style="font-weight: bold">Address:</span>
+        <span>{{psych.address}}</span>
+      </li>
+      <li>
+        <span style="font-weight: bold">Email:</span>
+        <span>{{psych.email}}</span>
+      </li>
+      <li>
+        <span style="font-weight: bold">Days Off:</span>
+        <mat-chip *ngFor="let day of psych.daysOff" style="background: #3f51b5;color:white;">{{day}}</mat-chip>
+      </li>
+      <li>
+        <span style="font-weight: bold">Price Range:</span>
+        <span>{{psych.priceRange}}</span>
+      </li>
+    </mat-card>
+  </div>
+</mat-card>

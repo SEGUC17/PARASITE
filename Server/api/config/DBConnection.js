@@ -13,10 +13,12 @@ mongoose.connect(config.MONGO_URI).
 
     });
 
-    //TODO: add models
+require('../models/Activity');
 require('../models/Content');
 require('../models/User');
 require('../models/PsychologistRequest');
 require('../models/Psychologist');
+require('../models/Category');
+require('../models/VerifiedContributerRequest');
 require('../models/ContentRequest');
 

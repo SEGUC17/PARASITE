@@ -14,6 +14,7 @@ import { PsychologistService } from './psychologist/psychologist.service'
 import { MarketModule } from './market/market.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -23,7 +24,6 @@ import { AdminModule } from './admin/admin.module';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule } from '@angular/common/http';
-
 
 @NgModule({
   declarations: [
@@ -35,6 +35,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatToolbarModule,
     MatSidenavModule,
     MatListModule,
+    MatCardModule,
     MatButtonModule,
     FlexLayoutModule,
     DashboardModule,
@@ -49,8 +50,8 @@ import { HttpClientModule } from '@angular/common/http';
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
-    FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     MediaMatcher,

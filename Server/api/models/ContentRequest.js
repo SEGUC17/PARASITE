@@ -1,6 +1,14 @@
 var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 var contentreqschema = mongoose.Schema({
-    contentID: { type: String },
+    contentID: {
+        type: [
+            {
+            ref: 'Content',
+            type: Schema.Types.ObjectId
+            }
+        ]
+    },
     contentTitle: {
         trim: true,
         type: String
@@ -12,13 +20,17 @@ var contentreqschema = mongoose.Schema({
     ],
         type: String
     },
-    creator: {
-        trim: true,
-        type: String
-    },
-    date: {
+    createdOn: {
         default: Date.now,
         type: Date
+    },
+    creator: {
+        type: [
+            {
+                ref: 'User',
+                type: Schema.Types.ObjectId
+            }
+        ]
     },
     requestType: {
         enum: [
@@ -29,14 +41,15 @@ var contentreqschema = mongoose.Schema({
         type: String
     },
     status: {
-        enum: [
+     default: 'pending',
+     enum: [
             'approved',
             'disapproved',
             'pending'
     ],
-        required: true,
         type: String
-    }
+    },
+    updatedOn: { type: Date }
 });
 
-var ContentRequest = mongoose.model('ContentRequest', contentreqschema);
+var ContentRequest = mongoose.model('ContentRequest', contentreqschema,'ContentRequest');

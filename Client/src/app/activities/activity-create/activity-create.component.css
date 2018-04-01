@@ -1,0 +1,11 @@
+.activity-create {
+    width: 100%;
+    height: 100%;
+}
+
+mat-form-field {
+    width: 70%;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 2%;
+}
