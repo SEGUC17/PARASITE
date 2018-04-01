@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -22,7 +23,8 @@ import { ActivityDetailComponent } from './activity-detail/activity-detail.compo
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule
   ],
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent],
   providers: [ActivityService]

@@ -159,8 +159,9 @@ module.exports.postActivity = function (req, res, next) {
     }
 
     var status = isAdmin ? 'verified' : 'pending';
-    // adding status to the body of the request
+    // adding status & creator to the body of the request
     req.body.status = status;
+    req.body.creator = userId;
 
     Activity.create(req.body, function (err, activity) {
         if (err) {
