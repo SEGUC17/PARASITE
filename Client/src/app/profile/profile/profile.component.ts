@@ -73,10 +73,20 @@ listOfUncommonChildren: any[];
   addChild(child): void{
     this.listOfChildren.push(child);
     this._ProfileService.linkAnotherParent(this.listOfChildren,this.vId).subscribe();
-
   }
 
+  viewChildren(): void{
+    document.getElementById("UnlinkChildren").classList.toggle("show"); 
+  }
 
+  removeChild(child): void{
+    this.listOfChildren.splice(this.listOfChildren.indexOf(child) , 1);
+    this._ProfileService.Unlink(this.listOfChildren).subscribe();
+  }
 
+  linkToParent(child):void{
+    this.vlistOfChildren.push(child);
+    //this._ProfileService.linkAsParent(this.vlistOfChildren).subscribe();
+  }
 
 }

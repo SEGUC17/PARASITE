@@ -14,7 +14,7 @@
 
       <div class = "RightSideBtns">
           <button mat-raised-button id="btnRequestContributerValidation"  (click)="requestContributerValidation()">Make me a verified contributor</button>
-          <button mat-raised-button *ngIf = "true">Add as a parent</button>
+          <button mat-raised-button id="linkToParent" *ngIf = "true" (click)= "linkToParent()">Add as a parent</button>
           <span class="dropdown" *ngIf = "true">
             <button mat-raised-button id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
             <tr *ngFor = "let child of listOfUncommonChildren" id="childrenLinks" class = dropdown-content >
@@ -22,8 +22,14 @@
               <td><button class = "myButton" (click)="addChild(child)"><i class="fa fa-plus"></i></button></td>
             </tr>
           </span> 
-          <button mat-raised-button *ngIf = "true">Make Independent</button>
-          <button mat-raised-button *ngIf = "true">Unlink</button>
+          <button mat-raised-button >Make Independent</button>
+          <span class="dropdown" *ngIf = "true">
+              <button mat-raised-button id = "unlink" (click)="viewChildren()">Unlink</button>
+              <tr *ngFor = "let child of listOfChildren" id="UnlinkChildren" class = dropdown-content >
+                <td>{{child}}</td>
+                <td><button class = "myButton" (click)="removeChild(child)"><i class="fa fa-plus"></i></button></td>
+              </tr>
+            </span> 
       </div>
     </div>
     <br>

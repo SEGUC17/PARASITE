@@ -70,4 +70,44 @@ module.exports.getUserInfo = function(req, res, next) {
 
   module.exports.linkAnotherParent = function(req, res, next) {
  
+    var id = req.params.parentId;
+    User.findOne({_id: id}, function(err, user){
+      if(err){
+        console.log(err);
+        res.status(500).send();
+      } else {
+          if(!user){
+            res.status(404).send();
+          } else {
+              if(req.body){
+                user.children = req.body.children
+              }
+
+              user.save(function(err, updatedUser){
+                if(err){
+                  console.log(err);
+                  res.status(500).send();
+                } else {
+                  res.send(updatedUser);
+                }
+              });
+            }
+      }
+    })
+};
+
+  module.exports.Unlink = function(req, res, next) {
+ User.findByIdAndUpdate(req.params.userId ,  $set , { children : req.body.children }
+   ).exec(function(err, unlink) {
+      if (err) {
+        return next(err);
+      }
+      
+      res.status(200).json({
+        err: null,
+        msg: 'Your children list was updated successfully.',
+        data: unlink
+      });
+    });
+
   };

@@ -60,11 +60,11 @@ adminController.respondContentRequest
     '/profile/:username',
     profileController.getUserInfo
   );
-  // router.get(
-  //   '/profile/LinkAnotherParent/:parentID',
-  //   profileController.linkAnotherParent
-  // );
-
+  router.put('/profile/LinkAnotherParent/:parentId',profileController.linkAnotherParent);
+  router.put(
+       '/profile/LinkAnotherParent',
+       profileController.Unlink
+     );
 
 //  router.get('/profile/:userId/getChildren', profileController.getProduct);
 //------------------- End of Profile module Endpoints-----------//
