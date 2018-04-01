@@ -8,19 +8,27 @@ export class MarketService {
   host: String = 'http://localhost:3000/api/';
   constructor(private http: HttpClient) { }
   getMarketPage(entriesPerPage: number, pageNumber: number, limiters: any): Observable<any> {
-    return this.http.get(this.host + 'market/getMarketPage/' + entriesPerPage +
-    '/' + pageNumber + '/' + limiters.name + '/' + limiters.price, limiters)
-      .pipe(
-        catchError(this.handleError('getMarketPage', []))
-      );
+    let url = this.host + 'market/getMarketPage/' + entriesPerPage +
+      '/' + pageNumber + '/' + limiters.name + '/' + limiters.price;
+    if (limiters.seller) {
+      url = this.host + 'market/getMarketPage/' + entriesPerPage +
+        '/' + pageNumber + '/' + limiters.seller;
+    }
+    return this.http.get(url).pipe(
+      catchError(this.handleError('getMarketPage', []))
+    );
     // return of(products);
   }
   numberOfMarketPages(limiters: any): Observable<any> {
-    return this.http.get(this.host + 'market/getNumberOfProducts' +
-    '/' + limiters.name + '/' + limiters.price, limiters)
-      .pipe(
-        catchError(this.handleError('getNumberOfProducts', []))
-      );
+    let url = this.host + 'market/getNumberOfProducts/' +
+      limiters.name + '/' + limiters.price;
+    if (limiters.seller) {
+      url = this.host + 'market/getNumberOfProducts/' +
+        limiters.seller;
+    }
+    return this.http.get(url).pipe(
+      catchError(this.handleError('getNumberOfProducts', []))
+    );
     // return of(products.length);
   }
   private handleError<T>(operation = 'operation', result?: T) {

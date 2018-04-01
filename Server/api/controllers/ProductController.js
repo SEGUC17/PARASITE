@@ -26,7 +26,7 @@ module.exports.getNumberOfProducts = function (req, res, next) {
             if (err) {
                 return next(err);
             }
-
+            console.log(count);
             return res.status(200).json({
                 data: count,
                 err: null,
@@ -53,6 +53,38 @@ module.exports.getMarketPage = function (req, res, next) {
     }
     Product.paginate(
         toFind,
+        {
+            limit: Number(req.params.entriesPerPage),
+            page: Number(req.params.pageNumber)
+        }, function (err, products) {
+            if (err) {
+                return next(err);
+            }
+            console.log(products);
+            res.status(200).json({
+                data: products,
+                err: null,
+                msg: 'products retrieved successfully'
+            });
+        }
+    );
+};
+module.exports.getNumberOfProductsBySeller = function (req, res, next) {
+    Product.find({ seller: req.params.seller }).count().
+        exec(function (err, count) {
+            if (err) {
+                return next(err);
+            }
+            return res.status(200).json({
+                data: count,
+                err: null,
+                msg: 'Number of products = ' + count
+            });
+        });
+};
+module.exports.getMarketPageBySeller = function (req, res, next) {
+    Product.paginate(
+        { seller: req.params.seller },
         {
             limit: Number(req.params.entriesPerPage),
             page: Number(req.params.pageNumber)

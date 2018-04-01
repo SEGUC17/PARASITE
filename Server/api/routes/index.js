@@ -41,6 +41,12 @@ module.exports = function (passport) {
     '/market/getNumberOfProducts/:name/:price',
     productCtrl.getNumberOfProducts
   );
+  router.get('/market/getMarketPage/:entriesPerPage/:' +
+    'pageNumber/:seller', productCtrl.getMarketPageBySeller);
+  router.get(
+    '/market/getNumberOfProducts/:seller',
+    productCtrl.getNumberOfProductsBySeller
+  );
   router.get('/product/getProduct/:productId', productCtrl.getProduct);
   router.post('/productrequest/createproduct', productCtrl.createProduct);
   router.post('/productrequest/' +

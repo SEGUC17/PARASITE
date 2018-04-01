@@ -6,7 +6,7 @@ import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { Product } from '../Product';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
@@ -14,15 +14,19 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angula
 })
 export class MarketComponent implements OnInit {
 
-
+  user: any = {
+    _id: '7ad1'
+  };
   products: Product[];
   currentPageNumber: number;
-  entriesPerPage = 5;
+  entriesPerPage = 15;
   selectedName: String = 'NA';
   selectedPrice = -1;
-  numberOfPages: number;
   numberOfProducts: number;
-  myItems: Product[];
+  numberOfUserProducts: number;
+  userItems: Product[];
+  userItemsCurrentPage: number;
+
   constructor(public dialog: MatDialog, private marketService: MarketService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
@@ -57,14 +61,35 @@ export class MarketComponent implements OnInit {
   firstPage(): void {
     const self = this;
     const limiters = {
-      price: self.selectedPrice + 1,
-      name: self.selectedName
+      seller: self.user._id
     };
     this.marketService.numberOfMarketPages(limiters)
       .subscribe(function (numberOfProducts) {
         self.numberOfProducts = numberOfProducts.data;
-        self.numberOfPages = Math.ceil(self.numberOfProducts / self.entriesPerPage);
+        console.log(numberOfProducts.data);
         self.getPage();
+      });
+  }
+  firstUserPage(): void {
+    const self = this;
+    const limiters = {
+      seller: self.user._id
+    };
+    this.marketService.numberOfMarketPages(limiters)
+      .subscribe(function (numberOfProducts) {
+        self.numberOfUserProducts = numberOfProducts.data;
+        self.getUserPage();
+      });
+  }
+  getUserPage(): void {
+    const self = this;
+    const limiters = {
+      seller: self.user._id
+    };
+    self.marketService.getMarketPage(self.entriesPerPage,
+      self.userItemsCurrentPage, limiters)
+      .subscribe(function (products) {
+        self.userItems = products.data.docs;
       });
   }
   clearLimits(): void {
@@ -73,11 +98,17 @@ export class MarketComponent implements OnInit {
     this.firstPage();
   }
   tabChanged(event): void {
-    if (event.tab.textLabel === 'My items' && !this.myItems) {
+    if (event.tab.textLabel === 'My items' && !this.userItems) {
+      this.firstUserPage();
     }
   }
   onPaginateChange(event): void {
-    this.currentPageNumber = event.pageIndex + 1;
-    this.getPage();
+    if (event.tab.textLabel === 'My items') {
+      this.userItemsCurrentPage = event.pageIndex + 1;
+      this.getUserPage();
+    } else {
+      this.currentPageNumber = event.pageIndex + 1;
+      this.getPage();
+    }
   }
 }
