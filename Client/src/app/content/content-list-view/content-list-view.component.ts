@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
-import { PageEvent } from '@angular/material';
+import { PageEvent, MatPaginator } from '@angular/material';
 import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
+import { MatSidenav } from '@angular/material/sidenav';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-content-list-view',
@@ -24,7 +26,7 @@ export class ContentListViewComponent implements OnInit {
   username: String = 'Omar K.';
 
   // shared between myContributions and content list
-  numberOfEntriesPerPage = 3;
+  numberOfEntriesPerPage = 5;
 
   // for content list pagination
   totalNumberOfPages: number;
@@ -38,6 +40,8 @@ export class ContentListViewComponent implements OnInit {
   myContributionsTotalNumberOfPages: number;
   myContributionsCurrentPageNumber: number;
 
+  @ViewChild('sidenav') public myNav: MatSidenav;
+  @ViewChild('allContentPaginator') public paginator: MatPaginator;
   constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
@@ -76,6 +80,9 @@ export class ContentListViewComponent implements OnInit {
   }
 
   tabChanged(event): void {
+    if (this.myNav.opened) {
+      this.myNav.toggle();
+    }
     if (event.tab.textLabel === 'My Contributions' && !this.myContributions) {
       this.getMyContributionsPage();
     }
@@ -111,8 +118,11 @@ export class ContentListViewComponent implements OnInit {
   }
 
   changeCategoryAndSection(category: any, section: any ): void {
+    this.currentPageNumber = 1;
     this.selectedCategory = category;
     this.selectedSection = section;
+    this.paginator.firstPage();
     this.getContentPage();
+    this.myNav.toggle();
   }
 }
