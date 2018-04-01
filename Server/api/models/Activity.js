@@ -16,6 +16,12 @@ var activitySchema = Schema({
      *
      *   @author: Wessam
      */
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+
     name: {
         type: String,
         required: true,

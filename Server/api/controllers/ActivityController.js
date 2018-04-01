@@ -21,6 +21,7 @@ module.exports.getActivities = function (req, res, next) {
     var userId = req.sender;
 
     var isAdmin = false;
+    var status = req.query.status;
 
     if (userId) {
         var user = User.findById(userId);
@@ -39,6 +40,10 @@ module.exports.getActivities = function (req, res, next) {
      *  TODO: adding activities created by the req.user
      */
     var filter = {};
+    if (status) {
+        filter.status = status;
+    }
+
     if (!isAdmin) {
         filter.status = 'verified';
     }
@@ -56,6 +61,10 @@ module.exports.getActivities = function (req, res, next) {
                 err: null,
                 msg: 'Activities retrieved successfully'
             });
+        }, {
+            columns: {},
+            populate: ['creator'],
+            sortBy: { createdAt: -1 }
         }
     );
 };
@@ -82,10 +91,14 @@ module.exports.getActivity = function (req, res, next) {
         if (err) {
             return next(err);
         }
+        var creatorId = activity.creator;
+        var creator = User.findById(creatorId);
+        activity.creator = creator;
+
         console.log(activity.status);
         if (activity.status !== 'verified') {
-            //TODO: checking if the user is the activity owner
-            if (!isAdmin) {
+
+            if (!isAdmin || creatorId !== userId) {
                 return res.status(403).json({
                     data: null,
                     err: 'this activity isn\'t verified yet',
