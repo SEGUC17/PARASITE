@@ -56,6 +56,10 @@ module.exports.getActivities = function (req, res, next) {
                 err: null,
                 msg: 'Activities retrieved successfully'
             });
+        }, {
+            columns: {},
+            populate: ['creator'],
+            sortBy: { createdAt: -1 }
         }
     );
 };
