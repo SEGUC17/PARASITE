@@ -59,7 +59,10 @@ module.exports = function (passport) {
   //------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
+
   router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
+  router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule); //check name of method in controller
+
   // ------------End of Schedule Controller Endpoints -----------//
 
   // --------------Content Module Endpoints---------------------- //
@@ -77,4 +80,3 @@ module.exports = function (passport) {
 
   return router;
 };
-

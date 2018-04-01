@@ -5,7 +5,6 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent} fro
 //import { Schedule } from './schedule';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
-<<<<<<< HEAD
 import {
   isSameMonth,
   isSameDay,
@@ -75,7 +74,7 @@ export class ScheduleComponent implements OnInit {
   // TODO: To be obtained from server in viewPersonalSchedule by Dalia
   refresh: Subject<any> = new Subject();
   schedule: CalendarEvent[];
-  refresh: Subject<any> = new Subject();
+
 
   constructor(private scheduleService: ScheduleService) { }
   // FIXME: Temporary Constant

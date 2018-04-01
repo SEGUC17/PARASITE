@@ -17,38 +17,38 @@ var calendarEventSchema = mongoose.Schema({
     start: {
         type: Date,
         require: true
-    },
-    end: {
-        type: Date
-    },
-    title: {
-        type: String,
-        require: true
-    },
-    color: {
-        type: {}
-    },
-    actions: {
-        type: [{}]
-    },
-    allDay: {
-        type: Boolean
-    },
-    cssClass: {
-        type: String
-    },
-    resizable: {
-        type: {
-            beforeStart: Boolean,
-            afterEnd: Boolean
-        }
-    },
-    draggable: {
-        type: Boolean
-    },
-    meta: {
-        type: {}
     }
+    // end: {
+    //     type: Date
+    // },
+    // title: {
+    //     type: String,
+    //     require: true
+    // },
+    // color: {
+    //     type: {}
+    // },
+    // actions: {
+    //     type: [{}]
+    // },
+    // allDay: {
+    //     type: Boolean
+    // },
+    // cssClass: {
+    //     type: String
+    // },
+    // resizable: {
+    //     type: {
+    //         beforeStart: Boolean,
+    //         afterEnd: Boolean
+    //     }
+    // },
+    // draggable: {
+    //     type: Boolean
+    // },
+    // meta: {
+    //     type: {}
+    // }
 });
 // ---------------------- End of Schemas ---------------------- //
 

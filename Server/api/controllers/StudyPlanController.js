@@ -59,7 +59,7 @@ module.exports.createStudyPlan = function (req, res, next) {
     User.findOneAndUpdate({ username: req.params.username }, { $push: { 'studyPlans': req.body } }, function (err, user) {
         if (err)
             return next(err);
-            
+
         res.status(201).json({
             data: null,
             err: null,
