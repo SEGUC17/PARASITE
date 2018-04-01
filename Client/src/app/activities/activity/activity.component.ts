@@ -20,7 +20,7 @@ export class ActivityComponent implements OnInit {
   canCreate: Boolean;
   private createUrl = "/create-activity";
 
-  constructor( private activityService: ActivityService) { }
+  constructor(private activityService: ActivityService) { }
 
   ngOnInit() {
     this.getActivities(null);
@@ -33,7 +33,7 @@ export class ActivityComponent implements OnInit {
       @var event: An object that gets fired by mat-paginator
     */
     let page = 1;
-    if(event){
+    if (event) {
       page = event.pageIndex + 1;
     }
     this.activityService.getActivities(page).subscribe(
@@ -53,8 +53,8 @@ export class ActivityComponent implements OnInit {
     this.pageSize = res.data.limit;
     this.pageIndex = res.data.pageIndex;
     this.canCreate = true;
-    for(let activity of this.activities){
-      if(!activity.image){
+    for (let activity of this.activities) {
+      if (!activity.image) {
         activity.image = "assets/images/activity-view/default-activity-image.jpg";
       }
     }

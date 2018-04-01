@@ -12,14 +12,27 @@ export class ViewContentRequestsComponent implements OnInit {
   ngOnInit() {
   }
 
-  viewPendingReqs(): void {
-    console.log('child component called ');
+  viewPendingContReqs(): void {
     let self = this;
-     this._adminService.viewPendingReqs().subscribe(function(res) {
-      console.log('back from server');
+     self._adminService.viewPendingContReqs().subscribe(function(res) {
       console.log(res.data);
       console.log(res.msg);
      });
   }
+  approveContentRequest(Rid): any {
+    let self = this;
+    self._adminService.respondContentRequest('approved', Rid ).subscribe(function(res) {
+      console.log(res.data);
+      console.log(res.msg);
 
+    });
+  }
+  disapproveContentRequest(Rid): any {
+    let self = this;
+    self._adminService.respondContentRequest('disapproved', Rid).subscribe(function(res) {
+      console.log(res.data);
+      console.log(res.msg);
+
+    });
+  }
 }
