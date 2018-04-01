@@ -2,14 +2,14 @@ var mongoose = require('mongoose');
 
 var psychSchema = mongoose.Schema({
   firstName: {
-    type: String,
     required: true,
-    trim: true
+    trim: true,
+    type: String
   },
   lastName: {
-    type: String,
     required: true,
-    trim: true
+    trim: true,
+    type: String
   },
   phone: {
     type: String
