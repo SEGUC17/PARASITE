@@ -13,10 +13,12 @@ export class AuthService {
     console.log(user);
            return this.http.post<any>("http://localhost:3000/api/signup",user);
           
-  }
+  }//end method
 
 
+  Login(user: any) : Observable<any>{
+    console.log(user);
+    return this.http.post<any>("http://localhost:3000/api/signin", user);
 
-
-
-}
+    }//end method
+}//end class
