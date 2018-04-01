@@ -35,11 +35,11 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
-// --------------------- Activity Contoller -------------------- //
+  // --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
   router.post('/activities', ActivityController.postActivity);
-// --------------------- End of Activity Controller ------------ //
+  // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isUnAuthenticated, passport.authenticate('local-signup'));
@@ -54,8 +54,9 @@ module.exports = function (passport) {
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/PendingContentRequests', adminController.viewPendingReqs);
   router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
+  router.get('/admin/PendingContentRequests', adminController.viewPendingContReqs);
+  router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
   // --------------End Of Admin Contoller ---------------------- //
 
 
@@ -74,7 +75,7 @@ module.exports = function (passport) {
   // );
 
 
-//  router.get('/profile/:userId/getChildren', profileController.getProduct);
+  //  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
