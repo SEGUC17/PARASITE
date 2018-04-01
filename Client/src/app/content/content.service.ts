@@ -56,12 +56,20 @@ export class ContentService {
       );
   }
 
-  getNumberOfContentByCreator(username: any): Observable <any> {
+  getNumberOfContentByCreator(username: any): Observable<any> {
     const self = this;
     return this.http.get(self.endpoint + 'content/username/count/' + username)
-    .pipe(
-      catchError(self.handleError('getNumberOfContentByCreator', []))
-    );
+      .pipe(
+        catchError(self.handleError('getNumberOfContentByCreator', []))
+      );
+  }
+
+  getCategories(): Observable<any> {
+    const self = this;
+    return this.http.get(self.endpoint + 'content/category')
+      .pipe(
+        catchError(self.handleError('getCategories', []))
+      );
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

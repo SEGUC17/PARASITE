@@ -87,12 +87,6 @@ module.exports = function (passport) {
 
   // Content Retrieval
 
-  // Get a number of content pages
-  router.get(
-    '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
-    contentController.getNumberOfContentPages
-  );
-
   // Get a page of content
   router.get(
     '/content/getContentPage/:numberOfEntriesPerPage' +
@@ -108,12 +102,6 @@ module.exports = function (passport) {
   router.get(
     '/content/username/:creator/:pageSize/:pageNumber',
     contentController.getContentByCreator
-  );
-
-  //Get the total number of contents of a user
-  router.get(
-    '/content/username/count/:creator',
-    contentController.getNumberOfContentByCreator
   );
 
   //Content Production
