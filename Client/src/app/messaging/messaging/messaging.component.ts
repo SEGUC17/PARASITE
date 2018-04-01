@@ -11,9 +11,9 @@ import { FormsModule } from '@angular/forms';
 export class MessagingComponent implements OnInit {
 
 
-  Body: String = "";
-  Sender: String = "";
-  Receiver: String = "";
+  Body: String = '';
+  Sender: String = '';
+  Receiver: String = '';
   msg: any;
 
   constructor(private messageService: MessageService) { }
@@ -22,10 +22,10 @@ export class MessagingComponent implements OnInit {
   }
 
   send(): void {
-    var self = this;
-    this.msg = {'body': this.Body, 'sender': this.Sender, 'recipient': this.Receiver};
+    const self = this;
+    this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.Sender};
     this.messageService.send(this.msg)
-      .subscribe(res => console.log(res.json()));
+      .subscribe(res => console.log(res));
   }
 
 }

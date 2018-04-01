@@ -111,7 +111,7 @@ adminController.respondContentRequest
   // Create new Content
   router.post('/content', contentController.createContent);
 
-  //Send message 
+  //Send message
   router.post('/message/sendMessage', messageController.sendMessage);
 
   // -------------------------------------------------------------------- //

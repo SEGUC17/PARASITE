@@ -1,32 +1,36 @@
-const mongoose = require("mongoose");
+var mongoose = require('mongoose');
 
 var messagingSchema = mongoose.Schema({
 
-body:{
-    type: String,
+body: {
     required: true,
+    type: String
 },
-sender:{
-    type: String,
-    required: true,
-    trim:true,
-    lowercase: true
-},
-recipient: {
-    type: String,
-    required: true,
-    trim:true,
-    lowercase:true
-},
-sentAt:{
-    type:Date,
-    default: Date.now
-},
-state: {  
-    type: Boolean,
-    default: true
 
+recipient: {
+    lowercase: true,
+    required: true,
+    trim: true,
+    type: String
+},
+
+sender: {
+    lowercase: true,
+    required: true,
+    trim: true,
+    type: String
+},
+
+sentAt: {
+    default: Date.now,
+    type: Date
+},
+
+state: {
+    default: true,
+    type: Boolean
 }
 
 });
+
 mongoose.model('Message', messagingSchema);
