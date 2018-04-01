@@ -11,8 +11,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
-
-
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { SearchService } from './search.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -26,8 +26,10 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatIconModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatPaginatorModule
   ],
-  declarations: [SearchControlComponent]
+  declarations: [SearchControlComponent],
+  providers: [SearchService]
 })
 export class SearchModule { }

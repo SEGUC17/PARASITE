@@ -3,9 +3,9 @@
 /* eslint-disable max-statements */
 
 
-var express = require('express'),
- router = express.Router(),
- User = require('../models/User');
+var express = require('express');
+var router = express.Router();
+var User = require('../models/User');
 
 var SearchController = require('../controllers/SearchController');
 var ActivityController = require('../controllers/ActivityController');
@@ -25,9 +25,11 @@ router.get('/', function (req, res, next) {
   res.send('Server Works');
 });
   // --------------------- Search Contoller -------------------- //
-router.get('./User/Search',SearchController.Search);
-router.get('./User/FilterByLevelOfEducation',SearchController.FilterByLevelOfEducation);
-router.get('./User/FilterBySystemOfEducation',SearchController.FilterBySystemOfEducation);
+router.get('./User/NumberOfpages/:NPP', SearchController.getNumberOfPages);
+router.get('./User/Page/:page', SearchController.getPage);
+router.get('./User/Search/:username', SearchController.Search);
+router.get('./User/FilterByLevelOfEducation/:level', SearchController.FilterByLevelOfEducation);
+router.get('./User/FilterBySystemOfEducation/:system', SearchController.FilterBySystemOfEducation);
   // --------------------- End of Search Controller ------------ //
 
 module.exports = function (passport) {

@@ -15,34 +15,42 @@
 
               <mat-form-field class="demo-chip-list">
   <mat-chip-list #chipList>
-    <mat-chip  *ngFor="let tag of tags" [selectable]="selectable"
-[removable]="removable" (remove)="remove(fruit)" selected="true" color="primary">
-{{tag}}
-<mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    <mat-chip  *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable" (remove)="remove(tag)" selected="true" color="primary">
+                    {{tag}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
-                <input #box (keyup.enter)="getParents(box.value)"
-                (blur)="getParents(box.value); box.value='' "
-                name="search" type="text" class="search-control"
-                ng-model="username" placeholder="Search"
-
-                 />
-               </mat-chip-list>
+    <input #box (keyup.enter)="getParents(box.value)" (blur)="saveInfo(box.value);" name="search" type="text" class="search-control" ng-model="username" placeholder="Search" />
+  </mat-chip-list>
 </mat-form-field>
             </div>
             <ul class="search-control">
-              <mat-card *ngFor="let parent of parents" class="parent-card">
+              <!-- <mat-card *ngFor="let parent of parents" class="parent-card">
                 <mat-card-header>
                   <mat-card-title>
-                    <a [href]="content.creatorProfileLink">
-                      {{parent.username}}
+                    <a [href]="content.creatorProfileLink" onclick="goToProfile(parent.username)">
+                      {{parent.username}} 
                     </a>
                   </mat-card-title>
                 </mat-card-header>
-              </mat-card>
+              </mat-card> -->
+              <mat-card *ngFor="let parent of parents" class="parent-card">
+                <mat-card-content class="parent">
+                  <mat-card-title >{{parent.username}}</mat-card-title>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-button class="mca" style="color:white" (click)="this.goToProfile(parent.username)">Go To Profile</button>
+                </mat-card-actions>
+      </mat-card>
 
             </ul>
 
          </div>
     </body>
     <script src="js/site.js"></script>
+    <mat-paginator 
+  [length]="totPages" 
+  [pageSize]="numberPerPage" 
+  [pageIndex]="currPage" 
+  (page)="pageEvent = getPage($event)">
+</mat-paginator>
 </html>

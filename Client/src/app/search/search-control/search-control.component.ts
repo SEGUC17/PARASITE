@@ -15,9 +15,14 @@ export class SearchControlComponent implements OnInit {
    tag: string;
    tags: string[];
    visible: Boolean = true;
-  selectable: Boolean = true;
-  removable: Boolean = true;
-  addOnBlur: Boolean = true;
+   selectable: Boolean = true;
+   removable: Boolean = true;
+   addOnBlur: Boolean = true;
+   sKey: string;
+   currPage: number;
+  numberPerPage = 10;
+  totPages: number;
+  numberOfParents: number;
 
   // Enter, comma
   separatorKeysCodes = [ENTER, COMMA];
@@ -49,23 +54,53 @@ export class SearchControlComponent implements OnInit {
 
 constructor(private searchService: SearchService) {
   this.tags = [];
+  this.parents = [];
+  this.parent = '';
+  this.tag = '';
+  this.sKey = '';
 }
-getParents(username: string) {
+getParents(s: string) {
+
   switch (this.tag) {
-    case 'username': this.searchService.getParents(username).subscribe(res => this.parents = res.data); break;
-    case 'educationLevels': this.searchService.searchByEducationLevel(this.tag).subscribe(res => this.parents = res.data); break;
-    case 'educationSystems': this.searchService.searchByEducationSystems(this.tag).subscribe(res => this.parents = res.data); break;
+    case 'username': this.searchService.getParents(this.sKey + s).subscribe(res => this.parents = res.data); break;
+    case 'educationLevels': this.searchService.searchByEducationLevel(this.sKey + s).subscribe(res => this.parents = res.data); break;
+    case 'educationSystems': this.searchService.searchByEducationSystems(this.sKey + s).subscribe(res => this.parents = res.data); break;
 
   }
+  // this.getNumberOfPages();
 
 
+}
+saveInfo(searchKey: string) {
+this.sKey = searchKey;
 }
 getParentsBytag(tag: string) {
   this.tag = tag;
   this.tags = [tag];
 }
+goToProfile(username: string) {
+this.searchService.viewProfile(username);
+}
+// getNumberOfPages(): void {
+//   this.searchService.getNumberOfPages(this.numberPerPage)
+//     .subscribe(function (retrivedNumberOfPages) {
+//       this.totPages = retrivedNumberOfPages.data;
+//     });
+// }
+getPage(event: any): void {
+  let page = 1;
+    if ( event ) {
+      page = event.pageIndex + 1;
+    }
+    this.searchService.getPage(page).subscribe(
+      res => this.numberOfParents = res.data.numberOfPages,
+      res => this.parents
+
+    );
+}
 
 ngOnInit() {
+  this.currPage = 1;
 }
 
 }
