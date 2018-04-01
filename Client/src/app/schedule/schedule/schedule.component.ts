@@ -181,8 +181,8 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  isChanged(): boolean {
-    return JSON.stringify(this.events) !== JSON.stringify(this.eventsInitial);
+  isUnchanged(): boolean {
+    return JSON.stringify(this.events) === JSON.stringify(this.eventsInitial);
   }
 
   cancel() {
@@ -313,7 +313,7 @@ export class ScheduleComponent implements OnInit {
   saveScheduleChanges() {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     // TODO: To be implemented in backend
-    if (this.isChanged) {
+    if (!this.isUnchanged) {
       const indexChild = this.thisUser.children.indexOf(this.targetUser);
       if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
         this.scheduleService.saveScheduleChanges(this.targetUser, this.events);
