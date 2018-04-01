@@ -13,7 +13,6 @@ export class ContentService {
   constructor(private http: HttpClient) { }
 
   getContentPage(numberOfEntriesPerPage: any, pageNumber: any, category: any, section: any): Observable<any> {
-    // TODO handle what happens with nulls by testing
     const self = this;
     return this.http.get(self.endpoint + 'content/getContentPage/' + numberOfEntriesPerPage +
       '/' + pageNumber + '/' + category + '/' + section)
