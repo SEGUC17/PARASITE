@@ -10,17 +10,17 @@ export class AuthService {
   endpoint: String = 'http://localhost:3000/api/'
 
   signUp(user: any): Observable<any>{
-    console.log(user);
-    this.signUp(user).subscribe(function(res){});
-    return this.http.post<any>("http://localhost:3000/api/signup",user);
+    // console.log(user);
+    // this.signUp(user).subscribe(function(res){});
+    return this.http.post<any>("http://localhost:3000/api/signup",user, { 'withCredentials': true });
           
   }//end method
 
 
   Login(user: any) : Observable<any>{
-    console.log(user);
-    this.Login(user).subscribe(function(res){});
-    return this.http.post<any>("http://localhost:3000/api/signin", user);
+    // console.log(user);
+    // this.Login(user).subscribe(function(res){});
+    return this.http.post<any>("http://localhost:3000/api/signin", user, { 'withCredentials': true });
 
     }//end method
 }//end class
