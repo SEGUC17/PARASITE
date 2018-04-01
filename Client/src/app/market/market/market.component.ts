@@ -61,7 +61,6 @@ export class MarketComponent implements OnInit {
       height: '550px',
       data: {}
     });
-
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });

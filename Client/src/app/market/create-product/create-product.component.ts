@@ -27,7 +27,7 @@ export class CreateProductComponent {
       acquiringType: this.formInput.acquiringType,
       rentPeriod: this.formInput.rentPeriod,
       description: this.formInput.description,
-      createdAt: new Date,
+      createdAt: new Date(),
     };
     let error = false;
 
@@ -35,7 +35,7 @@ export class CreateProductComponent {
       || ((<HTMLInputElement>document.getElementById('description')).value) === ''
       // || ((<HTMLInputElement>document.getElementById('rentPeriod')).value) === ''
       || ((<HTMLInputElement>document.getElementById('price')).value) === ''
-      || ((<HTMLInputElement>document.getElementById('pic')).value) === ''
+    //  || ((<HTMLInputElement>document.getElementById('imageUrl')).value) === ''
       || ((<HTMLInputElement>document.getElementById('name')).value) === '') {
       error = true;
     }
@@ -58,7 +58,7 @@ export class CreateProductComponent {
   createProduct(product: any) {
     let user = {
       _id: 'ahmed',
-      isAdmin: false,
+      isAdmin: true,
     };
 
     let pro = {
@@ -79,7 +79,7 @@ export class CreateProductComponent {
       || ((<HTMLInputElement>document.getElementById('description')).value) === ''
       // || ((<HTMLInputElement>document.getElementById('rentPeriod')).value) === ''
       || ((<HTMLInputElement>document.getElementById('price')).value) === ''
-      || ((<HTMLInputElement>document.getElementById('pic')).value) === ''
+   //   || ((<HTMLInputElement>document.getElementById('imageUrl')).value) === ''
       || ((<HTMLInputElement>document.getElementById('name')).value) === '') {
       error = true;
     }
@@ -87,15 +87,14 @@ export class CreateProductComponent {
       if (user.isAdmin === true) {
         let self = this;
         this.marketService.createProduct(pro).subscribe(function (res) {
-          alert('Product created');
-          this.dialogRef.close();
+          alert('Product added successfully');
+          self.dialogRef.close();
         });
       } else {
         let self = this;
         this.marketService.createProductRequest(pro).subscribe(function (res) {
-          console.log(res.data);
-          alert('request was sent');
-          this.dialogRef.close();
+          alert('Request sent successfully');
+          self.dialogRef.close();
         });
       }
     } else {
