@@ -43,6 +43,7 @@ export class ScheduleComponent implements OnInit {
   view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
+  eventsInitial: CalendarEvent[] = [];
   // schedule: Schedule;
   activeDayIsOpen: Boolean = true;
   refresh: Subject<any> = new Subject();
@@ -79,10 +80,33 @@ export class ScheduleComponent implements OnInit {
     username: 'realGuy',
   };
 
+  targetUser = 'realGuy';
+
 
 
   ngOnInit() {
     this.fetchEvents();
+    this.events.forEach(element => {
+      const anEvent: CalendarEvent = {
+        id : element.id,
+        start : element.start,
+        end : element.end,
+        title : element.title,
+        color : {
+          primary : element.color.primary,
+          secondary : element.color.secondary
+        },
+        actions : element.actions,
+        allDay : element.allDay,
+        cssClass : element.cssClass,
+        resizable : element.resizable,
+        draggable : element.draggable,
+        meta : element.meta
+      };
+      anEvent.color.primary = element.color.primary;
+      anEvent.color.secondary = element.color.secondary;
+      this.eventsInitial.push(anEvent);
+    });
   }
 
   fetchEvents(): void {
@@ -147,6 +171,35 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
+  isChanged(): boolean {
+    return JSON.stringify(this.events) !== JSON.stringify(this.eventsInitial);
+  }
+
+  cancel() {
+    this.events = [];
+    this.eventsInitial.forEach(element => {
+      const anEvent: CalendarEvent = {
+        id : element.id,
+        start : element.start,
+        end : element.end,
+        title : element.title,
+        color : {
+          primary : element.color.primary,
+          secondary : element.color.secondary
+        },
+        actions : element.actions,
+        allDay : element.allDay,
+        cssClass : element.cssClass,
+        resizable : element.resizable,
+        draggable : element.draggable,
+        meta : element.meta
+      };
+      anEvent.color.primary = element.color.primary;
+      anEvent.color.secondary = element.color.secondary;
+      this.events.push(anEvent);
+    });
+  }
+
   eventTimesChanged({
     event,
     newStart,
@@ -194,7 +247,7 @@ export class ScheduleComponent implements OnInit {
     alert('Implement Edit Study Plan!');
   }
 
-  createEvent(title: string, start: Date, end: Date, targetUser: String) {
+  createEvent(title: string, start: Date, end: Date) {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     if (this.thisUser.isParent) {
       const newEvent = {
@@ -202,15 +255,15 @@ export class ScheduleComponent implements OnInit {
         start: start,
         end: end
       };
-      const indexChild = this.thisUser.children.indexOf(targetUser);
-      if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+      const indexChild = this.thisUser.children.indexOf(this.targetUser);
+      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
         this.events.push(newEvent);
       }
     }
     this.refresh.next();
   }
 
-  editEvent(oldEvent: CalendarEvent, title: string, start: Date, end: Date, targetUser: String) {
+  editEvent(oldEvent: CalendarEvent, title: string, start: Date, end: Date) {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     if (this.thisUser.isParent) {
       const newEvent = {
@@ -218,43 +271,67 @@ export class ScheduleComponent implements OnInit {
         start: start,
         end: end
       };
-      const indexChild = this.thisUser.children.indexOf(targetUser);
+      const indexChild = this.thisUser.children.indexOf(this.targetUser);
       const index = this.events.indexOf(oldEvent);
       if (index === -1) {
         return; // Error: Event not found
       }
-      if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
         this.events.splice(index, 1);
-        this.createEvent(title, start, end, targetUser);
+        this.createEvent(title, start, end);
       }
     }
     this.refresh.next();
   }
 
-  deleteEvent(event: CalendarEvent, targetUser: String) {
+  deleteEvent(event: CalendarEvent) {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     if (this.thisUser.isParent) {
-      const indexChild = this.thisUser.children.indexOf(targetUser);
+      const indexChild = this.thisUser.children.indexOf(this.targetUser);
       const index = this.events.indexOf(event);
       if (index === -1) {
         return;
       }
       // Error: Event not found
-      if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
         this.events.splice(index, 1);
       }
     }
     this.refresh.next();
   }
 
-  saveScheduleChanges(targetUser: String) {
+  saveScheduleChanges() {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     // TODO: To be implemented in backend
-    const indexChild = this.thisUser.children.indexOf(targetUser);
-    if ((targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
-      this.scheduleService.saveScheduleChanges(targetUser, this.events);
+    if (this.isChanged) {
+      const indexChild = this.thisUser.children.indexOf(this.targetUser);
+      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+        this.scheduleService.saveScheduleChanges(this.targetUser, this.events);
+      }
+      this.refresh.next();
+      this.eventsInitial = [];
+      this.events.forEach(element => {
+        const anEvent: CalendarEvent = {
+          id : element.id,
+          start : element.start,
+          end : element.end,
+          title : element.title,
+          color : {
+            primary : element.color.primary,
+            secondary : element.color.secondary
+          },
+          actions : element.actions,
+          allDay : element.allDay,
+          cssClass : element.cssClass,
+          resizable : element.resizable,
+          draggable : element.draggable,
+          meta : element.meta
+        };
+        anEvent.color.primary = element.color.primary;
+        anEvent.color.secondary = element.color.secondary;
+        this.eventsInitial.push(anEvent);
+      });
     }
-    this.refresh.next();
   }
 
 
