@@ -140,34 +140,8 @@ export class StudyPlanComponent implements OnInit {
     }
   }
 
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
-    event.start = newStart;
-    event.end = newEnd;
-    this.handleEvent('Dropped or resized', event);
-    this.refresh.next();
-  }
-
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-  }
-
-  addEvent(): void {
-    this.events.push({
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: colors.red,
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    });
-    this.refresh.next();
   }
 
   publish(): void {
