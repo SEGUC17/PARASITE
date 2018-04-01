@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
-import { AddPsychRequestService } from './psychologist/add-psych-request.service'
+import { PsychologistService } from './psychologist/psychologist.service'
 import { MarketModule } from './market/market.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -54,7 +54,7 @@ import { HttpClientModule } from '@angular/common/http';
   ],
   providers: [
     MediaMatcher,
-    AddPsychRequestService
+    PsychologistService
   ],
   bootstrap: [AppComponent]
 })
