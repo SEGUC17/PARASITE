@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
 import { ActivatedRoute } from '@angular/router';
+import { AdminService } from '../../admin.service';
 
 @Component({
   selector: 'app-content-view',
@@ -10,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ContentViewComponent implements OnInit {
   content: Content;
-  constructor(private contentService: ContentService, private route: ActivatedRoute) { }
+  constructor(private contentService: ContentService, private route: ActivatedRoute, private adminService: AdminService) { }
 
   ngOnInit() {
     const self = this;
@@ -26,6 +27,13 @@ export class ContentViewComponent implements OnInit {
       self.content = retrievedContent.data;
       console.log('Retrieved: ' + retrievedContent.data);
     });
+  }
+
+  respondContentRequest(response: String): void {
+    const self = this;
+    this.adminService.
+    respondContentRequest(response, self.content._id).
+    subscribe();
   }
 
 }
