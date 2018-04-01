@@ -45,12 +45,13 @@ export class ViewPsychRequestsComponent implements OnInit {
   acceptReq(index) {
     let reqToSend = this.requests[index];
     reqToSend['result'] = true;
-    console.log(reqToSend);
+
+    let self = this;
     this.service.evalRequest(reqToSend).subscribe(function (res) {
       if (res.msg === 'Request accepted and product added to database.') {
-        let i = this.mockRequests.indexOf(this.mockRequests[index], 0);
+        let i = self.requests.indexOf(self.requests[index], 0);
         if (index > -1) {
-          this.mockRequests.splice(i, 1);
+          self.requests.splice(i, 1);
         }
         console.log(res.data);
       }
@@ -60,12 +61,13 @@ export class ViewPsychRequestsComponent implements OnInit {
   rejectReq(index) {
     let reqToSend = this.requests[index];
     reqToSend['result'] = false;
-    console.log(reqToSend);
+
+    let self = this;
     this.service.evalRequest(reqToSend).subscribe(function (res) {
       if (res.msg === 'Request rejected and user notified.') {
-        let i = this.mockRequests.indexOf(this.mockRequests[index], 0);
+        let i = self.requests.indexOf(self.requests[index], 0);
         if (index > -1) {
-          this.mockRequests.splice(i, 1);
+          self.requests.splice(i, 1);
         }
         console.log(res.data);
       }
