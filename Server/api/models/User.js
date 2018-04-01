@@ -90,6 +90,6 @@ var userSchema = mongoose.Schema({
 
 
 // ---------------------- Models ---------------------- //
-productSchema.plugin(mongoosePaginate);
+userSchema.plugin(mongoosePaginate);
 var User = mongoose.model('User', userSchema);
 // ---------------------- End of Models ---------------------- //
