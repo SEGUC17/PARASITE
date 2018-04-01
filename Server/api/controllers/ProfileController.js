@@ -55,17 +55,17 @@ module.exports.requestUserValidation = function(req, res, next) {
 //--------------------------- Profile Info ------------------------- AUTHOR: H
 
 module.exports.getUserInfo = function(req, res, next) {
-    User.findOne({ username: req.params.username}).exec(function(err, userInfo) {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).json({
-        err: null,
-        msg: 'User info retrieved successfully',
-        data: userInfo
-      });
+  User.find({_id : req.params.parentId}).exec(function(err, users) {
+    if (err) {
+      return next(err);
+    }
+    res.status(200).json({
+      err: null,
+      msg: 'Users retrieved successfully.',
+      data: users
     });
-  };
+  });
+};
 
 
   module.exports.linkAnotherParent = function(req, res, next) {
@@ -78,17 +78,19 @@ module.exports.getUserInfo = function(req, res, next) {
           if(!user){
             res.status(404).send();
           } else {
-              if(req.body.childrenList){
-                user.children = req.body.childrenList
+              if(req.body){
+                user.children = req.body.children
               }
 
               user.save(function(err, updatedUser){
                 if(err){
                   console.log(err);
-                  //res.status>>>> to be continued...
+                  res.status(500).send();
+                } else {
+                  res.send(updatedUser);
                 }
               });
             }
-      } 
+      }
     })
   };
