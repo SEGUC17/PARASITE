@@ -44,7 +44,6 @@ export class ScheduleComponent implements OnInit {
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
   eventsInitial: CalendarEvent[] = [];
-  // schedule: Schedule;
   activeDayIsOpen: Boolean = true;
   refresh: Subject<any> = new Subject();
   actions: CalendarEventAction[] = [
@@ -71,7 +70,6 @@ export class ScheduleComponent implements OnInit {
 
   // TODO: To be obtained from server in viewPersonalSchedule by Dalia
 //  refresh: Subject<any> = new Subject();
- schedule: CalendarEvent[];
 
 
   constructor(private scheduleService: ScheduleService) { }
