@@ -11,7 +11,7 @@ module.exports.updateSchedule = function (req, res, next) {
                 return next(err);
             }
             res.status(200).json({
-                data: user,
+                data: user.schedule,
                 err: null,
                 msg: 'Schedule updated succesfully.'
             });
