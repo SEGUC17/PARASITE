@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
 
@@ -10,7 +10,8 @@ import { StudyPlanService } from '../study-plan.service';
   styleUrls: ['./study-plan-list-view.component.css']
 })
 export class StudyPlanListViewComponent implements OnInit {
-
+  @Input() type: String;
+  @Input() username: String;
   studyPlans: StudyPlan[];
   numberOfElements: Number;
   pageSize: Number;
@@ -19,12 +20,17 @@ export class StudyPlanListViewComponent implements OnInit {
   constructor(private studyPlanService: StudyPlanService) { }
 
   ngOnInit() {
-
+    this.getStudyPlans();
   }
 
-  getPublishedPLans() {
-    this.studyPlanService.getPublishedStudyPlans().subscribe(
-      res => this.updateLayout(res) );
+  getStudyPlans() {
+    if (this.type === 'published') {
+      this.studyPlanService.getPublishedStudyPlans().subscribe(
+        res => this.updateLayout(res));
+    } else {
+      this.studyPlanService.getPersonalStudyPlans(this.username).subscribe(
+        res => this.updateLayout(res));
+    }
   }
 
   updateLayout(res) {

@@ -2,7 +2,9 @@ import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { StudyPlan } from './study-plan';
 import { Subject } from 'rxjs/Subject';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { StudyPlanService } from './study-plan.service';
 import {
   isSameMonth,
   isSameDay,
@@ -40,20 +42,20 @@ const colors: any = {
 })
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  type: String;
+  _id: String;
+  username: String;
+  studyPlan: StudyPlan;
   view = 'month';
   viewDate: Date = new Date();
-  events: CalendarEvent[] = [];
-  description = this.sanitizer.bypassSecurityTrustHtml(
-    `<h1 class=\"ql-align-center\"><strong>lofi hiphop radio 🎧 beats to study/relax</strong></h1>
-     <iframe
-       class=\"ql-video ql-align-center\" allowfullscreen=\"true\"
-       src=\"https://www.youtube.com/embed/i6qXZa-N_ow?showinfo=0\" frameborder=\"0\">
-     </iframe>
-     <p class=\"ql-align-center\"><br></p>`
-  );
-
-  studyPlan: StudyPlan;
+  events: CalendarEvent[];
+  description: SafeHtml;
   activeDayIsOpen: Boolean = true;
+  refresh: Subject<any> = new Subject();
+  modalData: {
+    action: string;
+    event: CalendarEvent;
+  };
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -70,17 +72,45 @@ export class StudyPlanComponent implements OnInit {
     }
   ];
 
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-
-  refresh: Subject<any> = new Subject();
-
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) {
+    this.studyPlan = {
+      _id: '',
+      creator: '',
+      description: '',
+      events: [],
+      title: ''
+    };
+    this.events = [];
+    this.route.params.subscribe(params => {
+      this.type = params.type;
+      this._id = params.id;
+    });
+  }
 
   ngOnInit() {
-    this.fetchEvents();
+    if (this.type === 'personal') {
+      this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
+        .subscribe(res => {
+          this.studyPlan = res.data;
+          this.events = this.studyPlan.events;
+          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
+          for (let index = 0; index < this.events.length; index++) {
+            this.events[index].start = new Date(this.events[index].start);
+            this.events[index].end = new Date(this.events[index].end);
+          }
+        });
+    } else {
+      this.studyPlanService.getPublishedStudyPlan(this._id)
+        .subscribe(res => {
+          this.studyPlan = res.data;
+          this.events = this.studyPlan.events;
+          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
+          for (let index = 0; index < this.events.length; index++) {
+            this.events[index].start = new Date(this.events[index].start);
+            this.events[index].end = new Date(this.events[index].end);
+          }
+        });
+    }
   }
 
   fetchEvents(): void {

@@ -9,7 +9,7 @@ module.exports.getPublishedStudyPlans = function (req, res, next) {
         {},
         {
             limit: 20,
-            page: 0
+            page: 1
         }, function (err, result) {
 
             if (err) {

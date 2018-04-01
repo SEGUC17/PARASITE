@@ -6,6 +6,6 @@ export class StudyPlan {
     creator: String;
     events: CalendarEvent[];
     description: any;
-    assigned: Boolean;
-    published: Boolean;
+    assigned?: Boolean;
+    published?: Boolean;
 }
