@@ -51,7 +51,7 @@ module.exports = function (passport) {
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
   router.post('/signin', isNotAuthenticated, passport.authenticate('local-signin'), userController.signIn);
-  router.get('/signout', function (req, res) {
+  router.get('/signout', isAuthenticated, function (req, res) {
     req.logout();
 
     return res.status(200).json({
