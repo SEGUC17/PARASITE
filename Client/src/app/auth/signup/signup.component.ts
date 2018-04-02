@@ -61,9 +61,10 @@ export class SignupComponent implements OnInit {
 //to be continued
 if(this.AllisWell) {
   this.User={'firstName': this.Firstname , 'lastName': this.Lastname, 'username':this.Username, 'password': this.Password, 'birthdate': this.Birthdate, 'email': this.Email, 'phone':this.Phone, 'address': this.Address, 'isParent': this.Parent, 'isChild': this.Student, 'isTeacher':this.Teacher};
-      console.log(this.Firstname, this.Username, this.Password);
       var self = this;
-      self.authService.signUp(this.User).subscribe();
+      self.authService.signUp(this.User).subscribe(function(res) {
+        self.authService.setUser(res.data);
+      });
     }//end else
     
   }//end method
