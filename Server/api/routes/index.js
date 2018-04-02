@@ -28,10 +28,7 @@ var isAuthenticated = function (req, res, next) {
   });
 };
 
-// ------------- psychologist's requests Controller ------------- //
-router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
-router.get('/psychologist/request/getRequests', psychCtrl.getRequests);
-router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);
+
 
 var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {

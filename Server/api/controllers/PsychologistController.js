@@ -31,6 +31,21 @@ module.exports.addRequest = function (req, res, next) {
   });
 };
 
+module.exports.getPsychologists = function (req, res, next) {
+  console.log('got psychs');
+  Psychologists.find({}).exec(function (err, psychs) {
+    if (err) {
+      return next(err);
+    }
+    console.log(psychs);
+    res.status(200).json({
+      data: psychs,
+      err: null,
+      msg: 'Psychologists retrieved successfully.'
+    });
+  });
+};
+
 module.exports.getRequests = function (req, res, next) {
   console.log('Got here');
   Request.find({}).exec(function (err, requests) {
