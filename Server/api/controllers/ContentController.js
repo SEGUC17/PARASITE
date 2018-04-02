@@ -110,14 +110,6 @@ module.exports.getContentById = function (req, res, next) {
 
 // must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
-    // console.log(req.params.creator);
-    // if (!req.params.creator) {
-    //     return res.status(422).json({
-    //         data: null,
-    //         err: 'The Creator username is not valid.',
-    //         msg: null
-    //     });
-    // }
     console.log('Username: ' + req.user);
     Content.paginate(
         { creator: req.user.username },

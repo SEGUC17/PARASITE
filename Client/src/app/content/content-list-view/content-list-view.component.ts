@@ -94,7 +94,7 @@ export class ContentListViewComponent implements OnInit {
   getMyContributionsPage(): void {
     const self = this;
     this.contentService.
-      getContentByCreator(self.authService.getUser().username , self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber).
+      getContentByCreator(self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber).
       subscribe(function (retrievedContents) {
         self.myContributions = retrievedContents.data.docs;
         self.myContributionsTotalNumberOfEntries = retrievedContents.data.total;
