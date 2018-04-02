@@ -3,6 +3,7 @@ import { Content } from '../content';
 import { ContentService } from '../content.service';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from '../../admin.service';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-content-view',
@@ -11,7 +12,8 @@ import { AdminService } from '../../admin.service';
 })
 export class ContentViewComponent implements OnInit {
   content: Content;
-  constructor(private contentService: ContentService, private route: ActivatedRoute, private adminService: AdminService) { }
+  constructor(private contentService: ContentService, private route: ActivatedRoute,
+    private adminService: AdminService, private authService: AuthService) { }
 
   ngOnInit() {
     const self = this;
