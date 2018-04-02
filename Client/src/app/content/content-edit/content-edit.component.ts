@@ -8,6 +8,7 @@ import { Content } from '../content';
 import { Router } from '@angular/router';
 import { Category } from '../category';
 import { Section } from '../section';
+import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-content-edit',
   templateUrl: './content-edit.component.html',
@@ -26,16 +27,19 @@ export class ContentEditComponent implements OnInit {
     body: `<h1>Nawwar :D<h1>`,
     category: '',
     section: '',
-    creator: 'Reda',
+    creator: this.authService.user.username,
     creatorAvatarLink: 'https://i.pinimg.com/originals/81/8a/74/818a7421837fabbce3cac4726b217df6.jpg',
     creatorProfileLink: 'https://www.facebook.com/Prog0X1',
-    image: 'https://i.ytimg.com/vi/zqXwOA7QH48/maxresdefault.jpg',
+    image: '',
     tags: [],
     title: '',
     touchDate: new Date(),
     type: 'resource'
   };
-  constructor(private sanitizer: DomSanitizer, private contentService: ContentService, private router: Router) {
+  constructor(private sanitizer: DomSanitizer,
+    private contentService: ContentService,
+    private authService: AuthService,
+    private router: Router) {
   }
 
   // Add a tag chip event handler
@@ -67,12 +71,21 @@ export class ContentEditComponent implements OnInit {
   // create content
   createContent(content: Content): void {
     const self = this;
+    if (!this.authService.getUser().username) {
+      console.log('Please sign in first');
+      return;
+    }
     this.contentService.createContent(content).subscribe(function (res) {
       // TODO(Universal Error Handler/ Modal Errors)
+      console.log(res);
       if (!res) {
         return;
       }
-      self.router.navigateByUrl('content-view/' + res.data._id);
+      if (res.data.content) {
+        self.router.navigateByUrl('/content-view/' + res.data.content._id);
+        return;
+      }
+      self.router.navigateByUrl('/content-view/' + res.data._id);
     });
   }
 
@@ -93,9 +106,7 @@ export class ContentEditComponent implements OnInit {
   }
 
   getSections() {
-    console.log('I am here');
     const self = this;
-    console.log(self.content.category);
     const matchCategoryName = function (category) {
       return category.name === self.content.category;
     };

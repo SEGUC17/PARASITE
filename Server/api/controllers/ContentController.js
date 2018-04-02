@@ -170,7 +170,6 @@ module.exports.getContentByCreator = function (req, res, next) {
 };
 
 
-// TODO: manage permissions specific behavior for content creation
 var handleAdminCreate = function (req, res, next) {
     req.body.approved = true;
     Content.create(req.body, function (contentError, content) {
@@ -204,10 +203,10 @@ var handleNonAdminCreate = function (req, res, next) {
             }
 
             return res.status(201).json({
-                data: [
-                    content,
-                    contentRequest
-                ],
+                data: {
+                    content: content,
+                    request: contentRequest
+                },
                 err: null,
                 msg: 'Created content and made a request successfully'
             });
@@ -216,8 +215,7 @@ var handleNonAdminCreate = function (req, res, next) {
 };
 
 
-/*eslint max-statements: ["error", 50]*/
-
+/*eslint max-statements: ["error", 12]*/
 module.exports.createContent = function (req, res, next) {
     var valid = req.body.title &&
         req.body.body &&
@@ -256,17 +254,15 @@ module.exports.createContent = function (req, res, next) {
         delete req.body.touchDate;
         delete req.body.approved;
         // admin handler for now open for anyone
-        // TODO fix permissions on auth ready
-        if (!req.user) {
+        if (req.user.isAdmin) {
             return handleAdminCreate(req, res, next);
         }
 
         // non admin handler, toggle condition to activate
-        handleNonAdminCreate(req, res, next);
+        return handleNonAdminCreate(req, res, next);
     });
 
 };
-
 module.exports.getCategories = function (req, res, next) {
     Category.find({}).exec(function (err, categories) {
         if (err) {
@@ -283,19 +279,20 @@ module.exports.getCategories = function (req, res, next) {
 };
 
 module.exports.createCategory = function (req, res, next) {
+    // Admin permission check
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'The user has to be an admin',
+            msg: null
+        });
+    }
+
+    // category name validation check
     if (!req.body.category) {
         return res.status(422).json({
             data: null,
             err: 'No category supplied',
-            msg: null
-        });
-
-    }
-
-    if (!req.body.category) {
-        return res.status(422).json({
-            data: null,
-            err: 'Wrong Category type error',
             msg: null
         });
     }
