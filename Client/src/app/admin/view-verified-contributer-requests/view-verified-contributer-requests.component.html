@@ -1,10 +1,56 @@
-<p>
-  <input #VCRequestID placeholder="VCrequest ID">
-  <input #filterByID placeholder="Filter By">
+<html>
+<head>
+<title>Admin Page</title>
+</head>
+<body>
 
-  <button (click)="AcceptVCR(VCRequestID.value)"  mat-raised-button>Accept</button>
-  <button (click)="RejectVCR(VCRequestID.value)"  mat-raised-button>Reject</button>
+
 <br>
-  <button (click)="viewVCRs(filterByID.value)"  mat-raised-button>View Verified Contributer requests</button>
+<div id="RadioGroupDiv">
+  <mat-radio-group id="RadioGroup">
+    <mat-radio-button (click)="pendingRadio()" [checked]="true" value="1">Pending</mat-radio-button>
+    <mat-radio-button (click)="acceptedRadio()" value="2">Accepted</mat-radio-button>
+    <mat-radio-button (click)="rejectedRadio()" value="3">Rejected</mat-radio-button>
+  </mat-radio-group>
+</div>
 
-</p>
+<div id="listGroup">
+  <mat-list>
+
+    <p *ngFor="let request of Requests" style="padding-bottom: 75px; padding-top: 75px; padding-left: 150px;">
+    <mat-list-item>
+      <mat-card tabindex="0" (click)="onCardClick(request)" class="OneCard">
+        <mat-card-header class="cardHeader">
+          <div mat-card-avatar src='../../../../assets/images/profile-view/defaultPP.png'
+               style="
+                  background-size: cover;
+                  margin-bottom: 20px;"
+               class="cardHeader-image">
+
+          </div>
+          <mat-card-title class="cardHeader-Name"><h1>{{ request.name }}</h1></mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="cardContent">
+
+        <h3 id="bioo">{{ request.bio }} + {{request.AvatarLink}}</h3>
+
+        </mat-card-content>
+        <mat-card-actions class="cardAction">
+          <button mat-button id="accbtn" color="primary" (click)="Accept(request)">Accept</button>
+          <button mat-button color="primary" (click)="Reject(request)">Reject</button>
+        </mat-card-actions>
+      </mat-card>
+
+    </mat-list-item>
+    </p>
+
+  </mat-list>
+</div>
+
+
+
+</body>
+</html>
+
+

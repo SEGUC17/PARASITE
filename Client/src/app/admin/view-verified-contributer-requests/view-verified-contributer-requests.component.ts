@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AdminService} from '../../admin.service';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-view-verified-contributer-requests',
@@ -8,19 +9,41 @@ import {AdminService} from '../../admin.service';
 })
 export class ViewVerifiedContributerRequestsComponent implements OnInit {
 
-  constructor(private _adminService: AdminService) { }
+  constructor(private _adminService: AdminService, private router: Router
+  ) { }
 
-  displayedString: String = 'no data yet';
+  Requests: any[];
+
+
+
+  filter: String = 'pending';
 
   ngOnInit() {
+    this.viewVCRs('pending');
+  }
+
+  pendingRadio() {
+      this.filter = 'pending';
+      this.viewVCRs(this.filter);
+  }
+
+  acceptedRadio() {
+    this.filter = 'approved';
+    this.viewVCRs(this.filter);
+  }
+
+  rejectedRadio() {
+    this.filter = 'disapproved';
+    this.viewVCRs(this.filter);
+
   }
 
   viewVCRs(FilteredBy) {
-    var self = this;
+    let self = this;
     this._adminService.viewPendingVCR(FilteredBy).subscribe(function (res) {
-      self.displayedString = res.msg;
+      self.Requests = res.data.dataField;
       if (res.msg === 'VCRs retrieved successfully.') {
-        console.log(res.data);
+        console.log(res.data.dataField);
         console.log('loaded response.data');
       } else {
         console.log('failed');
@@ -28,12 +51,19 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
     });
   }
 
-  AcceptVCR(id) {
-    this._adminService.respondToContributerValidationRequest(id, 'approved');
+  onCardClick(request) {
+    console.log('clicked');
+    this.router.navigate(['/profile/' + request.username]);
   }
 
-  RejectVCR(id) {
-    this._adminService.respondToContributerValidationRequest('5abe5db07fb5c232bc5ca012', 'disapproved');
+  Accept(request) {
+    this._adminService.respondToContributerValidationRequest(request._id, 'approved' );
+
+  }
+
+  Reject(request) {
+
+    this._adminService.respondToContributerValidationRequest(request._id, 'disapproved' );
   }
 
 }

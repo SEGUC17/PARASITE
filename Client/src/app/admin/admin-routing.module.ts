@@ -5,11 +5,13 @@ import { ViewContentRequestsComponent } from './view-content-requests/view-conte
 
 
 import { CategoryManagementComponent } from './category-management/category-management.component';
+
 const routes = [
   { path: 'admin', component: AdminControlComponent },
   { path: 'admin/ContentRequests', component: ViewContentRequestsComponent },
   { path: 'admin/category', component: CategoryManagementComponent }
-];
+
+  ];
 @NgModule({
   imports: [
 
@@ -19,4 +21,5 @@ const routes = [
     RouterModule
   ]
 })
-export class AdminRoutingModule { }
+export class AdminRoutingModule {}
+

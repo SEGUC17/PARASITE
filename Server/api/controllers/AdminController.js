@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var ContentRequest = mongoose.model('ContentRequest');
 var VCRmodel = mongoose.model('VerifiedContributerRequest');
+var userModel = mongoose.model('User');
+
 mongoose.connect('mongodb://localhost/nawwar');
 mongoose.set('debug',true);
 
@@ -39,7 +41,7 @@ module.exports.getVCRs = function(req, res, next) {
             res.status(200).json({
                 err: null,
                 msg: 'VCRs retrieved successfully.',
-                data: filteredVCRs
+                data: {dataField: filteredVCRs}
             });
 
 
@@ -62,7 +64,7 @@ module.exports.VCRResponde = function(req, res, next) {
     VCRmodel.update(
         {_id: req.params.targetId},
         { $set: { status: req.body.responce } },
-        {new: true},
+        {new: false},
         function(err, res) {
             if(err) {
                 console.log(err.msg);
@@ -70,6 +72,57 @@ module.exports.VCRResponde = function(req, res, next) {
             }
             console.log("1 document updated");
         });
+
+
+    var userId= null;
+    try {
+        VCRmodel.find({_id: req.params.targetId}).exec(function(err, result) {
+            if (err) throw err;
+
+           userId = result[0].creator;
+           console.log(result);
+            console.log('retrieved all VCRs' + userId);
+
+            if ( req.body.responce == 'approved'){
+                console.log('approving user');
+                console.log('approving user');
+
+                userModel.update(
+                    {_id: userId},
+                    { $set: { verified: true } },
+                    {new: true},
+                    function(err, res) {
+                        if(err) {
+                            console.log(err.msg);
+                            throw err;
+                        }
+                        console.log("1 User approved updated");
+                    });
+            }
+            if ( req.body.responce == 'disapproved'){
+                console.log('disapproving user');
+                userModel.update(
+                    {_id: userId},
+                    { $set: { verified: false } },
+                    {new: true},
+                    function(err, res) {
+                        if(err) {
+                            console.log(err.msg);
+                            throw err;
+                        }
+                        console.log("1 User disapproved updated");
+                    });
+            }
+
+        });
+    }
+    catch(e){
+       console.log('error finding the user');
+       console.log(e.message);
+    }
+
+
+
 
 
 }

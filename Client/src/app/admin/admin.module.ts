@@ -13,6 +13,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatCardModule} from '@angular/material/card';
+
 
 @NgModule({
   imports: [
@@ -22,16 +27,21 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatButtonToggleModule,
     MatInputModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatTabsModule,
+    MatListModule,
+    MatRadioModule,
+    MatCardModule
   ],
-  declarations: [AdminControlComponent,
+  declarations: [
+    AdminControlComponent,
     ViewContentRequestsComponent,
     ViewVerifiedContributerRequestsComponent,
-    CategoryManagementComponent],
+    CategoryManagementComponent
+  ],
   exports: [
     MatButtonModule,
     MatButtonToggleModule
-
   ],
   providers: [
     AdminService

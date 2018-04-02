@@ -49,12 +49,15 @@ export class ProfileComponent implements OnInit {
   requestContributerValidation() {
     console.log(this._ProfileService.makeContributerValidationRequest({
       status: 'pending',
-      bio: 'hello world bio',
-      name: 'maher',
-      AvatarLink: 'maher.com',
+      bio: 'machine learning, AI, Art, Music, Philosophy',
+      name: 'Ahmed Khaled',
+      AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
       ProfileLink: 'profilemaher.com',
       image: 'imageMaher.com',
-    }).subscribe());
+      creator: '5ac12591a813a63e419ebce5'
+    }).subscribe(function(res) {
+      console.log(res);
+    }));
   }
 
   openInfo(): void {
