@@ -43,9 +43,7 @@ export class AddPsychRequestComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
 
-  constructor(private RequestService : AddPsychRequestService) {
-  	
-  }
+  constructor(private RequestService: AddPsychRequestService) {}
 
   ngOnInit() {
     this.days = [];
