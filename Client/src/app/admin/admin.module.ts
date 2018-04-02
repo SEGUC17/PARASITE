@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { AuthService } from '../auth/auth.service';
 
 @NgModule({
   imports: [
@@ -49,7 +50,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 
   ],
   providers: [
-    AdminService, ProductRequestsService, PsychRequestsService
+    AdminService, ProductRequestsService, PsychRequestsService, AuthService
   ]
 })
 export class AdminModule { }

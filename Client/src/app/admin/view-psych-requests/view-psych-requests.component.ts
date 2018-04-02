@@ -39,8 +39,6 @@ export class ViewPsychRequestsComponent implements OnInit {
 
     this.currentUser = this.authService.getUser();
 
-    console.log(this.currentUser);
-
     if (this.currentUser.isAdmin) {
       let self = this;
       this.service.getPsychRequests().subscribe(function (res) {
