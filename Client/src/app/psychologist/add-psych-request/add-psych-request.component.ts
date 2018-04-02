@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AddPsychologistRequest } from './AddPsychologistRequest';
-import { AddPsychRequestService } from '../add-psych-request.service';
+import { PsychologistService } from '../psychologist.service';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -43,7 +43,7 @@ export class AddPsychRequestComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
 
-  constructor(private RequestService: AddPsychRequestService) {
+  constructor(private RequestService: PsychologistService) {
 
   }
 
