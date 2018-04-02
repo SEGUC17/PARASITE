@@ -55,14 +55,8 @@ module.exports.signIn = function (req, res, next) {
 
 
 module.exports.signUpChild = function (req, res, next) {
-
-    if (req.user.isParent === false) {
-        return res.status(401).json({
-            data: null,
-            err: null,
-            msg: 'user is not a parent!'
-        });
-    }
+    // to make the user a parent
+     req.user.isParent = true;
     //end if
 
     // --- Variable Assign --- //

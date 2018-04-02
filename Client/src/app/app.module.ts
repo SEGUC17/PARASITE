@@ -25,10 +25,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomInterceptor } from './custom-interceptor';
+import { ChildsignupComponent } from './childsignup/childsignup.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChildsignupComponent
   ],
   imports: [
     BrowserModule,

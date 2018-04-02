@@ -1,0 +1,39 @@
+<p> Please fill in these fields to create an account for your child</p>
+
+<!--attributes to be entered by the unregistered user-->
+
+<div>FirstName: <input #firstname [(ngModel)]=Firstname placeholder="Firstname.."required/></div> 
+<div>LastName: <input #lastname [(ngModel)]=Lastname placeholder="Lastname.."required/></div> 
+<div>UserName: <input #username [(ngModel)]=Username  placeholder="Username.."required/></div> 
+<div>Email: <input #email  [(ngModel)]=Email placeholder="Email.."required/></div> 
+<div>Password: <input type="password" #password [(ngModel)]=Password placeholder="Password" required/> </div> 
+<div>ConfirmPassword: <input type="password" #confirmpassword [(ngModel)]=ConfirmPassword placeholder="Confirm Password" required/></div> 
+<div>Birthdate: <input #birthdate [(ngModel)]=Birthdate placeholder="MM/DD/YYYY" required/></div> 
+<div>Phone: <input #phone [(ngModel)]=Phone placeholder="+20.."/></div>  
+<div>Address: <input #address [(ngModel)]=Address placeholder="Address.."/></div>  
+          
+
+
+
+    <!--buttons-->
+<!--"register({address:address.value, birthdate: birthdate.value, email: email.value, isChild: student.value, isParent: parent.value, isTeacher: teacher.value, password: password.value, phone: phone.value, username: username.value})"-->
+<div>
+  <input type="submit" class="btn btn-hero-success main-btn"  (click) ="register()"  value="Submit">
+  <input type="submit" class="btn btn-hero-success main-btn" (click)="redirect()"    value="Back">
+ 
+</div>
+
+     
+<div *ngIf ="Div1">  
+
+  <label>
+    Your passwords don't match, please re-insert them!
+  </label>
+</div>
+
+<div *ngIf ="Div2">  
+
+  <label>
+    Please insert all the required fields
+  </label>
+
