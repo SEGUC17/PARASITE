@@ -14,6 +14,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchService } from './search.service';
+import { MatTabsModule } from '@angular/material/tabs';
 @NgModule({
   imports: [
     CommonModule,
@@ -29,7 +30,8 @@ import { SearchService } from './search.service';
     MatCardModule,
     MatChipsModule,
     MatPaginatorModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule
   ],
   declarations: [SearchControlComponent],
   providers: [SearchService]

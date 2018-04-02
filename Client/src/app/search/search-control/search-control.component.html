@@ -1,36 +1,55 @@
-<html>
-    <body ng-app="instantsearch">
-        <div ng-controller="instantSearchCtrl">
-            <div class="bar">
+<mat-tab-group class="margin30" dynamicHeight>
+  <mat-tab label="Username" >
+    <mat-form-field class="margin10">
+      <input matInput placeholder="Search" [(ngModel)]="selectedUsername">
+    </mat-form-field>
+    <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('user')" >Search</button>
+  </mat-tab>
 
-              <mat-select style="width:120px; background-color: white; font-size:20px;" [(value)] = "tag">
+      <mat-tab label="Education Levels">
+        <mat-form-field class="margin10">
+          <input matInput placeholder="Search" [(ngModel)]="eduL">
+        </mat-form-field>
+        <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('eduL')">Search</button>
+      </mat-tab>
 
-                <mat-option value="username">Username</mat-option>
-                <mat-option value="educationLevels">Education Levels</mat-option>
-                <mat-option value="educationSystems">Education Systems</mat-option>
+          <mat-tab label="Education Systems">
+            <mat-form-field class="margin10">
+              <input matInput placeholder="Search" [(ngModel)]="eduS">
+            </mat-form-field>
+            <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('eduS')">Search</button>
+          </mat-tab>
+ 
+  <mat-chip-list #chipList>
+    <mat-chip *ngIf="this.tags[0]" [removable]="removable" (remove)="remove(tag)" color="primary">
+      {{this.tags[0]}}
+      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+    </mat-chip>
 
-              </mat-select>  
-    <mat-chip-list #chipList>
-      <mat-chip [removable]="removable" (remove)="remove(tag)" color="primary">
-                      {{this.tag}}
+    <mat-chip *ngIf="this.tags[1]" [removable]="removable" (remove)="remove(tag)" color="primary">
+        {{this.tags[1]}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
-      <input #box (keypress.enter)="getParents(box.value)"  name="search" type="text" class="search-control" placeholder="Search" />
-      <button mat-button style="color:blue" (click)="getParents(box.value)">Search</button>
-    </mat-chip-list>
-  </div>
 
-</div>
-<!-- <mat-card *ngFor="let user of users" >
-  <mat-card-content >
-    <mat-card-title >{{user.username}}</mat-card-title>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button style="color:white" (click)="goToProfile(user.username)">Go To Profile</button>
-  </mat-card-actions>
-</mat-card> -->
-</body>
+      <mat-chip *ngIf="this.tags[2]" [removable]="removable" (remove)="remove(tag)" color="primary">
+          {{this.tags[2]}}
+          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+        </mat-chip>
+   
+  </mat-chip-list>
 
-    <script src="js/site.js"></script>
-    <mat-paginator [length]="totPages" [pageSize]="numberPerPage" [pageIndex]="currPage" (page)="getPage($event)"></mat-paginator>
-</html>
+  <mat-card style="min-height: 300px">
+    <div class="row">
+      <mat-card *ngFor="let user of users" class="col-3">
+        <mat-card-content>
+          <mat-card-title>{{user.username}}</mat-card-title>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button style="width:100%; background:#3f51b5; color:white" (click)="goToProfile(user.username)">Go To Profile</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </mat-card>
+  <script src="js/site.js"></script>
+</mat-tab-group>
+<mat-paginator [length]="totPages" [pageSize]="numberPerPage" [pageIndex]="currPage" (page)="getPage($event)"></mat-paginator>

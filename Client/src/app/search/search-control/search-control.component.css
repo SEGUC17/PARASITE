@@ -7,3 +7,9 @@ background-color : #FFF;
 clear : both;
 padding : 25px 0;
 }
+.margin10 {
+    margin: 10px;
+}
+.margin30 {
+    margin: 30px;
+}

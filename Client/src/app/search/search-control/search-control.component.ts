@@ -13,7 +13,8 @@ export class SearchControlComponent implements OnInit {
    users: User[];
    tag: string;
    tags: string[];
-   visible: Boolean = true;
+   chips: string[];
+  visible: Boolean = true;
    selectable: Boolean = true;
    removable: Boolean = true;
    addOnBlur: Boolean = true;
@@ -23,6 +24,10 @@ export class SearchControlComponent implements OnInit {
   totPages: number;
   numberOfParents: number;
   flag: Boolean = false;
+  selectedUsername: string;
+  eduL: string;
+  eduS: string;
+
 
   // Enter, comma
   separatorKeysCodes = [ENTER, COMMA];
@@ -46,36 +51,39 @@ export class SearchControlComponent implements OnInit {
     this.tag = s;
   }
 
-  remove(tag: any): void {
-    let index = this.tags.indexOf(tag);
-    this.tag = '';
-    if (index >= 0) {
-      this.tags.splice(index, 1);
+  remove(tab: string): void {
+    switch (tab) {
+    case 'user': this.tags[0] = ''; break;
+    case 'eduL': this.tags[1] = ''; break;
+    case 'eduS': this.tags[2] = ''; break;
     }
   }
 
 
 constructor(private searchService: SearchService) {
-  this.tags = [];
+  this.tags = ['', '', ''];
   this.users = [];
   this.tag = '';
-  this.sKey = '';
 
 }
-getParents(s: string) {
-  console.log('entered');
-  switch (this.tag) {
-    case 'username': this.searchService.getParents(this.sKey + s).subscribe(
-      res => res.status !== 404 ?  this.users = res.data : console.log('No Such User')); break;
-    case 'educationLevels': this.searchService.searchByEducationLevel(this.sKey + s).subscribe(res => this.users = res.data); break;
-    case 'educationSystems': this.searchService.searchByEducationSystems(this.sKey + s).subscribe(res => this.users = res.data); break;
+getParents(tab: String) {
+
+  switch (tab) {
+    case 'user': this.searchService.getParents(this.selectedUsername).subscribe(
+      res => res.status !== 404 ?  this.users = res.data : console.log('No Such User'));
+      this.tags[0] = this.selectedUsername;
+       break;
+    case 'eduL': this.searchService.searchByEducationLevel( this.eduL).subscribe(res => this.users = res.data);
+    this.tags[1] = this.eduL;
+    break;
+    case 'eduS': this.searchService.searchByEducationSystems( this.eduS).subscribe(res => this.users = res.data);
+    this.tags[2] = this.eduS;
+    break;
 
   }
-  this.sKey = '';
+
 }
-saveInfo(searchKey: string) {
-this.sKey = searchKey;
-}
+
 getParentsBytag(tag: string) {
   this.tag = tag;
   this.tags = [tag];
