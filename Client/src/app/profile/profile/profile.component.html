@@ -57,6 +57,20 @@
             <h3>Your Study Plans:</h3>
           </div>
         </mat-tab>
+        <mat-tab label="Settings">
+          <div id = "Settings" class = "tabcontent">
+            <h3>Settings</h3>
+            <h4>Change Password</h4>
+
+            Current Password <br> 
+            <input type="text" name="oldpw" [(ngModel)]=oldpw><br>
+            New Password<br> <input type="text" name="newpw" [(ngModel)]=newpw><br>
+            Confirm New Password <br>
+             <input type="text" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
+            <button type="button"class="btn btn-primary"(click)="ChangePassword(info)">Change Password</button>
+
+          </div>
+        </mat-tab>
       </mat-tab-group>
       </div>
 

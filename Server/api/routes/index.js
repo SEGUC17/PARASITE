@@ -52,20 +52,10 @@ adminController.respondContentRequest
 
   // -------------------- Profile Module Endpoints ------------------//
 
-  router.post(
-    '/profile/VerifiedContributerRequest',
-    profileController.requestUserValidation
-  );
-  router.get(
-    '/profile/:username',
-    profileController.getUserInfo
-  );
+  router.post('/profile/VerifiedContributerRequest',profileController.requestUserValidation);
+  router.get('/profile/:parentId',profileController.getUserInfo);
   router.put('/profile/LinkAnotherParent/:parentId',profileController.linkAnotherParent);
-  router.put(
-       '/profile/LinkAnotherParent',
-       profileController.Unlink
-     );
-
+  router.put('/profile/LinkAnotherParent/:parentId',profileController.Unlink);
 
 //  router.get('/profile/:userId/getChildren', profileController.getProduct);
 // ------------------- End of Profile module Endpoints-----------//
