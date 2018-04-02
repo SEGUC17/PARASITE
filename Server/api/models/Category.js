@@ -3,8 +3,7 @@ var sectionSchema = mongoose.Schema({
     name: {
         required: true,
         trim: true,
-        type: String,
-        unique: true
+        type: String
     }
 });
 

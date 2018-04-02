@@ -5,7 +5,11 @@
 
 
 // ---------------------- Reuirements ---------------------- //
+require('./CalendarEvent.js');
+require('./StudyPlan.js');
 var mongoose = require('mongoose');
+var calendarEventSchema = mongoose.model('CalendarEvent').schema,
+    studyPlanSchema = mongoose.model('StudyPlan').schema;
 // ---------------------- End of Requiremenets ---------------------- //
 
 
@@ -34,6 +38,12 @@ var userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
+    firstName: {
+        index: true,
+        required: true,
+        sparse: true,
+        type: String
+    },
     isAdmin: {
         default: false,
         type: Boolean
@@ -50,17 +60,29 @@ var userSchema = mongoose.Schema({
         default: false,
         type: Boolean
     },
+    lastName: {
+        index: true,
+        required: true,
+        sparse: true,
+        type: String
+    },
     password: {
         required: true,
-        trim: true,
-        type: String,
-        unique: true
+        type: String
     },
     phone: {
         match: /^\d+$/,
         required: true,
         trim: true,
         type: [String]
+    },
+    schedule: {
+        default: [],
+        type: [calendarEventSchema]
+    },
+    studyPlans: {
+        default: [],
+        type: [studyPlanSchema]
     },
     username: {
         index: true,

@@ -1,17 +1,17 @@
 export interface Content {
-    _id?: String;
+    _id?: string;
     approved?: Boolean;
-    body: String;
-    category: String;
-    creator: String;
-    creatorAvatarLink: String;
-    creatorProfileLink: String;
-    image?: String;
-    section: String;
-    tags?: String[];
-    title: String;
+    body: string;
+    category: string;
+    creator: string;
+    creatorAvatarLink: string;
+    creatorProfileLink: string;
+    image?: string;
+    section: string;
+    tags?: string[];
+    title: string;
     touchDate?: Date;
-    type: String;
-    update?: String;
-    video?: String;
+    type: string;
+    update?: string;
+    video?: string;
 }
