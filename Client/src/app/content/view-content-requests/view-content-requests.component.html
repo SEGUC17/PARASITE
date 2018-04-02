@@ -1,18 +1,35 @@
 <p>
-  
-<mat-card class="example-card">
-    <mat-card-header>
-      <mat-card-title>contentTitle</mat-card-title>
-      <mat-card-subtitle>ContentType</mat-card-subtitle>
+  <mat-radio-group  class="req_radio" >
+    <mat-radio-button value="resource" (click)="setFilterToResource()" > Resource Requests </mat-radio-button>
+    <mat-radio-button value="idea"(click)="setFilterToIdea()" > Idea Requests </mat-radio-button>
+  </mat-radio-group>
+
+</p>
+
+<p class="reqs-card">
+  <span>
+  <li *ngFor="let req of reqs">
+      
+<mat-card class="OneCard">
+    <mat-card-header  class= "header" >
+      <mat-card-title class= "Title: "> {{req.contentTitle}} </mat-card-title>
+      <mat-card-subtitle class = "Subtitle"> {{req.contentType}} </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <p>
-        Creator , Date
+        creator is: {{req.creator}} <br>
+        Date of creation is: {{req.createdOn}} <br>
+        current Status is: {{req.status}}<br>
+        contentID is: {{req.contentID}}
       </p>
     </mat-card-content>
-    <mat-card-actions>
-      <button mat-button (click)="approveContentRequest('5abf96c5ac6b02b8b9a15240')"> Approve </button>
-      <button mat-button (click)="disapproveContentRequest('5abf96c5ac6b02b8b9a15240')">Disapprove </button>
+    <mat-card-actions class = "actions">
+      <button mat-button class=but (click)="approveContentRequest(req._id)" color="primary"> Approve </button>
+      <button mat-button class=but id=but1 (click)="disapproveContentRequest(req._id)" color="primary"> Disapprove </button>
+      <button mat-button class=but (click)="viewCont(req.contentID)" color="primary"> Details </button>
+
     </mat-card-actions>
   </mat-card>
+  </li>
+</span>
 </p>

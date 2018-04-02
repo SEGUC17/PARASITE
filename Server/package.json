@@ -23,7 +23,8 @@
     "morgan": "~1.9.0",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "validate.io-timestamp": "^1.0.2"
+    "validate.io-timestamp": "^1.0.2",
+    "node-datetime": "*"
   },
   "devDependencies": {
     "eslint": "^4.19.1"
