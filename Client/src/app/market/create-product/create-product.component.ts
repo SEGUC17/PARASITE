@@ -22,8 +22,6 @@ export class CreateProductComponent {
   formInput = <any>{};
 
   createProduct(product: any) {
-
-    // TODO mock user to be removed later
     let user = this.authService.getUser();
 
     let pro = {
