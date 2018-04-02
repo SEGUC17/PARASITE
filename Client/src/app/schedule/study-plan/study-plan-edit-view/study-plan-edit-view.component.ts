@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
-import { StudyPlan } from './study-plan';
-import { StudyPlanService } from './study-plan.service';
+import { StudyPlan } from '../study-plan';
+import { StudyPlanService } from '../study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import {
   isSameMonth,
   isSameDay,
@@ -36,22 +37,30 @@ const colors: any = {
 };
 
 @Component({
-  selector: 'app-study-plan',
-  templateUrl: './study-plan.component.html',
-  styleUrls: ['./study-plan.component.css']
+  selector: 'app-study-plan-edit-view',
+  templateUrl: './study-plan-edit-view.component.html',
+  styleUrls: ['./study-plan-edit-view.component.css']
 })
-export class StudyPlanComponent implements OnInit {
+export class StudyPlanEditViewComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
   type: String;
   _id: String;
-  username: String;
+  username: String = 'alby';
   studyPlan: StudyPlan;
   view = 'month';
   viewDate: Date = new Date();
+  title: String;
   events: CalendarEvent[];
   description: SafeHtml;
   activeDayIsOpen: Boolean = true;
   refresh: Subject<any> = new Subject();
+  private editor;
+  public editorOut;
+  public editorContent = ``;
+  private editorOptions = {
+    placeholder: 'insert content here'
+  };
+  separatorKeysCodes = [ENTER, COMMA, SPACE];
   modalData: {
     action: string;
     event: CalendarEvent;
@@ -87,21 +96,11 @@ export class StudyPlanComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.type === 'personal') {
+    if (this.type === 'edit') {
       this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
         .subscribe(res => {
           this.studyPlan = res.data;
-          this.events = this.studyPlan.events;
-          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
-          for (let index = 0; index < this.events.length; index++) {
-            this.events[index].start = new Date(this.events[index].start);
-            this.events[index].end = new Date(this.events[index].end);
-          }
-        });
-    } else {
-      this.studyPlanService.getPublishedStudyPlan(this._id)
-        .subscribe(res => {
-          this.studyPlan = res.data;
+          this.title = this.studyPlan.title;
           this.events = this.studyPlan.events;
           this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
           for (let index = 0; index < this.events.length; index++) {
@@ -140,25 +139,55 @@ export class StudyPlanComponent implements OnInit {
     }
   }
 
+  eventTimesChanged({
+    event,
+    newStart,
+    newEnd
+  }: CalendarEventTimesChangedEvent): void {
+    event.start = newStart;
+    event.end = newEnd;
+    this.handleEvent('Dropped or resized', event);
+    this.refresh.next();
+  }
+
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
   }
 
-  publish(): void {
-    this.studyPlanService.PublishStudyPlan(this.studyPlan);
-    alert('Implement Publish Study Plan!');
+  addEvent(): void {
+    this.events.push({
+      title: 'New event',
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
+      color: colors.red,
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true
+      }
+    });
+    this.refresh.next();
   }
 
-  copy(): void {
-    alert('Implement Copy Study Plan!');
+  create(): void {
+    if (!this.title || !this.description || !this.events.length) {
+      alert('A Study Plan needs a title, a description, and at least one event.');
+      return;
+    }
+    this.studyPlan.title = this.title;
+    this.studyPlan.description = this.description;
+    this.studyPlan.events = this.events;
+    this.studyPlan.creator = this.username;
+    this.studyPlanService.createStudyPlan(this.username, this.studyPlan).subscribe(
+      res => {
+        alert(res.msg);
+      }
+    );
   }
 
-  assign(): void {
-    alert('Implement Assign Study Plan!');
-  }
-
-  edit(): void {
-    alert('Implement Edit Study Plan!');
+  onContentChanged(quill) {
+    this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
+    this.description = String(this.editorOut);
   }
 
 }
