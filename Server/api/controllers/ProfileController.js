@@ -69,10 +69,8 @@ module.exports.getUserInfo = function(req, res, next) {
 
 
   module.exports.linkAnotherParent = function(req, res, next) {
-<<<<<<< HEAD
+
  
-=======
->>>>>>> 9b63741dce6a1db84514ee886ad7458d4b5a70da
     var id = req.params.parentId;
     User.findOne({_id: id}, function(err, user){
       if(err){
@@ -96,8 +94,8 @@ module.exports.getUserInfo = function(req, res, next) {
               });
             }
       }
-    })
-<<<<<<< HEAD
+        })
+
 };
 
   module.exports.Unlink = function(req, res, next) {
@@ -113,7 +111,21 @@ module.exports.getUserInfo = function(req, res, next) {
         data: unlink
       });
     });
-
-=======
->>>>>>> 9b63741dce6a1db84514ee886ad7458d4b5a70da
   };
+
+
+  module.exports.linkAsParent=function(req,res,next){
+    User.findByIdAndUpdate(req.params.userId ,  $set , { children : req.body.children }
+    ).exec(function(err, unlink) {
+       if (err) {
+         return next(err);
+       }
+       
+       res.status(200).json({
+         err: null,
+         msg: 'Your children list was updated successfully.',
+         data: unlink
+       });
+     });
+
+  }

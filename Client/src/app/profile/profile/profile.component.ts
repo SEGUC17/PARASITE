@@ -30,26 +30,26 @@ sched = false;
 //------------------------------------
 
 //---------- Current User Info ---------------
-Name: String = "Fulan el Fulany";
+Name: String = 'Fulan el Fulany';
 Username: String;
 Age: Number;
 Email: String;
 Address: String;
 Phone: String;
 Birthday: Date;
-listOfChildren: any[] = ["Ahmed", "Gannah", "Mahmoud"];
+listOfChildren: any[] = ['Ahmed', 'Gannah', 'Mahmoud'];
 id: any;
 //-------------------------------------
 //---------Visited User Info-----------
-vName: String = "Fulan el Fulany";
+vName: String = 'Fulan el Fulany';
 vUsername: String;
 vAge: Number;
 vEmail: String;
 vAddress: String;
 vPhone: String;
 vBirthday: Date;
-vlistOfChildren: any[] = ["Ahmed", "Mariam","Rahma"];
-vId: any = "5ac0caaf1e46aabc13fec58c";
+vlistOfChildren: any[] = ['Ahmed', 'Mariam','Rahma'];
+vId: any = '5ac0caaf1e46aabc13fec58c';
 //------------------------------------
 listOfAllChildren: any[];
 listOfUncommonChildren: any[];
@@ -75,17 +75,17 @@ listOfUncommonChildren: any[];
   }
 
   viewChildren(): void{
-    document.getElementById("UnlinkChildren").classList.toggle("show"); 
+    document.getElementById('UnlinkChildren').classList.toggle('show'); 
   }
 
   removeChild(child): void{
     this.listOfChildren.splice(this.listOfChildren.indexOf(child) , 1);
-    this._ProfileService.Unlink(this.listOfChildren).subscribe();
+    this._ProfileService.Unlink(this.listOfChildren, this.id ).subscribe();
   }
 
-  linkToParent(child):void{
+  linkToParent(child):void{-
     this.vlistOfChildren.push(child);
-    //this._ProfileService.linkAsParent(this.vlistOfChildren).subscribe();
+    this._ProfileService.linkAsParent(this.vlistOfChildren,this.vId).subscribe();
   }
 
 }

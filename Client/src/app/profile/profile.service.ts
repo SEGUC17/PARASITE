@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { unlink } from 'fs';
+
 
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -29,11 +29,15 @@ linkAnotherParent(children, vId): Observable<any>{
 
 
 private UnlinkUrl = 'http://localhost:3000/api/profile/Unlink/'
-Unlink(childrenList): Observable<any>{
-  return this.http.patch<any>(`${this.UnlinkUrl}`, childrenList, httpOptions);
+Unlink(childrenList,Id): Observable<any>{
+  return this.http.patch<any>(`${this.UnlinkUrl}/${Id}`, childrenList, httpOptions);
   
 }
 
+private linkAsParentUrl = 'http://localhost:3000/api/profile/LinkAsParent/'
+linkAsParent (vChildrenList,vId): Observable<any>{
+return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`,vChildrenList,httpOptions);
+}
 //------------------------------------------------------------------------
 
 
