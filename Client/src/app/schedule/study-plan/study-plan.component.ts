@@ -42,19 +42,17 @@ const colors: any = {
 })
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  // NOTE: When integrated into profile, @Inputs will replace these values.
-  // @Input() username;
-  username: String = 'alby';
+  @Input() username: String;
   // routing parameters
   type: String;
   _id: String;
-  // end of rounting parameters
+  // end of routing parameters
   studyPlan: StudyPlan;
   description: String;
   view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[];
-  activeDayIsOpen: Boolean = true;
+  activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
   modalData: {
     action: string;
@@ -129,6 +127,8 @@ export class StudyPlanComponent implements OnInit {
       week: endOfWeek,
       day: endOfDay
     }[this.view];
+
+    this.activeDayIsOpen = false;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
