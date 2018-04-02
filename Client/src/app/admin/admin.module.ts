@@ -5,7 +5,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { ViewProductRequestsComponent } from './view-product-requests/view-product-requests.component';
 import { MatCardModule } from '@angular/material/card';
 import { ProductRequestsService } from './view-product-requests/product-requests.service';
-import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
+import { ViewContentRequestsComponent } from '../content/view-content-requests/view-content-requests.component';
 import {
   ViewVerifiedContributerRequestsComponent
 } from './view-verified-contributer-requests/view-verified-contributer-requests.component';
@@ -15,7 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   imports: [
@@ -26,16 +27,19 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatInputModule,
     MatSelectModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    MatTabsModule
   ],
   declarations: [AdminControlComponent,
     ViewContentRequestsComponent,
     ViewVerifiedContributerRequestsComponent,
     CategoryManagementComponent,
-    ViewProductRequestsComponent],
+    ViewProductRequestsComponent,
+    ViewContentRequestsComponent],
   exports: [
     MatButtonModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    ViewContentRequestsComponent
 
   ],
   providers: [

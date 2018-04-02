@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminControlComponent } from './admin-control/admin-control.component';
-import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
+import { ViewContentRequestsComponent } from '../content/view-content-requests/view-content-requests.component';
 import { CategoryManagementComponent } from './category-management/category-management.component';
 import { ViewProductRequestsComponent } from './view-product-requests/view-product-requests.component';
 
