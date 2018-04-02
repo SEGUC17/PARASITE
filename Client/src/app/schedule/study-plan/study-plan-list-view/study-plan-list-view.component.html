@@ -1,9 +1,9 @@
 <div class="publishedPLans-container">
   <mat-card>
-    <div *ngIf="type === 'personal'">
+    <div *ngIf="type === 'personal' && !currIsChild">
       <a mat-raised-button routerLink="../study-plan-edit/create" color="primary" style="float: right;">Create A New Study Plan</a>
+      <br /><br /><br />
     </div>
-    <br /><br /><br />
     <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements" 
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
