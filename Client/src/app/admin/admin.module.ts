@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AdminControlComponent } from './admin-control/admin-control.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
+import { ViewUnverifiedActivitiesComponent } from './view-unverified-activities/view-unverified-activities.component';
 import {
   ViewVerifiedContributerRequestsComponent
 } from './view-verified-contributer-requests/view-verified-contributer-requests.component';
@@ -13,6 +14,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   imports: [
@@ -22,11 +25,14 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatButtonToggleModule,
     MatInputModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatExpansionModule,
+    MatListModule
   ],
   declarations: [AdminControlComponent,
     ViewContentRequestsComponent,
     ViewVerifiedContributerRequestsComponent,
+    ViewUnverifiedActivitiesComponent,
     CategoryManagementComponent],
   exports: [
     MatButtonModule,
