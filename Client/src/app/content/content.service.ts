@@ -39,7 +39,7 @@ export class ContentService {
 
   getContentByCreator(username: any, pageSize: any, pageNumber: any): Observable<any> {
     const self = this;
-    return this.http.get(self.endpoint + 'content/username/' + username + '/' + pageSize + '/' + pageNumber)
+    return this.http.get(self.endpoint + 'content/username/' + username + '/' + pageSize + '/' + pageNumber, { 'withCredentials': true })
       .pipe(
         catchError(self.handleError('getContentByCreator', []))
       );

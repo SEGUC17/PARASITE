@@ -7,6 +7,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ViewChild } from '@angular/core';
 import { Category } from '../category';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-content-list-view',
@@ -43,9 +44,10 @@ export class ContentListViewComponent implements OnInit {
 
   @ViewChild('sidenav') public myNav: MatSidenav;
   @ViewChild('allContentPaginator') public paginator: MatPaginator;
-  constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document) { }
+  constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document, private authService: AuthService) { }
 
   ngOnInit() {
+    console.log(this.authService.getUser());
     this.currentPageNumber = 1;
     this.myContributionsCurrentPageNumber = 1;
     this.getContentPage();
@@ -92,11 +94,12 @@ export class ContentListViewComponent implements OnInit {
   getMyContributionsPage(): void {
     const self = this;
     this.contentService.
-      getContentByCreator(self.username, self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber).
+      getContentByCreator(self.authService.getUser().username , self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber).
       subscribe(function (retrievedContents) {
         self.myContributions = retrievedContents.data.docs;
         self.myContributionsTotalNumberOfEntries = retrievedContents.data.total;
         self.myContributionsTotalNumberOfPages = retrievedContents.data.pages;
+        console.log('Get Contributions: ' + self.authService.getUser());
       });
   }
 
