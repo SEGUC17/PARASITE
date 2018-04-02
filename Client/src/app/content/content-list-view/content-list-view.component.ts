@@ -6,6 +6,7 @@ import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ViewChild } from '@angular/core';
+import { Category } from '../category';
 
 @Component({
   selector: 'app-content-list-view',
@@ -20,7 +21,7 @@ export class ContentListViewComponent implements OnInit {
   myContributions: Content[];
 
   // categories for the general contents view
-  categories = [];
+  categories: Category;
 
   // TODO set username
   username: String = 'Omar K.';
@@ -117,7 +118,7 @@ export class ContentListViewComponent implements OnInit {
       });
   }
 
-  changeCategoryAndSection(category: any, section: any ): void {
+  changeCategoryAndSection(category: any, section: any): void {
     this.currentPageNumber = 1;
     this.selectedCategory = category;
     this.selectedSection = section;

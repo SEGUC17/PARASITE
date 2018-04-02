@@ -10,6 +10,7 @@ module.exports.getContentPage = function (req, res, next) {
     if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
         Content.paginate(
             {
+                approved: true,
                 category: req.params.category,
                 section: req.params.section
             },
@@ -31,7 +32,7 @@ module.exports.getContentPage = function (req, res, next) {
         );
     } else if (req.params.category === 'NoCat') {
         Content.paginate(
-            {},
+            { approved: true },
             {
                 limit: Number(req.params.numberOfEntriesPerPage),
                 page: Number(req.params.pageNumber)
@@ -50,7 +51,10 @@ module.exports.getContentPage = function (req, res, next) {
         );
     } else {
         Content.paginate(
-            { creator: req.params.category },
+            {
+                approved: true,
+                creator: req.params.category
+            },
             {
                 limit: Number(req.params.numberOfEntriesPerPage),
                 page: Number(req.params.pageNumber)
