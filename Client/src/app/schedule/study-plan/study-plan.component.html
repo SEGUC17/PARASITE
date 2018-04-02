@@ -34,14 +34,14 @@
     </div>
   </mat-card>
   <mat-card label="Content Preview">
-    <div class="ql-editor preview" [innerHTML]="description"></div>
+    <div class="ql-editor preview" [innerHTML]="this.sanitizer.bypassSecurityTrustHtml(description)"></div>
   </mat-card>
   <mat-card>
       <div class="button-row">
-          <button mat-raised-button (click)="publish()" color="primary">Publish</button>
+          <button mat-raised-button (click)="publish()" color="primary" *ngIf="type === 'personal'">Publish</button>
           <button mat-raised-button (click)="copy()" color="primary">Copy</button>
-          <button mat-raised-button (click)="assign()" color="primary">Assign</button>
-          <button mat-raised-button (click)="edit()" color="primary">Edit</button>
+          <button mat-raised-button (click)="assign()" color="primary" *ngIf="type === 'personal'">Assign</button>
+          <button mat-raised-button (click)="edit()" color="primary" *ngIf="type === 'personal'">Edit</button>
         </div>
   </mat-card>
 </div>

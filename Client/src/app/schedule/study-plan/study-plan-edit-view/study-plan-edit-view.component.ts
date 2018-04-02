@@ -102,7 +102,7 @@ export class StudyPlanEditViewComponent implements OnInit {
           this.studyPlan = res.data;
           this.title = this.studyPlan.title;
           this.events = this.studyPlan.events;
-          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
+          this.description = this.studyPlan.description;
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);
@@ -187,7 +187,7 @@ export class StudyPlanEditViewComponent implements OnInit {
 
   onContentChanged(quill) {
     this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
-    this.description = String(this.editorOut);
+    this.description = this.editorContent;
   }
 
 }

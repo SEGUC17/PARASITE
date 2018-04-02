@@ -42,14 +42,18 @@ const colors: any = {
 })
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  // NOTE: When integrated into profile, @Inputs will replace these values.
+  // @Input() username;
+  username: String = 'alby';
+  // routing parameters
   type: String;
   _id: String;
-  username: String;
+  // end of rounting parameters
   studyPlan: StudyPlan;
+  description: String;
   view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[];
-  description: SafeHtml;
   activeDayIsOpen: Boolean = true;
   refresh: Subject<any> = new Subject();
   modalData: {
@@ -79,6 +83,7 @@ export class StudyPlanComponent implements OnInit {
       events: [],
       title: ''
     };
+    this.description = '';
     this.events = [];
     this.route.params.subscribe(params => {
       this.type = params.type;
@@ -92,7 +97,7 @@ export class StudyPlanComponent implements OnInit {
         .subscribe(res => {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
-          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
+          this.description = this.studyPlan.description;
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);
@@ -103,7 +108,7 @@ export class StudyPlanComponent implements OnInit {
         .subscribe(res => {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
-          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
+          this.description = this.studyPlan.description;
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);

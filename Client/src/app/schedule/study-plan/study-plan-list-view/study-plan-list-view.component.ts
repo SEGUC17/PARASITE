@@ -3,8 +3,6 @@ import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
 import { PageEvent } from '@angular/material/paginator';
 
-
-
 @Component({
   selector: 'app-study-plan-list-view',
   templateUrl: './study-plan-list-view.component.html',
@@ -30,7 +28,7 @@ export class StudyPlanListViewComponent implements OnInit {
         res => this.updateLayout(res));
     } else {
       this.studyPlanService.getPersonalStudyPlans(this.username).subscribe(
-        res => this.updateLayout(res));
+        res => this.studyPlans = res.data);
     }
   }
 
