@@ -5,7 +5,7 @@ var express = require('express');
 var router = express.Router();
 
 
-var addPsychReqCtrl = require('../controllers/PsychologistRequestController');
+var psychCtrl = require('../controllers/PsychologistController');
 var userController = require('../controllers/UserController');
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
@@ -26,9 +26,9 @@ var isAuthenticated = function (req, res, next) {
 };
 
 // ------------- psychologist's requests Controller ------------- //
-router.post('/psychologist/request/add/addRequest', addPsychReqCtrl.addRequest);
-router.get('/psychologist/request/getRequests', addPsychReqCtrl.getRequests);
-router.post('/psychologist/request/evalRequest', addPsychReqCtrl.evaluateRequest);
+router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
+router.get('/psychologist/request/getRequests', psychCtrl.getRequests);
+router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);
 
 var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
@@ -49,7 +49,14 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
-// --------------------- Activity Contoller -------------------- //
+  // ------------- psychologist's requests Controller ------------- //
+  router.get('/psychologist', psychCtrl.getPsychologists);
+  router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
+  router.get('/psychologist/request/getRequests', psychCtrl.getRequests);
+  router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);
+  // ------------- psychologist's requests Controller ------------- //
+
+  // --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
   router.post('/activities', ActivityController.postActivity);
@@ -58,7 +65,7 @@ module.exports = function (passport) {
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
   router.post('/signin', isNotAuthenticated, passport.authenticate('local-signin'), userController.signIn);
-  router.get('/signout', function (req, res) {
+  router.get('/signout', isAuthenticated, function (req, res) {
     req.logout();
 
     return res.status(200).json({

@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { AddPsychRequestService } from './add-psych-request.service';
+import { PsychologistService } from './psychologist.service';
 
 describe('AddPsychRequestService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AddPsychRequestService]
+      providers: [PsychologistService]
     });
   });
 
-  it('should be created', inject([AddPsychRequestService], (service: AddPsychRequestService) => {
+  it('should be created', inject([PsychologistService], (service: PsychologistService) => {
     expect(service).toBeTruthy();
   }));
 });

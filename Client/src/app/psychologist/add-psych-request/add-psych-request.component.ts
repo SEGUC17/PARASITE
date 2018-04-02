@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AddPsychologistRequest } from './AddPsychologistRequest'
-import { AddPsychRequestService } from '../add-psych-request.service'
+import { AddPsychologistRequest } from './AddPsychologistRequest';
+import { PsychologistService } from '../psychologist.service';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -19,8 +19,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class AddPsychRequestComponent implements OnInit {
 
-	request: AddPsychologistRequest;
-	days: string[];
+  request: AddPsychologistRequest;
+  days: string[];
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -43,7 +43,9 @@ export class AddPsychRequestComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
 
-  constructor(private RequestService: AddPsychRequestService) {}
+  constructor(private RequestService: PsychologistService) {
+
+  }
 
   ngOnInit() {
     this.days = [];
@@ -54,35 +56,37 @@ export class AddPsychRequestComponent implements OnInit {
     this.days = day;
   }
 
-  submitReq(): void{
+  submitReq(): void {
+    let error = false;
 
-    var error = false;
-
-    if(((<HTMLInputElement>document.getElementById("psychFirstName")).value) == "" 
-      || ((<HTMLInputElement>document.getElementById("psychFirstName")).value) === 'undefined' 
-      || ((<HTMLInputElement>document.getElementById("psychLastName")).value) == ""
-      || ((<HTMLInputElement>document.getElementById("psychLastName")).value) === 'undefined' 
-      || ((<HTMLInputElement>document.getElementById("psychEmail")).value) == "" 
-      || ((<HTMLInputElement>document.getElementById("psychEmail")).value) === 'undefined' ){
+    if (((<HTMLInputElement>document.getElementById('psychFirstName')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('psychFirstName')).value) === 'undefined'
+      || ((<HTMLInputElement>document.getElementById('psychLastName')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('psychLastName')).value) === 'undefined'
+      || ((<HTMLInputElement>document.getElementById('psychEmail')).value) === ''
+      || ((<HTMLInputElement>document.getElementById('psychEmail')).value) === 'undefined' ) {
             error = true;
     }
 
-    if(!error){
-    	var req = this.request;
+    if (!error) {
+      let req = this.request;
 
-    	req = {
-    		firstName:((<HTMLInputElement>document.getElementById("psychFirstName")).value).toString(),
-    		lastName: (<HTMLInputElement>document.getElementById("psychLastName")).value,
-    		phone: parseInt((<HTMLInputElement>document.getElementById("psychPhoneNumber")).value),
-    		address: (<HTMLInputElement>document.getElementById("psychAddress")).value,
-    		email: (<HTMLInputElement>document.getElementById("psychEmail")).value ,
-    		daysOff: this.days,
-    		priceRange: parseInt((<HTMLInputElement>document.getElementById("psychPriceRange")).value),
-    		state: "Pending"
-  	  };
+      req = {
+        firstName: ((<HTMLInputElement>document.getElementById('psychFirstName')).value).toString(),
+        lastName: (<HTMLInputElement>document.getElementById('psychLastName')).value,
+        phone: (<HTMLInputElement>document.getElementById('psychPhoneNumber')).value,
+        address: (<HTMLInputElement>document.getElementById('psychAddress')).value,
+        email: (<HTMLInputElement>document.getElementById('psychEmail')).value,
+        daysOff: this.days,
+        priceRange: parseInt((<HTMLInputElement>document.getElementById('psychPriceRange')).value, 10)
+      };
 
-      this.RequestService.addRequest(req).subscribe()
-    };
+      this.RequestService.addRequest(req).subscribe(function (res) {
+        if (res.msg !== 'Request was created successfully.') {
+          alert('Something is wrong');
+        }
+      });
+    }
   }
 
 }
