@@ -11,6 +11,7 @@ import { PageEvent } from '@angular/material/paginator';
 export class StudyPlanListViewComponent implements OnInit {
   @Input() type: String;
   @Input() username: String;
+  @Input() currIsChild: Boolean;
   studyPlans: StudyPlan[];
   numberOfElements: Number;
   pageSize: Number;
