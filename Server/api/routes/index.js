@@ -53,7 +53,7 @@ module.exports = function (passport) {
   });
 
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist', psychCtrl.getPsychologists);
+  //router.get('/psychologist', psychCtrl.getPsychologists);
   router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
   router.get('/psychologist/request/getRequests', psychCtrl.getRequests);
   router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);

@@ -23,7 +23,7 @@ module.exports.addRequest = function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.status(201).json({
+    res.status(200).json({
       data: request,
       err: null,
       msg: 'Request was created successfully.'
