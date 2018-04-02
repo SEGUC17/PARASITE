@@ -49,15 +49,17 @@ export class ScheduleComponent implements OnInit {
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
+      onClick: function({event}: {event: CalendarEvent}): void {
         this.handleEvent('Edited', event);
       }
     },
     {
       label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
+      onClick: function({event}: {event: CalendarEvent}): void {
+        this.events = this.events.filter(function(iEvent) {
+          return iEvent !== event;
+        });
+              this.handleEvent('Deleted', event);
       }
     }
   ];
@@ -87,6 +89,7 @@ export class ScheduleComponent implements OnInit {
 
 
   ngOnInit() {
+    this.refresh.next();
     this.fetchEvents();
     this.events.forEach(element => {
       const anEvent: CalendarEvent = {
@@ -165,6 +168,10 @@ export class ScheduleComponent implements OnInit {
         draggable: true
       }
     ];
+    const self = this;
+    setTimeout(function() {
+      return self.refresh.next();
+    }, 0);
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -187,7 +194,8 @@ export class ScheduleComponent implements OnInit {
 
   cancel() {
     this.events = [];
-    this.eventsInitial.forEach(element => {
+    const self = this;
+    this.eventsInitial.forEach(function(element) {
       const anEvent: CalendarEvent = {
         id : element.id,
         start : element.start,
@@ -206,8 +214,11 @@ export class ScheduleComponent implements OnInit {
       };
       anEvent.color.primary = element.color.primary;
       anEvent.color.secondary = element.color.secondary;
-      this.events.push(anEvent);
+      self.events.push(anEvent);
     });
+    setTimeout(function() {
+      return self.refresh.next();
+    }, 0);
   }
 
   eventTimesChanged({
@@ -313,7 +324,7 @@ export class ScheduleComponent implements OnInit {
   saveScheduleChanges() {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     // TODO: To be implemented in backend
-    if (!this.isUnchanged) {
+    if (!this.isUnchanged()) {
       const indexChild = this.thisUser.children.indexOf(this.targetUser);
       if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
         this.scheduleService.saveScheduleChanges(this.targetUser, this.events);
