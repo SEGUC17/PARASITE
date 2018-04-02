@@ -82,15 +82,9 @@ export class ScheduleComponent implements OnInit {
   };
 
 
-  // TODO: To be obtained from server in viewPersonalSchedule by Dalia
-//  refresh: Subject<any> = new Subject();
 
 
   constructor(private scheduleService: ScheduleService) { }
-  // FIXME: Temporary Constant
-
-
-
 
   ngOnInit() {
     this.refresh.next();
@@ -117,7 +111,6 @@ export class ScheduleComponent implements OnInit {
       this.eventsInitial.push(anEvent);
     });
   }
-
 
   // getPersonalSchedule(): void {
   //   this.schedueService.getPersonalSchedule().subscribe(res => {
@@ -192,39 +185,6 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  isUnchanged(): boolean {
-    return JSON.stringify(this.events) === JSON.stringify(this.eventsInitial);
-  }
-
-  cancel() {
-    this.events = [];
-    const self = this;
-    this.eventsInitial.forEach(function(element) {
-      const anEvent: CalendarEvent = {
-        id : element.id,
-        start : element.start,
-        end : element.end,
-        title : element.title,
-        color : {
-          primary : element.color.primary,
-          secondary : element.color.secondary
-        },
-        actions : element.actions,
-        allDay : element.allDay,
-        cssClass : element.cssClass,
-        resizable : element.resizable,
-        draggable : element.draggable,
-        meta : element.meta
-      };
-      anEvent.color.primary = element.color.primary;
-      anEvent.color.secondary = element.color.secondary;
-      self.events.push(anEvent);
-    });
-    setTimeout(function() {
-      return self.refresh.next();
-    }, 0);
-  }
-
   eventTimesChanged({
     event,
     newStart,
@@ -255,79 +215,11 @@ export class ScheduleComponent implements OnInit {
     this.refresh.next();
   }
 
-
-  publish(): void {
-    alert('Implement Publish Study Plan!');
-  }
-
-  copy(): void {
-    alert('Implement Copy Study Plan!');
-  }
-
-  assign(): void {
-    alert('Implement Assign Study Plan!');
-  }
-
-  edit(): void {
-    alert('Implement Edit Study Plan!');
-  }
-
-  createEvent(title: string, start: Date, end: Date) {
-    // FIXME: To be modified for obtaining logged in user's data and profile owner's username
-    if (!(this.loggedInUser.isChild)) {
-      const newEvent = {
-        title: title,
-        start: start,
-        end: end
-      };
-      const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
-      if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
-        this.events.push(newEvent);
-      }
-    }
-    this.refresh.next();
-  }
-
-  editEvent(oldEvent: CalendarEvent, title: string, start: Date, end: Date) {
-    // FIXME: To be modified for obtaining logged in user's data and profile owner's username
-    if (!(this.loggedInUser.isChild)) {
-      const newEvent = {
-        title: title,
-        start: start,
-        end: end
-      };
-      const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
-      const index = this.events.indexOf(oldEvent);
-      if (index === -1) {
-        return; // Error: Event not found
-      }
-      if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
-        this.events.splice(index, 1);
-        this.createEvent(title, start, end);
-      }
-    }
-    this.refresh.next();
-  }
-
-  deleteEvent(event: CalendarEvent) {
-    // FIXME: To be modified for obtaining logged in user's data and profile owner's username
-    if (!(this.loggedInUser.isChild)) {
-      const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
-      const index = this.events.indexOf(event);
-      if (index === -1) {
-        return;
-      }
-      // Error: Event not found
-      if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
-        this.events.splice(index, 1);
-      }
-    }
-    this.refresh.next();
+  isUnchanged(): boolean {
+    return JSON.stringify(this.events) === JSON.stringify(this.eventsInitial);
   }
 
   saveScheduleChanges() {
-    // FIXME: To be modified for obtaining logged in user's data and profile owner's username
-    // TODO: To be implemented in backend
     if (!this.isUnchanged()) {
       const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
       if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
@@ -357,6 +249,35 @@ export class ScheduleComponent implements OnInit {
         this.eventsInitial.push(anEvent);
       });
     }
+  }
+
+  cancel() {
+    this.events = [];
+    const self = this;
+    this.eventsInitial.forEach(function(element) {
+      const anEvent: CalendarEvent = {
+        id : element.id,
+        start : element.start,
+        end : element.end,
+        title : element.title,
+        color : {
+          primary : element.color.primary,
+          secondary : element.color.secondary
+        },
+        actions : element.actions,
+        allDay : element.allDay,
+        cssClass : element.cssClass,
+        resizable : element.resizable,
+        draggable : element.draggable,
+        meta : element.meta
+      };
+      anEvent.color.primary = element.color.primary;
+      anEvent.color.secondary = element.color.secondary;
+      self.events.push(anEvent);
+    });
+    setTimeout(function() {
+      return self.refresh.next();
+    }, 0);
   }
 
 
