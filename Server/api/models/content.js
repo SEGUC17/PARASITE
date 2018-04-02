@@ -62,5 +62,5 @@ var contentSchema = mongoose.Schema({
         type: String
     }
 });
-
+contentSchema.plugin(mongoosePaginate);
 var Content = mongoose.model('Content', contentSchema);
