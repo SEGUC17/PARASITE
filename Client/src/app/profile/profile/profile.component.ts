@@ -41,7 +41,7 @@ Email: String;
 Address: String;
 Phone: String;
 Birthday: Date;
-listOfChildren: any[] = ['Ahmed', 'Gannah', 'Mahmoud'];
+listOfChildren: any[] = ['Ahmed','Sally','Mohamed'];
 id: any;
 //-------------------------------------
 //---------Visited User Info-----------
@@ -56,8 +56,8 @@ vEmail: String;
 vAddress: String;
 vPhone: String;
 vBirthday: Date;
-vlistOfChildren: any[] = ['Ahmed', 'Mariam','Rahma'];
-vId: any = '5ac0caaf1e46aabc13fec58c';
+vlistOfChildren: any[] = ['Sally'];
+vId: any = '5ac2a84ffba2ff2be4f0da22';
 //------------------------------------
 
 
@@ -71,7 +71,7 @@ listOfUncommonChildren: any[];
 
   ngOnInit() {
     // this.listOfAllChildren = this.listOfChildren.concat(this.vlistOfChildren);
-    // this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
+     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
   }
 
   requestContributerValidation() {
@@ -97,9 +97,9 @@ listOfUncommonChildren: any[];
 
   linkToParent(child):void{-
     //this.vlistOfChildren.push(child);
-    this._ProfileService.linkAsParent(child,this.vId).subscribe();
+    //this._ProfileService.linkAsParent(child,this.vId).subscribe();
 
-    // this._ProfileService.linkAsParent(this.vlistOfChildren).subscribe();
+     this._ProfileService.linkAsParent(child,this.vId).subscribe();
   }
 
   changePassword(oldpw, newpw: any) :void{

@@ -81,6 +81,7 @@ module.exports.getUserInfo = function(req, res, next) {
             res.status(404).send();
           } else {
               if(req.body){
+                console.log(user.children);
                 user.children = req.body.children
                // user.children.push(child);
               }
