@@ -15,3 +15,32 @@
 <button (click)="send(); sender.value=''; receiver.value=''; body.value=''">
   Send
 </button>
+
+<div *ngIf="div1">
+  <label>
+    Please specify a recipient.
+  </label>
+</div>
+
+<div *ngIf="div2">
+    <label>
+      You can't send an empty message.
+    </label>
+  </div>
+
+  <table>
+      <tr>
+        <th class="text-center">Sender</th>
+        <th class="text-center">Body</th>
+        <th class="text-center">Sent at</th>
+      </tr>
+      <tr *ngFor="let message of inbox">
+        <td class="text-center">{{message.sender}}</td>
+        <td class="text-center">{{message.body}}</td>
+        <td class="text-center">{{message.sentAt|date}}</td>
+      </tr>
+    </table>
+
+    <button (click)="getSent()">
+      Get Sent Messages
+    </button>

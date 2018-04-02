@@ -15,12 +15,20 @@ const httpOptions = {
 @Injectable()
 export class MessageService {
 
+  url: String = 'http://localhost:3000/api/';
+
   constructor(private http: HttpClient) { }
 
-  // private URL = 'http://localhost:3000/api/';
-
   send(message: any): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/message/sendMessage', message, httpOptions);
+    return this.http.post<any>(this.url + 'message/sendMessage', message, httpOptions);
+  }
+
+  getInbox(user: any): Observable<any> {
+    return this.http.get<any>(this.url + 'message/inbox/' + user);
+  }
+
+  getSent(user: any): Observable<any> {
+    return this.http.get<any>(this.url + 'message/sent/' + user);
   }
 
 }

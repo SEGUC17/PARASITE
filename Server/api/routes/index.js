@@ -114,6 +114,12 @@ adminController.respondContentRequest
   //Send message
   router.post('/message/sendMessage', messageController.sendMessage);
 
+  //View inbox
+  router.get('/message/inbox/:user', messageController.getInbox);
+
+  //View sent
+  router.get('/message/sent/:user', messageController.getSent);
+
   // -------------------------------------------------------------------- //
   module.exports = router;
 

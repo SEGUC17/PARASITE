@@ -27,15 +27,44 @@ module.exports.sendMessage = function(req, res, next) {
 
   Message.create(req.body, function(err, msg) {
     if (err) {
-      console.log('error');
-
       return next(err);
     }
 
     return res.status(201).json({
       data: msg,
       err: null,
-      msg: 'Message was sent.'
+      msg: 'Message was sent successfully.'
     });
   });
 };
+
+module.exports.getInbox = function(req, res, next) {
+
+  Message.find({ recipient: req.params.user }).exec(function(err, msgs) {
+    if (err) {
+      return next(err);
+    }
+
+    return res.status(200).json({
+      data: msgs,
+      err: null,
+      msg: 'Inbox has been retreived successfully.'
+      });
+  });
+};
+
+module.exports.getSent = function(req, res, next) {
+
+  Message.find({ sender: req.params.user }).exec(function(err, msgs) {
+    if (err) {
+      return next(err);
+    }
+
+    return res.status(200).json({
+      data: msgs,
+      err: null,
+      msg: 'Sent messages have been retreived successfully.'
+      });
+  });
+};
+
