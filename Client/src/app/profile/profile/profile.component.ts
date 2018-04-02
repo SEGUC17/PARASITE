@@ -59,6 +59,7 @@ vId: any;
 // ------------------------------------
 
 
+
 // ------------------------------------
 listOfAllChildren: any[];
 listOfUncommonChildren: any[];
@@ -99,7 +100,8 @@ listOfUncommonChildren: any[];
     // this.vlistOfChildren.push(child);
     this._ProfileService.linkAsParent(child, this.vId).subscribe();
 
-    // this._ProfileService.linkAsParent(this.vlistOfChildren).subscribe();
+
+     this._ProfileService.linkAsParent(child, this.vId).subscribe();
   }
 
   changePassword(oldpw, newpw: any): void {

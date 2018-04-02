@@ -21,7 +21,7 @@ getUserInfo(username: String): Observable<any> {
   }
 
 
-private linkAnotherParentUrl = 'http://localhost:3000/api/profile/LinkAnotherParent/'
+private linkAnotherParentUrl = 'http://localhost:3000/api/profile/LinkAnotherParent'
 linkAnotherParent(children, vId): Observable<any>{
   return this.http.put<any>(`${this.linkAnotherParentUrl}/${vId}`, children, httpOptions);
 //why is it put not patch  
