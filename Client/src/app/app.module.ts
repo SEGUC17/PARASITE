@@ -10,20 +10,23 @@ import { AppComponent } from './app.component';
 import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
-import { PsychologistService } from './psychologist/psychologist.service'
+import { PsychologistService } from './psychologist/psychologist.service';
 import { MarketModule } from './market/market.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material';
+import { MatIconModule, MatDialogContent, MatDialogModule } from '@angular/material';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CustomInterceptor } from './custom-interceptor';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,7 @@ import { HttpClientModule } from '@angular/common/http';
     AdminModule,
     ProfileModule,
     ContentModule,
+    MatDialogModule,
     AuthModule,
     ScheduleModule,
     PsychologistModule,
@@ -50,10 +54,17 @@ import { HttpClientModule } from '@angular/common/http';
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomInterceptor,
+      multi: true
+    },
     MediaMatcher,
     PsychologistService
   ],

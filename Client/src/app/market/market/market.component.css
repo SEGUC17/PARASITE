@@ -1,0 +1,20 @@
+
+.margin10 {
+    margin: 10px;
+  }
+  
+  .section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .widthFloat{
+    width: 60px;
+    float:left;
+  }
+  
+  .mat-slider-horizontal {
+    width: 280px;
+  }
