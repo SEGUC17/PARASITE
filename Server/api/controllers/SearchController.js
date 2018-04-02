@@ -1,47 +1,36 @@
 var mongoose = require('mongoose');
  var User = mongoose.model('User');
  var StringValidate = require('../utils/validators/');
-  module.exports.getUsers = function(req, res, next) {
-    User.find({}).exec(function(err, products) {
-      if (err) {
-        return next(err);
-      }
-      res.status(200).json({
-        data: products,
-        err: null,
-        msg: 'Products retrieved successfully.'
-      });
-    });
-  };
-  module.exports.Search = function(req, res, next) {
 
-    if (!StringValidate.isString(req.any.username)) {
-      return res.status(422).json({
-        data: null,
-        err: null,
-        msg: 'username must be valid'
-  });
-    }
+  module.exports.Search = function(req, res, next) {
+    console.log(req.params.username);
     var pageN = Number(req.query.page);
     var valid = pageN && !isNaN(pageN);
     if (!valid) {
         pageN = 1;
     }
-    User.paginate({
-      limit: 10,
-       page: pageN,
-       username: req.any.username
-      }, function(err, user) {
+    User.paginate(
+     {
+      isParent: true,
+      username: req.params.username
+    },
+      {
+        limit: 10,
+       page: pageN
+      }
+      , function(err, user) {
         if (err) {
           return next(err);
         }
+        console.log(user);
         if (!user) {
-          return res.status(404).json({
+          return res.status(422).json({
             data: null,
-            err: null,
-            msg: 'User not found.'
-            });
+            err: 'the user info is invalid',
+            msg: null
+});
         }
+        console.log("tamam");
         res.status(200).json({
           data: user,
           err: null,
@@ -49,7 +38,8 @@ var mongoose = require('mongoose');
             'User with username ' +
             req.params.username + ' is retrievred successfully'
         });
-  });
+  }
+);
   };
 
   module.exports.FilterByLevelOfEducation = function(req, res, next) {
@@ -58,15 +48,16 @@ var mongoose = require('mongoose');
     if (!valid) {
         pageN = 1;
     }
-    User.paginate({
-      educationLevels: req.body.educationLevels,
-      isParent: true,
+    User.paginate(
+      {
+      educationLevels: req.params.level,
+      isParent: true
+      },
+      {
       limit: 10,
-       page: pageN,
-       username: req.params.username
-
+      page: pageN
       }, function(err, user) {
-        if (!StringValidate.isString(req.body.educationLevels)) {
+        if (!StringValidate.isString(req.params.level)) {
           return res.status(422).json({
             data: null,
             err: null,
@@ -81,9 +72,10 @@ var mongoose = require('mongoose');
               err: null,
               msg:
                 'User that has children with education levels ' +
-                req.params.educationLevels + ' is retrievred successfully'
+                req.params.level + ' is retrievred successfully'
             });
-  });
+  }
+);
   };
 
   module.exports.getNumberOfPages = function(req, res, next) {
@@ -128,14 +120,16 @@ module.exports.getPage = function(req, res, next) {
     if (!valid) {
         pageN = 1;
     }
-    User.paginate({
-      educationSystems: req.body.educationSystems,
-      isParent: true,
+    User.paginate(
+      {
+      educationSystems: req.params.system,
+      isParent: true
+      },
+      {
       limit: 10,
-       page: pageN,
-       username: req.params.username
+       page: pageN
       }, function(err, user) {
-        if (!StringValidate.isString(req.body.educationSystems)) {
+        if (!StringValidate.isString(req.params.system)) {
           return res.status(422).json({
             data: null,
             err: null,
@@ -150,7 +144,8 @@ module.exports.getPage = function(req, res, next) {
               err: null,
               msg:
                 'User that has children with education levels ' +
-                req.params.educationSystems + ' is retrievred successfully'
+                req.params.system + ' is retrievred successfully'
             });
-  });
+  }
+);
   };

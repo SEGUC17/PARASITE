@@ -10,8 +10,7 @@ import {ENTER, COMMA} from '@angular/cdk/keycodes';
   styleUrls: ['./search-control.component.css']
 })
 export class SearchControlComponent implements OnInit {
-   parents: User[];
-   parent: string;
+   users: User[];
    tag: string;
    tags: string[];
    visible: Boolean = true;
@@ -23,6 +22,7 @@ export class SearchControlComponent implements OnInit {
   numberPerPage = 10;
   totPages: number;
   numberOfParents: number;
+  flag: Boolean = false;
 
   // Enter, comma
   separatorKeysCodes = [ENTER, COMMA];
@@ -57,22 +57,21 @@ export class SearchControlComponent implements OnInit {
 
 constructor(private searchService: SearchService) {
   this.tags = [];
-  this.parents = [];
-  this.parent = '';
+  this.users = [];
   this.tag = '';
   this.sKey = '';
+
 }
 getParents(s: string) {
   console.log('entered');
   switch (this.tag) {
-    case 'username': this.searchService.getParents(this.sKey + s).subscribe(res => this.parents = res.data); break;
-    case 'educationLevels': this.searchService.searchByEducationLevel(this.sKey + s).subscribe(res => this.parents = res.data); break;
-    case 'educationSystems': this.searchService.searchByEducationSystems(this.sKey + s).subscribe(res => this.parents = res.data); break;
+    case 'username': this.searchService.getParents(this.sKey + s).subscribe(
+      res => res.status !== 404 ?  this.users = res.data : console.log('No Such User')); break;
+    case 'educationLevels': this.searchService.searchByEducationLevel(this.sKey + s).subscribe(res => this.users = res.data); break;
+    case 'educationSystems': this.searchService.searchByEducationSystems(this.sKey + s).subscribe(res => this.users = res.data); break;
 
   }
-  // this.getNumberOfPages();
-
-
+  this.sKey = '';
 }
 saveInfo(searchKey: string) {
 this.sKey = searchKey;
@@ -91,8 +90,7 @@ getPage(event: any): void {
       page = event.pageIndex + 1;
     }
     this.searchService.getPage(page).subscribe(
-      res => this.numberOfParents = res.data.numberOfPages,
-      res => this.parents
+      res => this.users = res.data
 
     );
 }

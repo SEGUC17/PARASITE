@@ -18,7 +18,7 @@ export class SearchService {
     if (!term.trim()) {
     return of([]);
     }
-    return this.http.get<any>(`${this.Url}api/User/FilterByLevelOfEducation/` + term);
+    return this.http.get<any>(`${this.Url}api/User/FilterByLevelOfEducation/` + term );
   }
   searchByEducationSystems(term: string): Observable<any> {
     if (!term.trim()) {

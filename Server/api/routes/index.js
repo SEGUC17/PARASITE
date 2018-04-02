@@ -32,11 +32,11 @@ router.get('/', function (req, res, next) {
   res.send('Server Works');
 });
   // --------------------- Search Contoller -------------------- //
-router.get('./User/NumberOfpages/:NPP', SearchController.getNumberOfPages);
-router.get('./User/Page/:page', SearchController.getPage);
-router.get('./User/Search/:username', SearchController.Search);
-router.get('./User/FilterByLevelOfEducation/:level', SearchController.FilterByLevelOfEducation);
-router.get('./User/FilterBySystemOfEducation/:system', SearchController.FilterBySystemOfEducation);
+router.get('/User/NumberOfpages/:NPP', SearchController.getNumberOfPages);
+router.get('/User/Page/:page', SearchController.getPage);
+router.get('/User/Search/:username', SearchController.Search);
+router.get('/User/FilterByLevelOfEducation/:level', SearchController.FilterByLevelOfEducation);
+router.get('/User/FilterBySystemOfEducation/:system', SearchController.FilterBySystemOfEducation);
   // --------------------- End of Search Controller ------------ //
 var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {

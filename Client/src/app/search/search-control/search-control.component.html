@@ -3,38 +3,34 @@
         <div ng-controller="instantSearchCtrl">
             <div class="bar">
 
-              <mat-select style="width:120px; background-color: pink; font-size:20px;" [(value)] = "tag">
+              <mat-select style="width:120px; background-color: white; font-size:20px;" [(value)] = "tag">
 
                 <mat-option value="username">Username</mat-option>
                 <mat-option value="educationLevels">Education Levels</mat-option>
                 <mat-option value="educationSystems">Education Systems</mat-option>
 
-              </mat-select>
-          </div>
-        
+              </mat-select>  
     <mat-chip-list #chipList>
-      <mat-chip [selectable]="selectable" [removable]="removable" (remove)="remove(tag)" selected="true" color="primary" [(ngModel)]="tag">
+      <mat-chip [removable]="removable" (remove)="remove(tag)" color="primary">
                       {{this.tag}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
-      <input #box (keyup.enter)="getParents(box.value)" (blur)="saveInfo(box.value);" name="search" type="text" class="search-control" [(ngModel)]="parents" placeholder="Search" />
+      <input #box (keypress.enter)="getParents(box.value)"  name="search" type="text" class="search-control" placeholder="Search" />
+      <button mat-button style="color:blue" (click)="getParents(box.value)">Search</button>
     </mat-chip-list>
+  </div>
 
-  <button mat-button style="color:blue" (click)="getParents(box.value)">Search</button>
 </div>
+<!-- <mat-card *ngFor="let user of users" >
+  <mat-card-content >
+    <mat-card-title >{{user.username}}</mat-card-title>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button style="color:white" (click)="goToProfile(user.username)">Go To Profile</button>
+  </mat-card-actions>
+</mat-card> -->
 </body>
-  <div class="row" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
-
-  <mat-card *ngFor="let parent of parents" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12" [(ngModel)]="parents">
-    <mat-card-content >
-      <mat-card-title >{{parent.username}}</mat-card-title>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button style="color:white" (click)="goToProfile(parent.username)">Go To Profile</button>
-    </mat-card-actions>
-  </mat-card>
-</div>
 
     <script src="js/site.js"></script>
-    <mat-paginator [length]="totPages" [pageSize]="numberPerPage" [pageIndex]="currPage" (page)="pageEvent = getPage($event)"></mat-paginator>
+    <mat-paginator [length]="totPages" [pageSize]="numberPerPage" [pageIndex]="currPage" (page)="getPage($event)"></mat-paginator>
 </html>
