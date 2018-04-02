@@ -23,6 +23,8 @@ import { SafeResourceUrlPipe } from './safe-resource-url.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
 import { AdminModule } from '../admin/admin.module';
+import { MatSelectModule } from '@angular/material/select';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -41,6 +43,7 @@ import { AdminModule } from '../admin/admin.module';
     MatTabsModule,
     MatSidenavModule,
     MatExpansionModule,
+    MatSelectModule,
     AdminModule
   ],
   providers: [ContentService],

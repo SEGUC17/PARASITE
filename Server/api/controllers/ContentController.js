@@ -7,9 +7,25 @@ var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 
 module.exports.getContentPage = function (req, res, next) {
+    var valid = req.params.category && req.params.section &&
+        req.params.numberOfEntriesPerPage && req.params.pageNumber &&
+        typeof req.params.category === 'string' &&
+        typeof req.params.section === 'string' &&
+        !isNaN(req.params.numberOfEntriesPerPage) &&
+        !isNaN(req.params.pageNumber);
+
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required fields were missing or of wrong type.',
+            msg: null
+        });
+    }
+
     if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
         Content.paginate(
             {
+                approved: true,
                 category: req.params.category,
                 section: req.params.section
             },
@@ -31,7 +47,7 @@ module.exports.getContentPage = function (req, res, next) {
         );
     } else if (req.params.category === 'NoCat') {
         Content.paginate(
-            {},
+            { approved: true },
             {
                 limit: Number(req.params.numberOfEntriesPerPage),
                 page: Number(req.params.pageNumber)
@@ -50,7 +66,10 @@ module.exports.getContentPage = function (req, res, next) {
         );
     } else {
         Content.paginate(
-            { creator: req.params.category },
+            {
+                approved: true,
+                creator: req.params.category
+            },
             {
                 limit: Number(req.params.numberOfEntriesPerPage),
                 page: Number(req.params.pageNumber)
@@ -72,6 +91,14 @@ module.exports.getContentPage = function (req, res, next) {
 
 
 module.exports.getContentById = function (req, res, next) {
+
+    if (!req.params.id) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required id was missing.',
+            msg: null
+        });
+    }
 
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(422).json({
@@ -104,18 +131,25 @@ module.exports.getContentById = function (req, res, next) {
 
 };
 
+// must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
-    console.log(req.params.creator);
-    if (!req.params.creator) {
+    console.log('Username: ' + req.user);
+
+    var valid = req.params.pageSize &&
+        req.params.pageNumber &&
+        !isNaN(req.params.pageNumber) &&
+        !isNaN(req.params.pageSize);
+
+    if (!valid) {
         return res.status(422).json({
             data: null,
-            err: 'The Creator username is not valid.',
+            err: 'The required fields were missing or of wrong type.',
             msg: null
         });
     }
 
     Content.paginate(
-        { creator: req.params.creator },
+        { creator: req.user.username },
         {
             limit: Number(req.params.pageSize),
             page: Number(req.params.pageNumber)

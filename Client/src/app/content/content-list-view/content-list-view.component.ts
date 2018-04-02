@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
-import { PageEvent } from '@angular/material';
+import { PageEvent, MatPaginator } from '@angular/material';
 import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
+import { MatSidenav } from '@angular/material/sidenav';
+import { ViewChild } from '@angular/core';
+import { Category } from '../category';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-content-list-view',
@@ -18,13 +22,13 @@ export class ContentListViewComponent implements OnInit {
   myContributions: Content[];
 
   // categories for the general contents view
-  categories = [];
+  categories: Category;
 
   // TODO set username
   username: String = 'Omar K.';
 
   // shared between myContributions and content list
-  numberOfEntriesPerPage = 3;
+  numberOfEntriesPerPage = 5;
 
   // for content list pagination
   totalNumberOfPages: number;
@@ -38,9 +42,12 @@ export class ContentListViewComponent implements OnInit {
   myContributionsTotalNumberOfPages: number;
   myContributionsCurrentPageNumber: number;
 
-  constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document) { }
+  @ViewChild('sidenav') public myNav: MatSidenav;
+  @ViewChild('allContentPaginator') public paginator: MatPaginator;
+  constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document, private authService: AuthService) { }
 
   ngOnInit() {
+    console.log(this.authService.getUser());
     this.currentPageNumber = 1;
     this.myContributionsCurrentPageNumber = 1;
     this.getContentPage();
@@ -76,6 +83,9 @@ export class ContentListViewComponent implements OnInit {
   }
 
   tabChanged(event): void {
+    if (this.myNav.opened) {
+      this.myNav.toggle();
+    }
     if (event.tab.textLabel === 'My Contributions' && !this.myContributions) {
       this.getMyContributionsPage();
     }
@@ -84,11 +94,12 @@ export class ContentListViewComponent implements OnInit {
   getMyContributionsPage(): void {
     const self = this;
     this.contentService.
-      getContentByCreator(self.username, self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber).
+      getContentByCreator(self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber).
       subscribe(function (retrievedContents) {
         self.myContributions = retrievedContents.data.docs;
         self.myContributionsTotalNumberOfEntries = retrievedContents.data.total;
         self.myContributionsTotalNumberOfPages = retrievedContents.data.pages;
+        console.log('Get Contributions: ' + self.authService.getUser());
       });
   }
 
@@ -110,9 +121,12 @@ export class ContentListViewComponent implements OnInit {
       });
   }
 
-  changeCategoryAndSection(category: any, section: any ): void {
+  changeCategoryAndSection(category: any, section: any): void {
+    this.currentPageNumber = 1;
     this.selectedCategory = category;
     this.selectedSection = section;
+    this.paginator.firstPage();
     this.getContentPage();
+    this.myNav.toggle();
   }
 }

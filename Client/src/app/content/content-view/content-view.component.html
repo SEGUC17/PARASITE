@@ -1,16 +1,24 @@
-<button mat-raised-button color="primary">Edit</button>
-<button mat-raised-button color="primary">Delete</button>
-<button mat-raised-button color="primary" (click)="respondContentRequest('approved')">Approve</button>
-<button mat-raised-button color="warn" (click)="respondContentRequest('disapproved')">Reject</button>
 <div *ngIf="content">
-    <button mat-raised-button color="primary" *ngIf="content.status">{{content.status}}</button>
-</div>
-<div *ngIf="content">
-    <div class="video-container">
-        <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
-            <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>
+    <div class="row">
+        <div class="col" align="center">
+            <div *ngIf="this.authService.getUser().isAdmin || (this.authService.getUser().username === this.content.creator)">
+                <button mat-raised-button color="primary">Edit</button>
+                <button mat-raised-button color="primary">Delete</button>
+                <button mat-raised-button color="primary" *ngIf="content.status">{{content.status}}</button>
+            </div>
+            <div *ngIf="this.authService.getUser().isAdmin">
+                <button mat-raised-button color="primary" (click)="respondContentRequest('approved')">Approve</button>
+                <button mat-raised-button color="warn" (click)="respondContentRequest('disapproved')">Reject</button>
+            </div>
         </div>
     </div>
-    <h1 class="title">{{content.title}}</h1>
-    <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
+    <div class="container">
+        <div class="video-container">
+            <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>
+            </div>
+        </div>
+        <h1 class="title">{{content.title}}</h1>
+        <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
+    </div>
 </div>

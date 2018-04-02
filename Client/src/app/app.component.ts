@@ -46,8 +46,8 @@ export class AppComponent implements OnDestroy {
       name: 'Random Schedule'
     },
     {
-      url: '/study-plan/0',
-      name: 'Random Study Plan'
+      url: 'published-study-plans',
+      name: 'Published Study Plans'
     },
     {
       url: '/psychologist/view/0',
