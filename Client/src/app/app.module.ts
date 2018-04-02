@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
-import { PsychologistService } from './psychologist/psychologist.service';
+
 import { MarketModule } from './market/market.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,6 +27,7 @@ import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomInterceptor } from './custom-interceptor';
+import { AuthService } from './auth/auth.service';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,7 @@ import { CustomInterceptor } from './custom-interceptor';
       multi: true
     },
     MediaMatcher,
-    PsychologistService
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

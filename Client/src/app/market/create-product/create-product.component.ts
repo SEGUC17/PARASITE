@@ -44,7 +44,6 @@ export class CreateProductComponent {
       || ((<HTMLInputElement>document.getElementById('description')).value) === ''
       // || ((<HTMLInputElement>document.getElementById('rentPeriod')).value) === ''
       || ((<HTMLInputElement>document.getElementById('price')).value) === ''
-      //   || ((<HTMLInputElement>document.getElementById('imageUrl')).value) === ''
       || ((<HTMLInputElement>document.getElementById('name')).value) === '') {
       error = true;
     }
