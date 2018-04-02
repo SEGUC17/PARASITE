@@ -33,7 +33,7 @@ Unlink(childrenList): Observable<any>{
   
 }
 
-//------------------------------------------------------------------------
+// ------------------------------------------------------------------------
 
 
 // --------Sending Contributer Validation Request --------- AUTHOR: Maher
@@ -41,6 +41,11 @@ Unlink(childrenList): Observable<any>{
     // TODO: Send an HTTP POST for the request (Maher).
     console.log('the Request is sent el mafrood AUTHOR: Maher');
     return this.http.post('http://localhost:3000/api/profile/VerifiedContributerRequest', 'maherUSERNAME');
+  }
+
+  changePassword(oldpw, newpw): Observable<any> {
+    return this.http.patch<any> (oldpw, newpw);
+
   }
 
 }

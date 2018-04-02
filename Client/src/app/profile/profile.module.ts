@@ -7,6 +7,9 @@ import { ProfileService } from './profile.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { ChildernComponent } from './profile/childern/childern.component';
 import { MatTabsModule, MatButtonModule, MatMenuModule, MatChipsModule } from '@angular/material';
+import { FormsModule } from '@angular/forms';
+
+
 
 @NgModule({
   imports: [
@@ -16,7 +19,8 @@ import { MatTabsModule, MatButtonModule, MatMenuModule, MatChipsModule } from '@
     MatTabsModule,
     MatButtonModule,
     MatMenuModule,
-    MatChipsModule
+    MatChipsModule,
+    FormsModule
   ],
   declarations: [ProfileComponent, ChildernComponent],
   providers: [
