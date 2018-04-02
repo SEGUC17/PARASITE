@@ -3,6 +3,7 @@ export enum type {
     'sell',
     'rent/sell'
 }
+
 export class Product {
     _id: String;
     acquiringType: type;

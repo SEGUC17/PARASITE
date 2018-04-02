@@ -59,7 +59,7 @@ export class MarketComponent implements OnInit {
     let dialogRef = this.dialog.open(CreateProductComponent, {
       width: '850px',
       height: '550px',
-      data: {}
+      data: { market: this}
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

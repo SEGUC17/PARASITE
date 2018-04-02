@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MarketService } from '../market.service';
 import { createProductRequest } from './createProductRequest';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MarketComponent } from '../market/market.component';
 
 @Component({
   selector: 'app-create-product',
@@ -23,7 +24,7 @@ export class CreateProductComponent {
     // TODO mock user to be removed later
     let user = {
       _id: 'ahmed',
-      isAdmin: false,
+      isAdmin: true,
     };
 
     let pro = {
@@ -55,6 +56,7 @@ export class CreateProductComponent {
         this.marketService.createProduct(pro).subscribe(function (res) {
           if (res.msg === 'Product was created successfully.') {
             alert('Product added successfully');
+            this.data.market.products.push(pro);
             self.dialogRef.close();
           }
         });
