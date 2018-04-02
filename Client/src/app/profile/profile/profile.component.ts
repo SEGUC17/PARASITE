@@ -31,8 +31,6 @@ sched = false;
 // ------------------------------------
 
 
-//---------- Current User Info ---------------
-
 // ---------- Current User Info ---------------
 Name: String = 'Fulan el Fulany';
 Username: String;
@@ -41,10 +39,10 @@ Email: String;
 Address: String;
 Phone: String;
 Birthday: Date;
-listOfChildren: any[] = ['Ahmed', 'Gannah', 'Mahmoud'];
+listOfChildren: any[];
 id: any;
-//-------------------------------------
-//---------Visited User Info-----------
+// -------------------------------------
+// ---------Visited User Info-----------
 
 
 // -------------------------------------
@@ -56,9 +54,9 @@ vEmail: String;
 vAddress: String;
 vPhone: String;
 vBirthday: Date;
-vlistOfChildren: any[] = ['Ahmed', 'Mariam','Rahma'];
-vId: any = '5ac0caaf1e46aabc13fec58c';
-//------------------------------------
+vlistOfChildren: any[];
+vId: any;
+// ------------------------------------
 
 
 // ------------------------------------
@@ -67,42 +65,44 @@ listOfUncommonChildren: any[];
 
 
 
-  constructor(private _ProfileService: ProfileService) { }
+  constructor(private _ProfileService: ProfileService, private _AuthService: AuthService) {
+    // this._AuthService.getUser();
+  }
 
   ngOnInit() {
     // this.listOfAllChildren = this.listOfChildren.concat(this.vlistOfChildren);
-    // this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
+     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
   }
 
   requestContributerValidation() {
     console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
   }
 
-  addChild(child): void{
+  addChild(child): void {
 
     this.vlistOfChildren.push(child);
-    this._ProfileService.linkAnotherParent(this.vlistOfChildren,this.vId).subscribe();
+    this._ProfileService.linkAnotherParent(this.vlistOfChildren, this.vId).subscribe();
 
   }
 
 
-  viewChildren(): void{
-    document.getElementById('UnlinkChildren').classList.toggle('show'); 
+  viewChildren(): void {
+    document.getElementById('UnlinkChildren').classList.toggle('show');
   }
 
-  removeChild(child): void{
+  removeChild(child): void {
     this.listOfChildren.splice(this.listOfChildren.indexOf(child) , 1);
     this._ProfileService.Unlink(this.listOfChildren, this.id ).subscribe();
   }
 
-  linkToParent(child):void{-
-    //this.vlistOfChildren.push(child);
-    this._ProfileService.linkAsParent(child,this.vId).subscribe();
+  linkToParent(child): void {
+    // this.vlistOfChildren.push(child);
+    this._ProfileService.linkAsParent(child, this.vId).subscribe();
 
     // this._ProfileService.linkAsParent(this.vlistOfChildren).subscribe();
   }
 
-  changePassword(oldpw, newpw: any) :void{
+  changePassword(oldpw, newpw: any): void {
     this._ProfileService.changePassword(oldpw, newpw).subscribe();
   }
 

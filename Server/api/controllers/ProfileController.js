@@ -55,14 +55,26 @@ module.exports.requestUserValidation = function(req, res, next) {
 //--------------------------- Profile Info ------------------------- AUTHOR: H
 
 module.exports.getUserInfo = function(req, res, next) {
-  User.find({_id : req.params.parentId}).exec(function(err, users) {
+  User.find({username : req.params.username}).exec(function(err, user) {
     if (err) {
       return next(err);
     }
     res.status(200).json({
       err: null,
-      msg: 'Users retrieved successfully.',
-      data: users
+      msg: 'User retrieved successfully.',
+      data: {
+        'id': user._id,
+        'address': user.address,
+        'birthdate': user.birthdate,
+        'children': user.children,
+        'email': user.email,
+        'isAdmin': user.isAdmin,
+        'isChild': user.isChild,
+        'isParent': user.isParent,
+        'isTeacher': user.isTeacher,
+        'phone': user.phone,
+        'username': user.username
+      }
     });
   });
 };
