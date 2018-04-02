@@ -29,7 +29,22 @@ module.exports.addRequest = function (req, res, next) {
       msg: 'Request was created successfully.'
     });
   });
-}
+};
+
+module.exports.getPsychologists = function (req, res, next) {
+  console.log('got psychs');
+  Psychologists.find({}).exec(function (err, psychs) {
+    if (err) {
+      return next(err);
+    }
+    console.log(psychs);
+    res.status(200).json({
+      data: psychs,
+      err: null,
+      msg: 'Psychologists retrieved successfully.'
+    });
+  });
+};
 
 module.exports.getRequests = function (req, res, next) {
   console.log('Got here');
@@ -48,7 +63,7 @@ module.exports.getRequests = function (req, res, next) {
 module.exports.evaluateRequest = function (req, res, next) {
   if (req.body.result) {
     console.log('Got here, True');
-    var newPsych;
+    var newPsych={};
 
     // Ensure the request still exists
     Request.findById(req.body._id).exec(function (err, psychReq) {
@@ -56,9 +71,8 @@ module.exports.evaluateRequest = function (req, res, next) {
         return next(err);
       }
       if (!psychReq) {
-        return res
-          .status(404)
-          .json({ err: null, msg: 'Request not found.', data: null });
+        return res.status(404).
+        json({ err: null, msg: 'Request not found.', data: null });
       }
       // If found, make the newPsych to insert
       newPsych = {
@@ -86,10 +100,9 @@ module.exports.evaluateRequest = function (req, res, next) {
             msg: 'Request accepted and psychologist added to database.'
           });
         });
-      })
+      });
     });
-  }
-  else {
+  } else {
     console.log(req.body._id);
 
     // Simply delete the request and notify the applicant

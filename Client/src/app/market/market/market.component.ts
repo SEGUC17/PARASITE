@@ -32,14 +32,15 @@ export class MarketComponent implements OnInit {
     private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
-    this.user = this.authService.getUser();
-    if (!this.user._id) {
-      this.router.navigate(['/']);
+    const self = this;
+    self.user = self.authService.getUser();
+    if (!self.user) {
+      self.router.navigate(['/']);
     }
-    console.log(this.user);
-    this.userItemsCurrentPage = 1;
-    this.currentPageNumber = 1;
-    this.firstPage();
+    console.log(self.user);
+    self.userItemsCurrentPage = 1;
+    self.currentPageNumber = 1;
+    self.firstPage();
   }
   openDialog(prod: any): void {
     if (prod) {
