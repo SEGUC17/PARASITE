@@ -21,7 +21,7 @@ module.exports.viewPendingContReqs = function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            if (!(req.user.isAdmin)) {
+            if (!req.user.isAdmin) {
                 console.log(req.user.isAdmin);
 
                 return res.status(403).json({
@@ -80,7 +80,7 @@ module.exports.respondContentRequest = function (req, res, next) {
 
                 return next(err);
             }
-            if (!(req.user.isAdmin)) {
+            if (!req.user.isAdmin) {
                 return res.status(403).json({
                     data: null,
                     err: 'Unauthorized action',
@@ -132,7 +132,7 @@ module.exports.respondContentStatus = function (req, res, next) {
 
                 return next(err);
             }
-            if (!(req.user.isAdmin)) {
+            if (!req.user.isAdmin) {
                 return res.status(403).json({
                     data: null,
                     err: 'Unauthorized action',
