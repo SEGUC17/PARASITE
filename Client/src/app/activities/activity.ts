@@ -16,7 +16,11 @@ export class ActivityCreate {
     name: String;
     description: String;
     price: Number;
-    fromDateTime: Date;
-    toDateTime: Date;
+    // variables to put the dates from the user in
+    fromDateN: Date;
+    toDateN: Date;
+    // variables to send to the server
+    fromDateTime: Number;
+    toDateTime: Number;
     image: String;
 }

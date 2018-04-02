@@ -3,7 +3,7 @@
     height: 100%;
 }
 
-mat-form-field {
+mat-form-field, button {
     width: 70%;
     margin-left: 15%;
     margin-right: 15%;

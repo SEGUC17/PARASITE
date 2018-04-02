@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
 import { apiUrl } from '../../variables';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-activity',
@@ -18,9 +19,14 @@ export class ActivityComponent implements OnInit {
   pageSize: Number;
   pageIndex: Number;
   canCreate: Boolean;
-  private createUrl = '/create-activity';
 
-  constructor(private activityService: ActivityService) { }
+  private createUrl = '/create-activity';
+  user: any;
+
+  constructor(
+    private activityService: ActivityService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.getActivities(null);
@@ -39,6 +45,7 @@ export class ActivityComponent implements OnInit {
     this.activityService.getActivities(page).subscribe(
       res => this.updateLayout(res)
     );
+    this.user = this.authService.getUser();
   }
 
 

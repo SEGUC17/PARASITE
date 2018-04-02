@@ -148,6 +148,12 @@ module.exports.postActivity = function (req, res, next) {
         var user = User.findById(userId);
         isAdmin = user.isAdmin;
         isVerified = user.isVerified;
+    } else {
+        return res.status(401).json({
+            data: null,
+            err: null,
+            msg: 'You have to login to create an activity.'
+        });
     }
 
     if (!(isAdmin || isVerified)) {
@@ -159,8 +165,9 @@ module.exports.postActivity = function (req, res, next) {
     }
 
     var status = isAdmin ? 'verified' : 'pending';
-    // adding status to the body of the request
+    // adding status & creator to the body of the request
     req.body.status = status;
+    req.body.creator = userId;
 
     Activity.create(req.body, function (err, activity) {
         if (err) {
