@@ -4,6 +4,7 @@ import { MarketService } from '../market.service';
 import { createProductRequest } from './createProductRequest';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MarketComponent } from '../market/market.component';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-create-product',
@@ -13,7 +14,8 @@ import { MarketComponent } from '../market/market.component';
 
 export class CreateProductComponent {
 
-  constructor(private marketService: MarketService, public dialogRef: MatDialogRef<CreateProductComponent>,
+  constructor(private marketService: MarketService, private authService: AuthService ,
+    public dialogRef: MatDialogRef<CreateProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   productrequest: createProductRequest;
@@ -22,10 +24,7 @@ export class CreateProductComponent {
   createProduct(product: any) {
 
     // TODO mock user to be removed later
-    let user = {
-      _id: 'ahmed',
-      isAdmin: true,
-    };
+    let user = this.authService.getUser();
 
     let pro = {
       name: this.formInput.name,

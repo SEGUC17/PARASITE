@@ -7,21 +7,20 @@ import { of } from 'rxjs/observable/of';
 export class AuthService {
 
   constructor(private http: HttpClient) { }
-  endpoint: String = 'http://localhost:3000/api/'
+  endpoint: String = 'http://localhost:3000/api/';
   user: any = {};
 
-  signUp(user: any): Observable<any>{
+  signUp(user: any): Observable<any> {
     // console.log(user);
     // this.signUp(user).subscribe(function(res){});
-    return this.http.post<any>("http://localhost:3000/api/signup",user, { 'withCredentials': true });
-          
+    return this.http.post<any>('http://localhost:3000/api/signup', user, { 'withCredentials': true });
   }//end method
 
 
-  Login(user: any) : Observable<any>{
+  Login(user: any): Observable<any> {
     // console.log(user);
     // this.Login(user).subscribe(function(res){});
-    return this.http.post<any>("http://localhost:3000/api/signin", user, { 'withCredentials': true });
+    return this.http.post<any>('http://localhost:3000/api/signin', user, { 'withCredentials': true });
 
     }//end method
   setUser(user: any): void {
