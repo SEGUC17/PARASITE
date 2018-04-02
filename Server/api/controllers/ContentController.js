@@ -6,132 +6,141 @@ var Content = mongoose.model('Content');
 var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 
-module.exports.getNumberOfContentPages = function (req, res, next) {
-
-    if (req.params.category && req.params.section) {
-        Content.find({
-            category: req.params.category,
-            section: req.params.section
-        }).count().
-            exec(function (err, count) {
-                var numberOfPages =
-                    Math.ceil(count / req.params.numberOfEntriesPerPage);
-
+module.exports.getContentPage = function (req, res, next) {
+    if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
+        Content.paginate(
+            {
+                approved: true,
+                category: req.params.category,
+                section: req.params.section
+            },
+            {
+                limit: Number(req.params.numberOfEntriesPerPage),
+                page: Number(req.params.pageNumber)
+            },
+            function (err, contents) {
                 if (err) {
                     return next(err);
                 }
 
                 return res.status(200).json({
-                    data: numberOfPages,
+                    data: contents,
                     err: null,
-                    msg: 'Number of pages was retrieved'
+                    msg: 'Page retrieved successfully'
                 });
-            });
-    }
-    if (req.params.category) {
-        Content.find({ category: req.params.category }).count().
-            exec(function (err, count) {
-                var numberOfPages =
-                    Math.ceil(count / req.params.numberOfEntriesPerPage);
-
+            }
+        );
+    } else if (req.params.category === 'NoCat') {
+        Content.paginate(
+            { approved: true },
+            {
+                limit: Number(req.params.numberOfEntriesPerPage),
+                page: Number(req.params.pageNumber)
+            },
+            function (err, contents) {
                 if (err) {
                     return next(err);
                 }
 
                 return res.status(200).json({
-                    data: numberOfPages,
+                    data: contents,
                     err: null,
-                    msg: 'Number of pages was retrieved'
+                    msg: 'Page retrieved successfully'
                 });
-            });
+            }
+        );
     } else {
-        Content.find().count().
-            exec(function (err, count) {
-                var numberOfPages =
-                    Math.ceil(count / req.params.numberOfEntriesPerPage);
-
+        Content.paginate(
+            {
+                approved: true,
+                creator: req.params.category
+            },
+            {
+                limit: Number(req.params.numberOfEntriesPerPage),
+                page: Number(req.params.pageNumber)
+            },
+            function (err, contents) {
                 if (err) {
                     return next(err);
                 }
 
                 return res.status(200).json({
-                    data: numberOfPages,
+                    data: contents,
                     err: null,
-                    msg: 'Number of pages was retrieved'
+                    msg: 'Page retrieved successfully'
                 });
-            });
+            }
+        );
     }
 };
 
-module.exports.getContentPage = function (req, res, next) {
-    var pageNumber = req.params.pageNumber;
-    var numberOfEntriesPerPage = req.params.numberOfEntriesPerPage;
-    if (req.params.category && req.params.section) {
-        Content.find({
-            category: req.params.category,
-            section: req.params.section
-        }).skip((pageNumber - 1) * numberOfEntriesPerPage).
-            limit(numberOfEntriesPerPage).
-            exec(function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
 
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-            });
-    }
-    if (req.params.category) {
-        Content.find({ category: req.params.category }).
-            skip((pageNumber - 1) * numberOfEntriesPerPage).
-            limit(numberOfEntriesPerPage).
-            exec(function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
+module.exports.getContentById = function (req, res, next) {
 
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-
-            });
-    } else {
-        Content.find().skip((pageNumber - 1) * numberOfEntriesPerPage).
-            limit(numberOfEntriesPerPage).
-            exec(function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-
-            });
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The Content Id is not valid.',
+            msg: null
+        });
     }
 
-    Content.
-        find({ creator: req.params.creator }).count().
-        exec(function (err, count) {
+    Content.findById(req.params.id).exec(function (err, content) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!content) {
+            return res.status(404).json({
+                data: null,
+                err: 'The requested content was not found.',
+                msg: null
+            });
+        }
+
+        return res.status(200).json({
+            data: content,
+            err: null,
+            msg: 'Content was retrieved successfully'
+        });
+
+    });
+
+};
+
+module.exports.getContentByCreator = function (req, res, next) {
+    console.log(req.params.creator);
+    if (!req.params.creator) {
+        return res.status(422).json({
+            data: null,
+            err: 'The Creator username is not valid.',
+            msg: null
+        });
+    }
+
+    Content.paginate(
+        { creator: req.params.creator },
+        {
+            limit: Number(req.params.pageSize),
+            page: Number(req.params.pageNumber)
+        },
+        function (err, contents) {
             if (err) {
                 return next(err);
             }
 
             return res.status(200).json({
-                data: count,
+                data: contents,
                 err: null,
-                msg: 'Number of content by creator retrieved successfully'
+                msg: 'The contents created by' +
+                    'the user were retrieved successfully'
             });
-        });
+        }
+    );
 };
 
+
+// TODO: manage permissions specific behavior for content creation
 var handleAdminCreate = function (req, res, next) {
     req.body.approved = true;
     Content.create(req.body, function (contentError, content) {

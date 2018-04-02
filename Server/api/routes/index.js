@@ -63,7 +63,6 @@ module.exports = function (passport) {
     });
   });
   // ---------------------- End of User Controller --------------- //
-
   //-------------------- Study Plan Endpoints ------------------//
   router.get('/study-plan/getPersonalStudyPlans/:username', studyPlanController.getPerosnalStudyPlans);
   router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);
@@ -98,24 +97,57 @@ module.exports = function (passport) {
   //  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
-  // ---------------Schedule Controller Endpoints ---------------//
+    // --------------Content Module Endpoints---------------------- //
 
-  router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
-  router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule); //check name of method in controller
+    // Content Managemen
 
-  // ------------End of Schedule Controller Endpoints -----------//
+    // Create a category
+    router.post('/content/category', contentController.createCategory);
+    // Create a section
 
-  // --------------Content Module Endpoints---------------------- //
-  router.get(
-    '/content/getContentPage/:numberOfEntriesPerPage' +
-    '/:pageNumber/:category/:section',
-    contentController.getContentPage
-  );
-  router.get(
-    '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
-    contentController.getNumberOfContentPages
-  );
+    router.patch(
+      '/content/category/:id/section',
+      contentController.createSection
+    );
 
+    //Category retrieval
+    router.get('/content/category', contentController.getCategories);
+
+
+    // Content Retrieval
+
+    // Get a page of content
+    router.get(
+      '/content/getContentPage/:numberOfEntriesPerPage' +
+      '/:pageNumber/:category/:section',
+      contentController.getContentPage
+    );
+
+    // Get the contents of a user
+    router.get(
+      '/content/username/:creator/:pageSize/:pageNumber',
+      contentController.getContentByCreator
+    );
+
+    // Get content by id
+    router.get(
+      '/content/view/:id',
+      contentController.getContentById
+    );
+
+    // Get Categories
+    router.get(
+      '/content/category',
+      contentController.getCategories
+    );
+
+    //Content Production
+
+    // Create new Content
+    router.post('/content', contentController.createContent);
+
+
+    // -------------------------------------------------------------------- //
   module.exports = router;
 
   return router;
