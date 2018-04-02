@@ -20,14 +20,16 @@ export class CreateProductComponent {
 
   productrequest: createProductRequest;
   formInput = <any>{};
+  user: any;
 
   createProduct(product: any) {
-    let user = this.authService.getUser();
+
+    this.user = this.authService.getUser();
 
     let pro = {
       name: this.formInput.name,
       price: this.formInput.price,
-      seller: user._id,
+      seller: this.user.username,
       image: this.formInput.imageURL,
       acquiringType: this.formInput.acquiringType,
       rentPeriod: this.formInput.rentPeriod,
@@ -48,7 +50,7 @@ export class CreateProductComponent {
     }
 
     if (!error) {
-      if (user.isAdmin === true) {
+      if (this.user.isAdmin === true) {
         let self = this;
         this.marketService.createProduct(pro).subscribe(function (res) {
           if (res.msg === 'Product was created successfully.') {
