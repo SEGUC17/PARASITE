@@ -57,7 +57,6 @@ export class AddPsychRequestComponent implements OnInit {
   }
 
   submitReq(): void {
-
     let error = false;
 
     if (((<HTMLInputElement>document.getElementById('psychFirstName')).value) === ''
@@ -65,8 +64,8 @@ export class AddPsychRequestComponent implements OnInit {
       || ((<HTMLInputElement>document.getElementById('psychLastName')).value) === ''
       || ((<HTMLInputElement>document.getElementById('psychLastName')).value) === 'undefined'
       || ((<HTMLInputElement>document.getElementById('psychEmail')).value) === ''
-      || ((<HTMLInputElement>document.getElementById('psychEmail')).value) === 'undefined') {
-      error = true;
+      || ((<HTMLInputElement>document.getElementById('psychEmail')).value) === 'undefined' ) {
+            error = true;
     }
 
     if (!error) {

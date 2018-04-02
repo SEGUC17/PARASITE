@@ -5,7 +5,7 @@ var express = require('express');
 var router = express.Router();
 
 
-var addPsychReqCtrl = require('../controllers/PsychologistRequestController');
+var psychCtrl = require('../controllers/PsychologistController');
 var userController = require('../controllers/UserController');
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
@@ -45,10 +45,10 @@ module.exports = function (passport) {
   });
 
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist', addPsychReqCtrl.getPsychologists);
-  router.post('/psychologist/request/add/addRequest', addPsychReqCtrl.addRequest);
-  router.get('/psychologist/request/getRequests', addPsychReqCtrl.getRequests);
-  router.post('/psychologist/request/evalRequest', addPsychReqCtrl.evaluateRequest);
+  router.get('/psychologist', psychCtrl.getPsychologists);
+  router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
+  router.get('/psychologist/request/getRequests', psychCtrl.getRequests);
+  router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);
   // ------------- psychologist's requests Controller ------------- //
 
   // --------------------- Activity Contoller -------------------- //
