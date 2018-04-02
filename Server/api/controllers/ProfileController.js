@@ -121,21 +121,7 @@ module.exports.getUserInfo = function(req, res, next) {
 
 
   module.exports.linkAsParent=function(req,res,next){
-  /*  User.findByIdAndUpdate(req.params.userId ,  $set , { children : req.body.children }
-    ).exec(function(err, unlink) {
-       if (err) {
-         return next(err);
-       }
-       
-       res.status(200).json({
-         err: null,
-         msg: 'Your children list was updated successfully.',
-         data: unlink
-       });
-     });*/
-
-
-     User.findOne({_id: req.params.userId}, function(err, user){
+   User.findOne({_id: req.params.userId}, function(err, user){
       if(err){
         console.log(err);
         res.status(500).send();
