@@ -9,7 +9,10 @@ var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
 var adminController = require('../controllers/AdminController');
+var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
+var scheduleController = require('../controllers/ScheduleController');
+
 
 
 var isAuthenticated = function (req, res, next) {
@@ -62,6 +65,14 @@ module.exports = function (passport) {
     });
   });
   // ---------------------- End of User Controller --------------- //
+  //-------------------- Study Plan Endpoints ------------------//
+  router.get('/study-plan/getPersonalStudyPlans/:username', studyPlanController.getPerosnalStudyPlans);
+  router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);
+  router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', studyPlanController.getPerosnalStudyPlan);
+  router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
+  router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
+  router.post('/study-plan/PublishStudyPlan', studyPlanController.PublishStudyPlan);
+  //------------------- End of Study Plan Endpoints-----------//
 
 // -------------- Admin Contoller ---------------------- //
 router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
@@ -96,29 +107,67 @@ adminController.respondContentRequest
 
 
   // --------------Content Module Endpoints---------------------- //
-  router.get(
-    '/content/getContentPage/:numberOfEntriesPerPage' +
-    '/:pageNumber/:category/:section',
-    contentController.getContentPage
-  );
-  router.get(
-    '/content/numberOfContentPages/:numberOfEntriesPerPage/:category/:section',
-    contentController.getNumberOfContentPages
-  );
 
-  //Content Production
+  // Content Managemen
 
-  // Create new Content
-  router.post('/content', contentController.createContent);
+    // Create a category
+    router.post('/content/category', contentController.createCategory);
+    // Create a section
 
-  //Send message
-  router.post('/message/sendMessage', messageController.sendMessage);
+    router.patch(
+      '/content/category/:id/section',
+      contentController.createSection
+    );
 
-  //View inbox
-  router.get('/message/inbox/:user', messageController.getInbox);
+    //Category retrieval
+    router.get('/content/category', contentController.getCategories);
 
-  //View sent
-  router.get('/message/sent/:user', messageController.getSent);
+
+    // Content Retrieval
+
+    // Get a page of content
+    router.get(
+      '/content/getContentPage/:numberOfEntriesPerPage' +
+      '/:pageNumber/:category/:section',
+      contentController.getContentPage
+    );
+
+    // Get the contents of a user
+    router.get(
+      '/content/username/:creator/:pageSize/:pageNumber',
+      contentController.getContentByCreator
+    );
+
+    // Get content by id
+    router.get(
+      '/content/view/:id',
+      contentController.getContentById
+    );
+
+    // Get Categories
+    router.get(
+      '/content/category',
+      contentController.getCategories
+    );
+
+    //Content Production
+
+    // Create new Content
+    router.post('/content', contentController.createContent);
+
+
+    //-------------------- Messaging Module Endpoints ------------------//
+
+    // Send message
+    router.post('/message/sendMessage', messageController.sendMessage);
+
+    //View inbox
+    router.get('/message/inbox/:user', messageController.getInbox);
+
+    //View sent
+    router.get('/message/sent/:user', messageController.getSent);
+
+    //------------------- End of Messaging Module Endpoints-----------//
 
   // -------------------------------------------------------------------- //
   module.exports = router;

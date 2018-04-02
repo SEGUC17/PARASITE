@@ -31,10 +31,10 @@ export class MessageService {
     return this.http.get<any>(this.url + 'message/sent/' + user);
   }
 
-  deleteMessage(message: any): Observable<any> {
+  /*deleteMessage(message: any): Observable<any> {
     // const id = prodId;
     const url = `${this.deleteUrl}/${id}`;
     return this.http.delete<any>(url, httpOptions);
-  }
+  }*/
 
 }

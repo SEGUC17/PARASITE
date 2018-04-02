@@ -3,6 +3,7 @@ var moment = require('moment');
 var Validations = require('../utils/validators');
 var models = require('../models/Message');
 var Message = mongoose.model('Message');
+var User = mongoose.model('User');
 
 module.exports.sendMessage = function(req, res, next) {
 
@@ -21,6 +22,27 @@ module.exports.sendMessage = function(req, res, next) {
       msg: 'body and sender and recipient are required fields'
     });
   }
+
+  User.find({ username: req.body.recipient }).exec(function (err, user) {
+    if (err) {
+        return next(err);
+    }
+
+    if (!user) {
+        return res.status(404).json({
+            data: null,
+            err: 'This user does not exist.',
+            msg: null
+        });
+    }
+
+    res.status(200).json({
+        data: user,
+        err: null,
+        msg: 'User exists.'
+    });
+
+});
 
   // Security Check
   delete req.body.sentAt;

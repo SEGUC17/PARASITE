@@ -1,48 +1,70 @@
-<p>
-  messaging works!
-</p>
-
-<label>Sender:
-  <input #sender [(ngModel)]=Sender/>
-</label>
-<label>Receiver:
-  <input #receiver [(ngModel)]=Receiver/>
-</label>
-<label>Body:
-  <input #body [(ngModel)]=Body/>
-</label>
-
-<button (click)="send(); sender.value=''; receiver.value=''; body.value=''">
-  Send
-</button>
-
-<div *ngIf="div1">
-  <label>
-    Please specify a recipient.
-  </label>
-</div>
-
-<div *ngIf="div2">
+ <div id="div3" *ngIf="div3">
     <label>
-      You can't send an empty message.
+      Messaging is only permitted for users above the age of 13. Sorry!
     </label>
   </div>
 
-  <table>
-      <tr>
-        <th class="text-center">Sender</th>
-        <th class="text-center">Body</th>
-        <th class="text-center">Sent at</th>
-      </tr>
-      <tr *ngFor="let message of inbox">
-        <td class="text-center">{{message.sender}}</td>
-        <td class="text-center">{{message.body}}</td>
-        <td class="text-center">{{message.sentAt|date}}</td>
-      </tr>
-    </table>
+  <div *ngIf="!div3">
+      <table>
+          <tr>
+            <th class="text-center">Sender</th>
+            <th class="text-center">Body</th>
+            <th class="text-center">Sent at</th>
+          </tr>
+          <tr *ngFor="let message of inbox">
+            <td class="text-center">{{message.sender}}</td>
+            <td class="text-center">{{message.body}}</td>
+            <td class="text-center">{{message.sentAt|date}}</td>
+          </tr>
+        </table>
+    </div>
 
-    <button (click)="getSent()">
-      Get Sent Messages
-    </button>
+    <div id="div4" *ngIf="div4">
+        <table>
+            <tr>
+              <th class="text-center">Recipient</th>
+              <th class="text-center">Body</th>
+              <th class="text-center">Sent at</th>
+            </tr>
+            <tr *ngFor="let message of sent">
+              <td class="text-center">{{message.recipient}}</td>
+              <td class="text-center">{{message.body}}</td>
+              <td class="text-center">{{message.sentAt|date}}</td>
+            </tr>
+          </table>
+      </div>
 
-    <button type="button" class="btn btn-danger" (click)="deleteMessage()">Delete</button>
+  <div *ngIf="!div3">
+      <label>Sender:
+          <input #sender [(ngModel)]=Sender/>
+       </label>
+       <label>Receiver:
+          <input #receiver [(ngModel)]=Receiver/>
+       </label>
+       <label>Body:
+          <input #body [(ngModel)]=Body/>
+       </label>
+     
+       <button (click)="send(); sender.value=''; receiver.value=''; body.value=''">
+           Send
+       </button>
+
+       <button (click)="getSent()">
+          Get Sent Messages
+        </button>
+  </div>  
+  
+
+  <div id="div1" *ngIf="div1">
+      <label>
+        Please specify a recipient.
+      </label>
+  </div>
+
+  <div id="div2" *ngIf="div2">
+      <label>
+        You can't send an empty message.
+      </label>
+  </div>
+  
+  <!--  <button type="button" class="btn btn-danger" (click)="deleteMessage()">Delete</button> -->

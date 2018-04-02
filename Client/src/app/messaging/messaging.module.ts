@@ -4,9 +4,10 @@ import { MessagingComponent } from './messaging/messaging.component';
 import { MessagingRoutingModule } from './messaging-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from './messaging.service';
+import { AuthService } from '../auth/auth.service';
 
 @NgModule({
-  providers: [MessageService],
+  providers: [MessageService, AuthService],
   imports: [
     MessagingRoutingModule,
     FormsModule,
