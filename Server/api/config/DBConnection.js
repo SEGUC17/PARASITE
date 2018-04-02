@@ -19,3 +19,4 @@ require('../models/User');
 require('../models/Category');
 require('../models/VerifiedContributerRequest');
 require('../models/ContentRequest');
+require('../models/StudyPlan');
