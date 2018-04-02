@@ -1,0 +1,21 @@
+.req-card {
+    margin-left: 50px;
+    display: inline-block;
+}
+.OneCard{
+    max-width: 400px;
+
+}
+.title{
+    margin-left: 35%;
+}
+.header{
+    margin-left: 35%;
+
+}
+.actions{
+    margin-left: 60px;
+}
+.but{
+    max-width: 10 px;
+}

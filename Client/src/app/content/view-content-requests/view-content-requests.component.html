@@ -6,13 +6,13 @@
 
 </p>
 
-<p class="reqs-card">
+<div class="reqs-card">
   <span>
-  <li *ngFor="let req of reqs">
-      
-<mat-card class="OneCard">
+  
+<li *ngFor="let req of reqs">
+  <mat-card class="OneCard">
     <mat-card-header  class= "header" >
-      <mat-card-title class= "Title: "> {{req.contentTitle}} </mat-card-title>
+      <mat-card-title class= "title"> {{req.contentTitle}} </mat-card-title>
       <mat-card-subtitle class = "Subtitle"> {{req.contentType}} </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
@@ -30,6 +30,7 @@
 
     </mat-card-actions>
   </mat-card>
-  </li>
+</li>
+  
 </span>
-</p>
+</div>
