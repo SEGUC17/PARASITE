@@ -169,6 +169,7 @@ export class ScheduleComponent implements OnInit {
     setTimeout(function() {
       return self.refresh.next();
     }, 0);
+    this.activeDayIsOpen = false;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
