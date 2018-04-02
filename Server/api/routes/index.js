@@ -47,11 +47,10 @@ router.patch(
 '/admin/RespondContentRequest/:ContentRequestId',
 adminController.respondContentRequest
 );
-  // --------------End Of Admin Contoller ---------------------- //
+  // -------------- End Of Admin Contoller ---------------------- //
 
 
-  //-------------------- Profile Module Endpoints ------------------//
-<<<<<<< HEAD
+  // -------------------- Profile Module Endpoints ------------------//
 
   router.post(
     '/profile/VerifiedContributerRequest',
@@ -67,13 +66,9 @@ adminController.respondContentRequest
        profileController.Unlink
      );
 
-=======
-  router.post('/profile/VerifiedContributerRequest',profileController.requestUserValidation);
-  router.get('/profile/:parentId',profileController.getUserInfo);
-  router.put('/profile/LinkAnotherParent/:parentId',profileController.linkAnotherParent);
->>>>>>> 9b63741dce6a1db84514ee886ad7458d4b5a70da
+
 //  router.get('/profile/:userId/getChildren', profileController.getProduct);
-//------------------- End of Profile module Endpoints-----------//
+// ------------------- End of Profile module Endpoints-----------//
 
 
   // --------------Content Module Endpoints---------------------- //
