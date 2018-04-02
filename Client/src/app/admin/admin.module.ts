@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatListModule} from '@angular/material/list';
+import { MatCardModule, MatPaginatorModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -27,7 +28,9 @@ import {MatListModule} from '@angular/material/list';
     MatSelectModule,
     FormsModule,
     MatExpansionModule,
-    MatListModule
+    MatListModule,
+    MatCardModule,
+    MatPaginatorModule
   ],
   declarations: [AdminControlComponent,
     ViewContentRequestsComponent,

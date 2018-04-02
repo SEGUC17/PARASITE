@@ -46,6 +46,7 @@ module.exports = function (passport) {
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
   router.post('/activities', ActivityController.postActivity);
+  router.put('/unverifiedActivities'), ActivityController.reviewActivity;
 // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //

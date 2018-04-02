@@ -19,6 +19,7 @@ export class ActivityService {
   */
 
   private activitiesUrl = apiUrl + 'activities';
+  private unverifiedActivitiesUrl = apiUrl + 'unverifiedActivities';
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -49,6 +50,10 @@ export class ActivityService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  reviewActivity(activity: any): Observable<any> {
+    return this.http.put<any>(this.unverifiedActivitiesUrl,activity);
   }
 
 }

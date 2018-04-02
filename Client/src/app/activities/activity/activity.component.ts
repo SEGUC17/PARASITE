@@ -18,7 +18,7 @@ export class ActivityComponent implements OnInit {
   pageSize: Number;
   pageIndex: Number;
   canCreate: Boolean;
-  private createUrl = "/create-activity";
+  private createUrl = '/create-activity';
 
   constructor(private activityService: ActivityService) { }
 
@@ -38,7 +38,7 @@ export class ActivityComponent implements OnInit {
     }
     this.activityService.getActivities(page).subscribe(
       res => this.updateLayout(res)
-    )
+    );
   }
 
 
@@ -47,7 +47,7 @@ export class ActivityComponent implements OnInit {
       Setting new values comming from 
       the response
     */
-    document.querySelector(".mat-sidenav-content").scrollTop = 0;
+    document.querySelector('.mat-sidenav-content').scrollTop = 0;
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
@@ -55,7 +55,7 @@ export class ActivityComponent implements OnInit {
     this.canCreate = true;
     for (let activity of this.activities) {
       if (!activity.image) {
-        activity.image = "assets/images/activity-view/default-activity-image.jpg";
+        activity.image = 'assets/images/activity-view/default-activity-image.jpg';
       }
     }
   }
