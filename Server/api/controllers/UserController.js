@@ -57,8 +57,7 @@ module.exports.signIn = function (req, res, next) {
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
     console.log('entered the signUpChild method');
-    var userID = req.param.user;
-     User.findOneAndUpdate(userID, $set, { isParent: true });
+     req.params.user.isParent = true;
      console.log('Parent flag=' + req.user.isParent);
     //end if
 
