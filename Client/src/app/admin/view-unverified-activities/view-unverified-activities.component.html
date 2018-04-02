@@ -5,7 +5,7 @@
   (page)="pageEvent = getActivities($event)">
 </mat-paginator>
 <div id="creation" *ngIf="canCreate">
-    <a class="btn btn-primary" [hidden]="!user || !(user.isAdmin || user.verified)" href="{{createUrl}}">Create Activity</a> 
+    <a class="btn btn-primary" href="{{createUrl}}">Create Activity</a> 
 </div>
 <div class="activities-container">
   <mat-card *ngFor="let activity of activities" class="activity-card">
@@ -16,6 +16,7 @@
     <p class="time">From: {{ activity.fromDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
     <p class="time">To: {{ activity.toDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
     <p class="price">{{ activity.price | currency: 'EGP'}}</p>
+    <p><button (click)="acceptActivity('Accepted')">Accept</button> <button (click)="acceptActivity('Rejected')">Reject</button></p>
   </mat-card>
 
 </div>

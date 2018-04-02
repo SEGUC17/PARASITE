@@ -48,7 +48,8 @@ module.exports = function (passport) {
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
   router.post('/activities', ActivityController.postActivity);
-  // --------------------- End of Activity Controller ------------ //
+  router.put('/unverifiedActivities'), ActivityController.reviewActivity;
+// --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);

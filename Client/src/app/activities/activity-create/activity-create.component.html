@@ -1,22 +1,30 @@
 <mat-card class="activity-create">
-  <form class="activity-form">
+  <form class="activity-form" (ngSubmit)="createActivity()" #activityForm="ngForm">
     <mat-form-field>
-      <input matInput required placeholder="name">
+      <input matInput [(ngModel)]="activity.name" name="name" required placeholder="name">
     </mat-form-field>
-
-    <mat-form-field>
-      <textarea matInput placeholder="description"></textarea>
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput required type="integer" placeholder="price">
-    </mat-form-field>
-
-    <mat-form-field>
-      <input matInput required type="datetime-local" placeholder="from">
+    <mat-form-field class="meta-input" hintLabel="Enter the link of an image for the activity here.">
+      <mat-icon matPrefix>link</mat-icon>
+      <input matInput [(ngModel)]="activity.image" name="image" placeholder="Image link goes here">
     </mat-form-field>
     <mat-form-field>
-      <input matInput required type="datetime-local" placeholder="to">
+      <textarea matInput [(ngModel)]="activity.description" name="description" placeholder="description"></textarea>
     </mat-form-field>
+    <mat-form-field>
+      <input matInput [(ngModel)]="activity.price" name="price" required type="integer" placeholder="price">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [(ngModel)]="activity.fromDateN" name="fromDateN" required type="datetime-local" placeholder="from">
+    </mat-form-field>
+      <mat-form-field>
+      <input matInput [(ngModel)]="activity.toDateN" name="toDateN" required type="datetime-local" placeholder="to">
+    </mat-form-field>
+    <div 
+      [hidden]="!activity.toDateN || !activity.fromDateN || activity.toDateN > activity.fromDateN" 
+      class="alert alert-danger">
+      From date can't be after to date
+    </div>
+    <button mat-button type="submit"
+    [disabled]="!activityForm.form.valid || activity.toDateN <= activity.fromDateN">Submit</button>
   </form>
 </mat-card>
