@@ -27,7 +27,7 @@
         </div>
         <div class="row" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
           <mat-card *ngFor="let content of contents" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
-            <mat-card-header>
+            <mat-card-header *ngIf="content.creator">
               <div mat-card-avatar [ngStyle]="{'background-image':'url(' + content.creatorAvatarLink + ')'}" class="creator-avatar"></div>
               <mat-card-title>
                 <a [href]="content.creatorProfileLink">{{content.creator}}</a>
@@ -36,11 +36,11 @@
             </mat-card-header>
             <a routerLink="/content-view/{{content._id}}">
               <mat-card-content class="mt-2">
-                <img mat-card-image [src]="content.image" />
-                <p class="mat-typography">{{content.title}}</p>
+                <img *ngIf="content.image" mat-card-image [src]="content.image" />
+                <p *ngIf="content.title" class="mat-typography">{{content.title}}</p>
               </mat-card-content>
             </a>
-            <mat-card-footer>
+            <mat-card-footer *ngIf="content.tags">
               <mat-chip-list>
                 <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
                   {{tag}}
@@ -57,7 +57,7 @@
       <mat-tab *ngIf="this.authService.getUser().username" label="My Contributions">
         <div class="row" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
           <mat-card *ngFor="let content of myContributions" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
-            <mat-card-header>
+            <mat-card-header *ngIf="content.creator">
               <div mat-card-avatar [ngStyle]="{'background-image':'url(' + content.creatorAvatarLink + ')'}" class="creator-avatar"></div>
               <mat-card-title>
                 <a [href]="content.creatorProfileLink">
@@ -70,11 +70,11 @@
             </mat-card-header>
             <a routerLink="/content-view/{{content._id}}">
               <mat-card-content class="mt-2">
-                <img mat-card-image [src]="content.image" />
-                <p class="mat-typography">{{content.title}}</p>
+                <img mat-card-image *ngIf="content.image" [src]="content.image" />
+                <p *ngIf="content.title" class="mat-typography">{{content.title}}</p>
               </mat-card-content>
             </a>
-            <mat-card-footer>
+            <mat-card-footer *ngIf="content.tags">
               <mat-chip-list>
                 <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
                   {{tag}}

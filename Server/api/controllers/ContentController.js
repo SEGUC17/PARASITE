@@ -7,6 +7,21 @@ var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 
 module.exports.getContentPage = function (req, res, next) {
+    var valid = req.params.category && req.params.section &&
+        req.params.numberOfEntriesPerPage && req.params.pageNumber &&
+        typeof req.params.category === 'string' &&
+        typeof req.params.section === 'string' &&
+        !isNaN(req.params.numberOfEntriesPerPage) &&
+        !isNaN(req.params.pageNumber);
+
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required fields were missing or of wrong type.',
+            msg: null
+        });
+    }
+
     if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
         Content.paginate(
             {
@@ -77,6 +92,14 @@ module.exports.getContentPage = function (req, res, next) {
 
 module.exports.getContentById = function (req, res, next) {
 
+    if (!req.params.id) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required id was missing.',
+            msg: null
+        });
+    }
+
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(422).json({
             data: null,
@@ -111,6 +134,20 @@ module.exports.getContentById = function (req, res, next) {
 // must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
     console.log('Username: ' + req.user);
+
+    var valid = req.params.pageSize &&
+        req.params.pageNumber &&
+        !isNaN(req.params.pageNumber) &&
+        !isNaN(req.params.pageSize);
+
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required fields were missing or of wrong type.',
+            msg: null
+        });
+    }
+
     Content.paginate(
         { creator: req.user.username },
         {
@@ -314,3 +351,19 @@ module.exports.createSection = function (req, res, next) {
     );
 
 };
+module.exports.getContent = function (req, res, next) {
+    Content.find({}).
+        exec(function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+            console.log(contents);
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'Contents retrieved successfully.'
+            });
+        });
+};
+

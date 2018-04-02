@@ -74,8 +74,24 @@ module.exports = function (passport) {
 
   // -------------- Admin Contoller ---------------------- //
   router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
+<<<<<<< HEAD
+  router.get(
+    '/admin/PendingContentRequests/:type',
+    adminController.viewPendingContReqs
+  );
+  router.patch(
+    '/admin/RespondContentRequest/:ContentRequestId',
+    adminController.respondContentRequest
+  );
+  router.patch(
+    '/admin/RespondContentStatus/:ContentId',
+    adminController.respondContentStatus
+  );
+
+=======
   router.get('/admin/PendingContentRequests', adminController.viewPendingContReqs);
   router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
+>>>>>>> 245784afe30f56d3e84eddb84911a96f77e1ccf2
   // --------------End Of Admin Contoller ---------------------- //
 
 

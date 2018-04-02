@@ -11,9 +11,17 @@ const httpOptions = {
 
 
 export class AdminService {
+<<<<<<< HEAD
+private baseURL = 'http://localhost:3000/api/';
+private viewPendingContReqsURL = 'admin/PendingContentRequests/';
+private respondContentRequestURL = 'admin/RespondContentRequest/';
+private respondContentStatusURL = 'admin/RespondContentStatus/';
+private getContent = 'admin/getContent/';
+=======
   private baseURL = 'http://localhost:3000/api/';
   private viewPendingContReqsURL = 'admin/PendingContentRequests';
   private respondContentRequestURL = 'admin/RespondContentRequest/';
+>>>>>>> 245784afe30f56d3e84eddb84911a96f77e1ccf2
 
   constructor(private http: HttpClient) { }
 
@@ -22,6 +30,21 @@ export class AdminService {
     return 'Here are the requested Elements';
   }
 
+<<<<<<< HEAD
+    viewPendingContReqs(type): any {
+      return this.http.get<any> (this.baseURL + this.viewPendingContReqsURL + type);
+    }
+
+    respondContentRequest( response , id): any {
+      return this.http.patch<any> (this.baseURL + this.respondContentRequestURL + id , {str: response} );
+    }
+    modifyContentStatus(response , id: any): any {
+       return this.http.patch<any> (this.baseURL + this.respondContentStatusURL + id , {str: response});
+    }
+    getcontent(): any {
+      return this.http.get<any>(this.baseURL + this.getContent );
+    }
+=======
   viewPendingContReqs(): any {
     return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL);
   }
@@ -29,6 +52,7 @@ export class AdminService {
   respondContentRequest(response, id): any {
     return this.http.patch<any>(this.baseURL + this.respondContentRequestURL + id, { str: response });
   }
+>>>>>>> 245784afe30f56d3e84eddb84911a96f77e1ccf2
 
   // create a category for content (resrouces and ideas) to be classified into
   createCategory(category: any): Observable<any> {
