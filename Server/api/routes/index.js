@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable max-statements */
+
 var express = require('express');
 var router = express.Router();
 
@@ -5,16 +8,13 @@ var userController = require('../controllers/UserController');
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
-var studyPlanController = require('../controllers/StudyPlanController');
 var adminController = require('../controllers/AdminController');
-var scheduleController = require('../controllers/ScheduleController');
-
+var studyPlanController = require('../controllers/StudyPlanController');
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
   }
-
 
   return res.status(401).json({
     data: null,
@@ -28,13 +28,11 @@ var isNotAuthenticated = function (req, res, next) {
     return next();
   }
 
-
   return res.status(403).json({
     data: null,
     error: null,
     msg: 'User Is Already Signed In!'
   });
-
 };
 
 module.exports = function (passport) {
@@ -44,11 +42,12 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
-  // --------------------- Activity Contoller -------------------- //
+// --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
   router.post('/activities', ActivityController.postActivity);
-  // --------------------- End of Activity Controller ------------ //
+  router.put('/unverifiedActivities'), ActivityController.reviewActivity;
+// --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
@@ -78,12 +77,12 @@ module.exports = function (passport) {
   // -------------- Admin Contoller ---------------------- //
   router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
   router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
+// -------------- Admin Contoller ---------------------- //
+
   // --------------End Of Admin Contoller ---------------------- //
 
 
   //-------------------- Profile Module Endpoints ------------------//
-
-
   router.post(
     '/profile/VerifiedContributerRequest',
     profileController.requestUserValidation
@@ -96,18 +95,15 @@ module.exports = function (passport) {
   router.put('/profile/LinkAnotherParent/:parentId',profileController.linkAnotherParent);
 //  router.get('/profile/:userId/getChildren', profileController.getProduct);
 //------------------- End of Profile module Endpoints-----------//
+  // router.get(
+  //   '/profile/LinkAnotherParent/:parentID',
+  //   profileController.linkAnotherParent
+  // );
 
 
-  //  router.get('/profile/:userId/getChildren', profileController.getProduct);
+//  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
-
-  // ---------------Schedule Controller Endpoints ---------------//
-
-  router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
-  router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule); //check name of method in controller
-
-  // ------------End of Schedule Controller Endpoints -----------//
 
   // --------------Content Module Endpoints---------------------- //
   router.get(
@@ -124,3 +120,4 @@ module.exports = function (passport) {
 
   return router;
 };
+

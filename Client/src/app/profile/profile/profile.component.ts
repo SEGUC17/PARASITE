@@ -11,6 +11,7 @@ import { AuthService} from '../../auth/auth.service';
 export class ProfileComponent implements OnInit {
 
 
+
 // ---------- FLAGS --------------------
 // User Flags
 currIsOwner = false;
@@ -54,7 +55,6 @@ vId: any = '5ac0caaf1e46aabc13fec58c';
 // ------------------------------------
 listOfAllChildren: any[];
 listOfUncommonChildren: any[];
-
 
 
   constructor(private _ProfileService: ProfileService) { }

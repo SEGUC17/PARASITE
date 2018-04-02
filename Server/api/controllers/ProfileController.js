@@ -54,7 +54,7 @@ module.exports.requestUserValidation = function(req, res, next) {
     //     image: 'src of an image',
     //     creator: req.user._id
     // };
-   
+
     var reqObj = {
         status: 'pending',
         bio: 'machine learning, AI, Art, Music, Philosophy',

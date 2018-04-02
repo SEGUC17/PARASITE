@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AdminControlComponent } from './admin-control/admin-control.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
+import { ViewUnverifiedActivitiesComponent } from './view-unverified-activities/view-unverified-activities.component';
 import {
   ViewVerifiedContributerRequestsComponent
 } from './view-verified-contributer-requests/view-verified-contributer-requests.component';
@@ -16,8 +17,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
-import {MatCardModule} from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
 
+import { MatCardModule, MatPaginatorModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -31,14 +33,16 @@ import {MatCardModule} from '@angular/material/card';
     MatTabsModule,
     MatListModule,
     MatRadioModule,
-    MatCardModule
+    MatCardModule,
+    MatPaginatorModule,
+    MatExpansionModule
   ],
   declarations: [
     AdminControlComponent,
     ViewContentRequestsComponent,
     ViewVerifiedContributerRequestsComponent,
-    CategoryManagementComponent
-  ],
+    ViewUnverifiedActivitiesComponent,
+    CategoryManagementComponent],
   exports: [
     MatButtonModule,
     MatButtonToggleModule
