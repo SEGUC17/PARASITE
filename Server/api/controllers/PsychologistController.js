@@ -29,7 +29,7 @@ module.exports.addRequest = function (req, res, next) {
       msg: 'Request was created successfully.'
     });
   });
-}
+};
 
 module.exports.getRequests = function (req, res, next) {
   console.log('Got here');
@@ -48,7 +48,6 @@ module.exports.getRequests = function (req, res, next) {
 module.exports.evaluateRequest = function (req, res, next) {
   if (req.body.result) {
     console.log('Got here, True');
-    var newPsych;
 
     // Ensure the request still exists
     Request.findById(req.body._id).exec(function (err, psychReq) {
@@ -56,29 +55,31 @@ module.exports.evaluateRequest = function (req, res, next) {
         return next(err);
       }
       if (!psychReq) {
-        return res
-          .status(404)
-          .json({ err: null, msg: 'Request not found.', data: null });
+        return res.status(404).json({
+          data: null,
+          err: null,
+          msg: 'Request not found.'
+        });
       }
       // If found, make the newPsych to insert
-      newPsych = {
+      var newPsych = {
+        address: req.body.address,
+        daysOff: req.body.daysOff,
+        email: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         phone: req.body.phone,
-        address: req.body.address,
-        email: req.body.email,
-        daysOff: req.body.daysOff,
         priceRange: req.body.priceRange
       };
       // Delete the request
-      Request.deleteOne({ _id: req.body._id }, function (err, product) {
-        if (err) {
-          return next(err);
+      Request.deleteOne({ _id: req.body._id }, function (err1, product) {
+        if (err1) {
+          return next(err1);
         }
         // Insert the Psychologist
-        Psychologists.create(newPsych, function (err, product) {
-          if (err) {
-            return next(err);
+        Psychologists.create(newPsych, function (err2, prod) {
+          if (err2) {
+            return next(err2);
           }
           res.status(201).json({
             data: newPsych,
@@ -86,10 +87,9 @@ module.exports.evaluateRequest = function (req, res, next) {
             msg: 'Request accepted and psychologist added to database.'
           });
         });
-      })
+      });
     });
-  }
-  else {
+  } else {
     console.log(req.body._id);
 
     // Simply delete the request and notify the applicant
