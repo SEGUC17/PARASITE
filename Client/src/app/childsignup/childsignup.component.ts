@@ -49,7 +49,7 @@ export class ChildsignupComponent implements OnInit {
       this.User = { 'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
       'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone, 'address': this.Address};
       const self = this;
-      self.authService.signUp(this.User).subscribe(function (res) {
+      self.authService.childSignUp(this.User).subscribe(function (res) {
         self.authService.setUser(res.data);
         console.log(this.authService.getUser());
       });
