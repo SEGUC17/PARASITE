@@ -24,7 +24,7 @@ getUserInfo(username: String): Observable<any> {
 private linkAnotherParentUrl = 'http://localhost:3000/api/profile/LinkAnotherParent/'
 linkAnotherParent(children, vId): Observable<any>{
   return this.http.put<any>(`${this.linkAnotherParentUrl}/${vId}`, children, httpOptions);
-  
+//why is it put not patch  
 }
 
 
@@ -34,11 +34,14 @@ Unlink(childrenList,Id): Observable<any>{
   
 }
 
+
 private linkAsParentUrl = 'http://localhost:3000/api/profile/LinkAsParent/'
-linkAsParent (vChildrenList,vId): Observable<any>{
-return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`,vChildrenList,httpOptions);
+linkAsParent (child,vId): Observable<any>{
+return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`,child,httpOptions);
 }
 //------------------------------------------------------------------------
+
+// ------------------------------------------------------------------------
 
 
 // --------Sending Contributer Validation Request --------- AUTHOR: Maher
@@ -46,6 +49,11 @@ return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`,vChildrenList,httpO
     // TODO: Send an HTTP POST for the request (Maher).
     console.log('the Request is sent el mafrood AUTHOR: Maher');
     return this.http.post('http://localhost:3000/api/profile/VerifiedContributerRequest', 'maherUSERNAME');
+  }
+
+  changePassword(oldpw, newpw): Observable<any> {
+    return this.http.patch<any> (oldpw, newpw);
+
   }
 
 }

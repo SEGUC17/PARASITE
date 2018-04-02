@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../profile.service';
+import { AuthService} from '../../auth/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -10,8 +11,8 @@ import { ProfileService } from '../profile.service';
 export class ProfileComponent implements OnInit {
 
 
-//---------- FLAGS --------------------
-//User Flags
+// ---------- FLAGS --------------------
+// User Flags
 currIsOwner = false;
 currIsParent = false;
 currIsChild = false;
@@ -21,15 +22,18 @@ visitedIsParent = false;
 visitedIsChild = false;
 VisitedIsIndependent = false;
 
-//Tab Navigation Flags
+// Tab Navigation Flags
 pInfo = true;
 children = false;
 plan = false;
 sched = false;
 
-//------------------------------------
+// ------------------------------------
+
 
 //---------- Current User Info ---------------
+
+// ---------- Current User Info ---------------
 Name: String = 'Fulan el Fulany';
 Username: String;
 Age: Number;
@@ -41,6 +45,10 @@ listOfChildren: any[] = ['Ahmed', 'Gannah', 'Mahmoud'];
 id: any;
 //-------------------------------------
 //---------Visited User Info-----------
+
+
+// -------------------------------------
+// ---------Visited User Info-----------
 vName: String = 'Fulan el Fulany';
 vUsername: String;
 vAge: Number;
@@ -51,6 +59,9 @@ vBirthday: Date;
 vlistOfChildren: any[] = ['Ahmed', 'Mariam','Rahma'];
 vId: any = '5ac0caaf1e46aabc13fec58c';
 //------------------------------------
+
+
+// ------------------------------------
 listOfAllChildren: any[];
 listOfUncommonChildren: any[];
 
@@ -59,8 +70,8 @@ listOfUncommonChildren: any[];
   constructor(private _ProfileService: ProfileService) { }
 
   ngOnInit() {
-    //this.listOfAllChildren = this.listOfChildren.concat(this.vlistOfChildren);
-    this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
+    // this.listOfAllChildren = this.listOfChildren.concat(this.vlistOfChildren);
+    // this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
   }
 
   requestContributerValidation() {
@@ -74,6 +85,7 @@ listOfUncommonChildren: any[];
 
   }
 
+
   viewChildren(): void{
     document.getElementById('UnlinkChildren').classList.toggle('show'); 
   }
@@ -84,8 +96,14 @@ listOfUncommonChildren: any[];
   }
 
   linkToParent(child):void{-
-    this.vlistOfChildren.push(child);
-    this._ProfileService.linkAsParent(this.vlistOfChildren,this.vId).subscribe();
+    //this.vlistOfChildren.push(child);
+    this._ProfileService.linkAsParent(child,this.vId).subscribe();
+
+    // this._ProfileService.linkAsParent(this.vlistOfChildren).subscribe();
+  }
+
+  changePassword(oldpw, newpw: any) :void{
+    this._ProfileService.changePassword(oldpw, newpw).subscribe();
   }
 
 }

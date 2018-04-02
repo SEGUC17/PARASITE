@@ -70,7 +70,7 @@ module.exports.getUserInfo = function(req, res, next) {
 
   module.exports.linkAnotherParent = function(req, res, next) {
 
- 
+
     var id = req.params.parentId;
     User.findOne({_id: id}, function(err, user){
       if(err){
@@ -82,6 +82,7 @@ module.exports.getUserInfo = function(req, res, next) {
           } else {
               if(req.body){
                 user.children = req.body.children
+               // user.children.push(child);
               }
 
               user.save(function(err, updatedUser){
@@ -90,12 +91,13 @@ module.exports.getUserInfo = function(req, res, next) {
                   res.status(500).send();
                 } else {
                   res.send(updatedUser);
+                  user.isParent= true;
                 }
               });
             }
       }
-        })
 
+        })
 };
 
   module.exports.Unlink = function(req, res, next) {
@@ -111,11 +113,15 @@ module.exports.getUserInfo = function(req, res, next) {
         data: unlink
       });
     });
+   if(user.children.length==0)
+      user.isParent=false;
+  //user.children.add(child);
   };
 
 
+
   module.exports.linkAsParent=function(req,res,next){
-    User.findByIdAndUpdate(req.params.userId ,  $set , { children : req.body.children }
+  /*  User.findByIdAndUpdate(req.params.userId ,  $set , { children : req.body.children }
     ).exec(function(err, unlink) {
        if (err) {
          return next(err);
@@ -126,6 +132,35 @@ module.exports.getUserInfo = function(req, res, next) {
          msg: 'Your children list was updated successfully.',
          data: unlink
        });
-     });
+     });*/
 
-  }
+
+     User.findOne({_id: req.params.userId}, function(err, user){
+      if(err){
+        console.log(err);
+        res.status(500).send();
+      } else {
+          if(!user){
+            res.status(404).send();
+          } else {
+              if(req.body){
+                user.children.push(child);
+                //= req.body.children
+              }
+
+              user.save(function(err, updatedUser){
+                if(err){
+                  console.log(err);
+                  res.status(500).send();
+                } else {
+                  res.send(updatedUser);
+                  user.isParent= true;
+                }
+              });
+            }
+      }
+
+        })
+
+
+    };
