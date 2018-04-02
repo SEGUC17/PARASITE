@@ -47,6 +47,9 @@ export class StudyPlanComponent implements OnInit {
   type: String;
   _id: String;
   // end of routing parameters
+  rating = 0;
+  starCount = 5;
+  starColor = 'primary';
   studyPlan: StudyPlan;
   description: String;
   view = 'month';
@@ -147,6 +150,11 @@ export class StudyPlanComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
+  }
+
+  onRatingChanged(rating) {
+    console.log(rating);
+    this.rating = rating;
   }
 
   publish(): void {

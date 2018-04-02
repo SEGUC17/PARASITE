@@ -17,6 +17,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 import {
   NgbDatepickerModule,
   NgbTimepickerModule
@@ -24,6 +27,7 @@ import {
 import { StudyPlanListViewComponent } from './study-plan/study-plan-list-view/study-plan-list-view.component';
 import { PublishedStudyPlansComponent } from './study-plan/published-study-plans/published-study-plans.component';
 import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/study-plan-edit-view.component';
+import { StarRatingComponent } from './study-plan/star-rating/star-rating.component';
 
 
 
@@ -42,7 +46,10 @@ import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/st
     NgbTimepickerModule.forRoot(),
     QuillEditorModule,
     MatDividerModule,
-    MatInputModule
+    MatInputModule,
+    MatTooltipModule,
+    MatIconModule,
+    MatSnackBarModule
   ],
   declarations: [
     ScheduleComponent,
@@ -51,7 +58,8 @@ import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/st
     DateTimePickerComponent,
     StudyPlanListViewComponent,
     PublishedStudyPlansComponent,
-    StudyPlanEditViewComponent
+    StudyPlanEditViewComponent,
+    StarRatingComponent
   ],
   providers: [StudyPlanService, ScheduleService]
 })

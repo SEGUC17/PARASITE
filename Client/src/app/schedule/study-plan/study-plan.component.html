@@ -1,6 +1,16 @@
 <div class="container">
   <mat-card>
-    <mat-card-title>{{ studyPlan.title }}</mat-card-title>
+
+      <mat-card-title>{{ studyPlan.title }}
+        <app-star-rating 
+          [rating]="rating"  
+          [starCount]="starCount" 
+          [color]="starColor" 
+          (ratingUpdated)="onRatingChanged($event)"
+          style="float: right;">
+        </app-star-rating>
+      </mat-card-title>
+
     <br />
     <app-calendar-header
       [(view)]="view"
