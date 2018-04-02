@@ -37,7 +37,7 @@ Email: String;
 Address: String;
 Phone: String;
 Birthday: Date;
-listOfChildren: any[] = ["Ahmed", "Gannah", "Mahmoud"];
+listOfChildren: any[];
 id: any;
 //-------------------------------------
 //---------Visited User Info-----------
@@ -48,7 +48,7 @@ vEmail: String;
 vAddress: String;
 vPhone: String;
 vBirthday: Date;
-vlistOfChildren: any[] = ["Ahmed", "Mariam","Rahma"];
+vlistOfChildren: any[];
 vId: any = "5ac0caaf1e46aabc13fec58c";
 //------------------------------------
 listOfAllChildren: any[];
@@ -60,7 +60,7 @@ listOfUncommonChildren: any[];
 
   ngOnInit() {
     //this.listOfAllChildren = this.listOfChildren.concat(this.vlistOfChildren);
-    this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
+    //this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
   }
 
   requestContributerValidation() {
@@ -73,11 +73,6 @@ listOfUncommonChildren: any[];
     this._ProfileService.linkAnotherParent(this.vlistOfChildren,this.vId).subscribe();
 
   }
-
-  viewChildren(): void{
-    document.getElementById("UnlinkChildren").classList.toggle("show"); 
-  }
-
   removeChild(child): void{
     this.listOfChildren.splice(this.listOfChildren.indexOf(child) , 1);
     this._ProfileService.Unlink(this.listOfChildren).subscribe();

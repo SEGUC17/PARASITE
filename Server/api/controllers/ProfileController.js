@@ -69,10 +69,7 @@ module.exports.getUserInfo = function(req, res, next) {
 
 
   module.exports.linkAnotherParent = function(req, res, next) {
-<<<<<<< HEAD
- 
-=======
->>>>>>> 9b63741dce6a1db84514ee886ad7458d4b5a70da
+
     var id = req.params.parentId;
     User.findOne({_id: id}, function(err, user){
       if(err){
@@ -97,7 +94,6 @@ module.exports.getUserInfo = function(req, res, next) {
             }
       }
     })
-<<<<<<< HEAD
 };
 
   module.exports.Unlink = function(req, res, next) {
@@ -114,6 +110,5 @@ module.exports.getUserInfo = function(req, res, next) {
       });
     });
 
-=======
->>>>>>> 9b63741dce6a1db84514ee886ad7458d4b5a70da
+
   };

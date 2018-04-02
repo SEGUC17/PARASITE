@@ -13,7 +13,7 @@
       <button mat-raised-button style="margin-left: 40px">Direct Message</button>
 
       <div class = "RightSideBtns">
-          <button mat-raised-button id="btnRequestContributerValidation"  (click)="requestContributerValidation()">Make me a verified contributor</button>
+          <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "true" (click)="requestContributerValidation()">Make me a verified contributor</button>
           <button mat-raised-button id="linkToParent" *ngIf = "true" (click)= "linkToParent()">Add as a parent</button>
           <span class="dropdown" *ngIf = "true">
             <button mat-raised-button [matMenuTriggerFor]="menu" id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
@@ -24,13 +24,6 @@
               </mat-menu>
           </span> 
           <button mat-raised-button >Make Independent</button>
-          <span class="dropdown" *ngIf = "true">
-              <button mat-raised-button id = "unlink" (click)="viewChildren()">Unlink</button>
-              <tr *ngFor = "let child of listOfChildren" id="UnlinkChildren" class = dropdown-content >
-                <td>{{child}}</td>
-                <td><button class = "myButton" (click)="removeChild(child)"><i class="fa fa-plus"></i></button></td>
-              </tr>
-            </span> 
       </div>
     </div>
     <br>
