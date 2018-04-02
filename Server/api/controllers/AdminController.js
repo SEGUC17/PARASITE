@@ -1,4 +1,4 @@
-/* eslint no-underscore-dangle: ["error", {"allow" : ["_id"]}] */
+/* eslint no-underscore-dangle: ["error", {"allow" : ["_id" , "_now"]}] */
 var dateTime = require('node-datetime');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/nawwar');
@@ -7,13 +7,29 @@ var VCR = require('../models/VerifiedContributerRequest');
 var Content = mongoose.model('Content');
 var User = mongoose.model('User');
 mongoose.set('debug', true);
+User = mongoose.model('User');
 
+
+//ISAdmin?
 module.exports.viewPendingContReqs = function (req, res, next) {
-    console.log(req.params.type);
+    var currUser = req.user;
+    console.log('my user name is: ' + req.user.username);
+    console.log('Am I an admin ' + req.user.isAdmin);
+
     ContentRequest.find({}).
         exec(function (err, contentRequests) {
             if (err) {
                 return next(err);
+            }
+            if (!(req.user.isAdmin)) {
+                console.log(req.user.isAdmin);
+
+                return res.status(403).json({
+                    data: null,
+                    err: 'Unauthorized action',
+                    msg: null
+
+                });
             }
             var pendingContentRequests = contentRequests.
                 filter(function (pending) {
@@ -38,8 +54,9 @@ module.exports.getVCRs = function (req, res, next) {
         msg: 'VCRs retrieved successfully.'
     });
 };
-
+//ISAdmn?
 module.exports.respondContentRequest = function (req, res, next) {
+
     ContentRequest.findByIdAndUpdate(
         req.params.ContentRequestId,
         {
@@ -51,10 +68,25 @@ module.exports.respondContentRequest = function (req, res, next) {
 },
         { new: true },
         function (err, updatedcontentrequest) {
+            if (!mongoose.Types.ObjectId.isValid(req.params.ContentRequestId)) {
+                return res.status(422).json({
+                    data: null,
+                    err: 'The Content Id is not valid.',
+                    msg: null
+                });
+            }
             if (err) {
                 console.log('cannot ' + req.body.str);
 
                 return next(err);
+            }
+            if (!(req.user.isAdmin)) {
+                return res.status(403).json({
+                    data: null,
+                    err: 'Unauthorized action',
+                    msg: null
+
+                });
             }
 
             if (!updatedcontentrequest) {
@@ -74,9 +106,10 @@ module.exports.respondContentRequest = function (req, res, next) {
         }
     );
 };
+//ISAdmn?
 
 module.exports.respondContentStatus = function (req, res, next) {
-    console.log('this is my contentID in params: ' + req.params.ContentId);
+
     Content.findByIdAndUpdate(
          req.params.ContentId,
         {
@@ -87,11 +120,27 @@ module.exports.respondContentStatus = function (req, res, next) {
     },
         { new: true },
         function (err, updatedContent) {
+            if (!mongoose.Types.ObjectId.isValid(req.params.ContentId)) {
+                return res.status(422).json({
+                    data: null,
+                    err: 'The Content Id is not valid.',
+                    msg: null
+                });
+            }
             if (err) {
                 console.log('cannot set it to' + req.body.str);
 
                 return next(err);
             }
+            if (!(req.user.isAdmin)) {
+                return res.status(403).json({
+                    data: null,
+                    err: 'Unauthorized action',
+                    msg: null
+
+                });
+            }
+
 
             if (!updatedContent) {
                 return res.status(404).json({
@@ -100,7 +149,6 @@ module.exports.respondContentStatus = function (req, res, next) {
                     msg: null
                 });
             }
-            console.log(updatedContent);
 
             return res.status(200).json({
                 data: updatedContent,
