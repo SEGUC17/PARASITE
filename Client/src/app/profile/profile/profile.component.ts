@@ -65,7 +65,19 @@ listOfUncommonChildren: any[];
   }
 
   requestContributerValidation() {
-    console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
+    // let obj = {
+    //   status: 'pending',
+    //     bio: 'machine learning, AI, Art, Music, Philosophy',
+    //     name: 'Ahmed Khaled',
+    //     AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
+    //     ProfileLink: 'profilemaher.com',
+    //     image: 'imageMaher.com',
+    //     creator: '5ac12591a813a63e419ebce5'
+    // }
+    this._ProfileService.makeContributerValidationRequest({}
+     ).subscribe(function(res) {
+      console.log(res);
+    });
   }
 
   addChild(child): void {

@@ -3,9 +3,10 @@ User = mongoose.model('User');
 moment = require('moment'),
 Validations = require('../utils/validators'),
 User = mongoose.model('User');
-//VCRSchema = mongoose.model('VerifiedContributerRequest');
-VCRSchema = require('../models/VerifiedContributerRequest');
+VCRSchema = mongoose.model('VerifiedContributerRequest');
+// VCRSchema = require('../models/VerifiedContributerRequest');
 adminController = require('./AdminController');
+mongoose.set('debug', true);
 
 
 
@@ -33,21 +34,56 @@ module.exports.getChildren = function (req, res, next) {
 };
  
 module.exports.requestUserValidation = function(req, res, next) {
+    // var status = "";
+    // if (req.user.isParent) {
+    //     status = 'Parent';
+    // }
+    // if(req.user.isChild){
+    //     status = 'Child';
+    // }
+    // if (req.user.isTeacher) {
+    //     status = 'Teacher';
+    // }
 
-  const newRequest = {
-    status:'pending',
-    bio: 'hello world bio',
-    name: 'maher',
-    AvatarLink: 'maher.com',
-    ProfileLink: 'profilemaher.com',
-    image: 'imageMaher.com',
-  };
-    console.log('inside profile controller before calling createVCR');
-
-  VCRSchema.createVCR(newRequest);
-
-    console.log('inside profile controller and finishing');
-
+    // var reqObj = {
+    //     status: 'pending',
+    //     bio: status +', @'+req.user.username + ',\n' + req.user.email + ', Number of Children : '+ req.user.children.length,
+    //     name: req.user.firstName + ' ' + req.user.lastName,
+    //     AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
+    //     ProfileLink: 'localhost:4200/profile/'+ req.user.username,
+    //     image: 'src of an image',
+    //     creator: req.user._id
+    // };
+   
+    var reqObj = {
+        status: 'pending',
+        bio: 'machine learning, AI, Art, Music, Philosophy',
+        name: 'Ahmed Khaled',
+        AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
+        ProfileLink: 'profilemaher.com',
+        image: 'imageMaher.com',
+        creator: '5ac12591a813a63e419ebce5'
+    }
+  VCRSchema.create(reqObj, function (err, next) {
+   if (err) {
+       console.log('duplicate key');
+       if(err.message.startsWith('E11000 duplicate key error')){
+           return res.status(333).json({
+               err: null,
+               msg: 'the request already submitted',
+               data: null
+           });
+       }
+       else {
+           console.log('passing error to next');
+           next(err);
+       }
+      res.status(200).json({
+          err: null,
+          msg: 'the request is submitted',
+          data: null
+      })
+   }});
 };
 
 

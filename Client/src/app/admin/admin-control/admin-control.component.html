@@ -1,21 +1,21 @@
-<p>
-  admin-control works!
-<br/><br/>
+<html>
+<head>
+  <title>Admin Page</title>
+</head>
+<body>
 
-<button (click)="viewVCRequests()"  mat-raised-button>View Verified Contributer requests</button>
-<app-view-verified-contributer-requests [hidden]="hideVCRequest == 1" ></app-view-verified-contributer-requests>
-<br/><br/>
 
-<mat-button-toggle
-   (click)="goToResIReq()">
-   Content Requests
-</mat-button-toggle>
 
-<br/>
-<app-view-content-requests
-  [hidden]="hideContentReqs ==1 " >
-</app-view-content-requests>
-<br/><br/>
-</p>
+<mat-tab-group id="tabGroub">
+  <mat-tab label="Verfied Contributer Requests">
+    <app-view-verified-contributer-requests id="VCRcomponent"></app-view-verified-contributer-requests>
+  </mat-tab>
+  <mat-tab label="Content Requests">
+    <app-view-content-requests></app-view-content-requests>
+  </mat-tab>
+</mat-tab-group>
 
+
+</body>
+</html>
 

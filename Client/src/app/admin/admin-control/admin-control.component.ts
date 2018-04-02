@@ -32,7 +32,6 @@ export class AdminControlComponent implements OnInit {
   viewVCRequests() {
     console.log('gonna hide the component');
     this.hideVCRequest = 1 - this.hideVCRequest;  // changing the visibility of the component
-
   }
 }
 

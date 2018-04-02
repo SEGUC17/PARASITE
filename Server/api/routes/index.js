@@ -74,9 +74,10 @@ module.exports = function (passport) {
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
-  router.get('/admin/PendingContentRequests', adminController.viewPendingContReqs);
   router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
+  // -------------- Admin Contoller ---------------------- //
+  router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
+  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
   // --------------End Of Admin Contoller ---------------------- //
 
 
@@ -91,7 +92,6 @@ module.exports = function (passport) {
     '/profile/:username',
     profileController.getUserInfo
   );
-  router.post('/profile/VerifiedContributerRequest',profileController.requestUserValidation);
   router.get('/profile/:parentId',profileController.getUserInfo);
   router.put('/profile/LinkAnotherParent/:parentId',profileController.linkAnotherParent);
 //  router.get('/profile/:userId/getChildren', profileController.getProduct);
