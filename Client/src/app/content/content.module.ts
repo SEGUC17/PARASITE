@@ -15,8 +15,15 @@ import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import { ContentService } from './content.service';
 import { ContentViewComponent } from './content-view/content-view.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { SafeResourceUrlPipe } from './safe-resource-url.pipe';
+import { SafeHtmlPipe } from './safe-html.pipe';
+import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
+import { AdminModule } from '../admin/admin.module';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -33,9 +40,13 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatCardModule,
     MatChipsModule,
     MatPaginatorModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSidenavModule,
+    MatExpansionModule,
+    MatSelectModule,
+    AdminModule
   ],
   providers: [ContentService],
-  declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent]
+  declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent, SafeResourceUrlPipe, SafeHtmlPipe]
 })
 export class ContentModule { }

@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
         self.authService.setUser(res.data);
       });
     }
-
+    //self.location.back();
   }//end method
 
 
