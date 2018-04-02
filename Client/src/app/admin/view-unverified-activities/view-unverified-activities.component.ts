@@ -59,12 +59,14 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
       }
     }
   }
-  acceptActivity(): void {
-    
+  acceptActivity(activity :Activity): void {
+    activity.status = 'Accepted';
+    this.activityService.reviewActivity(activity).subscribe();
   }
 
-  rejectActivity(): void {
-
+  rejectActivity(activity :Activity): void {
+    activity.status = 'Rejected';
+    this.activityService.reviewActivity(activity).subscribe();
   }
 
 }
