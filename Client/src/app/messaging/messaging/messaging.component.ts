@@ -51,6 +51,13 @@ export class MessagingComponent implements OnInit {
        });
     }
 
+   deleteMessage(event): void {
+     this.messageService.deleteMessage(event.data._id).subscribe(function(res) {
+      event.confirm.resolve();
+    });
+    console.log('DELETED!');
+   }
+
     getSent(): void {
       const self = this;
       this.messageService.getSent('sarah').subscribe(function(msgs) {
