@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductRequestsService } from './product-requests.service';
 import { CurrencyPipe } from '@angular/common';
+import { AuthService } from '../../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-product-requests',
@@ -10,14 +12,25 @@ import { CurrencyPipe } from '@angular/common';
 export class ViewProductRequestsComponent implements OnInit {
 
   requests: any[] = [];
+  currentUser: any;
 
-  constructor(private services: ProductRequestsService) {
+  constructor(private services: ProductRequestsService,
+    private authService: AuthService,
+    private router: Router) {
+
     let self = this;
-    this.services.getProductRequests().subscribe(function (res) {
-      if (res.msg === 'Requests retrieved successfully.') {
-        self.requests = res.data;
-      }
-    });
+
+    this.currentUser = this.authService.getUser();
+
+    if (this.currentUser.isAdmin) {
+      this.services.getProductRequests().subscribe(function (res) {
+        if (res.msg === 'Requests retrieved successfully.') {
+          self.requests = res.data;
+        }
+      });
+    } else {
+      this.router.navigateByUrl('/');
+    }
   }
 
   ngOnInit() {
