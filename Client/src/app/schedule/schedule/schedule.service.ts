@@ -16,7 +16,8 @@ getPersonalSchedule(username: String): Observable<any> {
 
 
   saveScheduleChanges(username: String, schedule: CalendarEvent[] ) {
-    return this.http.patch(this.endpoint + 'schedule/saveScheduleChanges/' + username, schedule);
+    console.log('service entered');
+    return this.http.patch(this.endpoint + 'schedule/SaveScheduleChanges/' + username, schedule);
     // TODO: To be implemented in backend by Omar Elsebai
   }
 

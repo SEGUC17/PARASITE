@@ -4,8 +4,9 @@ var CalendarEvent = mongoose.model('CalendarEvent'),
 
 module.exports.getPersonalSchedule = function (req, res, next) {
     User.findOne({ username: req.params.username }, function (err, user) {
-        if (err)
+        if (err) {
             return next(err);
+        }
 
         return res.status(200).json({
             data: user.schedule,
@@ -16,6 +17,7 @@ module.exports.getPersonalSchedule = function (req, res, next) {
 };
 
     module.exports.updateSchedule = function (req, res, next) {
+        console.log('Entered Service');
         User.findOneAndUpdate(
             { username: req.params.username },
              { $set: { 'schedule': req.body } },

@@ -46,6 +46,18 @@ export class ScheduleComponent implements OnInit {
   eventsInitial: CalendarEvent[] = [];
   activeDayIsOpen: Boolean = true;
   refresh: Subject<any> = new Subject();
+  // NOTE: When integrated into profile, @Inputs will replace these values.
+  // @Input() loggedInUser;
+  // @Input() profileUser;
+  loggedInUser = {
+    children: [],
+    isParent: true,
+    isTeacher: false,
+    isAdmin: false,
+    isChild: false,
+    username: 'alby',
+  };
+  profileUser = 'alby';
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -76,15 +88,7 @@ export class ScheduleComponent implements OnInit {
 
   constructor(private scheduleService: ScheduleService) { }
   // FIXME: Temporary Constant
-  thisUser = {
-    children: [],
-    isParent: true,
-    isTeacher: false,
-    isAdmin: false,
-    username: 'alby',
-  };
 
-  targetUser = 'alby';
 
 
 
@@ -270,14 +274,14 @@ export class ScheduleComponent implements OnInit {
 
   createEvent(title: string, start: Date, end: Date) {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
-    if (this.thisUser.isParent) {
+    if (!(this.loggedInUser.isChild)) {
       const newEvent = {
         title: title,
         start: start,
         end: end
       };
-      const indexChild = this.thisUser.children.indexOf(this.targetUser);
-      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+      const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
+      if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
         this.events.push(newEvent);
       }
     }
@@ -286,18 +290,18 @@ export class ScheduleComponent implements OnInit {
 
   editEvent(oldEvent: CalendarEvent, title: string, start: Date, end: Date) {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
-    if (this.thisUser.isParent) {
+    if (!(this.loggedInUser.isChild)) {
       const newEvent = {
         title: title,
         start: start,
         end: end
       };
-      const indexChild = this.thisUser.children.indexOf(this.targetUser);
+      const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
       const index = this.events.indexOf(oldEvent);
       if (index === -1) {
         return; // Error: Event not found
       }
-      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+      if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
         this.events.splice(index, 1);
         this.createEvent(title, start, end);
       }
@@ -307,14 +311,14 @@ export class ScheduleComponent implements OnInit {
 
   deleteEvent(event: CalendarEvent) {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
-    if (this.thisUser.isParent) {
-      const indexChild = this.thisUser.children.indexOf(this.targetUser);
+    if (!(this.loggedInUser.isChild)) {
+      const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
       const index = this.events.indexOf(event);
       if (index === -1) {
         return;
       }
       // Error: Event not found
-      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
+      if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
         this.events.splice(index, 1);
       }
     }
@@ -325,9 +329,9 @@ export class ScheduleComponent implements OnInit {
     // FIXME: To be modified for obtaining logged in user's data and profile owner's username
     // TODO: To be implemented in backend
     if (!this.isUnchanged()) {
-      const indexChild = this.thisUser.children.indexOf(this.targetUser);
-      if ((this.targetUser === this.thisUser.username) || (this.thisUser.isParent && indexChild !== -1)) {
-        this.scheduleService.saveScheduleChanges(this.targetUser, this.events);
+      const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
+      if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
+        this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
       }
       this.refresh.next();
       this.eventsInitial = [];
