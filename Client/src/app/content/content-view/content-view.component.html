@@ -1,7 +1,11 @@
-<button mat-raised-button color="primary">Edit</button>
-<button mat-raised-button color="primary">Delete</button>
-<button mat-raised-button color="primary" (click)="respondContentRequest('approved')">Approve</button>
-<button mat-raised-button color="warn" (click)="respondContentRequest('disapproved')">Reject</button>
+<div class="row">
+    <div class="col" align="center">
+        <button mat-raised-button color="primary">Edit</button>
+        <button mat-raised-button color="primary">Delete</button>
+        <button mat-raised-button color="primary" (click)="respondContentRequest('approved')">Approve</button>
+        <button mat-raised-button color="warn" (click)="respondContentRequest('disapproved')">Reject</button>
+    </div>
+</div>
 <div class="container">
     <div *ngIf="content">
         <button mat-raised-button color="primary" *ngIf="content.status">{{content.status}}</button>
