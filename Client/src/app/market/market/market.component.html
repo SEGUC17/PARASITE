@@ -40,7 +40,7 @@
     </mat-card>
 
     <div class="paginator">
-      <mat-paginator [length]="numberOfProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChange($event)">
+      <mat-paginator [length]="numberOfProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChangeMarket($event)">
       </mat-paginator>
     </div>
   </mat-tab>
@@ -65,7 +65,7 @@
     </mat-card>
 
     <div class="paginator">
-      <mat-paginator [length]="numberOfUserProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChange($event)">
+      <mat-paginator [length]="numberOfUserProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChangeMyItems($event)">
       </mat-paginator>
     </div>
   </mat-tab>

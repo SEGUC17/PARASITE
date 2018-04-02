@@ -53,7 +53,8 @@ export class CreateProductComponent {
         this.marketService.createProduct(pro).subscribe(function (res) {
           if (res.msg === 'Product was created successfully.') {
             alert('Product added successfully');
-            this.data.market.products.push(pro);
+            this.data.market.getPage();
+            this.data.market.getUserPage();
             self.dialogRef.close();
           }
         });

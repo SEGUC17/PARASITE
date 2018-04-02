@@ -9,6 +9,7 @@ import { ProductDetailComponent } from '../product-detail/product-detail.compone
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CreateProductComponent } from '../create-product/create-product.component';
+import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
@@ -16,9 +17,7 @@ import { CreateProductComponent } from '../create-product/create-product.compone
 })
 export class MarketComponent implements OnInit {
 
-  user: any = {
-    _id: '7ad1'
-  };
+  user: any;
   products: Product[];
   currentPageNumber: number;
   entriesPerPage = 15;
@@ -30,12 +29,14 @@ export class MarketComponent implements OnInit {
   userItemsCurrentPage: number;
 
   constructor(public dialog: MatDialog, public router: Router,
-    private marketService: MarketService, @Inject(DOCUMENT) private document: Document) { }
+    private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
-    if (!this.user) {
+    this.user = this.authService.getUser();
+    if (!this.user._id) {
       this.router.navigate(['/']);
     }
+    console.log(this.user);
     this.userItemsCurrentPage = 1;
     this.currentPageNumber = 1;
     this.firstPage();
@@ -120,17 +121,16 @@ export class MarketComponent implements OnInit {
     this.firstPage();
   }
   tabChanged(event): void {
-    if (event.tab.textLabel === 'My items' && !this.userItems) {
+    if (event.tab.label === 'My items' && !this.userItems) {
       this.firstUserPage();
     }
   }
-  onPaginateChange(event): void {
-    if (event.tab.textLabel === 'My items') {
-      this.userItemsCurrentPage = event.pageIndex + 1;
-      this.getUserPage();
-    } else {
+  onPaginateChangeMarket(event): void {
       this.currentPageNumber = event.pageIndex + 1;
       this.getPage();
-    }
+  }
+  onPaginateChangeMyItems(event): void {
+    this.userItemsCurrentPage = event.pageIndex + 1;
+      this.getUserPage();
   }
 }
