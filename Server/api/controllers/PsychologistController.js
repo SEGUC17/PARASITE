@@ -1,9 +1,9 @@
-/* eslint-disable */
-var mongoose = require('mongoose'),
-  moment = require('moment'),
-  Validations = require('../utils/validators'),
-  Request = mongoose.model('PsychologistRequest'),
-  Psychologists = mongoose.model('Psychologist');
+
+var mongoose = require('mongoose');
+var moment = require('moment');
+var Validations = require('../utils/validators');
+var Request = mongoose.model('PsychologistRequest');
+var Psychologists = mongoose.model('Psychologist');
 
 module.exports.addRequest = function (req, res, next) {
   var valid =
@@ -12,34 +12,24 @@ module.exports.addRequest = function (req, res, next) {
     req.body.email;
   if (!valid) {
     return res.status(422).json({
+      data: null,
       err: null,
-      msg: 'firstName(String) lastName(String) and email(String) are required fields.',
-      data: null
+      msg: 'firstName(String) lastName(String) and email(String)' +
+        ' are required fields.'
     });
   }
+
   Request.create(req.body, function (err, request) {
     if (err) {
       return next(err);
     }
     res.status(201).json({
+      data: request,
       err: null,
-      msg: 'Request was created successfully.',
-      data: request
+      msg: 'Request was created successfully.'
     });
   });
 }
-
-module.exports.getPsychologists = function (req, res, next) {
-  console.log('got psychs');
-  Psychologists.find({}).exec(function (err, psychs) {
-    console.log(psychs);
-    res.status(200).json({
-      data: psychs,
-      err: null,
-      msg: 'Psychologists retrieved successfully.'
-    });
-  });
-};
 
 module.exports.getRequests = function (req, res, next) {
   console.log('Got here');
@@ -91,9 +81,9 @@ module.exports.evaluateRequest = function (req, res, next) {
             return next(err);
           }
           res.status(201).json({
+            data: newPsych,
             err: null,
-            msg: 'Request accepted and psychologist added to database.',
-            data: newPsych
+            msg: 'Request accepted and psychologist added to database.'
           });
         });
       })
@@ -111,10 +101,10 @@ module.exports.evaluateRequest = function (req, res, next) {
 
       // When done, send response
       return res.status(200).json({
+        data: psych,
         err: null,
-        msg: 'Request rejected and applicant notified.',
-        data: psych
+        msg: 'Request rejected and applicant notified.'
       });
-    })
+    });
   }
 };

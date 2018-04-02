@@ -4,6 +4,13 @@
     text-align: justify;
 }
 
+.title {
+    word-wrap: break-word;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
+}
+
 .text-editor {
     overflow-y: auto;
     min-height: 90%;
@@ -24,4 +31,8 @@
 
 .edit-stepper {
     background-color: #fafafa;
+}
+
+.video-container {
+    max-height: 50%;
 }

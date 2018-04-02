@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { PsychRequestsService } from './psych-requests.service';
 import { CurrencyPipe } from '@angular/common';
+import { AuthService } from '../../auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-psych-requests',
@@ -10,6 +12,8 @@ import { CurrencyPipe } from '@angular/common';
 export class ViewPsychRequestsComponent implements OnInit {
 
   requests: any[];
+
+  currentUser: any;
 
   mockPsychs = [{
     firstName: 'Ahmed',
@@ -29,14 +33,25 @@ export class ViewPsychRequestsComponent implements OnInit {
     priceRange: 550
   }];
 
-  constructor(private service: PsychRequestsService) {
-    let self = this;
-    this.service.getPsychRequests().subscribe(function (res) {
-      if (res.msg === 'Requests retrieved successfully.') {
-        self.requests = res.data;
-        console.log(self.requests);
-      }
-    });
+  constructor(private service: PsychRequestsService,
+    private authService: AuthService,
+    private router: Router) {
+
+    this.currentUser = this.authService.getUser();
+
+    console.log(this.currentUser);
+
+    if (this.currentUser.isAdmin) {
+      let self = this;
+      this.service.getPsychRequests().subscribe(function (res) {
+        if (res.msg === 'Requests retrieved successfully.') {
+          self.requests = res.data;
+          console.log(self.requests);
+        }
+      });
+    } else {
+      this.router.navigateByUrl('/');
+    }
   }
 
   ngOnInit() {
@@ -48,12 +63,8 @@ export class ViewPsychRequestsComponent implements OnInit {
 
     let self = this;
     this.service.evalRequest(reqToSend).subscribe(function (res) {
-      if (res.msg === 'Request accepted and product added to database.') {
-        let i = self.requests.indexOf(self.requests[index], 0);
-        if (index > -1) {
-          self.requests.splice(i, 1);
-        }
-        console.log(res.data);
+      if (res.msg === 'Request accepted and psychologist added to database.') {
+        self.requests = self.removeElement(self.requests, index);
       }
     });
   }
@@ -64,14 +75,20 @@ export class ViewPsychRequestsComponent implements OnInit {
 
     let self = this;
     this.service.evalRequest(reqToSend).subscribe(function (res) {
-      if (res.msg === 'Request rejected and user notified.') {
-        let i = self.requests.indexOf(self.requests[index], 0);
-        if (index > -1) {
-          self.requests.splice(i, 1);
-        }
-        console.log(res.data);
+      if (res.msg === 'Request rejected and applicant notified.') {
+        self.requests = self.removeElement(self.requests, index);
       }
     });
+  }
+
+  removeElement(arr: any[], index: any) {
+    let newArr: any[] = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (i !== index) {
+        newArr.push(arr[i]);
+      }
+    }
+    return newArr;
   }
 
 }

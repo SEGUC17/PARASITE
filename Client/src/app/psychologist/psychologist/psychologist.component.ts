@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AddPsychRequestService} from '../add-psych-request.service';
+import { PsychologistService } from '../psychologist.service';
 @Component({
   selector: 'app-psychologist',
   templateUrl: './psychologist.component.html',
@@ -7,7 +7,7 @@ import { AddPsychRequestService} from '../add-psych-request.service';
 })
 export class PsychologistComponent implements OnInit {
   psychologists: any[];
-  constructor(private psychologistService: AddPsychRequestService) { }
+  constructor(private psychologistService: PsychologistService) { }
   getPsychologists(): void {
     let self = this;
     self.psychologistService.getPsychologists().subscribe(function (psychs) {
@@ -15,7 +15,6 @@ export class PsychologistComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.getPsychologists();
   }
 
 }

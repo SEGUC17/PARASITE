@@ -11,6 +11,7 @@ import { PsychologistComponent } from './psychologist/psychologist.component';
 import { AddPsychRequestComponent } from './add-psych-request/add-psych-request.component';
 import { PsychologistRoutingModule } from './psychologist-routing.module';
 import {MatChipsModule} from '@angular/material';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,7 +19,6 @@ import {MatChipsModule} from '@angular/material';
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
-    MatChipsModule,
     MatInputModule,
     MatIconModule,
     MatSelectModule,

@@ -37,13 +37,14 @@ export class AddPsychRequestComponent implements OnInit {
 
   daysOff = new FormControl();
 
-  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thurs', 'Fri'];
+  daysOfWeek = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 
   matcher = new MyErrorStateMatcher();
 
 
   constructor(private RequestService: PsychologistService) {
+
   }
 
   ngOnInit() {
@@ -73,15 +74,18 @@ export class AddPsychRequestComponent implements OnInit {
       req = {
         firstName: ((<HTMLInputElement>document.getElementById('psychFirstName')).value).toString(),
         lastName: (<HTMLInputElement>document.getElementById('psychLastName')).value,
-        phone: parseInt((<HTMLInputElement>document.getElementById('psychPhoneNumber')).value, 10),
-        address: (<HTMLInputElement>document.getElementById('psychPhoneNumber')).value,
-        email: (<HTMLInputElement>document.getElementById('psychPhoneNumber')).value ,
+        phone: (<HTMLInputElement>document.getElementById('psychPhoneNumber')).value,
+        address: (<HTMLInputElement>document.getElementById('psychAddress')).value,
+        email: (<HTMLInputElement>document.getElementById('psychEmail')).value,
         daysOff: this.days,
-        priceRange: parseInt((<HTMLInputElement>document.getElementById('psychPriceRange')).value, 10),
-        state: 'Pending'
+        priceRange: parseInt((<HTMLInputElement>document.getElementById('psychPriceRange')).value, 10)
       };
 
-      this.RequestService.addRequest(req).subscribe();
+      this.RequestService.addRequest(req).subscribe(function (res) {
+        if (res.msg !== 'Request was created successfully.') {
+          alert('Something is wrong');
+        }
+      });
     }
   }
 
