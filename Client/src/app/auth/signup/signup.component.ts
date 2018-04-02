@@ -63,11 +63,10 @@ export class SignupComponent implements OnInit {
       var self = this;
       self.authService.signUp(this.User).subscribe(function (res) {
         self.authService.setUser(res.data);
+        console.log(this.authService.getUser());
       });
     }//end else
-
-    self.location.back();
-
+    // self.location.back();
   }//end method
 
   showDiv1() {
