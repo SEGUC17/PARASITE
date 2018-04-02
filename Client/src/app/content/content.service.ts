@@ -13,22 +13,11 @@ export class ContentService {
   constructor(private http: HttpClient) { }
 
   getContentPage(numberOfEntriesPerPage: any, pageNumber: any, category: any, section: any): Observable<any> {
-    // TODO handle what happens with nulls by testing
     const self = this;
     return this.http.get(self.endpoint + 'content/getContentPage/' + numberOfEntriesPerPage +
       '/' + pageNumber + '/' + category + '/' + section)
       .pipe(
         catchError(self.handleError('getContentPage', []))
-      );
-  }
-
-  getNumberOfContentPages(numberOfEntriesPerPage: any, category: any, section: any): Observable<any> {
-    // TODO handle what happens with nulls by testing
-    const self = this;
-    return this.http.get(self.endpoint + 'content/numberOfContentPages/' +
-      numberOfEntriesPerPage + '/' + category + '/' + section)
-      .pipe(
-        catchError(self.handleError('getNumberOfContentPages', []))
       );
   }
 
@@ -56,14 +45,24 @@ export class ContentService {
       );
   }
 
-  getNumberOfContentByCreator(username: any): Observable <any> {
+  getCategories(): Observable<any> {
     const self = this;
-    return this.http.get(self.endpoint + 'content/username/count/' + username)
+    return this.http.get(self.endpoint + 'content/category')
+      .pipe(
+        catchError(self.handleError('getCategories', []))
+      );
+  }
+
+  // delete content (ideas or categories) by id
+  deleteContent(contentId: any): Observable<any> {
+    const self = this;
+    return this.http.delete(self.endpoint + 'content/' + contentId)
     .pipe(
-      catchError(self.handleError('getNumberOfContentByCreator', []))
+      catchError(self.handleError('deleteContent', []))
     );
   }
 
+  // general error handler
   private handleError<T>(operation = 'operation', result?: T) {
 
     return function (error: any): Observable<T> {
