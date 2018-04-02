@@ -11,8 +11,8 @@ import { AuthService} from '../../auth/auth.service';
 export class ProfileComponent implements OnInit {
 
 
-//---------- FLAGS --------------------
-//User Flags
+// ---------- FLAGS --------------------
+// User Flags
 currIsOwner = false;
 currIsParent = false;
 currIsChild = false;
@@ -22,16 +22,16 @@ visitedIsParent = false;
 visitedIsChild = false;
 VisitedIsIndependent = false;
 
-//Tab Navigation Flags
+// Tab Navigation Flags
 pInfo = true;
 children = false;
 plan = false;
 sched = false;
 
-//------------------------------------
+// ------------------------------------
 
-//---------- Current User Info ---------------
-Name: String = "Fulan el Fulany";
+// ---------- Current User Info ---------------
+Name: String = 'Fulan el Fulany';
 Username: String;
 Age: Number;
 Email: String;
@@ -40,9 +40,9 @@ Phone: String;
 Birthday: Date;
 listOfChildren: any[];
 id: any;
-//-------------------------------------
-//---------Visited User Info-----------
-vName: String = "Fulan el Fulany";
+// -------------------------------------
+// ---------Visited User Info-----------
+vName: String = 'Fulan el Fulany';
 vUsername: String;
 vAge: Number;
 vEmail: String;
@@ -50,8 +50,8 @@ vAddress: String;
 vPhone: String;
 vBirthday: Date;
 vlistOfChildren: any[];
-vId: any = "5ac0caaf1e46aabc13fec58c";
-//------------------------------------
+vId: any = '5ac0caaf1e46aabc13fec58c';
+// ------------------------------------
 listOfAllChildren: any[];
 listOfUncommonChildren: any[];
 
@@ -60,28 +60,28 @@ listOfUncommonChildren: any[];
   constructor(private _ProfileService: ProfileService) { }
 
   ngOnInit() {
-    //this.listOfAllChildren = this.listOfChildren.concat(this.vlistOfChildren);
-    //this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
+    // this.listOfAllChildren = this.listOfChildren.concat(this.vlistOfChildren);
+    // this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
   }
 
   requestContributerValidation() {
     console.log(this._ProfileService.makeContributerValidationRequest().subscribe());
   }
 
-  addChild(child): void{
+  addChild(child): void {
 
     this.vlistOfChildren.push(child);
-    this._ProfileService.linkAnotherParent(this.vlistOfChildren,this.vId).subscribe();
+    this._ProfileService.linkAnotherParent(this.vlistOfChildren, this.vId).subscribe();
 
   }
-  removeChild(child): void{
+  removeChild(child): void {
     this.listOfChildren.splice(this.listOfChildren.indexOf(child) , 1);
     this._ProfileService.Unlink(this.listOfChildren).subscribe();
   }
 
-  linkToParent(child):void{
+  linkToParent(child): void {
     this.vlistOfChildren.push(child);
-    //this._ProfileService.linkAsParent(this.vlistOfChildren).subscribe();
+    // this._ProfileService.linkAsParent(this.vlistOfChildren).subscribe();
   }
 
 }
