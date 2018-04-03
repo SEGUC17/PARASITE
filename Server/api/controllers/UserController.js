@@ -1,6 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable max-statements */
-
 // ---------------------- Requirements ---------------------- //
 var mongoose = require('mongoose');
 var Encryption = require('../utils/encryption/encryption');
@@ -21,50 +18,70 @@ var isNotEmpty = require('../utils/validators/not-empty');
 // ---------------------- End of "Validators" ---------------------- //
 
 
-module.exports.signUp = function (req, res, next) {
-    if (req.res) {
-        delete req.user.password;
+module.exports.signUp = function (passport, req, res, next) {
+    passport.authenticate('local-signup', function (err, user, info) {
+        if (err) {
+            return next(err);
+        } else if (!user) {
+            return res.status(400).json({
+                data: null,
+                err: null,
+                msg: info.signUpMessage
+            });
+        }
 
-        return res.status(req.res.code).json({
-            data: req.user,
-            err: null,
-            msg: req.res.msg
+        req.logIn(user, function (err2) {
+            if (err2) {
+                return next(err2);
+            }
+
+            return res.status(201).json({
+                data: user,
+                err: null,
+                msg: 'Sign Up Successfully!'
+            });
         });
-    }
-
-    return next();
+    })(req, res, next);
 };
 
-module.exports.signIn = function (req, res, next) {
-    if (req.user) {
-        delete req.user.password;
+module.exports.signIn = function (passport, req, res, next) {
+    passport.authenticate('local-signin', function (err, user, info) {
+        if (err) {
+            return next(err);
+        } else if (!user) {
+            return res.status(401).json({
+                data: null,
+                err: null,
+                msg: info.signInMessage
+            });
+        }
 
-        return res.status(200).json({
-            data: req.user,
-            err: null,
-            msg: 'Sign In Successfully!'
+        req.logIn(user, function (err2) {
+            if (err2) {
+                return next(err2);
+            }
+
+            return res.status(200).json({
+                data: user,
+                err: null,
+                msg: 'Sign In Successfully!'
+            });
         });
-    }
-
-    return res.status(400).json({
-        data: req.user,
-        err: null,
-        msg: 'Wrong Username Or Password!'
-    });
+    })(req, res, next);
 };
-
 
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
     console.log('entered the signUpChild method');
     console.log('user is: ' + req.user._id);
     User.findByIdAndUpdate(req.user._id, { $set: { 'isParent': true } && { 'children': req.body.username } }, { new: true }, function(err, updatedob) {
-                if (err) { 
+                if (err) {
                     return res.status(402).json({
-                    data: null, 
+                    data: null,
                     msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
                     });
                 }
+
                 return res.status(200).json({
                 data: updatedob,
                 err: null,
@@ -91,8 +108,6 @@ module.exports.signUpChild = function (req, res, next) {
     newUser.phone = req.body.phone;
     newUser.username = req.body.username;
     // --- End of "Variable Assign" --- //
-
-
     try {
         isString(newUser.address ? newUser.address : '');
         isDate(newUser.birthdate ? newUser.birthdate : new Date());
@@ -134,6 +149,20 @@ module.exports.signUpChild = function (req, res, next) {
         });
     }
     //end catch
+    Encryption.hashPassword(newUser.password, function (er, hash) {
+        if (er) {
+            return next(er);
+        }
+
+        newUser.password = hash;
+        newUser.save(function (er) {
+            if (er) {
+                throw er;
+            }
+
+            return next(null, newUser);
+        });
+    });
 
 
     newUser.save(function (err) {

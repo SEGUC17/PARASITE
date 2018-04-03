@@ -141,12 +141,7 @@ userSchema.methods.comparePasswords = function (password, next) {
 // -------------------------- End of "Compare Password" ------------------ //
 
 
-<<<<<<< HEAD
 // ---------------------- Models ---------------------- //
 var User = mongoose.model('User', userSchema, 'User');
+module.exports = mongoose.model('User', userSchema, 'User');
 // ---------------------- End of Models ---------------------- //
-=======
-// -------------------------- Models ------------------------------------- //
-module.exports = mongoose.model('User', userSchema);
-// -------------------------- End of "Models" ---------------------------- //
->>>>>>> master

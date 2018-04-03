@@ -51,11 +51,8 @@ module.exports = function (passport) {
   // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-<<<<<<< HEAD
-  router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
-  router.post('/signin', isNotAuthenticated, passport.authenticate('local-signin'), userController.signIn);
   router.post('/childsignup', userController.signUpChild);
-=======
+
   router.post('/signup', isNotAuthenticated, function (req, res, next) {
     userController.signUp(passport, req, res, next);
   });
@@ -63,7 +60,7 @@ module.exports = function (passport) {
     userController.signIn(passport, req, res, next);
   });
 
->>>>>>> master
+
   router.get('/signout', isAuthenticated, function (req, res) {
     req.logout();
 
