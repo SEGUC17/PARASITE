@@ -89,12 +89,12 @@ module.exports.getActivity = function (req, res, next) {
         if (err) {
             return next(err);
         }
-        var creatorId = activity.creator;
+        var creatorName = activity.creator;
 
         console.log(activity.status);
         if (activity.status !== 'verified') {
 
-            if (!isAdmin || creatorId !== user._id) {
+            if (!isAdmin || creatorName !== user.username) {
                 return res.status(403).json({
                     data: null,
                     err: 'this activity isn\'t verified yet',
@@ -156,7 +156,7 @@ module.exports.postActivity = function (req, res, next) {
     var status = isAdmin ? 'verified' : 'pending';
     // adding status to the body of the request
     req.body.status = status;
-    req.body.creator = user._id;
+    req.body.creator = user.username;
 
     Activity.create(req.body, function (err, activity) {
         if (err) {
