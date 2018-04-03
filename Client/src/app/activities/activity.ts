@@ -1,3 +1,10 @@
+/*
+    Activity classes to help with creating 
+    and retreiving activities
+
+    @author: Wessam
+*/
+
 export class Activity {
     _id : String;
     name : String;
