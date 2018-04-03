@@ -1,16 +1,15 @@
-<p>
+<p class= "top">
   <mat-radio-group  class="req_radio" >
     <mat-radio-button value="resource" (click)="setFilterToResource()" > Resource Requests </mat-radio-button>
-    <mat-radio-button value="idea"(click)="setFilterToIdea()" > Idea Requests </mat-radio-button>
+    <mat-radio-button value="idea"(click)="setFilterToIdea()" id="rad2" > Idea Requests </mat-radio-button>
   </mat-radio-group>
 
 </p>
 
-<div class="reqs-card">
-  <span>
+<div class='md-padding' layout="row" layout-wrap>
   
-<li *ngFor="let req of reqs">
-  <mat-card class="OneCard">
+<article class="article-forLoop" *ngFor="let req of reqs">
+  <mat-card flex="33" class="OneCard">
     <mat-card-header  class= "header" >
       <mat-card-title class= "title"> {{req.contentTitle}} </mat-card-title>
       <mat-card-subtitle class = "Subtitle"> {{req.contentType}} </mat-card-subtitle>
@@ -30,7 +29,5 @@
 
     </mat-card-actions>
   </mat-card>
-</li>
-  
-</span>
+</article>  
 </div>

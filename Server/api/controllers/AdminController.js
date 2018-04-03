@@ -1,7 +1,6 @@
 /* eslint no-underscore-dangle: ["error", {"allow" : ["_id" , "_now"]}] */
-var dateTime = require('node-datetime');
+var moment = require('moment');
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/nawwar');
 var ContentRequest = mongoose.model('ContentRequest');
 var VCR = require('../models/VerifiedContributerRequest');
 var Content = mongoose.model('Content');
@@ -12,7 +11,6 @@ User = mongoose.model('User');
 
 //ISAdmin?
 module.exports.viewPendingContReqs = function (req, res, next) {
-    var currUser = req.user;
     console.log('my user name is: ' + req.user.username);
     console.log('Am I an admin ' + req.user.isAdmin);
 
@@ -63,7 +61,7 @@ module.exports.respondContentRequest = function (req, res, next) {
         $set:
         {
             status: req.body.str,
-            updatedOn: dateTime.create()._now
+            updatedOn: moment().toDate()
         }
 },
         { new: true },
@@ -115,7 +113,7 @@ module.exports.respondContentStatus = function (req, res, next) {
         {
             $set: {
             approved: req.body.str,
-            touchDate: dateTime.create()._now
+            touchDate: moment().toDate()
         }
     },
         { new: true },

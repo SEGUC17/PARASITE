@@ -101,6 +101,6 @@ var userSchema = mongoose.Schema({
 // ---------------------- End of Schemas ---------------------- //
 
 
-// ---------------------- Models ---------------------- //
-var User = mongoose.model('User', userSchema, 'User');
+// ---------------------- Models -------------u--------- //
+var User = mongoose.model('User', userSchema);
 // ---------------------- End of Models ---------------------- //

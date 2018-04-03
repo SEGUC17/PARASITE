@@ -1,10 +1,21 @@
+.top{
+    margin-top: 10px;
+}
+.req_radio{
+    margin-left:30%;
+
+}
+#rad2{
+    margin-left:40px;
+}
+
 .req-card {
-    margin-left: 50px;
-    display: inline-block;
+    margin-left: 60px;
 }
 .OneCard{
-    max-width: 400px;
-
+    display: inline-block;
+    margin: 10px;
+    margin-left: 26px;
 }
 .title{
     margin-left: 35%;
@@ -14,8 +25,10 @@
 
 }
 .actions{
-    margin-left: 60px;
+    margin-left: 30px;
+
 }
-.but{
-    max-width: 10 px;
+.article-forLoop{
+    margin-right: 0px;
+    display: inline-block;
 }
