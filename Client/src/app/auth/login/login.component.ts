@@ -9,7 +9,6 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent implements OnInit {
 
-
   Username: String = '';
   Password: String = '';
   User: any;
@@ -42,9 +41,6 @@ export class LoginComponent implements OnInit {
     }
     // self.location.back();
   }// end method
-
-
-
 
   // this method redirects the user back to the last page he was on before signing up
   redirect() {

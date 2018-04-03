@@ -4,6 +4,9 @@
 var express = require('express');
 var router = express.Router();
 
+
+var psychCtrl = require('../controllers/PsychologistController');
+var productCtrl = require('../controllers/ProductController');
 var userController = require('../controllers/UserController');
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
@@ -43,6 +46,35 @@ module.exports = function (passport) {
   router.get('/', function (req, res, next) {
     res.send('Server Works');
   });
+
+
+  // ------------- psychologist's requests Controller ------------- //
+  router.get('/psychologist', psychCtrl.getPsychologists);
+  router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
+  router.get('/psychologist/request/getRequests', psychCtrl.getRequests);
+  router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);
+  // ------------- psychologist's requests Controller ------------- //
+
+  // --------------Product Controller---------------------- //
+  router.get('/market/getMarketPage/:entriesPerPage/:' +
+    'pageNumber/:name/:price', productCtrl.getMarketPage);
+  router.get(
+    '/market/getNumberOfProducts/:name/:price',
+    productCtrl.getNumberOfProducts
+  );
+  router.get('/market/getMarketPage/:entriesPerPage/:' +
+    'pageNumber/:seller', productCtrl.getMarketPageBySeller);
+  router.get(
+    '/market/getNumberOfProducts/:seller',
+    productCtrl.getNumberOfProductsBySeller
+  );
+  router.get('/product/getProduct/:productId', productCtrl.getProduct);
+  router.post('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
+  router.get('/productrequest/getRequests', productCtrl.getRequests);
+  router.post('/productrequest/createproduct', productCtrl.createProduct);
+  router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
+
+  // --------------End Of Product Contoller ---------------------- //
 
 // --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);

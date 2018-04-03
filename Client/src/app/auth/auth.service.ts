@@ -44,6 +44,6 @@ export class AuthService {
   }
 
   childSignUp(user: any): Observable<any> {
-    return this.http.post<any>('http://localhost:3000/api/childsignup' , user);
+    return this.http.post<any>('http://localhost:3000/api/childsignup', user);
   }
 }// end class
