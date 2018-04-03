@@ -30,12 +30,6 @@ module.exports = function (passport) {
         function (req, username, password, done) {
             var signInIfExist = function () {
 
-
-                // --- Security Check --- //
-                req.user = null;
-                // --- End of "Security Check" --- //
-
-
                 // --- Username Verfication --- //
                 User.findOne({ 'username': username },
                     function (err, user) {

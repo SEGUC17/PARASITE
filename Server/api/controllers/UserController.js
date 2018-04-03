@@ -21,36 +21,56 @@ var isNotEmpty = require('../utils/validators/not-empty');
 // ---------------------- End of "Validators" ---------------------- //
 
 
-module.exports.signUp = function (req, res, next) {
-    if (req.res) {
-        delete req.user.password;
+module.exports.signUp = function (passport, req, res, next) {
+    passport.authenticate('local-signup', function (err, user, info) {
+        if (err) {
+            return next(err);
+        } else if (!user) {
+            return res.status(400).json({
+                data: null,
+                err: null,
+                msg: info.signUpMessage
+            });
+        }
 
-        return res.status(req.res.code).json({
-            data: req.user,
-            err: null,
-            msg: req.res.msg
+        req.logIn(user, function (err2) {
+            if (err2) {
+                return next(err2);
+            }
+
+            return res.status(201).json({
+                data: user,
+                err: null,
+                msg: 'Sign Up Successfully!'
+            });
         });
-    }
-
-    return next();
+    })(req, res, next);
 };
 
-module.exports.signIn = function (req, res, next) {
-    if (req.user) {
-        delete req.user.password;
+module.exports.signIn = function (passport, req, res, next) {
+    passport.authenticate('local-signin', function (err, user, info) {
+        if (err) {
+            return next(err);
+        } else if (!user) {
+            return res.status(401).json({
+                data: null,
+                err: null,
+                msg: info.signInMessage
+            });
+        }
 
-        return res.status(200).json({
-            data: req.user,
-            err: null,
-            msg: 'Sign In Successfully!'
+        req.logIn(user, function (err2) {
+            if (err2) {
+                return next(err2);
+            }
+
+            return res.status(200).json({
+                data: user,
+                err: null,
+                msg: 'Sign In Successfully!'
+            });
         });
-    }
-
-    return res.status(400).json({
-        data: req.user,
-        err: null,
-        msg: 'Wrong Username Or Password!'
-    });
+    })(req, res, next);
 };
 
 
