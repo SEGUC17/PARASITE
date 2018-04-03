@@ -19,16 +19,16 @@
 
     <p *ngFor="let request of Requests" style="padding-bottom: 75px; padding-top: 75px; padding-left: 150px;">
     <mat-list-item>
-      <mat-card tabindex="0" (click)="onNameClick(request)" class="OneCard">
+      <mat-card tabindex="0"  class="OneCard">
         <mat-card-header class="cardHeader">
           <div mat-card-avatar src='../../../../assets/images/profile-view/defaultPP.png'
                style="
                   background-size: cover;
                   margin-bottom: 20px;"
                class="cardHeader-image">
-
+               (click)="onNameClick(request)"
           </div>
-          <mat-card-title class="cardHeader-Name"><h1>{{ request.name }}</h1></mat-card-title>
+          <mat-card-title (click)="onNameClick(request)" class="cardHeader-Name"><h1>{{ request.name }}</h1></mat-card-title>
           <mat-card-subtitle></mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="cardContent">

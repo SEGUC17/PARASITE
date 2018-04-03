@@ -8,6 +8,9 @@ import { Router} from '@angular/router';
   styleUrls: ['./view-verified-contributer-requests.component.css']
 })
 export class ViewVerifiedContributerRequestsComponent implements OnInit {
+  /*
+    @author: MAHER.
+   */
 
   constructor(private _adminService: AdminService, private router: Router
   ) { }
@@ -22,24 +25,25 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
     this.viewVCRs('pending');
   }
 
-  pendingRadio() {
+  pendingRadio() { // triggered by Radio button to change the filter
       this.filter = 'pending';
       this.viewVCRs(this.filter);
   }
 
-  acceptedRadio() {
+  acceptedRadio() { // triggered by Radio button to change the filter
     this.filter = 'approved';
     this.viewVCRs(this.filter);
   }
 
-  rejectedRadio() {
+  rejectedRadio() { // triggered by Radio button to change the filter
     this.filter = 'disapproved';
     this.viewVCRs(this.filter);
 
   }
 
-  viewVCRs(FilteredBy) {
+  viewVCRs(FilteredBy) {  // request the Verified Contributer Requests from the server to this.Requests.
     let self = this;
+
     this._adminService.viewPendingVCR(FilteredBy).subscribe(function (res) {
       self.Requests = res.data.dataField;
       if (res.msg === 'VCRs retrieved successfully.') {
@@ -51,18 +55,17 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
     });
   }
 
-  onNameClick(request) {
+  onNameClick(request) {  // redirect the Admin to the user's page.
     console.log('clicked');
     this.router.navigate(['/profile/' + request.username]);
   }
 
-  Accept(request) {
+  Accept(request) { // Accepted by Admin.
     this._adminService.respondToContributerValidationRequest(request._id, 'approved' );
 
   }
 
-  Reject(request) {
-
+  Reject(request) { // rejected by Admin.
     this._adminService.respondToContributerValidationRequest(request._id, 'disapproved' );
   }
 
