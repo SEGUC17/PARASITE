@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+
   Username: String = '';
   Password: String = '';
   User: any;
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    let self = this;
+    const self = this;
     if (this.Password === '' || this.Username === '') {
       this.showDiv1();
       console.log('Sorry, you need to enter your username and password to login!');
@@ -39,11 +40,7 @@ export class LoginComponent implements OnInit {
       });
     }
     // self.location.back();
-  }
-  // end method
-
-
-
+  }// end method
 
   // this method redirects the user back to the last page he was on before signing up
   redirect() {

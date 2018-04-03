@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
-
 import { MarketModule } from './market/market.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -24,16 +23,20 @@ import { AdminModule } from './admin/admin.module';
 import { MatButtonModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ChildsignupModule } from './childsignup/childsignup.module';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomInterceptor } from './custom-interceptor';
 import { AuthService } from './auth/auth.service';
+import { ChildsignupComponent } from './childsignup/childsignup.component';
+
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChildsignupComponent
   ],
   imports: [
     BrowserModule,
@@ -58,6 +61,7 @@ import { AuthService } from './auth/auth.service';
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
+    ChildsignupModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot(),
     HttpClientModule,

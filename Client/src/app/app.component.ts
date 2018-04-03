@@ -34,6 +34,10 @@ export class AppComponent implements OnDestroy {
       name: 'Profile'
     },
     {
+      url: '/childsignup',
+      name: 'ChildSignUp'
+    },
+    {
       url: 'message',
       name: 'Messaging'
     },

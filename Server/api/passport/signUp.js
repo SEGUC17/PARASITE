@@ -1,5 +1,4 @@
 /* eslint-disable */
-
 // ---------------------- Requirements ---------------------- //
 var mongoose = require('mongoose');
 var Encryption = require('../utils/encryption/encryption');

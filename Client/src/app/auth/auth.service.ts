@@ -7,24 +7,24 @@ import { of } from 'rxjs/observable/of';
 export class AuthService {
 
   constructor(private http: HttpClient) { }
-  endpoint: String = 'http://localhost:3000/api/';
-  user: any = [];
+  endpoint: String = 'http://localhost:3000/api/childsignup';
+  user: any = {};
   authHeader: Headers = new Headers();
 
   signUp(user: any): Observable<any> {
     const self = this;
-    return this.http.post<any>("http://localhost:3000/api/signup", user).pipe(
+    return this.http.post<any>('http://localhost:3000/api/signup', user).pipe(
       catchError(self.handleError('signUp', [])));
 
-  }//end method
+  }// end method
 
 
   Login(user: any): Observable<any> {
     const self = this;
-    return this.http.post<any>("http://localhost:3000/api/signin", user).pipe(
+    return this.http.post<any>('http://localhost:3000/api/signin', user).pipe(
       catchError(self.handleError('Login', [])));
 
-  }//end method
+  }// end method
 
   private handleError<T>(operation = 'operation', result?: T) {
 
@@ -41,5 +41,9 @@ export class AuthService {
   }
   getUser(): any {
     return this.user;
+  }
+
+  childSignUp(user: any): Observable<any> {
+    return this.http.post<any>('http://localhost:3000/api/childsignup', user);
   }
 }// end class

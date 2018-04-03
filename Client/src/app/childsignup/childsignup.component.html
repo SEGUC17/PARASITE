@@ -1,4 +1,4 @@
-<p> Please fill in these fields to become a member in Nawwar</p>
+<p> Please fill in these fields to create an account for your child</p>
 <p> Note: your password should be more than 8 characters</p>
 
 <!--attributes to be entered by the unregistered user-->
@@ -13,26 +13,6 @@
 <div>Phone: <input #phone [(ngModel)]=Phone placeholder="+20.."/></div>  
 <div>Address: <input #address [(ngModel)]=Address placeholder="Address.."/></div>  
           
-<!-- radio buttons to check  from-->
-<script> type="text/javascript"; src= "signup.ts"</script>
-<form>
-  <div id= "choices" class="radio">
-  <!--  <label>
-      <input type="radio" id="group1" value="Teacher"  (change)="checked(true)">
-      Are you a teacher?
-    </label><br/> -->
-    <div ng-switch="Teacher">
-      <div ng-switch-when="Teacher">
-      </div>
-    </div>
-  </div>
- </form>
-
- <label class="checkbox-inline nopaddingleft" for="radio1">
-  <input name="radio1" type="checkbox" id="radio1" 
-      class="checkbox-inline margin-right-five" value="name" 
-      data-ng-model="this.User.Teacher" /> Are you a teacher?
-</label>  
 
 
 
@@ -57,4 +37,4 @@
   <label>
     Please insert all the required fields
   </label>
-</div>
+
