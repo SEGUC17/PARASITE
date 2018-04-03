@@ -18,7 +18,6 @@ export class SearchControlComponent implements OnInit {
   numberPerPage = 10;
   totPages: number;
   selectedUsername: string;
-  selectedLocation: string;
   eduL: string;
   eduS: string;
   loc: string;
@@ -49,6 +48,7 @@ export class SearchControlComponent implements OnInit {
       case 'eduS': this.tags[2] = 'NA'; break;
       case 'loc': this.tags[3] = 'NA'; break;
     }
+    this.users = [];
   }
 
 

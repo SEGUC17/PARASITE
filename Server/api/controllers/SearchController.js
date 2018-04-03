@@ -4,7 +4,7 @@ var StringValidate = require('../utils/validators/');
 var find = function (req) {
   var toFind = {};
   if (req.params.location !== 'NA') {
-    toFind.location = req.params.location;
+    toFind.address = req.params.location;
   }
   if (req.params.username !== 'NA') {
     toFind.username = req.params.username;
@@ -52,7 +52,7 @@ module.exports.Search = function (req, res, next) {
   }
   var toFind = {};
   toFind = find(req);
-  if (toFind.educationLevel) {
+  if (toFind.educationLevel || toFind.educationSystem) {
     toFind.isChild = true;
    } else {
       toFind.isParent = true;

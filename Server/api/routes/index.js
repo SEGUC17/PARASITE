@@ -34,7 +34,7 @@ router.get('/', function (req, res, next) {
   // --------------------- Search Contoller -------------------- //
 router.get('/User/NumberOfpages/:NPP', SearchController.getNumberOfPages);
 router.get('/User/Page/:page', SearchController.getPage);
-router.get('/User/Search/:username/:location/:educationLevel/:educationSystem', SearchController.Search);
+router.get('/User/Search/:username/:educationLevel/:educationSystem/:location', SearchController.Search);
 router.get('/User/FilterByLevelOfEducation/:level', SearchController.FilterByLevelOfEducation);
 router.get('/User/FilterBySystemOfEducation/:system', SearchController.FilterBySystemOfEducation);
   // --------------------- End of Search Controller ------------ //
