@@ -20,16 +20,20 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ChildsignupModule } from './childsignup/childsignup.module';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomInterceptor } from './custom-interceptor';
+import { ChildsignupComponent } from './childsignup/childsignup.component';
+
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChildsignupComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +55,7 @@ import { CustomInterceptor } from './custom-interceptor';
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
+    ChildsignupModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot(),
     HttpClientModule,
