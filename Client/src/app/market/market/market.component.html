@@ -1,3 +1,72 @@
-<p>
-  market works!
-</p>
+<mat-tab-group  dynamicHeight>
+  <mat-tab label="Market">
+    <mat-card>
+      <mat-card-content>
+        <h2 class="h2Style">Price</h2>
+        <mat-slider class="margin10 widthFloat" [disabled]=false [invert]=false [max]=10000000 [min]=0 [step]=1 [thumb-label]=false [tick-interval]=false
+          [(ngModel)]="selectedPrice" [vertical]=false>
+        </mat-slider>
+        <section class="section">
+          <mat-form-field class="margin10 widthFloat">
+            <input matInput type="number" placeholder="Value" [(ngModel)]="selectedPrice">
+          </mat-form-field>
+        </section>
+      </mat-card-content>
+      <mat-card-content>
+        <h2 class="h2Style">Item</h2>
+        <section class="section">
+          <mat-form-field class="margin10">
+            <input matInput placeholder="Value" [(ngModel)]="selectedName">
+          </mat-form-field>
+          <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.firstPage()">Filter</button>
+
+          <button mat-button class="md-raised md-primary margin10 widthFloat" style="background:#3f51b5; color:white" (click)="this.clearLimits()">Clear</button>
+        </section>
+      </mat-card-content>
+    </mat-card>
+    <mat-card style="min-height: 300px; padding-left: 5px; padding-right:5px">
+      <div class="row justify-content-md-center" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
+        <mat-card *ngFor="let product of products" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
+          <img mat-card-image src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';" alt="Photo of product" style="height:200px">
+          <mat-card-content class="mt-2">
+            <mat-card-title style="width:100%; color:#3f51b5">{{product.name}}</mat-card-title>
+            <mat-card-subtitle>{{product.price}} EGP</mat-card-subtitle>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white" (click)="this.openDialog(product)">View</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </mat-card>
+
+    <div class="paginator">
+      <mat-paginator [length]="numberOfProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChangeMarket($event)">
+      </mat-paginator>
+    </div>
+  </mat-tab>
+  <mat-tab label="My items">
+    <mat-card style="height:80px">
+      <mat-card-title style="float:left">Items</mat-card-title>
+      <button mat-button class="md-raised md-primary" style="position:relative; float:right; background:#3f51b5; color:white" (click)="this.goToCreate()">Add a new item</button>
+    </mat-card>
+    <mat-card style="min-height: 300px">
+      <div class="row justify-content-md-center" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
+        <mat-card *ngFor="let product of userItems" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
+          <img mat-card-image src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';" alt="Photo of product" style="height:200px">
+          <mat-card-content class="mt-2">
+            <mat-card-title style="width:100%; color:#3f51b5">{{product.name}}</mat-card-title>
+            <mat-card-subtitle>{{product.price}} EGP</mat-card-subtitle>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white" (click)="this.openDialog(product)">View</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </mat-card>
+
+    <div class="paginator">
+      <mat-paginator [length]="numberOfUserProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChangeMyItems($event)">
+      </mat-paginator>
+    </div>
+  </mat-tab>
+</mat-tab-group>

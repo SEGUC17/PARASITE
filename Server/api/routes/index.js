@@ -4,14 +4,17 @@
 var express = require('express');
 var router = express.Router();
 
+
+var psychCtrl = require('../controllers/PsychologistController');
+var productCtrl = require('../controllers/ProductController');
 var userController = require('../controllers/UserController');
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
-var studyPlanController = require('../controllers/StudyPlanController');
 var adminController = require('../controllers/AdminController');
+var studyPlanController = require('../controllers/StudyPlanController');
+var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
-
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
@@ -47,16 +50,47 @@ module.exports = function (passport) {
   // --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
-  router.post('/activities', ActivityController.postActivity);
-  // --------------------- End of Activity Controller ------------ //
+  router.post('/activities', isAuthenticated, ActivityController.postActivity);
+  router.put('/unverifiedActivities', ActivityController.reviewActivity);
+
+  // ------------- psychologist's requests Controller ------------- //
+  router.get('/psychologist', psychCtrl.getPsychologists);
+  router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
+  router.get('/psychologist/request/getRequests', psychCtrl.getRequests);
+  router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);
+  // ------------- psychologist's requests Controller ------------- //
+
+  // --------------Product Controller---------------------- //
+  router.get('/market/getMarketPage/:entriesPerPage/:' +
+    'pageNumber/:name/:price', productCtrl.getMarketPage);
+  router.get(
+    '/market/getNumberOfProducts/:name/:price',
+    productCtrl.getNumberOfProducts
+  );
+  router.get('/market/getMarketPage/:entriesPerPage/:' +
+    'pageNumber/:seller', productCtrl.getMarketPageBySeller);
+  router.get(
+    '/market/getNumberOfProducts/:seller',
+    productCtrl.getNumberOfProductsBySeller
+  );
+  router.get('/product/getProduct/:productId', productCtrl.getProduct);
+  router.post('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
+  router.get('/productrequest/getRequests', productCtrl.getRequests);
+  router.post('/productrequest/createproduct', productCtrl.createProduct);
+  router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
+
+  // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
+  router.post('/childsignup', isAuthenticated, userController.signUpChild);
+
   router.post('/signup', isNotAuthenticated, function (req, res, next) {
     userController.signUp(passport, req, res, next);
   });
   router.post('/signin', isNotAuthenticated, function (req, res, next) {
     userController.signIn(passport, req, res, next);
   });
+
 
   router.get('/signout', isAuthenticated, function (req, res) {
     req.logout();
@@ -68,6 +102,7 @@ module.exports = function (passport) {
     });
   });
   // ---------------------- End of User Controller --------------- //
+
   //-------------------- Study Plan Endpoints ------------------//
   router.get('/study-plan/getPersonalStudyPlans/:username', studyPlanController.getPerosnalStudyPlans);
   router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);
@@ -79,29 +114,28 @@ module.exports = function (passport) {
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
-  router.get('/admin/PendingContentRequests', adminController.viewPendingContReqs);
   router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
+  router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
+  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
+  router.get(
+    '/admin/PendingContentRequests',
+    adminController.viewPendingContReqs
+  );
+  router.patch(
+    '/admin/RespondContentRequest/:ContentRequestId',
+    adminController.respondContentRequest
+  );
   // --------------End Of Admin Contoller ---------------------- //
 
+  // -------------------- Profile Module Endpoints ------------------//
 
-  //-------------------- Profile Module Endpoints ------------------//
-  router.post(
-    '/profile/VerifiedContributerRequest',
-    profileController.requestUserValidation
-  );
-  router.get(
-    '/profile/:username',
-    profileController.getUserInfo
-  );
-  // router.get(
-  //   '/profile/LinkAnotherParent/:parentID',
-  //   profileController.linkAnotherParent
-  // );
-
-
-  //  router.get('/profile/:userId/getChildren', profileController.getProduct);
-  //------------------- End of Profile module Endpoints-----------//
+  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+  router.get('/profile/:parentId', profileController.getUserInfo);
+  router.put('/profile/LinkAnotherParent/:parentId', profileController.linkAnotherParent);
+  router.put('/profile/UnlinkAnotherParent/:parentId', profileController.Unlink);
+  router.put('/profile/LinkAsAParent/:parentId', profileController.linkAsParent);
+  router.get('/profile/:username/getChildren', profileController.getChildren);
+  // ------------------- End of Profile module Endpoints-----------//
 
      // ---------------Schedule Controller Endpoints ---------------//
      router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
@@ -158,8 +192,27 @@ module.exports = function (passport) {
   router.post('/content', contentController.createContent);
 
 
+
+  //-------------------- Messaging Module Endpoints ------------------//
+
+  // Send message
+  router.post('/message/sendMessage', messageController.sendMessage);
+
+  //View inbox
+  router.get('/message/inbox/:user', messageController.getInbox);
+
+  //View sent
+  router.get('/message/sent/:user', messageController.getSent);
+
+  //Delete message
+  router.delete('/message/:id', messageController.deleteMessage);
+
+  //------------------- End of Messaging Module Endpoints-----------//
+
+
   // -------------------------------------------------------------------- //
   module.exports = router;
 
   return router;
 };
+
