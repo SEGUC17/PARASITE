@@ -65,10 +65,11 @@ return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions
     return this.http.patch<any> (oldpw, newpw);
 
   }
-
+  private getChildrenUrl = 'http://localhost:3000/api/profile';
+  continueUrl = 'getChildren';
   getChildren(): any {
-        let userid = this.authService.getUser().username;
-        return this.http.get(this.Url +  ':username/getChildren');
+        let username = this.authService.getUser().username;
+        return this.http.get(`${this.getChildrenUrl}/${username}/${this.continueUrl}`);
        }
 
 

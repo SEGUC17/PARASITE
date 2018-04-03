@@ -86,8 +86,8 @@ module.exports = function (passport) {
   router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
   router.get('/profile/:parentId', profileController.getUserInfo);
   router.put('/profile/LinkAnotherParent/:parentId', profileController.linkAnotherParent);
-  router.put('/profile/LinkAnotherParent/:parentId', profileController.Unlink);  
-  router.get('/profile/:userId/getChildren', profileController.getProduct);
+  router.put('/profile/UninkAnotherParent/:parentId', profileController.Unlink);  
+  router.get('/profile/:username/getChildren', profileController.getChildren);
 // ------------------- End of Profile module Endpoints-----------//
 
     // --------------Content Module Endpoints---------------------- //
