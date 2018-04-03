@@ -233,8 +233,9 @@ export class ScheduleComponent implements OnInit {
         this.eventsInitial.push(anEvent);
       });
       this.editing = false;
+      const self = this;
       setTimeout(function() {
-        return this.refresh.next();
+        return self.refresh.next();
       }, 0);
   }
 
