@@ -5,6 +5,7 @@ import { createProductRequest } from './createProductRequest';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MarketComponent } from '../market/market.component';
 import { AuthService } from '../../auth/auth.service';
+import {MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-create-product',
@@ -16,7 +17,7 @@ export class CreateProductComponent {
 
   constructor(private marketService: MarketService, private authService: AuthService ,
     public dialogRef: MatDialogRef<CreateProductComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, public snackBar: MatSnackBar) { }
 
   productrequest: createProductRequest;
   formInput = <any>{};
@@ -53,9 +54,8 @@ export class CreateProductComponent {
         let self = this;
         this.marketService.createProduct(pro).subscribe(function (res) {
           if (res.msg === 'Product was created successfully.') {
-            alert('Product added successfully');
-            self.data.market.getPage();
-            self.data.market.getUserPage();
+            self.data.market.firstPage();
+            self.data.market.firstUserPage();
             self.dialogRef.close();
           }
         });
@@ -63,7 +63,6 @@ export class CreateProductComponent {
         let self = this;
         this.marketService.createProductRequest(pro).subscribe(function (res) {
           if (res.msg === 'ProductRequest was created successfully.') {
-            alert('Request sent successfully');
             self.dialogRef.close();
           }
         });

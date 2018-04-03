@@ -99,7 +99,7 @@ export class MarketComponent implements OnInit {
   firstUserPage(): void {
     const self = this;
     const limiters = {
-      seller: self.user._id
+      seller: self.user.username
     };
     this.marketService.numberOfMarketPages(limiters)
       .subscribe(function (numberOfProducts) {
