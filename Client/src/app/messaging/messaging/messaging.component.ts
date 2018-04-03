@@ -51,6 +51,8 @@ export class MessagingComponent implements OnInit {
   }
 
   ngOnInit() {
+    // console.log(this.currentUser.username);
+
     if (this.x) {
       this.div3 = true;
     } else {
