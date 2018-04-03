@@ -1,8 +1,8 @@
-<mat-tab-group (selectedTabChange)="tabChanged($event)" dynamicHeight>
+<mat-tab-group  dynamicHeight>
   <mat-tab label="Market">
     <mat-card>
       <mat-card-content>
-        <h2 style="margin-left: 13px;margin-top:12px;float:left">Price</h2>
+        <h2 class="h2Style">Price</h2>
         <mat-slider class="margin10 widthFloat" [disabled]=false [invert]=false [max]=10000000 [min]=0 [step]=1 [thumb-label]=false [tick-interval]=false
           [(ngModel)]="selectedPrice" [vertical]=false>
         </mat-slider>
@@ -13,7 +13,7 @@
         </section>
       </mat-card-content>
       <mat-card-content>
-        <h2 style="margin-left: 13px;margin-top:12px;float:left">Item</h2>
+        <h2 class="h2Style">Item</h2>
         <section class="section">
           <mat-form-field class="margin10">
             <input matInput placeholder="Value" [(ngModel)]="selectedName">
@@ -24,9 +24,9 @@
         </section>
       </mat-card-content>
     </mat-card>
-    <mat-card style="min-height: 300px">
-      <div class="row">
-        <mat-card *ngFor="let product of products" style="width:19%; margin:6px">
+    <mat-card style="min-height: 300px; padding-left: 5px; padding-right:5px">
+      <div class="row justify-content-md-center" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
+        <mat-card *ngFor="let product of products" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
           <img mat-card-image src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';" alt="Photo of product" style="height:200px">
           <mat-card-content class="mt-2">
             <mat-card-title style="width:100%; color:#3f51b5">{{product.name}}</mat-card-title>

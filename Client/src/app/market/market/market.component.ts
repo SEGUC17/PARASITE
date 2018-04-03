@@ -41,6 +41,7 @@ export class MarketComponent implements OnInit {
     self.userItemsCurrentPage = 1;
     self.currentPageNumber = 1;
     self.firstPage();
+    self.firstUserPage();
   }
   openDialog(prod: any): void {
     if (prod) {
@@ -58,10 +59,11 @@ export class MarketComponent implements OnInit {
   }
 
   goToCreate() {
-    let dialogRef = this.dialog.open(CreateProductComponent, {
+    const self = this;
+    let dialogRef = self.dialog.open(CreateProductComponent, {
       width: '850px',
       height: '550px',
-      data: { market: this}
+      data: { market: self}
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
@@ -108,7 +110,7 @@ export class MarketComponent implements OnInit {
   getUserPage(): void {
     const self = this;
     const limiters = {
-      seller: self.user._id
+      seller: self.user.username
     };
     self.marketService.getMarketPage(self.entriesPerPage,
       self.userItemsCurrentPage, limiters)
@@ -120,11 +122,6 @@ export class MarketComponent implements OnInit {
     this.selectedName = 'NA';
     this.selectedPrice = -1;
     this.firstPage();
-  }
-  tabChanged(event): void {
-    if (event.tab.label === 'My items' && !this.userItems) {
-      this.firstUserPage();
-    }
   }
   onPaginateChangeMarket(event): void {
       this.currentPageNumber = event.pageIndex + 1;
