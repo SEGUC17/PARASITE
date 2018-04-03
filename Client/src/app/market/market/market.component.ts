@@ -37,7 +37,7 @@ export class MarketComponent implements OnInit {
     if (!self.user) {
       self.router.navigate(['/']);
     }
-    console.log(self.user);
+        console.log(self.user);
     self.userItemsCurrentPage = 1;
     self.currentPageNumber = 1;
     self.firstPage();

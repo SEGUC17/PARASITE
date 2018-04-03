@@ -38,7 +38,6 @@ export class ViewPsychRequestsComponent implements OnInit {
     private router: Router) {
 
     this.currentUser = this.authService.getUser();
-
     if (this.currentUser.isAdmin) {
       let self = this;
       this.service.getPsychRequests().subscribe(function (res) {

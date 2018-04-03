@@ -1,6 +1,6 @@
 <mat-card>
   <h1 style="font-size: 35px; font-weight: bold">Verified Psychologists</h1>
-  <div class="row" style="height:250px">
+  <div class="row" style="min-height:250px">
     <mat-card *ngFor="let psych of psychologists" style="width:32%; margin:5px">
       <mat-card-title>{{psych.firstName}} {{psych.lastName}}</mat-card-title>
       <li>
@@ -16,8 +16,10 @@
         <span>{{psych.email}}</span>
       </li>
       <li>
-        <span style="font-weight: bold">Days Off:</span>
-        <mat-chip *ngFor="let day of psych.daysOff" style="background: #3f51b5;color:white;">{{day}} </mat-chip>
+        <span style="font-weight: bold">Days off:</span>
+        <mat-chip-list>
+          <mat-chip *ngFor="let day of psych.daysOff" style="background: #3f51b5;color:white;">{{day}}</mat-chip>
+        </mat-chip-list>
       </li>
       <li>
         <span style="font-weight: bold">Price Range:</span>

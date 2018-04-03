@@ -21,7 +21,6 @@ export class ViewProductRequestsComponent implements OnInit {
     let self = this;
 
     this.currentUser = this.authService.getUser();
-
     if (this.currentUser.isAdmin) {
       this.services.getProductRequests().subscribe(function (res) {
         if (res.msg === 'Requests retrieved successfully.') {

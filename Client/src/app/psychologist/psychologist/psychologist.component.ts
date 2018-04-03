@@ -15,6 +15,7 @@ export class PsychologistComponent implements OnInit {
     });
   }
   ngOnInit() {
+    this.getPsychologists();
   }
 
 }
