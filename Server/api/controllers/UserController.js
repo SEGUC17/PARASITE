@@ -33,16 +33,10 @@ module.exports.signUp = function (passport, req, res, next) {
             });
         }
 
-        req.logIn(user, function (err2) {
-            if (err2) {
-                return next(err2);
-            }
-
-            return res.status(201).json({
-                data: user,
-                err: null,
-                msg: 'Sign Up Successfully!'
-            });
+        return res.status(201).json({
+            data: user,
+            err: null,
+            msg: 'Sign Up Successfully!'
         });
     })(req, res, next);
 };
@@ -59,16 +53,10 @@ module.exports.signIn = function (passport, req, res, next) {
             });
         }
 
-        req.logIn(user, function (err2) {
-            if (err2) {
-                return next(err2);
-            }
-
-            return res.status(200).json({
-                data: user,
-                err: null,
-                msg: 'Sign In Successfully!'
-            });
+        return res.status(200).json({
+            data: user,
+            err: null,
+            msg: 'Sign In Successfully!'
         });
     })(req, res, next);
 };

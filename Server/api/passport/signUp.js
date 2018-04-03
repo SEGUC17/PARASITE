@@ -140,22 +140,7 @@ module.exports = function (passport) {
                             return done(null, false, { 'signUpMessage': 'Duplicate Exists!' });
                         }
 
-                        // --- Add User --- //
-                        Encryption.hashPassword(newUser.password, function (err, hash) {
-                            if (err) {
-                                return done(err);
-                            }
-
-                            newUser.password = hash;
-                            newUser.save(function (err) {
-                                if (err) {
-                                    throw err;
-                                }
-
-                                return done(null, newUser);
-                            });
-                        });
-                        // --- End of "Add User" --- //
+                        return done(null, newUser);
                     });
                 // --- End of "Check: Duplicate Username/Email" --- //
             };
