@@ -52,11 +52,12 @@ module.exports.Search = function (req, res, next) {
   }
   var toFind = {};
   toFind = find(req);
-  if (toFind.educationLevel || toFind.educationSystem) {
+  if ((toFind.educationLevel || toFind.educationSystem) && !toFind.username) {
     toFind.isChild = true;
    } else {
       toFind.isParent = true;
     }
+
 
   // toFind.educationLevel = level(req, res, next);
 
