@@ -222,11 +222,11 @@ module.exports.createContent = function (req, res, next) {
         req.body.category &&
         req.body.section &&
         req.body.creator &&
-        mongoose.Types.string.isValid(req.body.title) &&
-        mongoose.Types.string.isValid(req.body.body) &&
-        mongoose.Types.string.isValid(req.body.category) &&
-        mongoose.Types.string.isValid(req.body.section) &&
-        mongoose.Types.string.isValid(req.body.creator);
+        typeof req.body.title === 'string' &&
+        typeof req.body.body === 'string' &&
+        typeof req.body.category === 'string' &&
+        typeof req.body.section === 'string' &&
+        typeof req.body.creator === 'string';
 
     if (!valid) {
         return res.status(422).json({
@@ -303,7 +303,7 @@ module.exports.createCategory = function (req, res, next) {
             msg: null
         });
     }
-    if (!mongoose.Types.string.isValid(req.body.category)) {
+    if (typeof req.body.category === 'string') {
         return res.status(422).json({
             data: null,
             err: 'No category supplied',
@@ -352,7 +352,7 @@ module.exports.createSection = function (req, res, next) {
         });
     }
 
-    if (!mongoose.Types.string.isValid(req.body.section)) {
+    if (typeof req.body.section === 'string') {
         return res.status(422).json({
             data: null,
             err: 'The section value is invalid',
