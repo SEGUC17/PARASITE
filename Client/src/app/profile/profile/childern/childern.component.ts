@@ -13,18 +13,16 @@ export class ChildernComponent implements OnInit {
 
 
   child: String[];
-  constructor(private profileService: ProfileService, private authService: AuthService) { }
+  constructor(private profileService: ProfileService, private authService: AuthService) {  this.getChildern();}
 
   ngOnInit() {
-   // console.log('ghgh');
-this.getChildern();
 
   }
   getChildern() {
 
   this.profileService.getChildren().subscribe(res => this.child = res.data);
 
-console.log(this.child);
+  console.log(this.child);
   }
 }
 
