@@ -34,6 +34,10 @@ export class AppComponent implements OnDestroy {
       name: 'Profile'
     },
     {
+      url: '/childsignup',
+      name: 'ChildSignUp'
+    },
+    {
       url: 'message',
       name: 'Messaging'
     },
@@ -69,8 +73,16 @@ export class AppComponent implements OnDestroy {
     {
       url: '/admin/category',
       name: 'Admin Category Control'
+<<<<<<< HEAD
   }
 
+=======
+    },
+    {
+      url: '/psychologist/request/add',
+      name: 'Sample add psychologist request'
+    }
+>>>>>>> master
   ];
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
