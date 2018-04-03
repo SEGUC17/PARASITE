@@ -9,6 +9,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
   endpoint: String = 'http://localhost:3000/api/';
   user: any = {};
+  authHeader: Headers = new Headers();
 
   signUp(user: any): Observable<any>{
     // console.log(user);
@@ -21,7 +22,7 @@ export class AuthService {
   Login(user: any) : Observable<any>{
     // console.log(user);
     // this.Login(user).subscribe(function(res){});
-    return this.http.post<any>("http://localhost:3000/api/signin", user, { 'withCredentials': true });
+    return this.http.post<any>("http://localhost:3000/api/signin", user);
 
     }//end method
   setUser(user: any): void {

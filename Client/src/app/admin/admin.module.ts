@@ -4,6 +4,7 @@ import { AdminControlComponent } from './admin-control/admin-control.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
 import { ViewUnverifiedActivitiesComponent } from './view-unverified-activities/view-unverified-activities.component';
+
 import {
   ViewVerifiedContributerRequestsComponent
 } from './view-verified-contributer-requests/view-verified-contributer-requests.component';
@@ -18,8 +19,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatExpansionModule} from '@angular/material/expansion';
-
 import { MatCardModule, MatPaginatorModule } from '@angular/material';
+
 
 @NgModule({
   imports: [
@@ -41,11 +42,14 @@ import { MatCardModule, MatPaginatorModule } from '@angular/material';
     AdminControlComponent,
     ViewContentRequestsComponent,
     ViewVerifiedContributerRequestsComponent,
-    ViewUnverifiedActivitiesComponent,
-    CategoryManagementComponent],
+    CategoryManagementComponent,
+    ViewContentRequestsComponent],
   exports: [
     MatButtonModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    ViewContentRequestsComponent
+
+
   ],
   providers: [
     AdminService

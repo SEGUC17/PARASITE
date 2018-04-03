@@ -91,20 +91,38 @@ module.exports.requestUserValidation = function(req, res, next) {
 //--------------------------- Profile Info ------------------------- AUTHOR: H
 
 module.exports.getUserInfo = function(req, res, next) {
-  User.find({_id : req.params.parentId}).exec(function(err, users) {
+  User.find({username : req.params.username}).exec(function(err, user) {
     if (err) {
       return next(err);
     }
     res.status(200).json({
       err: null,
-      msg: 'Users retrieved successfully.',
-      data: users
+      msg: 'User retrieved successfully.',
+      data: {
+        'id': user._id,
+        'address': user.address,
+        'birthdate': user.birthdate,
+        'children': user.children,
+        'email': user.email,
+        'firstName': user.firstName,
+        'isAdmin': user.isAdmin,
+        'isChild': user.isChild,
+        'isParent': user.isParent,
+        'isTeacher': user.isTeacher,
+        'lastName': user.lastName,
+        'phone': user.phone,
+        'schedule': user.schedule,
+        'studyPlans': user.studyPlans,
+        'username': user.username,
+        'verified': user.verified
+      }
     });
   });
 };
 
 
   module.exports.linkAnotherParent = function(req, res, next) {
+
 
     var id = req.params.parentId;
     User.findOne({_id: id}, function(err, user){
@@ -116,7 +134,9 @@ module.exports.getUserInfo = function(req, res, next) {
             res.status(404).send();
           } else {
               if(req.body){
+                console.log(user.children);
                 user.children = req.body.children
+               // user.children.push(child);
               }
 
               user.save(function(err, updatedUser){
@@ -125,11 +145,13 @@ module.exports.getUserInfo = function(req, res, next) {
                   res.status(500).send();
                 } else {
                   res.send(updatedUser);
+                  user.isParent= true;
                 }
               });
             }
       }
-    })
+
+        })
 };
 
   module.exports.Unlink = function(req, res, next) {
@@ -145,6 +167,40 @@ module.exports.getUserInfo = function(req, res, next) {
         data: unlink
       });
     });
-
-
+   if(user.children.length==0)
+      user.isParent=false;
+  //user.children.add(child);
   };
+
+
+
+  module.exports.linkAsParent=function(req,res,next){
+   User.findOne({_id: req.params.userId}, function(err, user){
+      if(err){
+        console.log(err);
+        res.status(500).send();
+      } else {
+          if(!user){
+            res.status(404).send();
+          } else {
+              if(req.body){
+                user.children.push(child);
+                //= req.body.children
+              }
+
+              user.save(function(err, updatedUser){
+                if(err){
+                  console.log(err);
+                  res.status(500).send();
+                } else {
+                  res.send(updatedUser);
+                  user.isParent= true;
+                }
+              });
+            }
+      }
+
+        })
+
+
+    };

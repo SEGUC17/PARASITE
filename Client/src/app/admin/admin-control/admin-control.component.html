@@ -33,4 +33,16 @@
 </body>
 </html>
 
+<mat-tab-group id="tabGroub" (selectChange)='onSelectChange($event)'>
+  <mat-tab label="Verfied Contributer Requests">
+    <app-view-verified-contributer-requests></app-view-verified-contributer-requests>
+  </mat-tab>
+  <mat-tab label="Content Requests">
+    <app-view-content-requests ></app-view-content-requests>
+  </mat-tab>
+</mat-tab-group>
 
+
+
+</body>
+</html>
