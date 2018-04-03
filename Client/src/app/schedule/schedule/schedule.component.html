@@ -72,38 +72,38 @@
                       type="text"
                       class="form-control"
                       [(ngModel)]="event.title"
-                      (keyup)="refresh.next()">
+                      (keyup)="refreshDocument()">
                   </td>
                   <td>
                     <input
                       type="color"
                       [(ngModel)]="event.color.primary"
-                      (change)="refresh.next()">
+                      (change)="refreshDocument()">
                   </td>
                   <td>
                     <input
                       type="color"
                       [(ngModel)]="event.color.secondary"
-                      (change)="refresh.next()">
+                      (change)="refreshDocument()">
                   </td>
                   <td>
                     <app-date-time-picker
                       [(ngModel)]="event.start"
-                      (ngModelChange)="refresh.next()"
+                      (ngModelChange)="refreshDocument()"
                       placeholder="Not set">
                     </app-date-time-picker>
                   </td>
                   <td>
                     <app-date-time-picker
                       [(ngModel)]="event.end"
-                      (ngModelChange)="refresh.next()"
+                      (ngModelChange)="refreshDocument()"
                       placeholder="Not set">
                     </app-date-time-picker>
                   </td>
                   <td>
                     <button
                       class="btn btn-danger"
-                      (click)="events.splice(index, 1); refresh.next()">
+                      (click)="events.splice(index, 1); refreshDocument()">
                       Delete
                     </button>
                   </td>

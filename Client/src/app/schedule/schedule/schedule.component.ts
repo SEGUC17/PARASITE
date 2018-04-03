@@ -104,10 +104,10 @@ export class ScheduleComponent implements OnInit {
       }
       });
     }
+    this.fetchEvents();
     setTimeout(function() {
       return self.refresh.next();
     }, 0);
-    this.fetchEvents();
     /*this.events.forEach(element => {
       const anEvent: CalendarEvent = {
         id : element.id,
@@ -145,10 +145,10 @@ export class ScheduleComponent implements OnInit {
       day: endOfDay
     }[this.view];
     const self = this;
+    this.activeDayIsOpen = false;
     setTimeout(function() {
       return self.refresh.next();
     }, 0);
-    this.activeDayIsOpen = false;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
