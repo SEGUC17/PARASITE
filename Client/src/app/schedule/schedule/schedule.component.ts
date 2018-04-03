@@ -88,7 +88,10 @@ export class ScheduleComponent implements OnInit {
   constructor(private scheduleService: ScheduleService) { }
 
   ngOnInit() {
+    this.fetchAndDisplay();
+  }
 
+  fetchAndDisplay() {
     const self = this;
     const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
     if (this.loggedInUser.username === this.profileUser || !(indexChild === -1) ) {
@@ -101,9 +104,11 @@ export class ScheduleComponent implements OnInit {
       }
       });
     }
-    this.refresh.next();
+    setTimeout(function() {
+      return self.refresh.next();
+    }, 0);
     this.fetchEvents();
-    this.events.forEach(element => {
+    /*this.events.forEach(element => {
       const anEvent: CalendarEvent = {
         id : element.id,
         start : element.start,
@@ -123,7 +128,7 @@ export class ScheduleComponent implements OnInit {
       anEvent.color.primary = element.color.primary;
       anEvent.color.secondary = element.color.secondary;
       this.eventsInitial.push(anEvent);
-    });
+    });*/
   }
 
 
@@ -168,7 +173,10 @@ export class ScheduleComponent implements OnInit {
     event.start = newStart;
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event);
-    this.refresh.next();
+    const self = this;
+    setTimeout(function() {
+      return self.refresh.next();
+    }, 0);
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
@@ -176,6 +184,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   addEvent(): void {
+    const self = this;
     this.events.push({
       title: 'New event',
       start: startOfDay(new Date()),
@@ -188,7 +197,7 @@ export class ScheduleComponent implements OnInit {
       }
     });
     setTimeout(function() {
-      return this.refresh.next();
+      return self.refresh.next();
     }, 0);
   }
 
@@ -209,8 +218,7 @@ export class ScheduleComponent implements OnInit {
         console.log('entered');
         this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
       }
-      this.refresh.next();
-      this.eventsInitial = [];
+      /*this.eventsInitial = [];
       this.events.forEach(element => {
         const anEvent: CalendarEvent = {
           id : element.id,
@@ -231,7 +239,7 @@ export class ScheduleComponent implements OnInit {
         anEvent.color.primary = element.color.primary;
         anEvent.color.secondary = element.color.secondary;
         this.eventsInitial.push(anEvent);
-      });
+      });*/
       this.editing = false;
       const self = this;
       setTimeout(function() {
@@ -241,8 +249,10 @@ export class ScheduleComponent implements OnInit {
 
   cancel() {
     this.editing = false;
+    const self = this;
+    this.fetchAndDisplay();
     setTimeout(function() {
-      return this.refresh.next();
+      return self.refresh.next();
     }, 0);
   }
 
