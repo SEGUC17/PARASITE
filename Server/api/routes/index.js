@@ -82,8 +82,13 @@ module.exports = function (passport) {
   // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/signup', isNotAuthenticated, passport.authenticate('local-signup'), userController.signUp);
-  router.post('/signin', isNotAuthenticated, passport.authenticate('local-signin'), userController.signIn);
+  router.post('/signup', isNotAuthenticated, function (req, res, next) {
+    userController.signUp(passport, req, res, next);
+  });
+  router.post('/signin', isNotAuthenticated, function (req, res, next) {
+    userController.signIn(passport, req, res, next);
+  });
+
   router.get('/signout', isAuthenticated, function (req, res) {
     req.logout();
 
@@ -128,57 +133,57 @@ module.exports = function (passport) {
   //  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
-    // --------------Content Module Endpoints---------------------- //
+  // --------------Content Module Endpoints---------------------- //
 
-    // Content Managemen
+  // Content Managemen
 
-    // Create a category
-    router.post('/content/category', contentController.createCategory);
-    // Create a section
+  // Create a category
+  router.post('/content/category', contentController.createCategory);
+  // Create a section
 
-    router.patch(
-      '/content/category/:id/section',
-      contentController.createSection
-    );
+  router.patch(
+    '/content/category/:id/section',
+    contentController.createSection
+  );
 
-    //Category retrieval
-    router.get('/content/category', contentController.getCategories);
-
-
-    // Content Retrieval
-
-    // Get a page of content
-    router.get(
-      '/content/getContentPage/:numberOfEntriesPerPage' +
-      '/:pageNumber/:category/:section',
-      contentController.getContentPage
-    );
-
-    // Get the contents of a user
-    router.get(
-      '/content/username/:creator/:pageSize/:pageNumber',
-      contentController.getContentByCreator
-    );
-
-    // Get content by id
-    router.get(
-      '/content/view/:id',
-      contentController.getContentById
-    );
-
-    // Get Categories
-    router.get(
-      '/content/category',
-      contentController.getCategories
-    );
-
-    //Content Production
-
-    // Create new Content
-    router.post('/content', contentController.createContent);
+  //Category retrieval
+  router.get('/content/category', contentController.getCategories);
 
 
-    // -------------------------------------------------------------------- //
+  // Content Retrieval
+
+  // Get a page of content
+  router.get(
+    '/content/getContentPage/:numberOfEntriesPerPage' +
+    '/:pageNumber/:category/:section',
+    contentController.getContentPage
+  );
+
+  // Get the contents of a user
+  router.get(
+    '/content/username/:creator/:pageSize/:pageNumber',
+    contentController.getContentByCreator
+  );
+
+  // Get content by id
+  router.get(
+    '/content/view/:id',
+    contentController.getContentById
+  );
+
+  // Get Categories
+  router.get(
+    '/content/category',
+    contentController.getCategories
+  );
+
+  //Content Production
+
+  // Create new Content
+  router.post('/content', contentController.createContent);
+
+
+  // -------------------------------------------------------------------- //
   module.exports = router;
 
   return router;
