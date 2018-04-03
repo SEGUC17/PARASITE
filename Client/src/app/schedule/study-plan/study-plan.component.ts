@@ -206,8 +206,15 @@ export class StudyPlanComponent implements OnInit {
   }
 
   publish(): void {
-    this.studyPlanService.PublishStudyPlan(this.studyPlan);
-    alert('Implement Publish Study Plan!');
+    this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
+      res => {
+        if (res.msg === 'StudyPlan published successfully.') {
+          alert(res.msg);
+        } else {
+          alert('An error occured while publishing the study plan, please try again.');
+        }
+      });
+    // alert('Implement Publish Study Plan!');
   }
 
   copy(): void {
