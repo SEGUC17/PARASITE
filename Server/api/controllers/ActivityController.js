@@ -24,7 +24,6 @@ module.exports.getActivities = function (req, res, next) {
     var status = req.query.status;
 
     if (user) {
-        user = User.findById(user._id);
         isAdmin = user.isAdmin;
     }
 
@@ -83,7 +82,6 @@ module.exports.getActivity = function (req, res, next) {
     var isAdmin = false;
 
     if (user) {
-        user = User.findById(user._id);
         isAdmin = user.isAdmin;
     }
 
@@ -92,8 +90,6 @@ module.exports.getActivity = function (req, res, next) {
             return next(err);
         }
         var creatorId = activity.creator;
-        var creator = User.findById(creatorId);
-        activity.creator = creator;
 
         console.log(activity.status);
         if (activity.status !== 'verified') {
@@ -145,7 +141,6 @@ module.exports.postActivity = function (req, res, next) {
     var isVerified = false;
 
     if (user) {
-        user = User.findById(user._id);
         isAdmin = user.isAdmin;
         isVerified = user.isVerified;
     }
@@ -161,6 +156,7 @@ module.exports.postActivity = function (req, res, next) {
     var status = isAdmin ? 'verified' : 'pending';
     // adding status to the body of the request
     req.body.status = status;
+    req.body.creator = user._id;
 
     Activity.create(req.body, function (err, activity) {
         if (err) {
@@ -203,7 +199,6 @@ module.exports.reviewActivity = function (req, res, next) {
     var isAdmin = false;
 
     if (user) {
-        user = User.findById(user._id);
         isAdmin = user.isAdmin;
     }
 

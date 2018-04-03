@@ -45,7 +45,7 @@ module.exports = function (passport) {
 // --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
-  router.post('/activities', ActivityController.postActivity);
+  router.post('/activities', isAuthenticated, ActivityController.postActivity);
   router.put('/unverifiedActivities', ActivityController.reviewActivity);
 // --------------------- End of Activity Controller ------------ //
 
@@ -75,19 +75,19 @@ module.exports = function (passport) {
   // -------------- Admin Contoller ---------------------- //
   router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
   // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/VerifiedContributerRequests/:FilterBy',isAuthenticated ,adminController.getVCRs);
-  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', isAuthenticated , adminController.VCRResponde);
+  router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
+  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
 // -------------- Admin Contoller ---------------------- //
 
   // --------------End Of Admin Contoller ---------------------- //
 
   // -------------------- Profile Module Endpoints ------------------//
 
-  router.post('/profile/VerifiedContributerRequest', isAuthenticated, profileController.requestUserValidation);
+  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
   router.get('/profile/:parentId', profileController.getUserInfo);
   router.put('/profile/LinkAnotherParent/:parentId', profileController.linkAnotherParent);
   router.put('/profile/LinkAnotherParent/:parentId', profileController.Unlink);  
-  router.get('/profile/:userId/getChildren', profileController.getChildren);
+  router.get('/profile/:userId/getChildren', profileController.getProduct);
 // ------------------- End of Profile module Endpoints-----------//
 
     // --------------Content Module Endpoints---------------------- //
