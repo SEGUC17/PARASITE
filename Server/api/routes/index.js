@@ -75,19 +75,19 @@ module.exports = function (passport) {
   // -------------- Admin Contoller ---------------------- //
   router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
   // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
-  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
+  router.get('/admin/VerifiedContributerRequests/:FilterBy',isAuthenticated ,adminController.getVCRs);
+  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', isAuthenticated , adminController.VCRResponde);
 // -------------- Admin Contoller ---------------------- //
 
   // --------------End Of Admin Contoller ---------------------- //
 
   // -------------------- Profile Module Endpoints ------------------//
 
-  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+  router.post('/profile/VerifiedContributerRequest', isAuthenticated, profileController.requestUserValidation);
   router.get('/profile/:parentId', profileController.getUserInfo);
   router.put('/profile/LinkAnotherParent/:parentId', profileController.linkAnotherParent);
   router.put('/profile/LinkAnotherParent/:parentId', profileController.Unlink);  
-  router.get('/profile/:userId/getChildren', profileController.getProduct);
+  router.get('/profile/:userId/getChildren', profileController.getChildren);
 // ------------------- End of Profile module Endpoints-----------//
 
     // --------------Content Module Endpoints---------------------- //

@@ -42,7 +42,11 @@ private URL = 'http://localhost:3000/api/admin/';
     return this.http.patch(
       this.URL + 'VerifiedContributerRequestRespond/' + id,
       {responce: resp}
-      ).subscribe();
+      ).subscribe(function(res) {
+      console.log('start res');
+      console.log(res);
+      console.log('end res');
+    });
     }
   // create a category for content (resrouces and ideas) to be classified into
   createCategory(category: any): Observable<any> {

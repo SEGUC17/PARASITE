@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ProfileService } from './profile.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { ChildernComponent } from './profile/childern/childern.component';
-import { MatTabsModule, MatButtonModule, MatMenuModule, MatChipsModule } from '@angular/material';
+import {MatTabsModule, MatButtonModule, MatMenuModule, MatChipsModule, MatCardModule} from '@angular/material';
 import { FormsModule } from '@angular/forms';
 
 
@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
     MatTabsModule,
     MatButtonModule,
     MatMenuModule,
+    MatCardModule,
     MatChipsModule,
     FormsModule
   ],
