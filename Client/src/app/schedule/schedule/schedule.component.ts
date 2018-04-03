@@ -88,6 +88,19 @@ export class ScheduleComponent implements OnInit {
   constructor(private scheduleService: ScheduleService) { }
 
   ngOnInit() {
+
+    const self = this;
+    const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
+    if (this.loggedInUser.username === this.profileUser || !(indexChild === -1) ) {
+    this.scheduleService.getPersonalSchedule(this.profileUser).subscribe(function(res) {
+     // console.log(res.data);
+      self.events = res.data;
+      for (let index = 0; index < self.events.length; index++) {
+        self.events[index].start = new Date(self.events[index].start);
+        self.events[index].end = new Date(self.events[index].end);
+      }
+      });
+    }
     this.refresh.next();
     this.fetchEvents();
     this.events.forEach(element => {
@@ -113,12 +126,6 @@ export class ScheduleComponent implements OnInit {
     });
   }
 
-  // getPersonalSchedule(): void {
-  //   this.schedueService.getPersonalSchedule().subscribe(res => {
-  //     this.schedule. = res.data;
-  //     //this.events = res.schedule.events;
-  //   });
-  // }
 
   fetchEvents(): void {
     const getStart: any = {
@@ -132,40 +139,6 @@ export class ScheduleComponent implements OnInit {
       week: endOfWeek,
       day: endOfDay
     }[this.view];
-
-    this.events = [
-      {
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red,
-        actions: this.actions
-      },
-      {
-        start: startOfDay(new Date()),
-        title: 'An event with no end date',
-        color: colors.yellow,
-        actions: this.actions
-      },
-      {
-        start: subDays(endOfMonth(new Date()), 3),
-        end: addDays(endOfMonth(new Date()), 3),
-        title: 'A long event that spans 2 months',
-        color: colors.blue
-      },
-      {
-        start: addHours(startOfDay(new Date()), 2),
-        end: new Date(),
-        title: 'A draggable and resizable event',
-        color: colors.yellow,
-        actions: this.actions,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        },
-        draggable: true
-      }
-    ];
     const self = this;
     setTimeout(function() {
       return self.refresh.next();

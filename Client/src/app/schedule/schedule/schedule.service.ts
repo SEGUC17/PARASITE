@@ -11,7 +11,7 @@ export class ScheduleService {
   constructor(private http: HttpClient) { }
 
 getPersonalSchedule(username: String): Observable<any> {
-    return this.http.get(this.endpoint + 'schedule/getPerosnalSchedule/' + username);
+    return this.http.get(this.endpoint + 'schedule/getPersonalSchedule/' + username);
 }
 
 
