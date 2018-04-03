@@ -127,7 +127,6 @@ module.exports.getUserInfo = function(req, res, next) {
 
   module.exports.linkAnotherParent = function(req, res, next) {
 
-
     var id = req.params.parentId;
     User.findOne({_id: id}, function(err, user){
       if(err){
@@ -138,9 +137,7 @@ module.exports.getUserInfo = function(req, res, next) {
             res.status(404).send();
           } else {
               if(req.body){
-                console.log(user.children);
-                user.children = req.body.children
-               // user.children.push(child);
+                user.children.push(req.body);
               }
 
               user.save(function(err, updatedUser){
@@ -159,22 +156,33 @@ module.exports.getUserInfo = function(req, res, next) {
 };
 
   module.exports.Unlink = function(req, res, next) {
- User.findByIdAndUpdate(req.params.userId ,  $set , { children : req.body.children }
-   ).exec(function(err, unlink) {
-      if (err) {
-        return next(err);
+  
+    var id = req.params.parentId;
+    User.findOne({_id: id}, function(err, user){
+      if(err){
+        console.log(err);
+        res.status(500).send();
+      } else {
+          if(!user){
+            res.status(404).send();
+          } else {
+              if(req.body){
+                user.children.splice(user.children.indexOf(req.body) , 1);
+              }
+
+              user.save(function(err, updatedUser){
+                if(err){
+                  console.log(err);
+                  res.status(500).send();
+                } else {
+                  res.send(updatedUser);
+                }
+              });
+            }
       }
-      
-      res.status(200).json({
-        err: null,
-        msg: 'Your children list was updated successfully.',
-        data: unlink
-      });
-    });
-   if(user.children.length==0)
-      user.isParent=false;
-  //user.children.add(child);
-  };
+
+        })
+};
 
 
 
@@ -188,8 +196,7 @@ module.exports.getUserInfo = function(req, res, next) {
             res.status(404).send();
           } else {
               if(req.body){
-                user.children.push(child);
-                //= req.body.children
+                user.children.push(req.body);
               }
 
               user.save(function(err, updatedUser){

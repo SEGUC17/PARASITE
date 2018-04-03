@@ -37,8 +37,8 @@ phone: [String];
 schedule: any;
 studyPlans: any;
 birthday: Date;
-listOfChildren: any[] = [];
-verified: Boolean = false;
+listOfChildren: any[];
+verified: Boolean = true;
 id: any;
 // -------------------------------------
 
@@ -54,7 +54,7 @@ vPhone: [String];
 vSchedule: any;
 vStudyPlans: any;
 vBirthday: Date;
-vListOfChildren: any[] = [];
+vListOfChildren: any[];
 vVerified: Boolean = false;
 vId: any;
 // ------------------------------------
@@ -136,28 +136,17 @@ listOfUncommonChildren: any[];
 
   addChild(child): void {
 
-    this.vListOfChildren.push(child);
-    this._ProfileService.linkAnotherParent(this.vListOfChildren, this.vId).subscribe();
+    this._ProfileService.linkAnotherParent(child, this.vId).subscribe();
 
-  }
-
-
-  viewChildren(): void {
-    document.getElementById('UnlinkChildren').classList.toggle('show');
   }
 
 
   removeChild(child): void {
-    this.listOfChildren.splice(this.listOfChildren.indexOf(child) , 1);
-    this._ProfileService.Unlink(this.listOfChildren, this.id ).subscribe();
+    this._ProfileService.Unlink(child, this.id ).subscribe();
   }
 
   linkToParent(child): void {
-    // this.vlistOfChildren.push(child);
     this._ProfileService.linkAsParent(child, this.vId).subscribe();
-
-
-     this._ProfileService.linkAsParent(child, this.vId).subscribe();
   }
 
 

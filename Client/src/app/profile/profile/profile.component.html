@@ -12,7 +12,7 @@
       <button mat-raised-button style="margin-left: 40px">Direct Message</button>
 
       <div class = "RightSideBtns">
-          <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "true" (click)="requestContributerValidation()">Make me a verified contributor</button>
+          <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "!currIsChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>
           <button mat-raised-button id="linkToParent" *ngIf = "!currIsOwner && isChild && visitedIsParent" (click)= "linkToParent()">Add as a parent</button>
           <span class="dropdown" *ngIf = "currIsParent && visitedIsParent">
             <button mat-raised-button [matMenuTriggerFor]="menu" id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
@@ -21,7 +21,14 @@
                   <span>{{child}}</span>
                 </button>
               </mat-menu>
-
+          </span>
+          <span class="dropdown" *ngIf = "currIsParent && visitedIsParent">
+            <button mat-raised-button [matMenuTriggerFor]="menu" id = "unlinkAnotherParent">Unlink my child</button>
+            <mat-menu #menu="matMenu">
+                <button *ngFor="let child of listOfChildren" mat-menu-item (click) = "removeChild(child)" >
+                  <span>{{child}}</span>
+                </button>
+              </mat-menu>
           </span>
           <button mat-raised-button id="mkIndep" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsChild">Make Independent</button>
           <button mat-raised-button id="createChildAccount" *ngIf = "currIsParent && currIsOwner">Create child account</button>
