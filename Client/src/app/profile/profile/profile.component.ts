@@ -59,6 +59,8 @@ vVerified: Boolean = false;
 vId: any;
 // ------------------------------------
 
+// ---------Scheduling Stuff------------
+iHaveAcess: boolean;
 
 // ------------------------------------
 listOfAllChildren: any[];
@@ -110,6 +112,8 @@ listOfUncommonChildren: any[];
         }
     }));
     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
+    const indexChild = this.user.children.indexOf(this.vUsername);
+    this.iHaveAcess = (this.vUsername === this.user.username) || (!(this.user.isChild) && indexChild !== -1);
     }
   }
   }

@@ -48,17 +48,8 @@ export class ScheduleComponent implements OnInit {
   refresh: Subject<any> = new Subject();
   editing = false;
   // NOTE: When integrated into profile, @Inputs will replace these values.
-  // @Input() loggedInUser;
-  // @Input() profileUser;
-  loggedInUser = {
-    children: [],
-    isParent: true,
-    isTeacher: false,
-    isAdmin: false,
-    isChild: false,
-    username: 'alby',
-  };
-  profileUser = 'alby';
+  @Input() loggedInUser;
+  @Input() profileUser;
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
