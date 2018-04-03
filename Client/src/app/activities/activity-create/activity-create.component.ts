@@ -10,6 +10,9 @@ import { ActivityCreate } from '../activity';
   styleUrls: ['./activity-create.component.css']
 })
 export class ActivityCreateComponent implements OnInit {
+  /*
+    author: Wessam
+  */
 
   public activity: ActivityCreate = {
     name: '',
@@ -31,6 +34,12 @@ export class ActivityCreateComponent implements OnInit {
   }
 
   createActivity(){
+    /*
+      Creating a new activity after converting the dates to
+      unix timestamp
+
+      @author: Wessam
+    */
     this.activity.fromDateTime = new Date(this.activity.fromDateN).getTime();
     this.activity.toDateTime = new Date(this.activity.toDateN).getTime();
     this.activityService.postActivities(this.activity).subscribe(

@@ -49,32 +49,17 @@ return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions
 // ------------------------------------------------------------------------
 
 
-// --------Sending Contributer Validation Request --------- AUTHOR: Maher
+/*
+    @author: MAHER.
+ */
   makeContributerValidationRequest(requestObj): any {
-    // TODO: Send an HTTP POST for the request (Maher).
-    console.log('the Request is sent el mafrood AUTHOR: Maher');
     let self = this;
     return this.http.post(
       this.Url + '/VerifiedContributerRequest',
       { obj: {} })
-    .pipe(
-        catchError(self.handleError('getNumberOfContentByCreator', []))
-      );
+      .subscribe();
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-
-    return function (error: any): Observable<T> {
-
-      // console.error(error); // log to console instead
-      console.log(error.message);
-      // TODO: check on the error to alert the user for the already submitted request AUTHOR: Maher.
-      // alert('The request have been submitted');
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
 
   changePassword(oldpw, newpw): Observable<any> {
     return this.http.patch<any> (oldpw, newpw);

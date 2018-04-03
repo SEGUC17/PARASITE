@@ -14,11 +14,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
-import {MatListModule} from '@angular/material/list';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule, MatPaginatorModule } from '@angular/material';
 
 

@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
     MatTabsModule,
     MatButtonModule,
     MatMenuModule,
+    MatCardModule,
     MatChipsModule,
     FormsModule,
     MatCardModule

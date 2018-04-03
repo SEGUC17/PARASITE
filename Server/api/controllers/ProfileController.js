@@ -1,19 +1,14 @@
-var mongoose = require('mongoose'),
-User = mongoose.model('User');
-moment = require('moment'),
-Validations = require('../utils/validators'),
-User = mongoose.model('User');
-VCRSchema = mongoose.model('VerifiedContributerRequest');
-// VCRSchema = require('../models/VerifiedContributerRequest');
-adminController = require('./AdminController');
+var mongoose = require('mongoose');
+var moment = require('moment');
+var Validations = require('../utils/validators');
+var adminController = require('./AdminController');
+var User = mongoose.model('User');
+var VCRSchema = mongoose.model('VerifiedContributerRequest');
 mongoose.set('debug', true);
 
 
-
-
-
 module.exports.getChildren = function (req, res, next) {
-  User.findOne({username: req.params.username}).exec(function (err, user) {
+  User.findOne({ username: req.params.username }).exec(function (err, user) {
       if (err) {
           return next(err);
       }
@@ -36,43 +31,48 @@ res.status(200).json({
       });
   });
 };
- 
-module.exports.requestUserValidation = function(req, res, next) {
-    // var status = "";
-    // if (req.user.isParent) {
-    //     status = 'Parent';
-    // }
-    // if(req.user.isChild){
-    //     status = 'Child';
-    // }
-    // if (req.user.isTeacher) {
-    //     status = 'Teacher';
-    // }
 
-    // var reqObj = {
-    //     status: 'pending',
-    //     bio: status +', @'+req.user.username + ',\n' + req.user.email + ', Number of Children : '+ req.user.children.length,
-    //     name: req.user.firstName + ' ' + req.user.lastName,
-    //     AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
-    //     ProfileLink: 'localhost:4200/profile/'+ req.user.username,
-    //     image: 'src of an image',
-    //     creator: req.user._id
-    // };
+// @author: MAHER
+// requestUserValidation() take some of the
+// information of the User and create a new VC request entity,
+// and insert it to the database db.(VerifiedContributerRequest).
+
+module.exports.requestUserValidation = function(req, res, next) {
+    var status = '';
+    if (req.user.isParent) {
+        status = 'Parent';
+    }
+    if (req.user.isChild) {
+        status = 'Child';
+    }
+    if (req.user.isTeacher) {
+        status = 'Teacher';
+    }
 
     var reqObj = {
         status: 'pending',
-        bio: 'machine learning, AI, Art, Music, Philosophy',
-        name: 'Ahmed Khaled',
+        bio: status + ', @' + req.user.username + ',\n' + req.user.email + ', Number of Children : ' + req.user.children.length,
+        name: req.user.firstName + ' ' + req.user.lastName,
         AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
-        ProfileLink: 'profilemaher.com',
-        image: 'imageMaher.com',
-        creator: '5ac12591a813a63e419ebce5'
-    }
-  VCRSchema.create(reqObj, function (err, next) {
+        ProfileLink: 'localhost:4200/profile/'+ req.user.username,
+        image: 'src of an image',
+        creator: req.user._id
+    };
+    // dummy request obj for testing.
+    // var reqObj = {
+    //     status: 'pending',
+    //     bio: 'machine learning, AI, Art, Music, Philosophy',
+    //     name: 'Ahmed Khaled',
+    //     AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
+    //     ProfileLink: 'profilemaher.com',
+    //     image: 'imageMaher.com',
+    //     creator: '5ac12591a813a63e419ebce5'
+    // }
+  VCRSchema.create(reqObj, function (err, next) {   // insert the request to the database.
    if (err) {
        console.log('duplicate key');
-       if(err.message.startsWith('E11000 duplicate key error')){
-           return res.status(333).json({
+       if(err.message.startsWith('E11000 duplicate key error')){    // if request already existed
+           return res.status(400).json({
                err: null,
                msg: 'the request already submitted',
                data: null

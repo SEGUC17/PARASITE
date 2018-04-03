@@ -18,7 +18,7 @@ module.exports.getActivities = function (req, res, next) {
      */
 
 
-    var userId = req.sender;
+    var userId = req.user._id;
 
     var isAdmin = false;
     var status = req.query.status;
@@ -77,7 +77,7 @@ module.exports.getActivity = function (req, res, next) {
      *  @author: Wessam
      */
 
-    var userId = req.sender;
+    var userId = req.user._id;
     var activityId = req.params.activityId;
 
     var isAdmin = false;
@@ -139,7 +139,7 @@ module.exports.postActivity = function (req, res, next) {
      *   @author: Wessam
      */
 
-    var userId = req.sender;
+    var userId = req.user._id;
 
     var isAdmin = false;
     var isVerified = false;
@@ -188,9 +188,7 @@ module.exports.reviewActivity = function (req, res, next) {
      *  @author: Wessam
      */
 
-    // NOT TESTED
-
-    var userId = req.sender;
+    var userId = req.user._id;
     var activityId = req.body.get('_id');
     var newStatus = req.body.get('status');
 

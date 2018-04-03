@@ -12,7 +12,7 @@
       <button mat-raised-button style="margin-left: 40px">Direct Message</button>
 
       <div class = "RightSideBtns">
-          <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "currIsOwner && !isChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>
+          <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "true" (click)="requestContributerValidation()">Make me a verified contributor</button>
           <button mat-raised-button id="linkToParent" *ngIf = "!currIsOwner && isChild && visitedIsParent" (click)= "linkToParent()">Add as a parent</button>
           <span class="dropdown" *ngIf = "currIsParent && visitedIsParent">
             <button mat-raised-button [matMenuTriggerFor]="menu" id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
@@ -22,7 +22,7 @@
                 </button>
               </mat-menu>
 
-          </span> 
+          </span>
           <button mat-raised-button id="mkIndep" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsChild">Make Independent</button>
           <button mat-raised-button id="createChildAccount" *ngIf = "currIsParent && currIsOwner">Create child account</button>
       </div>
@@ -33,7 +33,7 @@
         <mat-tab label="About">
           <div id = "personalinfo" class = "tabcontent">
             <h3 style="font-weight: bold">Personal Info:</h3>
-    
+
             <label>Username: {{username}}</label> <br>
             <label>Email: {{email}}</label> <br>
             <label>Birthday: {{birthday}}</label> <br>
@@ -64,7 +64,7 @@
             <h3>Settings</h3>
             <h4>Change Password</h4>
 
-            Current Password <br> 
+            Current Password <br>
             <input type="text" name="oldpw" [(ngModel)]=oldpw><br>
             New Password<br> <input type="text" name="newpw" [(ngModel)]=newpw><br>
             Confirm New Password <br>
