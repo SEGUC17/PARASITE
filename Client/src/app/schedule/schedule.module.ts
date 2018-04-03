@@ -20,6 +20,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {
   NgbDatepickerModule,
   NgbTimepickerModule
@@ -49,7 +50,8 @@ import { StarRatingComponent } from './study-plan/star-rating/star-rating.compon
     MatInputModule,
     MatTooltipModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    AmazingTimePickerModule
   ],
   declarations: [
     ScheduleComponent,
