@@ -10,7 +10,6 @@ var VCRmodel = mongoose.model('VerifiedContributerRequest');
 var userModel = mongoose.model('User');
 
 mongoose.connect('mongodb://localhost/nawwar');
-mongoose.set('debug', true);
 
 
          //-------------------------------------------//
