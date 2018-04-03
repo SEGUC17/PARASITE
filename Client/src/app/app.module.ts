@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomInterceptor } from './custom-interceptor';
 
+
 @NgModule({
   declarations: [
     AppComponent
