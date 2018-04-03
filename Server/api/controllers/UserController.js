@@ -78,14 +78,14 @@ module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
     console.log('entered the signUpChild method');
     console.log('user is: ' + req.user._id);
-    User.findByIdAndUpdate(req.user._id, { $set: { 'isParent': true } && { 'children': req.body.username } }, { new: true }, function(err, updatedob) {
+    User.findByIdAndUpdate(req.user._id, { $set: { 'children': req.body.username } }, { new: true }, function(err, updatedob) {
                 if (err) {
                     return res.status(402).json({
                     data: null,
                     msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
                     });
                 }
-
+                updatedob.isParent = true;
                 updatedob.save(function (err) {
                     if (err) {
                         throw err;

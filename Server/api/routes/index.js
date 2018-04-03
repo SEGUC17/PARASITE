@@ -51,7 +51,7 @@ module.exports = function (passport) {
   // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/childsignup', userController.signUpChild);
+  router.post('/childsignup', isAuthenticated, userController.signUpChild);
 
   router.post('/signup', isNotAuthenticated, function (req, res, next) {
     userController.signUp(passport, req, res, next);
