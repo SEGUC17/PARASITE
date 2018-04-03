@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ProfileService } from '../../profile.service';
+import { AuthService} from './../../../auth/auth.service';
 
 @Component({
   selector: 'app-childern',
@@ -7,9 +9,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChildernComponent implements OnInit {
 
-  constructor() { }
+
+
+
+  child: String[];
+  constructor(private profileService: ProfileService, private authService: AuthService) { }
 
   ngOnInit() {
-  }
+   // console.log('ghgh');
+this.getChildern();
 
+  }
+  getChildern() {
+
+  this.profileService.getChildren().subscribe(res => this.child = res.data);
+
+console.log(this.child);
+  }
 }
+
+
