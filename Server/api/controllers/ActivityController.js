@@ -188,8 +188,6 @@ module.exports.reviewActivity = function (req, res, next) {
      *  @author: Wessam
      */
 
-    // NOT TESTED
-
     var userId = req.sender;
     var activityId = req.body.get('_id');
     var newStatus = req.body.get('status');
