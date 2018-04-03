@@ -8,10 +8,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
   endpoint: String = 'http://localhost:3000/api/';
-  user: any = {
-    username: 'ahmed',
-    isAdmin: true
-  };
+  user: any = [];
   authHeader: Headers = new Headers();
 
   signUp(user: any): Observable<any> {
