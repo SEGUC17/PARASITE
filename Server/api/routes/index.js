@@ -11,10 +11,10 @@ var userController = require('../controllers/UserController');
 var ActivityController = require('../controllers/ActivityController');
 var profileController = require('../controllers/ProfileController');
 var contentController = require('../controllers/ContentController');
-var studyPlanController = require('../controllers/StudyPlanController');
 var adminController = require('../controllers/AdminController');
+var studyPlanController = require('../controllers/StudyPlanController');
+var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
-
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
@@ -47,6 +47,7 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
+
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist', psychCtrl.getPsychologists);
   router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
@@ -75,11 +76,11 @@ module.exports = function (passport) {
 
   // --------------End Of Product Contoller ---------------------- //
 
-  // --------------------- Activity Contoller -------------------- //
+// --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
   router.post('/activities', ActivityController.postActivity);
-  // --------------------- End of Activity Controller ------------ //
+// --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isNotAuthenticated, function (req, res, next) {
@@ -108,10 +109,16 @@ module.exports = function (passport) {
   router.post('/study-plan/PublishStudyPlan', studyPlanController.PublishStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
-  // -------------- Admin Contoller ---------------------- //
-  router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
-  router.get('/admin/PendingContentRequests', adminController.viewPendingContReqs);
-  router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
+// -------------- Admin Contoller ---------------------- //
+router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
+router.get(
+'/admin/PendingContentRequests',
+adminController.viewPendingContReqs
+);
+router.patch(
+'/admin/RespondContentRequest/:ContentRequestId',
+adminController.respondContentRequest
+);
   // --------------End Of Admin Contoller ---------------------- //
 
 
@@ -130,7 +137,7 @@ module.exports = function (passport) {
   // );
 
 
-  //  router.get('/profile/:userId/getChildren', profileController.getProduct);
+//  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
   // --------------Content Module Endpoints---------------------- //
@@ -183,8 +190,27 @@ module.exports = function (passport) {
   router.post('/content', contentController.createContent);
 
 
+
+    //-------------------- Messaging Module Endpoints ------------------//
+
+    // Send message
+    router.post('/message/sendMessage', messageController.sendMessage);
+
+    //View inbox
+    router.get('/message/inbox/:user', messageController.getInbox);
+
+    //View sent
+    router.get('/message/sent/:user', messageController.getSent);
+
+    //Delete message
+    router.delete('/message/:id', messageController.deleteMessage);
+
+    //------------------- End of Messaging Module Endpoints-----------//
+
+
   // -------------------------------------------------------------------- //
   module.exports = router;
 
   return router;
 };
+

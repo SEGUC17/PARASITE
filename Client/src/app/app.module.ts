@@ -30,6 +30,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomInterceptor } from './custom-interceptor';
 import { AuthService } from './auth/auth.service';
 
+
 @NgModule({
   declarations: [
     AppComponent
