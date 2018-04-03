@@ -51,23 +51,11 @@ module.exports = function (passport) {
   // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/signup', isNotAuthenticated, function (req, res, next) {
-    userController.signUp(passport, req, res, next);
-  });
-  router.post('/signin', isNotAuthenticated, function (req, res, next) {
-    userController.signIn(passport, req, res, next);
-  });
-
-  router.get('/signout', isAuthenticated, function (req, res) {
-    req.logout();
-
-    return res.status(200).json({
-      data: null,
-      error: null,
-      msg: 'Sign Out Successfully!'
-    });
-  });
+  router.post('/signup', userController.signUp);
+  router.post('/signin', userController.signIn);
   // ---------------------- End of User Controller --------------- //
+
+  
   //-------------------- Study Plan Endpoints ------------------//
   router.get('/study-plan/getPersonalStudyPlans/:username', studyPlanController.getPerosnalStudyPlans);
   router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);

@@ -2,12 +2,10 @@
 /* eslint-disable max-statements */
 
 // ---------------------- Requirements ---------------------- //
+var config = require('../config/config');
+var jwt = require('jsonwebtoken');
 var mongoose = require('mongoose');
-var Encryption = require('../utils/encryption/encryption');
-var LocalStrategy = require('passport-local').Strategy;
 var User = mongoose.model('User');
-
-var newUser = new User();
 // ---------------------- End of "Requirements" ---------------------- //
 
 
@@ -21,56 +19,202 @@ var isNotEmpty = require('../utils/validators/not-empty');
 // ---------------------- End of "Validators" ---------------------- //
 
 
-module.exports.signUp = function (passport, req, res, next) {
-    passport.authenticate('local-signup', function (err, user, info) {
-        if (err) {
-            return next(err);
-        } else if (!user) {
-            return res.status(400).json({
+module.exports.signUp = function (req, res, next) {
+
+    // --- Variable Assign --- //
+    var newUser = new User({
+        address: req.body.address,
+        birthdate: req.body.birthdate,
+        email: req.body.email,
+        firstName: req.body.firstName,
+        isTeacher: req.body.isTeacher,
+        lastName: req.body.lastName,
+        password: req.body.password,
+        phone: req.body.phone,
+        username: req.body.username
+    });
+    // --- End of "Variable Assign" --- //
+
+    // --- Check: Emptinesss & Type --- //
+    var field = '';
+    try {
+
+        field = 'Address';
+        isString(newUser.address ? newUser.address : '');
+
+        field = 'Birthdate';
+        isNotEmpty(newUser.birthdate);
+        isDate(newUser.birthdate);
+
+        field = 'Email';
+        isNotEmpty(newUser.email);
+        isString(newUser.email);
+
+        field = 'First Name';
+        isNotEmpty(newUser.firstName);
+        isString(newUser.firstName);
+
+        field = 'Is Teacher';
+        isNotEmpty(newUser.isTeacher);
+        isBoolean(newUser.isTeacher);
+
+        field = 'Last Name';
+        isNotEmpty(newUser.lastName);
+        isString(newUser.lastName);
+
+        field = 'Password';
+        isNotEmpty(newUser.password);
+        isString(newUser.password);
+
+        field = 'Phone';
+        isArray(newUser.phone ? newUser.phone : []);
+
+        field = 'Username';
+        isNotEmpty(newUser.username);
+        isString(newUser.username);
+
+    } catch (err) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: field + ': ' + err.message
+        });
+    }
+    // --- End of "Check: Emptinesss & Type" --- //
+
+    // --- Trimming & Lowering Cases--- //
+    newUser.address = newUser.address ? newUser.address.toLowerCase() : newUser.address;
+    newUser.email = newUser.email ? newUser.email.toLowerCase().trim() : newUser.email;
+    newUser.username = newUser.username ? newUser.username.toLowerCase().trim() : newUser.username;
+    // --- End of "Trimming & Lowering Cases"--- //
+
+    // --- Check: birthdate --- //
+    if (new Date().getFullYear() - newUser.birthdate.getFullYear() < 13) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: 'Under 13 Must Be Child!'
+        });
+    }
+    // --- End of "Check: birthdate" --- //
+
+    // --- Check: Email Regex Match --- //
+    if (!newUser.email.match(/\S+@\S+\.\S+/)) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: 'Email Is Not Valid!'
+        });
+    }
+    // --- End of "Check: Email Regex Match" --- //
+
+    // --- Check: Password Length --- //
+    if (newUser.password.length < 8) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: 'Password Length Must Be Greater Than 8!'
+        });
+    }
+    // --- End of "Check: Password Length" --- //
+
+    // --- Check: Phone Regex Match ---//
+    for (var index = 0; index < newUser.phone.length; index += 1) {
+        if (!newUser.phone[index].match(/^\d+$/)) {
+            return res.status(422).json({
                 data: null,
                 err: null,
-                msg: info.signUpMessage
+                msg: 'Phone Is Not Valid!'
             });
         }
+    }
+    // --- End of "Check: Phone Regex Match" ---//
 
-        req.logIn(user, function (err2) {
-            if (err2) {
-                return next(err2);
+    // --- Check: Duplicate Username/Email --- //
+    User.findOne(
+        {
+            $or: [
+                { 'username': newUser.username },
+                { 'email': newUser.email }
+            ]
+        },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (user) {
+                if (user.email === newUser.email) {
+                    return res.status(409).json({
+                        data: null,
+                        err: null,
+                        msg: 'Email Is In Use!'
+                    });
+                }
+
+                return res.status(409).json({
+                    data: null,
+                    err: null,
+                    msg: 'Username Is In Use!'
+                });
             }
 
-            return res.status(201).json({
-                data: user,
-                err: null,
-                msg: 'Sign Up Successfully!'
+            newUser.save(function (err2) {
+                if (err2) {
+                    throw err2;
+                }
+
+                return res.status(201).json({
+                    data: null,
+                    err: null,
+                    msg: 'Sign Up Is Successful!',
+                    token: 'JWT ' + jwt.sign(newUser.toJSON(), config.SECRET)
+                });
             });
-        });
-    })(req, res, next);
+        }
+    );
+    // --- End of "Check: Duplicate Username/Email" --- //
 };
 
-module.exports.signIn = function (passport, req, res, next) {
-    passport.authenticate('local-signin', function (err, user, info) {
-        if (err) {
-            return next(err);
-        } else if (!user) {
-            return res.status(401).json({
-                data: null,
-                err: null,
-                msg: info.signInMessage
-            });
-        }
+module.exports.signIn = function (req, res, next) {
+    req.body.username = req.body.username ? req.body.username.toLowerCase().trim() : '';
 
-        req.logIn(user, function (err2) {
-            if (err2) {
-                return next(err2);
+    User.findOne(
+        {
+            $or: [
+                { 'username': req.body.username },
+                { 'email': req.body.username }
+            ]
+        },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (!user) {
+                return res.status(422).json({
+                    data: null,
+                    err: null,
+                    msg: 'Wrong Username/Email or Password!'
+                });
             }
 
-            return res.status(200).json({
-                data: user,
-                err: null,
-                msg: 'Sign In Successfully!'
+            user.comparePasswords(req.body.password, function (err2, passwordMatches) {
+                if (err2) {
+                    throw err2;
+                } else if (!passwordMatches) {
+                    return res.status(422).json({
+                        data: null,
+                        err: null,
+                        msg: 'Wrong Username/Email or Password!'
+                    });
+                }
+
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'Sign In Is Successfull',
+                    token: 'JWT ' + jwt.sign(user._id.toJSON(), config.SECRET)
+                });
             });
-        });
-    })(req, res, next);
+        }
+    );
 };
 
 
@@ -84,6 +228,8 @@ module.exports.signUpChild = function (req, res, next) {
         });
     }
     //end if
+
+    var newUser = new User();
 
     // --- Variable Assign --- //
     newUser.address = req.body.address;
