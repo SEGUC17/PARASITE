@@ -85,13 +85,13 @@ export class SearchControlComponent implements OnInit {
       page = event.pageIndex + 1;
     }
     this.searchService.getPage(page).subscribe(
-      res => this.users = res.data
+      res => this.users = res.data.docs
 
     );
   }
 
   ngOnInit() {
-    this.currPage = 1;
+    this.currPage = 0;
     this.tags = ['NA', 'NA', 'NA', 'NA'];
     this.users = [];
     this.removable = true;
