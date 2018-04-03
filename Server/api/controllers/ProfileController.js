@@ -1,19 +1,14 @@
-var mongoose = require('mongoose'),
-User = mongoose.model('User');
-moment = require('moment'),
-Validations = require('../utils/validators'),
-User = mongoose.model('User');
-VCRSchema = mongoose.model('VerifiedContributerRequest');
-// VCRSchema = require('../models/VerifiedContributerRequest');
-adminController = require('./AdminController');
+var mongoose = require('mongoose');
+var moment = require('moment');
+var Validations = require('../utils/validators');
+var adminController = require('./AdminController');
+var User = mongoose.model('User');
+var VCRSchema = mongoose.model('VerifiedContributerRequest');
 mongoose.set('debug', true);
 
 
-
-
-
 module.exports.getChildren = function (req, res, next) {
-  User.findOne({username: req.params.username}).exec(function (err, user) {
+  User.findOne({ username: req.params.username }).exec(function (err, user) {
       if (err) {
           return next(err);
       }
@@ -36,17 +31,18 @@ res.status(200).json({
       });
   });
 };
- /*
-    @author: MAHER
-    requestUserValidation() take some of the information of the User and create a new VC request entity,
-    and insert it to the database db.(VerifiedContributerRequest).
-  */
+
+// @author: MAHER
+// requestUserValidation() take some of the
+// information of the User and create a new VC request entity,
+// and insert it to the database db.(VerifiedContributerRequest).
+
 module.exports.requestUserValidation = function(req, res, next) {
-    var status = "";
+    var status = '';
     if (req.user.isParent) {
         status = 'Parent';
     }
-    if(req.user.isChild){
+    if (req.user.isChild) {
         status = 'Child';
     }
     if (req.user.isTeacher) {
@@ -55,7 +51,7 @@ module.exports.requestUserValidation = function(req, res, next) {
 
     var reqObj = {
         status: 'pending',
-        bio: status +', @'+req.user.username + ',\n' + req.user.email + ', Number of Children : '+ req.user.children.length,
+        bio: status + ', @' + req.user.username + ',\n' + req.user.email + ', Number of Children : ' + req.user.children.length,
         name: req.user.firstName + ' ' + req.user.lastName,
         AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
         ProfileLink: 'localhost:4200/profile/'+ req.user.username,

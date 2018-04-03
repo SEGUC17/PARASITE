@@ -66,128 +66,125 @@ module.exports.respondContentRequest = function (req, res, next) {
 };
 
          //-------------------------------------------//
-/*
-* @author: Maher
-* getVCRs: gets all the requests of the unverified contribters filtered by the given filter in the url
-*/
+
+// @author: Maher
+// getVCRs: gets all the requests of the unverified
+// contribters filtered by the given filter in the url.
+
 module.exports.getVCRs = function(req, res, next) {
     var filteredVCRs = null;
-    if (req.user.isAdmin) { // Checks if Admin
+    // Checks if Admin.
+    if (req.user.isAdmin) {
 
         try {
-            mongoose.connection.collection('VerifiedContributerRequest').find({}).toArray(function (err, result) {
+            mongoose.connection.collection('VerifiedContributerRequest').find({}).
+            toArray(function (err, result) {
                 if (err) {
                     throw err;
                 }
-
-                filteredVCRs = result.filter(
-                    function (request) {                                    // filters the result by the given filter
+                // filters the result by the given filter
+                filteredVCRs = result.filter(function (request) {
                         return request.status === req.params.FilterBy;
                 });
                 console.log('retrieved all VCRs');
 
                 return res.status(200).json({
+                    data: { dataField: filteredVCRs },
                     err: null,
-                    msg: 'VCRs retrieved successfully.',
-                    data: {dataField: filteredVCRs}
+                    msg: 'VCRs retrieved successfully.'
                 });
 
 
             });
-        }
-        catch (e) {
+        } catch (err) {
             res.status(500).json({
+                data: null,
                 err: null,
-                msg: 'VCRs retrieval failed.',
-                data: null
+                msg: 'VCRs retrieval failed.'
             });
         }
-    }
-    else {                                              // if the user is not an Admin
+    } else {
+        // if the user is not an Admin
         res.status(403).json({
+            data: null,
             err: null,
-            msg: 'Not an Admin.',
-            data: null
+            msg: 'Not an Admin.'
         });
     }
-
 };
 
-/*
-    @author: Maher
 
-    VCRResponde allow the Admin user to respond to a specific Verification Request (UnVerified Contributer)
+// @author: Maher
+// VCRResponde allow the Admin user to respond to a specific
+// Verification Request (UnVerified Contributer).
 
- */
+
 module.exports.VCRResponde = function(req, res, next) {
-
-    if (req.user.isAdmin) {                         // Checks if Admin
-
-        VCRmodel.update(                                    // Update the request with the given responce.
-            {_id: req.params.targetId},
-            {$set: {status: req.body.responce}},
-            {new: false},
+    // Checks if Admin
+    if (req.user.isAdmin) {
+        // Update the request with the given responce.
+        VCRmodel.update(
+            { _id: req.params.targetId },
+            { $set: { status: req.body.responce } },
+            { new: false },
             function (err) {
                 if (err) {
                     console.log(err.msg);
                     throw err;
                 }
                 console.log('1 document updated');
-            });
+            }
+        );
 
 
         var userId = null;
-        VCRmodel.find({_id: req.params.targetId}).exec(function (err, result) {
-            /*
-                find the _id of the Approved/Disapproved User to change his Verified state.
-             */
-            if (err)
-                throw err;
-
+        VCRmodel.find({ _id: req.params.targetId }).
+        exec(function (err, result) {
+            // find the _id of the Approved/Disapproved User
+            // to change his Verified state.
+            if (err) {
+                 throw err;
+            }
             userId = result[0].creator;
-            console.log(result);
-            console.log('retrieved all VCRs' + userId);
-
-            if (req.body.responce == 'approved') {
+            if (req.body.responce === 'approved') {
                 console.log('approving user');
 
                 // Updating verified by Approved.
                 userModel.update(
-                    {_id: userId},
-                    {$set: {verified: true}},
-                    {new: true},
-                    function (err, res) {
-                        if (err) {
-                            console.log(err.msg);
-                            throw err;
+                    { _id: userId },
+                    { $set: { verified: true } },
+                    { new: true },
+                    function (error, resp) {
+                        if (error) {
+                            throw error;
                         }
-                        console.log("1 User approved updated");
-                    });
+                        console.log('1 User approved updated');
+                    }
+                );
             }
-            if (req.body.responce == 'disapproved') {
+            if (req.body.responce === 'disapproved') {
                 console.log('disapproving user');
                 // Updating verified by disapproved.
                 userModel.update(
-                    {_id: userId},
-                    {$set: {verified: false}},
-                    {new: true},
-                    function (err, res) {
-                        if (err) {
-                            console.log(err.msg);
-                            throw err;
+                    { _id: userId },
+                    { $set: { verified: false } },
+                    { new: true },
+                    function (error, resp) {
+                        if (error) {
+                            throw error;
                         }
-                        console.log("1 User disapproved updated");
-                    });
+                        console.log('1 User disapproved updated');
+                    }
+                );
             }
 
         });
-
-    }
-    else {  // if not Admin.
+    } else {
+        // if not Admin.
         res.status(403).json({
+            data: null,
             err: null,
-            msg: 'Not an Admin.',
-            data: null
+            msg: 'Not an Admin'
         });
     }
-}
+};
