@@ -1,4 +1,5 @@
 <p> Please fill in these fields to become a member in Nawwar</p>
+<p> Note: your password should be more than 8 characters</p>
 
 <!--attributes to be entered by the unregistered user-->
 
@@ -16,21 +17,22 @@
 <script> type="text/javascript"; src= "signup.ts"</script>
 <form>
   <div id= "choices" class="radio">
-    <label>
-        <input type="radio" name="group1" value="Student">
-        Are you a student?
-    </label><br/>
-    <label>
-      <input type="radio" name="group1" value="Teacher">
+  <!--  <label>
+      <input type="radio" id="group1" value="Teacher"  (change)="checked(true)">
       Are you a teacher?
-    </label><br/>
-
-    <label>
-    <input type="radio" name="group1" value="Parent" >
-    Are you a parent?
-    </label><br/>
+    </label><br/> -->
+    <div ng-switch="Teacher">
+      <div ng-switch-when="Teacher">
+      </div>
+    </div>
   </div>
  </form>
+
+ <label class="checkbox-inline nopaddingleft" for="radio1">
+  <input name="radio1" type="checkbox" id="radio1" 
+      class="checkbox-inline margin-right-five" value="name" 
+      data-ng-model="this.User.Teacher" /> Are you a teacher?
+</label>  
 
 
 
@@ -55,9 +57,4 @@
   <label>
     Please insert all the required fields
   </label>
-
-<div *ngIf ="Div3">  
-
-<label>
-  You can't choose to be a student as well as a parent/teacher
-</label>
+</div>
