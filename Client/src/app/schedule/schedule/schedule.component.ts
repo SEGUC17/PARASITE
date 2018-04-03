@@ -187,7 +187,9 @@ export class ScheduleComponent implements OnInit {
         afterEnd: true
       }
     });
-    this.refresh.next();
+    setTimeout(function() {
+      return this.refresh.next();
+    }, 0);
   }
 
   isUnchanged(): boolean {
@@ -202,7 +204,6 @@ export class ScheduleComponent implements OnInit {
   }
 
   saveScheduleChanges() {
-    if (!this.isUnchanged()) {
       const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
       if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
         console.log('entered');
@@ -231,35 +232,16 @@ export class ScheduleComponent implements OnInit {
         anEvent.color.secondary = element.color.secondary;
         this.eventsInitial.push(anEvent);
       });
-    }
+      this.editing = false;
+      setTimeout(function() {
+        return this.refresh.next();
+      }, 0);
   }
 
   cancel() {
-    this.events = [];
-    const self = this;
-    this.eventsInitial.forEach(function(element) {
-      const anEvent: CalendarEvent = {
-        id : element.id,
-        start : element.start,
-        end : element.end,
-        title : element.title,
-        color : {
-          primary : element.color.primary,
-          secondary : element.color.secondary
-        },
-        actions : element.actions,
-        allDay : element.allDay,
-        cssClass : element.cssClass,
-        resizable : element.resizable,
-        draggable : element.draggable,
-        meta : element.meta
-      };
-      anEvent.color.primary = element.color.primary;
-      anEvent.color.secondary = element.color.secondary;
-      self.events.push(anEvent);
-    });
+    this.editing = false;
     setTimeout(function() {
-      return self.refresh.next();
+      return this.refresh.next();
     }, 0);
   }
 
