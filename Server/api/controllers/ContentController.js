@@ -68,7 +68,7 @@ module.exports.getContentPage = function (req, res, next) {
         Content.paginate(
             {
                 approved: true,
-                creator: req.params.category
+                category: req.params.category
             },
             {
                 limit: Number(req.params.numberOfEntriesPerPage),
