@@ -30,7 +30,7 @@ export class AuthService {
     return this.user;
   }
 
-  childSignUp(user: any, userID: any ): Observable<any> {
-    return this.http.post<any>(`${this.endpoint}/${userID}` , user);
+  childSignUp(user: any): Observable<any> {
+    return this.http.post<any>('http://localhost:3000/api/childsignup' , user);
   }
 }// end class

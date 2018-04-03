@@ -63,6 +63,7 @@ export class SignupComponent implements OnInit {
        'birthdate': this.Birthdate, 'email': this.Email,
        'phone': this.Phone, 'address': this.Address, 'isParent': this.Parent, 'isChild': this.Student, 'isTeacher': this.Teacher };
       const self = this;
+      console.log('teacher= ' + this.Teacher);
       self.authService.signUp(this.User).subscribe(function (res) {
         self.authService.setUser(res.data);
         console.log(this.authService.getUser());

@@ -57,8 +57,16 @@ module.exports.signIn = function (req, res, next) {
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
     console.log('entered the signUpChild method');
-     req.params.user.isParent = true;
-     console.log('Parent flag=' + req.user.isParent);
+    var id = req.body._id;
+    console.log(id);
+    if (id) {
+     user = User.findById(id);
+     user.isParent = true;
+     user.children = [newUser.username];
+    }
+   // var userid = req.params.userID;
+    // User.findByIdAndUpdate(id, $set, { isParent: true });
+     console.log('id of sender =' + id);
     //end if
 
     // --- Variable Assign --- //
