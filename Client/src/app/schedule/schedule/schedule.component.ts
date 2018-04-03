@@ -46,6 +46,7 @@ export class ScheduleComponent implements OnInit {
   eventsInitial: CalendarEvent[] = [];
   activeDayIsOpen: Boolean = true;
   refresh: Subject<any> = new Subject();
+  editing = false;
   // NOTE: When integrated into profile, @Inputs will replace these values.
   // @Input() loggedInUser;
   // @Input() profileUser;
@@ -220,10 +221,18 @@ export class ScheduleComponent implements OnInit {
     return JSON.stringify(this.events) === JSON.stringify(this.eventsInitial);
   }
 
+  refreshDocument() {
+    const self = this;
+    setTimeout(function() {
+      return self.refresh.next();
+    }, 0);
+  }
+
   saveScheduleChanges() {
     if (!this.isUnchanged()) {
       const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
       if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
+        console.log('entered');
         this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
       }
       this.refresh.next();

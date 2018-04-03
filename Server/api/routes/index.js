@@ -98,6 +98,11 @@ module.exports = function (passport) {
   //  router.get('/profile/:userId/getChildren', profileController.getProduct);
   //------------------- End of Profile module Endpoints-----------//
 
+     // ---------------Schedule Controller Endpoints ---------------//
+     router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
+     router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
+     // ------------End of Schedule Controller Endpoints -----------//
+
     // --------------Content Module Endpoints---------------------- //
 
     // Content Managemen

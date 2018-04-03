@@ -34,16 +34,24 @@
   <div *ngIf="!loggedInUser.isChild">
     <mat-card>
           <h3>
-            Edit events
-            <button
+            <button *ngIf="editing"
               class="btn btn-primary pull-right"
+              style="width:100px"
               (click)="addEvent()">
-              Add new
+              Add Event
+            </button>
+
+            <button *ngIf="!editing"
+            class="btn btn-primary pull-right"
+            style="width:100px"
+            (click)="editing=true; refreshDocument()">
+            Edit
             </button>
             <div class="clearfix"></div>
           </h3>
+          
 
-          <h4 style="overflow-y:scroll; height:800px;">
+          <h4 *ngIf="editing" style="overflow-y:scroll; height:800px;">
             <table class="table table-bordered">
 
               <thead>
@@ -105,10 +113,10 @@
             </table>
           </h4>
     </mat-card>
-    <mat-card>
+    <mat-card *ngIf="editing">
       <div class="button-row">
-          <button mat-raised-button [disabled]="isUnchanged()" (click)="saveScheduleChanges()" color="primary">Save Changes</button>
-          <button mat-raised-button [disabled]="isUnchanged()" (click)="cancel()" color="primary">Cancel</button>
+          <button button [disabled]="isUnchanged()" (click)="saveScheduleChanges()" class="btn btn-primary" style="width:150px">Save Changes</button>
+          <button button (click)="cancel()" class="btn btn-primary" style="width:150px">Cancel</button>
       </div>
     </mat-card>
   </div>
