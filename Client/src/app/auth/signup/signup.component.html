@@ -17,9 +17,13 @@
 <form>
   <div id= "choices" class="radio">
     <label>
-      <input type="radio" name="group1" value="Teacher" [checked]="Teacher">
+      <input type="radio" name="group1" value="Teacher" [(ngModel)]= "Teacher">
       Are you a teacher?
     </label><br/>
+    <div ng-switch="Teacher">
+      <div ng-switch-when="Teacher">
+      </div>
+    </div>
   </div>
  </form>
 
@@ -46,9 +50,4 @@
   <label>
     Please insert all the required fields
   </label>
-
-<div *ngIf ="Div3">  
-
-<label>
-  You can't choose to be a student as well as a parent/teacher
-</label>
+</div>

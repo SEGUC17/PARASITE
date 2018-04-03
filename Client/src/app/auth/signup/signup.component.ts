@@ -23,6 +23,7 @@ export class SignupComponent implements OnInit {
   Student: Boolean = false;
   Teacher: Boolean = false;
   Parent: Boolean = false;
+  Flag: String = '';
   Div1 = false;
   Div2 = false;
   Div3 = false;
@@ -36,7 +37,7 @@ export class SignupComponent implements OnInit {
 
   register(): void {
     // checking that password and confirm password match and all required entries are there
-    // this.checked();ser: any
+     this.checked();
 
     if (!(this.Password === this.ConfirmPassword)) {
       this.showDiv1();
@@ -49,14 +50,9 @@ export class SignupComponent implements OnInit {
       this.AllisWell = false;
 
     }
-
-    if ((this.Student === true && this.Teacher === true && this.Parent === true) ||  // can't be a student & a parent/teacher
-      (this.Student === true && this.Teacher === true && this.Parent === false) ||
-      (this.Student === true && this.Teacher === false && this.Parent === true)) {
-      this.showDiv3();
-      this.AllisWell = false;
-
-    }
+  //  if (this.Teacher ===  'Teacher') {
+    //  this.Teacher = true;
+   // }
     // to be continued
     if (this.AllisWell) {
       this.User = { 'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
@@ -88,25 +84,13 @@ export class SignupComponent implements OnInit {
     this.location.back();
   }// end method
 
-  /* checked() {
-    var choices= document.getElementsByName("group1")
-    var len= choices.length
-     for(let i=0; i<len; i++)
-     {
-       if(choices[i].click)
+   checked() {
+    const choice = document.getElementById('group1');
+      if (choice) {
+        this.Teacher = true;
+      }// endif
 
-       {
-         if(choices[i].nodeValue=="Student")
-          this.Student=true;
-          if(choices[i].nodeValue=="Parent")
-          this.Parent=true;
-          if(choices[i].nodeValue=="Teacher")
-          this.Teacher=true;
-        }//end if
-     }//end for
-
-   }//end method
-   */
+   }// end method
 }// end class
 
 
