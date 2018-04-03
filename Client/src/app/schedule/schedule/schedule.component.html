@@ -115,7 +115,7 @@
     </mat-card>
     <mat-card *ngIf="editing">
       <div class="button-row">
-          <button button [disabled]="isUnchanged()" (click)="saveScheduleChanges()" class="btn btn-primary" style="width:150px">Save Changes</button>
+          <button button [disabled]="false" (click)="saveScheduleChanges()" class="btn btn-primary" style="width:150px">Save Changes</button>
           <button button (click)="cancel()" class="btn btn-primary" style="width:150px">Cancel</button>
       </div>
     </mat-card>
