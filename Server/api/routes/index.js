@@ -75,15 +75,15 @@ module.exports = function (passport) {
   // -------------- Admin Contoller ---------------------- //
   router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
   router.get(
-    '/admin/PendingContentRequests/:type',
+    '/admin/PendingContentRequests/:type', isAuthenticated,
     adminController.viewPendingContReqs
   );
   router.patch(
-    '/admin/RespondContentRequest/:ContentRequestId',
+    '/admin/RespondContentRequest/:ContentRequestId', isAuthenticated,
     adminController.respondContentRequest
   );
   router.patch(
-    '/admin/RespondContentStatus/:ContentId',
+    '/admin/RespondContentStatus/:ContentId', isAuthenticated,
     adminController.respondContentStatus
   );
 
