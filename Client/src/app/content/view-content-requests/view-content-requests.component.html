@@ -5,10 +5,8 @@
   </mat-radio-group>
   <div class="row justify-content-center mt-5">
     <mat-card class="m-2 col-lg-3 col-md-6 col-sm-12 col-xs-12" *ngFor="let req of reqs">
-      <mat-card-header class="text-center">
-        <mat-card-title class="title"> {{req.contentTitle}} </mat-card-title>
-        <mat-card-subtitle class="Subtitle"> {{req.contentType}} </mat-card-subtitle>
-      </mat-card-header>
+        <div class="text-center">{{req.contentTitle}}</div>
+        <div class="text-center">{{req.contentType}}</div>
       <mat-card-content>
         <div>creator is: {{req.creator}}</div>
         <div>Date of creation is: {{req.createdOn}}</div>
@@ -16,9 +14,9 @@
         <div>contentID is: {{req.contentID}} </div>
       </mat-card-content>
       <mat-card-actions class="row">
-        <button mat-button class="col-3 small-font" (click)="approveContentRequest(req._id)" color="primary"> Approve </button>
-        <button mat-button class="col-3 small-font"  (click)="disapproveContentRequest(req._id)" color="primary"> Disapprove </button>
-        <button mat-button class="col-3 small-font" (click)="viewCont(req.contentID)" color="primary"> Details </button>
+        <button mat-button class="col-auto" (click)="approveContentRequest(req._id)" color="primary"> Approve </button>
+        <button mat-button class="col-auto"  (click)="disapproveContentRequest(req._id)" color="primary"> Disapprove </button>
+        <button mat-button class="col-auto" (click)="viewCont(req.contentID)" color="primary"> Details </button>
       </mat-card-actions>
     </mat-card>
   </div>

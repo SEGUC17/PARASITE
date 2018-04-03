@@ -5,7 +5,6 @@ var ContentRequest = mongoose.model('ContentRequest');
 var VCR = require('../models/VerifiedContributerRequest');
 var Content = mongoose.model('Content');
 var User = mongoose.model('User');
-mongoose.set('debug', true);
 User = mongoose.model('User');
 
 
