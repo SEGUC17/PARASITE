@@ -5,8 +5,6 @@ import { createProductRequest } from './createProductRequest';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MarketComponent } from '../market/market.component';
 import { AuthService } from '../../auth/auth.service';
-import {MatSnackBar} from '@angular/material';
-
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
@@ -17,7 +15,7 @@ export class CreateProductComponent {
 
   constructor(private marketService: MarketService, private authService: AuthService ,
     public dialogRef: MatDialogRef<CreateProductComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, public snackBar: MatSnackBar) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   productrequest: createProductRequest;
   formInput = <any>{};
