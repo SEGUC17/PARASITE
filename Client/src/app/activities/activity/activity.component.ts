@@ -37,6 +37,8 @@ export class ActivityComponent implements OnInit {
       Getting the activities from the api
 
       @var event: An object that gets fired by mat-paginator
+
+      @author: Wessam
     */
     let page = 1;
     if (event) {
@@ -53,6 +55,8 @@ export class ActivityComponent implements OnInit {
     /*
       Setting new values comming from 
       the response
+
+      @author: Wessam
     */
     document.querySelector('.mat-sidenav-content').scrollTop = 0;
     this.activities = res.data.docs;
