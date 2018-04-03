@@ -21,68 +21,60 @@ var isNotEmpty = require('../utils/validators/not-empty');
 // ---------------------- End of "Validators" ---------------------- //
 
 
-module.exports.signUp = function (passport, req, res, next) {
-    passport.authenticate('local-signup', function (err, user, info) {
-        if (err) {
-            return next(err);
-        } else if (!user) {
-            return res.status(400).json({
-                data: null,
-                err: null,
-                msg: info.signUpMessage
-            });
-        }
+module.exports.signUp = function (req, res, next) {
+    if (req.res) {
+        delete req.user.password;
 
-        req.logIn(user, function (err2) {
-            if (err2) {
-                return next(err2);
-            }
-
-            return res.status(201).json({
-                data: user,
-                err: null,
-                msg: 'Sign Up Successfully!'
-            });
+        return res.status(req.res.code).json({
+            data: req.user,
+            err: null,
+            msg: req.res.msg
         });
-    })(req, res, next);
+    }
+
+    return next();
 };
 
-module.exports.signIn = function (passport, req, res, next) {
-    passport.authenticate('local-signin', function (err, user, info) {
-        if (err) {
-            return next(err);
-        } else if (!user) {
-            return res.status(401).json({
-                data: null,
-                err: null,
-                msg: info.signInMessage
-            });
-        }
+module.exports.signIn = function (req, res, next) {
+    if (req.user) {
+        delete req.user.password;
 
-        req.logIn(user, function (err2) {
-            if (err2) {
-                return next(err2);
-            }
-
-            return res.status(200).json({
-                data: user,
-                err: null,
-                msg: 'Sign In Successfully!'
-            });
+        return res.status(200).json({
+            data: req.user,
+            err: null,
+            msg: 'Sign In Successfully!'
         });
-    })(req, res, next);
+    }
+
+    return res.status(400).json({
+        data: req.user,
+        err: null,
+        msg: 'Wrong Username Or Password!'
+    });
 };
 
 
 module.exports.signUpChild = function (req, res, next) {
+    // to make the user a parent
+    console.log('entered the signUpChild method');
+    console.log('user is: ' + req.user._id);
+    User.findByIdAndUpdate(req.user._id, { $set: { 'isParent': true } && { 'children': req.body.username } }, { new: true }, function(err, updatedob) {
+                if (err) { 
+                    return res.status(402).json({
+                    data: null, 
+                    msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
+                    });
+                }
+                return res.status(200).json({
+                data: updatedob,
+                err: null,
+                msg: 'update is successful'
+             });
+         });
+     //   User.findByIdAndUpdate(req.user._id, { $set: { isParent: true } });
 
-    if (req.user.isParent === false) {
-        return res.status(401).json({
-            data: null,
-            err: null,
-            msg: 'user is not a parent!'
-        });
-    }
+   // var userid = req.params.userID;
+    // User.findByIdAndUpdate(id, $set, { isParent: true });
     //end if
 
     // --- Variable Assign --- //
