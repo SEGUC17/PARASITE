@@ -221,7 +221,13 @@ module.exports.createContent = function (req, res, next) {
         req.body.body &&
         req.body.category &&
         req.body.section &&
-        req.body.creator;
+        req.body.creator &&
+        mongoose.Types.string.isValid(req.body.title) &&
+        mongoose.Types.string.isValid(req.body.body) &&
+        mongoose.Types.string.isValid(req.body.category) &&
+        mongoose.Types.string.isValid(req.body.section) &&
+        mongoose.Types.string.isValid(req.body.creator);
+
     if (!valid) {
         return res.status(422).json({
             data: null,
