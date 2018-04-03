@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { StudyPlan } from './study-plan';
+import { Rating } from './star-rating/rating';
 import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -110,6 +111,9 @@ export class StudyPlanComponent implements OnInit {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
           this.description = this.studyPlan.description;
+          if (this.studyPlan.rating) {
+            this.rating = this.studyPlan.rating.value;
+          }
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);
@@ -153,14 +157,14 @@ export class StudyPlanComponent implements OnInit {
   }
 
   onRatingChanged(rating) {
-    console.log(rating);
     this.rating = rating;
+    this.studyPlanService.rateStudyPlan(this._id, rating).subscribe();
   }
 
   publish(): void {
     this.studyPlanService.PublishStudyPlan(this.studyPlan);
     alert('Implement Publish Study Plan!');
-  }
+    }
 
   copy(): void {
     alert('Implement Copy Study Plan!');

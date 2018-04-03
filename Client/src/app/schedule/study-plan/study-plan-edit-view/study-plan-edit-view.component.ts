@@ -52,7 +52,7 @@ export class StudyPlanEditViewComponent implements OnInit {
   title: String;
   events: CalendarEvent[];
   description: SafeHtml;
-  activeDayIsOpen: Boolean = true;
+  activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
   private editor;
   public editorOut;
@@ -123,6 +123,8 @@ export class StudyPlanEditViewComponent implements OnInit {
       week: endOfWeek,
       day: endOfDay
     }[this.view];
+
+    this.activeDayIsOpen = false;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {

@@ -1,4 +1,5 @@
 import { CalendarEvent } from 'calendar-utils';
+import { Rating } from './star-rating/rating';
 
 export class StudyPlan {
     _id?: String;
@@ -8,4 +9,5 @@ export class StudyPlan {
     description: any;
     assigned?: Boolean;
     published?: Boolean;
+    rating?: Rating;
 }
