@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../messaging.service';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
+import { Inject } from '@angular/core';
+import { SendDialogComponent } from '../send-dialog/send-dialog.component';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatButtonModule } from '@angular/material';
 
 @Component({
   selector: 'app-messaging',
@@ -22,20 +26,33 @@ export class MessagingComponent implements OnInit {
   div1: Boolean;
   div2: Boolean;
   div3: Boolean;
-  div4: Boolean;
   inbox: any[];
   sent: any[];
   x: Boolean = false;
+  displayedColumns = ['sender', 'body', 'sentAt'];
+  displayedColumns1 = ['recipient', 'body', 'sentAt'];
 
-  constructor(private messageService: MessageService, private authService: AuthService) {
-    const self = this;
-    self.currentUser = this.authService.getUser();
-    /*this.authService.getUser().subscribe(function(user) {
-      self.currentUser = user.data;
-     });*/
-     // self.username = self.currentUser.username;
-     // self.isChild = self.authService.isChild;
+
+  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) {
+      const self = this;
+      self.currentUser = this.authService.getUser();
+      /*this.authService.getUser().subscribe(function(user) {
+        self.currentUser = user.data;
+        });*/
+      // self.username = self.currentUser.username;
+      // self.isChild = self.currentUser.isChild;
    }
+
+   openDialog(): void {
+    let dialogRef = this.dialog.open(SendDialogComponent, {
+      width: '600px',
+      height: '500px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
 
   ngOnInit() {
     if (this.x) {
@@ -45,6 +62,7 @@ export class MessagingComponent implements OnInit {
     else {
       this.div3 = false;
       this.getInbox();
+      this.getSent();
     }
   }
 
@@ -82,7 +100,6 @@ export class MessagingComponent implements OnInit {
       const self = this;
       this.messageService.getSent('sarah').subscribe(function(msgs) {
         self.sent = msgs.data;
-        self.div4 = true;
        });
     }
 }

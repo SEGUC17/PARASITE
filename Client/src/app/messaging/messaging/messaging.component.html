@@ -3,68 +3,72 @@
       Messaging is only permitted for users above the age of 13. Sorry!
     </label>
   </div>
-
-  <div *ngIf="!div3">
-      <table>
-          <tr>
-            <th class="text-center">Sender</th>
-            <th class="text-center">Body</th>
-            <th class="text-center">Sent at</th>
-          </tr>
-          <tr *ngFor="let message of inbox">
-            <td class="text-center">{{message.sender}}</td>
-            <td class="text-center">{{message.body}}</td>
-            <td class="text-center">{{message.sentAt|date}}</td>
-          </tr>
-        </table>
-    </div>
-
-    <div id="div4" *ngIf="div4">
-        <table>
-            <tr>
-              <th class="text-center">Recipient</th>
-              <th class="text-center">Body</th>
-              <th class="text-center">Sent at</th>
-            </tr>
-            <tr *ngFor="let message of sent">
-              <td class="text-center">{{message.recipient}}</td>
-              <td class="text-center">{{message.body}}</td>
-              <td class="text-center">{{message.sentAt|date}}</td>
-            </tr>
-          </table>
-      </div>
-
-  <div *ngIf="!div3">
-      <label>Sender:
-          <input #sender [(ngModel)]=Sender/>
-       </label>
-       <label>Receiver:
-          <input #receiver [(ngModel)]=Receiver/>
-       </label>
-       <label>Body:
-          <input #body [(ngModel)]=Body/>
-       </label>
-     
-       <button (click)="send(); sender.value=''; receiver.value=''; body.value=''">
-           Send
-       </button>
-
-       <button (click)="getSent()">
-          Get Sent Messages
-        </button>
-  </div>  
-  
-
-  <div id="div1" *ngIf="div1">
-      <label>
-        Please specify a recipient.
-      </label>
-  </div>
-
-  <div id="div2" *ngIf="div2">
-      <label>
-        You can't send an empty message.
-      </label>
-  </div>
   
   <!--  <button type="button" class="btn btn-danger" (click)="deleteMessage()">Delete</button> -->
+  
+  <div *ngIf="!div3">
+      <br/>
+      <button mat-raised-button color="primary" (click)="openDialog()">COMPOSE</button>
+      <br/>
+      <br/>
+  </div>
+  
+
+  <div *ngIf="!div3">
+  <mat-tab-group>
+      <mat-tab label="Inbox">
+        <div class="example-container mat-elevation-z8">
+            <mat-table #table [dataSource]="inbox">
+      
+              <ng-container matColumnDef="sender">
+                <mat-header-cell *matHeaderCellDef> From </mat-header-cell>
+                <mat-cell *matCellDef="let message"> {{message.sender}} </mat-cell>
+              </ng-container>
+          
+              <ng-container matColumnDef="body">
+                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                <mat-cell *matCellDef="let message"> {{message.body}} </mat-cell>
+              </ng-container>
+          
+              <ng-container matColumnDef="sentAt">
+                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                <mat-cell *matCellDef="let message"> {{message.sentAt|date}} </mat-cell>
+              </ng-container>
+          
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+          </div>
+      </mat-tab>
+      
+      <mat-tab label="Sent">
+        <div class="example-container mat-elevation-z8">
+            <mat-table #table1 [dataSource]="sent">
+      
+              <ng-container matColumnDef="recipient">
+                <mat-header-cell *matHeaderCellDef> To </mat-header-cell>
+                <mat-cell *matCellDef="let msg"> {{msg.recipient}} </mat-cell>
+              </ng-container>
+          
+              <ng-container matColumnDef="body">
+                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                <mat-cell *matCellDef="let msg"> {{msg.body}} </mat-cell>
+              </ng-container>
+          
+              <ng-container matColumnDef="sentAt">
+                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                <mat-cell *matCellDef="let msg"> {{msg.sentAt|date}} </mat-cell>
+              </ng-container>
+          
+              <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
+            </mat-table>
+          </div>
+      </mat-tab>
+    </mat-tab-group>
+    </div>
+
+  
+    
+
+  
