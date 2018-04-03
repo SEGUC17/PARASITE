@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../profile.service';
 import { AuthService} from '../../auth/auth.service';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -16,45 +17,44 @@ export class ProfileComponent implements OnInit {
 currIsOwner = false;
 currIsParent = false;
 currIsChild = false;
-currIsIndependent = false;
 
 visitedIsParent = false;
 visitedIsChild = false;
-VisitedIsIndependent = false;
-
-// Tab Navigation Flags
-pInfo = true;
-children = false;
-plan = false;
-sched = false;
-
+visitedIsMyChild = false;
 // ------------------------------------
 
 
 // ---------- Current User Info ---------------
-Name: String = 'Fulan el Fulany';
-Username: String;
-Age: Number;
-Email: String;
-Address: String;
-Phone: String;
-Birthday: Date;
-listOfChildren: any[];
+user: any;
+firstName: String = 'Fulan';
+lastName: String = 'El Fulany';
+username: String;
+age: Number;
+email: String;
+address: String;
+phone: [String];
+schedule: any;
+studyPlans: any;
+birthday: Date;
+listOfChildren: any[] = [];
+verified: Boolean = false;
 id: any;
 // -------------------------------------
-// ---------Visited User Info-----------
 
-
-// -------------------------------------
 // ---------Visited User Info-----------
-vName: String = 'Fulan el Fulany';
+vUser: any;
+vFirstName: String = 'Fulan';
+vLastName: String = 'El Fulany';
 vUsername: String;
 vAge: Number;
 vEmail: String;
 vAddress: String;
-vPhone: String;
+vPhone: [String];
+vSchedule: any;
+vStudyPlans: any;
 vBirthday: Date;
-vlistOfChildren: any[];
+vListOfChildren: any[] = [];
+vVerified: Boolean = false;
 vId: any;
 // ------------------------------------
 
@@ -66,13 +66,56 @@ listOfUncommonChildren: any[];
 
 
 
-  constructor(private _ProfileService: ProfileService, private _AuthService: AuthService) {
-    // this._AuthService.getUser();
+  constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
+    private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.queryParams.subscribe((params: Params) => {
+      this.vUsername = params.username;
+    });
+    if (this.vUsername) {
+    this.user = this._AuthService.getUser();
+    if (this.user.username === this.vUsername) {
+      this.currIsOwner = true;
+      this.firstName = this.user.firstName;
+      this.lastName = this.user.lastName;
+      this.age = this.user.birthday;
+      this.email = this.user.email;
+      this.address = this.user.address;
+      this.phone = this.user.phone;
+      this.schedule = this.user.schedule;
+      this.studyPlans = this.user.studyPlans;
+      this.birthday = this.user.birthday;
+      this.listOfChildren = this.user.children;
+      this.verified = this.user.verified;
+      this.id = this.user._id;
+      this.currIsChild = this.user.isChild;
+      this.currIsParent = this.user.isParent;
+    } else {
+      this._ProfileService.getUserInfo(this.vUsername).subscribe(((info) => {
+        this.vFirstName = info.firstName;
+        this.vLastName = info.lastName;
+        this.vAge = info.birthday;
+        this.vEmail = info.email;
+        this.vAddress = info.address;
+        this.vPhone = info.phone;
+        this.vSchedule = info.schedule;
+        this.vStudyPlans = info.studyPlans;
+        this.vBirthday = info.birthday;
+        this.vListOfChildren = info.children;
+        this.vVerified = info.verified;
+        this.vId = info._id;
+        this.visitedIsParent = info.isParent;
+        this.visitedIsChild = info.isChild;
+        if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
+          this.visitedIsMyChild = true;
+        }
+    }));
+    this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
+    }
+  }
   }
 
   ngOnInit() {
-    // this.listOfAllChildren = this.listOfChildren.concat(this.vlistOfChildren);
-     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vlistOfChildren.indexOf(item) < 0);
+
   }
 
   requestContributerValidation() {
@@ -81,8 +124,8 @@ listOfUncommonChildren: any[];
 
   addChild(child): void {
 
-    this.vlistOfChildren.push(child);
-    this._ProfileService.linkAnotherParent(this.vlistOfChildren, this.vId).subscribe();
+    this.vListOfChildren.push(child);
+    this._ProfileService.linkAnotherParent(this.vListOfChildren, this.vId).subscribe();
 
   }
 

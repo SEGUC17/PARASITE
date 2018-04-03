@@ -68,12 +68,17 @@ module.exports.getUserInfo = function(req, res, next) {
         'birthdate': user.birthdate,
         'children': user.children,
         'email': user.email,
+        'firstName': user.firstName,
         'isAdmin': user.isAdmin,
         'isChild': user.isChild,
         'isParent': user.isParent,
         'isTeacher': user.isTeacher,
+        'lastName': user.lastName,
         'phone': user.phone,
-        'username': user.username
+        'schedule': user.schedule,
+        'studyPlans': user.studyPlans,
+        'username': user.username,
+        'verified': user.verified
       }
     });
   });
