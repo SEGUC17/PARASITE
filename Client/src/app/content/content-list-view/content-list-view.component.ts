@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
-import { PageEvent } from '@angular/material';
+import { PageEvent, MatPaginator } from '@angular/material';
 import { Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
+import { MatSidenav } from '@angular/material/sidenav';
+import { ViewChild } from '@angular/core';
+import { Category } from '../category';
 
 @Component({
   selector: 'app-content-list-view',
@@ -17,11 +20,14 @@ export class ContentListViewComponent implements OnInit {
   // content created by the current user
   myContributions: Content[];
 
+  // categories for the general contents view
+  categories: Category;
+
   // TODO set username
   username: String = 'Omar K.';
 
   // shared between myContributions and content list
-  numberOfEntriesPerPage = 12;
+  numberOfEntriesPerPage = 5;
 
   // for content list pagination
   totalNumberOfPages: number;
@@ -35,27 +41,15 @@ export class ContentListViewComponent implements OnInit {
   myContributionsTotalNumberOfPages: number;
   myContributionsCurrentPageNumber: number;
 
+  @ViewChild('sidenav') public myNav: MatSidenav;
+  @ViewChild('allContentPaginator') public paginator: MatPaginator;
   constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document) { }
 
   ngOnInit() {
     this.currentPageNumber = 1;
     this.myContributionsCurrentPageNumber = 1;
-    this.intitializeContentViewWithFirstPage();
-  }
-
-  // TODO methods to call service
-  // retrieves the number of content pages and displays the first page
-  intitializeContentViewWithFirstPage(): void {
-    const self = this;
-    this.contentService.getNumberOfContentPages(self.numberOfEntriesPerPage,
-      self.selectedCategory, self.selectedSection)
-      .subscribe(function (retriedNumberOfEntries) {
-        self.totalNumberOfEntries = retriedNumberOfEntries.data;
-        self.totalNumberOfPages = Math.ceil(self.totalNumberOfEntries / self.numberOfEntriesPerPage);
-        // for debugging
-        console.log('Total Number of Pages: ' + self.totalNumberOfPages);
-        self.getContentPage();
-      });
+    this.getContentPage();
+    this.getCategories();
   }
 
   // retrieves the contents of a particular page according to currentPageNumber
@@ -65,6 +59,9 @@ export class ContentListViewComponent implements OnInit {
       self.currentPageNumber, self.selectedCategory, self.selectedSection)
       .subscribe(function (retrievedContents) {
         self.contents = retrievedContents.data.docs;
+        self.totalNumberOfEntries = retrievedContents.data.total;
+        self.totalNumberOfPages = retrievedContents.data.pages;
+        console.log('Total Number of Pages: ' + self.totalNumberOfPages);
       });
   }
 
@@ -72,6 +69,7 @@ export class ContentListViewComponent implements OnInit {
     // pages in the paginator are numbered starting by zero
     // To retrieve correct page from database, add 1
     this.currentPageNumber = event.pageIndex + 1;
+
     // update the content array
     this.getContentPage();
 
@@ -83,31 +81,22 @@ export class ContentListViewComponent implements OnInit {
   }
 
   tabChanged(event): void {
+    if (this.myNav.opened) {
+      this.myNav.toggle();
+    }
     if (event.tab.textLabel === 'My Contributions' && !this.myContributions) {
-      console.log('Entered tab changed, and retrieving contributions.');
-      this.intitializeMyContributionsViewWithFirstPage();
+      this.getMyContributionsPage();
     }
   }
 
-  intitializeMyContributionsViewWithFirstPage(): void {
-    const self = this;
-    this.contentService.getNumberOfContentByCreator(self.username)
-      .subscribe(function (retrievedNumberOfEntries) {
-        self.myContributionsTotalNumberOfEntries = retrievedNumberOfEntries.data;
-        self.myContributionsTotalNumberOfPages = Math.ceil(self.myContributionsTotalNumberOfEntries / self.numberOfEntriesPerPage);
-        // for debugging
-        console.log('Total Number of Pages My Contributions: ' + self.myContributionsTotalNumberOfPages);
-        self.getMyContributionsPage();
-      });
-
-  }
   getMyContributionsPage(): void {
     const self = this;
     this.contentService.
       getContentByCreator(self.username, self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber).
       subscribe(function (retrievedContents) {
         self.myContributions = retrievedContents.data.docs;
-        console.log(self.myContributions);
+        self.myContributionsTotalNumberOfEntries = retrievedContents.data.total;
+        self.myContributionsTotalNumberOfPages = retrievedContents.data.pages;
       });
   }
 
@@ -119,5 +108,22 @@ export class ContentListViewComponent implements OnInit {
     this.getMyContributionsPage();
 
     this.scrollToTheTop();
+  }
+
+  getCategories(): void {
+    const self = this;
+    this.contentService.getCategories()
+      .subscribe(function (retrievedCategories) {
+        self.categories = retrievedCategories.data;
+      });
+  }
+
+  changeCategoryAndSection(category: any, section: any): void {
+    this.currentPageNumber = 1;
+    this.selectedCategory = category;
+    this.selectedSection = section;
+    this.paginator.firstPage();
+    this.getContentPage();
+    this.myNav.toggle();
   }
 }

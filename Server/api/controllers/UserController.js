@@ -21,32 +21,56 @@ var isNotEmpty = require('../utils/validators/not-empty');
 // ---------------------- End of "Validators" ---------------------- //
 
 
-module.exports.signUp = function (req, res, next) {
-    if (req.res) {
-        return res.status(req.res.code).json({
-            data: req.user,
-            err: null,
-            msg: req.res.msg
-        });
-    }
+module.exports.signUp = function (passport, req, res, next) {
+    passport.authenticate('local-signup', function (err, user, info) {
+        if (err) {
+            return next(err);
+        } else if (!user) {
+            return res.status(400).json({
+                data: null,
+                err: null,
+                msg: info.signUpMessage
+            });
+        }
 
-    return next();
+        req.logIn(user, function (err2) {
+            if (err2) {
+                return next(err2);
+            }
+
+            return res.status(201).json({
+                data: user,
+                err: null,
+                msg: 'Sign Up Successfully!'
+            });
+        });
+    })(req, res, next);
 };
 
-module.exports.signIn = function (req, res, next) {
-    if (req.user) {
-        return res.status(200).json({
-            data: req.user,
-            err: null,
-            msg: 'Sign In Successfully!'
-        });
-    }
+module.exports.signIn = function (passport, req, res, next) {
+    passport.authenticate('local-signin', function (err, user, info) {
+        if (err) {
+            return next(err);
+        } else if (!user) {
+            return res.status(401).json({
+                data: null,
+                err: null,
+                msg: info.signInMessage
+            });
+        }
 
-    return res.status(400).json({
-        data: req.user,
-        err: null,
-        msg: 'Wrong Username Or Password!'
-    });
+        req.logIn(user, function (err2) {
+            if (err2) {
+                return next(err2);
+            }
+
+            return res.status(200).json({
+                data: user,
+                err: null,
+                msg: 'Sign In Successfully!'
+            });
+        });
+    })(req, res, next);
 };
 
 

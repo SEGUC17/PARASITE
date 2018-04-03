@@ -22,8 +22,11 @@ import { SearchModule } from './search/search.module';
 import { SearchService } from './search/search.service';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CustomInterceptor } from './custom-interceptor';
 
 @NgModule({
   declarations: [
@@ -50,12 +53,18 @@ import { FormsModule } from '@angular/forms';
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule
   ],
   providers: [
-    MediaMatcher,
-    SearchService
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomInterceptor,
+      multi: true
+    },
+    MediaMatcher
   ],
   bootstrap: [AppComponent]
 })

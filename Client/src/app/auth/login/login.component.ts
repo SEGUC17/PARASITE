@@ -33,9 +33,14 @@ export class LoginComponent implements OnInit {
 
     if (this.AllisWell == true) {
       this.User = { 'username': this.Username, 'password': this.Password };
-      self.authService.Login(this.User).subscribe();
+      self.authService.Login(this.User).subscribe(function (res) {
+        self.authService.setUser(res.data);
+        if (res.data) {
+          alert(res.msg);
+        }
+      });
     }
-
+    //self.location.back();
   }//end method
 
 
