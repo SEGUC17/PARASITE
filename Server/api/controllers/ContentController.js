@@ -286,6 +286,7 @@ module.exports.getCategories = function (req, res, next) {
 
 module.exports.createCategory = function (req, res, next) {
     // Admin permission check
+
     if (!req.user.isAdmin) {
         return res.status(403).json({
             data: null,
@@ -296,6 +297,13 @@ module.exports.createCategory = function (req, res, next) {
 
     // category name validation check
     if (!req.body.category) {
+        return res.status(422).json({
+            data: null,
+            err: 'No category supplied',
+            msg: null
+        });
+    }
+    if (!mongoose.Types.string.isValid(req.body.category)) {
         return res.status(422).json({
             data: null,
             err: 'No category supplied',
@@ -321,6 +329,7 @@ module.exports.createCategory = function (req, res, next) {
 };
 
 module.exports.createSection = function (req, res, next) {
+
     if (!req.params.id) {
         return res.status(422).json({
             data: null,
@@ -328,7 +337,13 @@ module.exports.createSection = function (req, res, next) {
             msg: null
         });
     }
-
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category id supplied is invalid',
+            msg: null
+        });
+    }
     if (!req.body.section) {
         return res.status(422).json({
             data: null,
@@ -336,6 +351,15 @@ module.exports.createSection = function (req, res, next) {
             msg: null
         });
     }
+
+    if (!mongoose.Types.string.isValid(req.body.section)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The section value is invalid',
+            msg: null
+        });
+    }
+
     Category.findByIdAndUpdate(
         req.params.id,
         { $push: { sections: { name: req.body.section } } },
