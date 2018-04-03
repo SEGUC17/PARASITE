@@ -13,7 +13,6 @@ var User = mongoose.model('User');
 var isArray = require('../utils/validators/is-array');
 var isBoolean = require('../utils/validators/is-boolean');
 var isDate = require('../utils/validators/is-date');
-var isInteger = require('../utils/validators/is-integer');
 var isString = require('../utils/validators/is-string');
 var isNotEmpty = require('../utils/validators/not-empty');
 // ---------------------- End of "Validators" ---------------------- //
@@ -166,7 +165,7 @@ module.exports.signUp = function (req, res, next) {
                     data: null,
                     err: null,
                     msg: 'Sign Up Is Successful!',
-                    token: 'JWT ' + jwt.sign(newUser.toJSON(), config.SECRET)
+                    token: 'JWT ' + jwt.sign(newUser._id.toJSON(), config.SECRET)
                 });
             });
         }
