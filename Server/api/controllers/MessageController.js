@@ -7,7 +7,7 @@ var User = mongoose.model('User');
 
 module.exports.sendMessage = function(req, res, next) {
 
-  var valid =
+  /*var valid =
     req.body.body &&
     Validations.isString(req.body.body) &&
     req.body.sender &&
@@ -36,13 +36,21 @@ module.exports.sendMessage = function(req, res, next) {
         });
     }
 
+    if (user.isChild) {
+      return res.status(404).json({
+        data: null,
+        err: 'You cannot message a user who is below the age of 13.',
+        msg: null
+      });
+    }
+
     res.status(200).json({
         data: user,
         err: null,
         msg: 'User exists.'
     });
 
-});
+});*/
 
   // Security Check
   delete req.body.sentAt;
@@ -89,4 +97,18 @@ module.exports.getSent = function(req, res, next) {
       });
   });
 };
+
+module.exports.deleteMessage = function(req, res, next) {
+  Message.remove({ _id: req.params.id }, function (err, msg) {
+    if (err) {
+      return next(err);
+    }
+
+    return res.status(200).json({
+      data: msg,
+      err: null,
+      msg: 'Message deleted successfully.'
+      });
+  });
+ };
 

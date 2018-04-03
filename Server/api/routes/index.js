@@ -13,8 +13,6 @@ var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
 
-
-
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
     return next();
@@ -166,6 +164,9 @@ adminController.respondContentRequest
 
     //View sent
     router.get('/message/sent/:user', messageController.getSent);
+
+    //Delete message
+    router.delete('/message/:id', messageController.deleteMessage);
 
     //------------------- End of Messaging Module Endpoints-----------//
 

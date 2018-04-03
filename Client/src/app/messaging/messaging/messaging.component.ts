@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 import { Inject } from '@angular/core';
 import { SendDialogComponent } from '../send-dialog/send-dialog.component';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
 
 @Component({
@@ -29,21 +29,17 @@ export class MessagingComponent implements OnInit {
   inbox: any[];
   sent: any[];
   x: Boolean = false;
-  displayedColumns = ['sender', 'body', 'sentAt'];
-  displayedColumns1 = ['recipient', 'body', 'sentAt'];
+  displayedColumns = ['sender', 'body', 'sentAt', 'delete'];
+  displayedColumns1 = ['recipient', 'body', 'sentAt', 'delete'];
 
 
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) {
-      const self = this;
-      self.currentUser = this.authService.getUser();
-      /*this.authService.getUser().subscribe(function(user) {
-        self.currentUser = user.data;
-        });*/
-      // self.username = self.currentUser.username;
-      // self.isChild = self.currentUser.isChild;
-   }
+    /*this.currentUser = this.authService.getUser();
+    this.username = this.currentUser.username;
+    this.isChild = this.currentUser.isChild;*/
+  }
 
-   openDialog(): void {
+  openDialog(): void {
     let dialogRef = this.dialog.open(SendDialogComponent, {
       width: '600px',
       height: '500px'
@@ -57,9 +53,7 @@ export class MessagingComponent implements OnInit {
   ngOnInit() {
     if (this.x) {
       this.div3 = true;
-    }
-
-    else {
+    } else {
       this.div3 = false;
       this.getInbox();
       this.getSent();
@@ -73,33 +67,30 @@ export class MessagingComponent implements OnInit {
 
     if (this.Body === '') {
       this.div2 = true;
-    }
-
-    else {
-      this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.Sender};
+    } else {
+      this.msg = { 'body': this.Body, 'recipient': this.Receiver, 'sender': this.Sender };
       this.messageService.send(this.msg)
-       .subscribe(res => console.log(res));
-      }
+        .subscribe(res => console.log(res));
     }
+  }
 
-    getInbox(): void {
-      const self = this;
-      this.messageService.getInbox('sarah').subscribe(function(msgs) {
-        self.inbox = msgs.data;
-       });
-    }
-
-   /*deleteMessage(event): void {
-     this.messageService.deleteMessage(event.data._id).subscribe(function(res) {
-      event.confirm.resolve();
+  getInbox(): void {
+    const self = this;
+    this.messageService.getInbox('sarah').subscribe(function (msgs) {
+      self.inbox = msgs.data;
     });
-    console.log('DELETED!');
-   }*/
+  }
 
-    getSent(): void {
-      const self = this;
-      this.messageService.getSent('sarah').subscribe(function(msgs) {
-        self.sent = msgs.data;
-       });
-    }
+  getSent(): void {
+    const self = this;
+    this.messageService.getSent('sarah').subscribe(function (msgs) {
+      self.sent = msgs.data;
+    });
+  }
+
+  deleteMessage(message): void {
+    const self = this;
+    this.messageService.deleteMessage(message).subscribe(function (res) {
+    });
+  }
 }

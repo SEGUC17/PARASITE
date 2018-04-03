@@ -26,10 +26,9 @@ export class SendDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<SendDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService) {
-      /*const self = this;
-      self.currentUser = this.authService.getUser();
-      self.username = self.currentUser.username;
-      self.isChild = self.currentUser.isChild;*/
+      /*this.currentUser = this.authService.getUser();
+      this.username = this.currentUser.username;
+      this.isChild = this.currentUser.isChild;*/
      }
 
   onNoClick(): void {
@@ -44,21 +43,19 @@ export class SendDialogComponent implements OnInit {
       this.div1 = true;
       this.div2 = false;
       this.div3 = false;
-    }
-    else {
+    } else {
       if (this.Body === '') {
         this.div2 = true;
         this.div1 = false;
         this.div3 = false;
-      }
-
-      else {
+      } else {
         const self = this;
         this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.Sender};
         this.messageService.send(this.msg)
          .subscribe(function() {
           self.div3 = true;
-          this.dialogRef.close();
+          self.div1 = false;
+          self.div2 = false;
          });
         }
       }
