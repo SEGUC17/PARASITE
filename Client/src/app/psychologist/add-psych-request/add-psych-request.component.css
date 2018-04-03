@@ -1,3 +1,57 @@
 .request-form {
-  max-width: 400px;
+  max-width: 700px;
+}
+.first {
+  max-width: 400;
+  width: 75%;
+  margin-left: 30px;
+  font-size: 20px;
+}
+.last {
+  max-width: 400;
+  width: 75%;
+  margin-left: 30px;
+  font-size: 20px;
+}
+.phone {
+  max-width: 400;
+  width: 75%;
+  margin-left: 30px;
+  font-size: 20px;
+}
+.address {
+  max-width: 400;
+  width: 75%;
+  margin-left: 30px;
+  font-size: 20px;
+}
+.email {
+  max-width: 400;
+  width: 75%;
+  margin-left: 30px;
+  font-size: 20px;
+}
+.days {
+  max-width: 400;
+  width: 50%;
+  margin-left: 30px;
+  font-size: 20px;
+}
+.price {
+  max-width: 400;
+  width: 75%;
+  margin-left: 30px;
+  font-size: 20px;
+}
+.submit-btn {
+  margin-right: 51px;
+}
+.title {
+  font-size: 35px;
+  color: darkblue;
+}
+.note {
+  font-size: 10px;
+  margin-right: 40px;
+  color: darkblue;
 }

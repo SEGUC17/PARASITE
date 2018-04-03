@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AddPsychologistRequest } from './AddPsychologistRequest';
 import { PsychologistService } from '../psychologist.service';
-import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { MatSnackBar } from '@angular/material';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -20,11 +21,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class AddPsychRequestComponent implements OnInit {
 
   request: AddPsychologistRequest;
-  days: string[];
 
   emailFormControl = new FormControl('', [
     Validators.required,
-    Validators.email,
+    Validators.email
   ]);
 
   fNameFormControl = new FormControl('', [
@@ -35,58 +35,70 @@ export class AddPsychRequestComponent implements OnInit {
     Validators.required
   ]);
 
+  addFormControl = new FormControl();
+  phoneFormControl = new FormControl();
   daysOff = new FormControl();
+  priceFormControl = new FormControl();
 
-  daysOfWeek = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
 
 
   matcher = new MyErrorStateMatcher();
 
 
-  constructor(private RequestService: PsychologistService) {
+  constructor(private RequestService: PsychologistService,
+              public snackBar: MatSnackBar) {
 
   }
 
   ngOnInit() {
-    this.days = [];
   }
 
-
-  chooseDay(day: string[]): void {
-    this.days = day;
-  }
 
   submitReq(): void {
-    let error = false;
+    let self = this;
 
-    if (((<HTMLInputElement>document.getElementById('psychFirstName')).value) === ''
-      || ((<HTMLInputElement>document.getElementById('psychFirstName')).value) === 'undefined'
-      || ((<HTMLInputElement>document.getElementById('psychLastName')).value) === ''
-      || ((<HTMLInputElement>document.getElementById('psychLastName')).value) === 'undefined'
-      || ((<HTMLInputElement>document.getElementById('psychEmail')).value) === ''
-      || ((<HTMLInputElement>document.getElementById('psychEmail')).value) === 'undefined' ) {
-            error = true;
-    }
-
-    if (!error) {
+    if (this.emailFormControl.hasError('required') || this.fNameFormControl.hasError('required')
+        || this.lNameFormControl.hasError('required')) {
+            this.snackBar.open('Please fill all the required fields', '', {
+              duration: 1500
+            });
+    } else if (this.emailFormControl.hasError('email')) {
+      this.snackBar.open('Please enter a valid email address!', '', {
+        duration: 1500
+      });
+    } else {
       let req = this.request;
 
       req = {
-        firstName: ((<HTMLInputElement>document.getElementById('psychFirstName')).value).toString(),
-        lastName: (<HTMLInputElement>document.getElementById('psychLastName')).value,
-        phone: (<HTMLInputElement>document.getElementById('psychPhoneNumber')).value,
-        address: (<HTMLInputElement>document.getElementById('psychAddress')).value,
-        email: (<HTMLInputElement>document.getElementById('psychEmail')).value,
-        daysOff: this.days,
-        priceRange: parseInt((<HTMLInputElement>document.getElementById('psychPriceRange')).value, 10)
+        firstName: this.fNameFormControl.value,
+        lastName: this.lNameFormControl.value,
+        phone: this.phoneFormControl.value,
+        address: this.addFormControl.value,
+        email: this.emailFormControl.value,
+        daysOff: this.daysOff.value,
+        priceRange: parseInt(this.priceFormControl.value, 10)
       };
 
       this.RequestService.addRequest(req).subscribe(function (res) {
         if (res.msg !== 'Request was created successfully.') {
-          alert('Something is wrong');
+          self.snackBar.open('Something went wrong, please try again.', '', {
+            duration: 2000
+          });
+        } else {
+          self.snackBar.open('Request Sent Successfully!', '', {
+            duration: 2000
+          });
+
+          self.fNameFormControl.setValue(null);
+          self.lNameFormControl.setValue(null);
+          self.phoneFormControl.setValue(null);
+          self.addFormControl.setValue(null);
+          self.emailFormControl.setValue(null);
+          self.daysOff.setValue(null);
+          self.priceFormControl.setValue(null);
         }
       });
     }
   }
-
 }

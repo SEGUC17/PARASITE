@@ -21,7 +21,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
@@ -47,6 +48,7 @@ import { AuthService } from './auth/auth.service';
     ProfileModule,
     ContentModule,
     MatDialogModule,
+    MatSnackBarModule,
     AuthModule,
     ScheduleModule,
     PsychologistModule,
