@@ -1,34 +1,3 @@
-.top{
-    margin-top: 10px;
-}
-.req_radio{
-    margin-left:30%;
-
-}
-#rad2{
-    margin-left:40px;
-}
-
-.req-card {
-    margin-left: 60px;
-}
-.OneCard{
-    display: inline-block;
-    margin: 10px;
-    margin-left: 26px;
-}
-.title{
-    margin-left: 35%;
-}
-.header{
-    margin-left: 35%;
-
-}
-.actions{
-    margin-left: 30px;
-
-}
-.article-forLoop{
-    margin-right: 0px;
-    display: inline-block;
+.background {
+    background-color: #fafafa;
 }

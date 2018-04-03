@@ -1,33 +1,23 @@
-<p class= "top">
-  <mat-radio-group  class="req_radio" >
-    <mat-radio-button value="resource" (click)="setFilterToResource()" > Resource Requests </mat-radio-button>
-    <mat-radio-button value="idea"(click)="setFilterToIdea()" id="rad2" > Idea Requests </mat-radio-button>
+<div class="background container">
+  <mat-radio-group class="row justify-content-center background">
+    <mat-radio-button value="resource" (click)="setFilterToResource()" class="col-4"> Resource Requests </mat-radio-button>
+    <mat-radio-button value="idea" (click)="setFilterToIdea()" class="col-4"> Idea Requests </mat-radio-button>
   </mat-radio-group>
-
-</p>
-
-<div class='md-padding' layout="row" layout-wrap>
-  
-<article class="article-forLoop" *ngFor="let req of reqs">
-  <mat-card flex="33" class="OneCard">
-    <mat-card-header  class= "header" >
-      <mat-card-title class= "title"> {{req.contentTitle}} </mat-card-title>
-      <mat-card-subtitle class = "Subtitle"> {{req.contentType}} </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <p>
-        creator is: {{req.creator}} <br>
-        Date of creation is: {{req.createdOn}} <br>
-        current Status is: {{req.status}}<br>
-        contentID is: {{req.contentID}}
-      </p>
-    </mat-card-content>
-    <mat-card-actions class = "actions">
-      <button mat-button class=but (click)="approveContentRequest(req._id)" color="primary"> Approve </button>
-      <button mat-button class=but id=but1 (click)="disapproveContentRequest(req._id)" color="primary"> Disapprove </button>
-      <button mat-button class=but (click)="viewCont(req.contentID)" color="primary"> Details </button>
-
-    </mat-card-actions>
-  </mat-card>
-</article>  
+  <div class="row justify-content-center mt-5">
+    <mat-card class="m-2 col-lg-3 col-md-6 col-sm-12 col-xs-12" *ngFor="let req of reqs">
+        <div class="text-center">{{req.contentTitle}}</div>
+        <div class="text-center">{{req.contentType}}</div>
+      <mat-card-content>
+        <div>creator is: {{req.creator}}</div>
+        <div>Date of creation is: {{req.createdOn}}</div>
+        <div>current Status is: {{req.status}} </div>
+        <div>contentID is: {{req.contentID}} </div>
+      </mat-card-content>
+      <mat-card-actions class="row">
+        <button mat-button class="col-auto" (click)="approveContentRequest(req._id)" color="primary"> Approve </button>
+        <button mat-button class="col-auto"  (click)="disapproveContentRequest(req._id)" color="primary"> Disapprove </button>
+        <button mat-button class="col-auto" (click)="viewCont(req.contentID)" color="primary"> Details </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
 </div>
