@@ -57,16 +57,24 @@ module.exports.signIn = function (req, res, next) {
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
     console.log('entered the signUpChild method');
-    var id = req.body._id;
-    console.log(id);
-    if (id) {
-     user = User.findById(id);
-     user.isParent = true;
-     user.children = [newUser.username];
-    }
+    console.log('user is: ' + req.user._id);
+    User.findByIdAndUpdate(req.user._id, { $set: { 'isParent': true } && { 'children': req.body.username } }, { new: true }, function(err, updatedob) {
+                if (err) { 
+                    return res.status(402).json({
+                    data: null, 
+                    msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
+                    });
+                }
+                return res.status(200).json({
+                data: updatedob,
+                err: null,
+                msg: 'update is successful'
+             });
+         });
+     //   User.findByIdAndUpdate(req.user._id, { $set: { isParent: true } });
+
    // var userid = req.params.userID;
     // User.findByIdAndUpdate(id, $set, { isParent: true });
-     console.log('id of sender =' + id);
     //end if
 
     // --- Variable Assign --- //
