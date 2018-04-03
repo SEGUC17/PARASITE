@@ -17,16 +17,22 @@
 <script> type="text/javascript"; src= "signup.ts"</script>
 <form>
   <div id= "choices" class="radio">
-    <label>
+  <!--  <label>
       <input type="radio" id="group1" value="Teacher"  (change)="checked(true)">
       Are you a teacher?
-    </label><br/>
+    </label><br/> -->
     <div ng-switch="Teacher">
       <div ng-switch-when="Teacher">
       </div>
     </div>
   </div>
  </form>
+
+ <label class="checkbox-inline nopaddingleft" for="radio1">
+  <input name="radio1" type="checkbox" id="radio1" 
+      class="checkbox-inline margin-right-five" value="name" 
+      data-ng-model="this.User.Teacher" /> Are you a teacher?
+</label>  
 
 
 
