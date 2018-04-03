@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable max-statements */
+
 // ---------------------- Requirements ---------------------- //
 var mongoose = require('mongoose');
 var Encryption = require('../utils/encryption/encryption');
@@ -70,6 +73,7 @@ module.exports.signIn = function (passport, req, res, next) {
     })(req, res, next);
 };
 
+
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
     console.log('entered the signUpChild method');
@@ -82,17 +86,23 @@ module.exports.signUpChild = function (req, res, next) {
                     });
                 }
 
+                updatedob.save(function (err) {
+                    if (err) {
+                        throw err;
+                    }
                 return res.status(200).json({
                 data: updatedob,
                 err: null,
                 msg: 'update is successful'
              });
+            }); 
          });
+        
      //   User.findByIdAndUpdate(req.user._id, { $set: { isParent: true } });
 
    // var userid = req.params.userID;
     // User.findByIdAndUpdate(id, $set, { isParent: true });
-    //end if
+    // end if
 
     // --- Variable Assign --- //
     newUser.address = req.body.address;
