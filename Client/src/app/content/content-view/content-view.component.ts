@@ -4,7 +4,7 @@ import { ContentService } from '../content.service';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from '../../admin.service';
 import { AuthService } from '../../auth/auth.service';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -33,14 +33,8 @@ export class ContentViewComponent implements OnInit {
     });
   }
 
-  respondContentRequest(response: String): void {
-    const self = this;
-    this.adminService.
-    respondContentRequest(response, self.content._id).
-    subscribe(
-      self.router.navigate(['admin/ContentRequests'])
-
-    );
+  returnToContentRequests(): void {
+    this.router.navigate(['admin/ContentRequests']);
   }
 
 }
