@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminControlComponent } from './admin-control/admin-control.component';
 import { AdminRoutingModule } from './admin-routing.module';
-import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
+import { ViewContentRequestsComponent } from '../content/view-content-requests/view-content-requests.component';
 import { ViewUnverifiedActivitiesComponent } from './view-unverified-activities/view-unverified-activities.component';
 
 import {
@@ -43,13 +43,12 @@ import { MatCardModule, MatPaginatorModule } from '@angular/material';
     ViewContentRequestsComponent,
     ViewVerifiedContributerRequestsComponent,
     CategoryManagementComponent,
-    ViewContentRequestsComponent],
+    ViewUnverifiedActivitiesComponent
+  ],
   exports: [
     MatButtonModule,
     MatButtonToggleModule,
     ViewContentRequestsComponent
-
-
   ],
   providers: [
     AdminService

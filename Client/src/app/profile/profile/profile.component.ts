@@ -12,10 +12,6 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 export class ProfileComponent implements OnInit {
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> Prof
 // ---------- FLAGS --------------------
 // User Flags
 currIsOwner = false;
