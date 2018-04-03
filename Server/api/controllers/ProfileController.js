@@ -13,24 +13,28 @@ mongoose.set('debug', true);
 
 
 module.exports.getChildren = function (req, res, next) {
-   
-    User.findById(req.params.userId).exec(function (err, user) {
-        if (err) {
-            return next(err);
-        }
+  User.findOne({username: req.params.username}).exec(function (err, user) {
+      if (err) {
+          return next(err);
+      }
 
-        if (!user) {
-            return res
-                .status(404)
-                .json({ err: null, msg: 'User not found.', data: null });
-        }
+      if (!user) {
+          return res.
+              status(404).
+              json({
+      data: null,
+      err: null,
+      msg: 'User not found.'
+      });
 
-        res.status(200).json({
-            err: null,
-            msg: 'Children retrieved successfully.',
-            data: user.children
-        });
-    });
+      }
+
+res.status(200).json({
+          data: user.children,
+          err: null,
+          msg: 'Children retrieved successfully.'
+      });
+  });
 };
  
 module.exports.requestUserValidation = function(req, res, next) {
