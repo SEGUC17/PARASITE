@@ -150,6 +150,7 @@ module.exports.signUp = function (req, res, next) {
                     });
                 }
 
+<<<<<<< HEAD
                 return res.status(409).json({
                     data: null,
                     err: null,
@@ -161,6 +162,15 @@ module.exports.signUp = function (req, res, next) {
                 if (err2) {
                     throw err2;
                 }
+=======
+        return res.status(201).json({
+            data: user,
+            err: null,
+            msg: 'Sign Up Successfully!'
+        });
+    })(req, res, next);
+};
+>>>>>>> 730107aba5fe1ceecc26e5b292fea5fc862a30be
 
                 return res.status(201).json({
                     data: null,
@@ -174,6 +184,7 @@ module.exports.signUp = function (req, res, next) {
     // --- End of "Check: Duplicate Username/Email" --- //
 };
 
+<<<<<<< HEAD
 module.exports.signIn = function (req, res, next) {
     req.body.username = req.body.username ? req.body.username.toLowerCase().trim() : '';
 
@@ -215,6 +226,14 @@ module.exports.signIn = function (req, res, next) {
             });
         }
     );
+=======
+        return res.status(200).json({
+            data: user,
+            err: null,
+            msg: 'Sign In Successfully!'
+        });
+    })(req, res, next);
+>>>>>>> 730107aba5fe1ceecc26e5b292fea5fc862a30be
 };
 
 
