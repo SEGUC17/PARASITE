@@ -3,6 +3,9 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/nawwar');
 
 var db = mongoose.connection;
+var Schema = mongoose.Schema;
+
+
 
 var VCRSchema = mongoose.Schema({
     status: {
@@ -37,6 +40,12 @@ var VCRSchema = mongoose.Schema({
         default: Date.now,
         type: Date
     },
+    creator: {
+        type: [
+            { type: Schema.Types.ObjectId, ref: 'User' }
+            ],
+        unique: true
+    }
 });
 
 var VerifiedContributerRequest = mongoose.model('VerifiedContributerRequest', VCRSchema, 'VerifiedContributerRequest');
@@ -47,33 +56,9 @@ module.exports.createVCR = function(VCR) {
     var vcr = new VerifiedContributerRequest(VCR);
 
     vcr.save(function (err, VcrAfter) {
-        if (err) return console.error(err);
+        if (err) return err;
         console.log(VcrAfter.name + " saved to VCR collection.");
     });
 
 }
-
-
-
-module.exports.getAll = function(){
-
-
-    db.collection("VerifiedContributerRequest").find({}).toArray(function(err, result) {
-        if (err) throw err;
-
-        var filteredVCRs = result.filter(
-            r => (r.status == "pending") // this is not an error, Don't Panic :D
-    );
-
-
-
-        console.log(filteredVCRs);
-        db.close();
-
-        return filteredVCRs;
-    });
-
-}
-
-
 

@@ -1,0 +1,51 @@
+#RadioGroupDiv {
+  padding: 5px;
+  margin-left: 40%;
+  margin-right: 30%;
+}
+
+#listGroup {
+  max-width: 100%;
+  margin: auto;
+}
+
+#bioo {
+  max-height: 35px;
+}
+
+#accbtn {
+  margin-left: 790px;
+}
+
+.OneCard {
+  max-width: 1000px;
+  max-height: 300px;
+  background-color: rgba(0, 0, 0, 0.05);
+  height: auto;
+}
+
+.cardHeader-image {
+  background-image: url('../../../assets/images/profile-view/defaultPP.png');
+  background-size: cover;
+  margin-bottom: 20px;
+}
+
+.cardHeader-Name {
+  margin-top: 5px;
+  margin-left: 10px;
+
+}
+
+.cardHeader {
+  width: 1000px;
+}
+
+.cardAction{
+
+}
+
+.cardContent {
+  width: 100%;
+}
+
+

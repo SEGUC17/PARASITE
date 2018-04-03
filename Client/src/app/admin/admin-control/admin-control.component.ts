@@ -1,9 +1,9 @@
+import { OnInit, Input, Output, ViewChild, Component} from '@angular/core';
+import {ViewVerifiedContributerRequestsComponent} from '../view-verified-contributer-requests/view-verified-contributer-requests.component';
+import {ViewContentRequestsComponent } from '../../content/view-content-requests/view-content-requests.component';
+import {ViewUnverifiedActivitiesComponent} from '../view-unverified-activities/view-unverified-activities.component';
+import {AdminService} from '../../admin.service';
 import { Router } from '@angular/router';
-import { OnInit, Input, Output, ViewChild, Component } from '@angular/core';
-import { AdminService } from '../../admin.service';
-import { ViewVerifiedContributerRequestsComponent
-} from '../view-verified-contributer-requests/view-verified-contributer-requests.component';
-import { ViewContentRequestsComponent } from '../../content/view-content-requests/view-content-requests.component';
 import { ViewProductRequestsComponent } from '../view-product-requests/view-product-requests.component';
 import { ViewPsychRequestsComponent } from '../view-psych-requests/view-psych-requests.component';
 

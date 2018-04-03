@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+<div id = "wrapper">
+    <div id = "PPDiv">
+      <img id = "PP" src= "../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
+      <br>
+      <label id="ProfileName" >{{firstName + " " + lastName}}</label>
+      <br>
+      <label id="Badge">Badge goes here</label><br>
+      <button mat-raised-button style="margin-left: 40px">Direct Message</button>
+
+      <div class = "RightSideBtns">
+          <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "!currIsChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>
+          <button mat-raised-button id="linkToParent" *ngIf = "!currIsOwner && isChild && visitedIsParent" (click)= "linkToParent()">Add as a parent</button>
+          <span class="dropdown" *ngIf = "currIsParent && visitedIsParent">
+            <button mat-raised-button [matMenuTriggerFor]="menu" id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
+            <mat-menu #menu="matMenu">
+                <button *ngFor="let child of listOfUncommonChildren" mat-menu-item (click) = "addChild(child)" >
+                  <span>{{child}}</span>
+                </button>
+              </mat-menu>
+          </span>
+          <span class="dropdown" *ngIf = "currIsParent && visitedIsParent">
+            <button mat-raised-button [matMenuTriggerFor]="menu" id = "unlinkAnotherParent">Unlink my child</button>
+            <mat-menu #menu="matMenu">
+                <button *ngFor="let child of listOfChildren" mat-menu-item (click) = "removeChild(child)" >
+                  <span>{{child}}</span>
+                </button>
+              </mat-menu>
+          </span>
+          <button mat-raised-button id="mkIndep" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsChild">Make Independent</button>
+          <button mat-raised-button id="createChildAccount" *ngIf = "currIsParent && currIsOwner">Create child account</button>
+      </div>
+    </div>
+    <br>
+    <div class="tab">
+      <mat-tab-group>
+        <mat-tab label="About">
+          <div id = "personalinfo" class = "tabcontent">
+            <h3 style="font-weight: bold">Personal Info:</h3>
+
+            <label>Username: {{username}}</label> <br>
+            <label>Email: {{email}}</label> <br>
+            <label>Birthday: {{birthday}}</label> <br>
+            <label>Age: {{age}}</label> <br>
+            <label>Address: {{address}}</label> <br>
+            <label>Phone: {{phone}}</label> <br>
+
+          </div>
+        </mat-tab>
+        <mat-tab label="Personal Schedule">
+          <div id = "schedule" class = "tabcontent">
+            <h3>Personal Schedule:</h3>
+          </div>
+        </mat-tab>
+        <mat-tab label="List of children">
+          <div id = "children" class = "tabcontent">
+            <h3>Your Children:</h3>
+            <app-childern></app-childern>
+          </div>
+        </mat-tab>
+        <mat-tab label="Study Plans">
+          <div id = "studyplans" class = "tabcontent">
+            <h3>Your Study Plans:</h3>
+          </div>
+        </mat-tab>
+        <mat-tab label="Settings">
+          <div id = "Settings" class = "tabcontent">
+            <h3>Settings</h3>
+            <h4>Change Password</h4>
+
+            Current Password <br>
+            <input type="text" name="oldpw" [(ngModel)]=oldpw><br>
+            New Password<br> <input type="text" name="newpw" [(ngModel)]=newpw><br>
+            Confirm New Password <br>
+             <input type="text" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
+            <button type="button"class="btn btn-primary"(click)="ChangePassword(info)">Change Password</button>
+
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+      </div>
+
+
+
+
+
+
+
+</div>

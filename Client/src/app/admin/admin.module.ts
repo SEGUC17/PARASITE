@@ -4,9 +4,10 @@ import { AdminControlComponent } from './admin-control/admin-control.component';
 import { AdminRoutingModule } from './admin-routing.module';
 import { PsychRequestsService } from './view-psych-requests/psych-requests.service';
 import { ViewProductRequestsComponent } from './view-product-requests/view-product-requests.component';
-import { MatCardModule } from '@angular/material/card';
 import { ProductRequestsService } from './view-product-requests/product-requests.service';
 import { ViewContentRequestsComponent } from '../content/view-content-requests/view-content-requests.component';
+import { ViewUnverifiedActivitiesComponent } from './view-unverified-activities/view-unverified-activities.component';
+
 import {
   ViewVerifiedContributerRequestsComponent
 } from './view-verified-contributer-requests/view-verified-contributer-requests.component';
@@ -18,8 +19,13 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatListModule } from '@angular/material/list';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule, MatPaginatorModule } from '@angular/material';
+
+import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
 import { AuthService } from '../auth/auth.service';
 
 @NgModule({
@@ -33,13 +39,19 @@ import { AuthService } from '../auth/auth.service';
     MatChipsModule,
     MatSelectModule,
     FormsModule,
+    MatTabsModule,
+    MatListModule,
+    MatRadioModule,
     MatCardModule,
-    MatTabsModule
+    MatPaginatorModule,
+    MatExpansionModule
   ],
-  declarations: [AdminControlComponent,
+  declarations: [
+    AdminControlComponent,
     ViewContentRequestsComponent,
     ViewVerifiedContributerRequestsComponent,
     CategoryManagementComponent,
+    ViewUnverifiedActivitiesComponent,
     ViewProductRequestsComponent,
     ViewContentRequestsComponent,
     ViewPsychRequestsComponent],
@@ -47,7 +59,6 @@ import { AuthService } from '../auth/auth.service';
     MatButtonModule,
     MatButtonToggleModule,
     ViewContentRequestsComponent
-
   ],
   providers: [
     AdminService, ProductRequestsService, PsychRequestsService, AuthService
