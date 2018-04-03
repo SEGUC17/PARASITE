@@ -18,13 +18,13 @@ module.exports.getActivities = function (req, res, next) {
      */
 
 
-    var userId = req.user._id;
+    var user = req.user;
 
     var isAdmin = false;
     var status = req.query.status;
 
-    if (userId) {
-        var user = User.findById(userId);
+    if (user) {
+        user = User.findById(user._id);
         isAdmin = user.isAdmin;
     }
 
@@ -77,13 +77,13 @@ module.exports.getActivity = function (req, res, next) {
      *  @author: Wessam
      */
 
-    var userId = req.user._id;
+    var user = req.user;
     var activityId = req.params.activityId;
 
     var isAdmin = false;
 
-    if (userId) {
-        var user = User.findById(userId);
+    if (user) {
+        user = User.findById(user._id);
         isAdmin = user.isAdmin;
     }
 
@@ -98,7 +98,7 @@ module.exports.getActivity = function (req, res, next) {
         console.log(activity.status);
         if (activity.status !== 'verified') {
 
-            if (!isAdmin || creatorId !== userId) {
+            if (!isAdmin || creatorId !== user._id) {
                 return res.status(403).json({
                     data: null,
                     err: 'this activity isn\'t verified yet',
@@ -139,13 +139,13 @@ module.exports.postActivity = function (req, res, next) {
      *   @author: Wessam
      */
 
-    var userId = req.user._id;
+    var user = req.user;
 
     var isAdmin = false;
     var isVerified = false;
 
-    if (userId) {
-        var user = User.findById(userId);
+    if (user) {
+        user = User.findById(user._id);
         isAdmin = user.isAdmin;
         isVerified = user.isVerified;
     }
@@ -188,7 +188,7 @@ module.exports.reviewActivity = function (req, res, next) {
      *  @author: Wessam
      */
 
-    var userId = req.user._id;
+    var user = req.user;
     var activityId = req.body.get('_id');
     var newStatus = req.body.get('status');
 
@@ -202,8 +202,8 @@ module.exports.reviewActivity = function (req, res, next) {
 
     var isAdmin = false;
 
-    if (userId) {
-        var user = User.findById(userId);
+    if (user) {
+        user = User.findById(user._id);
         isAdmin = user.isAdmin;
     }
 
