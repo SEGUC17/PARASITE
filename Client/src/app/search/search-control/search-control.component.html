@@ -1,10 +1,18 @@
-<mat-tab-group class="margin30" dynamicHeight>
+<mat-card class="margin30">
+<mat-tab-group  dynamicHeight>
   <mat-tab label="Username" >
     <mat-form-field class="margin10">
       <input matInput placeholder="Search" [(ngModel)]="selectedUsername">
     </mat-form-field>
     <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('user')" >Search</button>
   </mat-tab>
+
+  <mat-tab label="Location" >
+      <mat-form-field class="margin10">
+        <input matInput placeholder="Search" [(ngModel)]="selectedLocation">
+      </mat-form-field>
+      <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('loc')" >Search</button>
+    </mat-tab>
 
       <mat-tab label="Education Levels">
         <mat-form-field class="margin10">
@@ -14,31 +22,42 @@
       </mat-tab>
 
           <mat-tab label="Education Systems">
-            <mat-form-field class="margin10">
-              <input matInput placeholder="Search" [(ngModel)]="eduS">
-            </mat-form-field>
-            <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('eduS')">Search</button>
+    
+              <mat-radio-group [(ngModel)]="eduS"  >
+                  <mat-radio-button value="Thanaweya Amma (GSEC)">Thanaweya Amma (GSEC)</mat-radio-button>
+                  <mat-radio-button value="IG">IG</mat-radio-button>
+                  <mat-radio-button value="American Diploma">American Diploma</mat-radio-button>
+                </mat-radio-group>
+                <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('eduS')" >Search</button>
+   
           </mat-tab>
- 
+        </mat-tab-group>
+      </mat-card>
+      <mat-card class="margin10">
   <mat-chip-list #chipList>
-    <mat-chip *ngIf="this.tags[0]" [removable]="removable" (remove)="remove(tag)" color="primary">
+    <mat-chip *ngIf="this.tags[0] != 'NA'" [removable]="removable" (remove)="remove('user')" color="primary">
       {{this.tags[0]}}
       <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
     </mat-chip>
 
-    <mat-chip *ngIf="this.tags[1]" [removable]="removable" (remove)="remove(tag)" color="primary">
+    <mat-chip *ngIf="this.tags[1] != 'NA'" [removable]="removable" (remove)="remove('eduL')" color="primary">
         {{this.tags[1]}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
 
-      <mat-chip *ngIf="this.tags[2]" [removable]="removable" (remove)="remove(tag)" color="primary">
+      <mat-chip *ngIf="this.tags[2] != 'NA'" [selectable] = "removable"[removable]="removable" (remove)="remove('eduS')" color="primary">
           {{this.tags[2]}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
+        <mat-chip *ngIf="this.tags[3] != 'NA'" [removable]="removable" (remove)="remove('loc')" color="primary">
+            {{this.tags[3]}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
    
   </mat-chip-list>
+</mat-card>
 
-  <mat-card style="min-height: 300px">
+  <mat-card class="margin10" style="min-height: 300px">
     <div class="row">
       <mat-card *ngFor="let user of users" class="col-3">
         <mat-card-content>
@@ -51,5 +70,5 @@
     </div>
   </mat-card>
   <script src="js/site.js"></script>
-</mat-tab-group>
+
 <mat-paginator [length]="totPages" [pageSize]="numberPerPage" [pageIndex]="currPage" (page)="getPage($event)"></mat-paginator>

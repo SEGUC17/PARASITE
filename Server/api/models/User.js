@@ -27,15 +27,15 @@ var userSchema = mongoose.Schema({
         required: false,
         type: [String]
     },
-    educationLevels: {
+    educationLevel: {
       default: [],
       required: false,
-      type:[String]
+      type: String
     },
-    educationSystems:{
+    educationSystem: {
       default: [],
       required: false,
-      type:[String]
+      type: String
     },
     email: {
         lowercase: true,

@@ -15,6 +15,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchService } from './search.service';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,7 +33,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatChipsModule,
     MatPaginatorModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatCheckboxModule,
+    MatRadioModule
   ],
   declarations: [SearchControlComponent],
   providers: [SearchService]

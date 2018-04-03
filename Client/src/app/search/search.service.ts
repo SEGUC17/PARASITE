@@ -8,11 +8,9 @@ export class SearchService {
   private Url = 'http://localhost:3000/';
   constructor(private http: HttpClient) { }
 
-  getParents(term: string): Observable<any> {
-    if (!term.trim()) {
-    return of([]);
-    }
-    return this.http.get<any>(`${this.Url}api/User/Search/` + term);
+  getParents(tags: string[] ): Observable<any> {
+
+    return this.http.get<any>(`${this.Url}api/User/Search/` + tags[0] + '/' + tags[1] + '/'  + tags[2] + '/'  + tags[3]);
 }
   searchByEducationLevel(term: string): Observable<any> {
     if (!term.trim()) {
@@ -21,6 +19,12 @@ export class SearchService {
     return this.http.get<any>(`${this.Url}api/User/FilterByLevelOfEducation/` + term );
   }
   searchByEducationSystems(term: string): Observable<any> {
+    if (!term.trim()) {
+    return of([]);
+    }
+    return this.http.get<any>(`${this.Url}api/User/FilterBySystemOfEducation/` + term);
+  }
+  searchByLocation(term: string): Observable<any> {
     if (!term.trim()) {
     return of([]);
     }
