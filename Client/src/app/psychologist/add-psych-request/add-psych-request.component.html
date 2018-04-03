@@ -3,12 +3,16 @@
 
 		<mat-card class="request-form">
 			<br>
-			<mat-card-title class="title">
-			  Request to add contact information:
-			</mat-card-title>
+				<mat-card-header style="background-color: red;   width:100%">
+					<mat-card-title class="title">
+						Request to add contact
+					</mat-card-title>
+					<mat-card-subtitle> <br></mat-card-subtitle>
+					<mat-card-subtitle class="title1"> information:</mat-card-subtitle>
+				</mat-card-header>
 			<br><br>
 			<div align="left">
-				<mat-card-content>
+				<mat-card-content class="mat-card-content">
 					 <mat-form-field class="first">
 						    <input matInput placeholder="First Name:" id="psychFirstName" [formControl]="fNameFormControl"
 						           [errorStateMatcher]="matcher" [(ngModel)]="value" required>
@@ -67,7 +71,7 @@
 					  <mat-select placeholder="Days Off:" [formControl]="daysOff" multiple >
 					    <mat-option *ngFor="let day of daysOfWeek" [value]="day">{{day}}</mat-option>
 					  </mat-select>
-					</mat-form-field> <br>
+					</mat-form-field> 
 
 
   					<mat-form-field class="price">
@@ -82,14 +86,14 @@
 
 			<div align="right">
 				<mat-card-actions class="submit-btn">
-						<button mat-raised-button color="primary" id="11" (click)="submitReq()">Submit</button>
+						<button mat-raised-button color="primary" id="11" (click)="submitReq()" class="btn">Submit</button>
 			 	</mat-card-actions>
 			 </div>
 
-		 	<mat-card-footer class="note">
-		 		<p>
+		 	<mat-card-footer class="footer">
+		 		<span class="note">
 					 Fields marked with "*" are required.
-				</p>
+		 		</span>
 		 	</mat-card-footer>
 
 			</div>

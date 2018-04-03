@@ -1,57 +1,83 @@
-.request-form {
-  max-width: 700px;
+::ng-deep .mat-card-header{
+  background-color: #303F9F !important;
+  padding:30px !important;
+  box-shadow: 0px 4px 5px grey;
+}
+::ng-deep .mat-card-content{
+  padding:0 !important;
+}
+::ng-deep .request-form {
+  padding:0 !important;
+  max-width: 750px;
 }
 .first {
   max-width: 400;
-  width: 75%;
-  margin-left: 30px;
+  width: 80%;
+  margin-left: 65px;
   font-size: 20px;
 }
 .last {
   max-width: 400;
-  width: 75%;
-  margin-left: 30px;
+  width: 80%;
+  margin-left: 65px;
   font-size: 20px;
 }
 .phone {
   max-width: 400;
-  width: 75%;
-  margin-left: 30px;
+  width: 80%;
+  margin-left: 65px;
   font-size: 20px;
 }
 .address {
   max-width: 400;
-  width: 75%;
-  margin-left: 30px;
+  width: 80%;
+  margin-left: 65px;
   font-size: 20px;
 }
 .email {
   max-width: 400;
-  width: 75%;
-  margin-left: 30px;
+  width: 80%;
+  margin-left: 65px;
   font-size: 20px;
 }
 .days {
   max-width: 400;
-  width: 50%;
-  margin-left: 30px;
+  width: 30%;
+  margin-left: 65px;
   font-size: 20px;
 }
 .price {
   max-width: 400;
-  width: 75%;
-  margin-left: 30px;
+  width: 41%;
+  margin-left: 65px;
   font-size: 20px;
 }
 .submit-btn {
   margin-right: 51px;
 }
+.btn{
+  box-shadow: 0px 4px 5px grey;
+}
 .title {
-  font-size: 35px;
-  color: darkblue;
+  margin-left: 90px;
+  font-size: 38px;
+  color: white;
+}
+.title1 {
+  margin-left: 90px;
+  font-size: 38px;
+  color: white;
+}
+
+.footer {
+  height: 25px;
+  margin-left: 0px;
+  width : 100%;
+  background-color: #303F9F; 
+  box-shadow: 0px -1px 5px grey;
 }
 .note {
-  font-size: 10px;
-  margin-right: 40px;
-  color: darkblue;
+  margin-left: 15px;
+  font-size: 16px;
+  color: white; 
 }
