@@ -55,7 +55,7 @@ module.exports.PublishStudyPlan = function (req, res, next) {
         }
         res.status(201).json({
             err: null,
-            msg: 'StudyPlan was published successfully.'
+            msg: 'StudyPlan published successfully.'
 
         });
     });
