@@ -121,5 +121,5 @@ var userSchema = mongoose.Schema({
 
 // ---------------------- Models ---------------------- //
 userSchema.plugin(mongoosePaginate);
-var User = mongoose.model('User', userSchema, 'User');
+var User = mongoose.model('User', userSchema, 'users');
 // ---------------------- End of Models ---------------------- //

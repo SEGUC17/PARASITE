@@ -5,8 +5,6 @@ mongoose.connect('mongodb://localhost/nawwar');
 var db = mongoose.connection;
 var Schema = mongoose.Schema;
 
-
-
 var VCRSchema = mongoose.Schema({
     status: {
         enum: [
@@ -43,14 +41,14 @@ var VCRSchema = mongoose.Schema({
     creator: {
         type: [
             { type: Schema.Types.ObjectId, ref: 'User' }
-            ],
+        ],
         unique: true
     }
 });
 
-var VerifiedContributerRequest = mongoose.model('VerifiedContributerRequest', VCRSchema, 'VerifiedContributerRequest');
+var VerifiedContributerRequest = mongoose.model('VerifiedContributerRequest', VCRSchema, 'verifiedContributerRequests');
 
-module.exports.createVCR = function(VCR) {
+module.exports.createVCR = function (VCR) {
     console.log(VCR);
 
     var vcr = new VerifiedContributerRequest(VCR);

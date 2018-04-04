@@ -33,4 +33,4 @@ state: {
 
 });
 
-mongoose.model('Message', messagingSchema);
+mongoose.model('Message', messagingSchema, 'messages');

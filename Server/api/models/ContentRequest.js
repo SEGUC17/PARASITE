@@ -55,5 +55,5 @@ var contentreqschema = mongoose.Schema({
 var ContentRequest = mongoose.model(
     'ContentRequest',
     contentreqschema,
-    'ContentRequest'
+    'contentRequests'
 );

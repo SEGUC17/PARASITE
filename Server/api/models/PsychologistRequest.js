@@ -35,4 +35,4 @@ var psychReqSchema = mongoose.Schema({
   }
 });
 
-mongoose.model('PsychologistRequest', psychReqSchema);
+mongoose.model('PsychologistRequest', psychReqSchema,'psychologistRequests');
