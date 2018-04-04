@@ -125,19 +125,22 @@ module.exports = function (passport) {
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
-  router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
+
   router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
   router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
   router.get(
-    '/admin/PendingContentRequests',
+    '/admin/PendingContentRequests/:type', isAuthenticated,
     adminController.viewPendingContReqs
   );
   router.patch(
-    '/admin/RespondContentRequest/:ContentRequestId',
+    '/admin/RespondContentRequest/:ContentRequestId', isAuthenticated,
     adminController.respondContentRequest
   );
+  router.patch(
+    '/admin/RespondContentStatus/:ContentId', isAuthenticated,
+    adminController.respondContentStatus
+  );
   // --------------End Of Admin Contoller ---------------------- //
-
   // -------------------- Profile Module Endpoints ------------------//
 
   router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
@@ -155,14 +158,15 @@ module.exports = function (passport) {
 
   // --------------Content Module Endpoints---------------------- //
 
-  // Content Managemen
+  // Content Management
 
   // Create a category
-  router.post('/content/category', contentController.createCategory);
+  router.post('/content/category', isAuthenticated, contentController.createCategory);
   // Create a section
 
   router.patch(
     '/content/category/:id/section',
+    isAuthenticated,
     contentController.createSection
   );
 
@@ -181,7 +185,8 @@ module.exports = function (passport) {
 
   // Get the contents of a user
   router.get(
-    '/content/username/:creator/:pageSize/:pageNumber',
+    '/content/username/:pageSize/:pageNumber',
+    isAuthenticated,
     contentController.getContentByCreator
   );
 
@@ -200,8 +205,7 @@ module.exports = function (passport) {
   //Content Production
 
   // Create new Content
-  router.post('/content', contentController.createContent);
-
+  router.post('/content', isAuthenticated, contentController.createContent);
 
   //-------------------- Messaging Module Endpoints ------------------//
 

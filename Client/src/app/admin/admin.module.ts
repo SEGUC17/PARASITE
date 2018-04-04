@@ -7,7 +7,6 @@ import { ViewProductRequestsComponent } from './view-product-requests/view-produ
 import { ProductRequestsService } from './view-product-requests/product-requests.service';
 import { ViewContentRequestsComponent } from '../content/view-content-requests/view-content-requests.component';
 import { ViewUnverifiedActivitiesComponent } from './view-unverified-activities/view-unverified-activities.component';
-
 import {
   ViewVerifiedContributerRequestsComponent
 } from './view-verified-contributer-requests/view-verified-contributer-requests.component';
@@ -24,7 +23,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule, MatPaginatorModule } from '@angular/material';
-
 import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
 import { AuthService } from '../auth/auth.service';
 
@@ -43,6 +41,8 @@ import { AuthService } from '../auth/auth.service';
     MatListModule,
     MatRadioModule,
     MatCardModule,
+    MatTabsModule,
+    MatRadioModule,
     MatPaginatorModule,
     MatExpansionModule
   ],
