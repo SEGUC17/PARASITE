@@ -1,10 +1,13 @@
+
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
 
+
 var express = require('express');
 var router = express.Router();
+var User = require('../models/User');
 
-
+var SearchController = require('../controllers/SearchController');
 var psychCtrl = require('../controllers/PsychologistController');
 var productCtrl = require('../controllers/ProductController');
 var userController = require('../controllers/UserController');
@@ -28,6 +31,17 @@ var isAuthenticated = function (req, res, next) {
   });
 };
 
+/* GET home page. */
+router.get('/', function (req, res, next) {
+  res.send('Server Works');
+});
+// --------------------- Search Contoller -------------------- //
+router.get('/User/NumberOfpages/:NPP', SearchController.getNumberOfPages);
+router.get('/User/Page/:page', SearchController.getPage);
+router.get('/User/Search/:username/:educationLevel/:educationSystem/:location', SearchController.Search);
+router.get('/User/FilterByLevelOfEducation/:level', SearchController.FilterByLevelOfEducation);
+router.get('/User/FilterBySystemOfEducation/:system', SearchController.FilterBySystemOfEducation);
+// --------------------- End of Search Controller ------------ //
 var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();
@@ -190,7 +204,6 @@ module.exports = function (passport) {
 
   // Create new Content
   router.post('/content', contentController.createContent);
-
 
 
   //-------------------- Messaging Module Endpoints ------------------//
