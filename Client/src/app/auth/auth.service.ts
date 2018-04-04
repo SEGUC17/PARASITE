@@ -18,7 +18,11 @@ export class AuthService {
   }
 
   getToken(): string {
-    return localStorage.getItem(this.jwtLocalStorageName);
+    if (localStorage.length) {
+      return localStorage.getItem(this.jwtLocalStorageName);
+    }
+
+    return '';
   }
 
   signUp(user: any): Observable<any> {
