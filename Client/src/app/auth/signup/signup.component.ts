@@ -74,7 +74,6 @@ export class SignupComponent implements OnInit {
       };
       const self = this;
       self.authService.signUp(this.User).subscribe(function (res) {
-        console.log(res);
         self.authService.setToken(res.token);
         if (res.data) {
           alert(res.msg);

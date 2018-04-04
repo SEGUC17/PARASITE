@@ -7,22 +7,19 @@ import { of } from 'rxjs/observable/of';
 export class AuthService {
 
   private endpoint: String = 'http://localhost:3000/api';
-  private jwtLocalStorageName = 'jwtToken';
+  private localStorageTokenName = 'jwtToken';
 
   constructor(private http: HttpClient) { }
 
   setToken(token: string): void {
     if (token) {
-      localStorage.setItem(this.jwtLocalStorageName, token);
+      localStorage.setItem(this.localStorageTokenName, token);
     }
   }
 
   getToken(): string {
-    if (localStorage.length) {
-      return localStorage.getItem(this.jwtLocalStorageName);
-    }
-
-    return '';
+    const token = localStorage.getItem(this.localStorageTokenName);
+    return token ? token : '';
   }
 
   signUp(user: any): Observable<any> {
