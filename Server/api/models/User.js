@@ -27,6 +27,10 @@ var userSchema = mongoose.Schema({
         sparse: true,
         type: String
     },
+    avatar: {
+        default: '',
+        type: String
+    },
     birthdate: {
         required: true,
         type: Date
