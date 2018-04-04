@@ -32,6 +32,14 @@ module.exports.getPerosnalStudyPlans = function (req, res, next) {
             return next(err);
         }
 
+        if (!user) {
+            return res.status(404).json({
+                data: null,
+                err: 'User not found.',
+                msg: null
+            });
+        }
+
         return res.status(200).json({
             data: user.studyPlans,
             err: null,
