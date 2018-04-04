@@ -1,9 +1,13 @@
+
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
 
+
 var express = require('express');
 var router = express.Router();
+var User = require('../models/User');
 
+var SearchController = require('../controllers/SearchController');
 
 var psychCtrl = require('../controllers/PsychologistController');
 var productCtrl = require('../controllers/ProductController');
@@ -28,6 +32,13 @@ var isAuthenticated = function (req, res, next) {
   });
 };
 
+/* GET home page. */
+router.get('/', function (req, res, next) {
+  res.send('Server Works');
+});
+// --------------------- Search Contoller -------------------- //
+router.get('/User/Search/:username/:educationLevel/:educationSystem/:location/:curr/:pp', SearchController.Search);
+// --------------------- End of Search Controller ------------ //
 var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();

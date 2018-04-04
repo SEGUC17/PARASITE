@@ -9,6 +9,9 @@
 require('./CalendarEvent.js');
 require('./StudyPlan.js');
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
+
+// ---------------------- End of Requiremenets ---------------------- //
 var encryption = require('../utils/encryption/encryption');
 // -------------------------- End of "Requiremenets" --------------------- //
 
@@ -35,6 +38,16 @@ var userSchema = mongoose.Schema({
         default: [],
         required: false,
         type: [String]
+    },
+    educationLevel: {
+      default: '',
+      required: false,
+      type: String
+    },
+    educationSystem: {
+      default: '',
+      required: false,
+      type: String
     },
     email: {
         lowercase: true,
@@ -107,5 +120,6 @@ var userSchema = mongoose.Schema({
 // -------------------------- End of "Schemas" --------------------------- //
 
 // ---------------------- Models ---------------------- //
+userSchema.plugin(mongoosePaginate);
 var User = mongoose.model('User', userSchema, 'User');
 // ---------------------- End of Models ---------------------- //

@@ -20,7 +20,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
-import { MatButtonModule } from '@angular/material';
+import { SearchModule } from './search/search.module';
+import { SearchService } from './search/search.service';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ChildsignupModule } from './childsignup/childsignup.module';
@@ -49,6 +51,7 @@ import { ChildsignupComponent } from './childsignup/childsignup.component';
     FlexLayoutModule,
     DashboardModule,
     AdminModule,
+    SearchModule,
     ProfileModule,
     ContentModule,
     MatDialogModule,

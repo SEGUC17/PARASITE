@@ -163,6 +163,7 @@ export class StudyPlanComponent implements OnInit {
   }
 
   publish(): void {
+    this.studyPlan._id = undefined;
     this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
       res => {
         if (res.msg === 'StudyPlan published successfully.') {
