@@ -12,32 +12,41 @@ var studyPlanController = require('../controllers/StudyPlanController');
 var adminController = require('../controllers/AdminController');
 var scheduleController = require('../controllers/ScheduleController');
 
-
-var isAuthenticated = function (req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-
-  return res.status(401).json({
-    data: null,
-    error: null,
-    msg: 'User Is Not Signed In!'
-  });
-};
-
-var isNotAuthenticated = function (req, res, next) {
-  if (!req.isAuthenticated()) {
-    return next();
-  }
-
-  return res.status(403).json({
-    data: null,
-    error: null,
-    msg: 'User Is Already Signed In!'
-  });
-};
-
 module.exports = function (passport) {
+
+  // --------------------- Authentication Checkers --------------- //
+  var isAuthenticated = function (req, res, next) {
+    passport.authenticate('jwt', { session: false }, function (err, user, info) {
+      if (err) {
+        return next(err);
+      } else if (!user) {
+        return res.status(401).json({
+          data: null,
+          error: null,
+          msg: 'User Is Not Signed In!'
+        });
+      }
+
+      return next();
+    })(req, res, next);
+  };
+
+  var isNotAuthenticated = function (req, res, next) {
+    passport.authenticate('jwt', { session: false }, function (err, user, info) {
+      if (err) {
+        return next(err);
+      } else if (user) {
+        return res.status(403).json({
+          data: null,
+          error: null,
+          msg: 'User Is Already Signed In!'
+        });
+      }
+
+      return next();
+    })(req, res, next);
+  };
+  // --------------------- End of "Authentication Checkers" ------ //
 
   /* GET home page. */
   router.get('/', function (req, res, next) {
@@ -51,8 +60,8 @@ module.exports = function (passport) {
   // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/signup', userController.signUp);
-  router.post('/signin', userController.signIn);
+  router.post('/signup', isNotAuthenticated, userController.signUp);
+  router.post('/signin', isNotAuthenticated, userController.signIn);
   // ---------------------- End of User Controller --------------- //
 
 
