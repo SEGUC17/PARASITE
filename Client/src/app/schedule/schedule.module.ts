@@ -63,6 +63,10 @@ import { StarRatingComponent } from './study-plan/star-rating/star-rating.compon
     StudyPlanEditViewComponent,
     StarRatingComponent
   ],
+  exports: [
+    ScheduleComponent,
+    StudyPlanListViewComponent
+  ],
   providers: [StudyPlanService, ScheduleService]
 })
 export class ScheduleModule { }

@@ -43,10 +43,10 @@ const colors: any = {
 })
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  @Input() username: String;
   // routing parameters
   type: String;
   _id: String;
+  username: String;
   // end of routing parameters
   rating = 0;
   starCount = 5;
@@ -78,7 +78,9 @@ export class StudyPlanComponent implements OnInit {
     }
   ];
 
-  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) {
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) { }
+
+  ngOnInit() {
     this.studyPlan = {
       creator: '',
       description: '',
@@ -90,10 +92,9 @@ export class StudyPlanComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.type = params.type;
       this._id = params.id;
+      this.username = params.username;
     });
-  }
 
-  ngOnInit() {
     if (this.type === 'personal') {
       this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
         .subscribe(res => {

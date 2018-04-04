@@ -24,6 +24,9 @@ export class StudyPlanListViewComponent implements OnInit {
   }
 
   getStudyPlans(pageEvent?: PageEvent) {
+    if (!this.username) {
+      this.username = 'undefined';
+    }
     if (this.type === 'published') {
       this.studyPlanService.getPublishedStudyPlans(pageEvent ? pageEvent.pageIndex + 1 : 1).subscribe(
         res => this.updateLayout(res));

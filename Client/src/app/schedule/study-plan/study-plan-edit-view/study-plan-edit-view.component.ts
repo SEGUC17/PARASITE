@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
+import { Router } from '@angular/router';
 import {
   isSameMonth,
   isSameDay,
@@ -45,7 +46,7 @@ export class StudyPlanEditViewComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
   type: String;
   _id: String;
-  username: String = 'alby';
+  username: String;
   studyPlan: StudyPlan;
   view = 'month';
   viewDate: Date = new Date();
@@ -81,7 +82,10 @@ export class StudyPlanEditViewComponent implements OnInit {
     }
   ];
 
-  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) {
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
+    private router: Router) { }
+
+  ngOnInit() {
     this.studyPlan = {
       creator: '',
       description: '',
@@ -91,11 +95,9 @@ export class StudyPlanEditViewComponent implements OnInit {
     this.events = [];
     this.route.params.subscribe(params => {
       this.type = params.type;
+      this.username = params.username;
       this._id = params.id;
     });
-  }
-
-  ngOnInit() {
     if (this.type === 'edit') {
       this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
         .subscribe(res => {
@@ -183,6 +185,7 @@ export class StudyPlanEditViewComponent implements OnInit {
     this.studyPlanService.createStudyPlan(this.username, this.studyPlan).subscribe(
       res => {
         alert(res.msg);
+        this.router.navigate(['/profile']);
       }
     );
   }

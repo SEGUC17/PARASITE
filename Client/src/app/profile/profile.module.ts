@@ -8,6 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ChildernComponent } from './profile/childern/childern.component';
 import { MatTabsModule, MatButtonModule, MatMenuModule, MatChipsModule, MatCardModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
+import { ScheduleModule } from '../schedule/schedule.module';
 
 
 
@@ -22,7 +23,8 @@ import { FormsModule } from '@angular/forms';
     MatCardModule,
     MatChipsModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    ScheduleModule
   ],
   declarations: [ProfileComponent, ChildernComponent],
   providers: [

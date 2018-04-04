@@ -112,6 +112,7 @@ listOfUncommonChildren: any[];
     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
     }
   }
+  // this.vUsername = 'user1';
   }
 
   ngOnInit() {

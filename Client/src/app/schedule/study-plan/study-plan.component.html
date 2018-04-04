@@ -2,7 +2,8 @@
   <mat-card>
 
       <mat-card-title>{{ studyPlan.title }}
-        <app-star-rating 
+        <app-star-rating
+          *ngIf="type === 'published'"
           [rating]="rating"  
           [starCount]="starCount" 
           [color]="starColor" 
