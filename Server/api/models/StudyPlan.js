@@ -34,6 +34,18 @@ var studyPlanSchema = mongoose.Schema({
         default: false,
         type: Boolean
     },
+    rating: {
+        deafault: {
+            number: 0,
+            sum: 0,
+            value: 0
+        },
+        type: {
+            number: Number,
+            sum: Number,
+            value: Number
+        }
+    },
     title: {
         required: true,
         trim: true,

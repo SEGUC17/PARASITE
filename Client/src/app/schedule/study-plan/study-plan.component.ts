@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { StudyPlan } from './study-plan';
+import { Rating } from './star-rating/rating';
 import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -42,15 +43,20 @@ const colors: any = {
 })
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  // routing parameters
   type: String;
   _id: String;
   username: String;
+  // end of routing parameters
+  rating = 0;
+  starCount = 5;
+  starColor = 'primary';
   studyPlan: StudyPlan;
+  description: String;
   view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[];
-  description: SafeHtml;
-  activeDayIsOpen: Boolean = true;
+  activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
   modalData: {
     action: string;
@@ -72,27 +78,29 @@ export class StudyPlanComponent implements OnInit {
     }
   ];
 
-  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) {
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) { }
+
+  ngOnInit() {
     this.studyPlan = {
       creator: '',
       description: '',
       events: [],
       title: ''
     };
+    this.description = '';
     this.events = [];
     this.route.params.subscribe(params => {
       this.type = params.type;
       this._id = params.id;
+      this.username = params.username;
     });
-  }
 
-  ngOnInit() {
     if (this.type === 'personal') {
       this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
         .subscribe(res => {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
-          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
+          this.description = this.studyPlan.description;
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);
@@ -103,7 +111,10 @@ export class StudyPlanComponent implements OnInit {
         .subscribe(res => {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
-          this.description = this.sanitizer.bypassSecurityTrustHtml(this.studyPlan.description);
+          this.description = this.studyPlan.description;
+          if (this.studyPlan.rating) {
+            this.rating = this.studyPlan.rating.value;
+          }
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);
@@ -124,6 +135,8 @@ export class StudyPlanComponent implements OnInit {
       week: endOfWeek,
       day: endOfDay
     }[this.view];
+
+    this.activeDayIsOpen = false;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -144,9 +157,20 @@ export class StudyPlanComponent implements OnInit {
     this.modalData = { event, action };
   }
 
+  onRatingChanged(rating) {
+    this.rating = rating;
+    this.studyPlanService.rateStudyPlan(this._id, rating).subscribe();
+  }
+
   publish(): void {
-    this.studyPlanService.PublishStudyPlan(this.studyPlan);
-    alert('Implement Publish Study Plan!');
+    this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
+      res => {
+        if (res.msg === 'StudyPlan published successfully.') {
+          alert(res.msg);
+        } else {
+          alert('An error occured while publishing the study plan, please try again.');
+        }
+      });
   }
 
   copy(): void {
