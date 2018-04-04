@@ -147,7 +147,7 @@ module.exports = function (passport) {
 
   // --------------Content Module Endpoints---------------------- //
 
-  // Content Managemen
+  // Content Management
 
   // Create a category
   router.post('/content/category', isAuthenticated, contentController.createCategory);
