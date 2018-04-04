@@ -10,12 +10,16 @@ mongoose.connect(config.MONGO_URI).
         if (err) {
             console.error(err);
         }
-
     });
 
+//TODO: add models
+require('../models/Product');
+require('../models/ProductRequest');
 require('../models/Activity');
 require('../models/Content');
 require('../models/User');
+require('../models/PsychologistRequest');
+require('../models/Psychologist');
 require('../models/Category');
 require('../models/VerifiedContributerRequest');
 require('../models/ContentRequest');

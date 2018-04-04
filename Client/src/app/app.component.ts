@@ -26,12 +26,17 @@ export class AppComponent implements OnDestroy {
       name: 'Login'
     },
     {
+
       url: '/auth/signup',
       name: 'Signup'
     },
     {
       url: '/profile',
       name: 'Profile'
+    },
+    {
+      url: '/childsignup',
+      name: 'ChildSignUp'
     },
     {
       url: 'message',
@@ -50,6 +55,7 @@ export class AppComponent implements OnDestroy {
       name: 'Published Study Plans'
     },
     {
+
       url: '/psychologist/view/0',
       name: 'Psychologist'
     },
@@ -60,6 +66,7 @@ export class AppComponent implements OnDestroy {
     {
       url: '/admin',
       name: 'Admin Control'
+
     },
     {
 
@@ -69,8 +76,11 @@ export class AppComponent implements OnDestroy {
     {
       url: '/admin/category',
       name: 'Admin Category Control'
-  }
-
+    },
+    {
+      url: '/psychologist/request/add',
+      name: 'Sample add psychologist request'
+    }
   ];
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
