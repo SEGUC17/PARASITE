@@ -12,7 +12,7 @@ export class CustomInterceptor {
             'Authorization': localStorage.getItem('jwtToken')
         });
 
-        request.clone({ headers });
+        request.clone({ headers, withCredentials: true });
 
         return next.handle(request);
     }

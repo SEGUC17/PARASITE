@@ -26,7 +26,7 @@ app.disable('etag');
 // -------------------------- Middleware --------------------------------- //
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:4200'
+  origin: true
 }));
 app.use(helmet());
 app.use(compression());
