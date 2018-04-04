@@ -58,7 +58,7 @@ vListOfChildren: any[];
 vVerified: Boolean = false;
 vId: any;
 // ------------------------------------
-
+visited: Boolean = false;
 
 // ------------------------------------
 listOfAllChildren: any[];
@@ -68,28 +68,28 @@ listOfUncommonChildren: any[];
 
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute) {
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
+    this.activatedRoute.params.subscribe((params: Params) => {
       this.vUsername = params.username;
     });
-    if (this.vUsername) {
+    if(this.vUsername){
+      this.visited = true;
+    }
     this.user = this._AuthService.getUser();
-    if (this.user.username === this.vUsername) {
       this.currIsOwner = true;
+      this.username = this.user.username;
       this.firstName = this.user.firstName;
       this.lastName = this.user.lastName;
-      this.age = this.user.birthday;
       this.email = this.user.email;
       this.address = this.user.address;
       this.phone = this.user.phone;
       this.schedule = this.user.schedule;
       this.studyPlans = this.user.studyPlans;
-      this.birthday = this.user.birthday;
       this.listOfChildren = this.user.children;
       this.verified = this.user.verified;
       this.id = this.user._id;
       this.currIsChild = this.user.isChild;
       this.currIsParent = this.user.isParent;
-    } else {
+    if(this.visited) {
       this._ProfileService.getUserInfo(this.vUsername).subscribe(((info) => {
         this.vFirstName = info.firstName;
         this.vLastName = info.lastName;
@@ -111,7 +111,6 @@ listOfUncommonChildren: any[];
     }));
     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
     }
-  }
   }
 
   ngOnInit() {
