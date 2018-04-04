@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AdminService} from '../../admin.service';
-import { Router} from '@angular/router';
+import { AdminService } from '../../admin.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-view-verified-contributer-requests',
@@ -26,8 +26,8 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   }
 
   pendingRadio() { // triggered by Radio button to change the filter
-      this.filter = 'pending';
-      this.viewVCRs(this.filter);
+    this.filter = 'pending';
+    this.viewVCRs(this.filter);
   }
 
   acceptedRadio() { // triggered by Radio button to change the filter
@@ -61,12 +61,12 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   }
 
   Accept(request) { // Accepted by Admin.
-    this._adminService.respondToContributerValidationRequest(request._id, 'approved' );
+    this._adminService.respondToContributerValidationRequest(request._id, 'approved');
 
   }
 
   Reject(request) { // rejected by Admin.
-    this._adminService.respondToContributerValidationRequest(request._id, 'disapproved' );
+    this._adminService.respondToContributerValidationRequest(request._id, 'disapproved');
   }
 
 }

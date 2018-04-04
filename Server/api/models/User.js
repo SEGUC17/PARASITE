@@ -9,6 +9,9 @@
 require('./CalendarEvent.js');
 require('./StudyPlan.js');
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
+
+// ---------------------- End of Requiremenets ---------------------- //
 var encryption = require('../utils/encryption/encryption');
 // -------------------------- End of "Requiremenets" --------------------- //
 
@@ -35,6 +38,16 @@ var userSchema = mongoose.Schema({
         default: [],
         required: false,
         type: [String]
+    },
+    educationLevel: {
+      default: '',
+      required: false,
+      type: String
+    },
+    educationSystem: {
+      default: '',
+      required: false,
+      type: String
     },
     email: {
         lowercase: true,
@@ -106,42 +119,7 @@ var userSchema = mongoose.Schema({
 });
 // -------------------------- End of "Schemas" --------------------------- //
 
-
-// -------------------------- Hash Password ------------------------------ //
-userSchema.pre('save', function (next) {
-    var user = this;
-    if (this.isModified('password' || this.isNew)) {
-        encryption.hashPassword(user.password, function (err, hash) {
-            if (err) {
-                return next(err);
-            }
-
-            user.password = hash;
-
-            return next();
-        });
-    }
-});
-// -------------------------- End of "Hash Password" --------------------- //
-
-
-// -------------------------- Compare Password --------------------------- //
-userSchema.methods.comparePasswords = function (password, next) {
-    encryption.comparePasswordToHash(password, this.password, function (
-        err,
-        passwordMatches
-    ) {
-        if (err) {
-            return next(err);
-        }
-
-        return next(null, passwordMatches);
-    });
-};
-// -------------------------- End of "Compare Password" ------------------ //
-
-
 // ---------------------- Models ---------------------- //
+userSchema.plugin(mongoosePaginate);
 var User = mongoose.model('User', userSchema, 'User');
-module.exports = mongoose.model('User', userSchema, 'User');
 // ---------------------- End of Models ---------------------- //

@@ -1,9 +1,13 @@
+
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
 
+
 var express = require('express');
 var router = express.Router();
+var User = require('../models/User');
 
+var SearchController = require('../controllers/SearchController');
 
 var psychCtrl = require('../controllers/PsychologistController');
 var productCtrl = require('../controllers/ProductController');
@@ -28,6 +32,13 @@ var isAuthenticated = function (req, res, next) {
   });
 };
 
+/* GET home page. */
+router.get('/', function (req, res, next) {
+  res.send('Server Works');
+});
+// --------------------- Search Contoller -------------------- //
+router.get('/User/Search/:username/:educationLevel/:educationSystem/:location/:curr/:pp', SearchController.Search);
+// --------------------- End of Search Controller ------------ //
 var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();
@@ -109,23 +120,27 @@ module.exports = function (passport) {
   router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', studyPlanController.getPerosnalStudyPlan);
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
+  router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
   router.post('/study-plan/PublishStudyPlan', studyPlanController.PublishStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
-  router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
+
   router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
   router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
   router.get(
-    '/admin/PendingContentRequests',
+    '/admin/PendingContentRequests/:type', isAuthenticated,
     adminController.viewPendingContReqs
   );
   router.patch(
-    '/admin/RespondContentRequest/:ContentRequestId',
+    '/admin/RespondContentRequest/:ContentRequestId', isAuthenticated,
     adminController.respondContentRequest
   );
+  router.patch(
+    '/admin/RespondContentStatus/:ContentId', isAuthenticated,
+    adminController.respondContentStatus
+  );
   // --------------End Of Admin Contoller ---------------------- //
-
   // -------------------- Profile Module Endpoints ------------------//
 
   router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
@@ -137,16 +152,22 @@ module.exports = function (passport) {
   router.patch('/profile/changePassword/:uname',profileController.changePassword);
   // ------------------- End of Profile module Endpoints-----------//
 
+  // ---------------Schedule Controller Endpoints ---------------//
+  router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
+  router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
+  // ------------End of Schedule Controller Endpoints -----------//
+
   // --------------Content Module Endpoints---------------------- //
 
-  // Content Managemen
+  // Content Management
 
   // Create a category
-  router.post('/content/category', contentController.createCategory);
+  router.post('/content/category', isAuthenticated, contentController.createCategory);
   // Create a section
 
   router.patch(
     '/content/category/:id/section',
+    isAuthenticated,
     contentController.createSection
   );
 
@@ -165,7 +186,8 @@ module.exports = function (passport) {
 
   // Get the contents of a user
   router.get(
-    '/content/username/:creator/:pageSize/:pageNumber',
+    '/content/username/:pageSize/:pageNumber',
+    isAuthenticated,
     contentController.getContentByCreator
   );
 
@@ -184,9 +206,7 @@ module.exports = function (passport) {
   //Content Production
 
   // Create new Content
-  router.post('/content', contentController.createContent);
-
-
+  router.post('/content', isAuthenticated, contentController.createContent);
 
   //-------------------- Messaging Module Endpoints ------------------//
 

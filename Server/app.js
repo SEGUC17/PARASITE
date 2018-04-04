@@ -53,6 +53,7 @@ app.use('/api', router);
 
 // 500 internal server error handler
 app.use(function (err, req, res, next) {
+  console.log(err);
   if (err.statusCode === 404) {
     return next();
   }

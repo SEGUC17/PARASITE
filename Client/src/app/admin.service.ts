@@ -12,30 +12,15 @@ const httpOptions = {
 
 export class AdminService {
   private baseURL = 'http://localhost:3000/api/';
-  private viewPendingContReqsURL = 'admin/PendingContentRequests';
+  private viewPendingContReqsURL = 'admin/PendingContentRequests/';
   private respondContentRequestURL = 'admin/RespondContentRequest/';
+  private respondContentStatusURL = 'admin/RespondContentStatus/';
+  private getContent = 'admin/getContent/';
   private URL = 'http://localhost:3000/api/admin/';
 
 
   constructor(private http: HttpClient) {
   }
-
-  viewPendingContReqs(): any {
-    return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL);
-  }
-
-  respondContentRequest(response, id): any {
-    return this.http.patch<any>(this.baseURL + this.respondContentRequestURL + id, {str: response});
-  }
-
-  viewPendingVCR(FilterBy): any {
-    /*
-      @author: MAHER.
-      gets the requests.
-   */
-    return this.http.get(this.URL + 'VerifiedContributerRequests/' + FilterBy);
-  }
-
 
   respondToContributerValidationRequest(id, resp): any {
     /*
@@ -47,6 +32,52 @@ export class AdminService {
       this.URL + 'VerifiedContributerRequestRespond/' + id,
       {responce: resp}
     ).subscribe();
+  }
+
+  viewPendingVCR(FilterBy): any {
+    /*
+      @author: MAHER.
+      gets the requests.
+   */
+    return this.http.get(this.URL + 'VerifiedContributerRequests/' + FilterBy);
+  }
+
+  viewPendingContReqs(type): any {
+    const self = this;
+    return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL + type)
+      .pipe(
+        catchError(
+          self.handleError('viewPendingContReqs', [])
+        )
+      );
+  }
+
+  respondContentRequest(response, id): any {
+    const self = this;
+    return this.http.patch<any>(this.baseURL + this.respondContentRequestURL + id, { str: response })
+      .pipe(
+        catchError(
+          self.handleError('respondContentRequest', [])
+        )
+      );
+  }
+  modifyContentStatus(response: boolean, id: any): any {
+    const self = this;
+    return this.http.patch<any>(this.baseURL + this.respondContentStatusURL + id, { str: response })
+      .pipe(
+        catchError(
+          self.handleError('modifyContentStatus', [])
+        )
+      );
+  }
+  getcontent(): any {
+    const self = this;
+    return this.http.get<any>(this.baseURL + this.getContent)
+      .pipe(
+        catchError(
+          self.handleError('getContent', [])
+        )
+      );
   }
 
   // create a category for content (resrouces and ideas) to be classified into

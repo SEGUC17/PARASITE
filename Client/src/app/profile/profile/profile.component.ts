@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../profile.service';
-import { AuthService} from '../../auth/auth.service';
-import {Router, ActivatedRoute, Params} from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -10,6 +10,7 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 })
 
 export class ProfileComponent implements OnInit {
+
 
 
 // ---------- FLAGS --------------------
@@ -65,12 +66,12 @@ listOfAllChildren: any[];
 listOfUncommonChildren: any[];
 
 
-
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute) {
     this.activatedRoute.params.subscribe((params: Params) => {
       this.vUsername = params.username;
     });
+
     if(this.vUsername){
       this.visited = true;
     }
@@ -111,6 +112,7 @@ listOfUncommonChildren: any[];
     }));
     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
     }
+
   }
 
   ngOnInit() {
@@ -128,7 +130,7 @@ listOfUncommonChildren: any[];
     //     creator: '5ac12591a813a63e419ebce5'
     // }
     this._ProfileService.makeContributerValidationRequest({}
-     ).subscribe(function(res) {
+    ).subscribe(function (res) {
       console.log(res);
     });
   }
@@ -141,7 +143,7 @@ listOfUncommonChildren: any[];
 
 
   removeChild(child): void {
-    this._ProfileService.Unlink(child, this.id ).subscribe();
+    this._ProfileService.Unlink(child, this.id).subscribe();
   }
 
   linkToParent(child): void {

@@ -48,6 +48,7 @@ export class ActivityComponent implements OnInit {
       res => this.updateLayout(res)
     );
     this.user = this.authService.getUser();
+    this.canCreate = this.user.isAdmin || this.user.verified;
   }
 
 
@@ -63,7 +64,6 @@ export class ActivityComponent implements OnInit {
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
     this.pageIndex = res.data.pageIndex;
-    this.canCreate = true;
     for (let activity of this.activities) {
       if (!activity.image) {
         activity.image = 'assets/images/activity-view/default-activity-image.jpg';

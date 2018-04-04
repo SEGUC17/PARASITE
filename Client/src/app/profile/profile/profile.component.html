@@ -48,9 +48,9 @@
 
           </div>
         </mat-tab>
-        <mat-tab label="Personal Schedule">
+        <mat-tab label="Personal Schedule" *ngIf="iHaveAcess">
           <div id = "schedule" class = "tabcontent">
-            <h3>Personal Schedule:</h3>
+            <app-schedule [profileUser]="vUsername" [loggedInUser]="user"></app-schedule>
           </div>
         </mat-tab>
         <mat-tab label="List of children">
@@ -59,9 +59,14 @@
             <app-childern></app-childern>
           </div>
         </mat-tab>
-        <mat-tab label="Study Plans">
+        <mat-tab label="Study Plans" *ngIf = "currIsOwner || visitedIsMyChild">
           <div id = "studyplans" class = "tabcontent">
-            <h3>Your Study Plans:</h3>
+            <app-study-plan-list-view
+              type="personal"
+              [(username)]="vUsername"
+              [(currIsChild)]="currIsChild"
+              >
+            </app-study-plan-list-view>
           </div>
         </mat-tab>
         <mat-tab label="Settings">
