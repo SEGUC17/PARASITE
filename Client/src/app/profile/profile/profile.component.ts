@@ -117,6 +117,8 @@ listOfUncommonChildren: any[];
     }
   }
   // this.vUsername = 'user1';
+  // this.currIsOwner = true;
+  // this.visitedIsMyChild = true;
   }
 
   ngOnInit() {
