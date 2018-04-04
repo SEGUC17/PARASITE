@@ -43,8 +43,6 @@
 
             <label>Username: {{username}}</label> <br>
             <label>Email: {{email}}</label> <br>
-            <label>Birthday: {{birthday}}</label> <br>
-            <label>Age: {{age}}</label> <br>
             <label>Address: {{address}}</label> <br>
             <label>Phone: {{phone}}</label> <br>
 
@@ -76,15 +74,17 @@
             <h3>Settings</h3>
             <h4>Change Password</h4>
 
-            Current Password <br>
-            <input type="text" name="oldpw" [(ngModel)]=oldpw><br>
-            New Password<br> <input type="text" name="newpw" [(ngModel)]=newpw><br>
+            Username <br>
+            <input #Uname type="text" name="name" [(ngModel)]=uname><br>
+            Current Password <br> 
+            <input #Oldpw type="password" name="oldpw" [(ngModel)]=oldpw><br>
+            New Password<br> <input #Newpw type="password" name="newpw" [(ngModel)]=newpw><br>
             Confirm New Password <br>
-             <input type="text" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
-            <button type="button"class="btn btn-primary"(click)="ChangePassword(info)">Change Password</button>
+             <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
+            <button type="button"class="btn btn-primary"(click)="ChangePassword(Uname.value, {oldpw: Oldpw.value, newpw: Newpw.value})">Change Password</button>
 
           </div>
-        </mat-tab>
+            </mat-tab>
       </mat-tab-group>
       </div>
 

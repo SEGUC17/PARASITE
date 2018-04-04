@@ -60,18 +60,20 @@ return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions
       .subscribe();
   }
 
-
-  changePassword(oldpw, newpw): Observable<any> {
-    return this.http.patch<any> (oldpw, newpw);
-
-  }
   private getChildrenUrl = 'http://localhost:3000/api/profile';
   continueUrl = 'getChildren';
   getChildren(): any {
         let username = this.authService.getUser().username;
         return this.http.get(`${this.getChildrenUrl}/${username}/${this.continueUrl}`);
        }
+       private pwURL = 'http://localhost:3000/api/profile/changePassword';
+        
+       
+       changePassword(uname, info): Observable<any> {
+        // console.log(oldpw);
+        return this.http.patch<any> (`${this.pwURL}/${uname}`, info, httpOptions);
+    
+    }
 
-
-
+    
 }

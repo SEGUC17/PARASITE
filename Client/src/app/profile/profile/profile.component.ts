@@ -12,115 +12,107 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 export class ProfileComponent implements OnInit {
 
 
-  // ---------- FLAGS --------------------
-  // User Flags
-  currIsOwner = false;
-  currIsParent = false;
-  currIsChild = false;
 
-  visitedIsParent = false;
-  visitedIsChild = false;
+// ---------- FLAGS --------------------
+// User Flags
+currIsOwner = false;
+currIsParent = false;
+currIsChild = false;
 
-  visitedIsMyChild = false;
-  // ------------------------------------
+visitedIsParent = false;
+visitedIsChild = false;
+
+visitedIsMyChild = false;
+// ------------------------------------
 
 
-  // ---------- Current User Info ---------------
-  user: any;
-  firstName: String = 'Fulan';
-  lastName: String = 'El Fulany';
-  username: String;
-  age: Number;
-  email: String;
-  address: String;
-  phone: [String];
-  schedule: any;
-  studyPlans: any;
-  birthday: Date;
-  listOfChildren: any[];
-  verified: Boolean = true;
-  id: any;
-  // -------------------------------------
+// ---------- Current User Info ---------------
+user: any;
+firstName: String = 'Fulan';
+lastName: String = 'El Fulany';
+username: String;
+age: Number;
+email: String;
+address: String;
+phone: [String];
+schedule: any;
+studyPlans: any;
+birthday: Date;
+listOfChildren: any[];
+verified: Boolean = true;
+id: any;
+// -------------------------------------
 
-  // ---------Visited User Info-----------
-  vUser: any;
-  vFirstName: String = 'Fulan';
-  vLastName: String = 'El Fulany';
-  vUsername: String;
-  vAge: Number;
-  vEmail: String;
-  vAddress: String;
-  vPhone: [String];
-  vSchedule: any;
-  vStudyPlans: any;
-  vBirthday: Date;
-  vListOfChildren: any[];
-  vVerified: Boolean = false;
-  vId: any;
-  // ------------------------------------
+// ---------Visited User Info-----------
+vUser: any;
+vFirstName: String = 'Fulan';
+vLastName: String = 'El Fulany';
+vUsername: String;
+vAge: Number;
+vEmail: String;
+vAddress: String;
+vPhone: [String];
+vSchedule: any;
+vStudyPlans: any;
+vBirthday: Date;
+vListOfChildren: any[];
+vVerified: Boolean = false;
+vId: any;
+// ------------------------------------
+visited: Boolean = false;
 
-  // ---------Scheduling Stuff------------
-  iHaveAcess: boolean;
-
-  // ------------------------------------
-  listOfAllChildren: any[];
-  listOfUncommonChildren: any[];
-
+// ------------------------------------
+listOfAllChildren: any[];
+listOfUncommonChildren: any[];
 
 
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute) {
-    this.activatedRoute.queryParams.subscribe((params: Params) => {
+    this.activatedRoute.params.subscribe((params: Params) => {
       this.vUsername = params.username;
     });
-    if (this.vUsername) {
-      this.user = this._AuthService.getUser();
-      console.log('User is' + this.user);
-      if (this.user.username === this.vUsername) {
-        console.log(this.user);
-        this.currIsOwner = true;
-        this.firstName = this.user.firstName;
-        this.lastName = this.user.lastName;
-        this.age = this.user.birthday;
-        this.email = this.user.email;
-        this.address = this.user.address;
-        this.phone = this.user.phone;
-        this.schedule = this.user.schedule;
-        this.studyPlans = this.user.studyPlans;
-        this.birthday = this.user.birthday;
-        this.listOfChildren = this.user.children;
-        this.verified = this.user.verified;
-        this.id = this.user._id;
-        this.currIsChild = this.user.isChild;
-        this.currIsParent = this.user.isParent;
-      } else {
-        this._ProfileService.getUserInfo(this.vUsername).subscribe(((info) => {
-          this.vFirstName = info.firstName;
-          this.vLastName = info.lastName;
-          this.vAge = info.birthday;
-          this.vEmail = info.email;
-          this.vAddress = info.address;
-          this.vPhone = info.phone;
-          this.vSchedule = info.schedule;
-          this.vStudyPlans = info.studyPlans;
-          this.vBirthday = info.birthday;
-          this.vListOfChildren = info.children;
-          this.vVerified = info.verified;
-          this.vId = info._id;
-          this.visitedIsParent = info.isParent;
-          this.visitedIsChild = info.isChild;
-          if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
-            this.visitedIsMyChild = true;
-          }
-        }));
-        this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
-        const indexChild = this.user.children.indexOf(this.vUsername);
-        this.iHaveAcess = (this.vUsername === this.user.username) || (!(this.user.isChild) && indexChild !== -1);
-      }
+
+    if(this.vUsername){
+      this.visited = true;
     }
-    // this.vUsername = 'user1';
-    // this.currIsOwner = true;
-    // this.visitedIsMyChild = true;
+    this.user = this._AuthService.getUser();
+      this.currIsOwner = true;
+      this.username = this.user.username;
+      this.firstName = this.user.firstName;
+      this.lastName = this.user.lastName;
+      this.email = this.user.email;
+      this.address = this.user.address;
+      this.phone = this.user.phone;
+      this.schedule = this.user.schedule;
+      this.studyPlans = this.user.studyPlans;
+      this.listOfChildren = this.user.children;
+      this.verified = this.user.verified;
+      this.id = this.user._id;
+      this.currIsChild = this.user.isChild;
+      this.currIsParent = this.user.isParent;
+    if(this.visited) {
+      this._ProfileService.getUserInfo(this.vUsername).subscribe(((info) => {
+        this.vFirstName = info.firstName;
+        this.vLastName = info.lastName;
+        this.vAge = info.birthday;
+        this.vEmail = info.email;
+        this.vAddress = info.address;
+        this.vPhone = info.phone;
+        this.vSchedule = info.schedule;
+        this.vStudyPlans = info.studyPlans;
+        this.vBirthday = info.birthday;
+        this.vListOfChildren = info.children;
+        this.vVerified = info.verified;
+        this.vId = info._id;
+        this.visitedIsParent = info.isParent;
+        this.visitedIsChild = info.isChild;
+        if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
+          this.visitedIsMyChild = true;
+        }
+    }));
+    this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
+    }
+
   }
 
   ngOnInit() {
@@ -159,8 +151,9 @@ export class ProfileComponent implements OnInit {
   }
 
 
-  changePassword(oldpw, newpw: any): void {
-    this._ProfileService.changePassword(oldpw, newpw).subscribe();
-  }
+  ChangePassword(uname, info: any): void {
+    this._ProfileService.changePassword(uname, info).subscribe();
 
+}
+  
 }
