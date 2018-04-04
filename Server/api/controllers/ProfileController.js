@@ -4,7 +4,6 @@ var Validations = require('../utils/validators');
 var adminController = require('./AdminController');
 var User = mongoose.model('User');
 var VCRSchema = mongoose.model('VerifiedContributerRequest');
-mongoose.set('debug', true);
 
 
 module.exports.getChildren = function (req, res, next) {
