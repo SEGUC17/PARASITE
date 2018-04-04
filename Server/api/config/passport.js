@@ -8,7 +8,6 @@ var User = require('../models/User');
 module.exports = function (passport) {
     passport.use(new JWTStrategy(
         {
-            'jsonWebTokenOptions': { maxAge: 24 * 60 * 60 * 1000 },
             'jwtFromRequest': ExtractJwt.fromAuthHeaderWithScheme('jwt'),
             'secretOrKey': config.SECRET
         },
