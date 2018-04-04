@@ -150,8 +150,9 @@ listOfUncommonChildren: any[];
   }
 
 
-  changePassword(oldpw, newpw: any): void {
-    this._ProfileService.changePassword(oldpw, newpw).subscribe();
-  }
+  ChangePassword(uname, info: any): void {
+    this._ProfileService.changePassword(uname, info).subscribe();
 
+}
+  
 }

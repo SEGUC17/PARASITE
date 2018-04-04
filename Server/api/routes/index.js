@@ -134,6 +134,7 @@ module.exports = function (passport) {
   router.put('/profile/UnlinkAnotherParent/:parentId', profileController.Unlink);
   router.put('/profile/LinkAsAParent/:parentId', profileController.linkAsParent);
   router.get('/profile/:username/getChildren', profileController.getChildren);
+  router.patch('/profile/changePassword/:uname',profileController.changePassword);
   // ------------------- End of Profile module Endpoints-----------//
 
   // --------------Content Module Endpoints---------------------- //
