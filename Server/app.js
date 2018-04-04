@@ -6,9 +6,9 @@ var config = require('./api/config/config');
 var cors = require('cors');
 var express = require('express');
 var helmet = require('helmet');
-var initPassport = require('./api/passport/init');
 var logger = require('morgan');
 var passport = require('passport');
+require('./api/config/passport')(passport);
 var router = require('./api/routes/index')(passport);
 // -------------------------- End of "Requirements" --------------------- //
 
@@ -34,7 +34,6 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
-initPassport(passport);
 app.use('/api', router);
 // -------------------------- End of "Middleware" ------------------------ //
 

@@ -51,11 +51,11 @@ module.exports = function (passport) {
   // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/signup', userController.signUp);
+  router.post('/signup', passport.authenticate('jwt', { session: false }), userController.signUp);
   router.post('/signin', userController.signIn);
   // ---------------------- End of User Controller --------------- //
 
-  
+
   //-------------------- Study Plan Endpoints ------------------//
   router.get('/study-plan/getPersonalStudyPlans/:username', studyPlanController.getPerosnalStudyPlans);
   router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);

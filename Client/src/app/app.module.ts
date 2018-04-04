@@ -24,7 +24,7 @@ import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { CustomInterceptor } from './custom-interceptor';
+import { AuthInterceptor } from './auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,7 @@ import { CustomInterceptor } from './custom-interceptor';
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CustomInterceptor,
+      useClass: AuthInterceptor,
       multi: true
     },
     MediaMatcher

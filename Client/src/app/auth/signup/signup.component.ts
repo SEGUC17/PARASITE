@@ -62,7 +62,7 @@ export class SignupComponent implements OnInit {
       this.User = { 'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password, 'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone, 'address': this.Address, 'isParent': this.Parent, 'isChild': this.Student, 'isTeacher': this.Teacher };
       var self = this;
       self.authService.signUp(this.User).subscribe(function (res) {
-        localStorage.setItem('jwtToken', res.token);
+        self.authService.setToken(res.token);
         if (res.data) {
           alert(res.msg);
         }
