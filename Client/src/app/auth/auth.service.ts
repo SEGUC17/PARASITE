@@ -12,7 +12,9 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   setToken(token: string): void {
-    localStorage.setItem(this.jwtLocalStorageName, token);
+    if (token) {
+      localStorage.setItem(this.jwtLocalStorageName, token);
+    }
   }
 
   getToken(): string {
