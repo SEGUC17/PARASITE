@@ -22,6 +22,26 @@ export class AdminService {
   constructor(private http: HttpClient) {
   }
 
+  respondToContributerValidationRequest(id, resp): any {
+    /*
+      @author: MAHER.
+      respond the requests.
+   */
+    console.log('the Responce is sent el mafrood AUTHOR: Maher');
+    return this.http.patch(
+      this.URL + 'VerifiedContributerRequestRespond/' + id,
+      {responce: resp}
+    ).subscribe();
+  }
+
+  viewPendingVCR(FilterBy): any {
+    /*
+      @author: MAHER.
+      gets the requests.
+   */
+    return this.http.get(this.URL + 'VerifiedContributerRequests/' + FilterBy);
+  }
+
   viewPendingContReqs(type): any {
     const self = this;
     return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL + type)
