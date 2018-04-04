@@ -31,83 +31,93 @@
       </mwl-calendar-day-view>
     </div>
   </mat-card>
-  <mat-card>
-      <h3>
-          Edit events
-          <button
-            class="btn btn-primary pull-right"
-            (click)="addEvent()">
-            Add new
-          </button>
-          <div class="clearfix"></div>
-        </h3>
+  <div *ngIf="!loggedInUser.isChild">
+    <mat-card>
+          <h3>
+            <button *ngIf="editing"
+              class="btn btn-primary pull-left"
+              style="width:100px"
+              (click)="addEvent()">
+              Add Event
+            </button>
 
-        <h4 style="overflow-y:scroll; height:800px;">
-          <table class="table table-bordered">
+            <button *ngIf="!editing"
+            class="btn btn-primary pull-left"
+            style="width:100px"
+            (click)="editing=true; refreshDocument()">
+            Edit
+            </button>
+            <div class="clearfix"></div>
+          </h3>
+          
 
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Primary color</th>
-                <th>Secondary color</th>
-                <th>Starts at</th>
-                <th>Ends at</th>
-                <th>Remove</th>
-              </tr>
-            </thead>
+          <h4 *ngIf="editing" style="overflow-y:scroll; height:800px;">
+            <table class="table table-bordered">
 
-            <tbody>
-              <tr *ngFor="let event of events; let index = index">
-                <td>
-                  <input
-                    type="text"
-                    class="form-control"
-                    [(ngModel)]="event.title"
-                    (keyup)="refresh.next()">
-                </td>
-                <td>
-                  <input
-                    type="color"
-                    [(ngModel)]="event.color.primary"
-                    (change)="refresh.next()">
-                </td>
-                <td>
-                  <input
-                    type="color"
-                    [(ngModel)]="event.color.secondary"
-                    (change)="refresh.next()">
-                </td>
-                <td>
-                  <app-date-time-picker
-                    [(ngModel)]="event.start"
-                    (ngModelChange)="refresh.next()"
-                    placeholder="Not set">
-                  </app-date-time-picker>
-                </td>
-                <td>
-                  <app-date-time-picker
-                    [(ngModel)]="event.end"
-                    (ngModelChange)="refresh.next()"
-                    placeholder="Not set">
-                  </app-date-time-picker>
-                </td>
-                <td>
-                  <button
-                    class="btn btn-danger"
-                    (click)="events.splice(index, 1); refresh.next()">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            </tbody>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Primary color</th>
+                  <th>Secondary color</th>
+                  <th>Starts at</th>
+                  <th>Ends at</th>
+                  <th>Remove</th>
+                </tr>
+              </thead>
 
-          </table>
-        </h4>
-  </mat-card>
-  <mat-card>
-    <div class="button-row">
-        <button mat-raised-button [disabled]="isUnchanged()" (click)="saveScheduleChanges()" color="primary">Save Changes</button>
-        <button mat-raised-button [disabled]="isUnchanged()" (click)="cancel()" color="primary">Cancel</button>
+              <tbody>
+                <tr *ngFor="let event of events; let index = index">
+                  <td>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="event.title"
+                      (keyup)="refreshDocument()">
+                  </td>
+                  <td>
+                    <input
+                      type="color"
+                      [(ngModel)]="event.color.primary"
+                      (change)="refreshDocument()">
+                  </td>
+                  <td>
+                    <input
+                      type="color"
+                      [(ngModel)]="event.color.secondary"
+                      (change)="refreshDocument()">
+                  </td>
+                  <td>
+                    <app-date-time-picker
+                      [(ngModel)]="event.start"
+                      (ngModelChange)="refreshDocument()"
+                      placeholder="Not set">
+                    </app-date-time-picker>
+                  </td>
+                  <td>
+                    <app-date-time-picker
+                      [(ngModel)]="event.end"
+                      (ngModelChange)="refreshDocument()"
+                      placeholder="Not set">
+                    </app-date-time-picker>
+                  </td>
+                  <td>
+                    <button
+                      class="btn btn-danger"
+                      (click)="events.splice(index, 1); refreshDocument()">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+
+            </table>
+          </h4>
+    </mat-card>
+    <mat-card *ngIf="editing">
+      <div class="button-row">
+          <button button (click)="saveScheduleChanges()" class="btn btn-primary" style="width:150px">Save Changes</button>
+          <button button (click)="cancel()" class="btn btn-primary" style="width:150px">Cancel</button>
       </div>
-</mat-card>
+    </mat-card>
+  </div>
 </div>

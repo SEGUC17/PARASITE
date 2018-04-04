@@ -36,9 +36,9 @@ var isAuthenticated = function (req, res, next) {
 router.get('/', function (req, res, next) {
   res.send('Server Works');
 });
-  // --------------------- Search Contoller -------------------- //
+// --------------------- Search Contoller -------------------- //
 router.get('/User/Search/:username/:educationLevel/:educationSystem/:location/:curr/:pp', SearchController.Search);
- // --------------------- End of Search Controller ------------ //
+// --------------------- End of Search Controller ------------ //
 var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();
@@ -58,6 +58,11 @@ module.exports = function (passport) {
     res.send('Server Works');
   });
 
+  // --------------------- Activity Contoller -------------------- //
+  router.get('/activities', ActivityController.getActivities);
+  router.get('/activities/:activityId', ActivityController.getActivity);
+  router.post('/activities', isAuthenticated, ActivityController.postActivity);
+  router.put('/unverifiedActivities', ActivityController.reviewActivity);
 
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist', psychCtrl.getPsychologists);
@@ -87,12 +92,6 @@ module.exports = function (passport) {
 
   // --------------End Of Product Contoller ---------------------- //
 
-// --------------------- Activity Contoller -------------------- //
-  router.get('/activities', ActivityController.getActivities);
-  router.get('/activities/:activityId', ActivityController.getActivity);
-  router.post('/activities', ActivityController.postActivity);
-// --------------------- End of Activity Controller ------------ //
-
   // ---------------------- User Controller ---------------------- //
   router.post('/childsignup', isAuthenticated, userController.signUpChild);
 
@@ -114,45 +113,45 @@ module.exports = function (passport) {
     });
   });
   // ---------------------- End of User Controller --------------- //
+
   //-------------------- Study Plan Endpoints ------------------//
   router.get('/study-plan/getPersonalStudyPlans/:username', studyPlanController.getPerosnalStudyPlans);
   router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);
   router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', studyPlanController.getPerosnalStudyPlan);
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
+  router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
   router.post('/study-plan/PublishStudyPlan', studyPlanController.PublishStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
-// -------------- Admin Contoller ---------------------- //
-router.get('/admin/VerifiedContributerRequests', adminController.getVCRs);
-router.get(
-'/admin/PendingContentRequests',
-adminController.viewPendingContReqs
-);
-router.patch(
-'/admin/RespondContentRequest/:ContentRequestId',
-adminController.respondContentRequest
-);
+  // -------------- Admin Contoller ---------------------- //
+  router.patch('/admin/RespondContentRequest/:ContentRequestId', adminController.respondContentRequest);
+  router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
+  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
+  router.get(
+    '/admin/PendingContentRequests',
+    adminController.viewPendingContReqs
+  );
+  router.patch(
+    '/admin/RespondContentRequest/:ContentRequestId',
+    adminController.respondContentRequest
+  );
   // --------------End Of Admin Contoller ---------------------- //
 
+  // -------------------- Profile Module Endpoints ------------------//
 
-  //-------------------- Profile Module Endpoints ------------------//
-  router.post(
-    '/profile/VerifiedContributerRequest',
-    profileController.requestUserValidation
-  );
-  router.get(
-    '/profile/:username',
-    profileController.getUserInfo
-  );
-  // router.get(
-  //   '/profile/LinkAnotherParent/:parentID',
-  //   profileController.linkAnotherParent
-  // );
+  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+  router.get('/profile/:parentId', profileController.getUserInfo);
+  router.put('/profile/LinkAnotherParent/:parentId', profileController.linkAnotherParent);
+  router.put('/profile/UnlinkAnotherParent/:parentId', profileController.Unlink);
+  router.put('/profile/LinkAsAParent/:parentId', profileController.linkAsParent);
+  router.get('/profile/:username/getChildren', profileController.getChildren);
+  // ------------------- End of Profile module Endpoints-----------//
 
-
-//  router.get('/profile/:userId/getChildren', profileController.getProduct);
-  //------------------- End of Profile module Endpoints-----------//
+  // ---------------Schedule Controller Endpoints ---------------//
+  router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
+  router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
+  // ------------End of Schedule Controller Endpoints -----------//
 
   // --------------Content Module Endpoints---------------------- //
 
@@ -202,21 +201,23 @@ adminController.respondContentRequest
 
   // Create new Content
   router.post('/content', contentController.createContent);
-    //-------------------- Messaging Module Endpoints ------------------//
 
-    // Send message
-    router.post('/message/sendMessage', messageController.sendMessage);
 
-    //View inbox
-    router.get('/message/inbox/:user', messageController.getInbox);
+  //-------------------- Messaging Module Endpoints ------------------//
 
-    //View sent
-    router.get('/message/sent/:user', messageController.getSent);
+  // Send message
+  router.post('/message/sendMessage', messageController.sendMessage);
 
-    //Delete message
-    router.delete('/message/:id', messageController.deleteMessage);
+  //View inbox
+  router.get('/message/inbox/:user', messageController.getInbox);
 
-    //------------------- End of Messaging Module Endpoints-----------//
+  //View sent
+  router.get('/message/sent/:user', messageController.getSent);
+
+  //Delete message
+  router.delete('/message/:id', messageController.deleteMessage);
+
+  //------------------- End of Messaging Module Endpoints-----------//
 
 
   // -------------------------------------------------------------------- //

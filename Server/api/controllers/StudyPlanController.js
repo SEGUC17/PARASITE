@@ -32,6 +32,14 @@ module.exports.getPerosnalStudyPlans = function (req, res, next) {
             return next(err);
         }
 
+        if (!user) {
+            return res.status(404).json({
+                data: null,
+                err: 'User not found.',
+                msg: null
+            });
+        }
+
         return res.status(200).json({
             data: user.studyPlans,
             err: null,
@@ -105,7 +113,7 @@ module.exports.getPublishedStudyPlan = function (req, res, next) {
 module.exports.createStudyPlan = function (req, res, next) {
     User.findOneAndUpdate(
         { username: req.params.username },
-        { $push: { 'studyPlans': req.body } },
+        { $push: { studyPlans: req.body } },
         function (err) {
             if (err) {
                 return next(err);
@@ -114,7 +122,50 @@ module.exports.createStudyPlan = function (req, res, next) {
             res.status(201).json({
                 data: null,
                 err: null,
-                msg: 'Study plan created cuccesfully.'
+                msg: 'Study plan created succesfully.'
+            });
+        }
+    );
+};
+
+module.exports.rateStudyPlan = function (req, res, next) {
+    console.log(req.params.studyPlanID);
+    console.log(req.body);
+    StudyPlan.findById(
+        req.params.studyPlanID,
+        function (err, studyPlan) {
+            if (err) {
+                return next(err);
+            }
+
+            var rating = parseInt(req.params.rating, 10);
+
+            var newRating = {
+                number: 1,
+                sum: rating,
+                value: rating
+            };
+
+            if (studyPlan.rating) {
+                newRating.number = studyPlan.rating.number + 1;
+                newRating.sum = studyPlan.rating.sum +
+                    rating;
+                newRating.value = newRating.sum / newRating.number;
+            }
+
+            StudyPlan.findByIdAndUpdate(
+                req.params.studyPlanID, { rating: newRating },
+                function (err2) {
+                    if (err2) {
+                        return next(err2);
+                    }
+                }
+            );
+
+            res.status(201).json({
+                data: null,
+                err: null,
+                msg: 'Study plan rated succesfully.'
             });
         }
     );

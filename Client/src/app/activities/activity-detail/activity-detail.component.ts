@@ -9,7 +9,10 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./activity-detail.component.css']
 })
 export class ActivityDetailComponent implements OnInit {
-
+  /*
+    @author: Wessam
+  */
+ 
   activity: Activity;
 
   constructor( 
@@ -26,6 +29,8 @@ export class ActivityDetailComponent implements OnInit {
       Getting the activities from the api
 
       @var event: An object that gets fired by mat-paginator
+
+      @author: Wessam
     */
     let id = this.route.snapshot.paramMap.get('id');
     this.activityService.getActivity(id).subscribe(

@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ActivityService } from '../activity.service';
-import { Activity } from '../activity';
+import { ActivityService } from '../../activities/activity.service';
+import { Activity } from '../../activities/activity';
 import { apiUrl } from '../../variables';
-import { AuthService } from '../../auth/auth.service';
 
 @Component({
-  selector: 'app-activity',
-  templateUrl: './activity.component.html',
-  styleUrls: ['./activity.component.css']
+  selector: 'view-unverified-activities',
+  templateUrl: './view-unverified-activities.component.html',
+  styleUrls: ['./view-unverified-activities.component.css']
 })
-export class ActivityComponent implements OnInit {
+export class ViewUnverifiedActivitiesComponent implements OnInit {
   /*
   @author: Wessam
   */
@@ -19,14 +18,9 @@ export class ActivityComponent implements OnInit {
   pageSize: Number;
   pageIndex: Number;
   canCreate: Boolean;
-
   private createUrl = '/create-activity';
-  user: any;
 
-  constructor(
-    private activityService: ActivityService,
-    private authService: AuthService
-  ) { }
+  constructor(private activityService: ActivityService) { }
 
   ngOnInit() {
     this.getActivities(null);
@@ -37,8 +31,6 @@ export class ActivityComponent implements OnInit {
       Getting the activities from the api
 
       @var event: An object that gets fired by mat-paginator
-
-      @author: Wessam
     */
     let page = 1;
     if (event) {
@@ -47,7 +39,6 @@ export class ActivityComponent implements OnInit {
     this.activityService.getActivities(page).subscribe(
       res => this.updateLayout(res)
     );
-    this.user = this.authService.getUser();
   }
 
 
@@ -55,8 +46,6 @@ export class ActivityComponent implements OnInit {
     /*
       Setting new values comming from 
       the response
-
-      @author: Wessam
     */
     document.querySelector('.mat-sidenav-content').scrollTop = 0;
     this.activities = res.data.docs;
@@ -69,6 +58,15 @@ export class ActivityComponent implements OnInit {
         activity.image = 'assets/images/activity-view/default-activity-image.jpg';
       }
     }
+  }
+  acceptActivity(activity :Activity): void {
+    activity.status = 'Accepted';
+    this.activityService.reviewActivity(activity).subscribe();
+  }
+
+  rejectActivity(activity :Activity): void {
+    activity.status = 'Rejected';
+    this.activityService.reviewActivity(activity).subscribe();
   }
 
 }
