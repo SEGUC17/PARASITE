@@ -73,16 +73,11 @@ export class AppComponent implements OnDestroy {
     {
       url: '/admin/category',
       name: 'Admin Category Control'
-<<<<<<< HEAD
-  }
-
-=======
     },
     {
       url: '/psychologist/request/add',
       name: 'Sample add psychologist request'
     }
->>>>>>> master
   ];
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;

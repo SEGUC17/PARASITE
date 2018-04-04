@@ -4,6 +4,8 @@ import { DatePipe, CurrencyPipe } from '@angular/common';
 import { User } from '../user';
 import { MatChipInputEvent } from '@angular/material';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { PageEvent, MatPaginator } from '@angular/material';
+import { ViewChild } from '@angular/core';
 @Component({
   selector: 'app-search-control',
   templateUrl: './search-control.component.html',
@@ -16,6 +18,7 @@ export class SearchControlComponent implements OnInit {
   removable: Boolean = true;
   currPage: number;
   numberPerPage = 10;
+  totParents: number;
   totPages: number;
   selectedUsername: string;
   eduL: string;
@@ -26,6 +29,8 @@ export class SearchControlComponent implements OnInit {
   // Enter, comma
   separatorKeysCodes = [ENTER, COMMA];
 
+  @ViewChild('allSearchPaginator') public paginator: MatPaginator;
+  constructor(private searchService: SearchService) { }
 
   add(event: MatChipInputEvent): void {
     let input = event.input;
@@ -42,18 +47,24 @@ export class SearchControlComponent implements OnInit {
     }
   }
   remove(tab: string): void {
+    const self = this;
     switch (tab) {
       case 'user': this.tags[0] = 'NA'; break;
       case 'eduL': this.tags[1] = 'NA'; break;
       case 'eduS': this.tags[2] = 'NA'; break;
       case 'loc': this.tags[3] = 'NA'; break;
     }
-    this.users = [];
+    console.log('updating');
+    this.currPage = 1;
+    this.searchService.getParents(this.tags, this.currPage, this.numberPerPage
+    ).subscribe(function (retreivedUsers) {
+      self.users = retreivedUsers.data.docs,
+        self.totPages = retreivedUsers.data.pages,
+        self.totParents = retreivedUsers.data.total;
+    });
+    console.log(self.tags[0] + ' ' + self.tags[1] + ' ' + self.tags[2] + ' ' + self.tags[3]);
   }
 
-
-  constructor(private searchService: SearchService) {
-  }
   getParents(tab: String) {
     const self = this;
     switch (tab) {
@@ -66,12 +77,16 @@ export class SearchControlComponent implements OnInit {
       case 'eduS':
         this.tags[2] = this.eduS;
         break;
-        case 'loc':
+      case 'loc':
         this.tags[3] = this.loc;
         break;
     }
-    this.searchService.getParents(this.tags).subscribe(function(retreivedUsers) {
-      self.users = retreivedUsers.data.docs; });
+    this.searchService.getParents(this.tags, this.currPage, this.numberPerPage
+    ).subscribe(function (retreivedUsers) {
+      self.users = retreivedUsers.data.docs,
+        self.totPages = retreivedUsers.data.pages,
+        self.totParents = retreivedUsers.data.total;
+    });
 
   }
 
@@ -79,22 +94,27 @@ export class SearchControlComponent implements OnInit {
     this.searchService.viewProfile(username);
   }
 
-  getPage(event: any): void {
-    let page = 1;
-    if (event) {
-      page = event.pageIndex + 1;
-    }
-    this.searchService.getPage(page).subscribe(
-      res => this.users = res.data.docs
+  getPage(event): void {
 
-    );
+    this.currPage = event.pageIndex + 1;
+    this.getCurrPage();
+  }
+
+  getCurrPage(): void {
+    this.searchService.getParents(this.tags, this.currPage, this.numberPerPage
+    ).subscribe(function (retreivedUsers) {
+      this.users = retreivedUsers.data.docs,
+        this.totPages = retreivedUsers.data.pages,
+        this.totParents = retreivedUsers.data.total;
+    });
   }
 
   ngOnInit() {
-    this.currPage = 0;
+    this.currPage = 1;
     this.tags = ['NA', 'NA', 'NA', 'NA'];
     this.users = [];
     this.removable = true;
+    this.getCurrPage();
   }
 
 }

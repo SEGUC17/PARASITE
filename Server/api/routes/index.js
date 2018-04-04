@@ -37,12 +37,8 @@ router.get('/', function (req, res, next) {
   res.send('Server Works');
 });
   // --------------------- Search Contoller -------------------- //
-router.get('/User/NumberOfpages/:NPP', SearchController.getNumberOfPages);
-router.get('/User/Page/:page', SearchController.getPage);
-router.get('/User/Search/:username/:educationLevel/:educationSystem/:location', SearchController.Search);
-router.get('/User/FilterByLevelOfEducation/:level', SearchController.FilterByLevelOfEducation);
-router.get('/User/FilterBySystemOfEducation/:system', SearchController.FilterBySystemOfEducation);
-  // --------------------- End of Search Controller ------------ //
+router.get('/User/Search/:username/:educationLevel/:educationSystem/:location/:curr/:pp', SearchController.Search);
+ // --------------------- End of Search Controller ------------ //
 var isNotAuthenticated = function (req, res, next) {
   if (!req.isAuthenticated()) {
     return next();
@@ -206,9 +202,6 @@ adminController.respondContentRequest
 
   // Create new Content
   router.post('/content', contentController.createContent);
-
-
-
     //-------------------- Messaging Module Endpoints ------------------//
 
     // Send message
