@@ -110,7 +110,7 @@ var userSchema = mongoose.Schema({
 // -------------------------- Hash Password ------------------------------ //
 userSchema.pre('save', function (next) {
     var user = this;
-    if (this.isModified('password' || this.isNew)) {
+    if (this.isModified('password') || this.isNew) {
         encryption.hashPassword(user.password, function (err, hash) {
             if (err) {
                 return next(err);

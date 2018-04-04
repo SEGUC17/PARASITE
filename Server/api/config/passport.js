@@ -13,7 +13,7 @@ module.exports = function (passport) {
         },
         function (jwtPayload, done) {
             User.findOne(
-                { '_id': jwtPayload },
+                { '_id': jwtPayload.id },
                 function (err, user) {
                     if (err) {
                         return done(false, null);

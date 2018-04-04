@@ -165,7 +165,7 @@ module.exports.signUp = function (req, res, next) {
                     data: null,
                     err: null,
                     msg: 'Sign Up Is Successful!',
-                    token: 'JWT ' + jwt.sign(newUser._id.toJSON(), config.SECRET)
+                    token: 'JWT ' + jwt.sign({ 'id': newUser._id }, config.SECRET, { expiresIn: '12h' })
                 });
             });
         }
@@ -209,7 +209,7 @@ module.exports.signIn = function (req, res, next) {
                     data: null,
                     err: null,
                     msg: 'Sign In Is Successfull',
-                    token: 'JWT ' + jwt.sign(user._id.toJSON(), config.SECRET)
+                    token: 'JWT ' + jwt.sign({ 'id': user._id }, config.SECRET, { expiresIn: '12h' })
                 });
             });
         }
