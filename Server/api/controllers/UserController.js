@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
+/* eslint-disable object-shorthand */
 
 // ---------------------- Requirements ---------------------- //
 var config = require('../config/config');
@@ -16,6 +17,13 @@ var isDate = require('../utils/validators/is-date');
 var isString = require('../utils/validators/is-string');
 var isNotEmpty = require('../utils/validators/not-empty');
 // ---------------------- End of "Validators" ---------------------- //
+
+
+// ---------------------- JWT Token Generator ---------------------- //
+var generateJWTToken = function (id, callback) {
+    callback('JWT ' + jwt.sign({ 'id': id }, config.SECRET, { expiresIn: '12h' }));
+};
+// ---------------------- End of "JWT Token Generator" ---------------------- //
 
 
 module.exports.signUp = function (req, res, next) {
@@ -161,11 +169,13 @@ module.exports.signUp = function (req, res, next) {
                     throw err2;
                 }
 
-                return res.status(201).json({
-                    data: null,
-                    err: null,
-                    msg: 'Sign Up Is Successful!',
-                    token: 'JWT ' + jwt.sign({ 'id': newUser._id }, config.SECRET, { expiresIn: '12h' })
+                generateJWTToken(newUser._id, function (jwtToken) {
+                    return res.status(201).json({
+                        data: null,
+                        err: null,
+                        msg: 'Sign Up Is Successful!',
+                        token: jwtToken
+                    });
                 });
             });
         }
@@ -205,11 +215,13 @@ module.exports.signIn = function (req, res, next) {
                     });
                 }
 
-                return res.status(200).json({
-                    data: null,
-                    err: null,
-                    msg: 'Sign In Is Successfull',
-                    token: 'JWT ' + jwt.sign({ 'id': user._id }, config.SECRET, { expiresIn: '12h' })
+                generateJWTToken(user._id, function (jwtToken) {
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'Sign In Is Successfull',
+                        token: jwtToken
+                    });
                 });
             });
         }
@@ -301,3 +313,5 @@ module.exports.signUpChild = function (req, res, next) {
         });
     });
 };
+
+
