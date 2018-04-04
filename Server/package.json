@@ -6,7 +6,9 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.1",
     "body-parser": "~1.18.2",
     "compression": "^1.7.2",
     "connect-flash": "*",
@@ -16,12 +18,14 @@
     "express": "~4.15.5",
     "express-session": "^1.15.6",
     "helmet": "^3.12.0",
+    "jsonwebtoken": "^8.2.0",
     "moment": "^2.21.0",
     "mongoose": "^5.0.11",
     "mongoose-paginate": "^5.0.3",
     "mongoose-timestamp-date-unix": "^0.6.2",
-    "morgan": "~1.9.0",
+    "morgan": "^1.9.0",
     "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "validate.io-timestamp": "^1.0.2",
     "node-datetime": "*"

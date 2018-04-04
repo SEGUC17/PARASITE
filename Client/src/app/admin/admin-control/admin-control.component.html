@@ -5,4 +5,30 @@
   <mat-tab label="Content Requests">
     <app-view-content-requests></app-view-content-requests>
   </mat-tab>
+  <mat-tab label="Products requests">
+    <app-view-product-requests></app-view-product-requests>
+  </mat-tab>
+  <mat-tab label="Psychologists requests">
+    <app-view-psych-requests></app-view-psych-requests>
+  </mat-tab>
+  <mat-tab label="Verfied Contributer Requests">
+    <app-view-verified-contributer-requests id="VCRcomponent"></app-view-verified-contributer-requests>
+  </mat-tab>
+  <mat-tab label="Content Requests">
+    <app-view-content-requests></app-view-content-requests>
+  </mat-tab>
+  <mat-tab label="Unverified Activities">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Unverified Activities
+        </mat-panel-title>
+        <mat-panel-description>
+          View unrevised activities to accept/reject them
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <view-unverified-activities></view-unverified-activities>
+
+    </mat-expansion-panel>
+  </mat-tab>
 </mat-tab-group>

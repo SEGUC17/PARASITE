@@ -1,19 +1,25 @@
-// ---------------------- Comments ---------------------- //
+/* eslint-disable consistent-this */
+// -------------------------- Comments ----------------------------------- //
 // Check The Following Website For All Schema Types Supported By Mongoose
 // http://mongoosejs.com/docs/2.7.x/docs/schematypes.html
-// ---------------------- End of Comments ---------------------- //
+// -------------------------- End of "Comments" -------------------------- //
 
 
-// ---------------------- Reuirements ---------------------- //
+// -------------------------- Reuirements -------------------------------- //
 require('./CalendarEvent.js');
 require('./StudyPlan.js');
 var mongoose = require('mongoose');
-var calendarEventSchema = mongoose.model('CalendarEvent').schema,
-    studyPlanSchema = mongoose.model('StudyPlan').schema;
-// ---------------------- End of Requiremenets ---------------------- //
+var encryption = require('../utils/encryption/encryption');
+// -------------------------- End of "Requiremenets" --------------------- //
 
 
-// ---------------------- Schemas ---------------------- //
+// -------------------------- Variables Dependancies --------------------- //
+var calendarEventSchema = mongoose.model('CalendarEvent').schema;
+var studyPlanSchema = mongoose.model('StudyPlan').schema;
+// -------------------------- End of "Variables Dependancies" ------------ //
+
+
+// -------------------------- Schemas ------------------------------------ //
 var userSchema = mongoose.Schema({
     address: {
         index: true,
@@ -98,9 +104,8 @@ var userSchema = mongoose.Schema({
         type: Boolean
     }
 });
-// ---------------------- End of Schemas ---------------------- //
+// -------------------------- End of "Schemas" --------------------------- //
 
-
-// ---------------------- Models -------------u--------- //
-var User = mongoose.model('User', userSchema);
+// ---------------------- Models ---------------------- //
+var User = mongoose.model('User', userSchema, 'User');
 // ---------------------- End of Models ---------------------- //

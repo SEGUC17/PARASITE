@@ -11,56 +11,54 @@ const httpOptions = {
 
 
 export class AdminService {
-private baseURL = 'http://localhost:3000/api/';
-private viewPendingContReqsURL = 'admin/PendingContentRequests/';
-private respondContentRequestURL = 'admin/RespondContentRequest/';
-private respondContentStatusURL = 'admin/RespondContentStatus/';
-private getContent = 'admin/getContent/';
+  private baseURL = 'http://localhost:3000/api/';
+  private viewPendingContReqsURL = 'admin/PendingContentRequests/';
+  private respondContentRequestURL = 'admin/RespondContentRequest/';
+  private respondContentStatusURL = 'admin/RespondContentStatus/';
+  private getContent = 'admin/getContent/';
+  private URL = 'http://localhost:3000/api/admin/';
 
-  constructor(private http: HttpClient) { }
 
-  getVerifiedContributerRequests(): any {
-    // Make an HTTP GET Request AUTHOR: Maher.
-    return 'Here are the requested Elements';
+  constructor(private http: HttpClient) {
   }
 
-    viewPendingContReqs(type): any {
-      const self = this;
-      return this.http.get<any> (this.baseURL + this.viewPendingContReqsURL + type)
+  viewPendingContReqs(type): any {
+    const self = this;
+    return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL + type)
       .pipe(
         catchError(
           self.handleError('viewPendingContReqs', [])
         )
       );
-    }
+  }
 
-    respondContentRequest( response , id): any {
-      const self = this;
-      return this.http.patch<any> (this.baseURL + this.respondContentRequestURL + id , {str: response} )
+  respondContentRequest(response, id): any {
+    const self = this;
+    return this.http.patch<any>(this.baseURL + this.respondContentRequestURL + id, { str: response })
       .pipe(
         catchError(
           self.handleError('respondContentRequest', [])
         )
       );
-    }
-    modifyContentStatus(response: boolean , id: any): any {
-      const self = this;
-      return this.http.patch<any> (this.baseURL + this.respondContentStatusURL + id , {str: response})
+  }
+  modifyContentStatus(response: boolean, id: any): any {
+    const self = this;
+    return this.http.patch<any>(this.baseURL + this.respondContentStatusURL + id, { str: response })
       .pipe(
         catchError(
           self.handleError('modifyContentStatus', [])
         )
       );
-    }
-    getcontent(): any {
-      const self = this;
-      return this.http.get<any>(this.baseURL + this.getContent )
+  }
+  getcontent(): any {
+    const self = this;
+    return this.http.get<any>(this.baseURL + this.getContent)
       .pipe(
         catchError(
           self.handleError('getContent', [])
         )
       );
-    }
+  }
 
   // create a category for content (resrouces and ideas) to be classified into
   createCategory(category: any): Observable<any> {
@@ -77,11 +75,11 @@ private getContent = 'admin/getContent/';
   createSection(categoryId: any, section: any): Observable<any> {
     const self = this;
     return this.http.post(self.baseURL + 'content/category/' + categoryId + '/section', section)
-    .pipe(
-      catchError(
-        self.handleError('createSection', [])
-      )
-    );
+      .pipe(
+        catchError(
+          self.handleError('createSection', [])
+        )
+      );
   }
 
   // general error handler
