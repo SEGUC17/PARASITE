@@ -82,4 +82,4 @@ var activitySchema = Schema({
 activitySchema.plugin(timestamps);
 activitySchema.plugin(mongoosePaginate);
 
-var Activity = mongoose.model('Activity', activitySchema);
+var Activity = mongoose.model('Activity', activitySchema, 'activities');

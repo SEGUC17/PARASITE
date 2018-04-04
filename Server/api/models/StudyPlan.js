@@ -61,5 +61,5 @@ studyPlanSchema.plugin(mongoosePaginate);
 
 
 // ---------------------- Models ---------------------- //
-var StudyPlan = mongoose.model('StudyPlan', studyPlanSchema);
+var StudyPlan = mongoose.model('StudyPlan', studyPlanSchema, 'studyPlans');
 // ---------------------- End of Models ---------------------- //
