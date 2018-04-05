@@ -26,6 +26,7 @@ module.exports = function (passport) {
           msg: 'User Is Not Signed In!'
         });
       }
+      req.user = user;
 
       return next();
     })(req, res, next);
@@ -62,6 +63,7 @@ module.exports = function (passport) {
   // ---------------------- User Controller ---------------------- //
   router.post('/signup', isNotAuthenticated, userController.signUp);
   router.post('/signin', isNotAuthenticated, userController.signIn);
+  router.post('/getuserdata', isAuthenticated, userController.getUserData);
   // ---------------------- End of User Controller --------------- //
 
 
