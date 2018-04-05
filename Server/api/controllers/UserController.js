@@ -346,6 +346,10 @@ module.exports.getUserData = function (req, res, next) {
     }
     // --- End of "Load User Data From req.user" --- //
 
+    // --- Security Check --- //
+    delete userData.password;
+    // --- End of "Security Check" --- //
+
     return res.status(200).json({
         data: userData,
         err: null,
