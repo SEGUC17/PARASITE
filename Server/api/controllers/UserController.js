@@ -184,6 +184,28 @@ module.exports.signUp = function (req, res, next) {
 };
 
 module.exports.signIn = function (req, res, next) {
+
+    // --- Check: Emptinesss & Type --- //
+    var field = '';
+    try {
+
+        field = 'Username';
+        isNotEmpty(req.body.username);
+        isString(req.body.username);
+
+        field = 'Password';
+        isNotEmpty(req.body.password);
+        isString(req.body.password);
+
+    } catch (err) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: field + ': ' + err.message
+        });
+    }
+    // --- End of "Check: Emptinesss & Type" --- //
+
     req.body.username = req.body.username ? req.body.username.toLowerCase().trim() : '';
 
     User.findOne(
@@ -356,4 +378,50 @@ module.exports.getUserData = function (req, res, next) {
         msg: 'Data Retrieval Is Successful!'
     });
 
+};
+
+module.exports.isUserExist = function (req, res, next) {
+
+    // --- Check: Emptinesss & Type --- //
+    try {
+
+        isNotEmpty(req.params.usernameOrEmail);
+        isString(req.params.usernameOrEmail);
+
+    } catch (err) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: 'Username/Email: ' + err.message
+        });
+    }
+    // --- End of "Check: Emptinesss & Type" --- //
+
+    req.params.usernameOrEmail = req.params.usernameOrEmail ? req.params.usernameOrEmail.toLowerCase().trim() : '';
+
+    User.findOne(
+        {
+            $or: [
+                { 'username': req.params.usernameOrEmail },
+                { 'email': req.params.usernameOrEmail }
+            ]
+        },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (user) {
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'Exists!'
+                });
+            }
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'Not Exists!'
+            });
+        }
+    );
 };
