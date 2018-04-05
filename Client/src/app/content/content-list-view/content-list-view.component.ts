@@ -24,9 +24,6 @@ export class ContentListViewComponent implements OnInit {
   // categories for the general contents view
   categories: Category;
 
-  // TODO set username
-  username: String = 'Omar K.';
-
   // shared between myContributions and content list
   numberOfEntriesPerPage = 5;
 
@@ -42,6 +39,13 @@ export class ContentListViewComponent implements OnInit {
   myContributionsTotalNumberOfPages: number;
   myContributionsCurrentPageNumber: number;
 
+  // search variables
+  searchBy: String = 'title';
+  searchQueryTitle: String = '';
+  searchQueryTags: String = '';
+  isSearching: Boolean = false;
+
+  // category sidenav and paginator, retrieved from view for manipulation
   @ViewChild('sidenav') public myNav: MatSidenav;
   @ViewChild('allContentPaginator') public paginator: MatPaginator;
   constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document, private authService: AuthService) { }
@@ -73,7 +77,12 @@ export class ContentListViewComponent implements OnInit {
     this.currentPageNumber = event.pageIndex + 1;
 
     // update the content array
-    this.getContentPage();
+    // check whether we are searching or not
+    if (this.isSearching) {
+      this.getSearchContentPage();
+    } else {
+      this.getContentPage();
+    }
 
     this.scrollToTheTop();
   }
@@ -123,10 +132,33 @@ export class ContentListViewComponent implements OnInit {
 
   changeCategoryAndSection(category: any, section: any): void {
     this.currentPageNumber = 1;
+
+    // user changed the category or section, nullifying the validity of his search query
+    this.isSearching = false;
+    this.searchBy = 'title';
+    this.searchQueryTitle = '';
+    this.searchQueryTags = '';
+
+    // intialize category/section browsing
     this.selectedCategory = category;
     this.selectedSection = section;
     this.paginator.firstPage();
     this.getContentPage();
     this.myNav.toggle();
+  }
+
+  searchContent(): void {
+    this.isSearching = true;
+    this.currentPageNumber = 1;
+    this.getSearchContentPage();
+  }
+
+  getSearchContentPage(): void {
+    console.log('Searching by: ' + this.searchBy);
+    this.searchQueryTags = this.searchQueryTags.trim();
+    this.searchQueryTitle = this.searchQueryTitle.trim();
+    console.log('Query Tags: ' + this.searchQueryTags);
+    console.log('Query Title: ' + this.searchQueryTitle);
+    console.log('Retrieving Page: ' + this.currentPageNumber);
   }
 }
