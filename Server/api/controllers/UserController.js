@@ -200,7 +200,7 @@ module.exports.signIn = function (req, res, next) {
                 return res.status(422).json({
                     data: null,
                     err: null,
-                    msg: 'Wrong Username/Email or Password!'
+                    msg: 'Wrong Username/Email Or Password!'
                 });
             }
 
@@ -211,7 +211,7 @@ module.exports.signIn = function (req, res, next) {
                     return res.status(422).json({
                         data: null,
                         err: null,
-                        msg: 'Wrong Username/Email or Password!'
+                        msg: 'Wrong Username/Email Or Password!'
                     });
                 }
 
@@ -314,4 +314,42 @@ module.exports.signUpChild = function (req, res, next) {
     });
 };
 
+module.exports.getUserData = function (req, res, next) {
 
+    // --- Check: Emptiness & Type --- //
+    var field = '';
+    try {
+
+
+        field = 'Request Body';
+        isNotEmpty(req.body);
+        isArray(req.body);
+
+        field = 'Request Body Element(s)';
+        for (var index = 0; index < req.body.length; index += 1) {
+            isString(req.body[index]);
+        }
+
+    } catch (err) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: field + ': ' + err.message
+        });
+    }
+    // --- End of "Check: Emptiness & Type" --- //
+
+    // --- Load User Data From req.user --- //
+    var userData = {};
+    for (var index2 = 0; index2 < req.body.length; index2 += 1) {
+        userData[req.body[index2]] = req.user[req.body[index2]];
+    }
+    // --- End of "Load User Data From req.user" --- //
+
+    return res.status(200).json({
+        data: userData,
+        err: null,
+        msg: 'Data Retrieval Is Successful!'
+    });
+
+};

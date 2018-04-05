@@ -36,7 +36,12 @@ export class AuthService {
     );
   }
 
-  getUser(): any { }
+  getUserData(data: Array<string>): any {
+    const self = this;
+    return this.http.post<any>(this.endpoint + '/getuserdata', data).pipe(
+      catchError(self.handleError('signIn', []))
+    );
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
