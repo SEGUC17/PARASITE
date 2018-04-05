@@ -106,7 +106,7 @@ module.exports.signUp = function (req, res, next) {
     // --- End of "Check: birthdate" --- //
 
     // --- Check: Email Regex Match --- //
-    if (!newUser.email.match(/\S+@\S+\.\S+/)) {
+    if (!newUser.email.match(config.EMAIL_REGEX)) {
         return res.status(422).json({
             data: null,
             err: null,
@@ -127,7 +127,7 @@ module.exports.signUp = function (req, res, next) {
 
     // --- Check: Phone Regex Match ---//
     for (var index = 0; index < newUser.phone.length; index += 1) {
-        if (!newUser.phone[index].match(/^\d+$/)) {
+        if (!newUser.phone[index].match(config.PHONE_REGEX)) {
             return res.status(422).json({
                 data: null,
                 err: null,

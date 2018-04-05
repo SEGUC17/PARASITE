@@ -8,8 +8,9 @@
 // -------------------------- Reuirements -------------------------------- //
 require('./CalendarEvent.js');
 require('./StudyPlan.js');
-var mongoose = require('mongoose');
+var config = require('../config/config');
 var encryption = require('../utils/encryption/encryption');
+var mongoose = require('mongoose');
 // -------------------------- End of "Requiremenets" --------------------- //
 
 
@@ -42,7 +43,7 @@ var userSchema = mongoose.Schema({
     },
     email: {
         lowercase: true,
-        match: /\S+@\S+\.\S+/,
+        match: config.EMAIL_REGEX,
         required: true,
         trim: true,
         type: String,
@@ -81,7 +82,7 @@ var userSchema = mongoose.Schema({
         type: String
     },
     phone: {
-        match: /^\d+$/,
+        match: config.PHONE_REGEX,
         required: true,
         trim: true,
         type: [String]
