@@ -61,9 +61,9 @@ module.exports = function (passport) {
   // --------------------- End of Activity Controller ------------ //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/signup', isNotAuthenticated, userController.signUp);
-  router.post('/signin', isNotAuthenticated, userController.signIn);
-  router.post('/getuserdata', isAuthenticated, userController.getUserData);
+  router.post('/signUp', isNotAuthenticated, userController.signUp);
+  router.post('/signIn', isNotAuthenticated, userController.signIn);
+  router.post('/userData', isAuthenticated, userController.getUserData);
   // ---------------------- End of User Controller --------------- //
 
 

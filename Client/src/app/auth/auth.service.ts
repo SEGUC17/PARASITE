@@ -24,14 +24,14 @@ export class AuthService {
 
   signUp(user: any): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endpoint + '/signup', user).pipe(
+    return this.http.post<any>(this.endpoint + '/signUp', user).pipe(
       catchError(self.handleError('signUp', []))
     );
   }
 
   signIn(user: any): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endpoint + '/signin', user).pipe(
+    return this.http.post<any>(this.endpoint + '/signIn', user).pipe(
       catchError(self.handleError('signIn', []))
     );
   }
@@ -47,8 +47,8 @@ export class AuthService {
 
   getUserDataFromServer(userDataColumns: Array<string>): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endpoint + '/getuserdata', userDataColumns).pipe(
-      catchError(self.handleError('signIn', []))
+    return this.http.post<any>(this.endpoint + '/userData', userDataColumns).pipe(
+      catchError(self.handleError('getUserDataFromServer', []))
     );
   }
 
