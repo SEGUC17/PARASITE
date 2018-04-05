@@ -36,9 +36,18 @@ export class AuthService {
     );
   }
 
-  getUserData(data: Array<string>): any {
+  getUserData(userDataColumns: Array<string>): any {
+    let userData;
+    this.getUserDataFromServer(userDataColumns).subscribe(function(res) {
+      userData = res.data;
+    });
+
+    return userData;
+  }
+
+  getUserDataFromServer(userDataColumns: Array<string>): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endpoint + '/getuserdata', data).pipe(
+    return this.http.post<any>(this.endpoint + '/getuserdata', userDataColumns).pipe(
       catchError(self.handleError('signIn', []))
     );
   }
