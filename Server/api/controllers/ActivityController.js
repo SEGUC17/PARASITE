@@ -142,7 +142,7 @@ module.exports.postActivity = function (req, res, next) {
 
     if (user) {
         isAdmin = user.isAdmin;
-        isVerified = user.isVerified;
+        isVerified = user.verified;
     }
 
     if (!(isAdmin || isVerified)) {

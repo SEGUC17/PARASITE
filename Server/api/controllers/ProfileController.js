@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var moment = require('moment');
 var Validations = require('../utils/validators');
+var Encryption = require('../utils/encryption/encryption');
 var adminController = require('./AdminController');
 var User = mongoose.model('User');
 var VCRSchema = mongoose.model('VerifiedContributerRequest');
@@ -214,3 +215,61 @@ module.exports.getUserInfo = function(req, res, next) {
 
 
     };
+    module.exports.changePassword = function(req,res, next) {
+      
+      console.log('Old Password entered is: ', req.body.oldpw);
+      // match user to one of the users in the database
+    User.findOne({ username: req.params.uname }, function (err, user)
+     {
+       if (err) {
+         return next(err);
+       } else if (!user) {
+         console.log('Username is incorrect')
+         res.status(401).json({
+           data: null,
+           err: null,
+           msg: 'Username is incorrect'
+                 });
+ 
+       return;
+       }
+ 
+ console.log('New Password to enter: ', req.body.newpw);
+       // compare entered password with existing hashed password in database
+      Encryption.comparePasswordToHash(req.body.oldpw, user.password, function (
+         err,
+         passwordMatches
+     ) {
+         if (err) {
+             return next(err);
+         } else if (!passwordMatches) {
+           console.log('Password entered is incorrect');
+           return res.status(401).json({
+             err:null,
+             msg: 'Password is incorrect',
+             data: null
+           });
+         } 
+         
+         // hash the new password
+          Encryption.hashPassword(req.body.newpw,function(err, hash) {
+            if (err) {
+              return next(err);
+            }
+            console.log(hash)
+            // update user password with hash
+            User.findOneAndUpdate({username: req.params.uname }, { password: hash }, function(err, user) {
+             if (err) {
+             return next( err );
+             }
+         console.log('User password updated successfully.');
+          res.status(200).json({
+           err: null,
+           msg: 'User password updated successfully.',
+           data: user
+         });
+       });
+          });
+         });
+        });
+     };
