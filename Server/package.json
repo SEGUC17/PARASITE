@@ -26,11 +26,11 @@
     "mongoose-paginate": "^5.0.3",
     "mongoose-timestamp-date-unix": "^0.6.2",
     "morgan": "^1.9.0",
+    "node-datetime": "*",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "validate.io-timestamp": "^1.0.2",
-    "node-datetime": "*"
+    "validate.io-timestamp": "^1.0.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
