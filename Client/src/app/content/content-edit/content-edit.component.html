@@ -15,7 +15,7 @@
                     <input matInput [(ngModel)]="videoInput" #content.video name="video" placeholder="Video link goes here" (blur)="getSafeUrl()">
                 </mat-form-field>
                 <mat-form-field class="meta-input" hintLabel="Enter the category of choice here">
-                    <mat-select placeholder="Category..." required name="category" [(ngModel)]="content.category" (selectionChange)="getSections()">
+                    <mat-select placeholder="Category..." required name="category" [(ngModel)]="content.category" (ngModelChange)="getSections()">
                         <mat-option *ngFor="let category of categories" [value]="category.name">
                             {{category.name}}
                         </mat-option>
