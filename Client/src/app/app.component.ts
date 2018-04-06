@@ -1,5 +1,6 @@
 import { Component, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
+import { AuthService } from './auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -85,7 +86,7 @@ export class AppComponent implements OnDestroy {
   mobileQuery: MediaQueryList;
   private _mobileQueryListener: () => void;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, public authService: AuthService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this._mobileQueryListener = function () {
       changeDetectorRef.detectChanges();
@@ -95,5 +96,10 @@ export class AppComponent implements OnDestroy {
   }
   ngOnDestroy() {
     this.mobileQuery.removeListener(this._mobileQueryListener);
+  }
+
+  signOut() {
+    console.log('in component');
+    this.authService.signOut();
   }
 }

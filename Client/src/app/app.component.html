@@ -4,7 +4,8 @@
       <button mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <h1 class="title">Nawwar</h1>
+      <h1 class="title mr-auto">Nawwar</h1>
+      <button mat-button *ngIf="authService.getToken() !== ''" (click)="signOut()">SignOut</button>
     </mat-toolbar>
   </header>
   <mat-sidenav-container class="sidenav-container">

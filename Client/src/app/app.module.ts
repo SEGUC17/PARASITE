@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule, MatDialogContent, MatDialogModule, MatNativeDateModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MediaMatcher } from '@angular/cdk/layout';
@@ -28,8 +28,8 @@ import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth-interceptor';
-import { AuthService } from './auth/auth.service';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
+import { MatNativeDateModule, MatIconModule } from '@angular/material';
 
 
 
@@ -66,7 +66,8 @@ import { ChildsignupComponent } from './childsignup/childsignup.component';
     BrowserAnimationsModule,
     CalendarModule.forRoot(),
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AuthModule
   ],
   providers: [
     {
@@ -74,8 +75,7 @@ import { ChildsignupComponent } from './childsignup/childsignup.component';
       useClass: AuthInterceptor,
       multi: true
     },
-    MediaMatcher,
-    AuthService
+    MediaMatcher
   ],
   bootstrap: [AppComponent]
 })
