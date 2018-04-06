@@ -31,6 +31,8 @@ export class MarketComponent implements OnInit {
   constructor(public dialog: MatDialog, public router: Router,
     private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) { }
 
+  // initializes the current pages in the market and user item
+  // gets the products in the market and the products owned by the user)
   ngOnInit() {
     const self = this;
     const userDataColumns = ['username'];
@@ -39,14 +41,15 @@ export class MarketComponent implements OnInit {
       if (!self.user) {
         self.router.navigate(['/']);
       } else {
-      self.userItemsCurrentPage = 1;
-      self.currentPageNumber = 1;
-      self.firstPage();
-      self.firstUserPage();
+        self.userItemsCurrentPage = 1;
+        self.currentPageNumber = 1;
+        self.firstPage();
+        self.firstUserPage();
       }
     });
   }
-  openDialog(prod: any): void {
+  // opens the product details dialog
+  showProductDetails(prod: any): void {
     if (prod) {
       let dialogRef = this.dialog.open(ProductDetailComponent, {
         width: '1000px',
@@ -66,13 +69,15 @@ export class MarketComponent implements OnInit {
     let dialogRef = self.dialog.open(CreateProductComponent, {
       width: '850px',
       height: '550px',
-      data: { market: self}
+      data: { market: self }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
   }
 
+  // gets the content of the current market page from the market service (DB)
+  // restrict the products to the ones following the delimiters given
   getPage(): void {
     const self = this;
     const limiters = {
@@ -86,6 +91,9 @@ export class MarketComponent implements OnInit {
       });
   }
 
+  // gets the totals number of products to be shown later
+  // gets the current page products
+  // restrict the products to the ones following the delimiters given
   firstPage(): void {
     const self = this;
     const limiters = {
@@ -99,6 +107,10 @@ export class MarketComponent implements OnInit {
         self.getPage();
       });
   }
+
+  // gets the totals number of products owned by the user
+  // gets the current user items page products
+  // restrict the products to the ones following the delimiters given
   firstUserPage(): void {
     const self = this;
     const limiters = {
@@ -110,6 +122,9 @@ export class MarketComponent implements OnInit {
         self.getUserPage();
       });
   }
+
+  // gets the current user items page products
+  // restrict the products to the ones following the delimiters given
   getUserPage(): void {
     const self = this;
     const limiters = {
@@ -121,17 +136,11 @@ export class MarketComponent implements OnInit {
         self.userItems = products.data.docs;
       });
   }
+  // clears search critirea
   clearLimits(): void {
     this.selectedName = undefined;
     this.selectedPrice = undefined;
     this.firstPage();
   }
-  onPaginateChangeMarket(event): void {
-      this.currentPageNumber = event.pageIndex + 1;
-      this.getPage();
-  }
-  onPaginateChangeMyItems(event): void {
-    this.userItemsCurrentPage = event.pageIndex + 1;
-      this.getUserPage();
-  }
+
 }
