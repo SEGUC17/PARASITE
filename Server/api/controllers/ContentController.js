@@ -303,6 +303,7 @@ module.exports.createContent = function (req, res, next) {
 // retrieve the categories
 // by which the contents (ideas and resources) are classified
 module.exports.getCategories = function (req, res, next) {
+
     // find all the categories
     Category.find({}).exec(function (err, categories) {
         if (err) {
