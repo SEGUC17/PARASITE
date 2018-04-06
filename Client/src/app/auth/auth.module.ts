@@ -5,12 +5,25 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { SignupComponent } from './signup/signup.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
+import {
+  MatCardModule,
+  MatIconModule,
+  MatInputModule,
+  MatFormFieldModule,
+  MatButtonModule
+} from '@angular/material';
+
 @NgModule({
   providers: [AuthService],
   imports: [
     CommonModule,
     FormsModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatButtonModule
   ],
   declarations: [LoginComponent, SignupComponent]
 })
