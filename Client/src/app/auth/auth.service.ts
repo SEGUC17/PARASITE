@@ -38,6 +38,10 @@ export class AuthService {
     );
   }
 
+  signOut(): void {
+    localStorage.removeItem(this.localStorageTokenName);
+  }
+
   getUserData(userDataColumns: Array<string>): Observable<any> {
     const self = this;
     return this.http.post<any>(this.endpoint + '/userData', userDataColumns).pipe(
