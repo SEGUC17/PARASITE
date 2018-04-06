@@ -407,8 +407,82 @@ module.exports.getUserData = function (req, res, next) {
 
 };
 
+module.exports.getAnotherUserData = function (req, res, next) {
+
+    req.params.usernameOrEmail = req.params.usernameOrEmail.toLowerCase().trim();
+
+    // --- Check: Emptiness & Type --- //
+    var field = '';
+    try {
+
+        field = 'Request Body';
+        isNotEmpty(req.body);
+        isArray(req.body);
+
+        field = 'Request Body Element(s)';
+        for (var index = 0; index < req.body.length; index += 1) {
+            isString(req.body[index]);
+        }
+
+    } catch (err) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: field + ': ' + err.message
+        });
+    }
+    // --- End of "Check: Emptiness & Type" --- //
+
+    User.findOne(
+        {
+            $or: [
+                { 'email': req.params.usernameOrEmail },
+                { 'username': req.params.usernameOrEmail }
+            ]
+        },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User Not Found'
+                });
+            }
+
+            // --- Load User Data From req.user --- //
+            var userData = {};
+            for (var index2 = 0; index2 < req.body.length; index2 += 1) {
+                userData[req.body[index2]] = user[req.body[index2]];
+            }
+            // --- End of "Load User Data From req.user" --- //
+
+            // --- Security Check --- //
+            delete userData.password;
+            if (
+                !req.user.isAdmin &&
+                !req.user.children.includes(user.username) &&
+                req.user.username !== user.username
+            ) {
+                delete userData.schedule;
+                delete userData.studyPlans;
+            }
+            // --- End of "Security Check" --- //
+
+            return res.status(200).json({
+                data: userData,
+                err: null,
+                msg: 'Data Retrieval Is Successful!'
+            });
+        }
+    );
+
+};
+
 module.exports.isUserExist = function (req, res, next) {
-    req.params.usernameOrEmail = req.params.usernameOrEmail ? req.params.usernameOrEmail.toLowerCase().trim() : '';
+
+    req.params.usernameOrEmail = req.params.usernameOrEmail.toLowerCase().trim();
 
     User.findOne(
         {
