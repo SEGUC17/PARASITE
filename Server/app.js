@@ -1,3 +1,7 @@
+// -------------------------- Requirements ----------------------------- //
+require('./api/config/DBConnection');
+var config = require('./api/config/config');
+var cors = require('cors');
 var express = require('express');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
@@ -5,28 +9,24 @@ var compression = require('compression');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
 var passport = require('passport');
-var expressSession = require('express-session');
-var cors = require('cors');
+require('./api/config/passport')(passport);
+var router = require('./api/routes/index')(passport);
+// -------------------------- End of "Requirements" --------------------- //
 
-//config file
-var config = require('./api/config/config');
-
-// mongoose Database connection
-require('./api/config/DBConnection');
-
-//express app
+// -------------------------- Dependancies ------------------------------ //
 var app = express();
 app.set(config.SECRET);
+// -------------------------- End of "Dependancies" --------------------- //
 
 //middleware
 // Disabling etag for testing
 // @author: Wessam
 app.disable('etag');
 
-//middleware
+// -------------------------- Middleware -------------------------------- //
 app.use(cors({
   credentials: true,
-  origin: 'http://localhost:4200'
+  origin: true
 }));
 app.use(helmet());
 app.use(compression());
@@ -34,23 +34,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(expressSession({
-  cookie: { maxAge: 12 * 60 * 60 * 1000 },
-  resave: true,
-  saveUninitialized: false,
-  secret: 'NAWWAR'
-}));
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Initialize Passport
-var initPassport = require('./api/passport/init');
-initPassport(passport);
-
-//router
-var router = require('./api/routes/index')(passport);
 app.use('/api', router);
+// -------------------------- End of "Middleware" ----------------------- //
 
+// -------------------------- Error Handlers ---------------------------- //
 // 500 internal server error handler
 app.use(function (err, req, res, next) {
   console.log(err);
@@ -73,5 +62,8 @@ app.use(function (req, res) {
     msg: '404 Not Found'
   });
 });
+// -------------------------- End of "Error Handlers" ------------------- //
 
+// -------------------------- Exports ----------------------------------- //
 module.exports = app;
+// -------------------------- End of "Exports" -------------------------- //

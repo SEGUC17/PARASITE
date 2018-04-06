@@ -8,10 +8,9 @@
 // -------------------------- Reuirements -------------------------------- //
 require('./CalendarEvent.js');
 require('./StudyPlan.js');
+var config = require('../config/config');
 var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
-
-// ---------------------- End of Requiremenets ---------------------- //
 var encryption = require('../utils/encryption/encryption');
 // -------------------------- End of "Requiremenets" --------------------- //
 
@@ -28,6 +27,10 @@ var userSchema = mongoose.Schema({
         index: true,
         lowercase: true,
         sparse: true,
+        type: String
+    },
+    avatar: {
+        default: '',
         type: String
     },
     birthdate: {
@@ -51,7 +54,7 @@ var userSchema = mongoose.Schema({
     },
     email: {
         lowercase: true,
-        match: /\S+@\S+\.\S+/,
+        match: config.EMAIL_REGEX,
         required: true,
         trim: true,
         type: String,
@@ -90,7 +93,7 @@ var userSchema = mongoose.Schema({
         type: String
     },
     phone: {
-        match: /^\d+$/,
+        match: config.PHONE_REGEX,
         required: true,
         trim: true,
         type: [String]
@@ -119,7 +122,42 @@ var userSchema = mongoose.Schema({
 });
 // -------------------------- End of "Schemas" --------------------------- //
 
-// ---------------------- Models ---------------------- //
+
+// -------------------------- Hash Password ------------------------------ //
+userSchema.pre('save', function (next) {
+    var user = this;
+    if (this.isModified('password') || this.isNew) {
+        encryption.hashPassword(user.password, function (err, hash) {
+            if (err) {
+                return next(err);
+            }
+
+            user.password = hash;
+
+            return next();
+        });
+    }
+});
+// -------------------------- End of "Hash Password" --------------------- //
+
+
+// -------------------------- Compare Password --------------------------- //
+userSchema.methods.comparePasswords = function (password, next) {
+    encryption.comparePasswordToHash(password, this.password, function (
+        err,
+        passwordMatches
+    ) {
+        if (err) {
+            return next(err);
+        }
+
+        return next(null, passwordMatches);
+    });
+};
+// -------------------------- End of "Compare Password" ------------------ //
+
+
+// -------------------------- Models ------------------------------------- //
 userSchema.plugin(mongoosePaginate);
-var User = mongoose.model('User', userSchema, 'users');
-// ---------------------- End of Models ---------------------- //
+module.exports = mongoose.model('User', userSchema, 'users');
+// -------------------------- End of "Models" ---------------------------- //
