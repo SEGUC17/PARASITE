@@ -6,7 +6,10 @@ var Content = mongoose.model('Content');
 var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 
+// send a page of general content (resources and ideas) to the front end
 module.exports.getContentPage = function (req, res, next) {
+
+    // validations
     var valid = req.params.category && req.params.section &&
         req.params.numberOfEntriesPerPage && req.params.pageNumber &&
         typeof req.params.category === 'string' &&
@@ -14,6 +17,7 @@ module.exports.getContentPage = function (req, res, next) {
         !isNaN(req.params.numberOfEntriesPerPage) &&
         !isNaN(req.params.pageNumber);
 
+    // the request was not valid
     if (!valid) {
         return res.status(422).json({
             data: null,
@@ -23,6 +27,8 @@ module.exports.getContentPage = function (req, res, next) {
     }
 
     if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
+        // no category and section were specified
+        // fectch a page of content
         Content.paginate(
             {
                 approved: true,
@@ -38,6 +44,8 @@ module.exports.getContentPage = function (req, res, next) {
                     return next(err);
                 }
 
+                // send a page of content
+
                 return res.status(200).json({
                     data: contents,
                     err: null,
@@ -46,6 +54,8 @@ module.exports.getContentPage = function (req, res, next) {
             }
         );
     } else if (req.params.category === 'NoCat') {
+        // category, and thus section, were not specified
+        // fetch a page from the database
         Content.paginate(
             { approved: true },
             {
@@ -57,6 +67,8 @@ module.exports.getContentPage = function (req, res, next) {
                     return next(err);
                 }
 
+                // send a page of content
+
                 return res.status(200).json({
                     data: contents,
                     err: null,
@@ -65,6 +77,8 @@ module.exports.getContentPage = function (req, res, next) {
             }
         );
     } else {
+        // only a category was specified
+        // fetch a page from the database
         Content.paginate(
             {
                 approved: true,
@@ -79,6 +93,8 @@ module.exports.getContentPage = function (req, res, next) {
                     return next(err);
                 }
 
+                // send a page of content
+
                 return res.status(200).json({
                     data: contents,
                     err: null,
@@ -89,9 +105,10 @@ module.exports.getContentPage = function (req, res, next) {
     }
 };
 
-
+// retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
 
+    // id was not provided
     if (!req.params.id) {
         return res.status(422).json({
             data: null,
@@ -100,6 +117,7 @@ module.exports.getContentById = function (req, res, next) {
         });
     }
 
+    // id was invalid
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(422).json({
             data: null,
@@ -108,11 +126,13 @@ module.exports.getContentById = function (req, res, next) {
         });
     }
 
+    // find and send the content
     Content.findById(req.params.id).exec(function (err, content) {
         if (err) {
             return next(err);
         }
 
+        // content id did not match anything
         if (!content) {
             return res.status(404).json({
                 data: null,
@@ -120,6 +140,8 @@ module.exports.getContentById = function (req, res, next) {
                 msg: null
             });
         }
+
+        // content was found successfully
 
         return res.status(200).json({
             data: content,
@@ -131,15 +153,20 @@ module.exports.getContentById = function (req, res, next) {
 
 };
 
-// must be authenticated
+// retrieve the content (resources and ideas) created by the specified user
+//must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
+
+    // log the user for debugging purposes
     console.log('Username: ' + req.user);
 
+    // validations
     var valid = req.params.pageSize &&
         req.params.pageNumber &&
         !isNaN(req.params.pageNumber) &&
         !isNaN(req.params.pageSize);
 
+    // request was not valid
     if (!valid) {
         return res.status(422).json({
             data: null,
@@ -148,6 +175,7 @@ module.exports.getContentByCreator = function (req, res, next) {
         });
     }
 
+    // send back a page of the content created by the current user
     Content.paginate(
         { creator: req.user.username },
         {
@@ -158,6 +186,8 @@ module.exports.getContentByCreator = function (req, res, next) {
             if (err) {
                 return next(err);
             }
+
+            // send the page of contents
 
             return res.status(200).json({
                 data: contents,
@@ -269,11 +299,17 @@ module.exports.createContent = function (req, res, next) {
     });
 
 };
+
+// retrieve the categories
+// by which the contents (ideas and resources) are classified
 module.exports.getCategories = function (req, res, next) {
+    // find all the categories
     Category.find({}).exec(function (err, categories) {
         if (err) {
             return next(err);
         }
+
+        // send response with retrieved categories
 
         return res.status(200).json({
             data: categories,
@@ -396,4 +432,3 @@ module.exports.getContent = function (req, res, next) {
             });
         });
 };
-
