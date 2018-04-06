@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       this.User = { 'username': this.Username, 'password': this.Password };
       self.authService.signIn(this.User).subscribe(function (res) {
         self.authService.setToken(res.token);
-        if (res.data) {
+        if (res.token) {
           alert(res.msg);
         }
       });
