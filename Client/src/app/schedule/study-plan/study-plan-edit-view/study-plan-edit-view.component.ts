@@ -58,7 +58,7 @@ export class StudyPlanEditViewComponent implements OnInit {
   public editorOut;
   public editorContent = ``;
   private editorOptions = {
-    placeholder: 'insert content here'
+    placeholder: 'Enter the description for your study plan here.'
   };
   separatorKeysCodes = [ENTER, COMMA, SPACE];
   modalData: {
