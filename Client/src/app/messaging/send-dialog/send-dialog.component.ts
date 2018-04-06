@@ -14,28 +14,26 @@ import { MatInputModule } from '@angular/material/input';
 export class SendDialogComponent implements OnInit {
 
   Body: String = '';
-  Sender: String = '';
   Receiver: String = '';
   div1: Boolean;
   div2: Boolean;
   div3: Boolean;
   msg: any;
   currentUser: any;
-  username: String;
-  isChild: Boolean;
 
   constructor(public dialogRef: MatDialogRef<SendDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService) {
-      /*this.currentUser = this.authService.getUser();
-      this.username = this.currentUser.username;
-      this.isChild = this.currentUser.isChild;*/
-     }
+    @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService) { }
 
   onNoClick(): void {
       this.dialogRef.close();
   }
 
   ngOnInit() {
+    const self = this;
+    const userDataColumns = ['username'];
+    this.authService.getUserData(userDataColumns).subscribe(function (res) {
+      self.currentUser = res.data;
+    });
   }
 
   send(): void {
@@ -50,7 +48,7 @@ export class SendDialogComponent implements OnInit {
         this.div3 = false;
       } else {
         const self = this;
-        this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.Sender};
+        this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.currentUser.username};
         this.messageService.send(this.msg)
          .subscribe(function() {
           self.div3 = true;

@@ -1,12 +1,10 @@
- <div id="div3" *ngIf="div3">
+ <div id="div" *ngIf="div">
     <label>
       Messaging is only permitted for users above the age of 13. Sorry!
     </label>
   </div>
   
-  <!--  <button type="button" class="btn btn-danger" (click)="deleteMessage()">Delete</button> -->
-  
-  <div *ngIf="!div3">
+  <div *ngIf="!div">
       <br/>
       <button mat-raised-button color="primary" (click)="openDialog()">COMPOSE</button>
       <br/>
@@ -14,7 +12,7 @@
   </div>
   
 
-  <div *ngIf="!div3">
+  <div *ngIf="!div">
   <mat-tab-group>
       <mat-tab label="Inbox">
         <div class="example-container mat-elevation-z8">

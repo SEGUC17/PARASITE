@@ -16,28 +16,15 @@ import { MatButtonModule } from '@angular/material';
 
 export class MessagingComponent implements OnInit {
 
-  Body: String = '';
-  Sender: String = '';
-  Receiver: String = '';
   currentUser: any;
-  username: String;
-  isChild: Boolean;
   msg: any;
-  div1: Boolean;
-  div2: Boolean;
-  div3: Boolean;
+  div: Boolean;
   inbox: any[];
   sent: any[];
-  x: Boolean = false;
   displayedColumns = ['sender', 'body', 'sentAt', 'delete'];
   displayedColumns1 = ['recipient', 'body', 'sentAt', 'delete'];
 
-
-  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) {
-    /*this.currentUser = this.authService.getUser();
-    this.username = this.currentUser.username;
-    this.isChild = this.currentUser.isChild;*/
-  }
+  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
 
   openDialog(): void {
     let dialogRef = this.dialog.open(SendDialogComponent, {
@@ -51,41 +38,30 @@ export class MessagingComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log(this.currentUser.username);
-
-    if (this.x) {
-      this.div3 = true;
-    } else {
-      this.div3 = false;
-      this.getInbox();
-      this.getSent();
-    }
-  }
-
-  send(): void {
-    if (this.Receiver === '') {
-      this.div1 = true;
-    }
-
-    if (this.Body === '') {
-      this.div2 = true;
-    } else {
-      this.msg = { 'body': this.Body, 'recipient': this.Receiver, 'sender': this.Sender };
-      this.messageService.send(this.msg)
-        .subscribe(res => console.log(res));
-    }
+    const self = this;
+    const userDataColumns = ['username', 'isChild'];
+    this.authService.getUserData(userDataColumns).subscribe(function (res) {
+      self.currentUser = res.data;
+      if (self.currentUser.isChild) {
+        self.div = true;
+      } else {
+        self.div = false;
+        self.getInbox();
+        self.getSent();
+      }
+    });
   }
 
   getInbox(): void {
     const self = this;
-    this.messageService.getInbox('sarah').subscribe(function (msgs) {
+    this.messageService.getInbox(this.currentUser.username).subscribe(function (msgs) {
       self.inbox = msgs.data;
     });
   }
 
   getSent(): void {
     const self = this;
-    this.messageService.getSent('sarah').subscribe(function (msgs) {
+    this.messageService.getSent(this.currentUser.username).subscribe(function (msgs) {
       self.sent = msgs.data;
     });
   }
