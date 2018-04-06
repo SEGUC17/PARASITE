@@ -4,9 +4,8 @@ import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
-import { Router } from '@angular/router';
 import {
   isSameMonth,
   isSameDay,

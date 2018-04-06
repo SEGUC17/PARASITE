@@ -5,7 +5,7 @@ import { Rating } from './star-rating/rating';
 import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   isSameMonth,
   isSameDay,
@@ -78,7 +78,8 @@ export class StudyPlanComponent implements OnInit {
     }
   ];
 
-  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) { }
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
+    private router: Router) { }
 
   ngOnInit() {
     this.studyPlan = {
@@ -168,6 +169,7 @@ export class StudyPlanComponent implements OnInit {
       res => {
         if (res.msg === 'StudyPlan published successfully.') {
           alert(res.msg);
+          this.router.navigate(['/published-study-plans']);
         } else {
           alert('An error occured while publishing the study plan, please try again.');
         }
