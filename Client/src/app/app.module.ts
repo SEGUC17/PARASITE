@@ -15,13 +15,11 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule, MatDialogContent, MatDialogModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
-import { SearchModule } from './search/search.module';
-import { SearchService } from './search/search.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -29,9 +27,9 @@ import { ChildsignupModule } from './childsignup/childsignup.module';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { CustomInterceptor } from './custom-interceptor';
-import { AuthService } from './auth/auth.service';
+import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
+import { MatNativeDateModule, MatIconModule } from '@angular/material';
 
 
 
@@ -48,10 +46,10 @@ import { ChildsignupComponent } from './childsignup/childsignup.component';
     MatListModule,
     MatCardModule,
     MatButtonModule,
+    MatNativeDateModule,
     FlexLayoutModule,
     DashboardModule,
     AdminModule,
-    SearchModule,
     ProfileModule,
     ContentModule,
     MatDialogModule,
@@ -68,16 +66,16 @@ import { ChildsignupComponent } from './childsignup/childsignup.component';
     BrowserAnimationsModule,
     CalendarModule.forRoot(),
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AuthModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CustomInterceptor,
+      useClass: AuthInterceptor,
       multi: true
     },
-    MediaMatcher,
-    AuthService
+    MediaMatcher
   ],
   bootstrap: [AppComponent]
 })
