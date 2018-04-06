@@ -408,22 +408,6 @@ module.exports.getUserData = function (req, res, next) {
 };
 
 module.exports.isUserExist = function (req, res, next) {
-
-    // --- Check: Emptinesss & Type --- //
-    try {
-
-        isNotEmpty(req.params.usernameOrEmail);
-        isString(req.params.usernameOrEmail);
-
-    } catch (err) {
-        return res.status(422).json({
-            data: null,
-            err: null,
-            msg: 'Username/Email: ' + err.message
-        });
-    }
-    // --- End of "Check: Emptinesss & Type" --- //
-
     req.params.usernameOrEmail = req.params.usernameOrEmail ? req.params.usernameOrEmail.toLowerCase().trim() : '';
 
     User.findOne(
