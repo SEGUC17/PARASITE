@@ -174,7 +174,7 @@ export class StudyPlanEditViewComponent implements OnInit {
   }
 
   create(): void {
-    if (!this.title || !this.description || !this.events.length) {
+    if (!(this.title && this.description && this.events.length)) {
       alert('A Study Plan needs a title, a description, and at least one event.');
       return;
     }
