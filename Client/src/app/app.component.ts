@@ -99,7 +99,6 @@ export class AppComponent implements OnDestroy {
   }
 
   signOut() {
-    console.log('in component');
     this.authService.signOut();
   }
 }
