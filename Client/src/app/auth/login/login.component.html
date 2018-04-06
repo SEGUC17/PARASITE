@@ -1,23 +1,22 @@
-<p>
-Please enter your username and password to login
-</p>
-
-
-
-<div>UserName: <input #username [(ngModel)]=Username  placeholder="Username.."required/></div> 
-<div>Password: <input type="password" #password [(ngModel)]=Password placeholder="*****..." required/> </div> 
-
-
-
-<div>
-  <input type="submit" class="btn btn-hero-success main-btn"  (click) ="login()"  value="Submit">
-  <input type="submit" class="btn btn-hero-success main-btn" (click)="redirect()"    value="Back">
- 
-</div>
-
-
-<div *ngIf ="Div1">  
-
-  <label>
-   Sorry you must insert your username and password in order to login!
-  </label>
+<form class="container-fluid vertical-center" #loginForm="ngForm">
+  <mat-card class=" col-xl-3 col-lg-4 col-md-8 col-sm-12 center">
+    <mat-icon id="account-icon">account_box</mat-icon>
+    <mat-form-field class="meta-input">
+      <input matInput #username [(ngModel)]="user.username" name="username" placeholder="Username.." required/>
+    </mat-form-field>
+    <mat-form-field class="meta-input">
+      <input matInput type="password" #password [(ngModel)]="user.password" name="password" placeholder="*****..." required/>
+    </mat-form-field>
+    <div class="center">
+      <button mat-button color="primary" (click)="login()">submit</button>
+    </div>
+    <div class="center">
+      <button mat-button (click)="redirect()">back</button>
+    </div>
+    <div *ngIf="Div1">
+      <label>
+        Sorry you must insert your username and password in order to login!
+      </label>
+    </div>
+  </mat-card>
+</form>
