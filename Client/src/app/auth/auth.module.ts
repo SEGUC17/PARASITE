@@ -10,7 +10,8 @@ import {
   MatIconModule,
   MatInputModule,
   MatFormFieldModule,
-  MatButtonModule
+  MatButtonModule,
+  MatDatepickerModule,
 } from '@angular/material';
 
 @NgModule({
@@ -23,7 +24,8 @@ import {
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatDatepickerModule
   ],
   declarations: [LoginComponent, SignupComponent]
 })
