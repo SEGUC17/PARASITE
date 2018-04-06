@@ -3,6 +3,9 @@ import { Content } from '../content';
 import { ContentService } from '../content.service';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from '../../admin.service';
+import { AuthService } from '../../auth/auth.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-content-view',
@@ -11,7 +14,8 @@ import { AdminService } from '../../admin.service';
 })
 export class ContentViewComponent implements OnInit {
   content: Content;
-  constructor(private contentService: ContentService, private route: ActivatedRoute, private adminService: AdminService) { }
+  constructor(private contentService: ContentService, private route: ActivatedRoute,
+    private adminService: AdminService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     const self = this;
@@ -29,11 +33,8 @@ export class ContentViewComponent implements OnInit {
     });
   }
 
-  respondContentRequest(response: String): void {
-    const self = this;
-    this.adminService.
-    respondContentRequest(response, self.content._id).
-    subscribe();
+  returnToContentRequests(): void {
+    this.router.navigate(['admin/ContentRequests']);
   }
 
 }

@@ -1,23 +1,19 @@
 <div class="publishedPLans-container">
   <mat-card>
-    <div class="row">
-      <div *ngIf="type === 'published'" class="col-md-3">
-        <a mat-raised-button routerLink="../study-plan-edit/create" color="primary">Create A New Study Plan</a>
-      </div>
+    <div *ngIf="type === 'personal' && !currIsChild">
+      <a mat-raised-button routerLink="../study-plan-edit/create/{{username}}/undefined" color="primary" style="float: right;">Create A New Study Plan</a>
       <br /><br /><br />
-      <div class="col-md-9">
-        <mat-paginator [length]="numberOfElements" 
-          [pageSize]="pageSize"
-          [pageIndex]="pageIndex"
-          (page)="getStudyPlans($event)"
-          ></mat-paginator>
-      </div>
     </div>
+    <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements" 
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      (page)="getStudyPlans($event)"
+      ></mat-paginator>
     <mat-card *ngFor="let plan of studyPlans" class="publishedPlans-card">
       <mat-card-title>{{plan.title}}</mat-card-title>
       <mat-card-subtitle>{{plan.creator}}</mat-card-subtitle>
       <mat-card-actions>
-        <a mat-raised-button routerLink="../study-plan/{{type}}/{{plan._id}}">View</a>
+        <a mat-raised-button routerLink="../study-plan/{{type}}/{{plan._id}}/{{username}}">View</a>
       </mat-card-actions>
     </mat-card>
   </mat-card>

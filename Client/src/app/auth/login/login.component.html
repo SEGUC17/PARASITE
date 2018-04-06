@@ -4,11 +4,11 @@
       <img class="center" src="../../../assets/images/login-view/login.png" />
     </div>
     <mat-form-field class="meta-input" hintLabel="Please enter your username here">
-      <input matInput #username [(ngModel)]="user.username" name="username" required/>
+      <input matInput #username [(ngModel)]="this.Username" name="username" required/>
       <mat-placeholder><mat-icon>account_circle</mat-icon>Username</mat-placeholder>
     </mat-form-field>
     <mat-form-field class="meta-input" hintLabel="please enter your password here">
-      <input matInput type="password" #password [(ngModel)]="user.password" name="password" required/>
+      <input matInput type="password" #password [(ngModel)]="this.Password" name="password" required/>
       <mat-placeholder><mat-icon>security</mat-icon>Password</mat-placeholder>
     </mat-form-field>
     <div class="d-flex">

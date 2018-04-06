@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
 import { apiUrl } from '../../variables';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-activity',
@@ -18,9 +19,14 @@ export class ActivityComponent implements OnInit {
   pageSize: Number;
   pageIndex: Number;
   canCreate: Boolean;
-  private createUrl = "/create-activity";
 
-  constructor(private activityService: ActivityService) { }
+  private createUrl = '/create-activity';
+  user: any;
+
+  constructor(
+    private activityService: ActivityService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
     this.getActivities(null);
@@ -31,6 +37,8 @@ export class ActivityComponent implements OnInit {
       Getting the activities from the api
 
       @var event: An object that gets fired by mat-paginator
+
+      @author: Wessam
     */
     let page = 1;
     if (event) {
@@ -38,7 +46,9 @@ export class ActivityComponent implements OnInit {
     }
     this.activityService.getActivities(page).subscribe(
       res => this.updateLayout(res)
-    )
+    );
+    this.user = this.authService.getUser();
+    this.canCreate = this.user.isAdmin || this.user.verified;
   }
 
 
@@ -46,16 +56,17 @@ export class ActivityComponent implements OnInit {
     /*
       Setting new values comming from 
       the response
+
+      @author: Wessam
     */
-    document.querySelector(".mat-sidenav-content").scrollTop = 0;
+    document.querySelector('.mat-sidenav-content').scrollTop = 0;
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
     this.pageIndex = res.data.pageIndex;
-    this.canCreate = true;
     for (let activity of this.activities) {
       if (!activity.image) {
-        activity.image = "assets/images/activity-view/default-activity-image.jpg";
+        activity.image = 'assets/images/activity-view/default-activity-image.jpg';
       }
     }
   }

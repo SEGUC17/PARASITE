@@ -59,3 +59,11 @@ typings/
 
 # next.js build output
 .next
+
+# mongoDB files
+diagnostic.data/
+journal/
+*.wt
+mongod.lock
+*.bson
+WiredTiger*
