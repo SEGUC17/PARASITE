@@ -49,6 +49,13 @@ export class AuthService {
     );
   }
 
+  getAnotherUserData(userDataColumns: Array<string>, username: string): Observable<any> {
+    const self = this;
+    return this.http.post<any>(this.endpoint + '/userData/' + username, userDataColumns).pipe(
+      catchError(self.handleError('getUserDataFromServer', []))
+    );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
       alert(error.error.msg);
