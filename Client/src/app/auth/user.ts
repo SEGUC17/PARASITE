@@ -1,6 +1,7 @@
 export interface User {
     username: string;
     password?: string;
+    confirmPassword?: string;
     address?: string;
     birthdate?: Date;
     children?: string[];
