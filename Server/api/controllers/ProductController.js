@@ -6,53 +6,46 @@ var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
 
 module.exports.getNumberOfProducts = function (req, res, next) {
-    var toFind = {};
-    var reqPrice = Number(req.params.price);
-    var reqName = req.params.name;
-    if (reqPrice !== 0) {
-        if (reqName === 'NA') {
-            toFind = { price: { $lt: reqPrice } };
-        } else {
-            toFind = {
-                name: reqName,
-                price: { $lt: reqPrice }
-            };
-        }
-    } else if (reqName !== 'NA') {
-        toFind = { name: reqName };
+    var toFind =JSON.parse(req.params.limiters);
+    var limiters = {};
+    if(toFind.price){
+        limiters.price = { $lt: toFind.price };
     }
-    Product.find(toFind).count().
-        exec(function (err, count) {
-            if (err) {
-                return next(err);
-            }
-            console.log(count + ' number of products');
-            return res.status(200).json({
-                data: count,
-                err: null,
-                msg: 'Number of products = ' + count
-            });
+    if(toFind.name){
+        limiters.name = toFind.name;
+    }
+    if(toFind.seller)
+    {
+        limiters.seller = toFind.seller;
+    }
+    Product.find(limiters).count().
+    exec(function (err, count) {
+        if (err) {
+            return next(err);
+        }
+        return res.status(200).json({
+            data: count,
+            err: null,
+            msg: 'Number of products = ' + count
         });
+    });
 };
 
 module.exports.getMarketPage = function (req, res, next) {
-    var toFind = {};
-    var reqPrice = Number(req.params.price);
-    var reqName = req.params.name;
-    if (reqPrice !== 0) {
-        if (reqName === 'NA') {
-            toFind = { price: { $lt: reqPrice } };
-        } else {
-            toFind = {
-                name: reqName,
-                price: { $lt: reqPrice }
-            };
-        }
-    } else if (reqName !== 'NA') {
-        toFind = { name: reqName };
+    var toFind =JSON.parse(req.params.limiters);
+    var limiters = {};
+    if(toFind.price){
+        limiters.price = { $lt: toFind.price };
+    }
+    if(toFind.name){
+        limiters.name = toFind.name;
+    }
+    if(toFind.seller)
+    {
+        limiters.seller = toFind.seller;
     }
     Product.paginate(
-        toFind,
+        limiters,
         {
             limit: Number(req.params.entriesPerPage),
             page: Number(req.params.pageNumber)
@@ -69,38 +62,7 @@ module.exports.getMarketPage = function (req, res, next) {
         }
     );
 };
-module.exports.getNumberOfProductsBySeller = function (req, res, next) {
-    Product.find({ seller: req.params.seller }).count().
-        exec(function (err, count) {
-            if (err) {
-                return next(err);
-            }
-            return res.status(200).json({
-                data: count,
-                err: null,
-                msg: 'Number of products = ' + count
-            });
-        });
-};
-module.exports.getMarketPageBySeller = function (req, res, next) {
-    Product.paginate(
-        { seller: req.params.seller },
-        {
-            limit: Number(req.params.entriesPerPage),
-            page: Number(req.params.pageNumber)
-        }, function (err, products) {
-            if (err) {
-                return next(err);
-            }
-            console.log(products);
-            res.status(200).json({
-                data: products,
-                err: null,
-                msg: 'products retrieved successfully'
-            });
-        }
-    );
-};
+
 module.exports.getProduct = function (req, res, next) {
     if (!Validations.isObjectId(req.params.productId)) {
         return res.status(422).json({

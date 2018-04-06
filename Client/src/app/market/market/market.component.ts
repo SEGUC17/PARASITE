@@ -21,8 +21,8 @@ export class MarketComponent implements OnInit {
   products: Product[];
   currentPageNumber: number;
   entriesPerPage = 15;
-  selectedName: String = 'NA';
-  selectedPrice = -1;
+  selectedName: String;
+  selectedPrice;
   numberOfProducts: number;
   numberOfUserProducts: number;
   userItems: Product[];
@@ -33,15 +33,18 @@ export class MarketComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    self.user = self.authService.getUser();
-    if (!self.user) {
-      self.router.navigate(['/']);
-    }
-        console.log(self.user);
-    self.userItemsCurrentPage = 1;
-    self.currentPageNumber = 1;
-    self.firstPage();
-    self.firstUserPage();
+    const userDataColumns = ['username'];
+    this.authService.getUserData(userDataColumns).subscribe(function (res) {
+      self.user = res.data;
+      if (!self.user) {
+        self.router.navigate(['/']);
+      } else {
+      self.userItemsCurrentPage = 1;
+      self.currentPageNumber = 1;
+      self.firstPage();
+      self.firstUserPage();
+      }
+    });
   }
   openDialog(prod: any): void {
     if (prod) {
@@ -119,8 +122,8 @@ export class MarketComponent implements OnInit {
       });
   }
   clearLimits(): void {
-    this.selectedName = 'NA';
-    this.selectedPrice = -1;
+    this.selectedName = undefined;
+    this.selectedPrice = undefined;
     this.firstPage();
   }
   onPaginateChangeMarket(event): void {

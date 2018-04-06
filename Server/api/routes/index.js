@@ -81,16 +81,10 @@ module.exports = function (passport) {
 
   // --------------Product Controller---------------------- //
   router.get('/market/getMarketPage/:entriesPerPage/:' +
-    'pageNumber/:name/:price', productCtrl.getMarketPage);
+    'pageNumber/:limiters', productCtrl.getMarketPage);
   router.get(
-    '/market/getNumberOfProducts/:name/:price',
+    '/market/getNumberOfProducts/:limiters',
     productCtrl.getNumberOfProducts
-  );
-  router.get('/market/getMarketPage/:entriesPerPage/:' +
-    'pageNumber/:seller', productCtrl.getMarketPageBySeller);
-  router.get(
-    '/market/getNumberOfProducts/:seller',
-    productCtrl.getNumberOfProductsBySeller
   );
   router.get('/product/getProduct/:productId', productCtrl.getProduct);
   router.post('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
@@ -104,7 +98,7 @@ module.exports = function (passport) {
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.post('/signIn', isNotAuthenticated, userController.signIn);
   router.post('/childsignup', isAuthenticated, userController.signUpChild);
-  router.post('/userData/:username', isAuthenticated, userController.getUserData);
+  router.post('/userData', isAuthenticated, userController.getUserData);
   router.get('/dupCheck/:usernameOrEmail', userController.isUserExist);
   // ---------------------- End of User Controller --------------- //
 
