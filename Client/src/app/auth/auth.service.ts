@@ -45,6 +45,7 @@ export class AuthService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
+      alert(error);
       return of(result as T);
     };
   }
