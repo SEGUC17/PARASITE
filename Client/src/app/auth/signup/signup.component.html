@@ -1,63 +1,58 @@
-<p> Please fill in these fields to become a member in Nawwar</p>
-
-<!--attributes to be entered by the unregistered user-->
-
-<div>FirstName: <input #firstname [(ngModel)]=Firstname placeholder="Firstname.."required/></div> 
-<div>LastName: <input #lastname [(ngModel)]=Lastname placeholder="Lastname.."required/></div> 
-<div>UserName: <input #username [(ngModel)]=Username  placeholder="Username.."required/></div> 
-<div>Email: <input #email  [(ngModel)]=Email placeholder="Email.."required/></div> 
-<div>Password: <input type="password" #password [(ngModel)]=Password placeholder="Password" required/> </div> 
-<div>ConfirmPassword: <input type="password" #confirmpassword [(ngModel)]=ConfirmPassword placeholder="Confirm Password" required/></div> 
-<div>Birthdate: <input #birthdate [(ngModel)]=Birthdate placeholder="MM/DD/YYYY" required/></div> 
-<div>Phone: <input #phone [(ngModel)]=Phone placeholder="+20.."/></div>  
-<div>Address: <input #address [(ngModel)]=Address placeholder="Address.."/></div>  
-          
-<!-- radio buttons to check  from-->
-<script> type="text/javascript"; src= "signup.ts"</script>
-<form>
-  <div id= "choices" class="radio">
-    <label>
-        <input type="radio" name="group1" value="Student">
-        Are you a student?
-    </label><br/>
-    <label>
-      <input type="radio" name="group1" value="Teacher">
-      Are you a teacher?
-    </label><br/>
-
-    <label>
-    <input type="radio" name="group1" value="Parent" >
-    Are you a parent?
-    </label><br/>
-  </div>
- </form>
-
-
-
-    <!--buttons-->
-<!--"register({address:address.value, birthdate: birthdate.value, email: email.value, isChild: student.value, isParent: parent.value, isTeacher: teacher.value, password: password.value, phone: phone.value, username: username.value})"-->
-<div>
-  <input type="submit" class="btn btn-hero-success main-btn"  (click) ="register()"  value="Submit">
-  <input type="submit" class="btn btn-hero-success main-btn" (click)="redirect()"    value="Back">
- 
-</div>
-
-     
-<div *ngIf ="Div1">  
-
-  <label>
-    Your passwords don't match, please re-insert them!
-  </label>
-</div>
-
-<div *ngIf ="Div2">  
-
-  <label>
-    Please insert all the required fields
-  </label>
-
-<div *ngIf ="Div3">  
-
-<label>
-  You can't choose to be a student as well as a parent/teacher
-</label>
+<form class="container-fluid vertical-center" #signUpForm="ngForm">
+  <mat-card class="col-xl-3 col-lg-4 col-md-6 col-sm-12 center">
+    <div class="d-flex">
+      <img class="center" src="../../../assets/images/login-view/signup.png" />
+    </div>
+    <div class="row justify-content-between mr-1 ml-1">
+      <mat-form-field>
+        <input matInput name="firstName" [(ngModel)]="user.firstName" #firstName="ngModel" required/>
+        <mat-placeholder>First Name</mat-placeholder>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput name="lastName" [(ngModel)]="user.lastName" #lastName="ngModel" required/>
+        <mat-placeholder>Last Name</mat-placeholder>
+      </mat-form-field>
+    </div>
+    <mat-form-field class="register-input">
+      <input matInput name="username" [(ngModel)]="user.username" #username="ngModel" required/>
+      <mat-placeholder>Username</mat-placeholder>
+    </mat-form-field>
+    <mat-form-field class="register-input">
+      <input matInput name="email" [(ngModel)]="user.email" #email="ngModel" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" required/>
+      <mat-error *ngIf="email.invalid">Invalid email</mat-error>
+      <mat-placeholder>Email</mat-placeholder>
+    </mat-form-field>
+    <mat-form-field class="register-input">
+      <input matInput name="password" type="password" [(ngModel)]="user.password" #password="ngModel" required minlength="8" />
+      <mat-placeholder>Password</mat-placeholder>
+      <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">Password should have at least 8 characters</mat-error>
+    </mat-form-field>
+    <mat-form-field class="register-input">
+      <input matInput name="confirmPassword" type="password" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" required/>
+      <mat-error *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">Passwords don't match</mat-error>
+      <mat-placeholder>Confirm Password</mat-placeholder>
+    </mat-form-field>
+    <mat-form-field class="register-input">
+      <input matInput name="birthDate" [(ngModel)]="user.birthdate" [matDatepicker]="birthdatePicker" #birthdate="ngModel" disabled
+      />
+      <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #birthdatePicker disabled="false" startView="multi-year"></mat-datepicker>
+      <mat-placeholder>Birthdate</mat-placeholder>
+    </mat-form-field>
+    <mat-form-field class="register-input">
+      <input matInput name="phone" [(ngModel)]="user.phone" #phone="ngModel" pattern="^[0-9]+$" />
+      <mat-error *ngIf="phone.invalid && (phone.dirty || phone.touched)">Phone must contain numbers only ex:0123456789</mat-error>
+      <mat-placeholder>Phone</mat-placeholder>
+    </mat-form-field>
+    <mat-form-field class="register-input">
+      <input matInput name="address" [(ngModel)]="user.address" #address="ngModel" />
+      <mat-placeholder>Address</mat-placeholder>
+    </mat-form-field>
+    <div class="d-flex">
+      <button mat-button class="center" color="primary" (click)="register()" [disabled]="!signUpForm.form.valid">submit</button>
+    </div>
+    <div class="d-flex">
+      <button mat-button class="ml-auto" (click)="redirect()">back</button>
+    </div>
+  </mat-card>
+</form>
