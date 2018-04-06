@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
+// TODO: Omit creator specific schema [ProfileDependency | AuthDependency]
 var contentSchema = mongoose.Schema({
     approved: {
         required: true,
@@ -63,4 +64,4 @@ var contentSchema = mongoose.Schema({
     }
 });
 contentSchema.plugin(mongoosePaginate);
-var Content = mongoose.model('Content', contentSchema);
+var Content = mongoose.model('Content', contentSchema, 'contents');

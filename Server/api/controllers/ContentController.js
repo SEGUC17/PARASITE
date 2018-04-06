@@ -7,6 +7,21 @@ var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 
 module.exports.getContentPage = function (req, res, next) {
+    var valid = req.params.category && req.params.section &&
+        req.params.numberOfEntriesPerPage && req.params.pageNumber &&
+        typeof req.params.category === 'string' &&
+        typeof req.params.section === 'string' &&
+        !isNaN(req.params.numberOfEntriesPerPage) &&
+        !isNaN(req.params.pageNumber);
+
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required fields were missing or of wrong type.',
+            msg: null
+        });
+    }
+
     if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
         Content.paginate(
             {
@@ -53,7 +68,7 @@ module.exports.getContentPage = function (req, res, next) {
         Content.paginate(
             {
                 approved: true,
-                creator: req.params.category
+                category: req.params.category
             },
             {
                 limit: Number(req.params.numberOfEntriesPerPage),
@@ -76,6 +91,14 @@ module.exports.getContentPage = function (req, res, next) {
 
 
 module.exports.getContentById = function (req, res, next) {
+
+    if (!req.params.id) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required id was missing.',
+            msg: null
+        });
+    }
 
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(422).json({
@@ -108,18 +131,25 @@ module.exports.getContentById = function (req, res, next) {
 
 };
 
+// must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
-    console.log(req.params.creator);
-    if (!req.params.creator) {
+    console.log('Username: ' + req.user);
+
+    var valid = req.params.pageSize &&
+        req.params.pageNumber &&
+        !isNaN(req.params.pageNumber) &&
+        !isNaN(req.params.pageSize);
+
+    if (!valid) {
         return res.status(422).json({
             data: null,
-            err: 'The Creator username is not valid.',
+            err: 'The required fields were missing or of wrong type.',
             msg: null
         });
     }
 
     Content.paginate(
-        { creator: req.params.creator },
+        { creator: req.user.username },
         {
             limit: Number(req.params.pageSize),
             page: Number(req.params.pageNumber)
@@ -140,7 +170,6 @@ module.exports.getContentByCreator = function (req, res, next) {
 };
 
 
-// TODO: manage permissions specific behavior for content creation
 var handleAdminCreate = function (req, res, next) {
     req.body.approved = true;
     Content.create(req.body, function (contentError, content) {
@@ -174,10 +203,10 @@ var handleNonAdminCreate = function (req, res, next) {
             }
 
             return res.status(201).json({
-                data: [
-                    content,
-                    contentRequest
-                ],
+                data: {
+                    content: content,
+                    request: contentRequest
+                },
                 err: null,
                 msg: 'Created content and made a request successfully'
             });
@@ -186,14 +215,19 @@ var handleNonAdminCreate = function (req, res, next) {
 };
 
 
-/*eslint max-statements: ["error", 50]*/
-
+/*eslint max-statements: ["error", 12]*/
 module.exports.createContent = function (req, res, next) {
     var valid = req.body.title &&
         req.body.body &&
         req.body.category &&
         req.body.section &&
-        req.body.creator;
+        req.body.creator &&
+        typeof req.body.title === 'string' &&
+        typeof req.body.body === 'string' &&
+        typeof req.body.category === 'string' &&
+        typeof req.body.section === 'string' &&
+        typeof req.body.creator === 'string';
+
     if (!valid) {
         return res.status(422).json({
             data: null,
@@ -226,17 +260,15 @@ module.exports.createContent = function (req, res, next) {
         delete req.body.touchDate;
         delete req.body.approved;
         // admin handler for now open for anyone
-        // TODO fix permissions on auth ready
-        if (!req.user) {
+        if (req.user.isAdmin) {
             return handleAdminCreate(req, res, next);
         }
 
         // non admin handler, toggle condition to activate
-        handleNonAdminCreate(req, res, next);
+        return handleNonAdminCreate(req, res, next);
     });
 
 };
-
 module.exports.getCategories = function (req, res, next) {
     Category.find({}).exec(function (err, categories) {
         if (err) {
@@ -253,19 +285,28 @@ module.exports.getCategories = function (req, res, next) {
 };
 
 module.exports.createCategory = function (req, res, next) {
+    // Admin permission check
+
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'The user has to be an admin',
+            msg: null
+        });
+    }
+
+    // category name validation check
     if (!req.body.category) {
         return res.status(422).json({
             data: null,
             err: 'No category supplied',
             msg: null
         });
-
     }
-
-    if (!req.body.category) {
+    if (typeof req.body.category === 'string') {
         return res.status(422).json({
             data: null,
-            err: 'Wrong Category type error',
+            err: 'No category supplied',
             msg: null
         });
     }
@@ -288,6 +329,7 @@ module.exports.createCategory = function (req, res, next) {
 };
 
 module.exports.createSection = function (req, res, next) {
+
     if (!req.params.id) {
         return res.status(422).json({
             data: null,
@@ -295,7 +337,13 @@ module.exports.createSection = function (req, res, next) {
             msg: null
         });
     }
-
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category id supplied is invalid',
+            msg: null
+        });
+    }
     if (!req.body.section) {
         return res.status(422).json({
             data: null,
@@ -303,6 +351,15 @@ module.exports.createSection = function (req, res, next) {
             msg: null
         });
     }
+
+    if (typeof req.body.section === 'string') {
+        return res.status(422).json({
+            data: null,
+            err: 'The section value is invalid',
+            msg: null
+        });
+    }
+
     Category.findByIdAndUpdate(
         req.params.id,
         { $push: { sections: { name: req.body.section } } },
@@ -324,3 +381,19 @@ module.exports.createSection = function (req, res, next) {
     );
 
 };
+module.exports.getContent = function (req, res, next) {
+    Content.find({}).
+        exec(function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+            console.log(contents);
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'Contents retrieved successfully.'
+            });
+        });
+};
+

@@ -8,6 +8,8 @@ export class AuthService {
 
   private endpoint: String = 'http://localhost:3000/api';
   private localStorageTokenName = 'jwtToken';
+  // Added To Satisfy Merge
+  user: any;
 
   constructor(private http: HttpClient) { }
 
@@ -49,5 +51,17 @@ export class AuthService {
       return of(result as T);
     };
   }
+
+  childSignUp(user: any): Observable<any> {
+    return this.http.post<any>('http://localhost:3000/api/childsignup', user);
+  }
+
+  setUser(user: any): void {
+    this.user = user;
+  }
+  getUser(): any {
+    return this.user;
+  }
+
 
 }

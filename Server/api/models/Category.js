@@ -17,4 +17,4 @@ var categorySchema = mongoose.Schema({
     sections: { type: [sectionSchema] }
 });
 
-var Category = mongoose.model('Category', categorySchema);
+var Category = mongoose.model('Category', categorySchema, 'categories');

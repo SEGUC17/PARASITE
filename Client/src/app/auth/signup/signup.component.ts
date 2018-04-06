@@ -23,6 +23,7 @@ export class SignupComponent implements OnInit {
   Student: Boolean = false;
   Teacher: Boolean = false;
   Parent: Boolean = false;
+  Flag: String = '';
   Div1 = false;
   Div2 = false;
   Div3 = false;
