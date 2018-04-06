@@ -20,43 +20,51 @@ var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
 
-var isAuthenticated = function (req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  }
-
-  return res.status(401).json({
-    data: null,
-    error: null,
-    msg: 'User Is Not Signed In!'
-  });
-};
-
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.send('Server Works');
-});
-// --------------------- Search Contoller -------------------- //
-router.get('/User/Search/:username/:educationLevel/:educationSystem/:location/:curr/:pp', SearchController.Search);
-// --------------------- End of Search Controller ------------ //
-var isNotAuthenticated = function (req, res, next) {
-  if (!req.isAuthenticated()) {
-    return next();
-  }
-
-  return res.status(403).json({
-    data: null,
-    error: null,
-    msg: 'User Is Already Signed In!'
-  });
-};
-
 module.exports = function (passport) {
+
+  // --------------------- Authentication Checkers --------------- //
+  var isAuthenticated = function (req, res, next) {
+    passport.authenticate('jwt', { session: false }, function (err, user, info) {
+      if (err) {
+        return next(err);
+      } else if (!user) {
+        return res.status(401).json({
+          data: null,
+          error: null,
+          msg: 'User Is Not Signed In!'
+        });
+      }
+      req.user = user;
+
+      return next();
+    })(req, res, next);
+  };
+
+  var isNotAuthenticated = function (req, res, next) {
+    passport.authenticate('jwt', { session: false }, function (err, user, info) {
+      if (err) {
+        return next(err);
+      } else if (user) {
+        return res.status(403).json({
+          data: null,
+          error: null,
+          msg: 'User Is Already Signed In!'
+        });
+      }
+
+      return next();
+    })(req, res, next);
+  };
+  // --------------------- End of "Authentication Checkers" ------ //
 
   /* GET home page. */
   router.get('/', function (req, res, next) {
     res.send('Server Works');
   });
+
+  // --------------------- Search Contoller -------------------- //
+  router.get('/User/Search/:username/:educationLevel/:educationSystem/:location/:curr/:pp', SearchController.Search);
+  // --------------------- End of Search Controller ------------ //
 
   // --------------------- Activity Contoller -------------------- //
   router.get('/activities', ActivityController.getActivities);
@@ -93,25 +101,11 @@ module.exports = function (passport) {
   // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
+  router.post('/signUp', isNotAuthenticated, userController.signUp);
+  router.post('/signIn', isNotAuthenticated, userController.signIn);
   router.post('/childsignup', isAuthenticated, userController.signUpChild);
-
-  router.post('/signup', isNotAuthenticated, function (req, res, next) {
-    userController.signUp(passport, req, res, next);
-  });
-  router.post('/signin', isNotAuthenticated, function (req, res, next) {
-    userController.signIn(passport, req, res, next);
-  });
-
-
-  router.get('/signout', isAuthenticated, function (req, res) {
-    req.logout();
-
-    return res.status(200).json({
-      data: null,
-      error: null,
-      msg: 'Sign Out Successfully!'
-    });
-  });
+  router.post('/userData/:username', isAuthenticated, userController.getUserData);
+  router.get('/dupCheck/:usernameOrEmail', userController.isUserExist);
   // ---------------------- End of User Controller --------------- //
 
   //-------------------- Study Plan Endpoints ------------------//
@@ -149,7 +143,7 @@ module.exports = function (passport) {
   router.put('/profile/UnlinkAnotherParent/:parentId', profileController.Unlink);
   router.put('/profile/LinkAsAParent/:parentId', profileController.linkAsParent);
   router.get('/profile/:username/getChildren', profileController.getChildren);
-  router.patch('/profile/changePassword/:uname',profileController.changePassword);
+  router.patch('/profile/changePassword/:uname', profileController.changePassword);
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
