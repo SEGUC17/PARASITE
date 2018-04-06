@@ -63,7 +63,7 @@ module.exports = function (passport) {
   // ---------------------- User Controller ---------------------- //
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.post('/signIn', isNotAuthenticated, userController.signIn);
-  router.post('/userData', isAuthenticated, userController.getUserData);
+  router.post('/userData/:username', isAuthenticated, userController.getUserData);
   router.get('/dupCheck/:usernameOrEmail', userController.isUserExist);
   // ---------------------- End of User Controller --------------- //
 

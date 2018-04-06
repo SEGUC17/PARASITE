@@ -141,8 +141,8 @@ module.exports.signUp = function (req, res, next) {
     User.findOne(
         {
             $or: [
-                { 'username': newUser.username },
-                { 'email': newUser.email }
+                { 'email': newUser.email },
+                { 'username': newUser.username }
             ]
         },
         function (err, user) {
@@ -211,8 +211,8 @@ module.exports.signIn = function (req, res, next) {
     User.findOne(
         {
             $or: [
-                { 'username': req.body.username },
-                { 'email': req.body.username }
+                { 'email': req.body.username },
+                { 'username': req.body.username }
             ]
         },
         function (err, user) {
@@ -241,13 +241,14 @@ module.exports.signIn = function (req, res, next) {
                     return res.status(200).json({
                         data: null,
                         err: null,
-                        msg: 'Sign In Is Successfull',
+                        msg: 'Sign In Is Successfull!',
                         token: jwtToken
                     });
                 });
             });
         }
     );
+
 };
 
 
@@ -342,7 +343,6 @@ module.exports.getUserData = function (req, res, next) {
     var field = '';
     try {
 
-
         field = 'Request Body';
         isNotEmpty(req.body);
         isArray(req.body);
@@ -402,15 +402,15 @@ module.exports.isUserExist = function (req, res, next) {
     User.findOne(
         {
             $or: [
-                { 'username': req.params.usernameOrEmail },
-                { 'email': req.params.usernameOrEmail }
+                { 'email': req.params.usernameOrEmail },
+                { 'username': req.params.usernameOrEmail }
             ]
         },
         function (err, user) {
             if (err) {
                 throw err;
             } else if (user) {
-                return res.status(200).json({
+                return res.status(409).json({
                     data: null,
                     err: null,
                     msg: 'Exists!'
@@ -424,4 +424,5 @@ module.exports.isUserExist = function (req, res, next) {
             });
         }
     );
+
 };
