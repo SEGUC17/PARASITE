@@ -13,8 +13,6 @@ export class LoginComponent implements OnInit {
     username: '',
     password: ''
   };
-  User: any;
-  AllisWell: Boolean = true;
 
 
   constructor(private location: Location, private authService: AuthService) { }
@@ -24,7 +22,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     const self = this;
-    self.authService.signIn(this.User).subscribe(function (res) {
+    self.authService.signIn(this.user).subscribe(function (res) {
       self.authService.setToken(res.token);
       if (res.data) {
         alert(res.msg);
@@ -33,12 +31,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
-
-
   // this method redirects the user back to the last page he was on before signing up
   redirect() {
     this.location.back();
-  }// end method
+  }
 
 }
