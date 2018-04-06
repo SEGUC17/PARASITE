@@ -47,4 +47,4 @@ var productRequestSchema = mongoose.Schema({
     }
 });
 
-mongoose.model('ProductRequest', productRequestSchema);
+mongoose.model('ProductRequest', productRequestSchema, 'productRequests');

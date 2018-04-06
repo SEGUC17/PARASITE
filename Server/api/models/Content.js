@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
+// use the mongoose-paginate library to store contents in pages
 var mongoosePaginate = require('mongoose-paginate');
+// TODO: Omit creator specific schema [ProfileDependency | AuthDependency]
 var contentSchema = mongoose.Schema({
     approved: {
         required: true,
@@ -62,5 +64,7 @@ var contentSchema = mongoose.Schema({
         type: String
     }
 });
+
+// apply the mongoose paginate library to the schema
 contentSchema.plugin(mongoosePaginate);
-var Content = mongoose.model('Content', contentSchema);
+var Content = mongoose.model('Content', contentSchema, 'contents');

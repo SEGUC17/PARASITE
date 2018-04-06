@@ -6,16 +6,16 @@
                 <mat-form-field class="meta-input" hintLabel="Enter the title of the content">
                     <input matInput required [(ngModel)]="content.title" name="title" placeholder="The title goes here">
                 </mat-form-field>
-                <mat-form-field class="meta-input" hintLabel="Enter a link of the main video of the content if exists">
+                <mat-form-field class="meta-input" hintLabel="Enter a link of the image of the content if exists">
                     <mat-icon matPrefix>link</mat-icon>
                     <input matInput [(ngModel)]="content.image" #content.image name="image" placeholder="Image link goes here">
                 </mat-form-field>
-                <mat-form-field class="meta-input" hintLabel="Enter a link of the image of the content if exists">
+                <mat-form-field class="meta-input" hintLabel="Enter a link of the main video (Youtube) of the content if exists">
                     <mat-icon matPrefix>link</mat-icon>
                     <input matInput [(ngModel)]="videoInput" #content.video name="video" placeholder="Video link goes here" (blur)="getSafeUrl()">
                 </mat-form-field>
                 <mat-form-field class="meta-input" hintLabel="Enter the category of choice here">
-                    <mat-select placeholder="Category..." required name="category" [(ngModel)]="content.category" (selectionChange)="getSections()">
+                    <mat-select placeholder="Category..." required name="category" [(ngModel)]="content.category" (ngModelChange)="getSections()">
                         <mat-option *ngFor="let category of categories" [value]="category.name">
                             {{category.name}}
                         </mat-option>
@@ -45,6 +45,7 @@
             <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="content.body" name="body"></quill-editor>
         </mat-step>
         <mat-step label="Content Preview">
+            <button mat-button matStepperNext>Next</button>
             <div class="container">
                 <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
                     <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>

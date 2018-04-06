@@ -1,32 +1,31 @@
-/* eslint-disable */
+
 var mongoose = require('mongoose');
 var moment = require('moment');
 var Validations = require('../utils/validators/is-object-id');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
 
+
+// get number of products in the DB
+// restricted by delimiters given as a JSON object in the URL
 module.exports.getNumberOfProducts = function (req, res, next) {
-    var toFind = {};
-    var reqPrice = Number(req.params.price);
-    var reqName = req.params.name;
-    if (reqPrice !== 0) {
-        if (reqName === 'NA') {
-            toFind = { price: { $lt: reqPrice } };
-        } else {
-            toFind = {
-                name: reqName,
-                price: { $lt: reqPrice }
-            };
-        }
-    } else if (reqName !== 'NA') {
-        toFind = { name: reqName };
+    var toFind = JSON.parse(req.params.limiters);
+    var limiters = {};
+    if (toFind.price) {
+        limiters.price = { $lt: toFind.price };
     }
-    Product.find(toFind).count().
+    if (toFind.name) {
+        limiters.name = new RegExp(toFind.name, 'i');
+    }
+    if (toFind.seller) {
+        limiters.seller = toFind.seller;
+    }
+    Product.find(limiters).count().
         exec(function (err, count) {
             if (err) {
                 return next(err);
             }
-            console.log(count + ' number of products');
+
             return res.status(200).json({
                 data: count,
                 err: null,
@@ -35,24 +34,22 @@ module.exports.getNumberOfProducts = function (req, res, next) {
         });
 };
 
+// get the actual products in the DB
+// restricted by delimiters given as a JSON object in the URL
 module.exports.getMarketPage = function (req, res, next) {
-    var toFind = {};
-    var reqPrice = Number(req.params.price);
-    var reqName = req.params.name;
-    if (reqPrice !== 0) {
-        if (reqName === 'NA') {
-            toFind = { price: { $lt: reqPrice } };
-        } else {
-            toFind = {
-                name: reqName,
-                price: { $lt: reqPrice }
-            };
-        }
-    } else if (reqName !== 'NA') {
-        toFind = { name: reqName };
+    var toFind = JSON.parse(req.params.limiters);
+    var limiters = {};
+    if (toFind.price) {
+        limiters.price = { $lt: toFind.price };
+    }
+    if (toFind.name) {
+        limiters.name = new RegExp(toFind.name, 'i');
+    }
+    if (toFind.seller) {
+        limiters.seller = toFind.seller;
     }
     Product.paginate(
-        toFind,
+        limiters,
         {
             limit: Number(req.params.entriesPerPage),
             page: Number(req.params.pageNumber)
@@ -69,38 +66,8 @@ module.exports.getMarketPage = function (req, res, next) {
         }
     );
 };
-module.exports.getNumberOfProductsBySeller = function (req, res, next) {
-    Product.find({ seller: req.params.seller }).count().
-        exec(function (err, count) {
-            if (err) {
-                return next(err);
-            }
-            return res.status(200).json({
-                data: count,
-                err: null,
-                msg: 'Number of products = ' + count
-            });
-        });
-};
-module.exports.getMarketPageBySeller = function (req, res, next) {
-    Product.paginate(
-        { seller: req.params.seller },
-        {
-            limit: Number(req.params.entriesPerPage),
-            page: Number(req.params.pageNumber)
-        }, function (err, products) {
-            if (err) {
-                return next(err);
-            }
-            console.log(products);
-            res.status(200).json({
-                data: products,
-                err: null,
-                msg: 'products retrieved successfully'
-            });
-        }
-    );
-};
+
+// get a product given its id
 module.exports.getProduct = function (req, res, next) {
     if (!Validations.isObjectId(req.params.productId)) {
         return res.status(422).json({
@@ -145,7 +112,7 @@ module.exports.getRequests = function (req, res, next) {
 
 module.exports.createProduct = function (req, res, next) {
     if (!(typeof req.body.name === 'string')) {
-        console.log("please insert product's name as a string")
+        console.log('please insert product"s name as a string');
     }
     var valid =
         req.body.name &&
@@ -155,9 +122,10 @@ module.exports.createProduct = function (req, res, next) {
         req.body.description;
     if (!valid) {
         return res.status(422).json({
+            data: null,
             err: null,
-            msg: 'name(String) price(Number) and acquiringType(String) and image(String) and description(String) are required fields.',
-            data: null
+            msg: 'name(String) price(Number) and acquiringType(String) and' +
+                'image(String) and description(String) are required fields.'
         });
     }
 
@@ -167,9 +135,9 @@ module.exports.createProduct = function (req, res, next) {
             return next(err);
         }
         res.status(201).json({
+            data: product,
             err: null,
-            msg: 'Product was created successfully.',
-            data: product
+            msg: 'Product was created successfully.'
         });
     });
 };
@@ -188,7 +156,7 @@ module.exports.createProduct = function (req, res, next) {
 //     }
 //   }
 
-//   $("#imgInp").change(function() {
+//   $('#imgInp').change(function() {
 //     readURL(this);
 //   });
 
@@ -199,9 +167,9 @@ module.exports.createProductRequest = function (req, res, next) {
             return next(err);
         }
         res.status(200).json({
+            data: productreq,
             err: null,
-            msg: 'ProductRequest was created successfully.',
-            data: productreq
+            msg: 'ProductRequest was created successfully.'
         });
     });
 };
@@ -211,7 +179,7 @@ module.exports.createProductRequest = function (req, res, next) {
 module.exports.evaluateRequest = function (req, res, next) {
     if (req.body.result) {
         console.log('Got here, True');
-        var newProduct;
+        var newProduct = {};
 
         // Ensure the request still exists
         ProductRequest.findById(req.body._id).exec(function (err, productReq) {
@@ -219,41 +187,44 @@ module.exports.evaluateRequest = function (req, res, next) {
                 return next(err);
             }
             if (!productReq) {
-                return res
-                    .status(404)
-                    .json({ err: null, msg: 'Request not found.', data: null });
+                return res.status(404).
+                    json({
+                        data: null,
+                        err: null,
+                        msg: 'Request not found.'
+                    });
             }
             // If found, make the newProduct to insert
             newProduct = {
+                acquiringType: req.body.acquiringType,
+                createdAt: req.body.createdAt,
+                description: req.body.description,
+                image: req.body.image,
                 name: req.body.name,
                 price: req.body.price,
-                seller: req.body.seller,
-                image: req.body.image,
-                acquiringType: req.body.acquiringType,
                 rentPeriod: req.body.rentPeriod,
-                description: req.body.description,
-                createdAt: req.body.createdAt
+                seller: req.body.seller
             };
             // Delete the request
-            ProductRequest.deleteOne({ _id: req.body._id }, function (err, product) {
-                if (err) {
-                    return next(err);
+            ProductRequest.deleteOne({ _id: req.body._id }, function
+                 (err1, product) {
+                if (err1) {
+                    return next(err1);
                 }
                 // Insert the product
-                Product.create(newProduct, function (err, product) {
-                    if (err) {
-                        return next(err);
+                Product.create(newProduct, function (err2, product1) {
+                    if (err2) {
+                        return next(err2);
                     }
                     res.status(201).json({
+                        data: newProduct,
                         err: null,
-                        msg: 'Request accepted and product added to database.',
-                        data: newProduct
+                        msg: 'Request accepted and product added to database.'
                     });
                 });
-            })
+            });
         });
-    }
-    else {
+    } else {
         console.log(req.body._id);
 
         // Simply delete the request and notify the user
@@ -265,10 +236,10 @@ module.exports.evaluateRequest = function (req, res, next) {
 
             // When done, send response
             return res.status(200).json({
+                data: product,
                 err: null,
-                msg: 'Request rejected and user notified.',
-                data: product
+                msg: 'Request rejected and user notified.'
             });
-        })
+        });
     }
 };

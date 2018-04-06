@@ -1,4 +1,4 @@
-.main-container{
+.main-container {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -7,13 +7,23 @@
     left: 0;
     right: 0;
 }
-.sidenav-container{
+
+.sidenav-container {
     flex: 1;
 }
 
-.is-mobile .sidenav-container{
+.is-mobile .sidenav-container {
     flex: 1 0 auto;
 }
-h1.title{
+
+h1.title {
     margin-left: 8 px;
+}
+
+header {
+    max-height: 5%;
+    max-height: 5vh;
+}
+.top-level{
+    margin-top: -1%;
 }

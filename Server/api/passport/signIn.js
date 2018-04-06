@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 // ---------------------- Requirements ---------------------- //
 var mongoose = require('mongoose');
 var Encryption = require('../utils/encryption/encryption');
@@ -29,12 +27,6 @@ module.exports = function (passport) {
         { passReqToCallback: true },
         function (req, username, password, done) {
             var signInIfExist = function () {
-
-
-                // --- Security Check --- //
-                req.user = null;
-                // --- End of "Security Check" --- //
-
 
                 // --- Username Verfication --- //
                 User.findOne({ 'username': username },

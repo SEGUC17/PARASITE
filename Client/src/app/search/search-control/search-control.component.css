@@ -1,0 +1,15 @@
+#wrapper {
+width : 800px;
+margin : 0 auto;
+background-color : #FFF;
+}
+#contentarea {
+clear : both;
+padding : 25px 0;
+}
+.margin10 {
+    margin: 10px;
+}
+.margin30 {
+    margin: 30px;
+}
