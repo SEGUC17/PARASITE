@@ -308,13 +308,13 @@ module.exports.signUpChild = function (req, res, next) {
                 isArray(newUser.phone ? newUser.phone : []);
                 isString(newUser.username ? newUser.username : '');
 
-            } catch (err) {
+            } catch (err1) {
                 console.log('entered catch of status 401');
 
                 return res.status(401).json({
                     data: null,
-                    err: null,
-                    msg: 'your message does not match the required data entries!' + err.message + '!' + '!'
+                    err1: null,
+                    msg: 'your message does not match the required data entries!' + err1.message + '!' + '!'
                 });
             }
             //end catch
@@ -330,35 +330,44 @@ module.exports.signUpChild = function (req, res, next) {
                 isNotEmpty(newUser.lastName);
                 isNotEmpty(newUser.password);
                 isNotEmpty(newUser.username);
-            } catch (err) {
+            } catch (err2) {
                 console.log('entered catch of 2nd status 401');
+                console.log(newUser.birthdate);
+                console.log(newUser.email);
+                console.log(newUser.firstName);
+                console.log(newUser.isChild);
+                console.log(newUser.isParent);
+                console.log(newUser.isTeacher);
+                console.log(newUser.lastName);
+                console.log(newUser.password);
+                console.log(newUser.username);
 
                 return res.status(401).json({
                     data: null,
-                    err: null,
-                    msg: 'you are missing a required data entry!' + err.message + '!'
+                    err2: null,
+                    msg: 'you are missing a required data entry!' + err2.message + '!'
                 });
             }
             //end catch
-            Encryption.hashPassword(newUser.password, function (er, hash) {
-                if (er) {
-                    console.log('entered if er');
+            Encryption.hashPassword(newUser.password, function (err3, hash) {
+                if (err3) {
+                    console.log('entered if err3');
 
-                    return next(er);
+                    return next(err3);
                 }
 
                 newUser.password = hash;
-                User.create(newUser, function (erro) {
-                    if (erro) {
-                        console.log('entered if erro');
+                User.create(newUser, function (error) {
+                    if (error) {
+                        console.log('entered if error');
 
-                        return next(erro);
+                        return next(error);
                     }
 
                     // --- Variable Assign --- //
                     return res.status(201).json({
                         data: newUser,
-                        erro: null,
+                        error: null,
                         msg: 'Success!'
                     });
                 });
