@@ -53,7 +53,6 @@ describe('/GET/ Content by id', function () {
                         return console.log(error);
                     }
                     expect(res).to.have.status(200);
-                    console.log(res.body.data);
                     res.body.data.should.be.a('Object');
                     res.body.data.should.have.
                         property(
