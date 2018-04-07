@@ -190,13 +190,13 @@ module.exports.signIn = function (req, res, next) {
     var field = '';
     try {
 
-        field = 'Username';
-        isNotEmpty(req.body.username);
-        isString(req.body.username);
-
         field = 'Password';
         isNotEmpty(req.body.password);
         isString(req.body.password);
+
+        field = 'Username';
+        isNotEmpty(req.body.username);
+        isString(req.body.username);
 
     } catch (err) {
         return res.status(422).json({
