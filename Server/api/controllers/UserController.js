@@ -308,13 +308,13 @@ module.exports.signUpChild = function (req, res, next) {
                 isArray(newUser.phone ? newUser.phone : []);
                 isString(newUser.username ? newUser.username : '');
 
-            } catch (err) {
+            } catch (errr) {
                 console.log('entered catch of status 401');
 
                 return res.status(401).json({
                     data: null,
-                    err: null,
-                    msg: 'your message does not match the required data entries!' + err.message + '!' + '!'
+                    errr: null,
+                    msg: 'your message does not match the required data entries!' + errr.message + '!' + '!'
                 });
             }
             //end catch
@@ -330,7 +330,7 @@ module.exports.signUpChild = function (req, res, next) {
                 isNotEmpty(newUser.lastName);
                 isNotEmpty(newUser.password);
                 isNotEmpty(newUser.username);
-            } catch (err) {
+            } catch (erro) {
                 console.log('entered catch of 2nd status 401');
                 console.log(newUser.birthdate);
                 console.log(newUser.email);
@@ -344,7 +344,7 @@ module.exports.signUpChild = function (req, res, next) {
 
                 return res.status(401).json({
                     data: null,
-                    err: null,
+                    erro: null,
                     msg: 'you are missing a required data entry!' + err.message + '!'
                 });
             }
@@ -357,17 +357,17 @@ module.exports.signUpChild = function (req, res, next) {
                 }
 
                 newUser.password = hash;
-                User.create(newUser, function (erro) {
-                    if (erro) {
+                User.create(newUser, function (error) {
+                    if (error) {
                         console.log('entered if erro');
 
-                        return next(erro);
+                        return next(error);
                     }
 
                     // --- Variable Assign --- //
                     return res.status(201).json({
                         data: newUser,
-                        erro: null,
+                        error: null,
                         msg: 'Success!'
                     });
                 });
