@@ -29,4 +29,4 @@ var psychReqSchema = mongoose.Schema({
   priceRange: { type: Number }
 });
 
-mongoose.model('PsychologistRequest', psychReqSchema, 'psychologistRequests');
+mongoose.model('PsychologistRequest', psychReqSchema, 'psychologistrequests');
