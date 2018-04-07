@@ -329,6 +329,15 @@ module.exports.signUpChild = function (req, res, next) {
                 isNotEmpty(newUser.username);
             } catch (errrr) {
                 console.log('entered catch of 2nd status 401');
+                console.log(newUser.birthdate);
+                console.log(newUser.email);
+                console.log(newUser.firstName);
+                console.log(newUser.isChild);
+                console.log(newUser.isParent);
+                console.log(newUser.isTeacher);
+                console.log(newUser.lastName);
+                console.log(newUser.password);
+                console.log(newUser.username);
 
                 return res.status(401).json({
                     data: null,
