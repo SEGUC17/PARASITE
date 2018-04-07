@@ -16,6 +16,8 @@ import {
   addDays,
   addHours
 } from 'date-fns';
+import { AuthService } from '../../auth/auth.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -48,7 +50,7 @@ export class ScheduleComponent implements OnInit {
   refresh: Subject<any> = new Subject();
   editing = false;
   // NOTE: When integrated into profile, @Inputs will replace these values.
-  @Input() loggedInUser;
+  loggedInUser: any = {};
   @Input() profileUser;
   actions: CalendarEventAction[] = [
     {
@@ -76,10 +78,21 @@ export class ScheduleComponent implements OnInit {
 
 
 
-  constructor(private scheduleService: ScheduleService) { }
+  constructor(private scheduleService: ScheduleService, private _AuthService: AuthService,
+    private activatedRoute: ActivatedRoute) { }
 
-  ngOnInit() {
-    this.fetchAndDisplay();
+  ngOnInit() {// getting the visited username
+      console.log('About to enter');
+      this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
+        this.loggedInUser.username = user.data.username;
+        this.loggedInUser.isChild = user.data.isChild;
+        this.loggedInUser.children = user.data.children;
+        console.log(this.loggedInUser.username + ' FUCK');
+        console.log(this.profileUser);
+        console.log(this.loggedInUser);
+        this.fetchAndDisplay();
+      });
+
   }
 
   fetchAndDisplay() {
@@ -87,18 +100,15 @@ export class ScheduleComponent implements OnInit {
     const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
     if (this.loggedInUser.username === this.profileUser || !(indexChild === -1) ) {
     this.scheduleService.getPersonalSchedule(this.profileUser).subscribe(function(res) {
-     // console.log(res.data);
       self.events = res.data;
+      console.log(self.events);
       for (let index = 0; index < self.events.length; index++) {
         self.events[index].start = new Date(self.events[index].start);
         self.events[index].end = new Date(self.events[index].end);
       }
+      self.fetchEvents();
       });
     }
-    this.fetchEvents();
-    setTimeout(function() {
-      return self.refresh.next();
-    }, 0);
     /*this.events.forEach(element => {
       const anEvent: CalendarEvent = {
         id : element.id,
@@ -137,9 +147,7 @@ export class ScheduleComponent implements OnInit {
     }[this.view];
     const self = this;
     this.activeDayIsOpen = false;
-    setTimeout(function() {
-      return self.refresh.next();
-    }, 0);
+    this.refreshDocument();
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
