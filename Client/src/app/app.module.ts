@@ -52,6 +52,7 @@ import { MatNativeDateModule, MatIconModule } from '@angular/material';
     DashboardModule,
     AdminModule,
     ProfileModule,
+    SearchModule,
     ContentModule,
     MatDialogModule,
     MatSnackBarModule,
