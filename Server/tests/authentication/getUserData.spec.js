@@ -39,9 +39,17 @@ describe('getUserData', function () {
     // --- End of "Clearing Mockgoose" --- //
 
     // --- Tests --- //
-
-    /* Tests Goes Here */
-
+    describe('Failure', function () {
+        it('User Is Not Signed In!');
+        it('Request "body" Is Empty!');
+        it('Request "body" Is Not Valid!');
+        it('Request "body" Element(s) Is/Are Not Valid!');
+        it('"password" Attribute Is Requested!');
+    });
+    describe('Success!', function () {
+        it('Data Retrieval Is Successful!');
+        it('Requested Column(s) Is/Are Not Valid!');
+    });
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //
