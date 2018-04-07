@@ -1,7 +1,7 @@
 <div class="publishedPLans-container">
   <mat-card>
     <div *ngIf="type === 'personal' && !currIsChild">
-      <a mat-raised-button routerLink="../study-plan-edit/create/{{username}}/new" color="primary" style="float: right;">Create A New Study Plan</a>
+      <a mat-raised-button routerLink="/study-plan-edit/create/{{username}}/new" color="primary" style="float: right;">Create A New Study Plan</a>
       <br /><br /><br />
     </div>
     <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements" 
@@ -14,7 +14,7 @@
         <mat-card-title>{{plan.title}}</mat-card-title>
         <mat-card-subtitle>{{plan.creator}}</mat-card-subtitle>
         <mat-card-actions>
-          <a mat-raised-button routerLink="../study-plan/{{type}}/{{plan._id}}/{{username}}">View</a>
+          <a mat-raised-button routerLink="/study-plan/{{type}}/{{plan._id}}/{{username}}">View</a>
         </mat-card-actions>
       </mat-card>
     </div>
