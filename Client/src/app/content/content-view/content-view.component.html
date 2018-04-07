@@ -1,5 +1,5 @@
 <div *ngIf="content">
-    <div class="row">
+    <div *ngIf="currentUser" class="row">
         <div class="col" align="center">
             <div *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)">
                 <button mat-raised-button color="primary">Edit</button>
