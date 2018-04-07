@@ -27,11 +27,11 @@ export class AddPsychRequestComponent implements OnInit {
     Validators.email
   ]);
 
-  fNameFormControl = new FormControl('', [
+  firstNameFormControl = new FormControl('', [
     Validators.required
   ]);
 
-  lNameFormControl = new FormControl('', [
+  lastNameFormControl = new FormControl('', [
     Validators.required
   ]);
 
@@ -58,8 +58,8 @@ export class AddPsychRequestComponent implements OnInit {
   submitReq(): void {
     let self = this;
 
-    if (this.emailFormControl.hasError('required') || this.fNameFormControl.hasError('required')
-        || this.lNameFormControl.hasError('required')) {
+    if (this.emailFormControl.hasError('required') || this.firstNameFormControl.hasError('required')
+        || this.lastNameFormControl.hasError('required')) {
             this.snackBar.open('Please fill all the required fields', '', {
               duration: 1500
             });
@@ -71,8 +71,8 @@ export class AddPsychRequestComponent implements OnInit {
       let req = this.request;
 
       req = {
-        firstName: this.fNameFormControl.value,
-        lastName: this.lNameFormControl.value,
+        firstName: this.firstNameFormControl.value,
+        lastName: this.lastNameFormControl.value,
         phone: this.phoneFormControl.value,
         address: this.addFormControl.value,
         email: this.emailFormControl.value,
@@ -90,8 +90,8 @@ export class AddPsychRequestComponent implements OnInit {
             duration: 2000
           });
 
-          self.fNameFormControl.setValue(null);
-          self.lNameFormControl.setValue(null);
+          self.firstNameFormControl.setValue(null);
+          self.lastNameFormControl.setValue(null);
           self.phoneFormControl.setValue(null);
           self.addFormControl.setValue(null);
           self.emailFormControl.setValue(null);
