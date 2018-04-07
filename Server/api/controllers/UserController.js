@@ -76,6 +76,9 @@ module.exports.signUp = function (req, res, next) {
 
         field = 'Phone';
         isArray(newUser.phone ? newUser.phone : []);
+        for (var index = 0; index < newUser.phone.length; index += 1) {
+            isString(newUser.phone[index]);
+        }
 
         field = 'Username';
         isNotEmpty(newUser.username);
@@ -127,8 +130,8 @@ module.exports.signUp = function (req, res, next) {
     // --- End of "Check: Password Length" --- //
 
     // --- Check: Phone Regex Match ---//
-    for (var index = 0; index < newUser.phone.length; index += 1) {
-        if (!newUser.phone[index].match(config.PHONE_REGEX)) {
+    for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
+        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
             return res.status(422).json({
                 data: null,
                 err: null,
