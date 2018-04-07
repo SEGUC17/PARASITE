@@ -67,14 +67,20 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent'];
 // ------------------------------------
 
-  constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
-    private activatedRoute: ActivatedRoute) {
+  constructor(private _ProfileService: ProfileService,
+    private _AuthService: AuthService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router) {
     this._AuthService.getUserData(['username']).subscribe((user) => {
       this.username = user.data.username;
-    });
     this.activatedRoute.params.subscribe((params: Params) => { // getting the visited username
       this.vUsername = params.username;
-    });
+      if (!this.vUsername) {
+        // this.router.navigateByUrl('/profile/' + this.username );
+        this.vUsername = this.username;
+      }
+
+
     if (this.vUsername === this.username) {
       this.currIsOwner = true;
     }
@@ -116,8 +122,10 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
     // Getting the list of uncommon children
     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
     }
-
+  });
+  });
   }
+
 
   ngOnInit() {
 
