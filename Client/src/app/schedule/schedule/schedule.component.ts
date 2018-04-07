@@ -54,17 +54,17 @@ export class ScheduleComponent implements OnInit {
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: function({event}: {event: CalendarEvent}): void {
+      onClick: function ({ event }: { event: CalendarEvent }): void {
         this.handleEvent('Edited', event);
       }
     },
     {
       label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: function({event}: {event: CalendarEvent}): void {
-        this.events = this.events.filter(function(iEvent) {
+      onClick: function ({ event }: { event: CalendarEvent }): void {
+        this.events = this.events.filter(function (iEvent) {
           return iEvent !== event;
         });
-              this.handleEvent('Deleted', event);
+        this.handleEvent('Deleted', event);
       }
     }
   ];
@@ -80,26 +80,26 @@ export class ScheduleComponent implements OnInit {
   constructor(private scheduleService: ScheduleService, private _AuthService: AuthService) { }
 
   ngOnInit() {// getting the visited username
-      this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
-        this.loggedInUser.username = user.data.username;
-        this.loggedInUser.isChild = user.data.isChild;
-        this.loggedInUser.children = user.data.children;
-        this.fetchAndDisplay();
-      });
+    this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
+      this.loggedInUser.username = user.data.username;
+      this.loggedInUser.isChild = user.data.isChild;
+      this.loggedInUser.children = user.data.children;
+      this.fetchAndDisplay();
+    });
 
   }
 
   fetchAndDisplay() {
     const self = this;
     const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
-    if (this.loggedInUser.username === this.profileUser || !(indexChild === -1) ) {
-    this.scheduleService.getPersonalSchedule(this.profileUser).subscribe(function(res) {
-      self.events = res.data;
-      for (let index = 0; index < self.events.length; index++) {
-        self.events[index].start = new Date(self.events[index].start);
-        self.events[index].end = new Date(self.events[index].end);
-      }
-      self.fetchEvents();
+    if (this.loggedInUser.username === this.profileUser || !(indexChild === -1)) {
+      this.scheduleService.getPersonalSchedule(this.profileUser).subscribe(function (res) {
+        self.events = res.data;
+        for (let index = 0; index < self.events.length; index++) {
+          self.events[index].start = new Date(self.events[index].start);
+          self.events[index].end = new Date(self.events[index].end);
+        }
+        self.fetchEvents();
       });
     }
     /*this.events.forEach(element => {
@@ -166,7 +166,7 @@ export class ScheduleComponent implements OnInit {
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event);
     const self = this;
-    setTimeout(function() {
+    setTimeout(function () {
       return self.refresh.next();
     }, 0);
   }
@@ -181,14 +181,17 @@ export class ScheduleComponent implements OnInit {
       title: 'New event',
       start: startOfDay(new Date()),
       end: endOfDay(new Date()),
-      color: colors.red,
+      color: {
+        primary: colors.red.primary,
+        secondary: colors.red.secondary
+      },
       draggable: true,
       resizable: {
         beforeStart: true,
         afterEnd: true
       }
     });
-    setTimeout(function() {
+    setTimeout(function () {
       return self.refresh.next();
     }, 0);
   }
@@ -199,50 +202,50 @@ export class ScheduleComponent implements OnInit {
 
   refreshDocument() {
     const self = this;
-    setTimeout(function() {
+    setTimeout(function () {
       return self.refresh.next();
     }, 0);
   }
 
   saveScheduleChanges() {
-      const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
-      if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
-        this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
-      }
-      /*this.eventsInitial = [];
-      this.events.forEach(element => {
-        const anEvent: CalendarEvent = {
-          id : element.id,
-          start : element.start,
-          end : element.end,
-          title : element.title,
-          color : {
-            primary : element.color.primary,
-            secondary : element.color.secondary
-          },
-          actions : element.actions,
-          allDay : element.allDay,
-          cssClass : element.cssClass,
-          resizable : element.resizable,
-          draggable : element.draggable,
-          meta : element.meta
-        };
-        anEvent.color.primary = element.color.primary;
-        anEvent.color.secondary = element.color.secondary;
-        this.eventsInitial.push(anEvent);
-      });*/
-      this.editing = false;
-      const self = this;
-      setTimeout(function() {
-        return self.refresh.next();
-      }, 0);
+    const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
+    if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
+      this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
+    }
+    /*this.eventsInitial = [];
+    this.events.forEach(element => {
+      const anEvent: CalendarEvent = {
+        id : element.id,
+        start : element.start,
+        end : element.end,
+        title : element.title,
+        color : {
+          primary : element.color.primary,
+          secondary : element.color.secondary
+        },
+        actions : element.actions,
+        allDay : element.allDay,
+        cssClass : element.cssClass,
+        resizable : element.resizable,
+        draggable : element.draggable,
+        meta : element.meta
+      };
+      anEvent.color.primary = element.color.primary;
+      anEvent.color.secondary = element.color.secondary;
+      this.eventsInitial.push(anEvent);
+    });*/
+    this.editing = false;
+    const self = this;
+    setTimeout(function () {
+      return self.refresh.next();
+    }, 0);
   }
 
   cancel() {
     this.editing = false;
     const self = this;
     this.fetchAndDisplay();
-    setTimeout(function() {
+    setTimeout(function () {
       return self.refresh.next();
     }, 0);
   }

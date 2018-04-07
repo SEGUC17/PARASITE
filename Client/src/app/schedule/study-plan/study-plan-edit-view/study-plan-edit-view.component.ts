@@ -162,7 +162,10 @@ export class StudyPlanEditViewComponent implements OnInit {
       title: 'New event',
       start: startOfDay(new Date()),
       end: endOfDay(new Date()),
-      color: colors.red,
+      color: {
+        primary: colors.red.primary,
+        secondary: colors.red.secondary
+      },
       draggable: true,
       resizable: {
         beforeStart: true,
