@@ -1,38 +1,32 @@
 var mongoose = require('mongoose');
 
 var psychReqSchema = mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  lastName: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  phone: {
+  address: {
+    trim: true,
     type: String
   },
-  address: {
-    type: String,
-    trim: true
-  },
-  email: {
-    type: String,
-    required: true,
-    trim: true
-  },
-  daysOff: {
-    type: [String]
-  },
-  priceRange: {
-    type: Number
-  },
   createdAt: {
-    type: Date,
-    default: Date.now
-  }
+    default: Date.now,
+    type: Date
+  },
+  daysOff: { type: [String] },
+  email: {
+    required: true,
+    trim: true,
+    type: String
+  },
+  firstName: {
+    required: true,
+    trim: true,
+    type: String
+  },
+  lastName: {
+    required: true,
+    trim: true,
+    type: String
+  },
+  phone: { type: String },
+  priceRange: { type: Number }
 });
 
-mongoose.model('PsychologistRequest', psychReqSchema,'psychologistRequests');
+mongoose.model('PsychologistRequest', psychReqSchema, 'psychologistRequests');
