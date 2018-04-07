@@ -29,10 +29,10 @@ var token = null;
 // an array for insertions of test data
 var docArray = [];
 
-// save the documents and test
+// save the documents and test for first test
 var saveAllAndTest = function (done, requestUrl, pageLength) {
     var doc = docArray.pop();
-    doc.save(function (err, saved) {
+    doc.save(function (err) {
         if (err) {
             throw err;
         }
@@ -120,7 +120,6 @@ describe('/GET/ Content Page by Creator', function () {
                     if (err) {
                         return console.log(err);
                     }
-                    console.log('Signed up!');
                     response.should.have.status(201);
                     token = response.body.token;
                     // perfrom the test
@@ -130,6 +129,62 @@ describe('/GET/ Content Page by Creator', function () {
                         3
                     );
 
+                });
+        }
+    );
+
+    it(
+        'it should fail with an error if the elements per page is not valid.',
+        function (done) {
+            // sign up and be authenticated
+            chai.request(server).
+                post('/api/signUp').
+                send(user).
+                end(function (err, response) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    response.should.have.status(201);
+                    token = response.body.token;
+                    // perfrom the test
+                    chai.request(server).
+                        get('/api/content/username/FAIL/1').
+                        set('Authorization', token).
+                        end(function (error, res) {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            expect(res).to.have.status(422);
+                            done();
+                        });
+                });
+        }
+    );
+
+    it(
+        'it should fail with an error if the page number is not valid.',
+        function (done) {
+            // sign up and be authenticated
+            chai.request(server).
+                post('/api/signUp').
+                send(user).
+                end(function (err, response) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    response.should.have.status(201);
+                    token = response.body.token;
+                    // perfrom the test
+                    chai.request(server).
+                        get('/api/content/username/3/FAIL').
+                        set('Authorization', token).
+                        end(function (error, res) {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            expect(res).to.have.status(422);
+                            done();
+                        });
                 });
         }
     );

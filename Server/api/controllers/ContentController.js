@@ -157,9 +157,6 @@ module.exports.getContentById = function (req, res, next) {
 //must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
 
-    // log the user for debugging purposes
-    console.log('Username: ' + req.user);
-
     // validations
     var valid = req.params.pageSize &&
         req.params.pageNumber &&

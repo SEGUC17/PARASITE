@@ -58,6 +58,20 @@ describe('/GET/ Category', function () {
         });
     });
 
+    it('it should get an empty array from ' +
+        'the server when there are no categories', function (done) {
+            chai.request(server).get('/api/content/category/').
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    expect(res).to.have.status(200);
+                    res.body.data.should.be.a('array');
+                    res.body.data.should.have.lengthOf(0);
+                    done();
+                });
+        });
+
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
