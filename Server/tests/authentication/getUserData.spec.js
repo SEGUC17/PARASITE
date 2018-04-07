@@ -44,11 +44,11 @@ describe('getUserData', function () {
         it('Request "body" Is Empty!');
         it('Request "body" Is Not Valid!');
         it('Request "body" Element(s) Is/Are Not Valid!');
-        it('"password" Attribute Is Requested!');
     });
     describe('Success!', function () {
         it('Data Retrieval Is Successful!');
         it('Requested Column(s) Is/Are Not Valid!');
+        it('"password" Attribute Is Requested!');
     });
     // --- End of "Tests" --- //
 

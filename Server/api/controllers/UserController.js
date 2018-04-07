@@ -459,7 +459,7 @@ module.exports.getAnotherUserData = function (req, res, next) {
                 return res.status(404).json({
                     data: null,
                     err: null,
-                    msg: 'User Not Found'
+                    msg: 'User Is Not Found!'
                 });
             }
 

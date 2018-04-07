@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+
 // --- Requirements --- //
 var app = require('../../app');
 var chai = require('chai');
@@ -39,9 +41,29 @@ describe('getAnotherUserData', function () {
     // --- End of "Clearing Mockgoose" --- //
 
     // --- Tests --- //
-
-    /* Tests Goes Here */
-
+    describe('Failure', function () {
+        it('User Is Not Signed In!');
+        it('Request "body" Is Empty!');
+        it('Request "body" Is Not Valid!');
+        it('Requested "Username" Is Not In DB!');
+        it('Requested "Email" Is Not In DB!');
+        it('Request "body" Element(s) Is/Are Not Valid!');
+    });
+    describe('Success!', function () {
+        it('Data Retrieval Is Successful!');
+        it('Requested Column(s) Is/Are Not Valid!');
+        it('"password" Attribute Is Requested!');
+        it('"Non-Admin" Requesting "schdule"!');
+        it('"Non-Admin" Requesting "studyPlans"!');
+        it('"Non-Parent" Requesting "schdule"!');
+        it('"Non-Parent" Requesting "studyPlans"!');
+        it('"Admin" Requesting "schdule"!');
+        it('"Admin" Requesting "studyPlans"!');
+        it('"Parent" Requesting "schdule"!');
+        it('"Parent" Requesting "studyPlans"!');
+        it('"Owner" Requesting "schdule"!');
+        it('"Owner" Requesting "studyPlans"!');
+    });
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //
