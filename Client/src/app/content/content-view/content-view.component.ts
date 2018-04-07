@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AdminService } from '../../admin.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { User } from '../../auth/user';
 
 
 @Component({
@@ -16,12 +17,20 @@ export class ContentViewComponent implements OnInit {
   // the content that the user is viewing
   content: Content;
 
+  // the signed-in user if he/she exists
+  currentUser: User;
+
   // inject the needed services
   constructor(private contentService: ContentService, private route: ActivatedRoute,
     private adminService: AdminService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     const self = this;
+    // retrieve the user data
+    this.authService.getUserData(['username', 'isAdmin']).
+      subscribe(function (user) {
+        self.currentUser = user.data;
+      });
     // retrieve the id of the content from the current path and request content
     this.route.params.subscribe(function (params) {
       console.log('Object Requested with Id: ' + params.id);
