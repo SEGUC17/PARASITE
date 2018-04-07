@@ -50,6 +50,9 @@ describe('/GET/ Category', function () {
                     }
                     expect(res).to.have.status(200);
                     res.body.data.should.be.a('array');
+                    res.body.data[0].should.have.
+                        property('name', 'testcat1', 'category name invalid');
+                    res.body.data[0].should.have.property('sections');
                     done();
                 });
         });
