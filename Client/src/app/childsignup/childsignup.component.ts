@@ -51,7 +51,7 @@ export class ChildsignupComponent implements OnInit {
       const self = this;
       self.authService.childSignUp(this.User).subscribe(function (res) {
       self.authService.setUser(res.data);
-      const userID = this.authService.getUser()._id;
+    //  const userID = this.authService.getUser()._id;
        });
     }// end else
     // self.location.back();
