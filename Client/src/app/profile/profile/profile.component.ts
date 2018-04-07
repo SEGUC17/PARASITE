@@ -21,7 +21,6 @@ currIsChild = false;
 
 visitedIsParent = false;
 visitedIsChild = false;
-
 visitedIsMyChild = false;
 // ------------------------------------
 // Schedule Component hard-coded values
@@ -54,30 +53,30 @@ iHaveAccess = true;
 
 // ---------- Current User Info ---------------
 user: any;
-firstName: String = 'Fulan';
-lastName: String = 'El Fulany';
-username: String;
+firstName: string;
+lastName: string;
+username: string;
 age: Number;
-email: String;
-address: String;
-phone: [String];
+email: string;
+address: string;
+phone: [string];
 schedule: any;
 studyPlans: any;
 birthday: Date;
 listOfChildren: any[];
-verified: Boolean = true;
+verified: Boolean = false;
 id: any;
 // -------------------------------------
 
 // ---------Visited User Info-----------
 vUser: any;
-vFirstName: String = 'Fulan';
-vLastName: String = 'El Fulany';
-vUsername: String;
+vFirstName: string;
+vLastName: string;
+vUsername: string;
 vAge: Number;
-vEmail: String;
-vAddress: String;
-vPhone: [String];
+vEmail: string;
+vAddress: string;
+vPhone: [string];
 vSchedule: any;
 vStudyPlans: any;
 vBirthday: Date;
@@ -85,57 +84,64 @@ vListOfChildren: any[];
 vVerified: Boolean = false;
 vId: any;
 // ------------------------------------
-visited: Boolean = false;
 
-// ------------------------------------
-listOfAllChildren: any[];
+// ----------- Other Lists ------------
 listOfUncommonChildren: any[];
-
+listOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
+'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent'];
+vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
+'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent'];
+// ------------------------------------
 
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute) {
-    this.activatedRoute.params.subscribe((params: Params) => {
+    this._AuthService.getUserData(['username']).subscribe((user) => {
+      this.username = user.data.username;
+    });
+    this.activatedRoute.params.subscribe((params: Params) => { // getting the visited username
       this.vUsername = params.username;
+      console.log(this.vUsername);
     });
 
-    if(this.vUsername){
-      this.visited = true;
-    }
-    this.user = this._AuthService.getUser();
+    if (this.vUsername === this.username) {
       this.currIsOwner = true;
-      this.username = this.user.username;
-      this.firstName = this.user.firstName;
-      this.lastName = this.user.lastName;
-      this.email = this.user.email;
-      this.address = this.user.address;
-      this.phone = this.user.phone;
-      this.schedule = this.user.schedule;
-      this.studyPlans = this.user.studyPlans;
-      this.listOfChildren = this.user.children;
-      this.verified = this.user.verified;
-      this.id = this.user._id;
-      this.currIsChild = this.user.isChild;
-      this.currIsParent = this.user.isParent;
-    if(this.visited) {
-      this._ProfileService.getUserInfo(this.vUsername).subscribe(((info) => {
-        this.vFirstName = info.firstName;
-        this.vLastName = info.lastName;
-        this.vAge = info.birthday;
-        this.vEmail = info.email;
-        this.vAddress = info.address;
-        this.vPhone = info.phone;
-        this.vSchedule = info.schedule;
-        this.vStudyPlans = info.studyPlans;
-        this.vBirthday = info.birthday;
-        this.vListOfChildren = info.children;
-        this.vVerified = info.verified;
-        this.vId = info._id;
-        this.visitedIsParent = info.isParent;
-        this.visitedIsChild = info.isChild;
+    }
+    // Fetching logged in user info if he/she is the owner of the profile
+    if (this.currIsOwner) {
+    this.user = this._AuthService.getUserData(this.listOfWantedVariables).subscribe(((owner) => {
+      this.username = owner.data.username;
+      this.firstName = owner.data.firstName;
+      this.lastName = owner.data.lastName;
+      this.email = owner.data.email;
+      this.address = owner.data.address;
+      this.phone = owner.data.phone;
+      this.schedule = owner.data.schedule;
+      this.studyPlans = owner.data.studyPlans;
+      this.listOfChildren = owner.data.children;
+      this.verified = owner.data.verified;
+      this.id = owner.data._id;
+      this.currIsChild = owner.data.isChild;
+      this.currIsParent = owner.data.isParent;
+    }));
+    } else { // Fetching other user's info, if the logged in user is not the owner of the profile
+      this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
+        this.vFirstName = info.data.firstName;
+        this.vLastName = info.data.lastName;
+        this.vAge = info.data.birthday;
+        this.vEmail = info.data.email;
+        this.vAddress = info.data.address;
+        this.vPhone = info.data.phone;
+        this.vBirthday = info.data.birthday;
+        this.vListOfChildren = info.data.children;
+        this.vVerified = info.data.verified;
+        this.vId = info.data._id;
+        this.visitedIsParent = info.data.isParent;
+        this.visitedIsChild = info.data.isChild;
         if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
           this.visitedIsMyChild = true;
         }
     }));
+    // Getting the list of uncommon children
     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
     }
 
@@ -161,18 +167,18 @@ listOfUncommonChildren: any[];
     });
   }
 
-  addChild(child): void {
+  addChild(child): void { // adds a the selected child to the visited user list of children
 
     this._ProfileService.linkAnotherParent(child, this.vId).subscribe();
 
   }
 
 
-  removeChild(child): void {
+  removeChild(child): void { // removes the child from the list of children of the currently logged in user
     this._ProfileService.Unlink(child, this.id).subscribe();
   }
 
-  linkToParent(child): void {
+  linkToParent(child): void { // adds the currently logged in child to the list of children of the selected user
     this._ProfileService.linkAsParent(child, this.vId).subscribe();
   }
 
@@ -181,5 +187,5 @@ listOfUncommonChildren: any[];
     this._ProfileService.changePassword(uname, info).subscribe();
 
 }
-  
+
 }
