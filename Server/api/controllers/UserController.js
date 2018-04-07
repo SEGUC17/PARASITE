@@ -88,7 +88,7 @@ module.exports.signUp = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptinesss & Type" --- //
@@ -205,7 +205,7 @@ module.exports.signIn = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptinesss & Type" --- //
@@ -308,13 +308,13 @@ module.exports.signUpChild = function (req, res, next) {
                 isArray(newUser.phone ? newUser.phone : []);
                 isString(newUser.username ? newUser.username : '');
 
-            } catch (errr) {
+            } catch (err) {
                 console.log('entered catch of status 401');
 
                 return res.status(401).json({
                     data: null,
-                    errr: null,
-                    msg: 'your message does not match the required data entries!' + errr.message
+                    err: null,
+                    msg: 'your message does not match the required data entries!' + err.message + '!' + '!'
                 });
             }
             //end catch
@@ -330,13 +330,13 @@ module.exports.signUpChild = function (req, res, next) {
                 isNotEmpty(newUser.lastName);
                 isNotEmpty(newUser.password);
                 isNotEmpty(newUser.username);
-            } catch (errrr) {
+            } catch (err) {
                 console.log('entered catch of 2nd status 401');
 
                 return res.status(401).json({
                     data: null,
-                    errrr: null,
-                    msg: 'you are missing a required data entry!' + errrr.message
+                    err: null,
+                    msg: 'you are missing a required data entry!' + err.message + '!'
                 });
             }
             //end catch
@@ -386,7 +386,7 @@ module.exports.getUserData = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptiness & Type" --- //
@@ -431,7 +431,7 @@ module.exports.getAnotherUserData = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptiness & Type" --- //
