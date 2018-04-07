@@ -93,13 +93,11 @@ describe('GetProdRequests', function () {
                 });
             });
     });
-    console.log('Here 1');
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
             done();
         });
     });
-    console.log('Here 2');
     // --- End of "Mockgoose Termination" --- //
 });
