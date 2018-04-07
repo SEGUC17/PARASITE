@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "nyc mocha \"tests/**/*.spec.js\"",
+    "test": "nyc mocha \"tests/**/*.spec.js\" --exit --timeout 120000",
     "cover": "nyc report --reporter=html"
   },
   "dependencies": {
