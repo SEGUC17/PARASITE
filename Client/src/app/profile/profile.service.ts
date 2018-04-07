@@ -17,22 +17,19 @@ export class ProfileService {
 // ------------- Profile Page Method(s) -------------- AUTHOR: H
 constructor(private http: HttpClient, private authService: AuthService) { }
 
-
-private Url = 'http://localhost:3000/api/profile';
-getUserInfo(username: String): Observable<any> {
-    return this.http.get(`${this.Url}/${username}`);
-  }
-
-
 private linkAnotherParentUrl = 'http://localhost:3000/api/profile/LinkAnotherParent';
+private UnlinkUrl = 'http://localhost:3000/api/profile/Unlink/';
+private linkAsParentUrl = 'http://localhost:3000/api/profile/LinkAsParent/';
+private getChildrenUrl = 'http://localhost:3000/api/profile';
+private continueUrl = 'getChildren';
+private pwURL = 'http://localhost:3000/api/profile/changePassword';
+private profileUrl = 'http://localhost:3000/api/profile';
+
+// Author: Yomna
 linkAnotherParent(children, vId): Observable<any> {
   return this.http.put<any>(`${this.linkAnotherParentUrl}/${vId}`, children, httpOptions);
-
-// why is it put not patch
 }
 
-
-private UnlinkUrl = 'http://localhost:3000/api/profile/Unlink/';
 
 Unlink(childrenList, Id): Observable<any> {
   return this.http.patch<any>(`${this.UnlinkUrl}/${Id}`, childrenList, httpOptions);
@@ -40,12 +37,9 @@ Unlink(childrenList, Id): Observable<any> {
 }
 
 
-private linkAsParentUrl = 'http://localhost:3000/api/profile/LinkAsParent/';
 linkAsParent (child, vId): Observable<any> {
 return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions);
 }
-// ------------------------------------------------------------------------
-
 // ------------------------------------------------------------------------
 
 
@@ -55,25 +49,23 @@ return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions
   makeContributerValidationRequest(requestObj): any {
     let self = this;
     return this.http.post(
-      this.Url + '/VerifiedContributerRequest',
+      this.profileUrl + '/VerifiedContributerRequest',
       { obj: {} })
       .subscribe();
   }
 
-  private getChildrenUrl = 'http://localhost:3000/api/profile';
-  continueUrl = 'getChildren';
-  getChildren(): any {
-        let username = this.authService.getUser().username;
+
+  // Author: Heidi
+  getChildren(username): any {
         return this.http.get(`${this.getChildrenUrl}/${username}/${this.continueUrl}`);
        }
-       private pwURL = 'http://localhost:3000/api/profile/changePassword';
-        
-       
-       changePassword(uname, info): Observable<any> {
+
+  // Author: Nehal
+  changePassword(uname, info): Observable<any> {
         // console.log(oldpw);
         return this.http.patch<any> (`${this.pwURL}/${uname}`, info, httpOptions);
-    
+
     }
 
-    
+
 }
