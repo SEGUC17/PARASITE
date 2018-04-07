@@ -17,7 +17,6 @@ import {
   addHours
 } from 'date-fns';
 import { AuthService } from '../../auth/auth.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -78,8 +77,7 @@ export class ScheduleComponent implements OnInit {
 
 
 
-  constructor(private scheduleService: ScheduleService, private _AuthService: AuthService,
-    private activatedRoute: ActivatedRoute) { }
+  constructor(private scheduleService: ScheduleService, private _AuthService: AuthService) { }
 
   ngOnInit() {// getting the visited username
       console.log('About to enter');
