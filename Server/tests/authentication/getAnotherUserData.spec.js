@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'test';
-
 // --- Requirements --- //
 var app = require('../../app');
 var chai = require('chai');
