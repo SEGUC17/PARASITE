@@ -308,13 +308,13 @@ module.exports.signUpChild = function (req, res, next) {
                 isArray(newUser.phone ? newUser.phone : []);
                 isString(newUser.username ? newUser.username : '');
 
-            } catch (errr) {
+            } catch (err1) {
                 console.log('entered catch of status 401');
 
                 return res.status(401).json({
                     data: null,
-                    errr: null,
-                    msg: 'your message does not match the required data entries!' + errr.message + '!' + '!'
+                    err1: null,
+                    msg: 'your message does not match the required data entries!' + err1.message + '!' + '!'
                 });
             }
             //end catch
@@ -330,7 +330,7 @@ module.exports.signUpChild = function (req, res, next) {
                 isNotEmpty(newUser.lastName);
                 isNotEmpty(newUser.password);
                 isNotEmpty(newUser.username);
-            } catch (erro) {
+            } catch (err2) {
                 console.log('entered catch of 2nd status 401');
                 console.log(newUser.birthdate);
                 console.log(newUser.email);
@@ -344,22 +344,22 @@ module.exports.signUpChild = function (req, res, next) {
 
                 return res.status(401).json({
                     data: null,
-                    erro: null,
-                    msg: 'you are missing a required data entry!' + err.message + '!'
+                    err2: null,
+                    msg: 'you are missing a required data entry!' + err2.message + '!'
                 });
             }
             //end catch
-            Encryption.hashPassword(newUser.password, function (er, hash) {
-                if (er) {
-                    console.log('entered if er');
+            Encryption.hashPassword(newUser.password, function (err3, hash) {
+                if (err3) {
+                    console.log('entered if err3');
 
-                    return next(er);
+                    return next(err3);
                 }
 
                 newUser.password = hash;
                 User.create(newUser, function (error) {
                     if (error) {
-                        console.log('entered if erro');
+                        console.log('entered if error');
 
                         return next(error);
                     }
