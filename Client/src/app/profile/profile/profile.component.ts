@@ -74,11 +74,7 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
     });
     this.activatedRoute.params.subscribe((params: Params) => { // getting the visited username
       this.vUsername = params.username;
-      if (!this.vUsername) {
-        this.vUsername = 'The username is not in the URL'; // setting the vUsername to anything
-      }                                                    // to avoid checking equality with
-    });                                                    // undefined value
-
+    });
     if (this.vUsername === this.username) {
       this.currIsOwner = true;
     }
