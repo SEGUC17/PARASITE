@@ -35,17 +35,19 @@
     <mat-card>
           <h3>
             <button *ngIf="editing"
-              class="btn btn-primary pull-left"
+              mat-raised-button
+              color="primary"
               style="width:100px"
               (click)="addEvent()">
               Add Event
             </button>
 
             <button *ngIf="!editing"
-            class="btn btn-primary pull-left"
-            style="width:100px"
-            (click)="editing=true; refreshDocument()">
-            Edit
+              mat-raised-button
+              color="primary"
+              style="width:100px"
+              (click)="editing=true; refreshDocument()">
+              Edit
             </button>
             <div class="clearfix"></div>
           </h3>
@@ -102,7 +104,8 @@
                   </td>
                   <td>
                     <button
-                      class="btn btn-danger"
+                      mat-raised-button
+                      color="warn"
                       (click)="events.splice(index, 1); refreshDocument()">
                       Delete
                     </button>
@@ -115,8 +118,8 @@
     </mat-card>
     <mat-card *ngIf="editing">
       <div class="button-row">
-          <button button (click)="saveScheduleChanges()" class="btn btn-primary" style="width:150px">Save Changes</button>
-          <button button (click)="cancel()" class="btn btn-primary" style="width:150px">Cancel</button>
+          <button button (click)="saveScheduleChanges()" mat-raised-button color="primary" style="width:150px">Save Changes</button>
+          <button button (click)="cancel()" mat-raised-button color="primary" style="width:150px">Cancel</button>
       </div>
     </mat-card>
   </div>
