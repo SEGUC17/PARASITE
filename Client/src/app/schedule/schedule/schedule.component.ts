@@ -80,14 +80,10 @@ export class ScheduleComponent implements OnInit {
   constructor(private scheduleService: ScheduleService, private _AuthService: AuthService) { }
 
   ngOnInit() {// getting the visited username
-      console.log('About to enter');
       this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
         this.loggedInUser.username = user.data.username;
         this.loggedInUser.isChild = user.data.isChild;
         this.loggedInUser.children = user.data.children;
-        console.log(this.loggedInUser.username + ' FUCK');
-        console.log(this.profileUser);
-        console.log(this.loggedInUser);
         this.fetchAndDisplay();
       });
 
@@ -99,7 +95,6 @@ export class ScheduleComponent implements OnInit {
     if (this.loggedInUser.username === this.profileUser || !(indexChild === -1) ) {
     this.scheduleService.getPersonalSchedule(this.profileUser).subscribe(function(res) {
       self.events = res.data;
-      console.log(self.events);
       for (let index = 0; index < self.events.length; index++) {
         self.events[index].start = new Date(self.events[index].start);
         self.events[index].end = new Date(self.events[index].end);
@@ -212,7 +207,6 @@ export class ScheduleComponent implements OnInit {
   saveScheduleChanges() {
       const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
       if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
-        console.log('entered');
         this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
       }
       /*this.eventsInitial = [];
