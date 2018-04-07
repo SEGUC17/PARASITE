@@ -21,6 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { StudyPlanListViewComponent } from './study-plan/study-plan-list-view/study-plan-list-view.component';
 import { PublishedStudyPlansComponent } from './study-plan/published-study-plans/published-study-plans.component';
@@ -47,7 +48,8 @@ import { StarRatingComponent } from './study-plan/star-rating/star-rating.compon
     MatSnackBarModule,
     AmazingTimePickerModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatButtonToggleModule
   ],
   declarations: [
     ScheduleComponent,
