@@ -3,6 +3,9 @@ var Validations = require('../utils/validators/is-object-id');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
 
+
+// get number of products in the DB
+// restricted by delimiters given as a JSON object in the URL
 module.exports.getNumberOfProducts = function (req, res, next) {
     var toFind = JSON.parse(req.params.limiters);
     var limiters = {};
@@ -10,7 +13,7 @@ module.exports.getNumberOfProducts = function (req, res, next) {
         limiters.price = { $lt: toFind.price };
     }
     if (toFind.name) {
-        limiters.name = toFind.name;
+        limiters.name = new RegExp(toFind.name, 'i');
     }
     if (toFind.seller) {
         limiters.seller = toFind.seller;
@@ -29,6 +32,8 @@ module.exports.getNumberOfProducts = function (req, res, next) {
         });
 };
 
+// get the actual products in the DB
+// restricted by delimiters given as a JSON object in the URL
 module.exports.getMarketPage = function (req, res, next) {
     var toFind = JSON.parse(req.params.limiters);
     var limiters = {};
@@ -36,7 +41,7 @@ module.exports.getMarketPage = function (req, res, next) {
         limiters.price = { $lt: toFind.price };
     }
     if (toFind.name) {
-        limiters.name = toFind.name;
+        limiters.name = new RegExp(toFind.name, 'i');
     }
     if (toFind.seller) {
         limiters.seller = toFind.seller;
@@ -60,6 +65,7 @@ module.exports.getMarketPage = function (req, res, next) {
     );
 };
 
+// get a product given its id
 module.exports.getProduct = function (req, res, next) {
     if (!Validations.isObjectId(req.params.productId)) {
         return res.status(422).json({
@@ -104,7 +110,7 @@ module.exports.getRequests = function (req, res, next) {
 // createproduct
 module.exports.createProduct = function (req, res, next) {
     if (!(typeof req.body.name === 'string')) {
-        console.log('please insert product name as a string');
+        console.log('please insert product"s name as a string');
     }
     var valid =
         req.body.name &&
@@ -116,7 +122,8 @@ module.exports.createProduct = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: 'name, price, and acquiringType, and image, and description, are required fields.'
+            msg: 'name(String) price(Number) and acquiringType(String) and' +
+                'image(String) and description(String) are required fields.'
         });
     }
 

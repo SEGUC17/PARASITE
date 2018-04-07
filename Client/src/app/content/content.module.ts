@@ -24,6 +24,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
 import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
 import { AdminModule } from '../admin/admin.module';
 import { MatSelectModule } from '@angular/material/select';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatSidenavModule,
     MatExpansionModule,
     MatSelectModule,
-    AdminModule
+    AdminModule,
+    MatRadioModule
   ],
   providers: [ContentService],
   declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent, SafeResourceUrlPipe, SafeHtmlPipe]

@@ -24,9 +24,6 @@ export class ContentListViewComponent implements OnInit {
   // categories for the general contents view
   categories: Category;
 
-  // TODO set username
-  username: String = 'Omar K.';
-
   // shared between myContributions and content list
   numberOfEntriesPerPage = 5;
 
@@ -42,6 +39,13 @@ export class ContentListViewComponent implements OnInit {
   myContributionsTotalNumberOfPages: number;
   myContributionsCurrentPageNumber: number;
 
+  // search variables
+  searchBy: String = 'title';
+  searchQueryTitle: String = '';
+  searchQueryTags: String = '';
+  isSearching: Boolean = false;
+
+  // category sidenav and paginator, retrieved from view for manipulation
   @ViewChild('sidenav') public myNav: MatSidenav;
   @ViewChild('allContentPaginator') public paginator: MatPaginator;
   constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document, private authService: AuthService) { }
@@ -54,7 +58,7 @@ export class ContentListViewComponent implements OnInit {
     this.getCategories();
   }
 
-  // retrieves the contents of a particular page according to currentPageNumber
+  // retrieves a pagee of general content according to currentPageNumber
   getContentPage(): void {
     const self = this;
     this.contentService.getContentPage(self.numberOfEntriesPerPage,
@@ -67,13 +71,19 @@ export class ContentListViewComponent implements OnInit {
       });
   }
 
+  // respond to user changing the page of general content
   onPaginateChange(event): void {
     // pages in the paginator are numbered starting by zero
     // To retrieve correct page from database, add 1
     this.currentPageNumber = event.pageIndex + 1;
 
     // update the content array
-    this.getContentPage();
+    // check whether we are searching or not
+    if (this.isSearching) {
+      this.getSearchContentPage();
+    } else {
+      this.getContentPage();
+    }
 
     this.scrollToTheTop();
   }
@@ -82,6 +92,7 @@ export class ContentListViewComponent implements OnInit {
     document.querySelector('.mat-sidenav-content').scrollTop = 0;
   }
 
+  // respond to the user changing tabs
   tabChanged(event): void {
     if (this.myNav.opened) {
       this.myNav.toggle();
@@ -91,6 +102,7 @@ export class ContentListViewComponent implements OnInit {
     }
   }
 
+  // get a page of the content created by the current user
   getMyContributionsPage(): void {
     const self = this;
     this.contentService.
@@ -103,6 +115,7 @@ export class ContentListViewComponent implements OnInit {
       });
   }
 
+  // respond to the user changing the page number of MyContributions section
   onPaginateChangeMyContributions(event): void {
     // pages in the paginator are numbered starting by zero
     // To retrieve correct page from database, add 1
@@ -113,6 +126,7 @@ export class ContentListViewComponent implements OnInit {
     this.scrollToTheTop();
   }
 
+  // retrieve the categories from the server
   getCategories(): void {
     const self = this;
     this.contentService.getCategories()
@@ -121,12 +135,38 @@ export class ContentListViewComponent implements OnInit {
       });
   }
 
+  // respond to the user changing the current category and section
   changeCategoryAndSection(category: any, section: any): void {
     this.currentPageNumber = 1;
+
+    // user changed the category or section, nullifying the validity of his search query
+    this.isSearching = false;
+    this.searchBy = 'title';
+    this.searchQueryTitle = '';
+    this.searchQueryTags = '';
+
+    // intialize category/section browsing
     this.selectedCategory = category;
     this.selectedSection = section;
     this.paginator.firstPage();
     this.getContentPage();
     this.myNav.toggle();
+  }
+
+  // respond to the user clicking the search button
+  searchContent(): void {
+    this.isSearching = true;
+    this.currentPageNumber = 1;
+    this.getSearchContentPage();
+  }
+
+  // retrieve a page of content that matches the search query
+  getSearchContentPage(): void {
+    console.log('Searching by: ' + this.searchBy);
+    this.searchQueryTags = this.searchQueryTags.trim();
+    this.searchQueryTitle = this.searchQueryTitle.trim();
+    console.log('Query Tags: ' + this.searchQueryTags);
+    console.log('Query Title: ' + this.searchQueryTitle);
+    console.log('Retrieving Page: ' + this.currentPageNumber);
   }
 }
