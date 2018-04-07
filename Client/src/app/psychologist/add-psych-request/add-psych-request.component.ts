@@ -19,14 +19,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./add-psych-request.component.css']
 })
 export class AddPsychRequestComponent implements OnInit {
-
   request: AddPsychologistRequest;
 
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email
-  ]);
+  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
 
+  /* form controls for each input form field */
   firstNameFormControl = new FormControl('', [
     Validators.required
   ]);
@@ -35,13 +32,15 @@ export class AddPsychRequestComponent implements OnInit {
     Validators.required
   ]);
 
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email
+  ]);
+
   addFormControl = new FormControl();
   phoneFormControl = new FormControl();
   daysOff = new FormControl();
   priceFormControl = new FormControl();
-
-  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
-
 
   matcher = new MyErrorStateMatcher();
 
@@ -54,22 +53,26 @@ export class AddPsychRequestComponent implements OnInit {
   ngOnInit() {
   }
 
-
+  /* called when user clicks on submit button */
   submitReq(): void {
     let self = this;
 
+    /* check if any of the required fields are empty, if yes notify user he should fill them*/
     if (this.emailFormControl.hasError('required') || this.firstNameFormControl.hasError('required')
         || this.lastNameFormControl.hasError('required')) {
             this.snackBar.open('Please fill all the required fields', '', {
               duration: 1500
             });
     } else if (this.emailFormControl.hasError('email')) {
+      // if the emil user provided is not the in correct format
+      // notify user he should enter a valid email
       this.snackBar.open('Please enter a valid email address!', '', {
         duration: 1500
       });
     } else {
       let req = this.request;
 
+      /* create a request object with user's info */
       req = {
         firstName: this.firstNameFormControl.value,
         lastName: this.lastNameFormControl.value,
@@ -80,16 +83,20 @@ export class AddPsychRequestComponent implements OnInit {
         priceRange: parseInt(this.priceFormControl.value, 10)
       };
 
+      /* make a POST request with the request data */
       this.RequestService.addRequest(req).subscribe(function (res) {
         if (res.err != null) {
+          /* if an error returned notify the user to try again */
           self.snackBar.open('Something went wrong, please try again.', '', {
             duration: 2500
           });
         } else {
+          /* everything went great!! notify the user it was a success. */
           self.snackBar.open(res.msg, '', {
             duration: 2300
           });
 
+          /* clear the request form */
           self.firstNameFormControl.setValue(null);
           self.lastNameFormControl.setValue(null);
           self.phoneFormControl.setValue(null);
