@@ -77,7 +77,11 @@ describe('/GET/ Content', function () {
                 }));
             }
 
-            saveAllAndTest(done, '/api/content/getContentPage/3/1/cat1/sec1', 3);
+            saveAllAndTest(
+                done,
+                '/api/content/getContentPage/3/1/cat1/sec1',
+                3
+            );
         });
 
     // --- Mockgoose Termination --- //
