@@ -28,7 +28,7 @@ module.exports.Search = function (req, res, next) {
   //if user is searching by education we'll find
   //children with specified edu first
   if (toFind.educationLevel || toFind.educationSystem) {
-    children = {};
+    children = [];
     User.find(
       {
         educationLevel: req.params.educationLevel,
@@ -38,14 +38,12 @@ module.exports.Search = function (req, res, next) {
         if (err) {
           return next(err);
         }
-        children = users;
+        children.push(users.username);
       }
     );
   }
   //narrowing down the search space by getting parents only
     toFind.isParent = true;
-
-
   //getting and paginating the results
   User.paginate(
     toFind,
@@ -58,9 +56,9 @@ module.exports.Search = function (req, res, next) {
         return next(err);
       }
       //if children is not null then we filter their parents
-      if (children) {
+      if (children && users.children) {
       for (var child in children) {
-        if (users.children.indexOf(child.username) > -1) {
+        if (users.children.indexOf(child) > -1) {
          res.status(200).json({
           data: users,
           err: null,
