@@ -40,6 +40,8 @@ birthday: Date;
 listOfChildren: any[];
 verified: Boolean = false;
 id: any;
+pws: {oldpw: '', newpw: ''};
+
 // -------------------------------------
 
 // ---------Visited User Info-----------
@@ -163,8 +165,9 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
   }
 
 
-  ChangePassword(uname, info: any): void {
-    this._ProfileService.changePassword(uname, info).subscribe();
+  ChangePassword(pws: any): void {
+    console.log(pws.oldpw);
+        this._ProfileService.changePassword(this.id, pws).subscribe();
 
 }
 
