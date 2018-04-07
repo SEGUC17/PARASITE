@@ -21,25 +21,10 @@ var user = {
     lastName: 'Elkilany',
     password: '123456789',
     phone: '0112345677',
-    username: 'Omar'
+    username: 'omar'
 };
-
+// authenticated token
 var token = null;
-
-before(function (done) {
-    chai.request(server).
-        post('/api/signUp').
-        send(user).
-        end(function (err, response) {
-            if (err) {
-                return console.log(err);
-            }
-            console.log('Signed up!');
-            response.should.have.status(200);
-            token = response.body.token;
-            done();
-        });
-});
 
 // an array for insertions of test data
 var docArray = [];
@@ -55,6 +40,7 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
         if (docArray.length === 0) {
             chai.request(server).
                 get(requestUrl).
+                set('Authorization', token).
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -68,7 +54,7 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
                         counter += 1
                     ) {
                         res.body.data.docs[counter].
-                            should.have.property('creator', 'Omar');
+                            should.have.property('creator', 'omar');
                     }
                     done();
                 });
@@ -110,7 +96,7 @@ describe('/GET/ Content Page by Creator', function () {
                 approved: true,
                 body: '<h1>Hello</h1>',
                 category: 'cat1',
-                creator: 'Not Omar',
+                creator: 'not omar',
                 section: 'sec1',
                 title: 'Test Content 3'
             }));
@@ -121,18 +107,30 @@ describe('/GET/ Content Page by Creator', function () {
                     approved: true,
                     body: '<h1>Hello</h1>',
                     category: 'cat1',
-                    creator: 'Omar',
+                    creator: 'omar',
                     section: 'sec1',
                     title: 'Test Content' + counter
                 }));
             }
+            // sign up and be authenticated
+            chai.request(server).
+                post('/api/signUp').
+                send(user).
+                end(function (err, response) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    console.log('Signed up!');
+                    response.should.have.status(201);
+                    token = response.body.token;
+                    // perfrom the test
+                    saveAllAndTest(
+                        done,
+                        '/api/content/username/3/1',
+                        3
+                    );
 
-            // perfrom the test
-            saveAllAndTest(
-                done,
-                '/api/content/username/3/1',
-                3
-            );
+                });
         }
     );
 
