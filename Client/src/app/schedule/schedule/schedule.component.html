@@ -21,13 +21,19 @@
       <mwl-calendar-week-view
         *ngSwitchCase="'week'"
         [viewDate]="viewDate"
-        [events]="events">
+        [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-week-view>
 
       <mwl-calendar-day-view
         *ngSwitchCase="'day'"
         [viewDate]="viewDate"
-        [events]="events">
+        [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-day-view>
     </div>
   </mat-card>
@@ -91,15 +97,17 @@
                   <td>
                     <app-date-time-picker
                       [(ngModel)]="event.start"
+                      [time]="event.start | date:'HH:mm'"
                       (ngModelChange)="refreshDocument()"
-                      placeholder="Not set">
+                      placeholder="Choose a date">
                     </app-date-time-picker>
                   </td>
                   <td>
                     <app-date-time-picker
                       [(ngModel)]="event.end"
+                      [time]="event.end | date:'HH:mm'"
                       (ngModelChange)="refreshDocument()"
-                      placeholder="Not set">
+                      placeholder="Choose a date">
                     </app-date-time-picker>
                   </td>
                   <td>
