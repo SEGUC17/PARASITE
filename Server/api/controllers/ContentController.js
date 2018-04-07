@@ -108,15 +108,6 @@ module.exports.getContentPage = function (req, res, next) {
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
 
-    // id was not provided
-    if (!req.params.id) {
-        return res.status(422).json({
-            data: null,
-            err: 'The required id was missing.',
-            msg: null
-        });
-    }
-
     // id was invalid
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(422).json({
