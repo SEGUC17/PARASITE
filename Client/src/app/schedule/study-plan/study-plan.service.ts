@@ -34,6 +34,10 @@ export class StudyPlanService {
   }
 
   PublishStudyPlan(studyPlan: StudyPlan): Observable<any> {
+     /*
+     @author: Ola
+     post request with the required studyPlan to be published in the body of the request with the route specified in the index.js
+     */
     return this.http.post(this.endpoint + 'study-plan/PublishStudyPlan', studyPlan);
 
   }

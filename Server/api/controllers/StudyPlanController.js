@@ -5,6 +5,8 @@ var CalendarEvent = mongoose.model('CalendarEvent'),
 
 
 module.exports.getPublishedStudyPlans = function (req, res, next) {
+
+    //@author: Ola
     StudyPlan.paginate(
         {},
         {
@@ -49,6 +51,15 @@ module.exports.getPerosnalStudyPlans = function (req, res, next) {
 };
 
 module.exports.PublishStudyPlan = function (req, res, next) {
+
+    // @author: Ola
+    //publishing a study plan is creating a new studyPlan in
+    //the studyPlan schema as it is for the published plans only
+    //so i am creating a new studyPlan with the body of the request
+    //which is the studyPlan I want to publish and it returns an
+    //error if there is an error else that studyPlan published successfully
+
+
     StudyPlan.create(req.body, function (err) {
         if (err) {
             return next(err);
