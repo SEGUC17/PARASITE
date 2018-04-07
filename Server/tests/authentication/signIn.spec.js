@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+
 // --- Requirements --- //
 var app = require('../../app');
 var chai = require('chai');
@@ -39,9 +41,27 @@ describe('signIn', function () {
     // --- End of "Clearing Mockgoose" --- //
 
     // --- Tests --- //
-
-    /* Tests Goes Here */
-
+    describe('Failure', function () {
+        it('User Is Already Signed In!');
+        it('Token Expires In More Than 12 Hours!');
+        it('"password" Attribute Is Empty!');
+        it('"password" Attribute Is Not Valid!');
+        it('"username" Attribute Is Empty!');
+        it('"username" Attribute Is Not Valid!');
+        it('"Username" Is Wrong!');
+        it('"Email" Is Wrong!');
+        it('"Password" Is Wrong!');
+    });
+    describe('Success!', function () {
+        it('User Entered Valid Data (Email)!');
+        it('User Entered Valid Data (Email Has Upper Case)!');
+        it('User Entered Valid Data (Email Has Space)!');
+        it('User Entered Valid Data (Username)!');
+        it('User Entered Valid Data (Username Has Upper Case)!');
+        it('User Entered Valid Data (Username Has Space)!');
+        it('Token Is Sent After Signning In!');
+        it('Token Expires In 12 Hours!');
+    });
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //
