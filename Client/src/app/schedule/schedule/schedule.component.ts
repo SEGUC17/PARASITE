@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
+import { AuthService } from '../../auth/auth.service';
 import {
   isSameMonth,
   isSameDay,
@@ -16,21 +17,6 @@ import {
   addDays,
   addHours
 } from 'date-fns';
-import { AuthService } from '../../auth/auth.service';
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
 
 
 @Component({
@@ -182,8 +168,8 @@ export class ScheduleComponent implements OnInit {
       start: startOfDay(new Date()),
       end: endOfDay(new Date()),
       color: {
-        primary: colors.red.primary,
-        secondary: colors.red.secondary
+        primary: '#ad2121',
+        secondary: '#FAE3E3'
       },
       draggable: true,
       resizable: {

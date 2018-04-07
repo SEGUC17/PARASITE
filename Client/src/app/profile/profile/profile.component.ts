@@ -23,33 +23,6 @@ visitedIsParent = false;
 visitedIsChild = false;
 visitedIsMyChild = false;
 // ------------------------------------
-// Schedule Component hard-coded values
-// TODO: UNCOMMENT TO TEST
-/*
-scheduleUser = {
-      _id: '123',
-      address: 'Earth',
-      birthdate: '12/12/1200',
-      children: ['achild'],
-      educationLevel: '5',
-      educationSystem: 'IG',
-      email: 's@s.s',
-      firstName:  'Ben',
-      isAdmin: false,
-      isChild: false,
-      isParent: true,
-      isTeacher: false,
-      lastName: 'Bennington',
-      password: '12345678',
-      phone: '12345678',
-      schedule: [],
-      studyPlans: [],
-      username: 'BB',
-      verified: false
-      };
-scheduleChildUsername = 'achild';
-iHaveAccess = true;
-*/
 
 // ---------- Current User Info ---------------
 user: any;
