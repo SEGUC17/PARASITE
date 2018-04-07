@@ -193,15 +193,15 @@ module.exports.changePassword = function (req, res, next) {
 
   console.log('Old Password entered is: ', req.body.oldpw);
   // match user to one of the users in the database
-  User.findOne({ username: req.params.uname }, function (err, user) {
+  User.findById({ _id: req.params.id }, function (err, user) {
     if (err) {
       return next(err);
     } else if (!user) {
-      console.log('Username is incorrect')
+      console.log('Username is incorrect');
       res.status(401).json({
         data: null,
         err: null,
-        msg: 'Username is incorrect'
+        msg: 'User does not'
       });
 
       return;
@@ -210,38 +210,44 @@ module.exports.changePassword = function (req, res, next) {
     console.log('New Password to enter: ', req.body.newpw);
     // compare entered password with existing hashed password in database
     Encryption.comparePasswordToHash(req.body.oldpw, user.password, function (
-      err,
+      err2,
       passwordMatches
     ) {
-      if (err) {
-        return next(err);
+      if (err2) {
+        return next(err2);
       } else if (!passwordMatches) {
         console.log('Password entered is incorrect');
+
         return res.status(401).json({
+          data: null,
           err: null,
-          msg: 'Password is incorrect',
-          data: null
+          msg: 'Password is incorrect'
+
         });
+
       }
 
       // hash the new password
-      Encryption.hashPassword(req.body.newpw, function (err, hash) {
-        if (err) {
-          return next(err);
+      Encryption.hashPassword(req.body.newpw, function (err3, hash) {
+        if (err3) {
+          return next(err3);
         }
-        console.log(hash)
+        console.log(hash);
         // update user password with hash
-        User.findOneAndUpdate({ username: req.params.uname }, { password: hash }, function (err, user) {
-          if (err) {
-            return next(err);
+       User.findByIdAndUpdate(
+         { _id: req.params.id },
+         { password: hash }, function (err4, user2) {
+          if (err4) {
+            return next(err4);
           }
           console.log('User password updated successfully.');
           res.status(200).json({
+            data: user2,
             err: null,
-            msg: 'User password updated successfully.',
-            data: user
+            msg: 'User password updated successfully.'
           });
-        });
+        }
+      );
       });
     });
   });

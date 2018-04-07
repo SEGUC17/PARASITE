@@ -61,9 +61,9 @@ return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions
        }
 
   // Author: Nehal
-  changePassword(uname, info): Observable<any> {
+  changePassword(id, pws): Observable<any> {
         // console.log(oldpw);
-        return this.http.patch<any> (`${this.pwURL}/${uname}`, info, httpOptions);
+        return this.http.patch<any> (`${this.pwURL}/${id}`, pws, httpOptions);
 
     }
 
