@@ -1,4 +1,7 @@
 
+/* eslint-disable max-len */
+/* eslint-disable max-statements */
+
 var mongoose = require('mongoose');
 var moment = require('moment');
 var Validations = require('../utils/validators');
@@ -19,16 +22,37 @@ module.exports.addRequest = function (req, res, next) {
     });
   }
 
-  Request.create(req.body, function (err, request) {
-    if (err) {
-      return next(err);
-    }
-    res.status(200).json({
-      data: request,
-      err: null,
-      msg: 'Request was created successfully.'
+  var user = req.user;
+
+  var isAdmin = false;
+
+  if (typeof user !== 'undefined') {
+    isAdmin = user.isAdmin;
+  }
+
+  if (isAdmin) {
+    Psychologists.create(req.body, function (err, request) {
+      if (err) {
+        return next(err);
+      }
+      res.status(201).json({
+        data: request,
+        err: null,
+        msg: 'Psychologist added successfully.'
+      });
     });
-  });
+  } else {
+    Request.create(req.body, function (err, request) {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({
+        data: request,
+        err: null,
+        msg: 'Request was created successfully.'
+      });
+    });
+  }
 };
 
 module.exports.getPsychologists = function (req, res, next) {

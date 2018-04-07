@@ -81,13 +81,13 @@ export class AddPsychRequestComponent implements OnInit {
       };
 
       this.RequestService.addRequest(req).subscribe(function (res) {
-        if (res.msg !== 'Request was created successfully.') {
+        if (res.err != null) {
           self.snackBar.open('Something went wrong, please try again.', '', {
-            duration: 2000
+            duration: 2500
           });
         } else {
-          self.snackBar.open('Request Sent Successfully!', '', {
-            duration: 2000
+          self.snackBar.open(res.msg, '', {
+            duration: 2300
           });
 
           self.firstNameFormControl.setValue(null);
