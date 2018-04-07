@@ -1,3 +1,5 @@
+/* eslint-disable max-statements */
+
 // --- Requirements --- //
 var app = require('../../app');
 var chai = require('chai');
@@ -39,9 +41,44 @@ describe('signUp', function () {
     // --- End of "Clearing Mockgoose" --- //
 
     // --- Tests --- //
-
-    /* Tests Goes Here */
-
+    describe('Failure', function() {
+        it('User Is Already Signed In!');
+        it('Token Expires In More Than 12 Hours!');
+        it('"address" Attribute Is Not Valid!');
+        it('"birthdate" Attribute Is Empty!');
+        it('"birthdate" Attribute Is Not Valid!');
+        it('"email" Attribute Is Empty!');
+        it('"email" Attribute Is Not Valid!');
+        it('"firstName" Attribute Is Empty!');
+        it('"firstName" Attribute Is Not Valid!');
+        it('"isTeacher" Attribute Is Empty!');
+        it('"isTeacher" Attribute Is Not Valid!');
+        it('"lastName" Attribute Is Empty!');
+        it('"lastName" Attribute Is Not Valid!');
+        it('"password" Attribute Is Empty!');
+        it('"password" Attribute Is Not Valid!');
+        it('"phone" Attribute Is Not Valid!');
+        it('"phone" Attribute Element(s) Is/Are Not Valid');
+        it('"username" Attribute Is Empty!');
+        it('"username" Attribute Is Not Valid!');
+        it('"Age" Is Less Than 13!');
+        it('"Email" Is Not Valid!');
+        it('"Password" Has Length Less Than 8');
+        it('"Phone" Element(s) Is/Are Not Valid!');
+        it('"Email" Is A Duplicate!');
+        it('"Username" Is A Duplicate!');
+    });
+    describe('Success!', function() {
+        it('User Entered Valid Data!');
+        it('"Address" Is Lowered Case!');
+        it('"Email" Is Lowered Case!');
+        it('"Email" Is Trimmed!');
+        it('"Username" Is Lowered Case!');
+        it('"Username" Is Trimmed!');
+        it('Password Is Hashed!');
+        it('Token Is Sent After Signning Up!');
+        it('Token Expires In 12 Hours!');
+    });
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //

@@ -76,6 +76,9 @@ module.exports.signUp = function (req, res, next) {
 
         field = 'Phone';
         isArray(newUser.phone ? newUser.phone : []);
+        for (var index = 0; index < newUser.phone.length; index += 1) {
+            isString(newUser.phone[index]);
+        }
 
         field = 'Username';
         isNotEmpty(newUser.username);
@@ -85,7 +88,7 @@ module.exports.signUp = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptinesss & Type" --- //
@@ -127,8 +130,8 @@ module.exports.signUp = function (req, res, next) {
     // --- End of "Check: Password Length" --- //
 
     // --- Check: Phone Regex Match ---//
-    for (var index = 0; index < newUser.phone.length; index += 1) {
-        if (!newUser.phone[index].match(config.PHONE_REGEX)) {
+    for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
+        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
             return res.status(422).json({
                 data: null,
                 err: null,
@@ -190,19 +193,19 @@ module.exports.signIn = function (req, res, next) {
     var field = '';
     try {
 
-        field = 'Username';
-        isNotEmpty(req.body.username);
-        isString(req.body.username);
-
         field = 'Password';
         isNotEmpty(req.body.password);
         isString(req.body.password);
+
+        field = 'Username';
+        isNotEmpty(req.body.username);
+        isString(req.body.username);
 
     } catch (err) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptinesss & Type" --- //
@@ -305,13 +308,13 @@ module.exports.signUpChild = function (req, res, next) {
                 isArray(newUser.phone ? newUser.phone : []);
                 isString(newUser.username ? newUser.username : '');
 
-            } catch (errr) {
+            } catch (err) {
                 console.log('entered catch of status 401');
 
                 return res.status(401).json({
                     data: null,
-                    errr: null,
-                    msg: 'your message does not match the required data entries!' + errr.message
+                    err: null,
+                    msg: 'your message does not match the required data entries!' + err.message + '!' + '!'
                 });
             }
             //end catch
@@ -327,7 +330,7 @@ module.exports.signUpChild = function (req, res, next) {
                 isNotEmpty(newUser.lastName);
                 isNotEmpty(newUser.password);
                 isNotEmpty(newUser.username);
-            } catch (errrr) {
+            } catch (err) {
                 console.log('entered catch of 2nd status 401');
                 console.log(newUser.birthdate);
                 console.log(newUser.email);
@@ -341,8 +344,8 @@ module.exports.signUpChild = function (req, res, next) {
 
                 return res.status(401).json({
                     data: null,
-                    errrr: null,
-                    msg: 'you are missing a required data entry!' + errrr.message
+                    err: null,
+                    msg: 'you are missing a required data entry!' + err.message + '!'
                 });
             }
             //end catch
@@ -392,7 +395,7 @@ module.exports.getUserData = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptiness & Type" --- //
@@ -437,7 +440,7 @@ module.exports.getAnotherUserData = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptiness & Type" --- //
