@@ -18,12 +18,36 @@
       <mat-tab label="Browse Resources and Ideas">
         <div class="row">
           <div class="col" align="center">
-            <mat-form-field>
-              <input matInput type="text" placeholder="Search" />
-            </mat-form-field>
-            <button mat-raised-button color="primary">Search</button>
+            <div *ngIf="searchBy">
+              <mat-form-field *ngIf="searchBy === 'title' || searchBy === 'titleAndTags'">
+                <input matInput [(ngModel)]="searchQueryTitle" type="text" placeholder="Search By Title" />
+              </mat-form-field>
+              <mat-form-field *ngIf="searchBy === 'tags' || searchBy === 'titleAndTags'">
+                <input matInput [(ngModel)]="searchQueryTags" type="text" placeholder="Search By Tags" />
+              </mat-form-field>
+            </div>
+            <button mat-raised-button color="primary" (click)="searchContent()">Search</button>
             <button mat-raised-button color="primary" (click)="sidenav.toggle()">Categories</button>
           </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col" align="center">
+              <mat-radio-group [(ngModel)]="searchBy">
+                <mat-radio-button class="radio-button" value="title">
+                  Title
+                </mat-radio-button>
+                <mat-radio-button class="radio-button" value="tags">
+                  Tags
+                </mat-radio-button>
+                <mat-radio-button class="radio-button" value="titleAndTags">
+                  Title and Tags
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+          <h2 align="center" *ngIf="selectedCategory !== 'NoCat'"> Category: {{ selectedCategory }}</h2>
+          <h3 align="center" *ngIf="selectedSection !== 'NoSec'"> Section: {{ selectedSection }}</h3>
         </div>
         <div class="row" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
           <mat-card *ngFor="let content of contents" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
@@ -54,7 +78,7 @@
           </mat-paginator>
         </div>
       </mat-tab>
-      <mat-tab *ngIf="this.authService.getUser().username" label="My Contributions">
+      <mat-tab *ngIf="currentUser" label="My Contributions">
         <div class="row" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
           <mat-card *ngFor="let content of myContributions" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
             <mat-card-header *ngIf="content.creator">

@@ -1,11 +1,11 @@
 <div *ngIf="content">
-    <div class="row">
+    <div *ngIf="currentUser" class="row">
         <div class="col" align="center">
-            <div *ngIf="this.authService.getUser().isAdmin || (this.authService.getUser().username === this.content.creator)">
+            <div *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)">
                 <button mat-raised-button color="primary">Edit</button>
                 <button mat-raised-button color="primary">Delete</button>
             </div>
-            <div *ngIf="this.authService.getUser().isAdmin && !content.approved">
+            <div *ngIf="currentUser.isAdmin && !content.approved">
                 <button mat-raised-button color="primary" (click)="returnToContentRequests()">Go Back To Approve/Disapprove</button>
             </div>
         </div>
