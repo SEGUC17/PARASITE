@@ -47,4 +47,4 @@ var productSchema = mongoose.Schema({
   }
 });
 productSchema.plugin(mongoosePaginate);
-mongoose.model('Product', productSchema);
+mongoose.model('Product', productSchema, 'products');

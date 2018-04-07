@@ -1,22 +1,25 @@
 <h1 mat-dialog-title style="font-size: 35px; font-weight: bold">Product's Information</h1>
 <form (ngSubmit)="createProduct()" #createproduct="ngForm">
+  <!-- calling (createProduct()) -->
   <mat-card style="float:left;width:460px;height:430px">
     <mat-form-field>
       <input matInput placeholder="Product's name" name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
     </mat-form-field>
-
+<!-- taking product's name as input from user -->
     <div>
       <mat-form-field>
         <textarea matInput placeholder="Products description" name="description" id="description" [(ngModel)]="formInput.description"></textarea>
       </mat-form-field>
     </div>
+<!-- taking product's description as input from user -->
 
     <div>
       <mat-form-field>
-        <input matInput placeholder="Price" type="double" name="price" id="price" [(ngModel)]="formInput.price">
+        <input matInput placeholder="Price" type="number" name="price" id="price" [(ngModel)]="formInput.price"  class="example-right-align">       
         <span matPrefix>$&nbsp;</span>
       </mat-form-field>
     </div>
+<!-- taking product's price as input from user, only takes numbers -->
 
 
     <div>
@@ -31,6 +34,7 @@
         </mat-form-field>
       </div>
     </div>
+<!-- taking product's acquiringType as input from user, either sell, rent, or rent/sell -->
 
     <div>
 
@@ -39,12 +43,15 @@
           class="example-right-align">
       </mat-form-field>
     </div>
+<!-- taking product's rent period if exists" , <could be left empyty>  since the product could be up for sell-->
 
     <div>
       <mat-form-field>
         <input matInput placeholder="image URL" name="imageURL" id="imageURL" hintLabel="Image URL " [(ngModel)]="formInput.imageURL">
       </mat-form-field>
     </div>
+    <!-- taking product's image as input from user,not necessarly required-->
+
   </mat-card>
   <mat-card style="float: right; width:260px;height:400px;" class="mat-elevation-z0">
     <img mat-card-image src={{formInput.imageURL}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
@@ -56,6 +63,8 @@
       <button mat-button style="margin-top:30px;float:right;width:50%;background:#3f51b5; color:white">Create Product</button>
     </mat-card-actions>
   </mat-card>
+  <!-- taking product's Pic's URL as input from user, not necessarly required -->
+
 </form>
 
 
@@ -66,9 +75,3 @@
 
 
 
-<!-- <div>
-  <div class="subsection" data-filter="images">
-<p>If you’d like, you can <button type="button" 
-  class="btn_link"
-   onclick="TS.client.ui.files.$upload.trigger('click');">upload a new image</button>.</p>
-  </div>   -->

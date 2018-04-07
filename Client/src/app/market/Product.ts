@@ -1,12 +1,8 @@
-export enum type {
-    'rent',
-    'sell',
-    'rent/sell'
-}
+
 
 export class Product {
     _id: String;
-    acquiringType: type;
+    acquiringType: String;
     createdAt: Date;
     description: String;
     image: String;

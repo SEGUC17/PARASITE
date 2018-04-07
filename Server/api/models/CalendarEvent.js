@@ -37,5 +37,9 @@ var calendarEventSchema = mongoose.Schema({
 
 
 // ---------------------- Models ---------------------- //
-var CalendarEvent = mongoose.model('CalendarEvent', calendarEventSchema);
+var CalendarEvent = mongoose.model(
+    'CalendarEvent',
+    calendarEventSchema,
+    'calenderEvents'
+);
 // ---------------------- End of Models ---------------------- //

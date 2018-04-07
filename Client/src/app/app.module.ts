@@ -17,29 +17,35 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDialogContent, MatDialogModule } from '@angular/material';
+import { MatDialogContent } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AdminModule } from './admin/admin.module';
-import { MatButtonModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ChildsignupModule } from './childsignup/childsignup.module';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { CustomInterceptor } from './custom-interceptor';
 import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule, MatSelectModule } from '@angular/material';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatChipsModule } from '@angular/material';
+import { AuthInterceptor } from './auth-interceptor';
+import { ChildsignupComponent } from './childsignup/childsignup.component';
+import { MatNativeDateModule } from '@angular/material';
+
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ChildsignupComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +55,7 @@ import { MatChipsModule } from '@angular/material';
     MatListModule,
     MatCardModule,
     MatButtonModule,
+    MatNativeDateModule,
     FlexLayoutModule,
     DashboardModule,
     AdminModule,
@@ -64,6 +71,7 @@ import { MatChipsModule } from '@angular/material';
     ActivitiesModule,
     MessagingModule,
     AppRoutingModule,
+    ChildsignupModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot(),
     HttpClientModule,
@@ -73,16 +81,16 @@ import { MatChipsModule } from '@angular/material';
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
-    CommonModule
+    CommonModule,
+    AuthModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: CustomInterceptor,
+      useClass: AuthInterceptor,
       multi: true
     },
-    MediaMatcher,
-    AuthService
+    MediaMatcher
   ],
   bootstrap: [AppComponent]
 })

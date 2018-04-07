@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { type } from '../Product';
 import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 @Component({
   selector: 'app-product-detail',
