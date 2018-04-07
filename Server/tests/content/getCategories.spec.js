@@ -4,7 +4,6 @@ var server = require('../../app');
 var Category = mongoose.model('Category');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-var should = chai.should();
 
 chai.use(chaiHttp);
 
@@ -39,7 +38,7 @@ describe('/GET/ Category', function () {
             sections: [{ name: 'sec1.1' }]
         });
 
-        cat1.save(function (err, savedCategory) {
+        cat1.save(function (err) {
             if (err) {
                 return console.log(err);
             }

@@ -4,7 +4,6 @@ var server = require('../../app');
 var Content = mongoose.model('Content');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-var should = chai.should();
 
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
@@ -67,7 +66,6 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
 
 // tests
 describe('/GET/ Content Page by Creator', function () {
-    this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
     before(function (done) {

@@ -4,7 +4,6 @@ var server = require('../../app');
 var Content = mongoose.model('Content');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-var should = chai.should();
 
 chai.use(chaiHttp);
 

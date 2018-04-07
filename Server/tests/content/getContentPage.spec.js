@@ -4,7 +4,6 @@ var server = require('../../app');
 var Content = mongoose.model('Content');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-var should = chai.should();
 
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
@@ -19,7 +18,7 @@ var docArray = [];
 // save the documents and test
 var saveAllAndTest = function (done, requestUrl, pageLength) {
     var doc = docArray.pop();
-    doc.save(function (err, saved) {
+    doc.save(function (err) {
         if (err) {
             throw err;
         }
@@ -83,6 +82,21 @@ describe('/GET/ Content Page', function () {
                 3
             );
         });
+
+    it(
+        'it should fail with 422 because parameters are not valid',
+        function (done) {
+            chai.request(server).
+                get('/api/content/getContentPage/MyLifeIsAHHH/1/cat1/sec1').
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    expect(res).to.have.status(422);
+                    done();
+                });
+        }
+    );
 
     // --- Mockgoose Termination --- //
     after(function (done) {
