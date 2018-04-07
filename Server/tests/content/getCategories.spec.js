@@ -12,7 +12,6 @@ var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
 describe('/GET/ Category', function () {
-    this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
