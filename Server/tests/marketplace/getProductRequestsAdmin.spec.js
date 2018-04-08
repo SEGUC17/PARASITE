@@ -1,11 +1,11 @@
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
-/* eslint-disable */
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
 // import your schema here, like this:
 var prodRequests = mongoose.model('ProductRequest');
+var users = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 
@@ -30,7 +30,6 @@ var user = {
 var token = null;
 
 describe('GetProdRequests', function () {
-    this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -69,28 +68,35 @@ describe('GetProdRequests', function () {
                 response.should.have.status(201);
                 token = response.body.token;
 
-                // save your document with a call to save, cat1 is just the variable name here
-                prodReqTest.save(function (err) {
+                users.updateOne({ username: 'omar' }, { $set: { isAdmin: true } }, function (err) {
                     if (err) {
                         return console.log(err);
                     }
-                    // write your actual test here, like this:
-                    chai.request(server).get('/api/productrequest/getRequests').
-                        end(function (error, res) {
-                            if (error) {
-                                return console.log(error);
-                            }
-                            expect(res).to.have.status(200);
-                            res.body.data.should.be.a('array');
-                            res.body.data[0].should.have.
-                                property('name', 'someProdRequest', 'request name invalid');
-                            res.body.data[0].should.have.property('acquiringType', 'sell', 'Wrong acquiring type');
-                            res.body.data[0].should.have.property('description', 'blah blah blah', 'Wrong description');
-                            res.body.data[0].should.have.property('price', 150, 'Wrong price');
-                            res.body.data[0].should.have.property('seller', 'omar', 'Wrong seller');
-                            res.body.data[0].should.have.property('createdAt');
-                            done();
-                        });
+                    // save your document with a call to save
+                    prodReqTest.save(function (err) {
+                        if (err) {
+                            return console.log(err);
+                        }
+                        chai.request(server).
+                            get('/api/productrequest/getRequests').
+                            set('Authorization', token).
+                            end(function (error, res) {
+                                if (error) {
+                                    return console.log(error);
+                                }
+                                expect(res).to.have.status(200);
+                                res.body.msg.should.be.equal('Requests retrieved successfully.');
+                                res.body.data.should.be.a('array');
+                                res.body.data[0].should.have.
+                                    property('name', 'someProdRequest', 'request name invalid');
+                                res.body.data[0].should.have.property('acquiringType', 'sell', 'Wrong acquiring type');
+                                res.body.data[0].should.have.property('description', 'blah blah blah', 'Wrong description');
+                                res.body.data[0].should.have.property('price', 150, 'Wrong price');
+                                res.body.data[0].should.have.property('seller', 'omar', 'Wrong seller');
+                                res.body.data[0].should.have.property('createdAt');
+                                done();
+                            });
+                    });
                 });
             });
     });

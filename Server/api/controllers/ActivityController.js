@@ -94,7 +94,7 @@ module.exports.getActivity = function (req, res, next) {
         console.log(activity.status);
         if (activity.status !== 'verified') {
 
-            if (!isAdmin || creatorName !== user.username) {
+            if (!isAdmin && creatorName !== user.username) {
                 return res.status(403).json({
                     data: null,
                     err: 'this activity isn\'t verified yet',

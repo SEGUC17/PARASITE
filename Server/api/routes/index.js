@@ -23,6 +23,17 @@ var scheduleController = require('../controllers/ScheduleController');
 module.exports = function (passport) {
 
   // --------------------- Authentication Checkers --------------- //
+  var optionalAuthentication = function (req, res, next) {
+    passport.authenticate('jwt', { session: false }, function (err, user, info) {
+      if (err) {
+        return next(err);
+      }
+      req.user = user;
+
+      return next();
+    })(req, res, next);
+  };
+
   var isAuthenticated = function (req, res, next) {
     passport.authenticate('jwt', { session: false }, function (err, user, info) {
       if (err) {
@@ -67,8 +78,8 @@ module.exports = function (passport) {
   // --------------------- End of Search Controller ------------ //
 
   // --------------------- Activity Contoller -------------------- //
-  router.get('/activities', ActivityController.getActivities);
-  router.get('/activities/:activityId', ActivityController.getActivity);
+  router.get('/activities', optionalAuthentication, ActivityController.getActivities);
+  router.get('/activities/:activityId', optionalAuthentication, ActivityController.getActivity);
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
   router.put('/unverifiedActivities', ActivityController.reviewActivity);
 
@@ -87,8 +98,8 @@ module.exports = function (passport) {
     productCtrl.getNumberOfProducts
   );
   router.get('/product/getProduct/:productId', productCtrl.getProduct);
-  router.post('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
-  router.get('/productrequest/getRequests', productCtrl.getRequests);
+  router.post('/productrequest/evaluateRequest', isAuthenticated, productCtrl.evaluateRequest);
+  router.get('/productrequest/getRequests', isAuthenticated, productCtrl.getRequests);
   router.post('/productrequest/createproduct', productCtrl.createProduct);
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
 

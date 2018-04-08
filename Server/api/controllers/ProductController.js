@@ -124,16 +124,24 @@ module.exports.getProduct = function (req, res, next) {
 
 // Get the psychologist requests in the database
 module.exports.getRequests = function (req, res, next) {
-    ProductRequest.find({}).exec(function (err, requests) {
-        if (err) {
-            return next(err);
-        }
-        res.status(200).json({
-            data: requests,
-            err: null,
-            msg: 'Requests retrieved successfully.'
+    if (req.user.isAdmin) {
+        ProductRequest.find({}).exec(function (err, requests) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).json({
+                data: requests,
+                err: null,
+                msg: 'Requests retrieved successfully.'
+            });
         });
-    });
+    } else {
+        res.status(403).json({
+            data: null,
+            err: 'You are not an admin to do that.',
+            msg: null
+        });
+    }
 };
 
 // createproduct
