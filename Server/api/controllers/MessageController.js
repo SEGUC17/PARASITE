@@ -36,14 +36,6 @@ module.exports.sendMessage = function(req, res, next) {
         });
     }
 
-    if (user.isChild) {
-      return res.status(404).json({
-        data: null,
-        err: 'You cannot message a user who is below the age of 13.',
-        msg: null
-      });
-    }
-
     res.status(200).json({
         data: user,
         err: null,
