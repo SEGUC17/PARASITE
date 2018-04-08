@@ -21,13 +21,19 @@
       <mwl-calendar-week-view
         *ngSwitchCase="'week'"
         [viewDate]="viewDate"
-        [events]="events">
+        [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-week-view>
 
       <mwl-calendar-day-view
         *ngSwitchCase="'day'"
         [viewDate]="viewDate"
-        [events]="events">
+        [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-day-view>
     </div>
   </mat-card>
@@ -35,17 +41,19 @@
     <mat-card>
           <h3>
             <button *ngIf="editing"
-              class="btn btn-primary pull-left"
+              mat-raised-button
+              color="primary"
               style="width:100px"
               (click)="addEvent()">
               Add Event
             </button>
 
             <button *ngIf="!editing"
-            class="btn btn-primary pull-left"
-            style="width:100px"
-            (click)="editing=true; refreshDocument()">
-            Edit
+              mat-raised-button
+              color="primary"
+              style="width:100px"
+              (click)="editing=true; refreshDocument()">
+              Edit
             </button>
             <div class="clearfix"></div>
           </h3>
@@ -89,20 +97,23 @@
                   <td>
                     <app-date-time-picker
                       [(ngModel)]="event.start"
+                      [time]="event.start | date:'HH:mm'"
                       (ngModelChange)="refreshDocument()"
-                      placeholder="Not set">
+                      placeholder="Choose a date">
                     </app-date-time-picker>
                   </td>
                   <td>
                     <app-date-time-picker
                       [(ngModel)]="event.end"
+                      [time]="event.end | date:'HH:mm'"
                       (ngModelChange)="refreshDocument()"
-                      placeholder="Not set">
+                      placeholder="Choose a date">
                     </app-date-time-picker>
                   </td>
                   <td>
                     <button
-                      class="btn btn-danger"
+                      mat-raised-button
+                      color="warn"
                       (click)="events.splice(index, 1); refreshDocument()">
                       Delete
                     </button>
@@ -115,8 +126,8 @@
     </mat-card>
     <mat-card *ngIf="editing">
       <div class="button-row">
-          <button button (click)="saveScheduleChanges()" class="btn btn-primary" style="width:150px">Save Changes</button>
-          <button button (click)="cancel()" class="btn btn-primary" style="width:150px">Cancel</button>
+          <button button (click)="saveScheduleChanges()" mat-raised-button color="primary" style="width:150px">Save Changes</button>
+          <button button (click)="cancel()" mat-raised-button color="primary" style="width:150px">Cancel</button>
       </div>
     </mat-card>
   </div>

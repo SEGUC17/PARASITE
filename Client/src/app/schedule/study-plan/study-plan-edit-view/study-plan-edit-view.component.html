@@ -48,8 +48,9 @@
         </div>
         <div class="col-md-3">
           <button
+            mat-raised-button
+            color="primary"
             style="float: right;"
-            class="btn btn-primary"
             (click)="addEvent()">
             Add new
           </button>
@@ -112,7 +113,8 @@
               </td>
               <td>
                 <button
-                  class="btn btn-danger"
+                  mat-raised-button
+                  color="warn"
                   (click)="events.splice(index, 1); refresh.next()">
                   Delete
                 </button>
@@ -134,8 +136,9 @@
     <h2>
       Press the button on the right to finish creation.
       <button
+        mat-raised-button
+        color="primary"
         style="float: right;"
-        class="btn btn-primary"
         (click)="create()">
         Create
       </button>

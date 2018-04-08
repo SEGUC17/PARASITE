@@ -148,7 +148,7 @@ module.exports = function (passport) {
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
-  router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
+  router.patch('/schedule/SaveScheduleChanges/:username', isAuthenticated, scheduleController.updateSchedule);
   router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
   // ------------End of Schedule Controller Endpoints -----------//
 

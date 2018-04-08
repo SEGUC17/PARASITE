@@ -24,6 +24,9 @@ module.exports.getPersonalSchedule = function (req, res, next) {
 };
 
 module.exports.updateSchedule = function (req, res, next) {
+    var indexChild = req.user.children.indexOf(req.params.username);
+    if (indexChild >= 0 ||
+        (req.params.username === req.user.username && !req.user.isChild)) {
     console.log('Entered Service');
     User.findOneAndUpdate(
         { username: req.params.username },
@@ -47,4 +50,11 @@ module.exports.updateSchedule = function (req, res, next) {
         });
     }
 );
+    } else {
+        return res.status(401).json({
+            data: null,
+            err: 'Not authorized to edit user\'s Schedule ',
+            msg: null
+        });
+    }
 };

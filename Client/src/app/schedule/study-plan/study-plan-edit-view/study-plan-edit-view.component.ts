@@ -21,21 +21,6 @@ import {
   addHours
 } from 'date-fns';
 
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
-
 @Component({
   selector: 'app-study-plan-edit-view',
   templateUrl: './study-plan-edit-view.component.html',
@@ -162,7 +147,10 @@ export class StudyPlanEditViewComponent implements OnInit {
       title: 'New event',
       start: startOfDay(new Date()),
       end: endOfDay(new Date()),
-      color: colors.red,
+      color: {
+        primary: '#ad2121',
+        secondary: '#FAE3E3'
+      },
       draggable: true,
       resizable: {
         beforeStart: true,
