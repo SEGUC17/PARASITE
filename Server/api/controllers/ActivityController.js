@@ -189,8 +189,8 @@ module.exports.reviewActivity = function (req, res, next) {
      */
 
     var user = req.user;
-    var activityId = req.body.get('_id');
-    var newStatus = req.body.get('status');
+    var activityId = req.body._id;
+    var newStatus = req.body.status;
 
     if (!activityId || !newStatus) {
         return res.status(422).json({
@@ -218,9 +218,8 @@ module.exports.reviewActivity = function (req, res, next) {
         activityId,
         { status: newStatus },
         function(err, activity) {
-
             if (err) {
-                return next(err);
+                console.log(err);
             }
             res.status(204).json({
                 data: activity,
