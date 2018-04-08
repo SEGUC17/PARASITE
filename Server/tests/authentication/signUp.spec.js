@@ -205,7 +205,17 @@ describe('signUp', function () {
                     done();
                 });
         });
-        it('"Phone" Element(s) Is/Are Not Valid!');
+        it('"Phone" Element(s) Is/Are Not Valid!', function(done) {
+            this.johnDoe.phone = 'Wrong Number!';
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function(err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Phone Is Not Valid!');
+                    done();
+                });
+        });
         it('"Email" Is A Duplicate!');
         it('"Username" Is A Duplicate!');
     });
