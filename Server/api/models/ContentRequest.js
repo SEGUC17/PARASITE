@@ -28,7 +28,7 @@ var contentreqschema = mongoose.Schema({
         type: [
             {
                 ref: 'User',
-                type: Schema.Types.ObjectId
+                type: String
             }
         ]
     },
