@@ -35,8 +35,6 @@ export class CreateProductComponent {
 
   createProduct(product: any) {
 
-    // this.user = this.authService.getUser(); // here i get the currently logged in user
-
     let pro = { // here i put the inputs i take and place them in pro
       name: this.formInput.name,
       price: this.formInput.price,
@@ -47,12 +45,11 @@ export class CreateProductComponent {
       description: this.formInput.description,
       createdAt: new Date,
     };
-    console.log(pro); // print pro in console, to check if the input taken correctly
+    console.log(pro); //to check if the input taken correctly
 
-    let error = false; // a boolean to check if there is an error
+    let error = false; //check if there is an error
 
-    // if condition to check that the user did put in all the required inputs
-    // <some inputs weren't necessary which is why i didn't include them>
+    // some inputs are a must have and can't be empty
     if (((<HTMLInputElement>document.getElementById('acquiringType')).value) === ''
       || ((<HTMLInputElement>document.getElementById('description')).value) === ''
       || ((<HTMLInputElement>document.getElementById('price')).value) === ''
@@ -66,8 +63,7 @@ export class CreateProductComponent {
         let self = this;
         this.marketService.createProduct(pro).subscribe(function (res) {
           // create product using <pro>
-          if (res.msg === 'Product was created successfully.') {
-            // if the response mssge was <Product was created successfully> then put it in the market page
+          if (res.msg === 'Product was created successfully.') {//create a product
             self.data.market.firstPage();
             self.data.market.firstUserPage();
             self.dialogRef.close(); // close the dialog 
@@ -75,9 +71,8 @@ export class CreateProductComponent {
         });
       } else {// user is not an admin => will create a productrequst 
         let self = this;
-        this.marketService.createProductRequest(pro).subscribe(function (res) { // call the createProductRequest from the backend
+        this.marketService.createProductRequest(pro).subscribe(function (res) { //create product request
           if (res.msg === 'ProductRequest was created successfully.') {
-            // if the response mssge was <ProductRequest was created successfully>
             self.dialogRef.close(); // close the dialog form
           }
         });
