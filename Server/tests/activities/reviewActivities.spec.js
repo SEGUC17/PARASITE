@@ -119,7 +119,8 @@ describe('Review Activities', function () {
                     if (err) {
                         console.log(err);
                     }
-                    res.should.have.status(204);
+                    res.should.have.status(200);
+                    expect(res.body.data.status).to.equal('verified');
                     Activity.findOne({}, function (err2, activity) {
                         if (err2) {
                             console.log(err2);
