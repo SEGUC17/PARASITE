@@ -160,7 +160,11 @@ module.exports.postActivity = function (req, res, next) {
 
     Activity.create(req.body, function (err, activity) {
         if (err) {
-            return next(err);
+            return res.status(422).json({
+                data: null,
+                err: err,
+                message: null
+            });
         }
         res.status(201).json({
             data: activity,

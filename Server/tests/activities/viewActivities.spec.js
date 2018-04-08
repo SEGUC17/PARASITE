@@ -30,7 +30,7 @@ var verifiedActivity = null;
 var pendingActivity = null;
 var rejectedActivity = null;
 
-describe('Activities', function () {
+describe('View Activities', function () {
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
