@@ -164,6 +164,12 @@ export class StudyPlanComponent implements OnInit {
   }
 
   publish(): void {
+    /*
+     @author: Ola
+     Here , I am just calling the PublishStudyPlan method in studyPlanService an dpassing to it the
+     studyPlan I want to publish if the response is that studyPlan published i will redirect to
+     the published studyPlans else i will return the error message
+    */
     this.studyPlan._id = undefined;
     this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
       res => {

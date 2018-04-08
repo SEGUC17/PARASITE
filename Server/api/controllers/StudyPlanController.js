@@ -5,11 +5,16 @@ var CalendarEvent = mongoose.model('CalendarEvent'),
 
 
 module.exports.getPublishedStudyPlans = function (req, res, next) {
+
+    //@author: Ola
+    //paginate returns the published plans page by page
     StudyPlan.paginate(
         {},
         {
             limit: 20,
+            //retreive 20 published plans starting from page 1 till 20
             page: req.params.pageNumber
+            //page number to be returned is passed each call
         }, function (err, result) {
 
             if (err) {
@@ -26,6 +31,15 @@ module.exports.getPublishedStudyPlans = function (req, res, next) {
 };
 
 module.exports.PublishStudyPlan = function (req, res, next) {
+
+    // @author: Ola
+    //publishing a study plan is creating a new studyPlan in
+    //the studyPlan schema as it is for the published plans only
+    //so i am creating a new studyPlan with the body of the request
+    //which is the studyPlan I want to publish and it returns an
+    //error if there is an error else that studyPlan published successfully
+
+
     StudyPlan.create(req.body, function (err) {
         if (err) {
             return next(err);
