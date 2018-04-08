@@ -68,22 +68,20 @@ before(function (done) {
                 console.log(err);
             }
             response.should.have.status(201);
-            token = response.body.token;
+            token = response.body.token; /* changing user's type to be an admin */
+            users.updateOne({ username: 'marioma' }, { $set: { isAdmin: true } }, function (err1) {
+                if (err1) {
+                    console.log(err1);
+                }
+            });
             done();
         });
-        /* changing user's type to be an admin */
-        users.updateOne({ username: 'marioma' }, { $set: { isAdmin: true } }, function (err1) {
-            if (err1) {
-                console.log(err1);
-            }
-        });
+       
 });
-
-
 
 describe('add psychologist information directly by admin', function () {
 
-    it('add information directly to address book', function () {
+    it('add information directly to address book', function (done) {
         var req = {
             address: 'here',
             createdAt: '1/1/2018',
@@ -105,7 +103,8 @@ describe('add psychologist information directly by admin', function () {
                 if (err) {
                     return console.log(err);
                 }
-                res.should.have.status(200);
+                res.should.have.status(201);
+                done();
             });
     });
 });
