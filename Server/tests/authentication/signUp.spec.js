@@ -1,10 +1,13 @@
-/* eslint-disable max-statements */
+/* eslint-disable */
 
 // --- Requirements --- //
 var app = require('../../app');
 var chai = require('chai');
 var config = require('../../api/config/config');
 var chaiHttp = require('chai-http');
+var ExtractJwt = require('passport-jwt').ExtractJwt;
+var JWTStrategy = require('passport-jwt').Strategy;
+var path = '/api/signUp';
 var mongoose = require('mongoose');
 var Mockgoose = require('mockgoose').Mockgoose;
 var User = require('../../api/models/User');
@@ -19,6 +22,31 @@ var mockgoose = new Mockgoose(mongoose);
 // --- Middleware --- //
 chai.use(chaiHttp);
 // --- End of "Middleware" --- //
+
+// --- Variables Needed In Testing --- //
+var johnDoe = new User({
+    address: 'John Address Sample',
+    birthdate: '1/1/1980',
+    email: 'johndoe@gmail.com',
+    firstName: 'John',
+    isTeacher: true,
+    lastName: 'Doe',
+    password: 'JohnPasSWorD',
+    phone: '123',
+    username: 'john'
+});
+var janeDoe = new User({
+    address: 'Jane Address Sample',
+    birthdate: '1/1/2000',
+    email: 'janedoe@gmail.com',
+    firstName: 'Jane',
+    isTeacher: true,
+    lastName: 'Doe',
+    password: 'JanePasSWorD',
+    phone: '123',
+    username: 'jane'
+});
+// --- End of "Variables Needed In Testing" --- //
 
 describe('signUp', function () {
 
@@ -41,8 +69,25 @@ describe('signUp', function () {
     // --- End of "Clearing Mockgoose" --- //
 
     // --- Tests --- //
-    describe('Failure', function() {
-        it('User Is Already Signed In!');
+    describe('Failure', function () {
+        it('User Is Already Signed In!', function (done) {
+            chai.request(app).
+                post('/api/signUp').
+                send(johnDoe).
+                end(function (err, res) {
+                    token = res.body.token;
+                    chai.request(app).
+                        post(path).
+                        send(janeDoe).
+                        set('Authorization', res.body.token).
+                        end(function (err2, res2) {
+                            res2.should.have.status(403);
+                            res2.body.should.have.property('msg').eql('User Is Already Signed In!');
+                            done();
+                        })
+                });
+            done();
+        });
         it('Token Expires In More Than 12 Hours!');
         it('"address" Attribute Is Not Valid!');
         it('"birthdate" Attribute Is Empty!');
@@ -68,7 +113,7 @@ describe('signUp', function () {
         it('"Email" Is A Duplicate!');
         it('"Username" Is A Duplicate!');
     });
-    describe('Success!', function() {
+    describe('Success!', function () {
         it('User Entered Valid Data!');
         it('"Address" Is Lowered Case!');
         it('"Email" Is Lowered Case!');
