@@ -1,9 +1,9 @@
-/*eslint max-statements: ["error", 20]*/
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
 // import your schema here, like this:
-var ProductRequest = mongoose.model('ProductRequest');
+var Product = mongoose.model('Product');
+var users = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 
@@ -22,13 +22,13 @@ var user = {
     password: '123456789',
     phone: '0112345677',
     username: 'omar'
-
 };
+
 // authenticated token
 var token = null;
 
-//write your test's name below in <write here>
-describe('createProductRequest', function () {
+
+describe('CreateProduct for admin for not an admin', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
@@ -50,10 +50,10 @@ describe('createProductRequest', function () {
     // --- End of "Clearing Mockgoose" --- //
 
 
-    it('it should POST productrequests', function (done) {
+    it('it should POST product int to product requests', function (done) {
         //here you need to call your schema to construct a document
         //like this:
-        var pro1 = new ProductRequest({
+        var pro1 = ({
             acquiringType: 'sell',
             description: 'description description description',
             image: 'https://vignette.wikia.nocookie.net/spongebob/images/' +
@@ -76,17 +76,16 @@ describe('createProductRequest', function () {
                 // write your actual test here, like this:
 
                 chai.request(server).
-                    post('/api/productrequest/createProductRequest').
+                    post('/api/productrequest/createproduct').
                     send(pro1).
                     end(function (error, res) {
                         if (error) {
                             return console.log(error);
                         }
-                        //200 = ProductRequest was created successfully.
-                        expect(res).to.have.status(200);
+                        expect(res).to.have.status(403);
                         res.body.should.be.a('object');
                         res.body.should.have.property('msg').
-                        eql('ProductRequest was created successfully.');
+                        eql('Product sent to productRequest successfully');
                         res.body.data.should.have.property('acquiringType');
                         res.body.data.should.have.property('description');
                         res.body.data.should.have.property('image');
@@ -107,3 +106,4 @@ describe('createProductRequest', function () {
     });
     // --- End of "Mockgoose Termination" --- //
 });
+    
