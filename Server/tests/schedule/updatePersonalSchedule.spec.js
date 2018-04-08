@@ -250,3 +250,11 @@ describe('updateSchedule', function () {
                 });
         });
 });
+
+    // --- Mockgoose Termination --- //
+    after(function (done) {
+        mongoose.connection.close(function () {
+            done();
+        });
+    });
+    // --- End of "Mockgoose Termination" --- //
