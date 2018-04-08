@@ -25,13 +25,17 @@ chai.use(chaiHttp);
 // --- End of 'Middleware' --- //
 
 var adminUser = null;
+var normalUser = null;
+var verifiedActivity = null;
+var pendingActivity = null;
+var rejectedActivity = null;
 
 describe('Activities', function () {
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
-                
+
                 done();
             });
         });
@@ -42,31 +46,46 @@ describe('Activities', function () {
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
             Activity.create({
-                creator: 'username',
+                creator: 'normalUsername',
                 name: 'activity1',
                 description: 'activity1 des',
                 fromDateTime: Date.now(),
                 toDateTime: Date.now() + 5,
                 status: 'pending',
                 price: 50
+            }, function (err, activity) {
+                if (err) {
+                    console.log(err);
+                }
+                pendingActivity = activity;
             });
             Activity.create({
-                creator: 'username',
+                creator: 'normalUsername',
                 name: 'activity2',
                 description: 'activity2 des',
                 fromDateTime: Date.now(),
                 toDateTime: Date.now() + 5,
                 status: 'rejected',
                 price: 50
+            }, function (err, activity) {
+                if (err) {
+                    console.log(err);
+                }
+                rejectedActivity = activity;
             });
             Activity.create({
-                creator: 'username',
+                creator: 'normalUsername',
                 name: 'activity3',
                 description: 'activity3 des',
                 fromDateTime: Date.now(),
                 toDateTime: Date.now() + 5,
                 status: 'verified',
                 price: 50
+            }, function (err, activity) {
+                if (err) {
+                    console.log(err);
+                }
+                verifiedActivity = activity;
             });
             User.create({
                 birthdate: Date.now(),
@@ -76,8 +95,23 @@ describe('Activities', function () {
                 lastName: 'lastname',
                 password: 'password',
                 phone: '0111111111',
-                username: 'username'
-            }, function(err, user) {
+                username: 'normalUsername'
+            }, function (err, user) {
+                if (err) {
+                    console.log(err);
+                }
+                normalUser = user;
+            });
+            User.create({
+                birthdate: Date.now(),
+                email: 'test@email.com',
+                firstName: 'firstname',
+                isAdmin: true,
+                lastName: 'lastname',
+                password: 'password',
+                phone: '0111111111',
+                username: 'adminUsername'
+            }, function (err, user) {
                 if (err) {
                     console.log(err);
                 }
@@ -88,7 +122,7 @@ describe('Activities', function () {
     });
     // --- End of 'Clearing Mockgoose' --- //
 
-    describe('/GET activities unauthenticated', function () {
+    describe('/GET activities list', function () {
         it('it should GET verified activities', function (done) {
             chai.request(app).get('/api/activities').
                 end(function (err, res) {
@@ -108,9 +142,6 @@ describe('Activities', function () {
                     done();
                 });
         });
-    });
-
-    describe('/GET activities authenticated admin', function () {
         it('it should GET all activities', function (done) {
             var token = 'JWT ' + jwt.sign(
                 { 'id': adminUser._id },
@@ -132,10 +163,7 @@ describe('Activities', function () {
                     done();
                 });
         });
-    });
-
-    describe('/GET activities authenticated admin filtering pending', function () {
-        it('it should GET all activities', function (done) {
+        it('it should GET pending activities', function (done) {
             var token = 'JWT ' + jwt.sign(
                 { 'id': adminUser._id },
                 config.SECRET,
@@ -158,6 +186,73 @@ describe('Activities', function () {
                         activity = activities[activity];
                         expect(activity.status).to.equal('pending');
                     }
+                    done();
+                });
+        });
+    });
+    describe('/GET activity detail', function () {
+        it('it should GET verified activity', function (done) {
+            chai.request(app).get('/api/activities/' + verifiedActivity._id).
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(200);
+                    expect(res.body.data).to.have.ownProperty('description');
+                    expect(res.body.data.description).to.
+                        equal(verifiedActivity.description);
+                    done();
+                });
+        });
+        it('it should GET return 403', function (done) {
+            chai.request(app).get('/api/activities/' + pendingActivity._id).
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(403);
+                    done();
+                });
+        });
+        it('it should GET activity for admin', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).get('/api/activities/' + rejectedActivity._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(200);
+                    expect(res.body.data).to.have.ownProperty('description');
+                    expect(res.body.data.description).to.
+                        equal(rejectedActivity.description);
+                    done();
+                });
+        });
+        it('it should GET activity for creator', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).get('/api/activities/' + rejectedActivity._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(200);
+                    expect(res.body.data).to.have.ownProperty('description');
+                    expect(res.body.data.description).to.
+                        equal(rejectedActivity.description);
                     done();
                 });
         });
