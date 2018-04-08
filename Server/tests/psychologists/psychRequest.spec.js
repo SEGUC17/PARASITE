@@ -7,9 +7,7 @@ var chaiHttp = require('chai-http');
 var mongoose = require('mongoose');
 var server = require('../../app');
 var users = mongoose.model('User');
-var should = chai.should();
-var request = require('supertest');
-var assert = chai.assert;
+var expect = require('chai').expect;
 
 chai.use(chaiHttp);
 
@@ -39,7 +37,7 @@ before(function(done) {
 
 describe('Send a request to contact info to address book', function() {
    describe('send a request by a reular rgistered/unregistered user', function() {
-        it('post a request to add psychologist information', function() {
+        it('post a request to add psychologist information', function(done) {
             var req = {
                 address: 'here',
                 createdAt: '1/1/2018',
@@ -60,7 +58,11 @@ describe('Send a request to contact info to address book', function() {
                 if (err) {
                 return console.log(err);
                 }
-                res.should.have.status(200);
+                console.log(res);
+                should.exist(res);
+                expect(res).to.have.status(200);
+                res.body.data.should.be.a('Object');
+                done();
             });
         });
     });
