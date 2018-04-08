@@ -194,7 +194,17 @@ describe('signUp', function () {
                     done();
                 });
         });
-        it('"Password" Has Length Less Than 8');
+        it('"Password" Has Length Less Than 8', function(done) {
+            this.johnDoe.password = 'JohnPaS';
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function(err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Password Length Must Be Greater Than 8!');
+                    done();
+                });
+        });
         it('"Phone" Element(s) Is/Are Not Valid!');
         it('"Email" Is A Duplicate!');
         it('"Username" Is A Duplicate!');
