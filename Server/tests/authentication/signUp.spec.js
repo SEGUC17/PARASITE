@@ -86,7 +86,6 @@ describe('signUp', function () {
                             done();
                         })
                 });
-            done();
         });
         it('Token Expires In More Than 12 Hours!');
         it('"address" Attribute Is Not Valid!');
