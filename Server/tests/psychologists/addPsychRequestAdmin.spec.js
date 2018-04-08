@@ -71,14 +71,15 @@ before(function (done) {
             token = response.body.token;
             done();
         });
+        /* changing user's type to be an admin */
+        users.updateOne({ username: 'marioma' }, { $set: { isAdmin: true } }, function (err1) {
+            if (err1) {
+                console.log(err1);
+            }
+        });
 });
 
-/* changing user's type to be an admin */
-users.updateOne({ username: 'marioma' }, { $set: { isAdmin: true } }, function (err1) {
-    if (err1) {
-        console.log(err1);
-    }
-});
+
 
 describe('add psychologist information directly by admin', function () {
 
