@@ -217,9 +217,14 @@ module.exports.reviewActivity = function (req, res, next) {
     Activity.findByIdAndUpdate(
         activityId,
         { status: newStatus },
+        { runValidators: true },
         function(err, activity) {
             if (err) {
-                console.log(err);
+                return res.status(422).json({
+                    data: null,
+                    err: err,
+                    msg: null
+                });
             }
             res.status(204).json({
                 data: activity,
