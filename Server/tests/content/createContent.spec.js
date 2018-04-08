@@ -1,3 +1,4 @@
+/*eslint max-statements: ["error", 10, { "ignoreTopLevelFunctions": true }]*/
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
@@ -21,6 +22,29 @@ describe('/POST/content/', function () {
         name: 'testcat1',
         sections: [{ name: 'sec1.1' }]
     });
+    var testContent = {
+        body: 'hello there',
+        category: cat1.name,
+        creator: 'Hellothere',
+        section: cat1.sections[0].name,
+        title: 'test title'
+    };
+    var validateContent = function (content, isAdmin) {
+        should.exist(content.approved);
+        if (isAdmin) {
+            content.approved.should.be.equal(true);
+        } else {
+            content.approved.should.be.equal(false);
+        }
+        content.body.should.be.a('string').
+            equal(testContent.body);
+        content.category.should.be.a('string').
+            equal(cat1.name);
+        content.section.should.be.a('string').
+            equal(cat1.sections[0].name);
+        content.title.should.be.a('string').
+            equal(testContent.title);
+    };
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
@@ -76,9 +100,8 @@ describe('/POST/content/', function () {
                     done();
                 }
                 // update user permissions
-                User.update(
+                User.updateOne(
                     { username: 'admin' },
-                    { new: true },
                     { $set: { isAdmin: true } },
                     function (updateErr) {
                         if (updateErr) {
@@ -91,20 +114,10 @@ describe('/POST/content/', function () {
                 );
             });
     });
-
     it('should create new content successfully,with false ' +
         'approval status, and a new content request', function (done) {
-            var testContent = function (res, content) {
-                content.body.should.be.a('string').
-                    equal('hello there');
-                content.category.should.be.a('string').
-                    equal(cat1.name);
-                content.section.should.be.a('string').
-                    equal(cat1.sections[0].name);
-                content.title.should.be.a('string').
-                    equal('test title');
-            };
-            var testRequest = function (res, contentRequest) {
+
+            var validateRequest = function (res, contentRequest) {
                 contentRequest.contentTitle.should.be.a('string').
                     equal('test title');
                 contentRequest.requestType.should.be.a('string').
@@ -113,25 +126,40 @@ describe('/POST/content/', function () {
             chai.request(server).
                 post('/api/content').
                 set('Authorization', userToken).
-                send({
-                    body: 'hello there',
-                    category: cat1.name,
-                    creator: 'Hellothere',
-                    section: cat1.sections[0].name,
-                    title: 'test title'
-                }).
+                send(testContent).
                 end(function (err, res) {
                     should.not.exist(err);
                     res.should.have.status(201);
                     should.exist(res.body.data.content);
                     should.exist(res.body.data.request);
                     var content = res.body.data.content;
-                    testContent(res, content);
+                    validateContent(content, false);
                     var contentRequest = res.body.data.request;
-                    testRequest(res, contentRequest);
+                    validateRequest(res, contentRequest);
                     done();
                 });
         });
+
+    it(
+        'should create new content successfully,with true ' +
+        'approval status, and no new content request is added',
+        function (done) {
+            chai.request(server).
+                post('/api/content').
+                set('Authorization', adminToken).
+                send(testContent).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(201);
+                    should.exist(res.body.data);
+                    should.not.exist(res.body.data.content);
+                    should.not.exist(res.body.data.request);
+                    var content = res.body.data;
+                    validateContent(content, true);
+                    done();
+                });
+        }
+    );
 
     // --- Clearing Mockgoose --- //
     after(function (done) {
