@@ -64,6 +64,7 @@ describe('Send a request to contact info to address book', function () {
         });
     });
 
+
     describe('add psychologist information directly by admin', function () {
 
         var usr = {
@@ -102,18 +103,6 @@ describe('Send a request to contact info to address book', function () {
                     done();
                 });
         });
-        before(function (done) {
-            authenticatedUser.post('/api/signIn').
-                send(usr).
-                end(function (err, response) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    response.should.have.status(200);
-                    token = response.body.token;
-                    done();
-                });
-        });
         it('add information directly to address book', function () {
             var req = {
                 address: 'here',
@@ -145,6 +134,7 @@ describe('Send a request to contact info to address book', function () {
                 });
         });
     });
+
 });
 
 /* Mockgoose Termination */
