@@ -11,6 +11,7 @@ var find = function (req) {
   if (req.params.username !== 'NA') {
     toFind.username = req.params.username;
   }
+  toFind.isParent = true;
 
   return toFind;
 };
@@ -52,8 +53,11 @@ module.exports.Search = function (req, res, next) {
     });
   }
   //narrowing down the search space by getting parents only
-  toFind.isParent = true;
   //getting and paginating the results
+  //had to do the checks for numbers validity here because of eslint no
+  // additional statements for function allowed :')
+  if (req.user && req.user.isParent &&
+     (isNaN(req.params.curr) && isNaN(req.params.pp))) {
   User.paginate(
     toFind, {
       limit: Number(req.params.pp),
@@ -87,4 +91,11 @@ module.exports.Search = function (req, res, next) {
 
     }
   );
+} else {
+   return res.status(401).json({
+            data: null,
+            err: 'Not authorized to search for other parents',
+            msg: null
+});
+}
 };
