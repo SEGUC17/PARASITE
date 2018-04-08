@@ -29,7 +29,7 @@ var token = null;
 
 //write your test's name below in <write here>
 describe('createProductRequest', function () {
-    this.timeout(120000); //.................. // should i add this
+    this.timeout(1000000); //.................. // should i add this
 
 
     // --- Mockgoose Initiation --- //
@@ -90,7 +90,7 @@ describe('createProductRequest', function () {
                             res.body.should.have.property('msg').eql('ProductRequest was created successfully.');
                             res.body.data.should.have.property('acquiringType');
                             res.body.data.should.have.property('description');
-                            // res.body.data.should.have.property('image');
+                            res.body.data.should.have.property('image');
                             res.body.data.should.have.property('name');
                             res.body.data.should.have.property('price');
                             res.body.data.should.have.property('seller');

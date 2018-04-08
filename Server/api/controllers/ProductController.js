@@ -84,7 +84,6 @@ module.exports.getMarketPage = function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            console.log(products);
             res.status(200).json({
                 data: products,
                 err: null,
