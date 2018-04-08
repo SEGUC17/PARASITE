@@ -110,7 +110,17 @@ describe('signUp', function () {
                 });
         });
         it('"email" Attribute Is Not Valid!');
-        it('"firstName" Attribute Is Empty!');
+        it('"firstName" Attribute Is Empty!', function (done) {
+            this.johnDoe.firstName = null;
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('First Name: Expected non-empty value!');
+                    done();
+                });
+        });
         it('"firstName" Attribute Is Not Valid!');
         it('"isTeacher" Attribute Is Empty!');
         it('"isTeacher" Attribute Is Not Valid!');
