@@ -119,6 +119,100 @@ describe('Review Activities', function () {
                     });
                 });
         });
+        it('it should return 403 for nonAdmins', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).put(urlPath).
+                send({
+                    '_id': pendingActivity._id,
+                    'status': 'verified'
+                }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(403);
+                    done();
+                });
+        });
+        it('it should return 401 for unAuthenticated users', function (done) {
+            chai.request(app).put(urlPath).
+                send({
+                    '_id': pendingActivity._id,
+                    'status': 'verified'
+                }).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(401);
+                    done();
+                });
+        });
+
+        it(
+            'it should return 422 for missing attributes in body',
+            function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).put(urlPath).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(422);
+                    done();
+                });
+            }
+        );
+        it('it should return 422 for wrong activity _id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).put(urlPath).
+                send({
+                    '_id': 'wrong_id',
+                    'status': 'verified'
+                }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(422);
+                    done();
+                });
+        });
+        it('it should return 422 for wrong status', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).put(urlPath).
+                send({
+                    '_id': pendingActivity._id,
+                    'status': 'wrongStatus'
+                }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(422);
+                    done();
+                });
+        });
     });
     // --- Mockgoose Termination --- //
     after(function (done) {
