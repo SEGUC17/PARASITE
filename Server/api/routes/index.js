@@ -23,6 +23,17 @@ var scheduleController = require('../controllers/ScheduleController');
 module.exports = function (passport) {
 
   // --------------------- Authentication Checkers --------------- //
+  var optionalAuthentication = function (req, res, next) {
+    passport.authenticate('jwt', { session: false }, function (err, user, info) {
+      if (err) {
+        return next(err);
+      }
+      req.user = user;
+
+      return next();
+    })(req, res, next);
+  };
+
   var isAuthenticated = function (req, res, next) {
     passport.authenticate('jwt', { session: false }, function (err, user, info) {
       if (err) {
@@ -67,7 +78,7 @@ module.exports = function (passport) {
   // --------------------- End of Search Controller ------------ //
 
   // --------------------- Activity Contoller -------------------- //
-  router.get('/activities', ActivityController.getActivities);
+  router.get('/activities', optionalAuthentication, ActivityController.getActivities);
   router.get('/activities/:activityId', ActivityController.getActivity);
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
   router.put('/unverifiedActivities', ActivityController.reviewActivity);
