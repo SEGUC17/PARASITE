@@ -49,12 +49,14 @@ describe('/GET inbox', function () {
 
   it('it should GET all received messages of logged in user', function (done) {
 
+           // message that should be retreived
            var message = new Message({
                body: 'hi',
                recipient: 'sarah',
                sender: 'blah'
            });
 
+           // message that should not be retreived
            var message1 = new Message({
             body: 'hi',
             recipient: 'hsghg',

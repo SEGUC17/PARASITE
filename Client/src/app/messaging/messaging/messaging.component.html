@@ -14,6 +14,7 @@
 
   <div *ngIf="!div">
   <mat-tab-group>
+    <!-- table for inbox -->
       <mat-tab label="Inbox">
         <div class="example-container mat-elevation-z8">
             <mat-table #table [dataSource]="inbox">
@@ -44,6 +45,7 @@
           </div>
       </mat-tab>
       
+      <!-- table for sent messages -->
       <mat-tab label="Sent">
         <div class="example-container mat-elevation-z8">
             <mat-table #table1 [dataSource]="sent">

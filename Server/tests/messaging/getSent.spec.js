@@ -49,12 +49,14 @@ describe('/GET sent messages', function () {
 
   it('it should GET all sent messages of logged in user', function (done) {
 
+           // message that should be retreived
            var message = new Message({
                body: 'hi',
                recipient: 'blah',
                sender: 'sarah'
            });
 
+           // message that should not be retreived
            var message1 = new Message({
             body: 'hi',
             recipient: 'hsghg',

@@ -16,9 +16,9 @@ import { MatButtonModule } from '@angular/material';
 
 export class MessagingComponent implements OnInit {
 
-  currentUser: any;
+  currentUser: any; // the currently logged in user
   msg: any;
-  div: Boolean;
+  div: Boolean; // controls appearance of a div notifying the user that they can't access messaging (in case the logged in user is a child)
   inbox: any[];
   sent: any[];
   displayedColumns = ['sender', 'body', 'sentAt', 'delete'];
@@ -26,6 +26,7 @@ export class MessagingComponent implements OnInit {
 
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
 
+  // opening the send dialog (on pressing the compose button)
   openDialog(): void {
     let dialogRef = this.dialog.open(SendDialogComponent, {
       width: '600px',
@@ -43,7 +44,7 @@ export class MessagingComponent implements OnInit {
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
       if (self.currentUser.isChild) {
-        self.div = true;
+        self.div = true; // logged in user is a child
       } else {
         self.div = false;
         self.getInbox();
@@ -52,22 +53,28 @@ export class MessagingComponent implements OnInit {
     });
   }
 
+  // retreive inbox of logged in user (called when page is loaded)
   getInbox(): void {
     const self = this;
+    // make GET request using messaging service
     this.messageService.getInbox(this.currentUser.username).subscribe(function (msgs) {
       self.inbox = msgs.data;
     });
   }
 
+  // retreive sent messages of logged in user (called when page is loaded)
   getSent(): void {
     const self = this;
+    // make GET request using messaging service
     this.messageService.getSent(this.currentUser.username).subscribe(function (msgs) {
       self.sent = msgs.data;
     });
   }
 
+  // deleteing a message from inbox or sent (on pressing delete button)
   deleteMessage(message): void {
     const self = this;
+    // make DELETE request using messaging service
     this.messageService.deleteMessage(message).subscribe(function (res) {
     });
   }

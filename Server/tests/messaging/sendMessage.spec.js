@@ -84,7 +84,8 @@ describe('/POST message', function () {
                     recipient: 'test',
                     sender: result.body.data.username
                 };
-       
+            
+            // send post request
             chai.request(server).
                 post('/api/message/sendMessage').
                 send(message).
