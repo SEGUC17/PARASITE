@@ -78,10 +78,18 @@ module.exports.getPerosnalStudyPlan = function (req, res, next) {
             return next(err);
         }
 
+        if (!user) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'User not found.'
+            });
+        }
+
         var target = findStudyPlan(user.studyPlans, req.params.studyPlanID);
 
         if (!target) {
-            return res.status(400).json({
+            return res.status(404).json({
                 data: null,
                 err: null,
                 msg: 'Study plan not found.'
