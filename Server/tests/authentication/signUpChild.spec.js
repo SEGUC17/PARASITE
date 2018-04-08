@@ -33,8 +33,8 @@ var user = {
 
 // --- Mockgoose Initiation --- //
 describe('signUpChild', function () {
-    this.timeout(120000);  
-        before(function (done) {
+    this.timeout(120000);
+    before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
                 done();
@@ -42,50 +42,50 @@ describe('signUpChild', function () {
         });
     });
 
- // --- End of "Mockgoose Initiation" --- //
+    // --- End of "Mockgoose Initiation" --- //
 
- // --- Clearing Mockgoose --- //
- beforeEach(function (done) {
-    mockgoose.helper.reset().then(function () {
-        done();
-    }); 
- });
-
-// --- End of "Clearing Mockgoose" --- //
-
-     it('signUp returns a 201 response', function(done)  {
-    chai.request(server)
-        .post('/api/signUp').send(user)
-        .end((err, res) => {
-            res.should.have.status(201);
-            res.body.should.be.a('object');
-            res.body.should.have.property('token');
-            Token = res.body.token;
-            console.log('token is :' + Token);
-
-            //my tests//
-            chai.request(server).
-                post('/api/childsignup').send({ username: 'nayeraa.zaghloul', password: 'nayeranayera1234', firstName: 'nayera', lastName: 'zaghloul', birthdate: '11/11/2016', email: 'nayerazaghloul12@gmail.com', phone: ['01120005030'], address: 'tagamo' }).
-                set('Authorization', Token).end((error, response) => {
-                    if (error) done(error);
-                    // Now let's check our response
-                    expect(response).to.have.status(201);
-                    done();
-                });  
-           //   done();   
+    // --- Clearing Mockgoose --- //
+    beforeEach(function (done) {
+        mockgoose.helper.reset().then(function () {
+            done();
         });
-    });    
-    
-   // --- Mockgoose Termination --- //
+    });
+
+    // --- End of "Clearing Mockgoose" --- //
+
+    it('signUp returns a 201 response', function (done) {
+        chai.request(server)
+            .post('/api/signUp').send(user)
+            .end((err, res) => {
+                res.should.have.status(201);
+                res.body.should.be.a('object');
+                res.body.should.have.property('token');
+                Token = res.body.token;
+              //  console.log('token is :' + Token);
+
+                //my tests//
+                chai.request(server).
+                    post('/api/childsignup').send({ username: 'nayeraa.zaghloul', password: 'nayeranayera1234', firstName: 'nayera', lastName: 'zaghloul', birthdate: '11/11/2016', email: 'nayerazaghloul12@gmail.com', phone: ['01120005030'], address: 'tagamo' }).
+                    set('Authorization', Token).end((error, response) => {
+                        if (error) done(error);
+                        // Now let's check our response
+                        expect(response).to.have.status(201);
+                        done();
+                    });
+                //   done();   
+            });
+    });
+
+    // --- Mockgoose Termination --- //
     after(function (done) {
-       mongoose.connection.close(function () {
-          done();
-      });
-   });
-     // --- End of "Mockgoose Termination" --- //
+        mongoose.connection.close(function () {
+            done();
+        });
+    });
+    // --- End of "Mockgoose Termination" --- //
 
 
- });
+});
 
  //trial test
   /*

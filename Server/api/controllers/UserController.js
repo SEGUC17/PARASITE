@@ -258,27 +258,13 @@ module.exports.signIn = function (req, res, next) {
 
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
-    console.log('entered the signUpChild method');
-    console.log('user is: ' + req.user._id);
-    User.findByIdAndUpdate(
-        req.user._id, {
-            $set: {
-                'children': req.body.username,
-                'isParent': true
-            }
-        }
-        , { new: true }, function (err, updatedob) {
-            if (err) {
-                console.log('entered the error stage of update');
+    // console.log('entered the signUpChild method');
+   // console.log('userId is: ' + req.user._id);
+   // console.log('username is: ' + req.user.username);
 
-                return res.status(402).json({
-                    data: null,
-                    msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
-                });
-            }
            var newUser = new User();
             // --- Variable Assign --- //
-            console.log('about to set attributes of child');
+          //  console.log('about to set attributes of child');
             newUser.address = req.body.address;
             newUser.birthdate = req.body.birthdate;
             newUser.children = [];
@@ -293,7 +279,7 @@ module.exports.signUpChild = function (req, res, next) {
             newUser.username = req.body.username;
             // --- End of "Variable Assign" --- //
 
-            console.log('updated attributes of child set');
+          //  console.log('updated attributes of child set');
 
             //---types and formats validations--////
             var field = '';
@@ -320,7 +306,7 @@ module.exports.signUpChild = function (req, res, next) {
                 isString(newUser.username ? newUser.username : '');
 
             } catch (err1) {
-                console.log('entered catch of status 401');
+            //    console.log('entered catch of status 401');
 
                 return res.status(401).json({
                     data: null,
@@ -332,7 +318,7 @@ module.exports.signUpChild = function (req, res, next) {
 
             //---emptiness validations--/////
             try {
-                console.log('entered try of is empty');
+             //   console.log('entered try of is empty');
                 field = 'Birtdate';
                 isNotEmpty(newUser.birthdate);
                 field = 'Email';
@@ -349,7 +335,7 @@ module.exports.signUpChild = function (req, res, next) {
                 field = 'Username';
                 isNotEmpty(newUser.username);
             } catch (err2) {
-                console.log('entered catch of 2nd status 401');
+           /*     console.log('entered catch of 2nd status 401');
                 console.log(newUser.birthdate);
                 console.log(newUser.email);
                 console.log(newUser.firstName);
@@ -358,7 +344,7 @@ module.exports.signUpChild = function (req, res, next) {
                 console.log(newUser.isTeacher);
                 console.log(newUser.lastName);
                 console.log(newUser.password);
-                console.log(newUser.username);
+                console.log(newUser.username);  */
 
                 return res.status(401).json({
                     data: null,
@@ -431,7 +417,7 @@ module.exports.signUpChild = function (req, res, next) {
                     //--hashing password--//
                     Encryption.hashPassword(newUser.password, function (err3, hash) {
                         if (err3) {
-                            console.log('entered if err3');
+                       //  console.log('entered if err3');
 
                             return next(err3);
                         }
@@ -439,7 +425,7 @@ module.exports.signUpChild = function (req, res, next) {
                         newUser.password = hash;
                         User.create(newUser, function (error) {
                             if (error) {
-                                console.log('entered if error');
+                              //  console.log('entered if error');
 
                                 return next(error);
                             }
@@ -453,8 +439,26 @@ module.exports.signUpChild = function (req, res, next) {
                     });
                 }
             );
-        }
-    );       
+            User.findByIdAndUpdate(
+                req.user._id, {
+                    $push: {
+                        'children': req.body.username
+                    },
+                    $set: {
+                        'isParent': true
+                    }
+                }
+                , { new: true }, function (err, updatedob) {
+                    if (err) {
+                      //  console.log('entered the error stage of update');
+        
+                        return res.status(402).json({
+                            data: null,
+                            msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
+                        });
+                    }
+                }
+    ); 
 };
 
 module.exports.getUserData = function (req, res, next) {
@@ -540,7 +544,7 @@ module.exports.getAnotherUserData = function (req, res, next) {
                 return res.status(404).json({
                     data: null,
                     err: null,
-                    msg: 'User Is Not Found!'
+                    msg: 'User Not Found'
                 });
             }
 
