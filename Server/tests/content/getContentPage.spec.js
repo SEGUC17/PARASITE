@@ -4,7 +4,6 @@ var server = require('../../app');
 var Content = mongoose.model('Content');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-var should = chai.should();
 
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
@@ -19,7 +18,7 @@ var docArray = [];
 // save the documents and test
 var saveAllAndTest = function (done, requestUrl, pageLength) {
     var doc = docArray.pop();
-    doc.save(function (err, saved) {
+    doc.save(function (err) {
         if (err) {
             throw err;
         }
@@ -63,8 +62,17 @@ describe('/GET/ Content Page', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-    it('it should GET page of content from the server' +
+    it('it should GET page of content from the server ' +
         'with a specific category and section', function (done) {
+
+            docArray.push(new Content({
+                approved: true,
+                body: '<h1>Hello</h1>',
+                category: 'cat77',
+                creator: 'Omar',
+                section: 'sec1',
+                title: 'Test Content'
+            }));
 
             for (var counter = 0; counter < 3; counter += 1) {
                 docArray.push(new Content({
@@ -84,6 +92,71 @@ describe('/GET/ Content Page', function () {
             );
         });
 
+    it('it should GET page of content from the server ' +
+        'with a specific category only', function (done) {
+
+            docArray.push(new Content({
+                approved: true,
+                body: '<h1>Hello</h1>',
+                category: 'cat77',
+                creator: 'Omar',
+                section: 'sec1',
+                title: 'Test Content'
+            }));
+
+            for (var counter = 0; counter < 3; counter += 1) {
+                docArray.push(new Content({
+                    approved: true,
+                    body: '<h1>Hello</h1>',
+                    category: 'cat1',
+                    creator: 'Omar',
+                    section: 'sec1',
+                    title: 'Test Content' + counter
+                }));
+            }
+
+            saveAllAndTest(
+                done,
+                '/api/content/getContentPage/3/1/cat1/NoSec',
+                3
+            );
+        });
+
+    it(
+        'it should fail with 422 because parameters are not valid',
+        function (done) {
+            chai.request(server).
+                get('/api/content/getContentPage/MyLifeIsAHHH/1/cat1/sec1').
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    expect(res).to.have.status(422);
+                    done();
+                });
+        }
+    );
+
+    it('it should GET page of content from the server ' +
+        'with no specific category or section', function (done) {
+
+            for (var counter = 0; counter < 3; counter += 1) {
+                docArray.push(new Content({
+                    approved: true,
+                    body: '<h1>Hello</h1>',
+                    category: 'cat' + counter,
+                    creator: 'Omar',
+                    section: 'sec1',
+                    title: 'Test Content' + counter
+                }));
+            }
+
+            saveAllAndTest(
+                done,
+                '/api/content/getContentPage/3/1/NoCat/NoSec',
+                3
+            );
+        });
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
