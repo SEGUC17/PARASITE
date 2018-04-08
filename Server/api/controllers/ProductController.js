@@ -146,13 +146,27 @@ module.exports.createProduct = function (req, res, next) {
             msg: 'Product was created successfully.'
         });
     });
+//  } else {
+//         res.status(403).json({
+//             data: null,
+//             err: 'Product sent to productRequest successfully',
+//             msg: null
+//         });
+//     }
+
  } else {
-        res.status(403).json({
-            data: null,
-            err: 'Product sent to productRequest successfully',
-            msg: null
+    ProductRequest.create(req.body, function (err, productreq) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json({
+            data: productreq,
+            err: null,
+            msg: 'ProductRequest was created successfully.'
         });
+    })
     }
+
 };
 //createproduct end
 

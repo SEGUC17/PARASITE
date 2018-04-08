@@ -82,10 +82,10 @@ describe('CreateProduct for admin for not an admin', function () {
                         if (error) {
                             return console.log(error);
                         }
-                        expect(res).to.have.status(403);
+                        expect(res).to.have.status(200);
                         res.body.should.be.a('object');
                         res.body.should.have.property('msg').
-                        eql('Product sent to productRequest successfully');
+                        eql('ProductRequest was created successfully.');
                         res.body.data.should.have.property('acquiringType');
                         res.body.data.should.have.property('description');
                         res.body.data.should.have.property('image');
@@ -105,5 +105,4 @@ describe('CreateProduct for admin for not an admin', function () {
         });
     });
     // --- End of "Mockgoose Termination" --- //
-});
-    
+});   
