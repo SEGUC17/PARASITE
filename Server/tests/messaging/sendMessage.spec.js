@@ -81,7 +81,7 @@ describe('/POST message', function () {
                 result.should.have.status(200);
                 var message = {
                     body: 'hi',
-                    recipient: 'anyone',
+                    recipient: 'test',
                     sender: result.body.data.username
                 };
         
