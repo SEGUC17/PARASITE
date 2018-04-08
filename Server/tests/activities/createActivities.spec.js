@@ -199,6 +199,25 @@ describe('Create Activities', function () {
                     done();
                 });
         });
+
+        it('it should return 422 for wrong date type', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            activityBody.fromDateTime = '12/12/2018';
+            chai.request(app).post('/api/activities').
+                send(activityBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(422);
+                    done();
+                });
+        });
     });
     // --- Mockgoose Termination --- //
     after(function (done) {
