@@ -92,21 +92,14 @@ module.exports = function (passport) {
 
   // --------------Product Controller---------------------- //
   router.get('/market/getMarketPage/:entriesPerPage/:' +
-    'pageNumber/:name/:price', productCtrl.getMarketPage);
+    'pageNumber/:limiters', productCtrl.getMarketPage);
   router.get(
-    '/market/getNumberOfProducts/:name/:price',
+    '/market/getNumberOfProducts/:limiters',
     productCtrl.getNumberOfProducts
   );
-  router.get('/market/getMarketPage/:entriesPerPage/:' +
-    'pageNumber/:seller', productCtrl.getMarketPageBySeller);
-  router.get(
-    '/market/getNumberOfProducts/:seller',
-    productCtrl.getNumberOfProductsBySeller
-  );
-  router.get('/product/getProduct/:productId', productCtrl.getProduct);
-  router.post('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
-  router.get('/productrequest/getRequests', productCtrl.getRequests);
-  router.post('/productrequest/createproduct', productCtrl.createProduct);
+  router.post('/productrequest/evaluateRequest', isAuthenticated, productCtrl.evaluateRequest);
+  router.get('/productrequest/getRequests', isAuthenticated, productCtrl.getRequests);
+  router.post('/productrequest/createproduct', isAuthenticated, productCtrl.createProduct);
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
 
   // --------------End Of Product Contoller ---------------------- //

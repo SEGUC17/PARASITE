@@ -1,7 +1,4 @@
-
 var mongoose = require('mongoose');
-var moment = require('moment');
-var Validations = require('../utils/validators');
 var Request = mongoose.model('PsychologistRequest');
 var Psychologists = mongoose.model('Psychologist');
 
@@ -62,7 +59,6 @@ module.exports.getRequests = function (req, res, next) {
 
 module.exports.evaluateRequest = function (req, res, next) {
   if (req.body.result) {
-    console.log('Got here, True');
 
     // Ensure the request still exists
     Request.findById(req.body._id).exec(function (err, psychReq) {
@@ -105,8 +101,6 @@ module.exports.evaluateRequest = function (req, res, next) {
       });
     });
   } else {
-    console.log(req.body._id);
-
     // Simply delete the request and notify the applicant
     Request.findByIdAndRemove(req.body._id, function (err, psych) {
       if (err) {
