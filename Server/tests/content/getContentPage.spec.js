@@ -42,7 +42,7 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
 
 // tests
 describe('/GET/ Content Page', function () {
-    this.timeout(120000);
+    this.timeout(1000000);
 
     // --- Mockgoose Initiation --- //
     before(function (done) {

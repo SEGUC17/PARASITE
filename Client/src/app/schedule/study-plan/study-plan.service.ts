@@ -13,10 +13,6 @@ export class StudyPlanService {
 
   constructor(private http: HttpClient) { }
 
-  getPersonalStudyPlans(username: String): Observable<any> {
-    return this.http.get(this.endpoint + 'study-plan/getPersonalStudyPlans/' + username);
-  }
-
   getPersonalStudyPlan(username: String, studyPlanID: String): Observable<any> {
     return this.http.get(this.endpoint + 'study-plan/getPersonalStudyPlan/' + username + '/' + studyPlanID);
   }

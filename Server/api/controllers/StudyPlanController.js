@@ -30,29 +30,6 @@ module.exports.getPublishedStudyPlans = function (req, res, next) {
     );
 };
 
-
-module.exports.getPerosnalStudyPlans = function (req, res, next) {
-    User.findOne({ username: req.params.username }, function (err, user) {
-        if (err) {
-            return next(err);
-        }
-
-        if (!user) {
-            return res.status(404).json({
-                data: null,
-                err: 'User not found.',
-                msg: null
-            });
-        }
-
-        return res.status(200).json({
-            data: user.studyPlans,
-            err: null,
-            msg: 'Study plans retrieved successfully.'
-        });
-    });
-};
-
 module.exports.PublishStudyPlan = function (req, res, next) {
 
     // @author: Ola
@@ -136,9 +113,17 @@ module.exports.createStudyPlan = function (req, res, next) {
     User.findOneAndUpdate(
         { username: req.params.username },
         { $push: { studyPlans: req.body } },
-        function (err) {
+        function (err, user) {
             if (err) {
                 return next(err);
+            }
+
+            if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User not found.'
+                });
             }
 
             res.status(201).json({
