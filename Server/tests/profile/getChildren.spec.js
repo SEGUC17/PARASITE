@@ -5,14 +5,13 @@ var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 var should = chai.should();
-//var d ate= new Date("October 13, 2014 11:13:00");
 chai.use(chaiHttp);
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 var route = require('../../api/routes/index');
 
-describe('/PATCH/ ChildrenIndependence', function () {
+describe('/GET/ Children ', function () {
     this.timeout(120000);
     // --- Mockgoose Initiation --- //
 
@@ -40,7 +39,7 @@ describe('/PATCH/ ChildrenIndependence', function () {
     // --- End of "Clearing Mockgoose" --- /
 
     //testing get children
- it('it should GET categories from the server', function (done) {
+ it('it should GET cchildren from the server', function (done) {
  var user1 = new User({
  address: 'Mars',
  birthdate: '1990-11-10T22:00:00.000Z',
@@ -48,7 +47,7 @@ describe('/PATCH/ ChildrenIndependence', function () {
  email: 'haidy@gmail.com',
  firstName: 'haidy',
 isParent: true,
- lastName: 'koko',
+ lastName: 'last',
  password: '12345678',
  phone: '01213944266',
  username: 'heidi'
