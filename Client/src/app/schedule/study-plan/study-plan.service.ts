@@ -30,6 +30,11 @@ export class StudyPlanService {
   }
 
   getPublishedStudyPlans(pageNumber: Number): Observable<any> {
+    /*
+    @author: Ola
+    get all publishedStudyPlans (study plans schema in the database) page by page by passing
+    page number to the controller which handles pagination
+    */
     return this.http.get(this.endpoint + 'study-plan/getPublishedStudyPlans/' + pageNumber);
   }
 

@@ -7,11 +7,14 @@ var CalendarEvent = mongoose.model('CalendarEvent'),
 module.exports.getPublishedStudyPlans = function (req, res, next) {
 
     //@author: Ola
+    //paginate returns the published plans page by page
     StudyPlan.paginate(
         {},
         {
             limit: 20,
+            //retreive 20 published plans starting from page 1 till 20
             page: req.params.pageNumber
+            //page number to be returned is passed each call
         }, function (err, result) {
 
             if (err) {
