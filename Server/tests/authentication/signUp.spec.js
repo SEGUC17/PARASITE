@@ -271,6 +271,7 @@ describe('signUp', function () {
         });
         it('"Address" Is Lowered Case!', function (done) {
             var self = this;
+            this.johnDoe.address = this.johnDoe.address.toUpperCase();
             chai.request(app).
                 post(path).
                 send(this.johnDoe).
@@ -287,7 +288,25 @@ describe('signUp', function () {
                     });
                 });
         });
-        it('"Email" Is Lowered Case!');
+        it('"Email" Is Lowered Case!', function (done) {
+            var self = this;
+            this.johnDoe.email = this.johnDoe.email.toUpperCase();
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    User.findOne({ 'username': self.johnDoe.username }, function (err, user) {
+                        if (user) {
+                            res.should.have.status(201);
+                            res.body.should.have.property('msg').eql('Sign Up Is Successful!');
+                            user.email.should.be.eql(self.johnDoe.email.toLowerCase());
+                            done();
+                        } else {
+                            done(new Error('User Was Not Added To DB!'));
+                        }
+                    });
+                });
+        });
         it('"Email" Is Trimmed!');
         it('"Username" Is Lowered Case!');
         it('"Username" Is Trimmed!');
