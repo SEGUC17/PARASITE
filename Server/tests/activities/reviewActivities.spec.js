@@ -27,7 +27,9 @@ var adminUser = null;
 var normalUser = null;
 var pendingActivity = null;
 
-describe('View Activities', function () {
+var urlPath = '/api/unverifiedActivities';
+
+describe('Review Activities', function () {
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
@@ -90,7 +92,34 @@ describe('View Activities', function () {
         });
     });
     // --- End of 'Clearing Mockgoose' --- //
-
+    describe('/Review activities', function () {
+        it('it activity status should change to verified', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).put(urlPath).
+                send({
+                    '_id': pendingActivity._id,
+                    'status': 'verified'
+                }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(204);
+                    Activity.findOne({}, function (err2, activity) {
+                        if (err2) {
+                            console.log(err2);
+                        }
+                        expect(activity.status).to.equal('verified');
+                        done();
+                    });
+                });
+        });
+    });
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
