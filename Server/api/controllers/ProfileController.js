@@ -1,3 +1,5 @@
+/* eslint-disable sort-keys */
+/* eslint-disable no-shadow */
 var mongoose = require('mongoose');
 var moment = require('moment');
 var Validations = require('../utils/validators');
@@ -78,8 +80,7 @@ module.exports.requestUserValidation = function (req, res, next) {
           msg: 'the request already submitted',
           data: null
         });
-      }
-      else {
+      } else {
         console.log('passing error to next');
         next(err);
       }
@@ -87,11 +88,10 @@ module.exports.requestUserValidation = function (req, res, next) {
         err: null,
         msg: 'the request is submitted',
         data: null
-      })
+      });
     }
   });
 };
-
 
 
 //--------------------------- Profile Info ------------------------- AUTHOR: H
@@ -100,95 +100,87 @@ module.exports.requestUserValidation = function (req, res, next) {
 module.exports.linkAnotherParent = function (req, res, next) {
 
   var id = req.params.parentId;
-  User.findOne({ _id: id }, function (err, user) {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
+  User.findByIdAndUpdate(
+    req.params.parentId,
+    {
+      $push: { children: req.body.child },
+      $set: { isParent: true }
+    }, { new: true },
+    function (err, user) {
+      if (err) {
+        return next(err);
+      }
       if (!user) {
-        res.status(404).send();
-      } else {
-        if (req.body) {
-          user.children.push(req.body);
-        }
-
-        user.save(function (err, updatedUser) {
-          if (err) {
-            console.log(err);
-            res.status(500).send();
-          } else {
-            res.send(updatedUser);
-            user.isParent = true;
-          }
+        return res.status(404).json({
+          data: null,
+          err: 'User not found.',
+          msg: null
         });
       }
+
+      return res.status(200).json({
+        data: user,
+        err: null,
+        msg: 'Link added succesfully.'
+      });
     }
-
-  })
-};
-
-module.exports.Unlink = function (req, res, next) {
-
-  var id = req.params.parentId;
-  User.findOne({ _id: id }, function (err, user) {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
-      if (!user) {
-        res.status(404).send();
-      } else {
-        if (req.body) {
-          user.children.splice(user.children.indexOf(req.body), 1);
-        }
-
-        user.save(function (err, updatedUser) {
-          if (err) {
-            console.log(err);
-            res.status(500).send();
-          } else {
-            res.send(updatedUser);
-          }
-        });
-      }
-    }
-
-  })
+  );
 };
 
 
-
-module.exports.linkAsParent = function (req, res, next) {
-  User.findOne({ _id: req.params.userId }, function (err, user) {
-    if (err) {
-      console.log(err);
-      res.status(500).send();
-    } else {
+module.exports.addAsAParent = function (req, res, next) {
+  User.findByIdAndUpdate(
+    req.params.parentId,
+    {
+      $push: { children: req.body.child },
+      $set: { isParent: true }
+    }, { new: true },
+    function (err, user) {
+      if (err) {
+        return next(err);
+      }
       if (!user) {
-        res.status(404).send();
-      } else {
-        if (req.body) {
-          user.children.push(req.body);
-        } else {
-
-        }
-
-        user.save(function (err, updatedUser) {
-          if (err) {
-            console.log(err);
-            res.status(500).send();
-          } else {
-            res.send(updatedUser);
-            user.isParent = true;
-          }
+        return res.status(404).json({
+          data: null,
+          err: 'User not found.',
+          msg: null
         });
       }
+
+      return res.status(200).json({
+        data: user,
+        err: null,
+        msg: 'Link added succesfully.'
+      });
     }
-
-  })
-
-
+  );
 };
+
+module.exports.unLinkChild = function (req, res, next) {
+  User.findByIdAndUpdate(
+    req.params.parentId,
+    { $pull: { children: { $in: [req.body.child] } } }, { new: true },
+    function (err, user) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(404).json({
+          data: null,
+          err: 'User not found.',
+          msg: null
+        });
+      }
+
+      return res.status(200).json({
+        data: user,
+        err: null,
+        msg: 'Link removed succesfully.'
+      });
+    }
+  );
+};
+
 module.exports.changePassword = function (req, res, next) {
 
   console.log('Old Password entered is: ', req.body.oldpw);
@@ -234,20 +226,20 @@ module.exports.changePassword = function (req, res, next) {
         }
         console.log(hash);
         // update user password with hash
-       User.findByIdAndUpdate(
-         { _id: req.params.id },
-         { password: hash }, function (err4, user2) {
-          if (err4) {
-            return next(err4);
+        User.findByIdAndUpdate(
+          { _id: req.params.id },
+          { password: hash }, function (err4, user2) {
+            if (err4) {
+              return next(err4);
+            }
+            console.log('User password updated successfully.');
+            res.status(200).json({
+              data: user2,
+              err: null,
+              msg: 'User password updated successfully.'
+            });
           }
-          console.log('User password updated successfully.');
-          res.status(200).json({
-            data: user2,
-            err: null,
-            msg: 'User password updated successfully.'
-          });
-        }
-      );
+        );
       });
     });
   });
