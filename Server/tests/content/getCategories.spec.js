@@ -50,7 +50,7 @@ describe('/GET/ Category', function () {
                     if (error) {
                         return console.log(error);
                     }
-                    
+
                     // expect the correct category to be retrieved
                     expect(res).to.have.status(200);
                     res.body.data.should.be.a('array');

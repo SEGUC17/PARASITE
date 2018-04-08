@@ -56,7 +56,8 @@ describe('/GET/ Content by id', function () {
                         return console.log(error);
                     }
 
-                    // expect the same content to be retrieved with the right id, title, and type
+                    // expect the same content to be retrieved with the right
+                    // id, title, and type
                     expect(res).to.have.status(200);
                     res.body.data.should.be.a('Object');
                     res.body.data.should.have.
@@ -109,7 +110,8 @@ describe('/GET/ Content by id', function () {
                 });
             });
         });
-    // test that the server should return an error when the content id is not valid
+    // test that the server should return an error
+    // when the content id is not valid
     it('it should return 422 error ' +
         'because content id was not valid.', function (done) {
             // create content for the test
@@ -134,7 +136,8 @@ describe('/GET/ Content by id', function () {
                         if (error) {
                             return console.log(error);
                         }
-                        // the 422 error status should be returned from the server
+                        // the 422 error status should be
+                        // returned from the server
                         expect(res).to.have.status(422);
                         done();
                     });

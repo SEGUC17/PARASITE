@@ -16,7 +16,13 @@ chai.use(chaiHttp);
 var docArray = [];
 
 // save the documents and test
-var saveAllAndTest = function (done, requestUrl, pageLength, expectedCategory, expectedSection) {
+var saveAllAndTest = function (
+    done,
+    requestUrl,
+    pageLength,
+    expectedCategory,
+    expectedSection
+) {
     // get document from the array
     var doc = docArray.pop();
     // save the document
@@ -66,7 +72,13 @@ var saveAllAndTest = function (done, requestUrl, pageLength, expectedCategory, e
                 });
         } else {
             // if it is not the last document, continue to save
-            saveAllAndTest(done, requestUrl, pageLength, expectedCategory, expectedSection);
+            saveAllAndTest(
+                done,
+                requestUrl,
+                pageLength,
+                expectedCategory,
+                expectedSection
+            );
         }
     });
 };
@@ -179,7 +191,8 @@ describe('/GET/ Content Page', function () {
         }
     );
 
-    // test that a page of content will be retrieved from the server without category or section
+    // test that a page of content will be retrieved from the server
+    // without category or section
     it('it should GET page of content from the server ' +
         'with no specific category or section', function (done) {
             // add data that will be retrieved
