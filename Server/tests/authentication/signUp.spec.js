@@ -262,14 +262,31 @@ describe('signUp', function () {
                         if (user) {
                             res.should.have.status(201);
                             res.body.should.have.property('msg').eql('Sign Up Is Successful!');
-                            return done();
+                            done();
                         } else {
                             done(new Error('User Was Not Added To DB!'));
                         }
                     });
                 });
         });
-        it('"Address" Is Lowered Case!');
+        it('"Address" Is Lowered Case!', function (done) {
+            var self = this;
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    User.findOne({ 'username': self.johnDoe.username }, function (err, user) {
+                        if (user) {
+                            res.should.have.status(201);
+                            res.body.should.have.property('msg').eql('Sign Up Is Successful!');
+                            user.address.should.be.eql(self.johnDoe.address.toLowerCase());
+                            done();
+                        } else {
+                            done(new Error('User Was Not Added To DB!'));
+                        }
+                    });
+                });
+        });
         it('"Email" Is Lowered Case!');
         it('"Email" Is Trimmed!');
         it('"Username" Is Lowered Case!');
