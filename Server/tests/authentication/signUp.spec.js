@@ -183,7 +183,17 @@ describe('signUp', function () {
                     done();
                 });
         });
-        it('"Email" Is Not Valid!');
+        it('"Email" Is Not Valid!', function(done) {
+            this.johnDoe.email = 'johndoe@gmail';
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function(err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Email Is Not Valid!');
+                    done();
+                });
+        });
         it('"Password" Has Length Less Than 8');
         it('"Phone" Element(s) Is/Are Not Valid!');
         it('"Email" Is A Duplicate!');
