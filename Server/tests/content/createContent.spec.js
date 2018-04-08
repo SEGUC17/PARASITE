@@ -165,7 +165,7 @@ describe('/POST/content/', function () {
 
             chai.request(server).
                 post('/api/content').
-                set('Authorization', adminToken).
+                set('Authorization', userToken).
                 send({ body: 'hello' }).
                 end(function (err, res) {
                     if (err) {
@@ -175,7 +175,31 @@ describe('/POST/content/', function () {
                     should.not.exist(res.body.data);
                     res.body.err.should.be.equal('content metadata' +
                         ' is not supplied');
+                    done();
+                });
+        });
+
+    it('should fail to create new content successfully,' +
+        ' because of invalid category', function (done) {
+            chai.request(server).
+                post('/api/content').
+                set('Authorization', userToken).
+                send({
+                    body: 'hello there',
+                    category: 'invalid cat',
+                    creator: 'Hellothere',
+                    section: 'invalid sec',
+                    title: 'test title'
+                }).
+                end(function (err, res) {
+                    if (err) {
                         done();
+                    }
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('the category' +
+                        ' supplied is invalid');
+                    done();
                 });
         });
 
