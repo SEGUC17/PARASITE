@@ -252,14 +252,21 @@ describe('signUp', function () {
         });
     });
     describe('Success!', function () {
-        it('User Entered Valid Data!', function(done) {
+        it('User Entered Valid Data!', function (done) {
+            var self = this;
             chai.request(app).
                 post(path).
                 send(this.johnDoe).
                 end(function (err, res) {
-                    res.should.have.status(201);
-                    res.body.should.have.property('msg').eql('Sign Up Is Successful!');
-                    done();
+                    User.find({ 'username': self.johnDoe.username }, function (err, user) {
+                        if (user) {
+                            res.should.have.status(201);
+                            res.body.should.have.property('msg').eql('Sign Up Is Successful!');
+                            return done();
+                        } else {
+                            done(new Error('User Was Not Added To DB!'));
+                        }
+                    });
                 });
         });
         it('"Address" Is Lowered Case!');
