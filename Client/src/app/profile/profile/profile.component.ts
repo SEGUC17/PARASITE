@@ -177,8 +177,10 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
         this.message = 'Password should be more than 8 characters';
     } else {
     console.log(pws.oldpw);
-        this._ProfileService.changePassword(this.id, pws).subscribe();
-        this.message = 'Password changing..';
+        this._ProfileService.changePassword(this.id, pws).subscribe(function(res) {
+          console.log(res.msg);
+          alert(res.msg);
+        });
 
     }
 }

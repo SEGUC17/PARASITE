@@ -216,13 +216,11 @@ module.exports.changePassword = function (req, res, next) {
       if (err2) {
         return next(err2);
       } else if (!passwordMatches) {
-        //console.log('Password entered is incorrect');
 
         return res.status(401).json({
-          data: null,
+          data: user,
           err: null,
           msg: 'Password is incorrect'
-
         });
 
       }
