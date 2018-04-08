@@ -6,9 +6,7 @@ var should = chai.should();
 var request = require('supertest');
 var assert = chai.assert;
 var mongoose = require('mongoose');
-var Category = mongoose.model('Category');
 var users = mongoose.model('User');
-var step = require('mocha-steps').step;
 var vcr = mongoose.model('VerifiedContributerRequest');
 
 
