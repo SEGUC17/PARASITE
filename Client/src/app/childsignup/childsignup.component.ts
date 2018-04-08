@@ -38,12 +38,6 @@ export class ChildsignupComponent implements OnInit {
     }
 
 
-    if (this.Firstname === '' || this.Lastname === '' || this.Username === '' || this.Email === '' || this.Birthdate === null) {
-      this.showDiv2();
-      this.AllisWell = false;
-
-    }
-
     // to be continued
     if (this.AllisWell) {
       this.User = { 'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
@@ -51,19 +45,16 @@ export class ChildsignupComponent implements OnInit {
       const self = this;
       self.authService.childSignUp(this.User).subscribe(function (res) {
       self.authService.setUser(res.data);
-    //  const userID = this.authService.getUser()._id;
+      if ( res.data ) {
+        alert(res.msg);
+      }
        });
-    }// end else
-    // self.location.back();
+    }// end if
+     this.location.back();
   }// end method
-
 
   showDiv1() {
     this.Div1 = true;
-  }
-
-  showDiv2() {
-    this.Div2 = true;
   }
 
 

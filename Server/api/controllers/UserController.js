@@ -276,10 +276,9 @@ module.exports.signUpChild = function (req, res, next) {
                     msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
                 });
             }
-            var newUser = new User();
-
+           var newUser = new User();
             // --- Variable Assign --- //
-            console.log('about to set attributes od child');
+            console.log('about to set attributes of child');
             newUser.address = req.body.address;
             newUser.birthdate = req.body.birthdate;
             newUser.children = [];
@@ -293,19 +292,31 @@ module.exports.signUpChild = function (req, res, next) {
             newUser.phone = req.body.phone;
             newUser.username = req.body.username;
             // --- End of "Variable Assign" --- //
+
             console.log('updated attributes of child set');
+
+            //---types and formats validations--////
+            var field = '';
             try {
+                field = 'Address';
                 isString(newUser.address ? newUser.address : '');
+                field = 'Birtdate';
                 isDate(newUser.birthdate ? newUser.birthdate : new Date());
                 isArray(newUser.children ? newUser.children : []);
+                field = 'Email';
                 isString(newUser.email ? newUser.email : '');
+                field = 'First name';
                 isString(newUser.firstName ? newUser.firstName : '');
                 isBoolean(newUser.isChild ? newUser.isChild : false);
                 isBoolean(newUser.isParent ? newUser.isParent : false);
                 isBoolean(newUser.isTeacher ? newUser.isTeacher : false);
+                field = 'Last Name';
                 isString(newUser.lastName ? newUser.lastName : '');
+                field = 'Password';
                 isString(newUser.password ? newUser.password : '');
+                field = 'Phone';
                 isArray(newUser.phone ? newUser.phone : []);
+                field = 'Username';
                 isString(newUser.username ? newUser.username : '');
 
             } catch (err1) {
@@ -314,21 +325,28 @@ module.exports.signUpChild = function (req, res, next) {
                 return res.status(401).json({
                     data: null,
                     err1: null,
-                    msg: 'your message does not match the required data entries!' + err1.message + '!' + '!'
+                    msg: field + ' does not match the required data entry!' + err1.message + '!!'
                 });
             }
-            //end catch
+            //---end of types and formats validations--///
 
+            //---emptiness validations--/////
             try {
                 console.log('entered try of is empty');
+                field = 'Birtdate';
                 isNotEmpty(newUser.birthdate);
+                field = 'Email';
                 isNotEmpty(newUser.email);
+                field = 'First name';
                 isNotEmpty(newUser.firstName);
                 isNotEmpty(newUser.isChild);
                 isNotEmpty(newUser.isParent);
                 isNotEmpty(newUser.isTeacher);
+                field = 'Last Name';
                 isNotEmpty(newUser.lastName);
+                field = 'Password';
                 isNotEmpty(newUser.password);
+                field = 'Username';
                 isNotEmpty(newUser.username);
             } catch (err2) {
                 console.log('entered catch of 2nd status 401');
@@ -345,35 +363,98 @@ module.exports.signUpChild = function (req, res, next) {
                 return res.status(401).json({
                     data: null,
                     err2: null,
-                    msg: 'you are missing a required data entry!' + err2.message + '!'
+                    msg: 'you are missing required data entry ' + field + '!' + err2.message
                 });
             }
-            //end catch
-            Encryption.hashPassword(newUser.password, function (err3, hash) {
-                if (err3) {
-                    console.log('entered if err3');
+            //---end of emptiness validations--////
 
-                    return next(err3);
-                }
-
-                newUser.password = hash;
-                User.create(newUser, function (error) {
-                    if (error) {
-                        console.log('entered if error');
-
-                        return next(error);
-                    }
-
-                    // --- Variable Assign --- //
-                    return res.status(201).json({
-                        data: newUser,
-                        error: null,
-                        msg: 'Success!'
+            // --- Trimming & Lowering Cases--- //
+            newUser.address = newUser.address ? newUser.address.toLowerCase() : newUser.address;
+            newUser.email = newUser.email ? newUser.email.toLowerCase().trim() : newUser.email;
+            newUser.username = newUser.username ? newUser.username.toLowerCase().trim() : newUser.username;
+            // --- End of "Trimming & Lowering Cases"--- //  
+            // --- Check: Phone Regex Match ---//
+            for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
+                if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
+                    return res.status(422).json({
+                        data: null,
+                        err5: null,
+                        msg: 'Phone Is Not Valid!'
                     });
+                }
+            }
+            // --- End of "Check: Phone Regex Match" ---//
+            // --- Check: Email Regex Match --- //
+            if (!newUser.email.match(config.EMAIL_REGEX)) {
+                return res.status(422).json({
+                    data: null,
+                    err6: null,
+                    msg: 'Email Is Not Valid!'
                 });
-            });
+            }
+            // --- End of "Check: Email Regex Match" --- //
+
+            // --- Check: Password Length --- //
+            if (newUser.password.length < 8) {
+                return res.status(422).json({
+                    data: null,
+                    err7: null,
+                    msg: 'Password Length Must Be Greater Than 8!'
+                });
+            }
+            // --- End of "Check: Password Length" --- //
+            User.findOne(
+                {
+                    $or: [
+                        { 'email': newUser.email },
+                        { 'username': newUser.username }
+                    ]
+                },
+                function (err8, user) {
+                    if (err8) {
+                        throw err8;
+                    } else if (user) {
+                        if (user.email === newUser.email) {
+                            return res.status(409).json({
+                                data: null,
+                                err8: null,
+                                msg: 'Email Is In Use!'
+                            });
+                        }
+
+                        return res.status(409).json({
+                            data: null,
+                            err8: null,
+                            msg: 'Username Is In Use!'
+                        });
+                    }  //---end of duplicate checks--///
+                    //--hashing password--//
+                    Encryption.hashPassword(newUser.password, function (err3, hash) {
+                        if (err3) {
+                            console.log('entered if err3');
+
+                            return next(err3);
+                        }
+
+                        newUser.password = hash;
+                        User.create(newUser, function (error) {
+                            if (error) {
+                                console.log('entered if error');
+
+                                return next(error);
+                            }
+                            // --- Variable Assign --- //
+                            return res.status(201).json({
+                                data: newUser,
+                                error: null,
+                                msg: 'Child Successfully Signed Up!'
+                            });
+                        });
+                    });
+                }
+            );
         }
-    );
+    );       
 };
 
 module.exports.getUserData = function (req, res, next) {
