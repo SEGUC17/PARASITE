@@ -377,7 +377,7 @@ describe('/GET/ parents one delimiter', function () {
     });
     // --- End of "Mockgoose Termination" --- //
 });
-describe('/GET/ parents two delimiter', function () {
+describe('/GET/ parents two or more delimiters', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
@@ -629,6 +629,69 @@ describe('/GET/ parents two delimiter', function () {
                 saveAllAndTest(
                     done,
                     '/api/User/Search/NA/first/IG/NA/1/10',
+                    3
+                );
+
+            });
+        }
+    );
+    it(
+        'it should GET page of parents with specified location , edu System and level',
+        function (done) {
+
+            // provide content document that will not be retrieved
+            docArray.push(new User({
+                address: 'rehab',
+                birthdate: '01/01/1997',
+                email: 'blab@bla.bla',
+                firstName: 'bla',
+                isParent: true,
+                lastName: 'blab',
+                password: '123bla456bla',
+                username: 'blab'
+            }));
+
+            // provide the documents that will be retrieved
+            for (var counter = 0; counter < 3; counter += 1) {
+                docArray.push(new User({
+                    address: 'cairo',
+                    birthdate: '01/01/1997',
+                    educationLevel: 'first',
+                    educationSystem: 'IG',
+                    email: 'lo@lo.lo' + counter,
+                    firstName: 'lo',
+                    isChild: true,
+                    lastName: 'lo' + counter,
+                    password: '123bla456bla',
+                    username: 'lolo' + counter
+                }));
+                docArray.push(new User({
+                    address: 'cairo',
+                    birthdate: '01/01/1997',
+                    children: ['lolo' + counter],
+                    email: 'bla@bla.bla' + counter,
+                    firstName: 'bla',
+                    isParent: true,
+                    lastName: 'bla' + counter,
+                    password: '123bla456bla',
+                    username: 'blabla' + counter
+                }));
+            }
+            // sign up and be authenticated
+            chai.request(server).
+            post('/api/signUp').
+            send(user).
+            end(function (err, response) {
+                if (err) {
+                    return console.log(err);
+                }
+                console.log('Signed up!');
+                response.should.have.status(201);
+                token = response.body.token;
+                // perfrom the test
+                saveAllAndTest(
+                    done,
+                    '/api/User/Search/NA/first/IG/cairo/1/10',
                     3
                 );
 
