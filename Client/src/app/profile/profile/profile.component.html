@@ -14,7 +14,7 @@
       <div class = "RightSideBtns">
           <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "!currIsChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>
           <button mat-raised-button id="linkToParent" *ngIf = "!currIsOwner && isChild && visitedIsParent" (click)= "linkToParent()">Add as a parent</button>
-          <span class="dropdown" *ngIf = "currIsParent && visitedIsParent">
+          <span class="dropdown" *ngIf = "currIsParent && !currIsOwner && !visitedIsChild">
             <button mat-raised-button [matMenuTriggerFor]="menu" id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
             <mat-menu #menu="matMenu">
                 <button *ngFor="let child of listOfUncommonChildren" mat-menu-item (click) = "addChild(child)" >
@@ -55,7 +55,7 @@
         </mat-tab>
         <mat-tab label="List of children">
           <div id = "children" class = "tabcontent">
-            <h3>Your Children:</h3>
+            <h3 style="font-weight: bold">Your Children:</h3>
             <app-childern></app-childern>
           </div>
         </mat-tab>
