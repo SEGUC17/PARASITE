@@ -1,3 +1,4 @@
+/*eslint max-statements: ["error", 20]*/
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
@@ -9,6 +10,48 @@ var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 chai.use(chaiHttp);
+
+
+// --- Variables Needed In Testing --- //
+var johnDoe = new User({
+    address: 'John Address Sample',
+    birthdate: '1/1/1980',
+    email: 'johndoe@gmail.com',
+    firstName: 'John',
+    isTeacher: true,
+    lastName: 'Doe',
+    password: 'JohnPasSWorD',
+    phone: '123',
+    username: 'john'
+});
+var janeDoe = new User({
+    address: 'Jane Address Sample',
+    birthdate: '1/1/2000',
+    email: 'janedoe@gmail.com',
+    firstName: 'Jane',
+    isTeacher: true,
+    lastName: 'Doe',
+    password: 'JanePasSWorD',
+    phone: '123',
+    username: 'jane'
+});
+var aCalendarEvent = {
+    actions: [],
+    color: {
+        'primary': '#ad2121',
+        'secondary': '#FAE3E3'
+        },
+    draggable: true,
+    end: '2018-04-04T21:59:59.999Z',
+    resizable: {
+        afterEnd: true,
+        beforeStart: true
+        },
+    start: '2018-04-04T18:59:00.000Z',
+    title: 'test event'
+
+    };
+// --- End of "Variables Needed In Testing" --- //
 
 
 describe('updateSchedule', function() {
@@ -31,53 +74,30 @@ describe('updateSchedule', function() {
     // --- End of "Clearing Mockgoose" --- //
 
     it('should PATCH user\'s own personal schedule', function(done) {
-        var newUser = new User({
-            birthdate: '12/12/1200',
-            children: [],
-            email: 'test@test.com',
-            firstName: 'i',
-            isChild: false,
-            lastName: 'test',
-            password: 'realPassword',
-            phone: [],
-            schedule: [],
-            username: 'testUser'
-        });
-        var aCalendarEvent = {
-            actions: [],
-            color: {
-                'primary': '#ad2121',
-                'secondary': '#FAE3E3'
-                },
-            draggable: true,
-            end: '2018-04-04T21:59:59.999Z',
-            resizable: {
-                afterEnd: true,
-                beforeStart: true
-                },
-            start: '2018-04-04T18:59:00.000Z',
-            title: 'test event'
-
-            };
-        newUser.save(function(error, data) {
+        chai.request(server).
+        post('/api/signUp').
+        send(johnDoe).
+        end(function(error, data) {
             if (error) {
                 return console.log(error);
             }
             chai.request(server).
-            patch('/api/schedule/saveScheduleChanges/' + data.username).
-            set('user', JSON.stringify(data)).
-            send({ 'body': [aCalendarEvent] }).
+            patch('/api/schedule/saveScheduleChanges/' + johnDoe.username).
+            set('Authorization', data.body.token).
+            send([aCalendarEvent]).
              end(function(err, res) {
                  if (err) {
                      return console.log(err);
                  }
-                 // FIXME: User is not signed in!
-                 console.log(res.body);
                  res.should.have.status(200);
                  res.body.data.should.be.a('array');
                  res.body.data[0].should.be.a('object');
                  res.body.data[0].should.have.property('title');
-                 res.body.data[0].title.should.equal('test event');
+                 res.body.data[0].should.have.property('start');
+                 res.body.data[0].should.have.property('end');
+                 res.body.data[0].title.should.equal(aCalendarEvent.title);
+                 res.body.data[0].start.should.equal(aCalendarEvent.start);
+                 res.body.data[0].end.should.equal(aCalendarEvent.end);
                  done();
              });
         });
