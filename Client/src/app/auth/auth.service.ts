@@ -58,7 +58,10 @@ export class AuthService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
-      alert(error.error.msg);
+
+      if (operation !== 'getUserDataFromServer') {
+        alert(error.error.msg);
+      }
       return of(result as T);
     };
   }

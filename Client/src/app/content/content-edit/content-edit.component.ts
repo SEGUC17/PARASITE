@@ -5,9 +5,9 @@ import { MatChipInputEvent } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { ContentService } from '../content.service';
 import { Content } from '../content';
-import { Router } from '@angular/router';
-import { Category } from '../category';
 import { Section } from '../section';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Category } from '../category';
 import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-content-edit',
@@ -16,6 +16,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class ContentEditComponent implements OnInit {
   private editor;
+  private isUpdate;
   public videoInput: string;
   public categories: Category[];
   public requiredSections: Section[];
@@ -39,6 +40,7 @@ export class ContentEditComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer,
     private contentService: ContentService,
     private authService: AuthService,
+    private route: ActivatedRoute,
     private router: Router) {
   }
 
@@ -116,7 +118,26 @@ export class ContentEditComponent implements OnInit {
   }
 
 
+  initUpdateView() {
+    const self = this;
+    const contentID = this.route.snapshot.params.id;
+    if (!contentID) {
+      return;
+    }
+    this.contentService.getContentById(contentID).subscribe(function (res) {
+      if (!res) {
+        console.log('couldn\'t find the content');
+        self.isUpdate = false;
+        return;
+      }
+      self.content = res.data;
+
+    });
+
+  }
+
   ngOnInit() {
     this.getCategories();
+    this.initUpdateView();
   }
 }
