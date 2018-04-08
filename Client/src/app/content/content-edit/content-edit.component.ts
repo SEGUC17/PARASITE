@@ -73,25 +73,29 @@ export class ContentEditComponent implements OnInit {
   // create content
   createContent(content: Content): void {
     const self = this;
-    if (this.authService.getToken() !== '') {
+    if (this.authService.getToken() === '') {
+      // TODO: (Universal Error Handler/ Modal Errors)
       console.log('Please sign in first');
       return;
     }
-    this.contentService.createContent(content).subscribe(function (res) {
-      // TODO(Universal Error Handler/ Modal Errors)
-      console.log(res);
-      if (!res) {
-        return;
-      }
-      if (res.data.content) {
-        self.router.navigateByUrl('/content-view/' + res.data.content._id);
-        return;
-      }
-      self.router.navigateByUrl('/content-view/' + res.data._id);
+    // get username of the registered user
+    this.authService.getUserData(['username']).subscribe(function (authRes) {
+      self.content.creator = authRes.data.username;
+      // create content for for that registered user
+      self.contentService.createContent(content).subscribe(function (contentRes) {
+        // TODO: (Universal Error Handler/ Modal Errors)
+        if (!contentRes) {
+          return;
+        }
+        if (contentRes.data.content) {
+          self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
+          return;
+        }
+        self.router.navigateByUrl('/content-view/' + contentRes.data._id);
+      });
     });
-    this.authService.getUserData(['username']).subscribe(function (res) {
-      self.content.creator = res.data.username;
-    });
+
+
   }
 
   // retrieve all categories from server
