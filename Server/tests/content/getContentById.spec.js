@@ -4,7 +4,6 @@ var server = require('../../app');
 var Content = mongoose.model('Content');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-var should = chai.should();
 
 chai.use(chaiHttp);
 
@@ -13,7 +12,6 @@ var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
 describe('/GET/ Content by id', function () {
-    this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -70,6 +68,68 @@ describe('/GET/ Content by id', function () {
                 });
         });
     });
+
+    it('it should return 404 not found ' +
+        'because content was not found.', function (done) {
+            var cont1 = new Content({
+                approved: true,
+                body: '<h1>Hello</h1>',
+                category: 'cat1',
+                creator: 'Omar',
+                section: 'sec1',
+                title: 'Test Content'
+            });
+            // save content to database
+            cont1.save(function (err, savedContent) {
+                if (err) {
+                    return console.log(err);
+                }
+                // reset database
+                mockgoose.helper.reset().then(function () {
+                    chai.request(server).
+                        get('/api/content/view/' + savedContent._id).
+                        end(function (error, res) {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            // the content should not be found
+                            expect(res).to.have.status(404);
+                            done();
+                        });
+                });
+            });
+        });
+
+    it('it should return 422 error ' +
+        'because content id was not valid.', function (done) {
+            var cont1 = new Content({
+                approved: true,
+                body: '<h1>Hello</h1>',
+                category: 'cat1',
+                creator: 'Omar',
+                section: 'sec1',
+                title: 'Test Content'
+            });
+            // save content to database
+            cont1.save(function (err) {
+                if (err) {
+                    return console.log(err);
+                }
+                // reset database
+                mockgoose.helper.reset().then(function () {
+                    chai.request(server).
+                        get('/api/content/view/54').
+                        end(function (error, res) {
+                            if (error) {
+                                return console.log(error);
+                            }
+                            // the content should not be found
+                            expect(res).to.have.status(422);
+                            done();
+                        });
+                });
+            });
+        });
 
     // --- Mockgoose Termination --- //
     after(function (done) {
