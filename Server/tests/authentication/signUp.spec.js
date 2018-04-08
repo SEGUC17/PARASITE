@@ -172,7 +172,17 @@ describe('signUp', function () {
                 });
         });
         it('"username" Attribute Is Not Valid!');
-        it('"Age" Is Less Than 13!');
+        it('"Age" Is Less Than 13!', function(done) {
+            this.johnDoe.birthdate = Date();
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function(err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Can\'t Sign Up If User Under 13 Years Old!');
+                    done();
+                });
+        });
         it('"Email" Is Not Valid!');
         it('"Password" Has Length Less Than 8');
         it('"Phone" Element(s) Is/Are Not Valid!');

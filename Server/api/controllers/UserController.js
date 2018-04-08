@@ -104,7 +104,7 @@ module.exports.signUp = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: 'Under 13 Must Be Child!'
+            msg: 'Can\'t Sign Up If User Under 13 Years Old!'
         });
     }
     // --- End of "Check: birthdate" --- //
