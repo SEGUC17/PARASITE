@@ -150,12 +150,11 @@ module.exports = function (passport) {
   // -------------------- Profile Module Endpoints ------------------//
 
   router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
-  router.get('/profile/:parentId', profileController.getUserInfo);
   router.put('/profile/LinkAnotherParent/:parentId', profileController.linkAnotherParent);
   router.put('/profile/UnlinkAnotherParent/:parentId', profileController.Unlink);
   router.put('/profile/LinkAsAParent/:parentId', profileController.linkAsParent);
   router.get('/profile/:username/getChildren', profileController.getChildren);
-  router.patch('/profile/changePassword/:uname', profileController.changePassword);
+  router.patch('/profile/changePassword/:id', profileController.changePassword);
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
