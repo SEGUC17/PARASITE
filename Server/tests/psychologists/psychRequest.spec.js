@@ -1,4 +1,3 @@
-
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
 
@@ -16,9 +15,9 @@ var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
-before(function(done) {
-    mockgoose.prepareStorage().then(function() {
-        mongoose.connect(config.MONGO_URI, function(err) {
+before(function (done) {
+    mockgoose.prepareStorage().then(function () {
+        mongoose.connect(config.MONGO_URI, function (err) {
             done(err);
         });
     });
@@ -27,7 +26,7 @@ before(function(done) {
 /* Mockgoose is ready */
 
 /* Clearing Mockgoose */
- beforeEach(function (done) {
+beforeEach(function (done) {
     mockgoose.helper.reset().then(function () {
         done();
     });
@@ -35,17 +34,17 @@ before(function(done) {
 
 /* End of "Clearing Mockgoose" */
 
-describe('Send a request to contact info to address book', function() {
-   describe('send a request by a reular rgistered/unregistered user', function() {
-        it('post a request to add psychologist information', function(done) {
+describe('Send a request to contact info to address book', function () {
+    describe('send a request by a reular rgistered/unregistered user', function () {
+        it('post a request to add psychologist information', function () {
             var req = {
                 address: 'here',
                 createdAt: '1/1/2018',
                 daysOff:
-                [
-                    'sat',
-                    'sun'
-                ],
+                    [
+                        'sat',
+                        'sun'
+                    ],
                 email: 'blah@blah.com',
                 firstName: 'mariam',
                 lastName: 'mahran',
@@ -53,21 +52,17 @@ describe('Send a request to contact info to address book', function() {
                 priceRange: 1000
             };
             chai.request(server).post('/api/psychologist/request/add/addRequest').
-            send(req).
-            end(function(err, res) {
-                if (err) {
-                return console.log(err);
-                }
-                console.log(res);
-                should.exist(res);
-                expect(res).to.have.status(200);
-                res.body.data.should.be.a('Object');
-                done();
-            });
+                send(req).
+                end(function (err, res) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    res.should.have.status(200);
+                });
         });
     });
 
-    describe('add psychologist information directly by admin', function() {
+    describe('add psychologist information directly by admin', function () {
 
         var usr = {
             address: 'somewhere',
@@ -93,39 +88,39 @@ describe('Send a request to contact info to address book', function() {
         var token = null;
 
         var authenticatedUser = request.agent(server);
-        before(function(done) {
+        before(function (done) {
             authenticatedUser.post('/api/signUp').
-            send(usr).
-            end(function(err, response) {
-                if (err) {
-                    console.log(err);
-                }
-                response.should.have.status(201);
-                token = response.body.token;
-                done();
+                send(usr).
+                end(function (err, response) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    response.should.have.status(201);
+                    token = response.body.token;
+                    done();
                 });
         });
-        before(function(done) {
+        before(function (done) {
             authenticatedUser.post('/api/signIn').
-            send(usr).
-            end(function(err, response) {
-                if (err) {
-                    console.log(err);
-                }
-                response.should.have.status(200);
-                token = response.body.token;
-                done();
+                send(usr).
+                end(function (err, response) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    response.should.have.status(200);
+                    token = response.body.token;
+                    done();
                 });
         });
-        it('add information directly to address book', function() {
+        it('add information directly to address book', function () {
             var req = {
                 address: 'here',
                 createdAt: '1/1/2018',
                 daysOff:
-                [
-                    'sat',
-                    'sun'
-                ],
+                    [
+                        'sat',
+                        'sun'
+                    ],
                 email: 'blah@blah.com',
                 firstName: 'mariam',
                 lastName: 'mahran',
@@ -140,7 +135,7 @@ describe('Send a request to contact info to address book', function() {
             authenticatedUser.post('/api/psychologist/request/add/addRequest').
                 send(req).
                 set('Authorization', token).
-                end(function(err, res) {
+                end(function (err, res) {
                     if (err) {
                         return console.log(err);
                     }

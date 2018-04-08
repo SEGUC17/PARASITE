@@ -69,17 +69,24 @@ module.exports.getPsychologists = function (req, res, next) {
 };
 
 module.exports.getRequests = function (req, res, next) {
-  console.log('Got here');
-  Request.find({}).exec(function (err, requests) {
-    if (err) {
-      return next(err);
-    }
-    res.status(200).json({
-      data: requests,
-      err: null,
-      msg: 'Requests retrieved successfully.'
+  if (req.user.isAdmin) {
+    Request.find({}).exec(function (err, requests) {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({
+        data: requests,
+        err: null,
+        msg: 'Requests retrieved successfully.'
+      });
     });
-  });
+  } else {
+    res.status(403).json({
+      data: null,
+      err: 'You are not an admin to do that',
+      msg: null
+    });
+  }
 };
 
 module.exports.evaluateRequest = function (req, res, next) {
