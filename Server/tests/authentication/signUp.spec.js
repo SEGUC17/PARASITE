@@ -89,7 +89,17 @@ describe('signUp', function () {
         });
         it('Token Expires In More Than 12 Hours!');
         it('"address" Attribute Is Not Valid!');
-        it('"birthdate" Attribute Is Empty!');
+        it('"birthdate" Attribute Is Empty!', function(done) {
+            johnDoe.birthdate = null;
+            chai.request(app).
+                post(path).
+                send(johnDoe).
+                end(function(err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Birthdate: Expected non-empty value!');
+                    done();
+                });
+        });
         it('"birthdate" Attribute Is Not Valid!');
         it('"email" Attribute Is Empty!');
         it('"email" Attribute Is Not Valid!');
