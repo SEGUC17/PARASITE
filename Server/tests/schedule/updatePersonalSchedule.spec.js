@@ -21,7 +21,7 @@ var johnDoe = new User({
     isTeacher: true,
     lastName: 'Doe',
     password: 'JohnPasSWorD',
-    phone: '123',
+    phone: ['123'],
     username: 'john'
 });
 var janeDoe = new User({
@@ -32,7 +32,7 @@ var janeDoe = new User({
     isTeacher: true,
     lastName: 'Doe',
     password: 'JanePasSWorD',
-    phone: '123',
+    phone: ['123'],
     username: 'jane'
 });
 var johnny = new User({
@@ -43,7 +43,7 @@ var johnny = new User({
     isTeacher: true,
     lastName: 'Doe',
     password: 'JohnPasSWorD',
-    phone: '123',
+    phone: ['123'],
     username: 'johnny'
 });
 var aCalendarEvent = {
