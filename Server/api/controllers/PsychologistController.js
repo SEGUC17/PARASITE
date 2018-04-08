@@ -21,7 +21,6 @@ module.exports.addRequest = function (req, res, next) {
   }
 
   var user = req.user;
-  console.log(req.user);
 
   var isAdmin = false;
 
