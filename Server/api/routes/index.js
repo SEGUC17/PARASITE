@@ -132,8 +132,8 @@ module.exports = function (passport) {
 
   // -------------- Admin Contoller ---------------------- //
 
-  router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
-  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
+  router.get('/admin/VerifiedContributerRequests/:FilterBy', isAuthenticated, adminController.getVCRs);
+  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', isAuthenticated, adminController.VCRResponde);
   router.get(
     '/admin/PendingContentRequests/:type', isAuthenticated,
     adminController.viewPendingContReqs
@@ -149,7 +149,7 @@ module.exports = function (passport) {
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
-  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+  router.post('/profile/VerifiedContributerRequest', isAuthenticated, profileController.requestUserValidation);
   router.get('/profile/:parentId', profileController.getUserInfo);
   router.put('/profile/LinkAnotherParent/:parentId', profileController.linkAnotherParent);
   router.put('/profile/UnlinkAnotherParent/:parentId', profileController.Unlink);
