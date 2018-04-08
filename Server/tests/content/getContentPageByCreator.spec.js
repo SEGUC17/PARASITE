@@ -44,9 +44,13 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
                     if (error) {
                         return console.log(error);
                     }
+
+                    // expect success status, array result with page length
                     expect(res).to.have.status(200);
                     res.body.data.docs.should.be.a('array');
                     res.body.data.docs.should.have.lengthOf(pageLength);
+
+                    // check that all the content is by the same creator
                     for (
                         var counter = 0;
                         counter < res.body.data.docs.length;
@@ -85,6 +89,7 @@ describe('/GET/ Content Page by Creator', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
+    // test that the server gets a page of content by a creator
     it(
         'it should GET page of content with the specified creator',
         function (done) {
@@ -110,6 +115,7 @@ describe('/GET/ Content Page by Creator', function () {
                     title: 'Test Content' + counter
                 }));
             }
+
             // sign up and be authenticated
             chai.request(server).
                 post('/api/signUp').
@@ -130,7 +136,8 @@ describe('/GET/ Content Page by Creator', function () {
                 });
         }
     );
-
+    
+    // test that the server will send an error if the elements per page parameter is not valid
     it(
         'it should fail with an error if the elements per page is not valid.',
         function (done) {
@@ -152,6 +159,7 @@ describe('/GET/ Content Page by Creator', function () {
                             if (error) {
                                 return console.log(error);
                             }
+                            // expect 422 status due to error
                             expect(res).to.have.status(422);
                             done();
                         });
@@ -159,6 +167,7 @@ describe('/GET/ Content Page by Creator', function () {
         }
     );
 
+    // test that the server will send an error if the page number parameter is not valid
     it(
         'it should fail with an error if the page number is not valid.',
         function (done) {
@@ -180,6 +189,7 @@ describe('/GET/ Content Page by Creator', function () {
                             if (error) {
                                 return console.log(error);
                             }
+                            //expect error status
                             expect(res).to.have.status(422);
                             done();
                         });
