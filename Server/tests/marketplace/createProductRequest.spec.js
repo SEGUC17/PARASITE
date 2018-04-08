@@ -21,12 +21,15 @@ var user = {
     password: '123456789',
     phone: '0112345677',
     username: 'omar'
+
 };
 // authenticated token
 var token = null;
 
 //write your test's name below in <write here>
 describe('createProductRequest', function () {
+   this.timeout(120000); //.................. // should i add this
+
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -46,7 +49,7 @@ describe('createProductRequest', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-    it('it should GET categories from the server', function (done) {
+    it('it should POST productrequests', function (done) {
         //here you need to call your schema to construct a document
 		//like this:
 		var pro1 = new Product({
@@ -55,7 +58,7 @@ describe('createProductRequest', function () {
             image : 'https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
             name : 'product1',
             price : '11',
-            seller: user.username, 
+            seller: 'omar', 
         });
 		//sign up
 		chai.request(server).
@@ -83,7 +86,6 @@ describe('createProductRequest', function () {
                        return console.log(error);
                    }
                   expect(res).to.have.status(200); //200 = ProductRequest was created successfully.
-                  res.should.have.status(201);
                   res.body.should.be.a('object');
                   res.body.should.have.property('message').eql('Product was created successfully.');
                   res.body.book.should.have.property('acquiringType');
