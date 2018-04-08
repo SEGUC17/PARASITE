@@ -4,7 +4,7 @@ var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
 
 
-var limits = function(toFind) {
+var limits = function (toFind) {
 
     var limiters = {};
     if (toFind.price) {
@@ -26,8 +26,8 @@ module.exports.getNumberOfProducts = function (req, res, next) {
     var toFind = JSON.parse(req.params.limiters);
     // validations
     var valid = (!toFind.price || !isNaN(toFind.price)) &&
-    (!toFind.name || typeof toFind.name === 'string') &&
-    (!toFind.seller || typeof toFind.seller === 'string');
+        (!toFind.name || typeof toFind.name === 'string') &&
+        (!toFind.seller || typeof toFind.seller === 'string');
 
     // the request was not valid
     if (!valid) {
@@ -135,36 +135,36 @@ module.exports.createProduct = function (req, res, next) {
         });
     }
     if (req.user.isAdmin) {
-    Product.create(req.body, function (err, product) {
+        Product.create(req.body, function (err, product) {
 
-        if (err) {
-            return next(err);
-        }
-        res.status(201).json({
-            data: product,
-            err: null,
-            msg: 'Product was created successfully.'
+            if (err) {
+                return next(err);
+            }
+            res.status(201).json({
+                data: product,
+                err: null,
+                msg: 'Product was created successfully.'
+            });
         });
-    });
-//  } else {
-//         res.status(403).json({
-//             data: null,
-//             err: 'Product sent to productRequest successfully',
-//             msg: null
-//         });
-//     }
+        //  } else {
+        //         res.status(403).json({
+        //             data: null,
+        //             err: 'Product sent to productRequest successfully',
+        //             msg: null
+        //         });
+        //     }
 
- } else {
-    ProductRequest.create(req.body, function (err, productreq) {
-        if (err) {
-            return next(err);
-        }
-        res.status(200).json({
-            data: productreq,
-            err: null,
-            msg: 'ProductRequest was created successfully.'
-        });
-    })
+    } else {
+        ProductRequest.create(req.body, function (err, productreq) {
+            if (err) {
+                return next(err);
+            }
+            res.status(200).json({
+                data: productreq,
+                err: null,
+                msg: 'ProductRequest was created successfully.'
+            });
+        })
     }
 
 };
@@ -247,5 +247,5 @@ module.exports.evaluateRequest = function (req, res, next) {
                 msg: 'Request rejected and user notified.'
             });
         });
-    } 
-                };
+    }
+};

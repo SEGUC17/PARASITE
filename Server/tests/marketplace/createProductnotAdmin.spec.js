@@ -29,7 +29,7 @@ var user = {
 var token = null;
 
 
-describe('CreateProduct for admin for not an admin', function () {
+describe('CreateProduct  for not an admin', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
