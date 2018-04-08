@@ -162,7 +162,40 @@ module.exports.respondContentStatus = function (req, res, next) {
         }
     );
 };
+  // TO-DO ContributionPts
+// module.exports.addContPts = function(req, res, next) {
+//     User.findOneAndUpdate(
+//         { 'username': req.body.username },
+//         { $set: { contributionScore: 10 } },
+//         { new: true },
+//         function(err, updatedUser) {
 
+//             if (err) {
+//                 console.log('cannot add contributionPoints to' +
+//                 req.body.username);
+
+//                 return next(err);
+//             }
+//             // if not found return error
+//             if (!updatedUser) {
+//                 return res.status(404).json({
+//                     data: null,
+//                     err: 'User not found',
+//                     msg: null
+//                 });
+//             }
+//             // return 200 if everything is OK
+
+
+//             return res.status(200).json({
+//                 data: updatedUser,
+//                 err: null,
+//                 msg: updatedUser.username +
+//                     ' hase now ' + req.body.newpoints + 'points'
+//             });
+//         }
+//     );
+// };
 
 //-------------------------------------------//
 
