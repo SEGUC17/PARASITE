@@ -55,7 +55,8 @@ describe('CreateProduct for admin', function () {
             acquiringType: 'sell',
             description: 'description description description',
             image: 'https://vignette.wikia.nocookie.net/spongebob/images' +
-            '/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
+                '/a/ac/Spongebobwithglasses.jpeg/' +
+                'revision/latest?cb=20121014113150',
             name: 'product1',
             price: '11',
             seller: 'omar'
@@ -73,40 +74,37 @@ describe('CreateProduct for admin', function () {
                 //here for admin
                 users.updateOne(
                     { username: 'omar' },
-                 { $set: { isAdmin: true } }, function (err1) {
-                    if (err1) {
-                        return console.log(err1);
+                    { $set: { isAdmin: true } }, function (err1) {
+                        if (err1) {
+                            return console.log(err1);
+                        }
+
+                        // write your actual test here, like this:
+                        chai.request(server).
+                            post('/api/productrequest/createproduct').
+                            send(pro1).
+                            set('Authorization', token).
+                            end(function (error, res) {
+                                if (error) {
+                                    return console.log(error);
+                                }
+                                expect(res).to.have.status(201);
+                                res.body.should.be.a('object');
+                                res.body.should.have.property('msg').
+                                    eql('Product was created successfully.');
+                                res.body.data.should.
+                                have.property('acquiringType');
+                                res.body.data.should.
+                                have.property('description');
+                                res.body.data.should.have.property('image');
+                                res.body.data.should.have.property('name');
+                                res.body.data.should.have.property('price');
+                                res.body.data.should.have.property('seller');
+
+                                done();
+                            });
                     }
-
-                    //commented bec. it inserts twice
-                    // pro1.save(function (err) {
-                    //     if (err) {
-                    //         return console.log(err);
-                    //     }
-
-                    // write your actual test here, like this:
-                    chai.request(server).
-                        post('/api/productrequest/createproduct').
-                        send(pro1).
-                        end(function (error, res) {
-                            if (error) {
-                                return console.log(error);
-                            }
-                            expect(res).to.have.status(201);
-                            res.body.should.be.a('object');
-                            res.body.should.have.property('msg').
-                            eql('Product was created successfully.');
-                            res.body.data.should.have.property('acquiringType');
-                            res.body.data.should.have.property('description');
-                            res.body.data.should.have.property('image');
-                            res.body.data.should.have.property('name');
-                            res.body.data.should.have.property('price');
-                            res.body.data.should.have.property('seller');
-
-                            done();
-                        });
-                }
-            );
+                );
             });
     });
     // --- Mockgoose Termination --- //

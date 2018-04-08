@@ -1,3 +1,4 @@
+/*eslint max-statements: ["error", 20]*/
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
@@ -53,7 +54,7 @@ describe('CreateProduct for admin for not an admin', function () {
     it('it should POST product int to product requests', function (done) {
         //here you need to call your schema to construct a document
         //like this:
-        var pro1 = ({
+        var pro1 = {
             acquiringType: 'sell',
             description: 'description description description',
             image: 'https://vignette.wikia.nocookie.net/spongebob/images/' +
@@ -61,7 +62,7 @@ describe('CreateProduct for admin for not an admin', function () {
             name: 'product2',
             price: 11,
             seller: 'omar'
-        });
+        };
         //sign up
         chai.request(server).
             post('/api/signUp').
@@ -78,6 +79,7 @@ describe('CreateProduct for admin for not an admin', function () {
                 chai.request(server).
                     post('/api/productrequest/createproduct').
                     send(pro1).
+                    set('Authorization', token).
                     end(function (error, res) {
                         if (error) {
                             return console.log(error);
@@ -92,6 +94,8 @@ describe('CreateProduct for admin for not an admin', function () {
                         res.body.data.should.have.property('name');
                         res.body.data.should.have.property('price');
                         res.body.data.should.have.property('seller');
+                        // res.body.should.have.property('err').
+                        // eql('Product sent to productRequest successfully');
 
                         done();
                     });
@@ -106,3 +110,4 @@ describe('CreateProduct for admin for not an admin', function () {
     });
     // --- End of "Mockgoose Termination" --- //
 });   
+
