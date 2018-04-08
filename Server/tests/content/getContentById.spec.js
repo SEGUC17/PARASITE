@@ -31,7 +31,9 @@ describe('/GET/ Content by id', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
+    // test that content is retrieved from the server by id
     it('it should GET content from the server by id', function (done) {
+        // create content for the test
         var cont1 = new Content({
             approved: true,
             body: '<h1>Hello</h1>',
@@ -41,15 +43,20 @@ describe('/GET/ Content by id', function () {
             title: 'Test Content'
         });
 
+        // save the content to the database
         cont1.save(function (err, savedContent) {
             if (err) {
                 return console.log(err);
             }
+
+            // request the same content by id
             chai.request(server).get('/api/content/view/' + savedContent._id).
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
                     }
+
+                    // expect the same content to be retrieved with the right id, title, and type
                     expect(res).to.have.status(200);
                     res.body.data.should.be.a('Object');
                     res.body.data.should.have.
@@ -69,8 +76,10 @@ describe('/GET/ Content by id', function () {
         });
     });
 
+    // test that 404 should be returned if the content no longer exists
     it('it should return 404 not found ' +
         'because content was not found.', function (done) {
+            // create content for the test
             var cont1 = new Content({
                 approved: true,
                 body: '<h1>Hello</h1>',
@@ -79,6 +88,7 @@ describe('/GET/ Content by id', function () {
                 section: 'sec1',
                 title: 'Test Content'
             });
+
             // save content to database
             cont1.save(function (err, savedContent) {
                 if (err) {
@@ -99,9 +109,10 @@ describe('/GET/ Content by id', function () {
                 });
             });
         });
-
+    // test that the server should return an error when the content id is not valid
     it('it should return 422 error ' +
         'because content id was not valid.', function (done) {
+            // create content for the test
             var cont1 = new Content({
                 approved: true,
                 body: '<h1>Hello</h1>',
@@ -110,24 +121,23 @@ describe('/GET/ Content by id', function () {
                 section: 'sec1',
                 title: 'Test Content'
             });
+
             // save content to database
             cont1.save(function (err) {
                 if (err) {
                     return console.log(err);
                 }
-                // reset database
-                mockgoose.helper.reset().then(function () {
-                    chai.request(server).
-                        get('/api/content/view/54').
-                        end(function (error, res) {
-                            if (error) {
-                                return console.log(error);
-                            }
-                            // the content should not be found
-                            expect(res).to.have.status(422);
-                            done();
-                        });
-                });
+                // request the content with an invalid id
+                chai.request(server).
+                    get('/api/content/view/54').
+                    end(function (error, res) {
+                        if (error) {
+                            return console.log(error);
+                        }
+                        // the 422 error status should be returned from the server
+                        expect(res).to.have.status(422);
+                        done();
+                    });
             });
         });
 
