@@ -82,8 +82,8 @@ describe('Activities', function () {
                     console.log(err);
                 }
                 adminUser = user;
+                done();
             });
-            done();
         });
     });
     // --- End of 'Clearing Mockgoose' --- //
