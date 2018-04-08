@@ -81,7 +81,7 @@ describe('signUp', function () {
                             res2.should.have.status(403);
                             res2.body.should.have.property('msg').eql('User Is Already Signed In!');
                             done();
-                        })
+                        });
                 });
         });
         it('Token Expires In More Than 12 Hours!');
@@ -172,51 +172,67 @@ describe('signUp', function () {
                 });
         });
         it('"username" Attribute Is Not Valid!');
-        it('"Age" Is Less Than 13!', function(done) {
+        it('"Age" Is Less Than 13!', function (done) {
             this.johnDoe.birthdate = Date();
             chai.request(app).
                 post(path).
                 send(this.johnDoe).
-                end(function(err, res) {
+                end(function (err, res) {
                     res.should.have.status(422);
                     res.body.should.have.property('msg').eql('Can\'t Sign Up If User Under 13 Years Old!');
                     done();
                 });
         });
-        it('"Email" Is Not Valid!', function(done) {
+        it('"Email" Is Not Valid!', function (done) {
             this.johnDoe.email = 'johndoe@gmail';
             chai.request(app).
                 post(path).
                 send(this.johnDoe).
-                end(function(err, res) {
+                end(function (err, res) {
                     res.should.have.status(422);
                     res.body.should.have.property('msg').eql('Email Is Not Valid!');
                     done();
                 });
         });
-        it('"Password" Has Length Less Than 8', function(done) {
+        it('"Password" Has Length Less Than 8', function (done) {
             this.johnDoe.password = 'JohnPaS';
             chai.request(app).
                 post(path).
                 send(this.johnDoe).
-                end(function(err, res) {
+                end(function (err, res) {
                     res.should.have.status(422);
                     res.body.should.have.property('msg').eql('Password Length Must Be Greater Than 8!');
                     done();
                 });
         });
-        it('"Phone" Element(s) Is/Are Not Valid!', function(done) {
+        it('"Phone" Element(s) Is/Are Not Valid!', function (done) {
             this.johnDoe.phone = 'Wrong Number!';
             chai.request(app).
                 post(path).
                 send(this.johnDoe).
-                end(function(err, res) {
+                end(function (err, res) {
                     res.should.have.status(422);
                     res.body.should.have.property('msg').eql('Phone Is Not Valid!');
                     done();
                 });
         });
-        it('"Email" Is A Duplicate!');
+        it('"Email" Is A Duplicate!', function (done) {
+            var self = this;
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    self.janeDoe.email = self.johnDoe.email;
+                    chai.request(app).
+                        post(path).
+                        send(self.janeDoe).
+                        end(function (err2, res2) {
+                            res2.should.have.status(409);
+                            res2.body.should.have.property('msg').eql('Email Is In Use!');
+                            done();
+                        });
+                });
+        });
         it('"Username" Is A Duplicate!');
     });
     describe('Success!', function () {
