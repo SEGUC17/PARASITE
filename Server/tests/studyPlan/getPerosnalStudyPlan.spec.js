@@ -64,6 +64,50 @@ describe('/GET/ Personal Study Plan', function () {
             username: 'jathri'
         });
 
+        var conductTests = function (res) {
+            res.should.be.json;
+            res.should.have.status(200);
+            res.body.data.should.be.a('object');
+            res.body.data.should.have.property(
+                '_id',
+                '9ac09be2f578185d46efc3c7',
+                'Wrong Study Plan Retrieved _id ' +
+                res.body.data._id.toString()
+            );
+            res.body.data.should.have.property(
+                'creator',
+                studyPlan.creator,
+                'Wrong Study Plan Retrieved _creator creator ' +
+                res.body.data.creator
+            );
+            res.body.data.should.have.property(
+                'title',
+                studyPlan.title,
+                'Wrong Study Plan Retrieved title ' +
+                res.body.data.title
+            );
+            res.body.data.should.have.property(
+                'description',
+                studyPlan.description,
+                'Wrong Study Plan Retrieved description ' +
+                res.body.data.description
+            );
+            expect(res.body.data.events).to.have.deep.
+                members([
+                    {
+                        _id: '5ac09ae2f538185d46efc8c4',
+                        actions: [],
+                        color: {
+                            primary: '#1e90ff',
+                            secondary: '#D1E8FF'
+                        },
+                        end: '2018-04-01T20:07:28.780Z',
+                        start: '2018-03-29T22:00:00.000Z',
+                        title: 'So Many Comebacks, So Little Time...'
+                    }
+                ]);
+        };
+
         user.save(function (err) {
             if (err) {
                 return console.log(err);
@@ -73,54 +117,22 @@ describe('/GET/ Personal Study Plan', function () {
                 get('/api/study-plan/getPersonalStudyPlan' +
                     '/jathri/9ac09be2f578185d46efc3c7').
                 end(function (error, res) {
-                    // if (error) {
-                    //     return console.log(error);
-                    // }
-                    res.should.be.json;
-                    res.should.have.status(200);
-                    res.body.data.should.be.a('object');
-                    res.body.data.should.have.property(
-                        '_id',
-                        '9ac09be2f578185d46efc3c7',
-                        'Wrong Study Plan Retrieved _id ' +
-                        res.body.data._id.toString()
-                    );
-                    res.body.data.should.have.property(
-                        'creator',
-                        studyPlan.creator,
-                        'Wrong Study Plan Retrieved _creator creator ' +
-                        res.body.data.creator
-                    );
-                    res.body.data.should.have.property(
-                        'title',
-                        studyPlan.title,
-                        'Wrong Study Plan Retrieved title ' +
-                        res.body.data.title
-                    );
-                    res.body.data.should.have.property(
-                        'description',
-                        studyPlan.description,
-                        'Wrong Study Plan Retrieved description ' +
-                        res.body.data.description
-                    );
-                    expect(res.body.data.events).to.have.deep.
-                        members([
-                            {
-                                _id: '5ac09ae2f538185d46efc8c4',
-                                actions: [],
-                                color: {
-                                    primary: '#1e90ff',
-                                    secondary: '#D1E8FF'
-                                },
-                                end: '2018-04-01T20:07:28.780Z',
-                                start: '2018-03-29T22:00:00.000Z',
-                                title: 'So Many Comebacks, So Little Time...'
-                            }
-                        ]);
+                    if (error) {
+                        return console.log(error);
+                    }
+                    conductTests(res);
                     done();
                 });
         });
+
     });
 
+    // --- Mockgoose Termination --- //
+    after(function (done) {
+        mongoose.connection.close(function () {
+            done();
+        });
+    });
+    // --- End of "Mockgoose Termination" --- //
 
 });
