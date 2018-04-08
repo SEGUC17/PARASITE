@@ -11,6 +11,8 @@ var Mockgoose = require('mockgoose').Mockgoose;
 var config = require('../../api/config/config');
 var mockgoose = new Mockgoose(mongoose);
 var expect = chai.expect;
+var ContentRequest = mongoose.model('ContentRequest');
+
 
 var adminUser = {
     password: 'salmaadmin',
