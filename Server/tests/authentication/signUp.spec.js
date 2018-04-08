@@ -160,7 +160,17 @@ describe('signUp', function () {
         it('"password" Attribute Is Not Valid!');
         it('"phone" Attribute Is Not Valid!');
         it('"phone" Attribute Element(s) Is/Are Not Valid');
-        it('"username" Attribute Is Empty!');
+        it('"username" Attribute Is Empty!', function (done) {
+            this.johnDoe.username = null;
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Username: Expected non-empty value!');
+                    done();
+                });
+        });
         it('"username" Attribute Is Not Valid!');
         it('"Age" Is Less Than 13!');
         it('"Email" Is Not Valid!');
