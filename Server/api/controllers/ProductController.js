@@ -93,34 +93,6 @@ module.exports.getMarketPage = function (req, res, next) {
     );
 };
 
-// get a product given its id
-module.exports.getProduct = function (req, res, next) {
-    if (!Validations.isObjectId(req.params.productId)) {
-        return res.status(422).json({
-            data: null,
-            err: 'productId parameter must be a valid ObjectId.',
-            msg: null
-        });
-    }
-    Product.findById(req.params.productId).exec(function (err, product) {
-        if (err) {
-            return next(err);
-        }
-        if (!product) {
-            return res.status(404).json({
-                data: null,
-                err: 'Product not found.',
-                msg: null
-            });
-        }
-        res.status(200).json({
-            data: product,
-            err: null,
-            msg: 'Product retrieved successfully.'
-        });
-    });
-};
-
 // Get the psychologist requests in the database
 module.exports.getRequests = function (req, res, next) {
     if (req.user.isAdmin) {
