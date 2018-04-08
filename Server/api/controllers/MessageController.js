@@ -21,9 +21,9 @@ module.exports.sendMessage = function(req, res, next) {
       err: null,
       msg: 'body and sender and recipient are required fields'
     });
-  }
+  }*/
 
-  User.find({ username: req.body.recipient }).exec(function (err, user) {
+  /*User.find({ username: req.body.recipient }).exec(function (err, user) {
     if (err) {
         return next(err);
     }
@@ -32,6 +32,14 @@ module.exports.sendMessage = function(req, res, next) {
         return res.status(404).json({
             data: null,
             err: 'This user does not exist.',
+            msg: null
+        });
+    }
+
+    if (user.isChild) {
+      return res.status(422).json({
+            data: null,
+            err: 'You cannot message a user below the age of 13.',
             msg: null
         });
     }
@@ -52,7 +60,7 @@ module.exports.sendMessage = function(req, res, next) {
       return next(err);
     }
 
-    return res.status(201).json({
+    return res.status(200).json({
       data: msg,
       err: null,
       msg: 'Message was sent successfully.'
