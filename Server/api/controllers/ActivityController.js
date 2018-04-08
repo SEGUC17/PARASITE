@@ -217,7 +217,10 @@ module.exports.reviewActivity = function (req, res, next) {
     Activity.findByIdAndUpdate(
         activityId,
         { status: newStatus },
-        { runValidators: true },
+        {
+            new: true,
+            runValidators: true
+        },
         function(err, activity) {
             if (err) {
                 return res.status(422).json({
@@ -226,7 +229,7 @@ module.exports.reviewActivity = function (req, res, next) {
                     msg: null
                 });
             }
-            res.status(204).json({
+            res.status(200).send({
                 data: activity,
                 err: null,
                 msg: 'Activity status is updated'
