@@ -134,7 +134,17 @@ describe('signUp', function () {
                 });
         });
         it('"isTeacher" Attribute Is Not Valid!');
-        it('"lastName" Attribute Is Empty!');
+        it('"lastName" Attribute Is Empty!', function (done) {
+            this.johnDoe.lastName = null;
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Last Name: Expected non-empty value!');
+                    done();
+                });
+        });
         it('"lastName" Attribute Is Not Valid!');
         it('"password" Attribute Is Empty!');
         it('"password" Attribute Is Not Valid!');
