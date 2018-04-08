@@ -134,6 +134,35 @@ describe('Activities', function () {
         });
     });
 
+    describe('/GET activities authenticated admin filtering pending', function () {
+        it('it should GET all activities', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).get('/api/activities?status=pending').
+                set('Authorization', token).
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(200);
+                    expect(res.body.data.docs.length).to.equal(1);
+                    expect(res.body.data).to.have.ownProperty('page');
+                    expect(res.body.data).to.have.ownProperty('pages');
+                    expect(res.body.data).to.have.ownProperty('limit');
+                    var activities = res.body.data.docs;
+                    for (var activity in activities) {
+                        activity = activities[activity];
+                        expect(activity.status).to.equal('pending');
+                    }
+                    done();
+                });
+        });
+    });
+
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
