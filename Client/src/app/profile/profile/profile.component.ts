@@ -150,18 +150,26 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
   }
 
   addChild(child): void { // adds a the selected child to the visited user list of children
-
-    this._ProfileService.linkAnotherParent(child, this.vId).subscribe();
+    let object = {
+      child: child
+    };
+    this._ProfileService.linkAnotherParent(object, this.vId).subscribe();
 
   }
 
 
   removeChild(child): void { // removes the child from the list of children of the currently logged in user
-    this._ProfileService.Unlink(child, this.id).subscribe();
+    let object = {
+      child: child
+    };
+    this._ProfileService.Unlink(object, this.id).subscribe();
   }
 
   linkToParent(child): void { // adds the currently logged in child to the list of children of the selected user
-    this._ProfileService.linkAsParent(child, this.vId).subscribe();
+    let object = {
+      child: child
+    };
+    this._ProfileService.linkAsParent(object, this.vId).subscribe();
   }
 
 
