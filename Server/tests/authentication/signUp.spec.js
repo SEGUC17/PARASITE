@@ -326,8 +326,44 @@ describe('signUp', function () {
                     });
                 });
         });
-        it('"Username" Is Lowered Case!');
-        it('"Username" Is Trimmed!');
+        it('"Username" Is Lowered Case!', function (done) {
+            var self = this;
+            this.johnDoe.username = this.johnDoe.username.toUpperCase();
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    User.findOne({ 'username': self.johnDoe.username.toLowerCase() }, function (err, user) {
+                        if (user) {
+                            res.should.have.status(201);
+                            res.body.should.have.property('msg').eql('Sign Up Is Successful!');
+                            user.username.should.be.eql(self.johnDoe.username.toLowerCase());
+                            done();
+                        } else {
+                            done(new Error('User Was Not Added To DB!'));
+                        }
+                    });
+                });
+        });
+        it('"Username" Is Trimmed!', function (done) {
+            var self = this;
+            this.johnDoe.username = '  ' + this.johnDoe.username + '  ';
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    User.findOne({ 'username': self.johnDoe.username.trim() }, function (err, user) {
+                        if (user) {
+                            res.should.have.status(201);
+                            res.body.should.have.property('msg').eql('Sign Up Is Successful!');
+                            user.username.should.be.eql(self.johnDoe.username.trim());
+                            done();
+                        } else {
+                            done(new Error('User Was Not Added To DB!'));
+                        }
+                    });
+                });
+        });
         it('Password Is Hashed!');
         it('Token Is Sent After Signning Up!');
         it('Token Expires In 12 Hours!');
