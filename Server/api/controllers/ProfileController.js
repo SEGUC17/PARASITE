@@ -31,6 +31,65 @@ res.status(200).json({
       });
   });
 };
+module.exports.EditChildIndependence = function (req, res, next) {
+
+ 
+  
+   User.findOneAndUpdate(
+     { username: req.params.username },
+    { $set: { isChild: false } }
+  ).exec(function (err, user) {
+       if (err) {
+            return next(err);
+        }
+
+        if (!user) {
+          return res.
+          status(404).
+          json({
+  data: null,
+  err: null,
+  msg: 'user not found'
+  });
+      }
+  
+  
+  
+  
+  if (new Date().getFullYear() - user.birthdate.getFullYear() < 13) {
+  
+    return res.
+                status(403).
+                json({
+        data: null,
+        err: null,
+        msg: 'Child under 13.'
+        });
+  }
+
+  if (new Date().getFullYear() - user.birthdate.getFullYear() === 13 &&
+  new Date().getMonth() < user.birthdate.getMonth()) {
+    return res.
+    status(403).
+    json({
+  data: null,
+  err: null,
+  msg: 'Child under 13.'
+  });
+  }
+  
+ 
+  res.status(200).json({
+  
+  
+            data: user.isChild,
+            err: null,
+            msg: 'Successefully changed from child to independent.'
+        });
+  
+    });
+  };
+  
 
 // @author: MAHER
 // requestUserValidation() take some of the
