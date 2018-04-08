@@ -203,6 +203,30 @@ describe('/POST/content/', function () {
                 });
         });
 
+    it('should fail to create new content successfully,' +
+        ' because of invalid section', function (done) {
+            chai.request(server).
+                post('/api/content').
+                set('Authorization', userToken).
+                send({
+                    body: 'hello there',
+                    category: cat1.name,
+                    creator: 'Hellothere',
+                    section: 'invalid sec',
+                    title: 'test title'
+                }).
+                end(function (err, res) {
+                    if (err) {
+                        done();
+                    }
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('the section' +
+                        ' supplied is invalid');
+                    done();
+                });
+        });
+
     // --- Clearing Mockgoose --- //
     after(function (done) {
         mockgoose.helper.reset().then(function () {
