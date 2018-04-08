@@ -86,7 +86,7 @@ module.exports = function (passport) {
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist', psychCtrl.getPsychologists);
   router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
-  router.get('/psychologist/request/getRequests', psychCtrl.getRequests);
+  router.get('/psychologist/request/getRequests', isAuthenticated, psychCtrl.getRequests);
   router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);
   // ------------- psychologist's requests Controller ------------- //
 
