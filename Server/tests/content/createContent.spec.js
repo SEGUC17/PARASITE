@@ -1,9 +1,9 @@
-
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
 var Content = mongoose.model('Content');
 var Category = mongoose.model('Category');
+var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 var should = chai.should();
@@ -16,6 +16,7 @@ var mockgoose = new Mockgoose(mongoose);
 
 describe('/POST/content/', function () {
     var userToken = null;
+    var adminToken = null;
     var cat1 = new Category({
         name: 'testcat1',
         sections: [{ name: 'sec1.1' }]
@@ -29,8 +30,10 @@ describe('/POST/content/', function () {
         });
     });
     // --- End of "Mockgoose Initiation" --- //
+
     // --- Sign up a new user --//
     before(function (done) {
+        //create the first test user(normal permissions)
         chai.request(server).post('/api/signUp').
             send({
                 birthdate: '11/11/1997',
@@ -44,17 +47,51 @@ describe('/POST/content/', function () {
                 if (err) {
                     done();
                 }
+                // get the first test user token
                 userToken = res.body.token;
-
-                cat1.save(function (catError) {
-                    if (catError) {
-                        done();
-                    }
-                    done();
-                });
-
+                done();
             });
     });
+    before(function (done) {
+        cat1.save(function (catError) {
+            if (catError) {
+                done();
+            }
+            done();
+        });
+    });
+    before(function (done) {
+        //create the second test user(admin permissions)
+        chai.request(server).post('/api/signUp').
+            send({
+                birthdate: '11/11/1997',
+                email: 'admin@admin.com',
+                firstName: 'admin',
+                lastName: 'admin',
+                password: 'admin123',
+                username: 'admin'
+            }).
+            end(function (err, res) {
+                if (err) {
+                    done();
+                }
+                // update user permissions
+                User.update(
+                    { username: 'admin' },
+                    { new: true },
+                    { $set: { isAdmin: true } },
+                    function (updateErr) {
+                        if (updateErr) {
+                            done();
+                        }
+                        // get the token for the second test user
+                        adminToken = res.body.token;
+                        done();
+                    }
+                );
+            });
+    });
+
     it('should create new content successfully,with false ' +
         'approval status, and a new content request', function (done) {
             var testContent = function (res, content) {
