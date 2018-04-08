@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { ChildsignupComponent } from './childsignup.component';
@@ -9,6 +9,9 @@ const routes = [
   imports: [
     CommonModule,
     RouterModule.forRoot(routes)
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ],
   declarations: []
 })
