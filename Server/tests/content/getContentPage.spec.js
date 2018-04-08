@@ -16,7 +16,7 @@ chai.use(chaiHttp);
 var docArray = [];
 
 // save the documents and test
-var saveAllAndTest = function (done, requestUrl, pageLength) {
+var saveAllAndTest = function (done, requestUrl, pageLength, expectedCategory, expectedSection) {
     // get document from the array
     var doc = docArray.pop();
     // save the document
@@ -37,11 +37,36 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
                     expect(res).to.have.status(200);
                     res.body.data.docs.should.be.a('array');
                     res.body.data.docs.should.have.lengthOf(pageLength);
+                    // validate category and section retrieval
+                    if (expectedCategory !== 'NoCat' && expectedSection !== 'NoSec') {
+                        // check category and section
+                        for (
+                            var counter = 0;
+                            counter < res.body.data.docs.length;
+                            counter += 1
+                        ) {
+                            res.body.data.docs[counter].
+                                should.have.property('category', expectedCategory);
+                            res.body.data.docs[counter].
+                                should.have.property('section', expectedSection);
+                        }
+                    } else if (expectedCategory !== 'NoCat') {
+                        // check category only
+                        for (
+                            var counter = 0;
+                            counter < res.body.data.docs.length;
+                            counter += 1
+                        ) {
+                            res.body.data.docs[counter].
+                                should.have.property('category', expectedCategory);
+                        }
+                    }
+
                     done();
                 });
         } else {
             // if it is not the last document, continue to save
-            saveAllAndTest(done, requestUrl, pageLength);
+            saveAllAndTest(done, requestUrl, pageLength, expectedCategory, expectedSection);
         }
     });
 };
@@ -76,7 +101,7 @@ describe('/GET/ Content Page', function () {
                 body: '<h1>Hello</h1>',
                 category: 'cat77',
                 creator: 'Omar',
-                section: 'sec1',
+                section: 'sec77',
                 title: 'Test Content'
             }));
 
@@ -96,7 +121,9 @@ describe('/GET/ Content Page', function () {
             saveAllAndTest(
                 done,
                 '/api/content/getContentPage/3/1/cat1/sec1',
-                3
+                3,
+                'cat1',
+                'sec1'
             );
         });
 
@@ -129,7 +156,9 @@ describe('/GET/ Content Page', function () {
             saveAllAndTest(
                 done,
                 '/api/content/getContentPage/3/1/cat1/NoSec',
-                3
+                3,
+                'cat1',
+                'NoSec'
             );
         });
 
@@ -168,7 +197,9 @@ describe('/GET/ Content Page', function () {
             saveAllAndTest(
                 done,
                 '/api/content/getContentPage/3/1/NoCat/NoSec',
-                3
+                3,
+                'NoCat',
+                'NoSec'
             );
         });
     // --- Mockgoose Termination --- //

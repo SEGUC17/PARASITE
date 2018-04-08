@@ -136,6 +136,7 @@ describe('/GET/ Content Page by Creator', function () {
                 });
         }
     );
+    
     // test that the server will send an error if the elements per page parameter is not valid
     it(
         'it should fail with an error if the elements per page is not valid.',
@@ -165,7 +166,7 @@ describe('/GET/ Content Page by Creator', function () {
                 });
         }
     );
-    
+
     // test that the server will send an error if the page number parameter is not valid
     it(
         'it should fail with an error if the page number is not valid.',
