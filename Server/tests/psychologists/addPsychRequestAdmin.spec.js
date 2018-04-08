@@ -67,8 +67,11 @@ before(function (done) {
             if (err) {
                 console.log(err);
             }
+            token = response.body.token; 
+            
+            /* changing user's type to be an admin */
+
             response.should.have.status(201);
-            token = response.body.token; /* changing user's type to be an admin */
             users.updateOne({ username: 'marioma' }, { $set: { isAdmin: true } }, function (err1) {
                 if (err1) {
                     console.log(err1);
@@ -108,7 +111,6 @@ describe('add psychologist information directly by admin', function () {
             });
     });
 });
-
 
 /* Mockgoose Termination */
 after(function (done) {
