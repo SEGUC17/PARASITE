@@ -122,7 +122,7 @@ module.exports = function (passport) {
 
   //-------------------- Study Plan Endpoints ------------------//
   router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);
-  router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.getPerosnalStudyPlan);
+  router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.getPersonalStudyPlan);
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
   router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);

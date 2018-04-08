@@ -63,7 +63,7 @@ var findStudyPlan = function (studyPlans, studyPlanID) {
     return null;
 };
 
-module.exports.getPerosnalStudyPlan = function (req, res, next) {
+module.exports.getPersonalStudyPlan = function (req, res, next) {
     if (req.user.username !== req.params.username &&
         req.user.children.indexOf(req.params.username) < 0) {
         return res.status(401).json({

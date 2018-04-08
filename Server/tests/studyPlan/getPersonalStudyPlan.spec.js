@@ -66,7 +66,6 @@ describe('Retrieve Personal Study Plan GET', function () {
                 lastName: 'Ripper',
                 password: 'hashed password',
                 phone: ['01448347641'],
-                studyPlans: [studyPlan],
                 username: 'jathri'
             });
 
@@ -114,23 +113,36 @@ describe('Retrieve Personal Study Plan GET', function () {
                     ]);
             };
 
-            user.save(function (err) {
-                if (err) {
-                    return console.log(err);
-                }
+            chai.request(server).
+                post('/api/signUp').
+                send(user).
+                end(function (err, resSignup) {
+                    if (err) {
+                        return console.log(err);
+                    }
 
-                chai.request(server).
-                    get('/api/study-plan/getPersonalStudyPlan' +
-                        '/jathri/9ac09be2f578185d46efc3c7').
-                    end(function (error, res) {
-                        if (error) {
-                            return console.log(error);
+                    User.findOneAndUpdate(
+                        { username: user.username },
+                        { $push: { studyPlans: studyPlan } },
+                        function (error) {
+                            if (error) {
+                                return console.log(error);
+                            }
+
+                            chai.request(server).
+                                get('/api/study-plan/getPersonalStudyPlan' +
+                                    '/jathri/9ac09be2f578185d46efc3c7').
+                                set('Authorization', resSignup.body.token).
+                                end(function (errr, res) {
+                                    if (errr) {
+                                        return console.log(errr);
+                                    }
+                                    conductTests(res);
+                                    done();
+                                });
                         }
-                        conductTests(res);
-                        done();
-                    });
-            });
-
+                    );
+                });
         }
     );
 
@@ -148,35 +160,27 @@ describe('Retrieve Personal Study Plan GET', function () {
         });
 
         chai.request(server).
-            get('/api/study-plan/getPersonalStudyPlan' +
-                '/jathri/9ac09be2f578185d46efc3c7').
-            end(function (err, res) {
+            post('/api/signUp').
+            send(user).
+            end(function (err, resSignup) {
                 if (err) {
                     return console.log(err);
                 }
 
-                res.should.be.json;
-                res.should.have.status(404);
+                chai.request(server).
+                    get('/api/study-plan/getPersonalStudyPlan' +
+                        '/jathri/9ac09be2f578185d46efc3c7').
+                    set('Authorization', resSignup.body.token).
+                    end(function (error, res) {
+                        if (error) {
+                            return console.log(error);
+                        }
+
+                        res.should.be.json;
+                        res.should.have.status(404);
+                        done();
+                    });
             });
-
-        user.save(function (err) {
-            if (err) {
-                return console.log(err);
-            }
-
-            chai.request(server).
-                get('/api/study-plan/getPersonalStudyPlan' +
-                    '/jathri/9ac09be2f578185d46efc3c7').
-                end(function (error, res) {
-                    if (error) {
-                        return console.log(error);
-                    }
-
-                    res.should.be.json;
-                    res.should.have.status(404);
-                    done();
-                });
-        });
     });
 
     // --- Mockgoose Termination --- //
