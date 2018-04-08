@@ -6,9 +6,7 @@ var chaiHttp = require('chai-http');
 var mongoose = require('mongoose');
 var server = require('../../app');
 var users = mongoose.model('User');
-var should = chai.should();
-var request = require('supertest');
-var assert = chai.assert;
+var expect = require('chai').expect;
 
 chai.use(chaiHttp);
 
