@@ -365,7 +365,15 @@ describe('signUp', function () {
                 });
         });
         it('Password Is Hashed!');
-        it('Token Is Sent After Signning Up!');
+        it('Token Is Sent After Signning Up!', function(done) {
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function(err, res) {
+                    res.body.should.have.property('token');
+                    done();
+                });
+        });
         it('Token Expires In 12 Hours!');
     });
     // --- End of "Tests" --- //
