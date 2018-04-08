@@ -8,30 +8,30 @@ var VCRSchema = mongoose.model('VerifiedContributerRequest');
 
 
 module.exports.getChildren = function (req, res, next) {
-  // finding user by username from params
-    User.findOne({ username: req.params.username }).exec(function (err, user) {
-  
-        if (err) {
-            return next(err);
-        }
-  //checking if user is not found
-        if (!user) {
-            return res.
-                status(404).
-                json({
-        data: null,
-        err: null,
-        msg: 'User not found.'
-        });
-  
-        }
-  // adding user's children to response
-  res.status(200).json({
-            data: user.children,
-            err: null,
-            msg: 'Children retrieved successfully.'
-        });
-  
+// finding user by username from params
+  User.findOne({ username: req.params.username }).exec(function (err, user) {
+
+      if (err) {
+          return next(err);
+      }
+//checking if user is not found
+      if (!user) {
+          return res.
+              status(404).
+              json({
+      data: null,
+      err: null,
+      msg: 'User not found.'
+      });
+
+      }
+// adding user's children to response
+res.status(200).json({
+          data: user.children,
+          err: null,
+          msg: 'Children retrieved successfully.'
+      });
+    }); }
 module.exports.EditChildIndependence = function (req, res, next) {
 
   // searching for username in the params and setting isChild to false
