@@ -23,6 +23,16 @@ var user = {
     username: 'sarah'
 };
 
+/*var user1 = new User({
+    birthdate: '2/6/1997',
+    email: 'test@gmail.com',
+    firstName: 'test',
+    lastName: 'test',
+    password: '123456789',
+    phone: '0174536975',
+    username: 'test'
+});*/
+
 // token for authentication
 var token = null;
 
@@ -49,16 +59,6 @@ describe('/POST message', function () {
 
   it('it should send a message to the specified recipient', function (done) {
 
-    /*var user1 = new User({
-        birthdate: '2/6/1997',
-        email: 'test@gmail.com',
-        firstName: 'test',
-        lastName: 'test',
-        password: '123456789',
-        phone: '0174536975',
-        username: 'test'
-    });*/
-
     // sign up and be authenticated
     chai.request(server).
     post('/api/signUp').
@@ -84,7 +84,7 @@ describe('/POST message', function () {
                     recipient: 'test',
                     sender: result.body.data.username
                 };
-        
+       
             chai.request(server).
                 post('/api/message/sendMessage').
                 send(message).

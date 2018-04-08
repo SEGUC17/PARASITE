@@ -26,7 +26,7 @@ var user = {
 // token for authentication
 var token = null;
 
-describe('/GET inbox', function () {
+describe('/GET sent messages', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
@@ -47,12 +47,12 @@ describe('/GET inbox', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-  it('it should GET all received messages of logged in user', function (done) {
+  it('it should GET all sent messages of logged in user', function (done) {
 
            var message = new Message({
                body: 'hi',
-               recipient: 'sarah',
-               sender: 'blah'
+               recipient: 'blah',
+               sender: 'sarah'
            });
 
            var message1 = new Message({
@@ -93,7 +93,7 @@ describe('/GET inbox', function () {
                             result.should.have.status(200);
                       
                         chai.request(server).
-                            get('/api/message/inbox/' + result.body.data.username).
+                            get('/api/message/sent/' + result.body.data.username).
                             set('Authorization', token).
                             end(function (error, res) {
                                 if (error) {
@@ -104,7 +104,7 @@ describe('/GET inbox', function () {
                                 res.body.data.should.be.a('array');
                                 var msgs = res.body.data.docs;
                                 for (var msg in msgs) {
-                                    msg.should.have.property('recipient').eql(result.body.data.username);
+                                    msg.should.have.property('sender').eql(result.body.data.username);
                                     msg.should.have.property('body');
                                     msg.should.have.property('sentAt');
                                 }
