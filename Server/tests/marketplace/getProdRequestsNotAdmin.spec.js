@@ -29,7 +29,6 @@ var user = {
 var token = null;
 
 describe('GetProdRequests', function () {
-    this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -47,7 +46,7 @@ describe('GetProdRequests', function () {
         });
     });
     // --- End of "Clearing Mockgoose" --- //
-    it('It should GET product requests from the server', function (done) {
+    it('It should NOT GET product requests from the server', function (done) {
         var prodReqTest = new prodRequests({
             acquiringType: 'sell',
             createdAt: new Date(),
@@ -67,27 +66,20 @@ describe('GetProdRequests', function () {
                 }
                 response.should.have.status(201);
                 token = response.body.token;
-
-                // save your document with a call to save, cat1 is just the variable name here
+                // save your document with a call to save
                 prodReqTest.save(function (err) {
                     if (err) {
                         return console.log(err);
                     }
-                    // write your actual test here, like this:
-                    chai.request(server).get('/api/productrequest/getRequests').
+                    chai.request(server).
+                        get('/api/productrequest/getRequests').
+                        set('Authorization', token).
                         end(function (error, res) {
                             if (error) {
                                 return console.log(error);
                             }
-                            expect(res).to.have.status(200);
-                            res.body.data.should.be.a('array');
-                            res.body.data[0].should.have.
-                                property('name', 'someProdRequest', 'request name invalid');
-                            res.body.data[0].should.have.property('acquiringType', 'sell', 'Wrong acquiring type');
-                            res.body.data[0].should.have.property('description', 'blah blah blah', 'Wrong description');
-                            res.body.data[0].should.have.property('price', 150, 'Wrong price');
-                            res.body.data[0].should.have.property('seller', 'omar', 'Wrong seller');
-                            res.body.data[0].should.have.property('createdAt');
+                            expect(res).to.have.status(403);
+                            res.body.err.should.be.equal('You are not an admin to do that.');
                             done();
                         });
                 });
