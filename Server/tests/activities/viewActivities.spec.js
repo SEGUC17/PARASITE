@@ -100,22 +100,22 @@ describe('View Activities', function () {
                     console.log(err);
                 }
                 normalUser = user;
-            });
-            User.create({
-                birthdate: Date.now(),
-                email: 'test@email.com',
-                firstName: 'firstname',
-                isAdmin: true,
-                lastName: 'lastname',
-                password: 'password',
-                phone: '0111111111',
-                username: 'adminusername'
-            }, function (err, user) {
-                if (err) {
-                    console.log(err);
-                }
-                adminUser = user;
-                done();
+                User.create({
+                    birthdate: Date.now(),
+                    email: 'test@email.com',
+                    firstName: 'firstname',
+                    isAdmin: true,
+                    lastName: 'lastname',
+                    password: 'password',
+                    phone: '0111111111',
+                    username: 'adminusername'
+                }, function (err2, user2) {
+                    if (err) {
+                        console.log(err2);
+                    }
+                    adminUser = user2;
+                    done();
+                });
             });
         });
     });
