@@ -198,28 +198,6 @@ export class ScheduleComponent implements OnInit {
     if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
       this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
     }
-    /*this.eventsInitial = [];
-    this.events.forEach(element => {
-      const anEvent: CalendarEvent = {
-        id : element.id,
-        start : element.start,
-        end : element.end,
-        title : element.title,
-        color : {
-          primary : element.color.primary,
-          secondary : element.color.secondary
-        },
-        actions : element.actions,
-        allDay : element.allDay,
-        cssClass : element.cssClass,
-        resizable : element.resizable,
-        draggable : element.draggable,
-        meta : element.meta
-      };
-      anEvent.color.primary = element.color.primary;
-      anEvent.color.secondary = element.color.secondary;
-      this.eventsInitial.push(anEvent);
-    });*/
     this.editing = false;
     const self = this;
     setTimeout(function () {

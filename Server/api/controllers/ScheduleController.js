@@ -1,3 +1,5 @@
+/* eslint no-extra-parens: ["error",
+ "all", { "nestedBinaryExpressions": false }] */
 var mongoose = require('mongoose');
 var CalendarEvent = mongoose.model('CalendarEvent'),
     User = mongoose.model('User');
@@ -27,7 +29,6 @@ module.exports.updateSchedule = function (req, res, next) {
     var indexChild = req.user.children.indexOf(req.params.username);
     if (indexChild >= 0 ||
         (req.params.username === req.user.username && !req.user.isChild)) {
-    console.log('Entered Service');
     User.findOneAndUpdate(
         { username: req.params.username },
          { $set: { 'schedule': req.body } },
@@ -42,6 +43,8 @@ module.exports.updateSchedule = function (req, res, next) {
             msg: null
         });
     }
+
+        user.schedule = req.body;
 
         return res.status(200).json({
             data: user.schedule,
