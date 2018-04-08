@@ -233,7 +233,23 @@ describe('signUp', function () {
                         });
                 });
         });
-        it('"Username" Is A Duplicate!');
+        it('"Username" Is A Duplicate!', function (done) {
+            var self = this;
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    self.janeDoe.username = self.johnDoe.username;
+                    chai.request(app).
+                        post(path).
+                        send(self.janeDoe).
+                        end(function (err2, res2) {
+                            res2.should.have.status(409);
+                            res2.body.should.have.property('msg').eql('Username Is In Use!');
+                            done();
+                        });
+                });
+        });
     });
     describe('Success!', function () {
         it('User Entered Valid Data!');
