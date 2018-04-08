@@ -8,6 +8,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { ViewChild } from '@angular/core';
 import { Category } from '../category';
 import { AuthService } from '../../auth/auth.service';
+import { User } from '../../auth/user';
 
 @Component({
   selector: 'app-content-list-view',
@@ -45,13 +46,20 @@ export class ContentListViewComponent implements OnInit {
   searchQueryTags: String = '';
   isSearching: Boolean = false;
 
+  // signed in user
+  currentUser: User;
+
   // category sidenav and paginator, retrieved from view for manipulation
   @ViewChild('sidenav') public myNav: MatSidenav;
   @ViewChild('allContentPaginator') public paginator: MatPaginator;
   constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document, private authService: AuthService) { }
 
   ngOnInit() {
-    console.log(this.authService.getUser());
+    const self = this;
+    this.authService.getUserData(['username']).
+      subscribe(function (user) {
+        self.currentUser = user.data;
+      });
     this.currentPageNumber = 1;
     this.myContributionsCurrentPageNumber = 1;
     this.getContentPage();
@@ -111,7 +119,7 @@ export class ContentListViewComponent implements OnInit {
         self.myContributions = retrievedContents.data.docs;
         self.myContributionsTotalNumberOfEntries = retrievedContents.data.total;
         self.myContributionsTotalNumberOfPages = retrievedContents.data.pages;
-        console.log('Get Contributions: ' + self.authService.getUser());
+        console.log('Get Contributions');
       });
   }
 
