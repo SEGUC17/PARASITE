@@ -38,6 +38,8 @@ var array = [
     'uername'
 ];
 
+var oldPassword = null;
+
 describe('user changes password', function () {
     this.timeout(120000);
     before(function (done) {
@@ -78,6 +80,7 @@ describe('user changes password', function () {
                             return console.log(errors);
                         }
                         userData.should.have.status(200);
+                        oldPassword = userData.body.data.password;
 
                         chai.request(server).
                             patch('/api/profile/changePassword/' + userData.body.data._id).
@@ -89,8 +92,14 @@ describe('user changes password', function () {
                                 }
                                 resp.should.have.status(200);
 
+                                console.log(resp.body.data.password);
+
+                                resp.body.data.password.should.be.a('string').not.
+                                equal(oldPassword);
+                                
                                 done();
-                            });
+
+                             });
                     });
             });
     });
