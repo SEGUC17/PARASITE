@@ -1,6 +1,7 @@
 /* eslint-disable sort-keys */
 /* eslint-disable guard-for-in */
 /*eslint max-statements: ["error", 20]*/
+/* eslint multiline-comment-style: ["error", "starred-block"] */
 
 // --- Requirements --- //
 var app = require('../../app');
@@ -23,6 +24,7 @@ var mockgoose = new Mockgoose(mongoose);
 chai.use(chaiHttp);
 // --- End of 'Middleware' --- //
 
+// Objects variables for testing
 var adminUser = null;
 var normalUser = null;
 var pendingActivity = null;
@@ -30,6 +32,13 @@ var pendingActivity = null;
 var urlPath = '/api/unverifiedActivities';
 
 describe('Review Activities', function () {
+
+    /*
+     * Tests for PUT Activities for admin reviewing
+     *
+     * @author: Wessam
+     */
+
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
@@ -44,6 +53,7 @@ describe('Review Activities', function () {
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
+            // Creating data for helping
             Activity.create({
                 creator: 'normalusername',
                 name: 'activity1',

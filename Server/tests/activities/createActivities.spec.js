@@ -1,6 +1,7 @@
 /* eslint-disable sort-keys */
 /* eslint-disable guard-for-in */
 /*eslint max-statements: ["error", 20]*/
+/* eslint multiline-comment-style: ["error", "starred-block"] */
 
 // --- Requirements --- //
 var app = require('../../app');
@@ -23,13 +24,27 @@ var mockgoose = new Mockgoose(mongoose);
 chai.use(chaiHttp);
 // --- End of 'Middleware' --- //
 
+// Objects variables for testing
 var adminUser = null;
 var normalUser = null;
 var verifiedUser = null;
-
+// Body to be added in POST request
 var activityBody = {};
 
 describe('Create Activities', function () {
+
+    /*
+     * Tests for POST Activity
+     *
+     * Only verified contributors and admins can create an
+     * activity.
+     * Admins' activities should have status=verified
+     * right away while verified contributors will have
+     * their status=pending until an admin reviews it.
+     *
+     * @author: Wessam
+     */
+
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
@@ -45,6 +60,7 @@ describe('Create Activities', function () {
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
+            // Creating data for testing
             User.create({
                 birthdate: Date.now(),
                 email: 'test@email.com',
@@ -149,7 +165,9 @@ describe('Create Activities', function () {
                 });
         });
 
-        it('it should return 403', function (done) {
+        it(
+            'it should return 403 nonAdmin and not verified user',
+            function (done) {
             var token = 'JWT ' + jwt.sign(
                 { 'id': normalUser._id },
                 config.SECRET,
@@ -165,9 +183,10 @@ describe('Create Activities', function () {
                     res.should.have.status(403);
                     done();
                 });
-        });
+            }
+        );
 
-        it('it should return 401', function (done) {
+        it('it should return 401 for unauthenticated user', function (done) {
             chai.request(app).post('/api/activities').
                 send(activityBody).
                 end(function (err, res) {

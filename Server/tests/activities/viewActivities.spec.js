@@ -1,6 +1,7 @@
 /* eslint-disable sort-keys */
 /* eslint-disable guard-for-in */
 /*eslint max-statements: ["error", 20]*/
+/* eslint multiline-comment-style: ["error", "starred-block"] */
 
 // --- Requirements --- //
 var app = require('../../app');
@@ -23,6 +24,7 @@ var mockgoose = new Mockgoose(mongoose);
 chai.use(chaiHttp);
 // --- End of 'Middleware' --- //
 
+// Objects variables for testing
 var adminUser = null;
 var normalUser = null;
 var verifiedActivity = null;
@@ -30,6 +32,17 @@ var pendingActivity = null;
 var rejectedActivity = null;
 
 describe('View Activities', function () {
+
+    /*
+     * Tests for GET Activity both list and detail
+     *
+     * All users can view a verified activity in list or in detail
+     * While pending and rejected activities can be viewed by admin
+     * in list and in detail and their creator in detail only.
+     *
+     * @author: Wessam
+     */
+
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
@@ -44,6 +57,7 @@ describe('View Activities', function () {
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
+            // Creating data for testing
             Activity.create({
                 creator: 'normalusername',
                 name: 'activity1',
@@ -122,6 +136,12 @@ describe('View Activities', function () {
     // --- End of 'Clearing Mockgoose' --- //
 
     describe('/GET activities list', function () {
+
+        /*
+         * Tests for GET activities list
+         *
+         * @author: Wessam
+         */
         it('it should GET verified activities', function (done) {
             chai.request(app).get('/api/activities').
                 end(function (err, res) {
@@ -190,6 +210,12 @@ describe('View Activities', function () {
         });
     });
     describe('/GET activity detail', function () {
+
+        /*
+         * Tests for GET activities detail
+         *
+         * @author: Wessam
+         */
         it('it should GET verified activity', function (done) {
             chai.request(app).get('/api/activities/' + verifiedActivity._id).
                 end(function (err, res) {
