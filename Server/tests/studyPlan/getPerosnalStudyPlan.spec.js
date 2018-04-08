@@ -1,9 +1,13 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
+var should = chai.should();
+var chaiHttp = require('chai-http');
 var server = require('../../app');
 var StudyPlan = mongoose.model('StudyPlan');
 var User = mongoose.model('User');
 var expect = require('chai').expect;
+
+chai.use(chaiHttp);
 
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
@@ -29,53 +33,41 @@ describe('/GET/ Personal Study Plan', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-    var studyPlan = new StudyPlan({
-        _id: '9ac09be2f578185d46efc3c7',
-        creator: 'Jathri',
-        description: '<p class="ql-align-center">' +
-            '<span class="ql-size-large">' +
-            'Are you ready to go on an adventure?</span></p>',
-        events: [
-            {
-                _id: '5ac09ae2f538185d46efc8c4',
-                actions: [],
-                color: {
-                    primary: '#1e90ff',
-                    secondary: '#D1E8FF'
-                },
-                end: '2018-04-01T20:07:28.780Z',
-                start: '2018-03-29T22:00:00.000Z',
-                title: 'So Many Comebacks, So Little Time...'
-            }
-        ],
-        title: 'The Ultimate Guide to KPop'
-    });
-
-    var user1 = new User({
-        address: 'A Mental Institute',
-        birthdate: new Date('11/1/1997'),
-        email: 'Jathri@real.com',
-        firstName: 'jathri',
-        lastName: 'Ripper',
-        password: 'hashed password',
-        phone: ['01448347641'],
-        studyPlans: [studyPlan],
-        username: 'jathri'
-    });
-
-    var user2 = new User({
-        address: 'A Mental Institute',
-        birthdate: new Date('11/1/1997'),
-        email: 'Jathri@real.com',
-        firstName: 'jathri',
-        lastName: 'Ripper',
-        password: 'hashed password',
-        phone: ['01448347641'],
-        studyPlans: [],
-        username: 'jathri'
-    });
-
     it('should return status 200 on valid parameters', function (done) {
+        var studyPlan = new StudyPlan({
+            _id: '9ac09be2f578185d46efc3c7',
+            creator: 'Jathri',
+            description: '<p class="ql-align-center">' +
+                '<span class="ql-size-large">' +
+                'Are you ready to go on an adventure?</span></p>',
+            events: [
+                {
+                    _id: '5ac09ae2f538185d46efc8c4',
+                    actions: [],
+                    color: {
+                        primary: '#1e90ff',
+                        secondary: '#D1E8FF'
+                    },
+                    end: '2018-04-01T20:07:28.780Z',
+                    start: '2018-03-29T22:00:00.000Z',
+                    title: 'So Many Comebacks, So Little Time...'
+                }
+            ],
+            title: 'The Ultimate Guide to KPop'
+        });
+
+        var user = new User({
+            address: 'A Mental Institute',
+            birthdate: new Date('11/1/1997'),
+            email: 'Jathri@real.com',
+            firstName: 'jathri',
+            lastName: 'Ripper',
+            password: 'hashed password',
+            phone: ['01448347641'],
+            studyPlans: [studyPlan],
+            username: 'jathri'
+        });
+
         var conductTests = function (res) {
             res.should.be.json;
             res.should.have.status(200);
@@ -120,7 +112,7 @@ describe('/GET/ Personal Study Plan', function () {
                 ]);
         };
 
-        user1.save(function (err) {
+        user.save(function (err) {
             if (err) {
                 return console.log(err);
             }
@@ -140,6 +132,18 @@ describe('/GET/ Personal Study Plan', function () {
     });
 
     it('should return status 404 on invalid parameters', function (done) {
+        var user = new User({
+            address: 'A Mental Institute',
+            birthdate: new Date('11/1/1997'),
+            email: 'Jathri@real.com',
+            firstName: 'jathri',
+            lastName: 'Ripper',
+            password: 'hashed password',
+            phone: ['01448347641'],
+            studyPlans: [],
+            username: 'jathri'
+        });
+
         chai.request(server).
             get('/api/study-plan/getPersonalStudyPlan' +
                 '/jathri/9ac09be2f578185d46efc3c7').
@@ -152,7 +156,7 @@ describe('/GET/ Personal Study Plan', function () {
                 res.should.have.status(404);
             });
 
-        user2.save(function (err) {
+        user.save(function (err) {
             if (err) {
                 return console.log(err);
             }
