@@ -15,6 +15,39 @@ chai.use(chaiHttp);
 // an array for insertions
 var docArray = [];
 
+var valiateCategoryAndSection = function (
+    expectedCategory,
+    expectedSection,
+    res
+) {
+    var counter = 0;
+    // validate category and section retrieval
+    if (expectedCategory !== 'NoCat' &&
+        expectedSection !== 'NoSec') {
+        // check category and section
+        for (
+            counter = 0;
+            counter < res.body.data.docs.length;
+            counter += 1
+        ) {
+            res.body.data.docs[counter].
+                should.have.property('category', expectedCategory);
+            res.body.data.docs[counter].
+                should.have.property('section', expectedSection);
+        }
+    } else if (expectedCategory !== 'NoCat') {
+        // check category only
+        for (
+            counter = 0;
+            counter < res.body.data.docs.length;
+            counter += 1
+        ) {
+            res.body.data.docs[counter].
+                should.have.property('category', expectedCategory);
+        }
+    }
+};
+
 // save the documents and test
 var saveAllAndTest = function (
     done,
@@ -39,35 +72,16 @@ var saveAllAndTest = function (
                         return console.log(error);
                     }
 
-                    // expect status 200, an array result, and a length matching the page length
+                    // expect status 200, an array result,
+                    // and a length matching the page length
                     expect(res).to.have.status(200);
                     res.body.data.docs.should.be.a('array');
                     res.body.data.docs.should.have.lengthOf(pageLength);
-                    // validate category and section retrieval
-                    if (expectedCategory !== 'NoCat' && expectedSection !== 'NoSec') {
-                        // check category and section
-                        for (
-                            var counter = 0;
-                            counter < res.body.data.docs.length;
-                            counter += 1
-                        ) {
-                            res.body.data.docs[counter].
-                                should.have.property('category', expectedCategory);
-                            res.body.data.docs[counter].
-                                should.have.property('section', expectedSection);
-                        }
-                    } else if (expectedCategory !== 'NoCat') {
-                        // check category only
-                        for (
-                            var counter = 0;
-                            counter < res.body.data.docs.length;
-                            counter += 1
-                        ) {
-                            res.body.data.docs[counter].
-                                should.have.property('category', expectedCategory);
-                        }
-                    }
-
+                    valiateCategoryAndSection(
+                        expectedCategory,
+                        expectedSection,
+                        res
+                    );
                     done();
                 });
         } else {
