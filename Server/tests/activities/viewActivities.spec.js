@@ -16,7 +16,6 @@ var jwt = require('jsonwebtoken');
 
 // --- Dependancies --- //
 var expect = chai.expect;
-var should = chai.should();
 var mockgoose = new Mockgoose(mongoose);
 // --- End of 'Dependancies' --- //
 
