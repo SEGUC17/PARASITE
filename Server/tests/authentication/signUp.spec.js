@@ -252,7 +252,16 @@ describe('signUp', function () {
         });
     });
     describe('Success!', function () {
-        it('User Entered Valid Data!');
+        it('User Entered Valid Data!', function(done) {
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    res.should.have.status(201);
+                    res.body.should.have.property('msg').eql('Sign Up Is Successful!');
+                    done();
+                });
+        });
         it('"Address" Is Lowered Case!');
         it('"Email" Is Lowered Case!');
         it('"Email" Is Trimmed!');
