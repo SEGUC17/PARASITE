@@ -40,8 +40,6 @@ birthday: Date;
 listOfChildren: any[];
 verified: Boolean = false;
 id: any;
-pws: {oldpw: '', newpw: ''};
-
 // -------------------------------------
 
 // ---------Visited User Info-----------
@@ -69,24 +67,21 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent'];
 // ------------------------------------
 
-  constructor(private _ProfileService: ProfileService,
-    private _AuthService: AuthService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router) {
+  constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
+    private activatedRoute: ActivatedRoute) {
     this._AuthService.getUserData(['username']).subscribe((user) => {
       this.username = user.data.username;
+    });
     this.activatedRoute.params.subscribe((params: Params) => { // getting the visited username
       this.vUsername = params.username;
-      if (!this.vUsername) {
-        // this.router.navigateByUrl('/profile/' + this.username );
-        this.vUsername = this.username;
-      }
-
+      console.log(this.vUsername);
+    });
 
     if (this.vUsername === this.username) {
       this.currIsOwner = true;
     }
-    // Fetching logged in user info
+    // Fetching logged in user info if he/she is the owner of the profile
+    if (this.currIsOwner) {
     this.user = this._AuthService.getUserData(this.listOfWantedVariables).subscribe(((owner) => {
       this.username = owner.data.username;
       this.firstName = owner.data.firstName;
@@ -101,8 +96,8 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
       this.id = owner.data._id;
       this.currIsChild = owner.data.isChild;
       this.currIsParent = owner.data.isParent;
-
-    if (!this.currIsOwner) { // Fetching other user's info, if the logged in user is not the owner of the profile
+    }));
+    } else { // Fetching other user's info, if the logged in user is not the owner of the profile
       this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
         this.vFirstName = info.data.firstName;
         this.vLastName = info.data.lastName;
@@ -116,18 +111,15 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
         this.vId = info.data._id;
         this.visitedIsParent = info.data.isParent;
         this.visitedIsChild = info.data.isChild;
-        if (this.visitedIsChild) {
-          this.visitedIsMyChild = !(this.listOfChildren.indexOf(this.vUsername) < 0);
+        if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
+          this.visitedIsMyChild = true;
         }
     }));
     // Getting the list of uncommon children
     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
     }
-  }));
-  });
-  });
-  }
 
+  }
 
   ngOnInit() {
 
@@ -165,9 +157,8 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
   }
 
 
-  ChangePassword(pws: any): void {
-    console.log(pws.oldpw);
-        this._ProfileService.changePassword(this.id, pws).subscribe();
+  ChangePassword(uname, info: any): void {
+    this._ProfileService.changePassword(uname, info).subscribe();
 
 }
 

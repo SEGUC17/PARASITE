@@ -40,18 +40,12 @@
         <mat-tab label="About">
           <div id = "personalinfo" class = "tabcontent">
             <h3 style="font-weight: bold">Personal Info:</h3>
-            <div *ngIf = "currIsOwner">
-              <label>Username: {{username}}</label> <br>
-              <label>Email: {{email}}</label> <br>
-              <label>Address: {{address}}</label> <br>
-              <label>Phone: {{phone}}</label> <br>
-            </div>
-            <div *ngIf = "!currIsOwner">
-              <label>Username: {{vUsername}}</label> <br>
-              <label>Email: {{vEmail}}</label> <br>
-              <label>Address: {{vAddress}}</label> <br>
-              <label>Phone: {{vPhone}}</label> <br>
-            </div>
+
+            <label>Username: {{username}}</label> <br>
+            <label>Email: {{email}}</label> <br>
+            <label>Address: {{address}}</label> <br>
+            <label>Phone: {{phone}}</label> <br>
+
           </div>
         </mat-tab>
         <mat-tab label="Personal Schedule" *ngIf="iHaveAcess">
@@ -61,7 +55,7 @@
         </mat-tab>
         <mat-tab label="List of children">
           <div id = "children" class = "tabcontent">
-            <h3 style="font-weight: bold">Children:</h3>
+            <h3 style="font-weight: bold">Your Children:</h3>
             <app-childern></app-childern>
           </div>
         </mat-tab>
@@ -75,17 +69,19 @@
             </app-study-plan-list-view>
           </div>
         </mat-tab>
-        <mat-tab label="Settings" *ngIf = "currIsOwner">
+        <mat-tab label="Settings">
           <div id = "Settings" class = "tabcontent">
             <h3>Settings</h3>
             <h4>Change Password</h4>
 
+            Username <br>
+            <input #Uname type="text" name="name" [(ngModel)]=uname><br>
             Current Password <br> 
             <input #Oldpw type="password" name="oldpw" [(ngModel)]=oldpw><br>
             New Password<br> <input #Newpw type="password" name="newpw" [(ngModel)]=newpw><br>
             Confirm New Password <br>
              <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
-            <button type="button"class="btn btn-primary"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value})">Change Password</button>
+            <button type="button"class="btn btn-primary"(click)="ChangePassword(Uname.value, {oldpw: Oldpw.value, newpw: Newpw.value})">Change Password</button>
 
           </div>
             </mat-tab>
