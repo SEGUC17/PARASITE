@@ -50,6 +50,15 @@ var findStudyPlan = function (studyPlans, studyPlanID) {
 };
 
 module.exports.getPerosnalStudyPlan = function (req, res, next) {
+    if (req.user.username !== req.params.username &&
+        req.user.children.indexOf(req.params.username) < 0) {
+        return res.status(401).json({
+            data: null,
+            err: null,
+            msg: 'Unauthorized.'
+        });
+    }
+
     User.findOne({ username: req.params.username }, function (err, user) {
         if (err) {
             return next(err);
