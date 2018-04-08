@@ -23,31 +23,6 @@ var mockgoose = new Mockgoose(mongoose);
 chai.use(chaiHttp);
 // --- End of "Middleware" --- //
 
-// --- Variables Needed In Testing --- //
-var johnDoe = new User({
-    address: 'John Address Sample',
-    birthdate: '1/1/1980',
-    email: 'johndoe@gmail.com',
-    firstName: 'John',
-    isTeacher: true,
-    lastName: 'Doe',
-    password: 'JohnPasSWorD',
-    phone: '123',
-    username: 'john'
-});
-var janeDoe = new User({
-    address: 'Jane Address Sample',
-    birthdate: '1/1/2000',
-    email: 'janedoe@gmail.com',
-    firstName: 'Jane',
-    isTeacher: true,
-    lastName: 'Doe',
-    password: 'JanePasSWorD',
-    phone: '123',
-    username: 'jane'
-});
-// --- End of "Variables Needed In Testing" --- //
-
 describe('signUp', function () {
 
     // --- Mockgoose Initiation --- //
@@ -62,6 +37,28 @@ describe('signUp', function () {
 
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
+        this.johnDoe = {
+            address: 'John Address Sample',
+            birthdate: '1/1/1980',
+            email: 'johndoe@gmail.com',
+            firstName: 'John',
+            isTeacher: true,
+            lastName: 'Doe',
+            password: 'JohnPasSWorD',
+            phone: '123',
+            username: 'john'
+        };
+        this.janeDoe = {
+            address: 'Jane Address Sample',
+            birthdate: '1/1/2000',
+            email: 'janedoe@gmail.com',
+            firstName: 'Jane',
+            isTeacher: true,
+            lastName: 'Doe',
+            password: 'JanePasSWorD',
+            phone: '123',
+            username: 'jane'
+        };
         mockgoose.helper.reset().then(function () {
             done();
         });
@@ -73,12 +70,12 @@ describe('signUp', function () {
         it('User Is Already Signed In!', function (done) {
             chai.request(app).
                 post('/api/signUp').
-                send(johnDoe).
+                send(this.johnDoe).
                 end(function (err, res) {
                     token = res.body.token;
                     chai.request(app).
                         post(path).
-                        send(janeDoe).
+                        send(this.janeDoe).
                         set('Authorization', res.body.token).
                         end(function (err2, res2) {
                             res2.should.have.status(403);
@@ -89,19 +86,29 @@ describe('signUp', function () {
         });
         it('Token Expires In More Than 12 Hours!');
         it('"address" Attribute Is Not Valid!');
-        it('"birthdate" Attribute Is Empty!', function(done) {
-            johnDoe.birthdate = null;
+        it('"birthdate" Attribute Is Empty!', function (done) {
+            this.johnDoe.birthdate = null;
             chai.request(app).
                 post(path).
-                send(johnDoe).
-                end(function(err, res) {
+                send(this.johnDoe).
+                end(function (err, res) {
                     res.should.have.status(422);
                     res.body.should.have.property('msg').eql('Birthdate: Expected non-empty value!');
                     done();
                 });
         });
         it('"birthdate" Attribute Is Not Valid!');
-        it('"email" Attribute Is Empty!');
+        it('"email" Attribute Is Empty!', function (done) {
+            this.johnDoe.email = null;
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Email: Expected non-empty value!');
+                    done();
+                });
+        });
         it('"email" Attribute Is Not Valid!');
         it('"firstName" Attribute Is Empty!');
         it('"firstName" Attribute Is Not Valid!');
