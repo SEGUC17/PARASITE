@@ -139,7 +139,6 @@ describe('/POST/content/', function () {
                     done();
                 });
         });
-
     it(
         'should create new content successfully,with true ' +
         'approval status, and no new content request is added',
@@ -160,6 +159,25 @@ describe('/POST/content/', function () {
                 });
         }
     );
+
+    it('should fail to create new content successfully,' +
+        ' because of invalid metadata', function (done) {
+
+            chai.request(server).
+                post('/api/content').
+                set('Authorization', adminToken).
+                send({ body: 'hello' }).
+                end(function (err, res) {
+                    if (err) {
+                        done();
+                    }
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('content metadata' +
+                        ' is not supplied');
+                        done();
+                });
+        });
 
     // --- Clearing Mockgoose --- //
     after(function (done) {
