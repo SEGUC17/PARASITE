@@ -94,7 +94,7 @@ module.exports.getMarketPage = function (req, res, next) {
     );
 };
 
-// Get the psychologist requests in the database
+// Get the products requests in the database
 module.exports.getRequests = function (req, res, next) {
     if (req.user.isAdmin) {
         ProductRequest.find({}).exec(function (err, requests) {
@@ -139,7 +139,6 @@ module.exports.createProduct = function (req, res, next) {
     // if i user is an admin then create product
     if (req.user.isAdmin) {
         Product.create(req.body, function (err, product) {
-
             if (err) {
                 return next(err);
             }
@@ -149,32 +148,17 @@ module.exports.createProduct = function (req, res, next) {
                 msg: 'Product was created successfully.'
             });
         });
-        //  } else {
-        //         res.status(403).json({
-        //             data: null,
-        //             err: 'Product sent to productRequest successfully',
-        //             msg: null
-        //         });
-        //     }
-
     } else {
-        // else then createproduct request
-        ProductRequest.create(req.body, function (err, productreq) {
-            if (err) {
-                return next(err);
-            }
-            res.status(200).json({
-                data: productreq,
-                err: null,
-                msg: 'ProductRequest was created successfully.'
-            });
+        res.status(403).json({
+            data: null,
+            err: 'You are not an admin to do that',
+            msg: null
         });
     }
-
 };
 //createproduct end
 
-//createProductRequest start
+// createProductRequest start
 module.exports.createProductRequest = function (req, res, next) {
     console.log(req.body);
     ProductRequest.create(req.body, function (err, productreq) {
@@ -188,7 +172,7 @@ module.exports.createProductRequest = function (req, res, next) {
         });
     });
 };
-//createProductRequest end
+// createProductRequest end
 
 
 module.exports.evaluateRequest = function (req, res, next) {

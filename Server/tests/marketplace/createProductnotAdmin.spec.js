@@ -2,9 +2,6 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-// import your schema here, like this:
-var Product = mongoose.model('Product');
-var users = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 
@@ -29,7 +26,7 @@ var user = {
 var token = null;
 
 
-describe('CreateProduct  for not an admin', function () {
+describe('CreateProduct for not an admin', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
@@ -51,14 +48,14 @@ describe('CreateProduct  for not an admin', function () {
     // --- End of "Clearing Mockgoose" --- //
 
 
-    it('it should POST product int to product requests', function (done) {
+    it('it should NOT POST product into product requests', function (done) {
         //here you need to call your schema to construct a document
         //like this:
         var pro1 = {
             acquiringType: 'sell',
             description: 'description description description',
             image: 'https://vignette.wikia.nocookie.net/spongebob/images/' +
-            'a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
+                'a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
             name: 'product2',
             price: 11,
             seller: 'omar'
@@ -84,18 +81,9 @@ describe('CreateProduct  for not an admin', function () {
                         if (error) {
                             return console.log(error);
                         }
-                        expect(res).to.have.status(200);
-                        res.body.should.be.a('object');
-                        res.body.should.have.property('msg').
-                        eql('ProductRequest was created successfully.');
-                        res.body.data.should.have.property('acquiringType');
-                        res.body.data.should.have.property('description');
-                        res.body.data.should.have.property('image');
-                        res.body.data.should.have.property('name');
-                        res.body.data.should.have.property('price');
-                        res.body.data.should.have.property('seller');
-                        // res.body.should.have.property('err').
-                        // eql('Product sent to productRequest successfully');
+                        expect(res).to.have.status(403);
+                        res.body.should.have.property('err').
+                            eql('You are not an admin to do that');
 
                         done();
                     });
@@ -109,5 +97,4 @@ describe('CreateProduct  for not an admin', function () {
         });
     });
     // --- End of "Mockgoose Termination" --- //
-});   
-
+});
