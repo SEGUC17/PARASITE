@@ -18,8 +18,8 @@ export class ProfileService {
 constructor(private http: HttpClient, private authService: AuthService) { }
 
 private linkAnotherParentUrl = 'http://localhost:3000/api/profile/LinkAnotherParent';
-private UnlinkUrl = 'http://localhost:3000/api/profile/Unlink/';
-private linkAsParentUrl = 'http://localhost:3000/api/profile/LinkAsParent/';
+private UnlinkUrl = 'http://localhost:3000/api/profile/UnLinkChild/';
+private linkAsParentUrl = 'http://localhost:3000/api/profile/AddAsAParent/';
 private getChildrenUrl = 'http://localhost:3000/api/profile';
 private continueUrl = 'getChildren';
 private pwURL = 'http://localhost:3000/api/profile/changePassword';
