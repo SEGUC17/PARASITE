@@ -85,6 +85,7 @@ describe('updateSchedule', function () {
     // --- End of "Clearing Mockgoose" --- //
 
     it('should PATCH user\'s own personal schedule', function (done) {
+        // Creating the User
         chai.request(server).
             post('/api/signUp').
             send(johnDoe).
@@ -92,6 +93,7 @@ describe('updateSchedule', function () {
                 if (err1) {
                     return console.log(err1);
                 }
+                // Updating Schedule
                 chai.request(server).
                     patch('/api/schedule/saveScheduleChanges/' +
                          johnDoe.username).
@@ -119,6 +121,7 @@ describe('updateSchedule', function () {
             });
     });
     it('should PATCH user\'s child\'s personal schedule', function (done) {
+        // Creating the user
         chai.request(server).
             post('/api/signUp').
             send(johnDoe).
@@ -126,6 +129,7 @@ describe('updateSchedule', function () {
                 if (err1) {
                     return console.log(err1);
                 }
+                // Creating the child
                 chai.request(server).
                     post('/api/childsignup').
                     set('Authorization', signupData.body.token).
@@ -135,6 +139,7 @@ describe('updateSchedule', function () {
                             return console.log(err2);
                         }
                         childSignupData.should.have.status(201);
+                        // Updating Schedule
                         chai.request(server).
                             patch('/api/schedule/saveScheduleChanges/' +
                                  johnny.username).
@@ -166,6 +171,7 @@ describe('updateSchedule', function () {
             });
     });
     it('should NOT PATCH child\'s own personal schedule', function (done) {
+        // Creating parent
         chai.request(server).
             post('/api/signUp').
             send(johnDoe).
@@ -173,11 +179,13 @@ describe('updateSchedule', function () {
                 if (err1) {
                     return console.log(err1);
                 }
+                // Creating Child
                 chai.request(server).
                     post('/api/childsignup').
                     set('Authorization', signupData.body.token).
                     send(johnny).
                     end(function (err2, childSignupData) {
+                        // Logging in as child
                         chai.request(server).
                             post('/api/signIn').
                             send({
@@ -189,6 +197,7 @@ describe('updateSchedule', function () {
                                     return console.log(err3);
                                 }
                                 console.log(siginData.body);
+                                // Updating schedule
                                 chai.request(server).
                                     patch('/api/schedule/saveScheduleChanges/' +
                                          johnny.username).
@@ -214,6 +223,7 @@ describe('updateSchedule', function () {
     });
     it('should NOT PATCH another user\'s personal' +
         'schedule who isn\'t the user\'s child', function (done) {
+            // Creating user whose schedule is to be changed
             chai.request(server).
                 post('/api/signUp').
                 send(janeDoe).
@@ -221,6 +231,7 @@ describe('updateSchedule', function () {
                     if (err1) {
                         return console.log(err1);
                     }
+                    // Creating user who'll try to change schedule
                     chai.request(server).
                         post('/api/signUp').
                         send(johnDoe).
@@ -228,6 +239,7 @@ describe('updateSchedule', function () {
                             if (err2) {
                                 return console.log(err2);
                             }
+                            // Updating schedule
                             chai.request(server).
                                 patch('/api/schedule/saveScheduleChanges/' +
                                      janeDoe.username).

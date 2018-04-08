@@ -30,13 +30,14 @@ export class ScheduleComponent implements OnInit {
   view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
-  eventsInitial: CalendarEvent[] = [];
   activeDayIsOpen: Boolean = true;
   refresh: Subject<any> = new Subject();
   editing = false;
-  // NOTE: When integrated into profile, @Inputs will replace these values.
+
+  // Users
   loggedInUser: any = {};
   @Input() profileUser;
+  // Variables currently not in use
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -65,17 +66,17 @@ export class ScheduleComponent implements OnInit {
 
   constructor(private scheduleService: ScheduleService, private _AuthService: AuthService) { }
 
-  ngOnInit() {// getting the visited username
+  ngOnInit() {
     this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
       this.loggedInUser.username = user.data.username;
       this.loggedInUser.isChild = user.data.isChild;
       this.loggedInUser.children = user.data.children;
       this.fetchAndDisplay();
     });
-
   }
 
   fetchAndDisplay() {
+    // Retrieving schedule from database and displaying it
     const self = this;
     const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
     if (this.loggedInUser.username === this.profileUser || !(indexChild === -1)) {
@@ -88,31 +89,11 @@ export class ScheduleComponent implements OnInit {
         self.fetchEvents();
       });
     }
-    /*this.events.forEach(element => {
-      const anEvent: CalendarEvent = {
-        id : element.id,
-        start : element.start,
-        end : element.end,
-        title : element.title,
-        color : {
-          primary : element.color.primary,
-          secondary : element.color.secondary
-        },
-        actions : element.actions,
-        allDay : element.allDay,
-        cssClass : element.cssClass,
-        resizable : element.resizable,
-        draggable : element.draggable,
-        meta : element.meta
-      };
-      anEvent.color.primary = element.color.primary;
-      anEvent.color.secondary = element.color.secondary;
-      this.eventsInitial.push(anEvent);
-    });*/
   }
 
 
   fetchEvents(): void {
+    // Adapting the schedule to the selected view
     const getStart: any = {
       month: startOfMonth,
       week: startOfWeek,
@@ -124,12 +105,12 @@ export class ScheduleComponent implements OnInit {
       week: endOfWeek,
       day: endOfDay
     }[this.view];
-    const self = this;
     this.activeDayIsOpen = false;
     this.refreshDocument();
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    // Displaying events in selected day
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -148,13 +129,13 @@ export class ScheduleComponent implements OnInit {
     newStart,
     newEnd
   }: CalendarEventTimesChangedEvent): void {
+    // Handling changes made by dragging events in the schedule
     event.start = newStart;
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event);
     const self = this;
-    setTimeout(function () {
-      return self.refresh.next();
-    }, 0);
+    this.activeDayIsOpen = false;
+    this.refreshDocument();
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
@@ -162,6 +143,7 @@ export class ScheduleComponent implements OnInit {
   }
 
   addEvent(): void {
+    // Add a new event
     const self = this;
     this.events.push({
       title: 'New event',
@@ -177,16 +159,11 @@ export class ScheduleComponent implements OnInit {
         afterEnd: true
       }
     });
-    setTimeout(function () {
-      return self.refresh.next();
-    }, 0);
-  }
-
-  isUnchanged(): boolean {
-    return JSON.stringify(this.events) === JSON.stringify(this.eventsInitial);
+    this.refreshDocument();
   }
 
   refreshDocument() {
+    // Light refresh to show any changes
     const self = this;
     setTimeout(function () {
       return self.refresh.next();
@@ -194,24 +171,22 @@ export class ScheduleComponent implements OnInit {
   }
 
   saveScheduleChanges() {
+    // Save changes to schedule into database
     const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
     if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
       this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
     }
     this.editing = false;
     const self = this;
-    setTimeout(function () {
-      return self.refresh.next();
-    }, 0);
+    this.refreshDocument();
   }
 
   cancel() {
+    // Cancel changes, refresh schedule from database
     this.editing = false;
     const self = this;
     this.fetchAndDisplay();
-    setTimeout(function () {
-      return self.refresh.next();
-    }, 0);
+    this.refreshDocument();
   }
 
 

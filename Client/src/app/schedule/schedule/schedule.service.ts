@@ -18,7 +18,6 @@ export class ScheduleService {
   saveScheduleChanges(username: String, schedule: CalendarEvent[]) {
     console.log('service entered');
     return this.http.patch(this.endpoint + 'schedule/SaveScheduleChanges/' + username, schedule);
-    // TODO: To be implemented in backend by Omar Elsebai
   }
 
 }
