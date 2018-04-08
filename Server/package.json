@@ -7,6 +7,17 @@
     "test": "nyc mocha \"tests/**/*.spec.js\" --exit --timeout 120000",
     "cover": "nyc report --reporter=html"
   },
+  "nyc": {
+    "exclude": [
+      "api/utils",
+      "coverage/**",
+      "tests/**",
+      "tests{,-*}.js",
+      "**/*.spec.js",
+      "**/__tests__/**",
+      "**/node_modules/**"
+    ]
+  },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
