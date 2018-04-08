@@ -146,7 +146,17 @@ describe('signUp', function () {
                 });
         });
         it('"lastName" Attribute Is Not Valid!');
-        it('"password" Attribute Is Empty!');
+        it('"password" Attribute Is Empty!', function (done) {
+            this.johnDoe.password = null;
+            chai.request(app).
+                post(path).
+                send(this.johnDoe).
+                end(function (err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Password: Expected non-empty value!');
+                    done();
+                });
+        });
         it('"password" Attribute Is Not Valid!');
         it('"phone" Attribute Is Not Valid!');
         it('"phone" Attribute Element(s) Is/Are Not Valid');
