@@ -28,7 +28,7 @@ export class ContentEditComponent implements OnInit {
     body: `<h1>Nawwar :D<h1>`,
     category: '',
     section: '',
-    creator: this.authService.user.username,
+    creator: '',
     creatorAvatarLink: 'https://i.pinimg.com/originals/81/8a/74/818a7421837fabbce3cac4726b217df6.jpg',
     creatorProfileLink: 'https://www.facebook.com/Prog0X1',
     image: '',
@@ -73,7 +73,7 @@ export class ContentEditComponent implements OnInit {
   // create content
   createContent(content: Content): void {
     const self = this;
-    if (!this.authService.getUser().username) {
+    if (this.authService.getToken() !== '') {
       console.log('Please sign in first');
       return;
     }
@@ -88,6 +88,9 @@ export class ContentEditComponent implements OnInit {
         return;
       }
       self.router.navigateByUrl('/content-view/' + res.data._id);
+    });
+    this.authService.getUserData(['username']).subscribe(function (res) {
+      self.content.creator = res.data.username;
     });
   }
 
