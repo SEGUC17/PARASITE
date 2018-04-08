@@ -117,6 +117,7 @@ module.exports.getRequests = function (req, res, next) {
 
 // createproduct
 module.exports.createProduct = function (req, res, next) {
+    //validity check
     if (!(typeof req.body.name === 'string')) {
         console.log('please insert product"s name as a string');
     }
@@ -133,7 +134,7 @@ module.exports.createProduct = function (req, res, next) {
             msg: 'name(String) price(Number) and acquiringType(String) and' +
                 'image(String) and description(String) are required fields.'
         });
-    }
+    } //ifi user is an admin then create product
     if (req.user.isAdmin) {
         Product.create(req.body, function (err, product) {
 
@@ -154,7 +155,7 @@ module.exports.createProduct = function (req, res, next) {
         //         });
         //     }
 
-    } else {
+    } else { //else then createproduct request
         ProductRequest.create(req.body, function (err, productreq) {
             if (err) {
                 return next(err);
