@@ -88,7 +88,7 @@ module.exports = function (passport) {
   router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
   router.get('/psychologist/request/getRequests', isAuthenticated, psychCtrl.getRequests);
   router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);
-  // ------------- psychologist's requests Controller ------------- //
+  // ------------- End Of psychologist's requests Controller ------------- //
 
   // --------------Product Controller---------------------- //
   router.get('/market/getMarketPage/:entriesPerPage/:' +
@@ -97,9 +97,8 @@ module.exports = function (passport) {
     '/market/getNumberOfProducts/:limiters',
     productCtrl.getNumberOfProducts
   );
-  router.get('/product/getProduct/:productId', productCtrl.getProduct);
-  router.post('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
-  router.get('/productrequest/getRequests', productCtrl.getRequests);
+  router.post('/productrequest/evaluateRequest', isAuthenticated, productCtrl.evaluateRequest);
+  router.get('/productrequest/getRequests', isAuthenticated, productCtrl.getRequests);
   router.post('/productrequest/createproduct', productCtrl.createProduct);
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
 
