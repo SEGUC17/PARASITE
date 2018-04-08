@@ -29,21 +29,21 @@ module.exports.updateSchedule = function (req, res, next) {
     var indexChild = req.user.children.indexOf(req.params.username);
     if (indexChild >= 0 ||
         (req.params.username === req.user.username && !req.user.isChild)) {
-            var valid = Array.isArray(req.body);
-            if (valid) {
-                for (var index = 0; index < req.body.length; index += 1) {
-                    valid = valid && req.body[index].title &&
-                     req.body[index].start;
-                }
+        var valid = Array.isArray(req.body);
+        if (valid) {
+            for (var index = 0; index < req.body.length; index += 1) {
+                valid = valid && req.body[index].title &&
+                    req.body[index].start;
             }
-            if (!valid) {
-                return res.status(422).json({
-                    data: null,
-                    err: 'Invalid Schedule',
-                    msg: null
-                });
-            }
-            User.findOneAndUpdate(
+        }
+        if (!valid) {
+            return res.status(422).json({
+                data: null,
+                err: 'Invalid Schedule',
+                msg: null
+            });
+        }
+        User.findOneAndUpdate(
             { username: req.params.username },
             { $set: { 'schedule': req.body } }, { new: true },
             function (err, user) {

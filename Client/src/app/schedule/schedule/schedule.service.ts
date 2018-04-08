@@ -10,12 +10,12 @@ export class ScheduleService {
 
   constructor(private http: HttpClient) { }
 
-getPersonalSchedule(username: String): Observable<any> {
+  getPersonalSchedule(username: String): Observable<any> {
     return this.http.get(this.endpoint + 'schedule/getPersonalSchedule/' + username);
-}
+  }
 
 
-  saveScheduleChanges(username: String, schedule: CalendarEvent[] ) {
+  saveScheduleChanges(username: String, schedule: CalendarEvent[]) {
     console.log('service entered');
     return this.http.patch(this.endpoint + 'schedule/SaveScheduleChanges/' + username, schedule);
     // TODO: To be implemented in backend by Omar Elsebai
