@@ -25,12 +25,8 @@ var contentreqschema = mongoose.Schema({
         type: Date
     },
     creator: {
-        type: [
-            {
-                ref: 'User',
-                type: String
-            }
-        ]
+        trim: true,
+        type: String
     },
     requestType: {
         enum: [
