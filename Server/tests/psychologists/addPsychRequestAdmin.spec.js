@@ -104,11 +104,10 @@ describe('add psychologist information directly by admin', function () {
                 if (err) {
                     return console.log(err);
                 }
-                res.should.have.status(201);
+                res.should.have.status(200);
             });
     });
 });
-
 
 
 /* Mockgoose Termination */

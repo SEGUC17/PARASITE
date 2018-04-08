@@ -29,6 +29,7 @@ module.exports.addRequest = function (req, res, next) {
   }
 
   if (isAdmin) {
+    console.log('kjhgfdfghjkiolp;');
     Psychologists.create(req.body, function (err, request) {
       if (err) {
         return next(err);
