@@ -68,6 +68,9 @@ return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions
         return this.http.patch<any> (`${this.pwURL}/${uname}`, info, httpOptions);
 
     }
-
+ EditChildIndependence(visitedChildUsername): any {
+// adding username of the visited child to the patch request
+    return this.http.patch('http://localhost:3000/api/profile/' + visitedChildUsername + '/EditChildIndependence', null);
+             }
 
 }

@@ -161,5 +161,10 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
     this._ProfileService.changePassword(uname, info).subscribe();
 
 }
+EditChildIndependence() {
 
+  this._ProfileService.EditChildIndependence(this.vUsername).subscribe();
+  // getting the visited profile username and passing it to service method to add it to the patch request
+  
+  }
 }
