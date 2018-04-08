@@ -110,6 +110,14 @@ module.exports.getPublishedStudyPlan = function (req, res, next) {
             return next(err);
         }
 
+        if (!studyPlan) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'Study plan not found.'
+            });
+        }
+
         return res.status(200).json({
             data: studyPlan,
             err: null,
