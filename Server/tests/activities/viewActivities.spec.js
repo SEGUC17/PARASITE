@@ -46,7 +46,7 @@ describe('Activities', function () {
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
             Activity.create({
-                creator: 'normalUsername',
+                creator: 'normalusername',
                 name: 'activity1',
                 description: 'activity1 des',
                 fromDateTime: Date.now(),
@@ -60,7 +60,7 @@ describe('Activities', function () {
                 pendingActivity = activity;
             });
             Activity.create({
-                creator: 'normalUsername',
+                creator: 'normalusername',
                 name: 'activity2',
                 description: 'activity2 des',
                 fromDateTime: Date.now(),
@@ -74,7 +74,7 @@ describe('Activities', function () {
                 rejectedActivity = activity;
             });
             Activity.create({
-                creator: 'normalUsername',
+                creator: 'normalusername',
                 name: 'activity3',
                 description: 'activity3 des',
                 fromDateTime: Date.now(),
@@ -91,11 +91,11 @@ describe('Activities', function () {
                 birthdate: Date.now(),
                 email: 'test@email.com',
                 firstName: 'firstname',
-                isAdmin: true,
+                isAdmin: false,
                 lastName: 'lastname',
                 password: 'password',
                 phone: '0111111111',
-                username: 'normalUsername'
+                username: 'normalusername'
             }, function (err, user) {
                 if (err) {
                     console.log(err);
@@ -110,7 +110,7 @@ describe('Activities', function () {
                 lastName: 'lastname',
                 password: 'password',
                 phone: '0111111111',
-                username: 'adminUsername'
+                username: 'adminusername'
             }, function (err, user) {
                 if (err) {
                     console.log(err);
