@@ -60,20 +60,20 @@ export class CreateProductComponent {
       error = true;
     }
 
-    if (!error) { // enter the if condition if there is no error = all required inputs are there
-      // there are two cases, the user is an admin => the product will be created , the user is not an admin => will create a productrequst 
-      if (this.user.isAdmin === true) { // if user = admin
+    if (!error) { // enter the if condition if there is no error
+      // there are two cases
+      if (this.user.isAdmin === true) { //user is an admin => the product will be created
         let self = this;
         this.marketService.createProduct(pro).subscribe(function (res) {
-          // create product using the <pro> that have the inputs given by the user
+          // create product using <pro>
           if (res.msg === 'Product was created successfully.') {
-            // if the response mssge was <Product was created successfully> then insert it in the market page
+            // if the response mssge was <Product was created successfully> then put it in the market page
             self.data.market.firstPage();
             self.data.market.firstUserPage();
-            self.dialogRef.close(); // close the dialog = it is the form that the creatproduct is in
+            self.dialogRef.close(); // close the dialog 
           }
         });
-      } else {// else the user is not an admin
+      } else {// user is not an admin => will create a productrequst 
         let self = this;
         this.marketService.createProductRequest(pro).subscribe(function (res) { // call the createProductRequest from the backend
           if (res.msg === 'ProductRequest was created successfully.') {
