@@ -40,7 +40,7 @@ birthday: Date;
 listOfChildren: any[];
 verified: Boolean = false;
 id: any;
-pws: {oldpw: '', newpw: ''};
+pws: {oldpw: '', newpw: '', confirmpw: ''};
 
 // -------------------------------------
 
@@ -59,6 +59,7 @@ vBirthday: Date;
 vListOfChildren: any[];
 vVerified: Boolean = false;
 vId: any;
+message:string;
 // ------------------------------------
 
 // ----------- Other Lists ------------
@@ -158,9 +159,20 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
 
 
   ChangePassword(pws: any): void {
+    if (!(pws.newpw === pws.confirmpw)) {
+      console.log('passwords dont match');
+      this.message = 'New and confirmed passwords do not match!';
+
+
+    } else if (( pws.newpw.length < 8 )) {
+        console.log('pw too short');
+        this.message = 'Password should be more than 8 characters';
+    } else {
     console.log(pws.oldpw);
         this._ProfileService.changePassword(this.id, pws).subscribe();
+        this.message = 'Password changing..';
 
+    }
 }
 
 }
