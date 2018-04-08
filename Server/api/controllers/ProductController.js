@@ -4,10 +4,8 @@ var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
 
 
-// get number of products in the DB
-// restricted by delimiters given as a JSON object in the URL
-module.exports.getNumberOfProducts = function (req, res, next) {
-    var toFind = JSON.parse(req.params.limiters);
+var limits = function(toFind) {
+
     var limiters = {};
     if (toFind.price) {
         limiters.price = { $lt: toFind.price };
@@ -18,6 +16,28 @@ module.exports.getNumberOfProducts = function (req, res, next) {
     if (toFind.seller) {
         limiters.seller = toFind.seller;
     }
+
+    return limiters;
+};
+
+// get number of products in the DB
+// restricted by delimiters given as a JSON object in the URL
+module.exports.getNumberOfProducts = function (req, res, next) {
+    var toFind = JSON.parse(req.params.limiters);
+    // validations
+    var valid = (!toFind.price || !isNaN(toFind.price)) &&
+    (!toFind.name || typeof toFind.name === 'string') &&
+    (!toFind.seller || typeof toFind.seller === 'string');
+
+    // the request was not valid
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required fields were missing or of wrong type.',
+            msg: null
+        });
+    }
+    var limiters = limits(toFind);
     Product.find(limiters).count().
         exec(function (err, count) {
             if (err) {
@@ -31,21 +51,30 @@ module.exports.getNumberOfProducts = function (req, res, next) {
             });
         });
 };
-
 // get the actual products in the DB
 // restricted by delimiters given as a JSON object in the URL
 module.exports.getMarketPage = function (req, res, next) {
+
     var toFind = JSON.parse(req.params.limiters);
-    var limiters = {};
-    if (toFind.price) {
-        limiters.price = { $lt: toFind.price };
+    // validations
+    var valid = req.params.entriesPerPage && req.params.pageNumber &&
+        (!toFind.price || !isNaN(toFind.price)) &&
+        (!toFind.name || typeof toFind.name === 'string') &&
+        (!toFind.seller || typeof toFind.seller === 'string') &&
+        !isNaN(req.params.entriesPerPage) &&
+        !isNaN(req.params.pageNumber);
+
+    // the request was not valid
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required fields were missing or of wrong type.',
+            msg: null
+        });
     }
-    if (toFind.name) {
-        limiters.name = new RegExp(toFind.name, 'i');
-    }
-    if (toFind.seller) {
-        limiters.seller = toFind.seller;
-    }
+    // extract the limiters out of the header
+    var limiters = limits(toFind);
+    // get the products by pagination
     Product.paginate(
         limiters,
         {

@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
+/* eslint-disable */
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');

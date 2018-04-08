@@ -1,8 +1,9 @@
+/*eslint-disable*/
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
 // import your schema here, like this:
- var Product = mongoose.model('Product');
+var Product = mongoose.model('Product');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 
@@ -48,63 +49,61 @@ describe('createProductRequest', function () {
 
     it('it should GET categories from the server', function (done) {
         //here you need to call your schema to construct a document
-		//like this:
-		var pro1 = new Product({
-            acquiringType : 'sell',
-            description : 'description description description',
-            image : 'https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
-            name : 'product1',
-            price : '11',
-            seller: user.username, 
+        //like this:
+        var pro1 = new Product({
+            acquiringType: 'sell',
+            description: 'description description description',
+            image: 'https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
+            name: 'product1',
+            price: '11',
+            seller: user.username
         });
-		//sign up
-		chai.request(server).
-                post('/api/signUp').
-                send(user).
-                end(function (err, response) {
+        //sign up
+        chai.request(server).
+            post('/api/signUp').
+            send(user).
+            end(function (err, response) {
+                if (err) {
+                    return console.log(err);
+                }
+                response.should.have.status(201);
+                token = response.body.token;
+                // save your document with a call to save, cat1 is just the variable name here
+                pro1.save(function (err) {
                     if (err) {
                         return console.log(err);
                     }
-                    response.should.have.status(201);
-                    token = response.body.token;
-		// save your document with a call to save, cat1 is just the variable name here
-        pro1.save(function (err) {
-            if (err) {
-                return console.log(err);
-            }
-            // write your actual test here, like this:
-            
-        
-            
-            
-          chai.request(server).post('/api/productrequest/createProductRequest').send(pro1)
-               end(function (error, res) {
-                  if (error) {
-                       return console.log(error);
-                   }
-                  expect(res).to.have.status(200); //200 = ProductRequest was created successfully.
-                  res.should.have.status(201);
-                  res.body.should.be.a('object');
-                  res.body.should.have.property('message').eql('Product was created successfully.');
-                  res.body.book.should.have.property('acquiringType');
-                  res.body.book.should.have.property('description');
-                  res.body.book.should.have.property('image');
-                  res.body.book.should.have.property('name');
-                  res.body.book.should.have.property('price');
-                  res.body.book.should.have.property('seller');
+                    // write your actual test here, like this:
 
-                    done();
+
+
+
+                    chai.request(server).post('/api/productrequest/createProductRequest').send(pro1)
+                    end(function (error, res) {
+                        if (error) {
+                            return console.log(error);
+                        }
+                        expect(res).to.have.status(200); //200 = ProductRequest was created successfully.
+                        res.should.have.status(201);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('message').eql('Product was created successfully.');
+                        res.body.book.should.have.property('acquiringType');
+                        res.body.book.should.have.property('description');
+                        res.body.book.should.have.property('image');
+                        res.body.book.should.have.property('name');
+                        res.body.book.should.have.property('price');
+                        res.body.book.should.have.property('seller');
+                        done();
+                    });
                 });
-			});
-        });
+            });
     });
- }); 
-
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
             done();
         });
     });
-    // --- End of "Mockgoose Termination" --- //
-}); 
+     // --- End of "Mockgoose Termination" --- //
+});
+
