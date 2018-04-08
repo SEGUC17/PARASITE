@@ -1,9 +1,9 @@
-/*eslint-disable*/
+/*eslint max-statements: ["error", 20]*/
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
 // import your schema here, like this:
-var Product = mongoose.model('Product');
+var ProductRequest = mongoose.model('ProductRequest');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 
@@ -29,8 +29,7 @@ var token = null;
 
 //write your test's name below in <write here>
 describe('createProductRequest', function () {
-    this.timeout(1000000); //.................. // should i add this
-
+    this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -50,16 +49,18 @@ describe('createProductRequest', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
+
     it('it should POST productrequests', function (done) {
         //here you need to call your schema to construct a document
         //like this:
-        var pro1 = new Product({
+        var pro1 = new ProductRequest({
             acquiringType: 'sell',
             description: 'description description description',
-            image: 'https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
-            name: 'product1',
-            price: '11',
-            seller: 'omar',
+            image: 'https://vignette.wikia.nocookie.net/spongebob/images/' +
+            'a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
+            name: 'product2',
+            price: 11,
+            seller: 'omar'
         });
         //sign up
         chai.request(server).
@@ -71,33 +72,31 @@ describe('createProductRequest', function () {
                 }
                 response.should.have.status(201);
                 token = response.body.token;
-                // save your document with a call to save, cat1 is just the variable name here
-                pro1.save(function (err) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    // write your actual test here, like this:
 
-                    chai.request(server).
-                        post('/api/productrequest/createProductRequest').
-                        send(pro1).
-                        end(function (error, res) {
-                            if (error) {
-                                return console.log(error);
-                            }
-                            expect(res).to.have.status(200); //200 = ProductRequest was created successfully.
-                            res.body.should.be.a('object');
-                            res.body.should.have.property('msg').eql('ProductRequest was created successfully.');
-                            res.body.data.should.have.property('acquiringType');
-                            res.body.data.should.have.property('description');
-                            res.body.data.should.have.property('image');
-                            res.body.data.should.have.property('name');
-                            res.body.data.should.have.property('price');
-                            res.body.data.should.have.property('seller');
+                // write your actual test here, like this:
 
-                            done();
-                        });
-                });
+                chai.request(server).
+                    post('/api/productrequest/createProductRequest').
+                    send(pro1).
+                    end(function (error, res) {
+                        if (error) {
+                            return console.log(error);
+                        }
+                        //200 = ProductRequest was created successfully.
+                        expect(res).to.have.status(200);
+                        res.body.should.be.a('object');
+                        res.body.should.have.property('msg').
+                        eql('ProductRequest was created successfully.');
+                        res.body.data.should.have.property('acquiringType');
+                        res.body.data.should.have.property('description');
+                        res.body.data.should.have.property('image');
+                        res.body.data.should.have.property('name');
+                        res.body.data.should.have.property('price');
+                        res.body.data.should.have.property('seller');
+
+                        done();
+                    });
+
             });
     });
     // --- Mockgoose Termination --- //
@@ -107,4 +106,4 @@ describe('createProductRequest', function () {
         });
     });
     // --- End of "Mockgoose Termination" --- //
-}); 
+});

@@ -151,6 +151,7 @@ module.exports.createProduct = function (req, res, next) {
 
 //createProductRequest start
 module.exports.createProductRequest = function (req, res, next) {
+    console.log(req.body);
     ProductRequest.create(req.body, function (err, productreq) {
         if (err) {
             return next(err);
