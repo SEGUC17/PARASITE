@@ -74,7 +74,7 @@ module.exports = function (passport) {
   });
 
   // --------------------- Search Contoller -------------------- //
-  router.get('/User/Search/:username/:educationLevel/:educationSystem/:location/:curr/:pp', SearchController.Search);
+  router.get('/User/Search/:username/:educationLevel/:educationSystem/:location/:curr/:pp', isAuthenticated, SearchController.Search);
   // --------------------- End of Search Controller ------------ //
 
   // --------------------- Activity Contoller -------------------- //

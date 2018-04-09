@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SearchControlComponent } from '../search-control/search-control.component';
 
 
-describe('MarketComponent', () => {
+describe('SearchControlComponent', () => {
   let component: SearchControlComponent;
   let fixture: ComponentFixture<SearchControlComponent>;
 
