@@ -245,7 +245,7 @@ module.exports.signIn = function (req, res, next) {
                     return res.status(200).json({
                         data: null,
                         err: null,
-                        msg: 'Sign In Is Successfull!',
+                        msg: 'Sign In Is Successful!',
                         token: jwtToken
                     });
                 });
