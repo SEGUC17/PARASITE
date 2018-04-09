@@ -46,9 +46,17 @@ describe('getUserData', function () {
             phone: '123',
             username: 'john'
         };
+        this.token = '';
         this.userDataColumns = ['email', 'firstName', 'lastName', 'username'];
+        var self = this;
         mockgoose.helper.reset().then(function () {
-            done();
+            chai.request(app).
+                post('/api/signUp').
+                send(self.johnDoe).
+                end(function(err, res) {
+                    self.token = res.body.token;
+                    done();
+                });
         });
     });
     // --- End of "Clearing Mockgoose" --- //
@@ -65,7 +73,19 @@ describe('getUserData', function () {
                     done();
                 });
         });
-        it('Request "body" Is Empty!');
+        it('Request "body" Is Empty!', function(done) {
+            this.userDataColumns = [];
+            chai.request(app).
+                post(path).
+                send(this.userDataColumns).
+                set('Authorization', this.token).
+                end(function(err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Request Body: Expected non-empty value!');
+                    done();
+                });
+            
+        });
         it('Request "body" Is Not Valid!');
         it('Request "body" Element(s) Is/Are Not Valid!');
     });
