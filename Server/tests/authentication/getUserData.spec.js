@@ -97,13 +97,13 @@ describe('getUserData', function () {
                     done();
                 });
         });
-        it('Request "body" Element(s) Is/Are Not Valid!', function(done) {
+        it('Request "body" Element(s) Is/Are Not Valid!', function (done) {
             this.userDataColumns = [12312412];
             chai.request(app).
                 post(path).
                 send(this.userDataColumns).
                 set('Authorization', this.token).
-                end(function(err, res) {
+                end(function (err, res) {
                     res.should.has.status(422);
                     res.body.should.property('msg').eql('Request Body Element(s): Expected string value!');
                     done();
@@ -111,7 +111,21 @@ describe('getUserData', function () {
         });
     });
     describe('Success!', function () {
-        it('Data Retrieval Is Successful!');
+        it('Data Retrieval Is Successful!', function (done) {
+            var self = this;
+            chai.request(app).
+                post(path).
+                send(this.userDataColumns).
+                set('Authorization', this.token).
+                end(function (err, res) {
+                    res.should.has.status(200);
+                    res.body.should.have.property('data');
+                    for(var index = 0; index < self.userDataColumns.length; index += 1) {
+                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.johnDoe[self.userDataColumns[index]]);
+                    }
+                    done();
+                });
+        });
         it('Requested Column(s) Is/Are Not Valid!');
         it('"password" Attribute Is Requested!');
     });
