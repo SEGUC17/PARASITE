@@ -158,7 +158,8 @@ module.exports.requestUserValidation = function (req, res, next) {
 
 //--------------------------- Profile Info ------------------------- AUTHOR: H
 
-
+// method that finds a user by id, adds the passed child to the user's children list
+// then ensure that isParent = true
 module.exports.linkAnotherParent = function (req, res, next) {
 
   var id = req.params.parentId;
@@ -189,7 +190,8 @@ module.exports.linkAnotherParent = function (req, res, next) {
   );
 };
 
-
+// method that finds a user by id, adds the passed child to the user's children list
+// then ensure that isParent = true
 module.exports.addAsAParent = function (req, res, next) {
   User.findByIdAndUpdate(
     req.params.parentId,
@@ -218,6 +220,7 @@ module.exports.addAsAParent = function (req, res, next) {
   );
 };
 
+// method that deletes the passed child from the selected parent's children list
 module.exports.unLinkChild = function (req, res, next) {
   User.findByIdAndUpdate(
     req.params.parentId,
