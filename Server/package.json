@@ -46,6 +46,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "chaid": "^1.0.2",
     "eslint": "^4.19.1",
     "eslint-plugin-chai-friendly": "^0.4.1",
     "istanbul": "^0.4.5",
