@@ -126,8 +126,32 @@ describe('signIn', function () {
                     });
             });
         });
-        it('"Email" Is Wrong!');
-        it('"Password" Is Wrong!');
+        it('"Email" Is Wrong!', function(done) {
+            var self = this;
+            User.create(this.johnDoe, function(err) {
+                chai.request(app).
+                    post(path).
+                    send({'username': self.johnDoe.email + ' Is Wrong!', 'password': self.johnDoe.password}).
+                    end(function(err, res) {
+                        res.should.have.status(422);
+                        res.body.should.have.property('msg').eql('Wrong Username/Email Or Password!');
+                        done();
+                    });
+            });
+        });
+        it('"Password" Is Wrong!', function(done) {
+            var self = this;
+            User.create(this.johnDoe, function(err) {
+                chai.request(app).
+                    post(path).
+                    send({'username': self.johnDoe.username, 'password': self.johnDoe.password + ' Is Wrong!'}).
+                    end(function(err, res) {
+                        res.should.have.status(422);
+                        res.body.should.have.property('msg').eql('Wrong Username/Email Or Password!');
+                        done();
+                    });
+            });
+        });
     });
     describe('Success!', function () {
         it('User Entered Valid Data (Email)!');
