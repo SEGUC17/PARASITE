@@ -232,7 +232,18 @@ describe('signIn', function () {
                     });
             });
         });
-        it('Token Is Sent After Signning In!');
+        it('Token Is Sent After Signning In!', function(done) {
+            var self = this;
+            User.create(this.johnDoe, function(err) {
+                chai.request(app).
+                    post(path).
+                    send({'username': self.johnDoe.username, 'password': self.johnDoe.password}).
+                    end(function(err, res) {
+                        res.body.should.have.property('token');
+                        done();
+                    });
+            });
+        });
         it('Token Expires In 12 Hours!');
     });
     // --- End of "Tests" --- //
