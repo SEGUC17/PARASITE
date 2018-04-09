@@ -150,7 +150,6 @@ module.exports = function (passport) {
   // -------------------- Profile Module Endpoints ------------------//
 
   router.post('/profile/VerifiedContributerRequest', isAuthenticated, profileController.requestUserValidation);
-  router.get('/profile/:parentId', profileController.getUserInfo);
   router.put('/profile/LinkAnotherParent/:parentId', profileController.linkAnotherParent);
   router.put('/profile/UnLinkChild/:parentId', profileController.unLinkChild);
   router.put('/profile/AddAsAParent/:parentId', profileController.addAsAParent);
