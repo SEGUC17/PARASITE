@@ -191,10 +191,8 @@ describe('Verified Contributer Requests', function() {
                         throw err;
                     }
                     should.exist(res);
-                    console.log(res);
                     res.should.have.status(200);
                     res.should.have.property('body');
-                    console.log(res.body);
                     assert.equal(res.body.msg, 'reponse has been submitted');
                 });
                 done();
