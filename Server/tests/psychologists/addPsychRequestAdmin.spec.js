@@ -60,7 +60,7 @@ describe('add psychologist information directly by admin', function () {
 
     /* End of "Clearing Mockgoose" */
     /* sign up  to the system */
-    before(function (done) {
+    beforeEach(function (done) {
         chai.request(server).post('/api/signUp').
             send(usr).
             end(function (err, response) {
