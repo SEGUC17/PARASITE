@@ -5,10 +5,10 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-var User = mongoose.model('User');
+//var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-var should = chai.should();
+//var should = chai.should();
 var request = require('supertest');
 
 chai.use(chaiHttp);
@@ -17,7 +17,7 @@ var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
-describe('Add user as a parent', function () {
+describe('Unlink a child ', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
