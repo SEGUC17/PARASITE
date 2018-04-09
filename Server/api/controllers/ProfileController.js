@@ -10,11 +10,13 @@ var VCRSchema = mongoose.model('VerifiedContributerRequest');
 
 
 module.exports.getChildren = function (req, res, next) {
+// finding user by username from params
   User.findOne({ username: req.params.username }).exec(function (err, user) {
+
       if (err) {
           return next(err);
       }
-
+//checking if user is not found
       if (!user) {
           return res.
               status(404).
@@ -25,14 +27,72 @@ module.exports.getChildren = function (req, res, next) {
       });
 
       }
-
+// adding user's children to response
 res.status(200).json({
           data: user.children,
           err: null,
           msg: 'Children retrieved successfully.'
       });
+    }); }
+module.exports.EditChildIndependence = function (req, res, next) {
+
+  // searching for username in the params and setting isChild to false
+  
+   User.findOneAndUpdate(
+     { username: req.params.username },
+    { $set: { isChild: false } }
+  ).exec(function (err, user) {
+       if (err) {
+            return next(err);
+        }
+  // checking if user is not found
+        if (!user) {
+          return res.
+          status(404).
+          json({
+  data: null,
+  err: null,
+  msg: 'user not found'
   });
-};
+      }
+  
+  
+  // checking that the child to be updated birth year < 13
+  
+  if (new Date().getFullYear() - user.birthdate.getFullYear() < 13) {
+  
+    return res.
+                status(403).
+                json({
+        data: null,
+        err: null,
+        msg: 'Child under 13.'
+        });
+  }
+  // checking that child is older than 13
+  if (new Date().getFullYear() - user.birthdate.getFullYear() === 13 &&
+  new Date().getMonth() < user.birthdate.getMonth()) {
+    return res.
+    status(403).
+    json({
+  data: null,
+  err: null,
+  msg: 'Child under 13.'
+  });
+  }
+  
+  // if the previous conditions are false then child is changed successefuly
+  res.status(200).json({
+  
+  
+            data: user.isChild,
+            err: null,
+            msg: 'Successefully changed from child to independent.'
+        });
+  
+    });
+  };
+  
 
 // @author: MAHER
 // requestUserValidation() take some of the
