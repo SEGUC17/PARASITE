@@ -199,7 +199,7 @@ module.exports.changePassword = function (req, res, next) {
       return;
     }
 
-    console.log('New Password to enter: ', req.body.newpw);
+   // console.log('New Password to enter: ', req.body.newpw);
     // compare entered password with existing hashed password in database
     Encryption.comparePasswordToHash(req.body.oldpw, user.password, function (
       err2,
@@ -208,13 +208,11 @@ module.exports.changePassword = function (req, res, next) {
       if (err2) {
         return next(err2);
       } else if (!passwordMatches) {
-        console.log('Password entered is incorrect');
 
         return res.status(401).json({
-          data: null,
+          data: user,
           err: null,
           msg: 'Password is incorrect'
-
         });
 
       }
@@ -224,7 +222,7 @@ module.exports.changePassword = function (req, res, next) {
         if (err3) {
           return next(err3);
         }
-        console.log(hash);
+        //console.log(hash);
         // update user password with hash
         User.findByIdAndUpdate(
           { _id: req.params.id },
