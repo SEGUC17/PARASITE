@@ -206,7 +206,19 @@ describe('signIn', function () {
                     });
             });
         });
-        it('User Entered Valid Data (Username Has Upper Case)!');
+        it('User Entered Valid Data (Username Has Upper Case)!', function(done) {
+            var self = this;
+            User.create(this.johnDoe, function(err) {
+                chai.request(app).
+                    post(path).
+                    send({'username': self.johnDoe.username.toUpperCase(), 'password': self.johnDoe.password}).
+                    end(function(err, res) {
+                        res.should.have.status(200);
+                        res.body.should.have.property('msg').eql('Sign In Is Successful!');
+                        done();
+                    });
+            });
+        });
         it('User Entered Valid Data (Username Has Space)!');
         it('Token Is Sent After Signning In!');
         it('Token Expires In 12 Hours!');
