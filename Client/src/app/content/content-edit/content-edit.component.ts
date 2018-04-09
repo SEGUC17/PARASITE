@@ -9,6 +9,7 @@ import { Section } from '../section';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from '../category';
 import { AuthService } from '../../auth/auth.service';
+import { AdminService } from '../../admin.service';
 @Component({
   selector: 'app-content-edit',
   templateUrl: './content-edit.component.html',
@@ -41,7 +42,8 @@ export class ContentEditComponent implements OnInit {
     private contentService: ContentService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private adminService: AdminService) {
   }
 
   // Add a tag chip event handler
@@ -79,13 +81,16 @@ export class ContentEditComponent implements OnInit {
       return;
     }
     // get username of the registered user
-    this.authService.getUserData(['username']).subscribe(function (authRes) {
+    this.authService.getUserData(['username', 'isAdmin', 'contributionScore']).subscribe(function (authRes) {
       self.content.creator = authRes.data.username;
       // create content for for that registered user
       self.contentService.createContent(content).subscribe(function (contentRes) {
         // TODO: (Universal Error Handler/ Modal Errors)
         if (!contentRes) {
           return;
+        }
+        if (authRes.data.isAdmin) {
+          self.addContributionPts(authRes.data.username, authRes.data.contributionScore);
         }
         if (contentRes.data.content) {
           self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
@@ -97,6 +102,11 @@ export class ContentEditComponent implements OnInit {
 
 
   }
+  addContributionPts(username, oldPoints): any {
+    let self = this;
+    self.adminService.addContPts(username, oldPoints + 10 ).subscribe();
+       }
+
 
   // retrieve all categories from server
   getCategories(): void {

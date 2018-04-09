@@ -103,15 +103,15 @@ export class AdminService {
       );
   }
   // TO-DO ContributionPts
-  // addContPts(userName: any ): any {
-  //   const self = this;
-  //   return this.http.patch<any>(self.baseURL + self.addContributionPtsURL , { username: userName })
-  //   .pipe(
-  //     catchError(
-  //       self.handleError('AddContributionPts', [])
-  //     )
-  //   );
-  // }
+  addContPts(userName: any, newScore: number): any {
+    const self = this;
+    return this.http.patch<any>(self.baseURL + self.addContributionPtsURL , { username: userName, newscore: newScore })
+    .pipe(
+      catchError(
+        self.handleError('AddContributionPts', [])
+      )
+    );
+  }
 
   // general error handler
   private handleError<T>(operation = 'operation', result?: T) {

@@ -4,6 +4,7 @@ import { ContentRequest } from '../contentRequest';
 import { Router} from '@angular/router';
 import { ContentRoutingModule } from '../content-routing.module';
 import { AuthService } from '../../auth/auth.service';
+import { SafeResourceUrlPipe } from '../safe-resource-url.pipe';
 @Component({
   selector: 'app-view-content-requests',
   templateUrl: './view-content-requests.component.html',
@@ -64,7 +65,7 @@ export class ViewContentRequestsComponent implements OnInit {
       function(res1) {
         if (response === true ) {
          console.log('should be after approved only , res1.creator is: ' + res1.data.creator);
-          // self.addContributionPts(/*res1.data.creator*/ 'salma');
+          self.addContributionPts( res1.data.creator);
        }
 });
 }
@@ -74,22 +75,12 @@ export class ViewContentRequestsComponent implements OnInit {
       function(res) {
       });
   }
-  // TO-DO ContributionPts
-  // getOldContPts(username): any {
-  //   let self = this;
-  //   let wantedCols: string[] = ['contributionScore'];
-
-  //   self._authService.getAnotherUserData(wantedCols, username).subscribe();
-  // }
-
-  // addContributionPts(username): any {
-  //   let self = this;
-  //   console.log('I\'m in addContributionPts with username: ' + username);
-  //   // console.log('Outcome of the auth servive, oldPoints is: ' + self.getOldContPts(username));
-  //   self._adminService.addContPts(username).subscribe(
-  //     function(res) {
-  //       console.log('final contPts' + res.contibutionPoints);
-  //     }
-  //   );
-  // }
-}
+  addContributionPts(username): any {
+    let self = this;
+    let wantedCols: string[] = ['contributionScore'];
+    self._authService.getAnotherUserData(wantedCols, username).subscribe(function(res) {
+    console.log('retrieved contribution Score' + res.data.contributionScore);
+    self._adminService.addContPts(username, res.data.contributionScore + 10 ).subscribe();
+       });
+      }
+  }

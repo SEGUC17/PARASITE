@@ -37,6 +37,7 @@ export class ContentService {
       );
   }
 
+
   getContentByCreator(pageSize: any, pageNumber: any): Observable<any> {
     const self = this;
     return this.http.get(self.endpoint + 'content/username/' + pageSize + '/' + pageNumber)
