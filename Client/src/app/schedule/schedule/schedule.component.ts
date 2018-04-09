@@ -30,7 +30,7 @@ export class ScheduleComponent implements OnInit {
   view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
-  activeDayIsOpen: Boolean = true;
+  activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
   editing = false;
 
