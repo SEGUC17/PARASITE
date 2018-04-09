@@ -18,11 +18,13 @@ export class ChildernComponent implements OnInit {
 
   ngOnInit() {
 
-  }
+  } // Heidi
   getChildern() {
-    this.authService.getUserData(['username']).subscribe((user) => this.username = user.username);
-    this.profileService.getChildren(this.username).subscribe(res => this.child = res.data);
-  }
+    // calling service method that sends get request and subscribing to the data from the response
+      this.profileService.getChildren().subscribe(res => this.child = res.data);
+    
+    
+      }
 }
 
 

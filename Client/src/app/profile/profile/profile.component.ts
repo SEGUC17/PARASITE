@@ -40,8 +40,11 @@ birthday: Date;
 listOfChildren: any[];
 verified: Boolean = false;
 id: any;
+<<<<<<< HEAD
 pws: {oldpw: '', newpw: '', confirmpw: ''};
 
+=======
+>>>>>>> activities
 // -------------------------------------
 
 // ---------Visited User Info-----------
@@ -70,24 +73,21 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent'];
 // ------------------------------------
 
-  constructor(private _ProfileService: ProfileService,
-    private _AuthService: AuthService,
-    private activatedRoute: ActivatedRoute,
-    private router: Router) {
+  constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
+    private activatedRoute: ActivatedRoute) {
     this._AuthService.getUserData(['username']).subscribe((user) => {
       this.username = user.data.username;
+    });
     this.activatedRoute.params.subscribe((params: Params) => { // getting the visited username
       this.vUsername = params.username;
-      if (!this.vUsername) {
-        // this.router.navigateByUrl('/profile/' + this.username );
-        this.vUsername = this.username;
-      }
-
+      console.log(this.vUsername);
+    });
 
     if (this.vUsername === this.username) {
       this.currIsOwner = true;
     }
-    // Fetching logged in user info
+    // Fetching logged in user info if he/she is the owner of the profile
+    if (this.currIsOwner) {
     this.user = this._AuthService.getUserData(this.listOfWantedVariables).subscribe(((owner) => {
       this.username = owner.data.username;
       this.firstName = owner.data.firstName;
@@ -102,8 +102,8 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
       this.id = owner.data._id;
       this.currIsChild = owner.data.isChild;
       this.currIsParent = owner.data.isParent;
-
-    if (!this.currIsOwner) { // Fetching other user's info, if the logged in user is not the owner of the profile
+    }));
+    } else { // Fetching other user's info, if the logged in user is not the owner of the profile
       this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
         this.vFirstName = info.data.firstName;
         this.vLastName = info.data.lastName;
@@ -117,18 +117,15 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
         this.vId = info.data._id;
         this.visitedIsParent = info.data.isParent;
         this.visitedIsChild = info.data.isChild;
-        if (this.visitedIsChild) {
-          this.visitedIsMyChild = !(this.listOfChildren.indexOf(this.vUsername) < 0);
+        if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
+          this.visitedIsMyChild = true;
         }
     }));
     // Getting the list of uncommon children
     this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
     }
-  }));
-  });
-  });
-  }
 
+  }
 
   ngOnInit() {
 
@@ -151,18 +148,26 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
   }
 
   addChild(child): void { // adds a the selected child to the visited user list of children
-
-    this._ProfileService.linkAnotherParent(child, this.vId).subscribe();
+    let object = {
+      child: child
+    };
+    this._ProfileService.linkAnotherParent(object, this.vId).subscribe();
 
   }
 
 
   removeChild(child): void { // removes the child from the list of children of the currently logged in user
-    this._ProfileService.Unlink(child, this.id).subscribe();
+    let object = {
+      child: child
+    };
+    this._ProfileService.Unlink(object, this.id).subscribe();
   }
 
   linkToParent(child): void { // adds the currently logged in child to the list of children of the selected user
-    this._ProfileService.linkAsParent(child, this.vId).subscribe();
+    let object = {
+      child: child
+    };
+    this._ProfileService.linkAsParent(object, this.vId).subscribe();
   }
 
 
@@ -184,5 +189,10 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
 
     }
 }
+EditChildIndependence() {
 
+  this._ProfileService.EditChildIndependence(this.vUsername).subscribe();
+  // getting the visited profile username and passing it to service method to add it to the patch request
+  
+  }
 }

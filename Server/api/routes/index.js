@@ -23,6 +23,17 @@ var scheduleController = require('../controllers/ScheduleController');
 module.exports = function (passport) {
 
   // --------------------- Authentication Checkers --------------- //
+  var optionalAuthentication = function (req, res, next) {
+    passport.authenticate('jwt', { session: false }, function (err, user, info) {
+      if (err) {
+        return next(err);
+      }
+      req.user = user;
+
+      return next();
+    })(req, res, next);
+  };
+
   var isAuthenticated = function (req, res, next) {
     passport.authenticate('jwt', { session: false }, function (err, user, info) {
       if (err) {
@@ -67,10 +78,10 @@ module.exports = function (passport) {
   // --------------------- End of Search Controller ------------ //
 
   // --------------------- Activity Contoller -------------------- //
-  router.get('/activities', ActivityController.getActivities);
-  router.get('/activities/:activityId', ActivityController.getActivity);
+  router.get('/activities', optionalAuthentication, ActivityController.getActivities);
+  router.get('/activities/:activityId', optionalAuthentication, ActivityController.getActivity);
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
-  router.put('/unverifiedActivities', ActivityController.reviewActivity);
+  router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
 
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist', psychCtrl.getPsychologists);
@@ -121,8 +132,8 @@ module.exports = function (passport) {
 
   // -------------- Admin Contoller ---------------------- //
 
-  router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
-  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
+  router.get('/admin/VerifiedContributerRequests/:FilterBy', isAuthenticated, adminController.getVCRs);
+  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', isAuthenticated, adminController.VCRResponde);
   router.get(
     '/admin/PendingContentRequests/:type', isAuthenticated,
     adminController.viewPendingContReqs
@@ -138,12 +149,14 @@ module.exports = function (passport) {
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
-  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
+  router.post('/profile/VerifiedContributerRequest', isAuthenticated, profileController.requestUserValidation);
+  router.get('/profile/:parentId', profileController.getUserInfo);
   router.put('/profile/LinkAnotherParent/:parentId', profileController.linkAnotherParent);
-  router.put('/profile/UnlinkAnotherParent/:parentId', profileController.Unlink);
-  router.put('/profile/LinkAsAParent/:parentId', profileController.linkAsParent);
+  router.put('/profile/UnLinkChild/:parentId', profileController.unLinkChild);
+  router.put('/profile/AddAsAParent/:parentId', profileController.addAsAParent);
   router.get('/profile/:username/getChildren', profileController.getChildren);
-  router.patch('/profile/changePassword/:id', profileController.changePassword);
+  router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
+  router.patch('/profile/changePassword/:uname', profileController.changePassword);
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
