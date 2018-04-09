@@ -126,7 +126,20 @@ describe('getUserData', function () {
                     done();
                 });
         });
-        it('Requested Column(s) Is/Are Not Valid!');
+        it('Requested Column(s) Is/Are Not Valid!', function (done) {
+            var wrongColumn = 'wrongColumn';
+            this.userDataColumns.push(wrongColumn);
+            chai.request(app).
+                post(path).
+                send(this.userDataColumns).
+                set('Authorization', this.token).
+                end(function (err, res) {
+                    res.should.has.status(200);
+                    res.body.should.have.property('data');
+                    res.body.data.should.not.have.property(wrongColumn);
+                    done();
+                });
+        });
         it('"password" Attribute Is Requested!');
     });
     // --- End of "Tests" --- //
