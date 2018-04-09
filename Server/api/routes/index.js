@@ -114,9 +114,8 @@ module.exports = function (passport) {
   // ---------------------- End of User Controller --------------- //
 
   //-------------------- Study Plan Endpoints ------------------//
-  router.get('/study-plan/getPersonalStudyPlans/:username', studyPlanController.getPerosnalStudyPlans);
   router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);
-  router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', studyPlanController.getPerosnalStudyPlan);
+  router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.getPersonalStudyPlan);
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
   router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
@@ -157,7 +156,7 @@ module.exports = function (passport) {
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
-  router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
+  router.patch('/schedule/SaveScheduleChanges/:username', isAuthenticated, scheduleController.updateSchedule);
   router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
   // ------------End of Schedule Controller Endpoints -----------//
 

@@ -4,9 +4,8 @@ import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
-import { Router } from '@angular/router';
 import {
   isSameMonth,
   isSameDay,
@@ -21,21 +20,6 @@ import {
   addDays,
   addHours
 } from 'date-fns';
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
 
 @Component({
   selector: 'app-study-plan-edit-view',
@@ -59,7 +43,7 @@ export class StudyPlanEditViewComponent implements OnInit {
   public editorOut;
   public editorContent = ``;
   private editorOptions = {
-    placeholder: 'insert content here'
+    placeholder: 'Enter the description for your study plan here.'
   };
   separatorKeysCodes = [ENTER, COMMA, SPACE];
   modalData: {
@@ -163,7 +147,10 @@ export class StudyPlanEditViewComponent implements OnInit {
       title: 'New event',
       start: startOfDay(new Date()),
       end: endOfDay(new Date()),
-      color: colors.red,
+      color: {
+        primary: '#ad2121',
+        secondary: '#FAE3E3'
+      },
       draggable: true,
       resizable: {
         beforeStart: true,
@@ -174,7 +161,7 @@ export class StudyPlanEditViewComponent implements OnInit {
   }
 
   create(): void {
-    if (!this.title || !this.description || !this.events.length) {
+    if (!(this.title && this.description && this.events.length)) {
       alert('A Study Plan needs a title, a description, and at least one event.');
       return;
     }

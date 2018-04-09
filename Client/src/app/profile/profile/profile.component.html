@@ -48,9 +48,9 @@
 
           </div>
         </mat-tab>
-        <mat-tab label="Personal Schedule" *ngIf="iHaveAcess">
+        <mat-tab label="Personal Schedule" *ngIf="currIsOwner || visitedIsMyChild">
           <div id = "schedule" class = "tabcontent">
-            <app-schedule [profileUser]="vUsername" [loggedInUser]="user"></app-schedule>
+            <app-schedule [profileUser]="vUsername"></app-schedule>
           </div>
         </mat-tab>
         <mat-tab label="List of children">
@@ -63,7 +63,7 @@
           <div id = "studyplans" class = "tabcontent">
             <app-study-plan-list-view
               type="personal"
-              [(username)]="vUsername"
+              [username]="currIsOwner? username : vUsername"
               [(currIsChild)]="currIsChild"
               >
             </app-study-plan-list-view>
