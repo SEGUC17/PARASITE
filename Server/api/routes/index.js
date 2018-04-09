@@ -85,10 +85,10 @@ module.exports = function (passport) {
 
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist', psychCtrl.getPsychologists);
-  router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
-  router.get('/psychologist/request/getRequests', psychCtrl.getRequests);
-  router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);
-  // ------------- psychologist's requests Controller ------------- //
+  router.post('/psychologist/request/add/addRequest', optionalAuthentication, psychCtrl.addRequest);
+  router.get('/psychologist/request/getRequests', isAuthenticated, psychCtrl.getRequests);
+  router.post('/psychologist/request/evalRequest', isAuthenticated, psychCtrl.evaluateRequest);
+  // ------------- End Of psychologist's requests Controller ------------- //
 
   // --------------Product Controller---------------------- //
   router.get('/market/getMarketPage/:entriesPerPage/:' +
@@ -139,6 +139,11 @@ module.exports = function (passport) {
     '/admin/RespondContentStatus/:ContentId', isAuthenticated,
     adminController.respondContentStatus
   );
+  // TO-DO ContributionPts
+  // router.patch(
+  //   'admin/addContPts', isAuthenticated,
+  //   adminController.addContPts
+  // );
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 

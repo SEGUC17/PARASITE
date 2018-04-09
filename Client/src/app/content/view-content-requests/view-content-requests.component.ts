@@ -3,6 +3,7 @@ import { AdminService } from '../../admin.service';
 import { ContentRequest } from '../contentRequest';
 import { Router} from '@angular/router';
 import { ContentRoutingModule } from '../content-routing.module';
+import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-view-content-requests',
   templateUrl: './view-content-requests.component.html',
@@ -13,7 +14,7 @@ export class ViewContentRequestsComponent implements OnInit {
   reqs: ContentRequest;
   type: String;
 
-  constructor(private _adminService: AdminService, private router: Router ) {
+  constructor(private _adminService: AdminService, private router: Router, private _authService: AuthService ) {
    }
 
   ngOnInit() {
@@ -32,7 +33,6 @@ export class ViewContentRequestsComponent implements OnInit {
   }
   viewCont(contID) {
     let self = this;
-    console.log('this is content ID: ' + contID);
     self.router.navigate(['/content-view/' + contID ]);
   }
 
@@ -46,38 +46,50 @@ export class ViewContentRequestsComponent implements OnInit {
   }
   approveContentRequest(Rid): any {
     let self = this;
-    self._adminService.respondContentRequest('approved', Rid ).subscribe(function(res) {
-      console.log('this is the contentid' + res.data.contentID);
-      console.log(res.data);
-      console.log(res.msg);
-      self.viewPendingContReqs();
-      self.modifyContentStatus( true, res.data.contentID);
-    });
+   self._adminService.respondContentRequest('approved', Rid ).subscribe(function(res) {
+     self.viewPendingContReqs();
+      self.modifyContentStatus( true, res.data.contentID );
+   });
   }
   disapproveContentRequest(Rid): any {
     let self = this;
     self._adminService.respondContentRequest('disapproved', Rid).subscribe(function(res) {
-      console.log('this is the contentid' + res.data.contentID.toString());
-      console.log(res.data);
-      console.log(res.msg);
       self.viewPendingContReqs();
       self.modifyContentStatus( false, res.data.contentID);
     });
 }
   modifyContentStatus(response: boolean, id): any {
-    console.log('in component this is id: ' + id );
     let self = this;
     this._adminService.modifyContentStatus( response, id).subscribe(
       function(res1) {
-      console.log(res1.data);
-      console.log(res1.msg);
+        if (response === true ) {
+         console.log('should be after approved only , res1.creator is: ' + res1.data.creator);
+          // self.addContributionPts(/*res1.data.creator*/ 'salma');
+       }
 });
 }
   getcontent(): any {
     let self = this;
     self._adminService.getcontent().subscribe(
       function(res) {
-        console.log(res.data);
       });
   }
+  // TO-DO ContributionPts
+  // getOldContPts(username): any {
+  //   let self = this;
+  //   let wantedCols: string[] = ['contributionScore'];
+
+  //   self._authService.getAnotherUserData(wantedCols, username).subscribe();
+  // }
+
+  // addContributionPts(username): any {
+  //   let self = this;
+  //   console.log('I\'m in addContributionPts with username: ' + username);
+  //   // console.log('Outcome of the auth servive, oldPoints is: ' + self.getOldContPts(username));
+  //   self._adminService.addContPts(username).subscribe(
+  //     function(res) {
+  //       console.log('final contPts' + res.contibutionPoints);
+  //     }
+  //   );
+  // }
 }

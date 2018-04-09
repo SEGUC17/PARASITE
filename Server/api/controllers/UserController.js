@@ -337,27 +337,19 @@ module.exports.signUpChild = function (req, res, next) {
                 });
             }
             //end catch
-            Encryption.hashPassword(newUser.password, function (er, hash) {
-                if (er) {
-                    console.log('entered if er');
 
-                    return next(er);
+            User.create(newUser, function (erro) {
+                if (erro) {
+                    console.log('entered if erro');
+
+                    return next(erro);
                 }
 
-                newUser.password = hash;
-                User.create(newUser, function (erro) {
-                    if (erro) {
-                        console.log('entered if erro');
-
-                        return next(erro);
-                    }
-
-                    // --- Variable Assign --- //
-                    return res.status(201).json({
-                        data: newUser,
-                        erro: null,
-                        msg: 'Success!'
-                    });
+                // --- Variable Assign --- //
+                return res.status(201).json({
+                    data: newUser,
+                    erro: null,
+                    msg: 'Success!'
                 });
             });
         }
