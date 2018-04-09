@@ -18,11 +18,11 @@
       <mat-tab label="Browse Resources and Ideas">
         <div class="row">
           <div class="col" align="center">
-            <div *ngIf="searchBy">
-              <mat-form-field *ngIf="searchBy === 'title' || searchBy === 'titleAndTags'">
+            <div>
+              <mat-form-field>
                 <input matInput [(ngModel)]="searchQueryTitle" type="text" placeholder="Search By Title" />
               </mat-form-field>
-              <mat-form-field *ngIf="searchBy === 'tags' || searchBy === 'titleAndTags'">
+              <mat-form-field>
                 <input matInput [(ngModel)]="searchQueryTags" type="text" placeholder="Search By Tags" />
               </mat-form-field>
             </div>
@@ -31,21 +31,6 @@
           </div>
         </div>
         <div class="container">
-          <div class="row">
-            <div class="col" align="center">
-              <mat-radio-group [(ngModel)]="searchBy">
-                <mat-radio-button class="radio-button" value="title">
-                  Title
-                </mat-radio-button>
-                <mat-radio-button class="radio-button" value="tags">
-                  Tags
-                </mat-radio-button>
-                <mat-radio-button class="radio-button" value="titleAndTags">
-                  Title and Tags
-                </mat-radio-button>
-              </mat-radio-group>
-            </div>
-          </div>
           <h2 align="center" *ngIf="selectedCategory !== 'NoCat'"> Category: {{ selectedCategory }}</h2>
           <h3 align="center" *ngIf="selectedSection !== 'NoSec'"> Section: {{ selectedSection }}</h3>
         </div>

@@ -41,7 +41,6 @@ export class ContentListViewComponent implements OnInit {
   myContributionsCurrentPageNumber: number;
 
   // search variables
-  searchBy: String = 'title';
   searchQueryTitle: String = '';
   searchQueryTags: String = '';
   isSearching: Boolean = false;
@@ -149,7 +148,6 @@ export class ContentListViewComponent implements OnInit {
 
     // user changed the category or section, nullifying the validity of his search query
     this.isSearching = false;
-    this.searchBy = 'title';
     this.searchQueryTitle = '';
     this.searchQueryTags = '';
 
@@ -173,7 +171,6 @@ export class ContentListViewComponent implements OnInit {
     const self = this;
     this.searchQueryTags = this.searchQueryTags.trim();
     this.searchQueryTitle = this.searchQueryTitle.trim();
-    console.log('Searching by: ' + this.searchBy);
     console.log('Query Tags: ' + this.searchQueryTags);
     console.log('Query Title: ' + this.searchQueryTitle);
     console.log('Retrieving Page: ' + this.currentPageNumber);
