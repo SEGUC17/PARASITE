@@ -86,7 +86,19 @@ describe('getUserData', function () {
                 });
             
         });
-        it('Request "body" Is Not Valid!');
+        it('Request "body" Is Not Valid!', function(done) {
+            this.userDataColumns = null;
+            chai.request(app).
+                post(path).
+                send(this.userDataColumns).
+                set('Authorization', this.token).
+                end(function(err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Request Body: Expected array value!');
+                    done();
+                });
+            
+        });
         it('Request "body" Element(s) Is/Are Not Valid!');
     });
     describe('Success!', function () {
