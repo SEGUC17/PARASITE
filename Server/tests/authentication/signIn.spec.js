@@ -85,7 +85,19 @@ describe('signIn', function () {
             });
         });
         it('Token Expires In More Than 12 Hours!');
-        it('"password" Attribute Is Empty!');
+        it('"password" Attribute Is Empty!', function(done) {
+            var self = this;
+            User.create(this.johnDoe, function(err) {
+                chai.request(app).
+                    post(path).
+                    send({'username': self.johnDoe.username, 'password': null}).
+                    end(function(err, res) {
+                        res.should.have.status(422);
+                        res.body.should.have.property('msg').eql('Password: Expected non-empty value!');
+                        done();
+                    });
+            });
+        });
         it('"password" Attribute Is Not Valid!');
         it('"username" Attribute Is Empty!');
         it('"username" Attribute Is Not Valid!');
