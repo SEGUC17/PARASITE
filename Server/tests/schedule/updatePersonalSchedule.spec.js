@@ -196,7 +196,6 @@ describe('updateSchedule', function () {
                                 if (err3) {
                                     return console.log(err3);
                                 }
-                                console.log(siginData.body);
                                 // Updating schedule
                                 chai.request(server).
                                     patch('/api/schedule/saveScheduleChanges/' +
