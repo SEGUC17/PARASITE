@@ -57,9 +57,33 @@ export class ContentService {
   deleteContent(contentId: any): Observable<any> {
     const self = this;
     return this.http.delete(self.endpoint + 'content/' + contentId)
-    .pipe(
-      catchError(self.handleError('deleteContent', []))
-    );
+      .pipe(
+        catchError(self.handleError('deleteContent', []))
+      );
+  }
+
+  // get search page from server
+  getSearchPage(currentPageNumber: number,
+    numberOfEntriesPerPage: number,
+    searchQueryTags: String,
+    searchQueryTitle: String,
+    selectedCategory: String,
+    selectedSection: String
+  ): Observable<any> {
+
+    const self = this;
+
+    // removing space and adding +
+    searchQueryTags = searchQueryTags.split(' ').join('+');
+    searchQueryTitle = searchQueryTitle.split(' ').join('+');
+
+    return this.http.get(self.endpoint + 'content/' + numberOfEntriesPerPage +
+      '/' + currentPageNumber + '/search?tags=' +
+      searchQueryTags + '&title=' + searchQueryTitle +
+      '&category=' + selectedCategory + '&section=' + selectedSection)
+      .pipe(
+        catchError(self.handleError('getSearchPage', []))
+      );
   }
 
   // general error handler

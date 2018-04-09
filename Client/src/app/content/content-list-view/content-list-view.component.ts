@@ -170,11 +170,26 @@ export class ContentListViewComponent implements OnInit {
 
   // retrieve a page of content that matches the search query
   getSearchContentPage(): void {
-    console.log('Searching by: ' + this.searchBy);
+    const self = this;
     this.searchQueryTags = this.searchQueryTags.trim();
     this.searchQueryTitle = this.searchQueryTitle.trim();
+    console.log('Searching by: ' + this.searchBy);
     console.log('Query Tags: ' + this.searchQueryTags);
     console.log('Query Title: ' + this.searchQueryTitle);
     console.log('Retrieving Page: ' + this.currentPageNumber);
+    this.contentService.getSearchPage(
+      self.currentPageNumber,
+      self.numberOfEntriesPerPage,
+      self.searchQueryTags,
+      self.searchQueryTitle,
+      self.selectedCategory,
+      self.selectedSection
+    ).subscribe(function (retrievedContents) {
+      self.contents = retrievedContents.data.docs;
+      console.log(retrievedContents.data);
+      self.totalNumberOfEntries = retrievedContents.data.total;
+      self.totalNumberOfPages = retrievedContents.data.pages;
+      console.log('Total Number of Pages Search: ' + self.totalNumberOfPages);
+    });
   }
 }

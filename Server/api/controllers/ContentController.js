@@ -144,6 +144,31 @@ module.exports.getContentById = function (req, res, next) {
 
 };
 
+module.exports.getSearchPage = function (req, res, next) {
+    console.log(req.query);
+    Content.paginate(
+        { title: { $regex: '.*' + req.query.title + '.*' } },
+        {
+            limit: Number(req.params.pageSize),
+            page: Number(req.params.pageNumber)
+        },
+        function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+
+            // send the page of contents
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'The contents searched for by ' +
+                    'the user were retrieved successfully'
+            });
+        }
+    );
+};
+
 // retrieve the content (resources and ideas) created by the specified user
 //must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
