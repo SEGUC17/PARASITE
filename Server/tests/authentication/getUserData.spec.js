@@ -120,15 +120,14 @@ describe('getUserData', function () {
                 end(function (err, res) {
                     res.should.has.status(200);
                     res.body.should.have.property('data');
-                    for(var index = 0; index < self.userDataColumns.length; index += 1) {
+                    for (var index = 0; index < self.userDataColumns.length; index += 1) {
                         res.body.data.should.have.property(self.userDataColumns[index]).eql(self.johnDoe[self.userDataColumns[index]]);
                     }
                     done();
                 });
         });
         it('Requested Column(s) Is/Are Not Valid!', function (done) {
-            var wrongColumn = 'wrongColumn';
-            this.userDataColumns.push(wrongColumn);
+            this.userDataColumns.push('wrongColumn');
             chai.request(app).
                 post(path).
                 send(this.userDataColumns).
@@ -136,11 +135,23 @@ describe('getUserData', function () {
                 end(function (err, res) {
                     res.should.has.status(200);
                     res.body.should.have.property('data');
-                    res.body.data.should.not.have.property(wrongColumn);
+                    res.body.data.should.not.have.property('wrongColumn');
                     done();
                 });
         });
-        it('"password" Attribute Is Requested!');
+        it('"password" Attribute Is Requested!', function (done) {
+            this.userDataColumns.push('password');
+            chai.request(app).
+                post(path).
+                send(this.userDataColumns).
+                set('Authorization', this.token).
+                end(function (err, res) {
+                    res.should.has.status(200);
+                    res.body.should.have.property('data');
+                    res.body.data.should.not.have.property('password');
+                    done();
+                });
+        });
     });
     // --- End of "Tests" --- //
 
