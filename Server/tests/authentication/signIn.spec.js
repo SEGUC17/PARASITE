@@ -74,7 +74,7 @@ describe('signIn', function () {
                     end(function(err, res) {
                         chai.request(app).
                             post(path).
-                            send({'username': self.johnDoe.username, 'password': self.johnDoe.password}).
+                            send({'username': self.janeDoe.username, 'password': self.janeDoe.password}).
                             set('Authorization', res.body.token).
                             end(function(err2, res2) {
                                 res2.should.have.status(403);
