@@ -113,7 +113,19 @@ describe('signIn', function () {
             });
         });
         it('"username" Attribute Is Not Valid!');
-        it('"Username" Is Wrong!');
+        it('"Username" Is Wrong!', function(done) {
+            var self = this;
+            User.create(this.johnDoe, function(err) {
+                chai.request(app).
+                    post(path).
+                    send({'username': self.johnDoe.username + ' Is Wrong!', 'password': self.johnDoe.password}).
+                    end(function(err, res) {
+                        res.should.have.status(422);
+                        res.body.should.have.property('msg').eql('Wrong Username/Email Or Password!');
+                        done();
+                    });
+            });
+        });
         it('"Email" Is Wrong!');
         it('"Password" Is Wrong!');
     });
