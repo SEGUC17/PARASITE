@@ -85,28 +85,21 @@ module.exports = function (passport) {
 
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist', psychCtrl.getPsychologists);
-  router.post('/psychologist/request/add/addRequest', psychCtrl.addRequest);
-  router.get('/psychologist/request/getRequests', psychCtrl.getRequests);
-  router.post('/psychologist/request/evalRequest', psychCtrl.evaluateRequest);
-  // ------------- psychologist's requests Controller ------------- //
+  router.post('/psychologist/request/add/addRequest', optionalAuthentication, psychCtrl.addRequest);
+  router.get('/psychologist/request/getRequests', isAuthenticated, psychCtrl.getRequests);
+  router.post('/psychologist/request/evalRequest', isAuthenticated, psychCtrl.evaluateRequest);
+  // ------------- End Of psychologist's requests Controller ------------- //
 
   // --------------Product Controller---------------------- //
   router.get('/market/getMarketPage/:entriesPerPage/:' +
-    'pageNumber/:name/:price', productCtrl.getMarketPage);
+    'pageNumber/:limiters', productCtrl.getMarketPage);
   router.get(
-    '/market/getNumberOfProducts/:name/:price',
+    '/market/getNumberOfProducts/:limiters',
     productCtrl.getNumberOfProducts
   );
-  router.get('/market/getMarketPage/:entriesPerPage/:' +
-    'pageNumber/:seller', productCtrl.getMarketPageBySeller);
-  router.get(
-    '/market/getNumberOfProducts/:seller',
-    productCtrl.getNumberOfProductsBySeller
-  );
-  router.get('/product/getProduct/:productId', productCtrl.getProduct);
-  router.post('/productrequest/evaluateRequest', productCtrl.evaluateRequest);
-  router.get('/productrequest/getRequests', productCtrl.getRequests);
-  router.post('/productrequest/createproduct', productCtrl.createProduct);
+  router.post('/productrequest/evaluateRequest', isAuthenticated, productCtrl.evaluateRequest);
+  router.get('/productrequest/getRequests', isAuthenticated, productCtrl.getRequests);
+  router.post('/productrequest/createproduct', isAuthenticated, productCtrl.createProduct);
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
 
   // --------------End Of Product Contoller ---------------------- //
@@ -146,6 +139,11 @@ module.exports = function (passport) {
     '/admin/RespondContentStatus/:ContentId', isAuthenticated,
     adminController.respondContentStatus
   );
+  // TO-DO ContributionPts
+  // router.patch(
+  //   'admin/addContPts', isAuthenticated,
+  //   adminController.addContPts
+  // );
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
