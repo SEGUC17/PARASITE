@@ -43,7 +43,6 @@ export class ViewPsychRequestsComponent implements OnInit {
         }
       }
     });
-
   }
 
   ngOnInit() {
