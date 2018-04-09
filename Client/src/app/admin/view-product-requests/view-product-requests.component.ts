@@ -21,15 +21,15 @@ export class ViewProductRequestsComponent implements OnInit {
     let self = this;
 
     this.currentUser = this.authService.getUser();
-    if (this.currentUser.isAdmin) {
+//    if (this.currentUser.isAdmin) {
       this.services.getProductRequests().subscribe(function (res) {
         if (res.msg === 'Requests retrieved successfully.') {
           self.requests = res.data;
         }
       });
-    } else {
-      this.router.navigateByUrl('/');
-    }
+//     else {
+//      this.router.navigateByUrl('/');
+//    }
   }
 
   ngOnInit() {
