@@ -17,9 +17,9 @@ export class CreateProductComponent {
     public dialogRef: MatDialogRef<CreateProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
-    const userDataColumns = ['username', 'isAdmin'];
+    const userDataColumns = ['username', 'isAdmin']; //The two attributes we need from the current user
     let self = this;
-    this.authService.getUserData(userDataColumns).subscribe(function (res) {
+    this.authService.getUserData(userDataColumns).subscribe(function (res) { 
       if (res.msg === 'Data Retrieval Is Successful!') {
         console.log('Got here');
         self.user = res.data;
@@ -35,9 +35,7 @@ export class CreateProductComponent {
 
   createProduct(product: any) {
 
-    // this.user = this.authService.getUser(); // here i get the currently logged in user
-
-    let pro = { // here i put the inputs i take and place them in pro
+    let pro = { // The inputs taken and placed in < pro >
       name: this.formInput.name,
       price: this.formInput.price,
       seller: this.user.username,
@@ -47,12 +45,11 @@ export class CreateProductComponent {
       description: this.formInput.description,
       createdAt: new Date,
     };
-    console.log(pro); // print pro in console, to check if the input taken correctly
+    console.log(pro); //Check if the input taken correctly
 
-    let error = false; // a boolean to check if there is an error
+    let error = false; //Check if there is an error
 
-    // if condition to check that the user did put in all the required inputs
-    // <some inputs weren't necessary which is why i didn't include them>
+    // Some inputs are a must and can't be empty
     if (((<HTMLInputElement>document.getElementById('acquiringType')).value) === ''
       || ((<HTMLInputElement>document.getElementById('description')).value) === ''
       || ((<HTMLInputElement>document.getElementById('price')).value) === ''
@@ -62,29 +59,27 @@ export class CreateProductComponent {
 
     if (!error) { // enter the if condition if there is no error
       // there are two cases
-      if (this.user.isAdmin === true) { //user is an admin => the product will be created
+      if (this.user.isAdmin === true) { //If the user is an admin, then the product will be created
         let self = this;
         this.marketService.createProduct(pro).subscribe(function (res) {
-          // create product using <pro>
-          if (res.msg === 'Product was created successfully.') {
-            // if the response mssge was <Product was created successfully> then put it in the market page
+          // Create product using <pro>
+          if (res.msg === 'Product was created successfully.') {// If the creation was successful, then put that product in market
             self.data.market.firstPage();
             self.data.market.firstUserPage();
-            self.dialogRef.close(); // close the dialog 
+            self.dialogRef.close(); // Close the dialog form
           }
         });
-      } else {// user is not an admin => will create a productrequst 
+      } else {// If the user is not an admin, then a product request will be created
         let self = this;
-        this.marketService.createProductRequest(pro).subscribe(function (res) { // call the createProductRequest from the backend
-          if (res.msg === 'ProductRequest was created successfully.') {
-            // if the response mssge was <ProductRequest was created successfully>
-            self.dialogRef.close(); // close the dialog form
+        this.marketService.createProductRequest(pro).subscribe(function (res) { 
+          //Create product request
+          if (res.msg === 'ProductRequest was created successfully.') {// If the product request was created successfully
+            self.dialogRef.close(); // Close the dialog form
           }
         });
       }
     } else {
-      // not a createProduct was send nor a creatProductRequest was made then that mean that something went wrong,
-      // which is that the user didn't insert all the required inputs
+      // If error then send an alert message
       alert('REQUEST FAILED: Please make sure you have all data written');
     }
   }

@@ -41,10 +41,11 @@ export class MarketService {
     };
   }
 
-  // createproduct, createproductreq//
+  //Post a product
   createProduct(product: any): Observable<any> {
     return this.http.post<any>(this.host + 'productrequest/createproduct', product, httpOptions);
   }
+  //Post a product request
   createProductRequest(request: any): Observable<any> {
     return this.http.post<any>(this.host + 'productrequest/createProductRequest', request, httpOptions);
   }

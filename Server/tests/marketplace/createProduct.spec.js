@@ -1,10 +1,8 @@
-/* eslint-disable max-len */
-/* eslint-disable max-statements */
+/*eslint max-statements: ["error", 20]*/
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-// import your schema here, like this:
-var prodRequests = mongoose.model('ProductRequest');
+var Product = mongoose.model('Product');
 var users = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
@@ -20,16 +18,17 @@ var user = {
     birthdate: '1/1/1980',
     email: 'omar@omar.omar',
     firstName: 'omar',
-    isAdmin: true,
     lastName: 'Elkilany',
     password: '123456789',
     phone: '0112345677',
     username: 'omar'
 };
+
 // authenticated token
 var token = null;
 
-describe('GetProdRequestsAsAdmin', function () {
+
+describe('CreateProduct for admin', function () {
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -40,6 +39,7 @@ describe('GetProdRequestsAsAdmin', function () {
         });
     });
     // --- End of "Mockgoose Initiation" --- //
+
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
@@ -47,16 +47,19 @@ describe('GetProdRequestsAsAdmin', function () {
         });
     });
     // --- End of "Clearing Mockgoose" --- //
-    it('It should GET product requests from the server', function (done) {
-        var prodReqTest = new prodRequests({
+
+    it('it should POST Product to Product collection', function (done) {
+
+        var pro1 = new Product({
             acquiringType: 'sell',
-            createdAt: new Date(),
-            description: 'blah blah blah',
-            name: 'someProdRequest',
-            price: 150,
+            description: 'description description description',
+            image: 'https://vignette.wikia.nocookie.net/spongebob/images' +
+                '/a/ac/Spongebobwithglasses.jpeg/' +
+                'revision/latest?cb=20121014113150',
+            name: 'product1',
+            price: '11',
             seller: 'omar'
         });
-
         //sign up
         chai.request(server).
             post('/api/signUp').
@@ -67,39 +70,49 @@ describe('GetProdRequestsAsAdmin', function () {
                 }
                 response.should.have.status(201);
                 token = response.body.token;
-
-                users.updateOne({ username: 'omar' }, { $set: { isAdmin: true } }, function (err) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    // save your document with a call to save
-                    prodReqTest.save(function (err) {
-                        if (err) {
-                            return console.log(err);
+                //here for admin
+                users.updateOne(
+                    { username: 'omar' },
+                    { $set: { isAdmin: true } }, function (err1) {
+                        if (err1) {
+                            return console.log(err1);
                         }
+
+                        // Testing
                         chai.request(server).
-                            get('/api/productrequest/getRequests').
+                            post('/api/productrequest/createproduct').
+                            send(pro1).
                             set('Authorization', token).
                             end(function (error, res) {
                                 if (error) {
                                     return console.log(error);
                                 }
-                                expect(res).to.have.status(200);
-                                res.body.msg.should.be.equal('Requests retrieved successfully.');
-                                res.body.data.should.be.a('array');
-                                res.body.data[0].should.have.
-                                    property('name', 'someProdRequest', 'request name invalid');
-                                res.body.data[0].should.have.property('acquiringType', 'sell', 'Wrong acquiring type');
-                                res.body.data[0].should.have.property('description', 'blah blah blah', 'Wrong description');
-                                res.body.data[0].should.have.property('price', 150, 'Wrong price');
-                                res.body.data[0].should.have.property('seller', 'omar', 'Wrong seller');
-                                res.body.data[0].should.have.property('createdAt');
+                                expect(res).to.have.status(201);
+                                res.body.should.be.a('object');
+                                res.body.should.have.property('msg').
+                                    eql('Product was created successfully.');
+                                res.body.data.should.
+                                have.property('acquiringType');
+                                res.body.data.should.
+                                have.property('description');
+                                res.body.data.should.have.property('image');
+                                res.body.data.should.have.property('name');
+                                res.body.data.should.have.property('price');
+                                res.body.data.should.have.property('seller');
+
                                 done();
                             });
-                    });
-                });
+                    }
+                );
             });
     });
+    // --- Mockgoose Termination --- //
+    after(function (done) {
+        mongoose.connection.close(function () {
+            done();
+        });
+    });
+    // --- End of "Mockgoose Termination" --- //
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {

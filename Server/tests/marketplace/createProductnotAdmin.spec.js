@@ -2,7 +2,6 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-var ProductRequest = mongoose.model('ProductRequest');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 
@@ -21,12 +20,13 @@ var user = {
     password: '123456789',
     phone: '0112345677',
     username: 'omar'
-
 };
+
 // authenticated token
 var token = null;
 
-describe('createProductRequest', function () {
+
+describe('CreateProduct for not an admin', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
@@ -48,18 +48,18 @@ describe('createProductRequest', function () {
     // --- End of "Clearing Mockgoose" --- //
 
 
-    it('it should POST productrequests', function (done) {
+    it('it should NOT POST product into product requests', function (done) {
         // Calling the schema to construct a document
-        
-        var pro1 = new ProductRequest({
+       
+        var pro1 = {
             acquiringType: 'sell',
             description: 'description description description',
             image: 'https://vignette.wikia.nocookie.net/spongebob/images/' +
-            'a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
+                'a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
             name: 'product2',
             price: 11,
             seller: 'omar'
-        });
+        };
         //sign up
         chai.request(server).
             post('/api/signUp').
@@ -71,26 +71,19 @@ describe('createProductRequest', function () {
                 response.should.have.status(201);
                 token = response.body.token;
 
+                
                 // Testing
-
                 chai.request(server).
-                    post('/api/productrequest/createProductRequest').
+                    post('/api/productrequest/createproduct').
                     send(pro1).
+                    set('Authorization', token).
                     end(function (error, res) {
                         if (error) {
                             return console.log(error);
                         }
-                        //200 = ProductRequest was created successfully.
-                        expect(res).to.have.status(200);
-                        res.body.should.be.a('object');
-                        res.body.should.have.property('msg').
-                        eql('ProductRequest was created successfully.');
-                        res.body.data.should.have.property('acquiringType');
-                        res.body.data.should.have.property('description');
-                        res.body.data.should.have.property('image');
-                        res.body.data.should.have.property('name');
-                        res.body.data.should.have.property('price');
-                        res.body.data.should.have.property('seller');
+                        expect(res).to.have.status(403);
+                        res.body.should.have.property('err').
+                            eql('You are not an admin to do that');
 
                         done();
                     });
