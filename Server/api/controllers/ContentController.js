@@ -149,6 +149,7 @@ module.exports.getSearchPage = function (req, res, next) {
 
     // search conditions
     var conditions = {
+        'approved': true,
         'category': req.query.category,
         'section': req.query.section,
         'tags': { $elemMatch: { $in: req.query.tags.split(' ') } },
