@@ -2,7 +2,6 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-// import your schema here, like this:
 var Product = mongoose.model('Product');
 var users = mongoose.model('User');
 var chaiHttp = require('chai-http');
@@ -28,7 +27,7 @@ var user = {
 // authenticated token
 var token = null;
 
-//write your test's name below in <write here>
+
 describe('CreateProduct for admin', function () {
 
     // --- Mockgoose Initiation --- //
@@ -79,7 +78,7 @@ describe('CreateProduct for admin', function () {
                             return console.log(err1);
                         }
 
-                        // write your actual test here, like this:
+                        // Testing
                         chai.request(server).
                             post('/api/productrequest/createproduct').
                             send(pro1).

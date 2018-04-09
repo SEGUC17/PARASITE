@@ -118,7 +118,7 @@ module.exports.getRequests = function (req, res, next) {
 
 // createproduct
 module.exports.createProduct = function (req, res, next) {
-    //validity check
+    //Validity check
     if (!(typeof req.body.name === 'string')) {
         console.log('please insert product"s name as a string');
     }
@@ -128,7 +128,7 @@ module.exports.createProduct = function (req, res, next) {
         req.body.acquiringType &&
         req.body.image &&
         req.body.description;
-    if (!valid) {
+    if (!valid) { 
         return res.status(422).json({
             data: null,
             err: null,
@@ -136,19 +136,19 @@ module.exports.createProduct = function (req, res, next) {
                 'image(String) and description(String) are required fields.'
         });
     }
-    // if i user is an admin then create product
+    // If the user is an admin then create product
     if (req.user.isAdmin) {
         Product.create(req.body, function (err, product) {
             if (err) {
                 return next(err);
             }
-            res.status(201).json({
+            res.status(201).json({ 
                 data: product,
                 err: null,
                 msg: 'Product was created successfully.'
             });
         });
-    } else {
+    } else {//If user is not an Admin
         res.status(403).json({
             data: null,
             err: 'You are not an admin to do that',
@@ -165,7 +165,7 @@ module.exports.createProductRequest = function (req, res, next) {
         if (err) {
             return next(err);
         }
-        res.status(200).json({
+        res.status(200).json({ //Created successfully
             data: productreq,
             err: null,
             msg: 'ProductRequest was created successfully.'

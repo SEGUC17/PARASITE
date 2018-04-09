@@ -2,7 +2,6 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-// import your schema here, like this:
 var ProductRequest = mongoose.model('ProductRequest');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
@@ -27,7 +26,6 @@ var user = {
 // authenticated token
 var token = null;
 
-//write your test's name below in <write here>
 describe('createProductRequest', function () {
     this.timeout(120000);
 
@@ -51,8 +49,8 @@ describe('createProductRequest', function () {
 
 
     it('it should POST productrequests', function (done) {
-        //here you need to call your schema to construct a document
-        //like this:
+        // Calling the schema to construct a document
+        
         var pro1 = new ProductRequest({
             acquiringType: 'sell',
             description: 'description description description',
@@ -73,7 +71,7 @@ describe('createProductRequest', function () {
                 response.should.have.status(201);
                 token = response.body.token;
 
-                // write your actual test here, like this:
+                // Testing
 
                 chai.request(server).
                     post('/api/productrequest/createProductRequest').
