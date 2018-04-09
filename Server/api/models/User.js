@@ -42,6 +42,10 @@ var userSchema = mongoose.Schema({
         required: false,
         type: [String]
     },
+    contributionScore: {
+        default: 0,
+        type: Number
+    },
     educationLevel: {
       default: '',
       required: false,

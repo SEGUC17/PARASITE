@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
 /* eslint-disable object-shorthand */
+/* eslint-disable complexity */
 
 // ---------------------- Requirements ---------------------- //
 var config = require('../config/config');
@@ -259,206 +260,199 @@ module.exports.signIn = function (req, res, next) {
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
     // console.log('entered the signUpChild method');
-   // console.log('userId is: ' + req.user._id);
-   // console.log('username is: ' + req.user.username);
+    // console.log('userId is: ' + req.user._id);
+    // console.log('username is: ' + req.user.username);
 
-           var newUser = new User();
-            // --- Variable Assign --- //
-          //  console.log('about to set attributes of child');
-            newUser.address = req.body.address;
-            newUser.birthdate = req.body.birthdate;
-            newUser.children = [];
-            newUser.email = req.body.email;
-            newUser.firstName = req.body.firstName;
-            newUser.isChild = true;
-            newUser.isParent = false;
-            newUser.isTeacher = false;
-            newUser.lastName = req.body.lastName;
-            newUser.password = req.body.password;
-            newUser.phone = req.body.phone;
-            newUser.username = req.body.username;
-            // --- End of "Variable Assign" --- //
+    var newUser = new User();
+    // --- Variable Assign --- //
+    //  console.log('about to set attributes of child');
+    newUser.address = req.body.address;
+    newUser.birthdate = req.body.birthdate;
+    newUser.children = [];
+    newUser.email = req.body.email;
+    newUser.firstName = req.body.firstName;
+    newUser.isChild = true;
+    newUser.isParent = false;
+    newUser.isTeacher = false;
+    newUser.lastName = req.body.lastName;
+    newUser.password = req.body.password;
+    newUser.phone = req.body.phone;
+    newUser.username = req.body.username;
+    // --- End of "Variable Assign" --- //
 
-          //  console.log('updated attributes of child set');
+    //  console.log('updated attributes of child set');
 
-            //---types and formats validations--////
-            var field = '';
-            try {
-                field = 'Address';
-                isString(newUser.address ? newUser.address : '');
-                field = 'Birtdate';
-                isDate(newUser.birthdate ? newUser.birthdate : new Date());
-                isArray(newUser.children ? newUser.children : []);
-                field = 'Email';
-                isString(newUser.email ? newUser.email : '');
-                field = 'First name';
-                isString(newUser.firstName ? newUser.firstName : '');
-                isBoolean(newUser.isChild ? newUser.isChild : false);
-                isBoolean(newUser.isParent ? newUser.isParent : false);
-                isBoolean(newUser.isTeacher ? newUser.isTeacher : false);
-                field = 'Last Name';
-                isString(newUser.lastName ? newUser.lastName : '');
-                field = 'Password';
-                isString(newUser.password ? newUser.password : '');
-                field = 'Phone';
-                isArray(newUser.phone ? newUser.phone : []);
-                field = 'Username';
-                isString(newUser.username ? newUser.username : '');
+    //---types and formats validations--////
+    var field = '';
+    try {
+        field = 'Address';
+        isString(newUser.address ? newUser.address : '');
+        field = 'Birtdate';
+        isDate(newUser.birthdate ? newUser.birthdate : new Date());
+        isArray(newUser.children ? newUser.children : []);
+        field = 'Email';
+        isString(newUser.email ? newUser.email : '');
+        field = 'First name';
+        isString(newUser.firstName ? newUser.firstName : '');
+        isBoolean(newUser.isChild ? newUser.isChild : false);
+        isBoolean(newUser.isParent ? newUser.isParent : false);
+        isBoolean(newUser.isTeacher ? newUser.isTeacher : false);
+        field = 'Last Name';
+        isString(newUser.lastName ? newUser.lastName : '');
+        field = 'Password';
+        isString(newUser.password ? newUser.password : '');
+        field = 'Phone';
+        isArray(newUser.phone ? newUser.phone : []);
+        field = 'Username';
+        isString(newUser.username ? newUser.username : '');
 
-            } catch (err1) {
-            //    console.log('entered catch of status 401');
+    } catch (err1) {
+        //    console.log('entered catch of status 401');
 
-                return res.status(401).json({
-                    data: null,
-                    err1: null,
-                    msg: field + ' does not match the required data entry!' + err1.message + '!!'
-                });
-            }
-            //---end of types and formats validations--///
+        return res.status(401).json({
+            data: null,
+            err1: null,
+            msg: field + ' does not match the required data entry!' + err1.message + '!!'
+        });
+    }
+    //---end of types and formats validations--///
 
-            //---emptiness validations--/////
-            try {
-             //   console.log('entered try of is empty');
-                field = 'Birtdate';
-                isNotEmpty(newUser.birthdate);
-                field = 'Email';
-                isNotEmpty(newUser.email);
-                field = 'First name';
-                isNotEmpty(newUser.firstName);
-                isNotEmpty(newUser.isChild);
-                isNotEmpty(newUser.isParent);
-                isNotEmpty(newUser.isTeacher);
-                field = 'Last Name';
-                isNotEmpty(newUser.lastName);
-                field = 'Password';
-                isNotEmpty(newUser.password);
-                field = 'Username';
-                isNotEmpty(newUser.username);
-            } catch (err2) {
-           /*     console.log('entered catch of 2nd status 401');
-                console.log(newUser.birthdate);
-                console.log(newUser.email);
-                console.log(newUser.firstName);
-                console.log(newUser.isChild);
-                console.log(newUser.isParent);
-                console.log(newUser.isTeacher);
-                console.log(newUser.lastName);
-                console.log(newUser.password);
-                console.log(newUser.username);  */
+    //---emptiness validations--/////
+    try {
+        //   console.log('entered try of is empty');
+        field = 'Birtdate';
+        isNotEmpty(newUser.birthdate);
+        field = 'Email';
+        isNotEmpty(newUser.email);
+        field = 'First name';
+        isNotEmpty(newUser.firstName);
+        isNotEmpty(newUser.isChild);
+        isNotEmpty(newUser.isParent);
+        isNotEmpty(newUser.isTeacher);
+        field = 'Last Name';
+        isNotEmpty(newUser.lastName);
+        field = 'Password';
+        isNotEmpty(newUser.password);
+        field = 'Username';
+        isNotEmpty(newUser.username);
+    } catch (err2) {
 
-                return res.status(401).json({
-                    data: null,
-                    err2: null,
-                    msg: 'you are missing required data entry ' + field + '!' + err2.message
-                });
-            }
-            //---end of emptiness validations--////
+        return res.status(401).json({
+            data: null,
+            err2: null,
+            msg: 'you are missing required data entry ' + field + '!' + err2.message
+        });
+    }
+    //---end of emptiness validations--////
 
-            // --- Trimming & Lowering Cases--- //
-            newUser.address = newUser.address ? newUser.address.toLowerCase() : newUser.address;
-            newUser.email = newUser.email ? newUser.email.toLowerCase().trim() : newUser.email;
-            newUser.username = newUser.username ? newUser.username.toLowerCase().trim() : newUser.username;
-            // --- End of "Trimming & Lowering Cases"--- //  
-            // --- Check: Phone Regex Match ---//
-            for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
-                if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
-                    return res.status(422).json({
+    // --- Trimming & Lowering Cases--- //
+    newUser.address = newUser.address ? newUser.address.toLowerCase() : newUser.address;
+    newUser.email = newUser.email ? newUser.email.toLowerCase().trim() : newUser.email;
+    newUser.username = newUser.username ? newUser.username.toLowerCase().trim() : newUser.username;
+    // --- End of "Trimming & Lowering Cases"--- //  
+    // --- Check: Phone Regex Match ---//
+    for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
+        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
+            return res.status(422).json({
+                data: null,
+                err5: null,
+                msg: 'Phone Is Not Valid!'
+            });
+        }
+    }
+    // --- End of "Check: Phone Regex Match" ---//
+    // --- Check: Email Regex Match --- //
+    if (!newUser.email.match(config.EMAIL_REGEX)) {
+        return res.status(422).json({
+            data: null,
+            err6: null,
+            msg: 'Email Is Not Valid!'
+        });
+    }
+    // --- End of "Check: Email Regex Match" --- //
+
+    // --- Check: Password Length --- //
+    if (newUser.password.length < 8) {
+        return res.status(422).json({
+            data: null,
+            err7: null,
+            msg: 'Password Length Must Be Greater Than 8!'
+        });
+    }
+    // --- End of "Check: Password Length" --- //
+    User.findOne(
+        {
+            $or: [
+                { 'email': newUser.email },
+                { 'username': newUser.username }
+            ]
+        },
+        function (err8, user) {
+            if (err8) {
+                throw err8;
+            } else if (user) {
+                if (user.email === newUser.email) {
+                    return res.status(409).json({
                         data: null,
-                        err5: null,
-                        msg: 'Phone Is Not Valid!'
+                        err8: null,
+                        msg: 'Email Is In Use!'
                     });
                 }
-            }
-            // --- End of "Check: Phone Regex Match" ---//
-            // --- Check: Email Regex Match --- //
-            if (!newUser.email.match(config.EMAIL_REGEX)) {
-                return res.status(422).json({
-                    data: null,
-                    err6: null,
-                    msg: 'Email Is Not Valid!'
-                });
-            }
-            // --- End of "Check: Email Regex Match" --- //
 
-            // --- Check: Password Length --- //
-            if (newUser.password.length < 8) {
-                return res.status(422).json({
+                return res.status(409).json({
                     data: null,
-                    err7: null,
-                    msg: 'Password Length Must Be Greater Than 8!'
+                    err8: null,
+                    msg: 'Username Is In Use!'
                 });
-            }
-            // --- End of "Check: Password Length" --- //
-            User.findOne(
+            }  //---end of duplicate checks--///
+            //--hashing password--//
+            Encryption.hashPassword(newUser.password, function (err3, hash) {
+                if (err3) {
+                    //  console.log('entered if err3');
+
+                    return next(err3);
+                }
+
+                newUser.password = hash;
+                User.create(newUser, function (error) {
+                    if (error) {
+                        //  console.log('entered if error');
+
+                        return next(error);
+                    }
+
+                    // --- Variable Assign --- //
+                    return res.status(201).json({
+                        data: newUser,
+                        error: null,
+                        msg: 'Child Successfully Signed Up!'
+                    });
+                });
+            });
+        }
+    );
+    User.findByIdAndUpdate(
+        req.user._id, {
+            $push:
                 {
-                    $or: [
-                        { 'email': newUser.email },
-                        { 'username': newUser.username }
-                    ]
+                    'children': req.body.username
                 },
-                function (err8, user) {
-                    if (err8) {
-                        throw err8;
-                    } else if (user) {
-                        if (user.email === newUser.email) {
-                            return res.status(409).json({
-                                data: null,
-                                err8: null,
-                                msg: 'Email Is In Use!'
-                            });
-                        }
-
-                        return res.status(409).json({
-                            data: null,
-                            err8: null,
-                            msg: 'Username Is In Use!'
-                        });
-                    }  //---end of duplicate checks--///
-                    //--hashing password--//
-                    Encryption.hashPassword(newUser.password, function (err3, hash) {
-                        if (err3) {
-                       //  console.log('entered if err3');
-
-                            return next(err3);
-                        }
-
-                        newUser.password = hash;
-                        User.create(newUser, function (error) {
-                            if (error) {
-                              //  console.log('entered if error');
-
-                                return next(error);
-                            }
-                            // --- Variable Assign --- //
-                            return res.status(201).json({
-                                data: newUser,
-                                error: null,
-                                msg: 'Child Successfully Signed Up!'
-                            });
-                        });
-                    });
+            $set:
+                {
+                    'isParent': true
                 }
-            );
-            User.findByIdAndUpdate(
-                req.user._id, {
-                    $push: {
-                        'children': req.body.username
-                    },
-                    $set: {
-                        'isParent': true
-                    }
-                }
-                , { new: true }, function (err, updatedob) {
-                    if (err) {
-                      //  console.log('entered the error stage of update');
-        
-                        return res.status(402).json({
-                            data: null,
-                            msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
-                        });
-                    }
-                }
-    ); 
+        }
+        , { new: true }, function (err, updatedob) {
+            if (err) {
+                //  console.log('entered the error stage of update');
+
+                return res.status(402).json({
+                    data: null,
+                    msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
+                });
+            }
+        }
+    );
 };
 
 module.exports.getUserData = function (req, res, next) {

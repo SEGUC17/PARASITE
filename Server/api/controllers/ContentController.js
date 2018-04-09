@@ -108,15 +108,6 @@ module.exports.getContentPage = function (req, res, next) {
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
 
-    // id was not provided
-    if (!req.params.id) {
-        return res.status(422).json({
-            data: null,
-            err: 'The required id was missing.',
-            msg: null
-        });
-    }
-
     // id was invalid
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(422).json({
@@ -156,9 +147,6 @@ module.exports.getContentById = function (req, res, next) {
 // retrieve the content (resources and ideas) created by the specified user
 //must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
-
-    // log the user for debugging purposes
-    console.log('Username: ' + req.user);
 
     // validations
     var valid = req.params.pageSize &&
@@ -225,7 +213,7 @@ var handleNonAdminCreate = function (req, res, next) {
             contentID: content._id,
             contentTitle: content.title,
             contentType: content.type,
-            creator: req.user._id,
+            creator: req.user.username,
             requestType: 'create'
         }, function (requestError, contentRequest) {
             if (requestError) {
@@ -245,7 +233,7 @@ var handleNonAdminCreate = function (req, res, next) {
 };
 
 
-/*eslint max-statements: ["error", 12]*/
+/*eslint max-statements: ["error", 19]*/
 module.exports.createContent = function (req, res, next) {
     var valid = req.body.title &&
         req.body.body &&
@@ -289,6 +277,8 @@ module.exports.createContent = function (req, res, next) {
         }
         delete req.body.touchDate;
         delete req.body.approved;
+        delete req.body.creator;
+        req.body.creator = req.user.username;
         // admin handler for now open for anyone
         if (req.user.isAdmin) {
             return handleAdminCreate(req, res, next);

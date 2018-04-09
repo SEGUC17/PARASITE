@@ -49,10 +49,11 @@ var contentSchema = mongoose.Schema({
         type: Date
     },
     type: {
+        default: 'resource',
         enum: [
             'resource',
             'idea'
-    ],
+        ],
         type: String
     },
     update: {
