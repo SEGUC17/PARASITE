@@ -1,8 +1,9 @@
 <mat-card>
   <h1 style="font-size: 35px; font-weight: bold">Verified Psychologists</h1>
   <div class="row" style="min-height:250px">
-    <mat-card *ngFor="let psych of psychologists" style="width:32%; margin:5px">
-      <mat-card-title>{{psych.firstName}} {{psych.lastName}}</mat-card-title>
+    <mat-card class="psych" *ngFor="let psych of psychologists; let i = index" style="top:20px">
+      <mat-card-title class="info" style="color:#DA572B">{{psych.firstName}} {{psych.lastName}}</mat-card-title>
+      <mat-card-content class="info">
       <li>
         <span style="font-weight: bold">Phone:</span>
         <span>{{psych.phone}}</span>
@@ -17,14 +18,21 @@
       </li>
       <li>
         <span style="font-weight: bold">Days off:</span>
+        <div class="chips">
         <mat-chip-list>
-          <mat-chip *ngFor="let day of psych.daysOff" style="background: #3f51b5;color:white;">{{day}}</mat-chip>
+          <mat-chip *ngFor="let day of psych.daysOff" style="background: #DA572B;color:white;">{{day}}</mat-chip>
         </mat-chip-list>
+      </div>
       </li>
       <li>
         <span style="font-weight: bold">Maximum Price Range:</span>
         <span>{{psych.priceRange}}</span>
       </li>
+    </mat-card-content>
+      <mat-card-footer id="footer" style="padding-bottom:5px">
+          <button mat-icon-button id="delete" align="right" (click)="deletePsychologist(i)"> <mat-icon>close</mat-icon></button>
+          <button mat-icon-button id="edit" align="right" > <mat-icon>edit</mat-icon></button>
+      </mat-card-footer>
     </mat-card>
   </div>
 </mat-card>
