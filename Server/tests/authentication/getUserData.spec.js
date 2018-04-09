@@ -53,7 +53,7 @@ describe('getUserData', function () {
             chai.request(app).
                 post('/api/signUp').
                 send(self.johnDoe).
-                end(function(err, res) {
+                end(function (err, res) {
                     self.token = res.body.token;
                     done();
                 });
@@ -67,39 +67,48 @@ describe('getUserData', function () {
             chai.request(app).
                 post(path).
                 send(this.userDataColumns).
-                end(function(err, res) {
+                end(function (err, res) {
                     res.should.have.status(401);
                     res.body.should.have.property('msg').eql('User Is Not Signed In!');
                     done();
                 });
         });
-        it('Request "body" Is Empty!', function(done) {
+        it('Request "body" Is Empty!', function (done) {
             this.userDataColumns = [];
             chai.request(app).
                 post(path).
                 send(this.userDataColumns).
                 set('Authorization', this.token).
-                end(function(err, res) {
+                end(function (err, res) {
                     res.should.have.status(422);
                     res.body.should.have.property('msg').eql('Request Body: Expected non-empty value!');
                     done();
                 });
-            
         });
-        it('Request "body" Is Not Valid!', function(done) {
+        it('Request "body" Is Not Valid!', function (done) {
             this.userDataColumns = null;
             chai.request(app).
                 post(path).
                 send(this.userDataColumns).
                 set('Authorization', this.token).
-                end(function(err, res) {
+                end(function (err, res) {
                     res.should.have.status(422);
                     res.body.should.have.property('msg').eql('Request Body: Expected array value!');
                     done();
                 });
-            
         });
-        it('Request "body" Element(s) Is/Are Not Valid!');
+        it('Request "body" Element(s) Is/Are Not Valid!', function(done) {
+            this.userDataColumns = [12312412];
+            chai.request(app).
+                post(path).
+                send(this.userDataColumns).
+                set('Authorization', this.token).
+                end(function(err, res) {
+                    res.should.has.status(422);
+                    res.body.should.property('msg').eql('Request Body Element(s): Expected string value!');
+                    done();
+                });
+        });
     });
     describe('Success!', function () {
         it('Data Retrieval Is Successful!');
