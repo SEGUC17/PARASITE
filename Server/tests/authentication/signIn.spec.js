@@ -159,7 +159,7 @@ describe('signIn', function () {
             User.create(this.johnDoe, function(err) {
                 chai.request(app).
                     post(path).
-                    send({'username': self.johnDoe.username, 'password': self.johnDoe.password}).
+                    send({'username': self.johnDoe.email, 'password': self.johnDoe.password}).
                     end(function(err, res) {
                         res.should.have.status(200);
                         res.body.should.have.property('msg').eql('Sign In Is Successful!');
@@ -172,7 +172,7 @@ describe('signIn', function () {
             User.create(this.johnDoe, function(err) {
                 chai.request(app).
                     post(path).
-                    send({'username': self.johnDoe.username.toUpperCase(), 'password': self.johnDoe.password}).
+                    send({'username': self.johnDoe.email.toUpperCase(), 'password': self.johnDoe.password}).
                     end(function(err, res) {
                         res.should.have.status(200);
                         res.body.should.have.property('msg').eql('Sign In Is Successful!');
@@ -180,7 +180,19 @@ describe('signIn', function () {
                     });
             });
         });
-        it('User Entered Valid Data (Email Has Space)!');
+        it('User Entered Valid Data (Email Has Space)!', function(done) {
+            var self = this;
+            User.create(this.johnDoe, function(err) {
+                chai.request(app).
+                    post(path).
+                    send({'username': '  ' + self.johnDoe.email + '  ', 'password': self.johnDoe.password}).
+                    end(function(err, res) {
+                        res.should.have.status(200);
+                        res.body.should.have.property('msg').eql('Sign In Is Successful!');
+                        done();
+                    });
+            });
+        });
         it('User Entered Valid Data (Username)!');
         it('User Entered Valid Data (Username Has Upper Case)!');
         it('User Entered Valid Data (Username Has Space)!');
