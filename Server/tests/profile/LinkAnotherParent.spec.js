@@ -80,7 +80,7 @@ describe('Add user as a parent', function () {
                                     // the test
                                     chai.request(server).
                                         put('/api/profile/LinkAnotherParent/' +
-                                            res.body.data._id).
+                                            Res.body.data._id).
                                         send(child).
                                         set('Authorization', token).
                                         end(function (Error, Response) {
