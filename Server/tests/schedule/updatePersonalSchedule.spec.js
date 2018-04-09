@@ -408,16 +408,15 @@ describe('scheduleActivity', function () {
                                 'password': johnny.password,
                                 'username': johnny.username
                             }).
-                            end(function (err3, siginData) {
+                            end(function (err3, signinData) {
                                 if (err3) {
                                     return console.log(err3);
                                 }
-                                console.log(siginData.body);
                                 // Updating schedule
                                 chai.request(server).
                                     put('/api/schedule/scheduleActivity/' +
                                          johnny.username).
-                                    set('Authorization', siginData.body.token).
+                                    set('Authorization', signinData.body.token).
                                     send(aCalendarEvent).
                                     end(function (err4, updateData) {
                                         if (err4) {
