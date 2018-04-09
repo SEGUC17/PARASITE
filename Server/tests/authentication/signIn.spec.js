@@ -1,4 +1,4 @@
-/* eslint-disable max-statements */
+/* eslint-disable */
 
 // --- Requirements --- //
 var app = require('../../app');
@@ -7,6 +7,7 @@ var config = require('../../api/config/config');
 var chaiHttp = require('chai-http');
 var mongoose = require('mongoose');
 var Mockgoose = require('mockgoose').Mockgoose;
+var path = '/api/signIn';
 var User = require('../../api/models/User');
 // --- End of "Requirements" --- //
 
@@ -34,6 +35,28 @@ describe('signIn', function () {
 
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
+        this.johnDoe = {
+            address: 'John Address Sample',
+            birthdate: '1/1/1980',
+            email: 'johndoe@gmail.com',
+            firstName: 'John',
+            isTeacher: true,
+            lastName: 'Doe',
+            password: 'JohnPasSWorD',
+            phone: '123',
+            username: 'john'
+        };
+        this.janeDoe = {
+            address: 'Jane Address Sample',
+            birthdate: '1/1/2000',
+            email: 'janedoe@gmail.com',
+            firstName: 'Jane',
+            isTeacher: true,
+            lastName: 'Doe',
+            password: 'JanePasSWorD',
+            phone: '123',
+            username: 'jane'
+        };
         mockgoose.helper.reset().then(function () {
             done();
         });
@@ -42,7 +65,25 @@ describe('signIn', function () {
 
     // --- Tests --- //
     describe('Failure', function () {
-        it('User Is Already Signed In!');
+        it('User Is Already Signed In!', function(done) {
+            var self = this;
+            User.create(this.johnDoe, function(err) {
+                chai.request(app).
+                    post(path).
+                    send({'username': self.johnDoe.username, 'password': self.johnDoe.password}).
+                    end(function(err, res) {
+                        chai.request(app).
+                            post(path).
+                            send({'username': self.johnDoe.username, 'password': self.johnDoe.password}).
+                            set('Authorization', res.body.token).
+                            end(function(err2, res2) {
+                                res2.should.have.status(403);
+                                res2.body.should.have.property('msg').eql('User Is Already Signed In!');
+                                done();
+                            });
+                    });
+            });
+        });
         it('Token Expires In More Than 12 Hours!');
         it('"password" Attribute Is Empty!');
         it('"password" Attribute Is Not Valid!');

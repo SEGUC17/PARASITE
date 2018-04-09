@@ -7,9 +7,9 @@ var config = require('../../api/config/config');
 var chaiHttp = require('chai-http');
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 var JWTStrategy = require('passport-jwt').Strategy;
-var path = '/api/signUp';
 var mongoose = require('mongoose');
 var Mockgoose = require('mockgoose').Mockgoose;
+var path = '/api/signUp';
 var User = require('../../api/models/User');
 // --- End of "Requirements" --- //
 
