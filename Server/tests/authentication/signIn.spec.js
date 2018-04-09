@@ -99,7 +99,19 @@ describe('signIn', function () {
             });
         });
         it('"password" Attribute Is Not Valid!');
-        it('"username" Attribute Is Empty!');
+        it('"username" Attribute Is Empty!', function(done) {
+            var self = this;
+            User.create(this.johnDoe, function(err) {
+                chai.request(app).
+                    post(path).
+                    send({'username': null, 'password': self.johnDoe.password}).
+                    end(function(err, res) {
+                        res.should.have.status(422);
+                        res.body.should.have.property('msg').eql('Username: Expected non-empty value!');
+                        done();
+                    });
+            });
+        });
         it('"username" Attribute Is Not Valid!');
         it('"Username" Is Wrong!');
         it('"Email" Is Wrong!');
