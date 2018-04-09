@@ -74,9 +74,9 @@ export class ContentService {
 
     const self = this;
 
-    // removing space and adding +
-    searchQueryTags = searchQueryTags.split(' ').join('+');
-    searchQueryTitle = searchQueryTitle.split(' ').join('+');
+    // encoding the search queries for sending
+    searchQueryTags = encodeURIComponent(searchQueryTags.toString());
+    searchQueryTitle = encodeURIComponent(searchQueryTitle.toString());
 
     return this.http.get(self.endpoint + 'content/' + numberOfEntriesPerPage +
       '/' + currentPageNumber + '/search?tags=' +

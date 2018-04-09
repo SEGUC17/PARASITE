@@ -146,8 +146,17 @@ module.exports.getContentById = function (req, res, next) {
 
 module.exports.getSearchPage = function (req, res, next) {
     console.log(req.query);
+
     Content.paginate(
-        { title: { $regex: '.*' + req.query.title + '.*' } },
+        {
+            category: req.query.category,
+            section: req.query.section,
+            tags: {$contains: },
+            title: {
+                $options: 'i',
+                $regex: '.*' + req.query.title + '.*'
+            }
+        },
         {
             limit: Number(req.params.pageSize),
             page: Number(req.params.pageNumber)
