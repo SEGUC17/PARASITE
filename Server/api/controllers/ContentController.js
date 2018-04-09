@@ -26,83 +26,41 @@ module.exports.getContentPage = function (req, res, next) {
         });
     }
 
-    if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
-        // no category and section were specified
-        // fectch a page of content
-        Content.paginate(
-            {
-                approved: true,
-                category: req.params.category,
-                section: req.params.section
-            },
-            {
-                limit: Number(req.params.numberOfEntriesPerPage),
-                page: Number(req.params.pageNumber)
-            },
-            function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
+    // intitialize the retrieval conditions
+    var conditions = {
+        'approved': true,
+        'category': req.params.category,
+        'section': req.params.section
+    };
 
-                // send a page of content
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-            }
-        );
-    } else if (req.params.category === 'NoCat') {
-        // category, and thus section, were not specified
-        // fetch a page from the database
-        Content.paginate(
-            { approved: true },
-            {
-                limit: Number(req.params.numberOfEntriesPerPage),
-                page: Number(req.params.pageNumber)
-            },
-            function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
-
-                // send a page of content
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-            }
-        );
-    } else {
-        // only a category was specified
-        // fetch a page from the database
-        Content.paginate(
-            {
-                approved: true,
-                category: req.params.category
-            },
-            {
-                limit: Number(req.params.numberOfEntriesPerPage),
-                page: Number(req.params.pageNumber)
-            },
-            function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
-
-                // send a page of content
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-            }
-        );
+    // category or section not of interest
+    if (req.params.category === 'NoCat') {
+        delete conditions.category;
+        delete conditions.section;
+    } else if (req.params.section === 'NoSec') {
+        delete conditions.section;
     }
+
+    // retrieve page of content
+    Content.paginate(
+       conditions,
+        {
+            limit: Number(req.params.numberOfEntriesPerPage),
+            page: Number(req.params.pageNumber)
+        },
+        function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+            // send a page of content
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'Page retrieved successfully'
+            });
+        }
+    );
 };
 
 // retrieve content (resource  or idea) by ObejctId
