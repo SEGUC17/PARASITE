@@ -147,16 +147,35 @@ module.exports.getContentById = function (req, res, next) {
 module.exports.getSearchPage = function (req, res, next) {
     console.log(req.query);
 
+    // search conditions
+    var conditions = {
+        'category': req.query.category,
+        'section': req.query.section,
+        'tags': { $elemMatch: { $in: req.query.tags.split(' ') } },
+        'title': {
+            $options: 'i',
+            $regex: '.*' + req.query.title + '.*'
+        }
+    };
+
+    // section and category are not of interest
+    if (req.query.category === 'NoCat' || req.query.section === 'NoSec') {
+        delete conditions.category;
+        delete conditions.section;
+    }
+
+    // title not of interest
+    if (req.query.title === '') {
+        delete conditions.title;
+    }
+
+    // tags not of interest
+    if (req.query.tags === '') {
+        delete conditions.tags;
+    }
+
     Content.paginate(
-        {
-            category: req.query.category,
-            section: req.query.section,
-            tags: {$contains: },
-            title: {
-                $options: 'i',
-                $regex: '.*' + req.query.title + '.*'
-            }
-        },
+        conditions,
         {
             limit: Number(req.params.pageSize),
             page: Number(req.params.pageNumber)
