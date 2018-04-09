@@ -125,8 +125,6 @@ describe('/POST/content/', function () {
                 set('Authorization', userToken).
                 send(testContent).
                 end(function (err, res) {
-                    console.log(userToken);
-                    console.log(res.body);
                     should.not.exist(err);
                     res.should.have.status(201);
                     should.exist(res.body.data.content);
