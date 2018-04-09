@@ -40,11 +40,8 @@ birthday: Date;
 listOfChildren: any[];
 verified: Boolean = false;
 id: any;
-<<<<<<< HEAD
 pws: {oldpw: '', newpw: '', confirmpw: ''};
 
-=======
->>>>>>> activities
 // -------------------------------------
 
 // ---------Visited User Info-----------
