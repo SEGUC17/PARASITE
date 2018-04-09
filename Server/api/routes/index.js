@@ -146,6 +146,11 @@ module.exports = function (passport) {
     '/admin/RespondContentStatus/:ContentId', isAuthenticated,
     adminController.respondContentStatus
   );
+  // TO-DO ContributionPts
+  // router.patch(
+  //   'admin/addContPts', isAuthenticated,
+  //   adminController.addContPts
+  // );
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
