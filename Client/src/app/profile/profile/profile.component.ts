@@ -24,7 +24,6 @@ visitedIsChild = false;
 visitedIsMyChild = false;
 // ------------------------------------
 
-
 // ---------- Current User Info ---------------
 user: any;
 firstName: string;
@@ -40,6 +39,8 @@ birthday: Date;
 listOfChildren: any[];
 verified: Boolean = false;
 id: any;
+pws: {oldpw: '', newpw: '', confirmpw: ''};
+
 // -------------------------------------
 
 // ---------Visited User Info-----------
@@ -57,6 +58,7 @@ vBirthday: Date;
 vListOfChildren: any[];
 vVerified: Boolean = false;
 vId: any;
+message:string;
 // ------------------------------------
 
 // ----------- Other Lists ------------
@@ -142,24 +144,51 @@ vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
   }
 
   addChild(child): void { // adds a the selected child to the visited user list of children
-
-    this._ProfileService.linkAnotherParent(child, this.vId).subscribe();
+    let object = {
+      child: child
+    };
+    this._ProfileService.linkAnotherParent(object, this.vId).subscribe();
 
   }
 
 
   removeChild(child): void { // removes the child from the list of children of the currently logged in user
-    this._ProfileService.Unlink(child, this.id).subscribe();
+    let object = {
+      child: child
+    };
+    this._ProfileService.Unlink(object, this.id).subscribe();
   }
 
   linkToParent(child): void { // adds the currently logged in child to the list of children of the selected user
-    this._ProfileService.linkAsParent(child, this.vId).subscribe();
+    let object = {
+      child: child
+    };
+    this._ProfileService.linkAsParent(object, this.vId).subscribe();
   }
 
 
-  ChangePassword(uname, info: any): void {
-    this._ProfileService.changePassword(uname, info).subscribe();
+  ChangePassword(pws: any): void {
+    if (!(pws.newpw === pws.confirmpw)) {
+      console.log('passwords dont match');
+      this.message = 'New and confirmed passwords do not match!';
 
+
+    } else if (( pws.newpw.length < 8 )) {
+        console.log('pw too short');
+        this.message = 'Password should be more than 8 characters';
+    } else {
+    console.log(pws.oldpw);
+        this._ProfileService.changePassword(this.id, pws).subscribe(function(res) {
+          console.log(res.msg);
+          alert(res.msg);
+        });
+
+    }
 }
+EditChildIndependence() {
 
+  this._ProfileService.EditChildIndependence(this.vUsername).subscribe();
+  // getting the visited profile username and passing it to service method to add it to the patch request
+  
+  }
 }

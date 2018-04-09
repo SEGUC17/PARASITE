@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
 /* eslint-disable object-shorthand */
+/* eslint-disable complexity */
 
 // ---------------------- Requirements ---------------------- //
 var config = require('../config/config');
@@ -76,6 +77,9 @@ module.exports.signUp = function (req, res, next) {
 
         field = 'Phone';
         isArray(newUser.phone ? newUser.phone : []);
+        for (var index = 0; index < newUser.phone.length; index += 1) {
+            isString(newUser.phone[index]);
+        }
 
         field = 'Username';
         isNotEmpty(newUser.username);
@@ -85,7 +89,7 @@ module.exports.signUp = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptinesss & Type" --- //
@@ -101,7 +105,7 @@ module.exports.signUp = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: 'Under 13 Must Be Child!'
+            msg: 'Can\'t Sign Up If User Under 13 Years Old!'
         });
     }
     // --- End of "Check: birthdate" --- //
@@ -127,8 +131,8 @@ module.exports.signUp = function (req, res, next) {
     // --- End of "Check: Password Length" --- //
 
     // --- Check: Phone Regex Match ---//
-    for (var index = 0; index < newUser.phone.length; index += 1) {
-        if (!newUser.phone[index].match(config.PHONE_REGEX)) {
+    for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
+        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
             return res.status(422).json({
                 data: null,
                 err: null,
@@ -190,19 +194,19 @@ module.exports.signIn = function (req, res, next) {
     var field = '';
     try {
 
-        field = 'Username';
-        isNotEmpty(req.body.username);
-        isString(req.body.username);
-
         field = 'Password';
         isNotEmpty(req.body.password);
         isString(req.body.password);
+
+        field = 'Username';
+        isNotEmpty(req.body.username);
+        isString(req.body.username);
 
     } catch (err) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptinesss & Type" --- //
@@ -242,7 +246,7 @@ module.exports.signIn = function (req, res, next) {
                     return res.status(200).json({
                         data: null,
                         err: null,
-                        msg: 'Sign In Is Successfull!',
+                        msg: 'Sign In Is Successful!',
                         token: jwtToken
                     });
                 });
@@ -255,111 +259,198 @@ module.exports.signIn = function (req, res, next) {
 
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
-    console.log('entered the signUpChild method');
-    console.log('user is: ' + req.user._id);
+    // console.log('entered the signUpChild method');
+    // console.log('userId is: ' + req.user._id);
+    // console.log('username is: ' + req.user.username);
+
+    var newUser = new User();
+    // --- Variable Assign --- //
+    //  console.log('about to set attributes of child');
+    newUser.address = req.body.address;
+    newUser.birthdate = req.body.birthdate;
+    newUser.children = [];
+    newUser.email = req.body.email;
+    newUser.firstName = req.body.firstName;
+    newUser.isChild = true;
+    newUser.isParent = false;
+    newUser.isTeacher = false;
+    newUser.lastName = req.body.lastName;
+    newUser.password = req.body.password;
+    newUser.phone = req.body.phone;
+    newUser.username = req.body.username;
+    // --- End of "Variable Assign" --- //
+
+    //  console.log('updated attributes of child set');
+
+    //---types and formats validations--////
+    var field = '';
+    try {
+        field = 'Address';
+        isString(newUser.address ? newUser.address : '');
+        field = 'Birtdate';
+        isDate(newUser.birthdate ? newUser.birthdate : new Date());
+        isArray(newUser.children ? newUser.children : []);
+        field = 'Email';
+        isString(newUser.email ? newUser.email : '');
+        field = 'First name';
+        isString(newUser.firstName ? newUser.firstName : '');
+        isBoolean(newUser.isChild ? newUser.isChild : false);
+        isBoolean(newUser.isParent ? newUser.isParent : false);
+        isBoolean(newUser.isTeacher ? newUser.isTeacher : false);
+        field = 'Last Name';
+        isString(newUser.lastName ? newUser.lastName : '');
+        field = 'Password';
+        isString(newUser.password ? newUser.password : '');
+        field = 'Phone';
+        isArray(newUser.phone ? newUser.phone : []);
+        field = 'Username';
+        isString(newUser.username ? newUser.username : '');
+
+    } catch (err1) {
+        //    console.log('entered catch of status 401');
+
+        return res.status(401).json({
+            data: null,
+            err1: null,
+            msg: field + ' does not match the required data entry!' + err1.message + '!!'
+        });
+    }
+    //---end of types and formats validations--///
+
+    //---emptiness validations--/////
+    try {
+        //   console.log('entered try of is empty');
+        field = 'Birtdate';
+        isNotEmpty(newUser.birthdate);
+        field = 'Email';
+        isNotEmpty(newUser.email);
+        field = 'First name';
+        isNotEmpty(newUser.firstName);
+        isNotEmpty(newUser.isChild);
+        isNotEmpty(newUser.isParent);
+        isNotEmpty(newUser.isTeacher);
+        field = 'Last Name';
+        isNotEmpty(newUser.lastName);
+        field = 'Password';
+        isNotEmpty(newUser.password);
+        field = 'Username';
+        isNotEmpty(newUser.username);
+    } catch (err2) {
+
+        return res.status(401).json({
+            data: null,
+            err2: null,
+            msg: 'you are missing required data entry ' + field + '!' + err2.message
+        });
+    }
+    //---end of emptiness validations--////
+
+    // --- Trimming & Lowering Cases--- //
+    newUser.address = newUser.address ? newUser.address.toLowerCase() : newUser.address;
+    newUser.email = newUser.email ? newUser.email.toLowerCase().trim() : newUser.email;
+    newUser.username = newUser.username ? newUser.username.toLowerCase().trim() : newUser.username;
+    // --- End of "Trimming & Lowering Cases"--- //  
+    // --- Check: Phone Regex Match ---//
+    for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
+        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
+            return res.status(422).json({
+                data: null,
+                err5: null,
+                msg: 'Phone Is Not Valid!'
+            });
+        }
+    }
+    // --- End of "Check: Phone Regex Match" ---//
+    // --- Check: Email Regex Match --- //
+    if (!newUser.email.match(config.EMAIL_REGEX)) {
+        return res.status(422).json({
+            data: null,
+            err6: null,
+            msg: 'Email Is Not Valid!'
+        });
+    }
+    // --- End of "Check: Email Regex Match" --- //
+
+    // --- Check: Password Length --- //
+    if (newUser.password.length < 8) {
+        return res.status(422).json({
+            data: null,
+            err7: null,
+            msg: 'Password Length Must Be Greater Than 8!'
+        });
+    }
+    // --- End of "Check: Password Length" --- //
+    User.findOne(
+        {
+            $or: [
+                { 'email': newUser.email },
+                { 'username': newUser.username }
+            ]
+        },
+        function (err8, user) {
+            if (err8) {
+                throw err8;
+            } else if (user) {
+                if (user.email === newUser.email) {
+                    return res.status(409).json({
+                        data: null,
+                        err8: null,
+                        msg: 'Email Is In Use!'
+                    });
+                }
+
+                return res.status(409).json({
+                    data: null,
+                    err8: null,
+                    msg: 'Username Is In Use!'
+                });
+            }  //---end of duplicate checks--///
+            //--hashing password--//
+            Encryption.hashPassword(newUser.password, function (err3, hash) {
+                if (err3) {
+                    //  console.log('entered if err3');
+
+                    return next(err3);
+                }
+
+                newUser.password = hash;
+                User.create(newUser, function (error) {
+                    if (error) {
+                        //  console.log('entered if error');
+
+                        return next(error);
+                    }
+
+                    // --- Variable Assign --- //
+                    return res.status(201).json({
+                        data: newUser,
+                        error: null,
+                        msg: 'Child Successfully Signed Up!'
+                    });
+                });
+            });
+        }
+    );
     User.findByIdAndUpdate(
         req.user._id, {
-            $set: {
-                'children': req.body.username,
-                'isParent': true
-            }
+            $push:
+                {
+                    'children': req.body.username
+                },
+            $set:
+                {
+                    'isParent': true
+                }
         }
         , { new: true }, function (err, updatedob) {
             if (err) {
-                console.log('entered the error stage of update');
+                //  console.log('entered the error stage of update');
 
                 return res.status(402).json({
                     data: null,
                     msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
                 });
             }
-            var newUser = new User();
-
-            // --- Variable Assign --- //
-            console.log('about to set attributes od child');
-            newUser.address = req.body.address;
-            newUser.birthdate = req.body.birthdate;
-            newUser.children = [];
-            newUser.email = req.body.email;
-            newUser.firstName = req.body.firstName;
-            newUser.isChild = true;
-            newUser.isParent = false;
-            newUser.isTeacher = false;
-            newUser.lastName = req.body.lastName;
-            newUser.password = req.body.password;
-            newUser.phone = req.body.phone;
-            newUser.username = req.body.username;
-            // --- End of "Variable Assign" --- //
-            console.log('updated attributes of child set');
-            try {
-                isString(newUser.address ? newUser.address : '');
-                isDate(newUser.birthdate ? newUser.birthdate : new Date());
-                isArray(newUser.children ? newUser.children : []);
-                isString(newUser.email ? newUser.email : '');
-                isString(newUser.firstName ? newUser.firstName : '');
-                isBoolean(newUser.isChild ? newUser.isChild : false);
-                isBoolean(newUser.isParent ? newUser.isParent : false);
-                isBoolean(newUser.isTeacher ? newUser.isTeacher : false);
-                isString(newUser.lastName ? newUser.lastName : '');
-                isString(newUser.password ? newUser.password : '');
-                isArray(newUser.phone ? newUser.phone : []);
-                isString(newUser.username ? newUser.username : '');
-
-            } catch (errr) {
-                console.log('entered catch of status 401');
-
-                return res.status(401).json({
-                    data: null,
-                    errr: null,
-                    msg: 'your message does not match the required data entries!' + errr.message
-                });
-            }
-            //end catch
-
-            try {
-                console.log('entered try of is empty');
-                isNotEmpty(newUser.birthdate);
-                isNotEmpty(newUser.email);
-                isNotEmpty(newUser.firstName);
-                isNotEmpty(newUser.isChild);
-                isNotEmpty(newUser.isParent);
-                isNotEmpty(newUser.isTeacher);
-                isNotEmpty(newUser.lastName);
-                isNotEmpty(newUser.password);
-                isNotEmpty(newUser.username);
-            } catch (errrr) {
-                console.log('entered catch of 2nd status 401');
-
-                return res.status(401).json({
-                    data: null,
-                    errrr: null,
-                    msg: 'you are missing a required data entry!' + errrr.message
-                });
-            }
-            //end catch
-            Encryption.hashPassword(newUser.password, function (er, hash) {
-                if (er) {
-                    console.log('entered if er');
-
-                    return next(er);
-                }
-
-                newUser.password = hash;
-                User.create(newUser, function (erro) {
-                    if (erro) {
-                        console.log('entered if erro');
-
-                        return next(erro);
-                    }
-
-                    // --- Variable Assign --- //
-                    return res.status(201).json({
-                        data: newUser,
-                        erro: null,
-                        msg: 'Success!'
-                    });
-                });
-            });
         }
     );
 };
@@ -383,7 +474,7 @@ module.exports.getUserData = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptiness & Type" --- //
@@ -428,7 +519,7 @@ module.exports.getAnotherUserData = function (req, res, next) {
         return res.status(422).json({
             data: null,
             err: null,
-            msg: field + ': ' + err.message
+            msg: field + ': ' + err.message + '!'
         });
     }
     // --- End of "Check: Emptiness & Type" --- //

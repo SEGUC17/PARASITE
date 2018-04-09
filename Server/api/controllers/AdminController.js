@@ -8,15 +8,15 @@ var User = mongoose.model('User');
 var VCRmodel = mongoose.model('VerifiedContributerRequest');
 var userModel = mongoose.model('User');
 
+// get all pending contentRequests
 module.exports.viewPendingContReqs = function (req, res, next) {
-    console.log('my user name is: ' + req.user.username);
-    console.log('Am I an admin ' + req.user.isAdmin);
-
+    // find All entries in DB
     ContentRequest.find({}).
         exec(function (err, contentRequests) {
             if (err) {
                 return next(err);
             }
+            // if not admin return error
             if (!req.user.isAdmin) {
                 console.log(req.user.isAdmin);
 
@@ -27,12 +27,15 @@ module.exports.viewPendingContReqs = function (req, res, next) {
 
                 });
             }
+            // filter by status=pending & type(Idea/resource) from the URL
             var pendingContentRequests = contentRequests.
                 filter(function (pending) {
                     return pending.status === 'pending' &&
                         pending.contentType === req.params.type;
                 });
-            res.status(200).json({
+            // return 200 if everything is OK
+
+            return res.status(200).json({
                 data: pendingContentRequests,
                 err: null,
                 msg: 'Pending ' +
@@ -42,23 +45,27 @@ module.exports.viewPendingContReqs = function (req, res, next) {
         });
 };
 
+// respond to a single contentRequest
 module.exports.respondContentRequest = function (req, res, next) {
-
+    // find this request by id from the URL
     ContentRequest.findByIdAndUpdate(
         req.params.ContentRequestId,
         {
             $set:
                 {
+                    // update certain values (status/updatedOn)
+                    // with an object sent from frontEnd
                     status: req.body.str,
                     updatedOn: moment().toDate()
                 }
         },
         { new: true },
         function (err, updatedcontentrequest) {
+            // check if the id in the URL is valid, if not return error
             if (!mongoose.Types.ObjectId.isValid(req.params.ContentRequestId)) {
                 return res.status(422).json({
                     data: null,
-                    err: 'The Content Id is not valid.',
+                    err: 'The Request Id is not valid',
                     msg: null
                 });
             }
@@ -67,6 +74,7 @@ module.exports.respondContentRequest = function (req, res, next) {
 
                 return next(err);
             }
+             // if not admin return error
             if (!req.user.isAdmin) {
                 return res.status(403).json({
                     data: null,
@@ -75,7 +83,7 @@ module.exports.respondContentRequest = function (req, res, next) {
 
                 });
             }
-
+            // if not found return error
             if (!updatedcontentrequest) {
                 return res.status(404).json({
                     data: null,
@@ -83,6 +91,8 @@ module.exports.respondContentRequest = function (req, res, next) {
                     msg: null
                 });
             }
+            // return 200 if everything is OK
+
 
             return res.status(200).json({
                 data: updatedcontentrequest,
@@ -93,24 +103,27 @@ module.exports.respondContentRequest = function (req, res, next) {
         }
     );
 };
-//ISAdmn?
 
+// Update the approved attribute in the content itself
 module.exports.respondContentStatus = function (req, res, next) {
-
+    // find the proper content by id from URL
     Content.findByIdAndUpdate(
         req.params.ContentId,
         {
             $set: {
+                // update certain values (approved/touchDate)
+                // with an object sent from frontEnd
                 approved: req.body.str,
                 touchDate: moment().toDate()
             }
         },
         { new: true },
         function (err, updatedContent) {
+            // check if the id in the URL is valid, if not return error
             if (!mongoose.Types.ObjectId.isValid(req.params.ContentId)) {
                 return res.status(422).json({
                     data: null,
-                    err: 'The Content Id is not valid.',
+                    err: 'The Content Id is not valid',
                     msg: null
                 });
             }
@@ -119,6 +132,7 @@ module.exports.respondContentStatus = function (req, res, next) {
 
                 return next(err);
             }
+            // if not admin return error
             if (!req.user.isAdmin) {
                 return res.status(403).json({
                     data: null,
@@ -128,7 +142,7 @@ module.exports.respondContentStatus = function (req, res, next) {
                 });
             }
 
-
+            // if not found return error
             if (!updatedContent) {
                 return res.status(404).json({
                     data: null,
@@ -136,6 +150,8 @@ module.exports.respondContentStatus = function (req, res, next) {
                     msg: null
                 });
             }
+            // return 200 if everything is OK
+
 
             return res.status(200).json({
                 data: updatedContent,
@@ -146,7 +162,40 @@ module.exports.respondContentStatus = function (req, res, next) {
         }
     );
 };
+  // TO-DO ContributionPts
+// module.exports.addContPts = function(req, res, next) {
+//     User.findOneAndUpdate(
+//         { 'username': req.body.username },
+//         { $set: { contributionScore: 10 } },
+//         { new: true },
+//         function(err, updatedUser) {
 
+//             if (err) {
+//                 console.log('cannot add contributionPoints to' +
+//                 req.body.username);
+
+//                 return next(err);
+//             }
+//             // if not found return error
+//             if (!updatedUser) {
+//                 return res.status(404).json({
+//                     data: null,
+//                     err: 'User not found',
+//                     msg: null
+//                 });
+//             }
+//             // return 200 if everything is OK
+
+
+//             return res.status(200).json({
+//                 data: updatedUser,
+//                 err: null,
+//                 msg: updatedUser.username +
+//                     ' hase now ' + req.body.newpoints + 'points'
+//             });
+//         }
+//     );
+// };
 
 //-------------------------------------------//
 
@@ -170,7 +219,6 @@ module.exports.getVCRs = function (req, res, next) {
                     filteredVCRs = result.filter(function (request) {
                         return request.status === req.params.FilterBy;
                     });
-                    console.log('retrieved all VCRs');
 
                     return res.status(200).json({
                         data: { dataField: filteredVCRs },
@@ -213,10 +261,8 @@ module.exports.VCRResponde = function (req, res, next) {
             { new: false },
             function (err) {
                 if (err) {
-                    console.log(err.msg);
                     throw err;
                 }
-                console.log('1 document updated');
             }
         );
 
@@ -231,7 +277,6 @@ module.exports.VCRResponde = function (req, res, next) {
                 }
                 userId = result[0].creator;
                 if (req.body.responce === 'approved') {
-                    console.log('approving user');
 
                     // Updating verified by Approved.
                     userModel.update(
@@ -242,12 +287,15 @@ module.exports.VCRResponde = function (req, res, next) {
                             if (error) {
                                 throw error;
                             }
-                            console.log('1 User approved updated');
+                            res.status(200).json({
+                                data: null,
+                                err: null,
+                                msg: 'reponse has been submitted'
+                            });
                         }
                     );
                 }
                 if (req.body.responce === 'disapproved') {
-                    console.log('disapproving user');
                     // Updating verified by disapproved.
                     userModel.update(
                         { _id: userId },
@@ -257,7 +305,11 @@ module.exports.VCRResponde = function (req, res, next) {
                             if (error) {
                                 throw error;
                             }
-                            console.log('1 User disapproved updated');
+                            res.status(200).json({
+                                data: null,
+                                err: null,
+                                msg: 'reponse has been submitted'
+                            });
                         }
                     );
                 }

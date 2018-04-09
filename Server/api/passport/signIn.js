@@ -51,7 +51,8 @@ module.exports = function (passport) {
                             return done(null, user);
                         });
                         // --- End of "Password Verification" --- //
-                    });
+                    }
+                );
                 // --- End of "Username Verfication" --- //
             };
 
@@ -59,6 +60,7 @@ module.exports = function (passport) {
             // --- Executing signInIfExist --- //
             process.nextTick(signInIfExist);
             // --- End of "Executing signInIfExist" --- //
-        }));
+        }
+    ));
 };
 // ---------------------- End of "Passport" ---------------------- //
