@@ -257,6 +257,13 @@ describe('Activities', function () {
                 });
         });
     });
+    // --- Clearing Mockgoose --- //
+    after(function (done) {
+        mockgoose.helper.reset().then(function () {
+            done();
+        });
+    });
+    // --- End of "Clearing Mockgoose" --- //
 
     // --- Mockgoose Termination --- //
     after(function (done) {

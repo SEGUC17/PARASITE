@@ -24,7 +24,6 @@ visitedIsChild = false;
 visitedIsMyChild = false;
 // ------------------------------------
 
-
 // ---------- Current User Info ---------------
 user: any;
 firstName: string;

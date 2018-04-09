@@ -28,7 +28,7 @@ export class ContentEditComponent implements OnInit {
     body: `<h1>Nawwar :D<h1>`,
     category: '',
     section: '',
-    creator: this.authService.user.username,
+    creator: '',
     creatorAvatarLink: 'https://i.pinimg.com/originals/81/8a/74/818a7421837fabbce3cac4726b217df6.jpg',
     creatorProfileLink: 'https://www.facebook.com/Prog0X1',
     image: '',
@@ -73,22 +73,29 @@ export class ContentEditComponent implements OnInit {
   // create content
   createContent(content: Content): void {
     const self = this;
-    if (!this.authService.getUser().username) {
+    if (this.authService.getToken() === '') {
+      // TODO: (Universal Error Handler/ Modal Errors)
       console.log('Please sign in first');
       return;
     }
-    this.contentService.createContent(content).subscribe(function (res) {
-      // TODO(Universal Error Handler/ Modal Errors)
-      console.log(res);
-      if (!res) {
-        return;
-      }
-      if (res.data.content) {
-        self.router.navigateByUrl('/content-view/' + res.data.content._id);
-        return;
-      }
-      self.router.navigateByUrl('/content-view/' + res.data._id);
+    // get username of the registered user
+    this.authService.getUserData(['username']).subscribe(function (authRes) {
+      self.content.creator = authRes.data.username;
+      // create content for for that registered user
+      self.contentService.createContent(content).subscribe(function (contentRes) {
+        // TODO: (Universal Error Handler/ Modal Errors)
+        if (!contentRes) {
+          return;
+        }
+        if (contentRes.data.content) {
+          self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
+          return;
+        }
+        self.router.navigateByUrl('/content-view/' + contentRes.data._id);
+      });
     });
+
+
   }
 
   // retrieve all categories from server
