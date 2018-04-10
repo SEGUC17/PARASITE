@@ -529,7 +529,7 @@ module.exports.getAnotherUserData = function (req, res, next) {
                 return res.status(404).json({
                     data: null,
                     err: null,
-                    msg: 'User Not Found'
+                    msg: 'User Not Found!'
                 });
             }
 
@@ -580,14 +580,14 @@ module.exports.isUserExist = function (req, res, next) {
                 return res.status(409).json({
                     data: null,
                     err: null,
-                    msg: 'Exists!'
+                    msg: 'User Found!'
                 });
             }
 
-            return res.status(200).json({
+            return res.status(404).json({
                 data: null,
                 err: null,
-                msg: 'Not Exists!'
+                msg: 'User Not Found!'
             });
         }
     );
