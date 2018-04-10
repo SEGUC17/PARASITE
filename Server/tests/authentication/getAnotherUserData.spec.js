@@ -261,15 +261,28 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('"Non-Admin" Requesting "schdule"!');
+    it('"Non-Admin" Requesting "schedule"!', function(done) {
+        this.userDataColumns.push('schedule');
+        var self = this;
+        chai.request(app).
+            post(path + '  ' + this.janeDoe.username + '  ').
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(200);
+                res.body.should.have.property('data');
+                res.body.data.should.not.have.property('schedule');
+                done();
+            });
+    });
     it('"Non-Admin" Requesting "studyPlans"!');
-    it('"Non-Parent" Requesting "schdule"!');
+    it('"Non-Parent" Requesting "schedule"!');
     it('"Non-Parent" Requesting "studyPlans"!');
-    it('"Admin" Requesting "schdule"!');
+    it('"Admin" Requesting "schedule"!');
     it('"Admin" Requesting "studyPlans"!');
-    it('"Parent" Requesting "schdule"!');
+    it('"Parent" Requesting "schedule"!');
     it('"Parent" Requesting "studyPlans"!');
-    it('"Owner" Requesting "schdule"!');
+    it('"Owner" Requesting "schedule"!');
     it('"Owner" Requesting "studyPlans"!');
     // --- End of "Tests" --- //
 
