@@ -275,7 +275,20 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('"Non-Admin" Requesting "studyPlans"!');
+    it('"Non-Admin" Requesting "studyPlans"!', function(done) {
+        this.userDataColumns.push('studyPlans');
+        var self = this;
+        chai.request(app).
+            post(path + '  ' + this.janeDoe.username + '  ').
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(200);
+                res.body.should.have.property('data');
+                res.body.data.should.not.have.property('studyPlans');
+                done();
+            });
+    });
     it('"Non-Parent" Requesting "schedule"!');
     it('"Non-Parent" Requesting "studyPlans"!');
     it('"Admin" Requesting "schedule"!');
