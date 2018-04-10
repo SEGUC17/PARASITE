@@ -3,6 +3,7 @@ import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
 import { AuthService } from '../../../auth/auth.service';
 import { PageEvent } from '@angular/material/paginator';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-study-plan-list-view',
@@ -18,10 +19,12 @@ export class StudyPlanListViewComponent implements OnInit {
   pageSize: Number;
   pageIndex: Number;
 
-  constructor(private studyPlanService: StudyPlanService, private authService: AuthService) { }
+  constructor(private studyPlanService: StudyPlanService, private authService: AuthService,
+     private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getStudyPlans();
+
   }
 
   getStudyPlans(pageEvent?: PageEvent) {
@@ -45,7 +48,14 @@ export class StudyPlanListViewComponent implements OnInit {
     this.pageIndex = res.data.pageIndex;
   }
 
-  delete(username , plan): void {
-this.studyPlanService.deleteStudyPlan(username, plan._ID );
+  delete(username, plan): void {
+    this.studyPlanService.deleteStudyPlan(username, plan._ID).subscribe(
+      res => {
+        if (res.msg === 'StudyPlan deleted successfully.') {
+          alert(res.msg);
+        } else {
+          alert('An error occured while deleting the study plan, please try again.');
+        }
+      });
   }
 }

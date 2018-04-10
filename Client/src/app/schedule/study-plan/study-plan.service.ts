@@ -5,7 +5,7 @@ import { StudyPlan } from './study-plan';
 import { Rating } from './star-rating/rating';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
-import { RequestOptions, Headers, Body } from '@angular/http';
+import { RequestOptions, Headers} from '@angular/http';
 import { Options } from 'selenium-webdriver';
 
 @Injectable()
@@ -37,10 +37,10 @@ export class StudyPlanService {
   }
 
   PublishStudyPlan(studyPlan: StudyPlan): Observable<any> {
-     /*
-     @author: Ola
-     post request with the required studyPlan to be published in the body of the request with the route specified in the index.js
-     */
+    /*
+    @author: Ola
+    post request with the required studyPlan to be published in the body of the request with the route specified in the index.js
+    */
     return this.http.post(this.endpoint + 'study-plan/PublishStudyPlan', studyPlan);
 
   }

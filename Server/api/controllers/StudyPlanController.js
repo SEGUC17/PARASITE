@@ -225,11 +225,19 @@ module.exports.deleteStudyPLan = function (req, res, next) {
                 msg: 'Study plan not found.'
             });
         }
+        user.studyPlans.remove(target, function (msg) {
+            if (err) {
+                return next(err);
+            }
 
-        return res.status(200).json({
-            data: target,
-            err: null,
-            msg: 'Study plan deleted successfully.'
+            return res.status(200).json({
+                data: msg,
+                err: null,
+                msg: 'Message deleted successfully.'
+            });
         });
+
     });
+
 };
+
