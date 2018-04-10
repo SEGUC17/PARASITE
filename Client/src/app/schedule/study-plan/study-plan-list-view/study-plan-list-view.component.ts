@@ -15,12 +15,13 @@ export class StudyPlanListViewComponent implements OnInit {
   @Input() username: string;
   @Input() currIsChild: boolean;
   studyPlans: StudyPlan[];
+  tempPlan: StudyPlan;
   numberOfElements: Number;
   pageSize: Number;
   pageIndex: Number;
 
   constructor(private studyPlanService: StudyPlanService, private authService: AuthService,
-     private router: Router, private route: ActivatedRoute) { }
+    private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getStudyPlans();
@@ -58,4 +59,14 @@ export class StudyPlanListViewComponent implements OnInit {
         }
       });
   }
+
+  copy(username, plan): void {
+    this.tempPlan = plan;
+    this.tempPlan._id = undefined;
+    this.studyPlanService.createStudyPlan(this.username, this.tempPlan).subscribe(
+      res => {
+        alert(res.msg);
+      });
+  }
+
 }
