@@ -44,7 +44,7 @@ describe('add psychologist information directly by admin', function () {
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function (err) {
-                done(err);
+                done();
             });
         });
     });
@@ -54,33 +54,28 @@ describe('add psychologist information directly by admin', function () {
     /* Clearing Mockgoose */
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
-            done();
+            chai.request(server).post('/api/signUp').
+                send(usr).
+                end(function (err, response) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    token = response.body.token;
+
+                    /* changing user's type to be an admin */
+
+                    response.should.have.status(201);
+                    users.updateOne({ username: 'marioma' }, { $set: { isAdmin: true } }, function (err1) {
+                        if (err1) {
+                            console.log(err1);
+                        }
+
+                        done();
+                    });
+                });
         });
     });
-
     /* End of "Clearing Mockgoose" */
-    /* sign up  to the system */
-    beforeEach(function (done) {
-        chai.request(server).post('/api/signUp').
-            send(usr).
-            end(function (err, response) {
-                if (err) {
-                    console.log(err);
-                }
-                token = response.body.token;
-
-                /* changing user's type to be an admin */
-
-                response.should.have.status(201);
-                users.updateOne({ username: 'marioma' }, { $set: { isAdmin: true } }, function (err1) {
-                    if (err1) {
-                        console.log(err1);
-                    }
-                });
-                done();
-            });
-
-    });
 
     it('add information directly to address book', function (done) {
         var req = {

@@ -81,8 +81,9 @@
             New Password<br> <input #Newpw type="password" name="newpw" [(ngModel)]=newpw><br>
             Confirm New Password <br>
              <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
-            <button type="button"class="btn btn-primary"(click)="ChangePassword(Uname.value, {oldpw: Oldpw.value, newpw: Newpw.value})">Change Password</button>
-
+            <button type="button"class="btn btn-primary"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
+            
+            <p [innerHTML]="message"></p>
           </div>
             </mat-tab>
       </mat-tab-group>
