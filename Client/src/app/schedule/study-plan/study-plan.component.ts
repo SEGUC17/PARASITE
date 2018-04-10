@@ -44,7 +44,7 @@ const colors: any = {
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
   // routing parameters
-  type: String;
+  type: string;
   _id: String;
   username: String;
   // end of routing parameters
