@@ -49,10 +49,10 @@
   </mat-card>
   <mat-card>
       <div class="button-row">
-          <button mat-raised-button (click)="publish()" color="primary" *ngIf="type === 'personal'">Publish</button>
-          <button mat-raised-button (click)="copy()" color="primary" *ngIf="type === 'personal'">Copy</button>
-          <button mat-raised-button (click)="assign()" color="primary" *ngIf="type === 'personal'">Assign</button>
-          <button mat-raised-button (click)="edit()" color="primary" *ngIf="type === 'personal'">Edit</button>
+          <button mat-raised-button (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
+          <button mat-raised-button (click)="copy()" color="primary" *ngIf="type === 'personal' && !currIsChild">Copy</button>
+          <button mat-raised-button (click)="assign()" color="primary" *ngIf="type === 'personal' && !currIsChild">Assign</button>
+          <button mat-raised-button (click)="edit()" color="primary" *ngIf="type === 'personal' && !currIsChild">Edit</button>
         </div>
   </mat-card>
 </div>
