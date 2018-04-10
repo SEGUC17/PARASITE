@@ -370,7 +370,25 @@ describe('getAnotherUserData', function () {
                 });
         });
     });
-    it('"Admin" Requesting "studyPlans"!');
+    it('"Admin" Requesting "studyPlans"!', function (done) {
+        var self = this;
+        this.userDataColumns.push('studyPlans');
+        User.updateOne({ 'username': this.johnDoe.username }, { 'isAdmin': true }, function (err, raw) {
+            chai.request(app).
+                post(path + self.janeDoe.username).
+                send(self.userDataColumns).
+                set('Authorization', self.token).
+                end(function (err, res) {
+                    res.should.have.status(200);
+                    res.body.should.have.property('data');
+                    res.body.data.should.have.property('studyPlans');
+                    for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
+                    }
+                    done();
+                });
+        });
+    });
     it('"Parent" Requesting "schedule"!');
     it('"Parent" Requesting "studyPlans"!');
     it('"Owner" Requesting "schedule"!');
