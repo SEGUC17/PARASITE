@@ -98,7 +98,7 @@ describe('getUserData', function () {
                 });
         });
         it('Request "body" Element(s) Is/Are Not Valid!', function (done) {
-            this.userDataColumns = [12312412];
+            this.userDataColumns = [123];
             chai.request(app).
                 post(path).
                 send(this.userDataColumns).

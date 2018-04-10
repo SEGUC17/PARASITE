@@ -110,6 +110,18 @@ describe('getAnotherUserData', function () {
                     done();
                 });
         });
+        it('Request "body" Element(s) Is/Are Not Valid!', function (done) {
+            this.userDataColumns = [123];
+            chai.request(app).
+                post(path + this.janeDoe.email + 'Is Wrong').
+                send(this.userDataColumns).
+                set('Authorization', this.token).
+                end(function(err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Request Body Element(s): Expected string value!');
+                    done();
+                });
+        });
         it('Requested "Email" Is Not In DB!', function (done) {
             this.userDataColumns = ['email', 'firstName', 'lastName', 'username'];
             chai.request(app).
@@ -133,7 +145,6 @@ describe('getAnotherUserData', function () {
                     done();
                 });
         });
-        it('Request "body" Element(s) Is/Are Not Valid!');
     });
     describe('Success!', function () {
         it('Data Retrieval Is Successful!');
