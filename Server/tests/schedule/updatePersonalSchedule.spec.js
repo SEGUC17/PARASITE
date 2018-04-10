@@ -278,7 +278,7 @@ describe('updateSchedule', function () {
     // --- End of "Mockgoose Termination" --- //
 });
 
-describe('scheduleActivity', function () {
+describe('addEvent', function () {
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
@@ -309,7 +309,7 @@ describe('scheduleActivity', function () {
                 }
                 // Updating Schedule
                 chai.request(server).
-                    put('/api/schedule/scheduleActivity/' +
+                    put('/api/schedule/addEvent/' +
                          johnDoe.username).
                     set('Authorization', signupData.body.token).
                     send(aCalendarEvent).
@@ -356,7 +356,7 @@ describe('scheduleActivity', function () {
                         childSignupData.should.have.status(201);
                         // Updating Schedule
                         chai.request(server).
-                            put('/api/schedule/scheduleActivity/' +
+                            put('/api/schedule/addEvent/' +
                                  johnny.username).
                             set('Authorization', signupData.body.token).
                             send(aCalendarEvent).
@@ -414,7 +414,7 @@ describe('scheduleActivity', function () {
                                 }
                                 // Updating schedule
                                 chai.request(server).
-                                    put('/api/schedule/scheduleActivity/' +
+                                    put('/api/schedule/addEvent/' +
                                          johnny.username).
                                     set('Authorization', signinData.body.token).
                                     send(aCalendarEvent).
@@ -456,7 +456,7 @@ describe('scheduleActivity', function () {
                             }
                             // Updating schedule
                             chai.request(server).
-                                put('/api/schedule/scheduleActivity/' +
+                                put('/api/schedule/addEvent/' +
                                      janeDoe.username).
                                 set('Authorization', signup2Data.body.token).
                                 send(aCalendarEvent).
