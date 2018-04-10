@@ -443,14 +443,28 @@ describe('getAnotherUserData', function () {
                 res.body.should.have.property('data');
                 res.body.data.should.have.property('schedule');
                 for (var index = 0; index < self.userDataColumns.length; index += 1) {
-                    if (self.userDataColumns[index] !== 'schedule') {
-                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.johnDoe[self.userDataColumns[index]]);
-                    }
+                    res.body.data.should.have.property(self.userDataColumns[index]).eql(self.johnDoe[self.userDataColumns[index]]);
                 }
                 done();
             });
     });
-    it('"Owner" Requesting "studyPlans"!');
+    it('"Owner" Requesting "studyPlans"!', function (done) {
+        var self = this;
+        this.userDataColumns.push('studyPlans');
+        chai.request(app).
+            post(path + '  ' + this.johnDoe.username + '  ').
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(200);
+                res.body.should.have.property('data');
+                res.body.data.should.have.property('studyPlans');
+                for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                    res.body.data.should.have.property(self.userDataColumns[index]).eql(self.johnDoe[self.userDataColumns[index]]);
+                }
+                done();
+            });
+    });
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //
