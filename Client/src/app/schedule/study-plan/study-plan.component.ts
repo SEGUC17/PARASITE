@@ -1,5 +1,18 @@
-import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
-import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  ChangeDetectionStrategy,
+  EventEmitter,
+  ViewChild,
+  TemplateRef
+} from '@angular/core';
+import {
+  CalendarEvent,
+  CalendarEventAction,
+  CalendarEventTimesChangedEvent
+} from 'angular-calendar';
 import { StudyPlan } from './study-plan';
 import { Rating } from './star-rating/rating';
 import { StudyPlanService } from './study-plan.service';
@@ -79,8 +92,12 @@ export class StudyPlanComponent implements OnInit {
     }
   ];
 
-  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
-    private router: Router) { }
+  constructor(
+    private sanitizer: DomSanitizer,
+    private route: ActivatedRoute,
+    private studyPlanService: StudyPlanService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.studyPlan = {
@@ -98,7 +115,8 @@ export class StudyPlanComponent implements OnInit {
     });
 
     if (this.type === 'personal') {
-      this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
+      this.studyPlanService
+        .getPersonalStudyPlan(this.username, this._id)
         .subscribe(res => {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
@@ -109,19 +127,18 @@ export class StudyPlanComponent implements OnInit {
           }
         });
     } else {
-      this.studyPlanService.getPublishedStudyPlan(this._id)
-        .subscribe(res => {
-          this.studyPlan = res.data;
-          this.events = this.studyPlan.events;
-          this.description = this.studyPlan.description;
-          if (this.studyPlan.rating) {
-            this.rating = this.studyPlan.rating.value;
-          }
-          for (let index = 0; index < this.events.length; index++) {
-            this.events[index].start = new Date(this.events[index].start);
-            this.events[index].end = new Date(this.events[index].end);
-          }
-        });
+      this.studyPlanService.getPublishedStudyPlan(this._id).subscribe(res => {
+        this.studyPlan = res.data;
+        this.events = this.studyPlan.events;
+        this.description = this.studyPlan.description;
+        if (this.studyPlan.rating) {
+          this.rating = this.studyPlan.rating.value;
+        }
+        for (let index = 0; index < this.events.length; index++) {
+          this.events[index].start = new Date(this.events[index].start);
+          this.events[index].end = new Date(this.events[index].end);
+        }
+      });
     }
   }
 
@@ -172,27 +189,27 @@ export class StudyPlanComponent implements OnInit {
      the published studyPlans else i will return the error message
     */
     this.studyPlan._id = undefined;
-    this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
-      res => {
-        if (res.msg === 'StudyPlan published successfully.') {
-          alert(res.msg);
-          this.router.navigate(['/published-study-plans']);
-        } else {
-          alert('An error occured while publishing the study plan, please try again.');
-        }
-      });
+    this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(res => {
+      if (res.msg === 'StudyPlan published successfully.') {
+        alert(res.msg);
+        this.router.navigate(['/published-study-plans']);
+      } else {
+        alert(
+          'An error occured while publishing the study plan, please try again.'
+        );
+      }
+    });
   }
 
   copy(): void {
-
     this.tempStudyPlan = this.studyPlan;
     this.tempStudyPlan._id = undefined;
-    this.studyPlanService.createStudyPlan(this.username, this.tempStudyPlan).subscribe(
-      res => {
-        alert(res.msg);
-      });
-
-  }
+      this.studyPlanService
+        .createStudyPlan(this.username, this.tempStudyPlan)
+        .subscribe(res => {
+          alert(res.msg);
+        });
+    }
 
   assign(): void {
     alert('Implement Assign Study Plan!');
@@ -201,5 +218,4 @@ export class StudyPlanComponent implements OnInit {
   edit(): void {
     alert('Implement Edit Study Plan!');
   }
-
 }

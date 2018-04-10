@@ -4,7 +4,7 @@
       <a mat-raised-button routerLink="/study-plan-edit/create/{{username}}/new" color="primary" style="float: right;">Create A New Study Plan</a>
       <br /><br /><br />
     </div>
-    <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements" 
+    <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
       (page)="getStudyPlans($event)"
@@ -15,9 +15,7 @@
         <mat-card-subtitle>{{plan.creator}}</mat-card-subtitle>
         <mat-card-actions>
           <a mat-raised-button routerLink="/study-plan/{{type}}/{{plan._id}}/{{username}}">View</a>
-          <button mat-raised-button (click)="delete(username,plan._id)" color="primary" *ngIf="!currIsChild && type !== 'published'">Delete</button>
-          <button mat-raised-button (click)="copy(username,plan)" color="primary" *ngIf="!currIsChild">Copy</button>
-          <button mat-raised-button (click)="deletePublished(plan._id)" color="primary" *ngIf="username === 'plan.creator' && type === 'published'">Delete</button>
+          <button mat-raised-button (click)="delete(username,plan)" color="primary" *ngIf="!currIsChild">Delete</button>
         </mat-card-actions>
       </mat-card>
     </div>

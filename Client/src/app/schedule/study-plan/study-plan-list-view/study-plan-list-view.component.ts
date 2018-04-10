@@ -20,12 +20,15 @@ export class StudyPlanListViewComponent implements OnInit {
   pageSize: Number;
   pageIndex: Number;
 
-  constructor(private studyPlanService: StudyPlanService, private authService: AuthService,
-    private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private studyPlanService: StudyPlanService,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.getStudyPlans();
-
   }
 
   getStudyPlans(pageEvent?: PageEvent) {
@@ -36,9 +39,13 @@ export class StudyPlanListViewComponent implements OnInit {
       // to retreive the pages one by one the number has to be passed to the call each time incremented by one
       // event occurs at the loading of the pages each time so if there is an event indx is incremented by one
       // else its a one as we are at the start of loading the published plans
-      this.studyPlanService.getPublishedStudyPlans(pageEvent ? pageEvent.pageIndex + 1 : 1).subscribe(res => this.updateLayout(res));
+      this.studyPlanService
+        .getPublishedStudyPlans(pageEvent ? pageEvent.pageIndex + 1 : 1)
+        .subscribe(res => this.updateLayout(res));
     } else {
-      this.authService.getAnotherUserData(['studyPlans'], this.username).subscribe(res => this.studyPlans = res.data.studyPlans);
+      this.authService
+        .getAnotherUserData(['studyPlans'], this.username)
+        .subscribe(res => (this.studyPlans = res.data.studyPlans));
     }
   }
 
@@ -49,34 +56,31 @@ export class StudyPlanListViewComponent implements OnInit {
     this.pageIndex = res.data.pageIndex;
   }
 
-  delete(username, planID): void {
-    this.studyPlanService.deleteStudyPlan(username, planID).subscribe(
-      res => {
-        if (res.msg === 'StudyPlan deleted successfully.') {
-          alert(res.msg);
-        } else {
-          alert('An error occured while deleting the study plan, please try again.');
-        }
-      });
+  delete(username, plan): void {
+    if (plan.published) {
+      this.studyPlanService
+        .deletePublishedStudyPlan(plan._id)
+        .subscribe(res => {
+          if (res.msg === 'StudyPlan deleted successfully.') {
+            alert(res.msg);
+          } else {
+            alert(
+              'An error occured while deleting the study plan, please try again.'
+            );
+          }
+        });
+    } else {
+      this.studyPlanService
+        .deleteStudyPlan(username, plan._id)
+        .subscribe(res => {
+          if (res.msg === 'StudyPlan deleted successfully.') {
+            alert(res.msg);
+          } else {
+            alert(
+              'An error occured while deleting the study plan, please try again.'
+            );
+          }
+        });
+    }
   }
-
-  deletePublished(planID): void {
-    this.studyPlanService.deletePublishedStudyPlan(planID).subscribe(
-      res => {
-        if (res.msg === 'StudyPlan deleted successfully.') {
-          alert(res.msg);
-        } else {
-          alert('An error occured while deleting the study plan, please try again.');
-        }
-      });
-  }
-  copy(username, plan): void {
-    this.tempPlan = plan;
-    this.tempPlan._id = undefined;
-    this.studyPlanService.createStudyPlan(this.username, this.tempPlan).subscribe(
-      res => {
-        alert(res.msg);
-      });
-  }
-
 }
