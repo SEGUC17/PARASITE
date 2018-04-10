@@ -35,6 +35,7 @@ describe('getUserData', function () {
 
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
+        var self = this;
         this.johnDoe = {
             address: 'John Address Sample',
             birthdate: '1/1/1980',
@@ -48,7 +49,6 @@ describe('getUserData', function () {
         };
         this.token = '';
         this.userDataColumns = ['email', 'firstName', 'lastName', 'username'];
-        var self = this;
         mockgoose.helper.reset().then(function () {
             chai.request(app).
                 post('/api/signUp').
@@ -124,8 +124,8 @@ describe('getUserData', function () {
             });
     });
     it('Requested Column(s) Is/Are Not Valid!', function (done) {
-        this.userDataColumns.push('wrongColumn');
         var self = this;
+        this.userDataColumns.push('wrongColumn');
         chai.request(app).
             post(path).
             send(this.userDataColumns).
@@ -143,8 +143,8 @@ describe('getUserData', function () {
             });
     });
     it('"password" Attribute Is Requested!', function (done) {
-        this.userDataColumns.push('password');
         var self = this;
+        this.userDataColumns.push('password');
         chai.request(app).
             post(path).
             send(this.userDataColumns).

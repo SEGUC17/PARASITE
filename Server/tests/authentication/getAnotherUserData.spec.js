@@ -35,6 +35,7 @@ describe('getAnotherUserData', function () {
 
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
+        var self = this;
         this.johnDoe = {
             address: 'John Address Sample',
             birthdate: '1/1/1980',
@@ -44,6 +45,8 @@ describe('getAnotherUserData', function () {
             lastName: 'Doe',
             password: 'JohnPasSWorD',
             phone: '123',
+            schedule: [],
+            studyPlans: [],
             username: 'john'
         };
         this.janeDoe = {
@@ -55,11 +58,12 @@ describe('getAnotherUserData', function () {
             lastName: 'Doe',
             password: 'JanePasSWorD',
             phone: '123',
+            schedule: [],
+            studyPlans: [],
             username: 'jane'
         };
         this.token = '';
         this.userDataColumns = ['email', 'firstName', 'lastName', 'username'];
-        var self = this;
         mockgoose.helper.reset().then(function () {
             chai.request(app).
                 post('/api/signUp').
@@ -234,8 +238,8 @@ describe('getAnotherUserData', function () {
             });
     });
     it('Requested Column(s) Is/Are Not Valid!', function (done) {
-        this.userDataColumns.push('wrongColumn');
         var self = this;
+        this.userDataColumns.push('wrongColumn');
         chai.request(app).
             post(path + '  ' + this.janeDoe.username + '  ').
             send(this.userDataColumns).
@@ -253,8 +257,8 @@ describe('getAnotherUserData', function () {
             });
     });
     it('"password" Attribute Is Requested!', function (done) {
-        this.userDataColumns.push('password');
         var self = this;
+        this.userDataColumns.push('password');
         chai.request(app).
             post(path + '  ' + this.janeDoe.username + '  ').
             send(this.userDataColumns).
@@ -272,8 +276,8 @@ describe('getAnotherUserData', function () {
             });
     });
     it('"Non-Admin" Requesting "schedule"!', function (done) {
-        this.userDataColumns.push('schedule');
         var self = this;
+        this.userDataColumns.push('schedule');
         chai.request(app).
             post(path + '  ' + this.janeDoe.username + '  ').
             send(this.userDataColumns).
@@ -291,8 +295,8 @@ describe('getAnotherUserData', function () {
             });
     });
     it('"Non-Admin" Requesting "studyPlans"!', function (done) {
-        this.userDataColumns.push('studyPlans');
         var self = this;
+        this.userDataColumns.push('studyPlans');
         chai.request(app).
             post(path + '  ' + this.janeDoe.username + '  ').
             send(this.userDataColumns).
@@ -310,8 +314,8 @@ describe('getAnotherUserData', function () {
             });
     });
     it('"Non-Parent" Requesting "schedule"!', function (done) {
-        this.userDataColumns.push('schedule');
         var self = this;
+        this.userDataColumns.push('schedule');
         chai.request(app).
             post(path + '  ' + this.janeDoe.username + '  ').
             send(this.userDataColumns).
@@ -329,8 +333,8 @@ describe('getAnotherUserData', function () {
             });
     });
     it('"Non-Parent" Requesting "studyPlans"!', function (done) {
-        this.userDataColumns.push('studyPlans');
         var self = this;
+        this.userDataColumns.push('studyPlans');
         chai.request(app).
             post(path + '  ' + this.janeDoe.username + '  ').
             send(this.userDataColumns).
@@ -347,7 +351,25 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('"Admin" Requesting "schedule"!');
+    it('"Admin" Requesting "schedule"!', function (done) {
+        var self = this;
+        this.userDataColumns.push('schedule');
+        User.updateOne({ 'username': this.johnDoe.username }, { 'isAdmin': true }, function (err, raw) {
+            chai.request(app).
+                post(path + self.janeDoe.username).
+                send(self.userDataColumns).
+                set('Authorization', self.token).
+                end(function (err, res) {
+                    res.should.have.status(200);
+                    res.body.should.have.property('data');
+                    res.body.data.should.have.property('schedule');
+                    for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
+                    }
+                    done();
+                });
+        });
+    });
     it('"Admin" Requesting "studyPlans"!');
     it('"Parent" Requesting "schedule"!');
     it('"Parent" Requesting "studyPlans"!');
