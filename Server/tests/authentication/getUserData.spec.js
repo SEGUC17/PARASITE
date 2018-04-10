@@ -103,7 +103,7 @@ describe('getUserData', function () {
             send(this.userDataColumns).
             set('Authorization', this.token).
             end(function (err, res) {
-                res.should.has.status(422);
+                res.should.have.status(422);
                 res.body.should.property('msg').eql('Request Body Element(s): Expected string value!');
                 done();
             });
@@ -115,7 +115,7 @@ describe('getUserData', function () {
             send(this.userDataColumns).
             set('Authorization', this.token).
             end(function (err, res) {
-                res.should.has.status(200);
+                res.should.have.status(200);
                 res.body.should.have.property('data');
                 for (var index = 0; index < self.userDataColumns.length; index += 1) {
                     res.body.data.should.have.property(self.userDataColumns[index]).eql(self.johnDoe[self.userDataColumns[index]]);
@@ -130,7 +130,7 @@ describe('getUserData', function () {
             send(this.userDataColumns).
             set('Authorization', this.token).
             end(function (err, res) {
-                res.should.has.status(200);
+                res.should.have.status(200);
                 res.body.should.have.property('data');
                 res.body.data.should.not.have.property('wrongColumn');
                 done();
@@ -143,7 +143,7 @@ describe('getUserData', function () {
             send(this.userDataColumns).
             set('Authorization', this.token).
             end(function (err, res) {
-                res.should.has.status(200);
+                res.should.have.status(200);
                 res.body.should.have.property('data');
                 res.body.data.should.not.have.property('password');
                 done();

@@ -151,7 +151,6 @@ describe('getAnotherUserData', function () {
             set('Authorization', this.token).
             end(function (err, res) {
                 res.should.have.status(200);
-                res.should.has.status(200);
                 res.body.should.have.property('data');
                 for (var index = 0; index < self.userDataColumns.length; index += 1) {
                     res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
@@ -167,7 +166,6 @@ describe('getAnotherUserData', function () {
             set('Authorization', this.token).
             end(function (err, res) {
                 res.should.have.status(200);
-                res.should.has.status(200);
                 res.body.should.have.property('data');
                 for (var index = 0; index < self.userDataColumns.length; index += 1) {
                     res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
@@ -183,7 +181,6 @@ describe('getAnotherUserData', function () {
             set('Authorization', this.token).
             end(function (err, res) {
                 res.should.have.status(200);
-                res.should.has.status(200);
                 res.body.should.have.property('data');
                 for (var index = 0; index < self.userDataColumns.length; index += 1) {
                     res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
@@ -199,7 +196,6 @@ describe('getAnotherUserData', function () {
             set('Authorization', this.token).
             end(function (err, res) {
                 res.should.have.status(200);
-                res.should.has.status(200);
                 res.body.should.have.property('data');
                 for (var index = 0; index < self.userDataColumns.length; index += 1) {
                     res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
@@ -215,7 +211,6 @@ describe('getAnotherUserData', function () {
             set('Authorization', this.token).
             end(function (err, res) {
                 res.should.have.status(200);
-                res.should.has.status(200);
                 res.body.should.have.property('data');
                 for (var index = 0; index < self.userDataColumns.length; index += 1) {
                     res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
@@ -231,7 +226,6 @@ describe('getAnotherUserData', function () {
             set('Authorization', this.token).
             end(function (err, res) {
                 res.should.have.status(200);
-                res.should.has.status(200);
                 res.body.should.have.property('data');
                 for (var index = 0; index < self.userDataColumns.length; index += 1) {
                     res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
@@ -239,7 +233,20 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('Requested Column(s) Is/Are Not Valid!');
+    it('Requested Column(s) Is/Are Not Valid!', function(done) {
+        this.userDataColumns.push('wrongColumn');
+        var self = this;
+        chai.request(app).
+            post(path + '  ' + this.janeDoe.username + '  ').
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(200);
+                res.body.should.have.property('data');
+                res.body.data.should.not.have.property('wrongColumn');
+                done();
+            });
+    });
     it('"password" Attribute Is Requested!');
     it('"Non-Admin" Requesting "schdule"!');
     it('"Non-Admin" Requesting "studyPlans"!');
