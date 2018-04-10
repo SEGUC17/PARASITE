@@ -69,7 +69,8 @@ export class ContentService {
     searchQueryTags: String,
     searchQueryTitle: String,
     selectedCategory: String,
-    selectedSection: String
+    selectedSection: String,
+    sortResultsBy: String
   ): Observable<any> {
 
     const self = this;
@@ -77,11 +78,15 @@ export class ContentService {
     // encoding the search queries for sending
     searchQueryTags = encodeURIComponent(searchQueryTags.toString());
     searchQueryTitle = encodeURIComponent(searchQueryTitle.toString());
+    selectedCategory = encodeURIComponent(selectedCategory.toString());
+    selectedSection = encodeURIComponent(selectedSection.toString());
+    sortResultsBy = encodeURIComponent(sortResultsBy.toString());
 
     return this.http.get(self.endpoint + 'content/' + numberOfEntriesPerPage +
       '/' + currentPageNumber + '/search?tags=' +
       searchQueryTags + '&title=' + searchQueryTitle +
-      '&category=' + selectedCategory + '&section=' + selectedSection)
+      '&category=' + selectedCategory + '&section=' + selectedSection
+      + '&sort=' + sortResultsBy)
       .pipe(
         catchError(self.handleError('getSearchPage', []))
       );

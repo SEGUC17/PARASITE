@@ -45,6 +45,9 @@ export class ContentListViewComponent implements OnInit {
   searchQueryTags: String = '';
   isSearching: Boolean = false;
 
+  // sorting variables
+  sortResultsBy: String = 'touchDate rating';
+
   // signed in user
   currentUser: User;
 
@@ -180,7 +183,8 @@ export class ContentListViewComponent implements OnInit {
       self.searchQueryTags,
       self.searchQueryTitle,
       self.selectedCategory,
-      self.selectedSection
+      self.selectedSection,
+      self.sortResultsBy
     ).subscribe(function (retrievedContents) {
       self.contents = retrievedContents.data.docs;
       console.log(retrievedContents.data);

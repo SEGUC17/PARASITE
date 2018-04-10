@@ -43,7 +43,7 @@ module.exports.getContentPage = function (req, res, next) {
 
     // retrieve page of content
     Content.paginate(
-       conditions,
+        conditions,
         {
             limit: Number(req.params.numberOfEntriesPerPage),
             page: Number(req.params.pageNumber)
@@ -133,12 +133,24 @@ module.exports.getSearchPage = function (req, res, next) {
         delete conditions.tags;
     }
 
+    // search options
+    var options = {
+        limit: Number(req.params.pageSize),
+        page: Number(req.params.pageNumber),
+        sort: {}
+    };
+
+    // sort options were provided, assuming descending sort
+    if (req.query.sort && req.query.sort !== '') {
+        var sortBy = req.query.sort.split(' ');
+        for (var counter = 0; counter < sortBy.length; counter += 1) {
+            options.sort[sortBy[counter]] = -1;
+        }
+    }
+
     Content.paginate(
         conditions,
-        {
-            limit: Number(req.params.pageSize),
-            page: Number(req.params.pageNumber)
-        },
+        options,
         function (err, contents) {
             if (err) {
                 return next(err);
