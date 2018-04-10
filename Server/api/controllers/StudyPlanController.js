@@ -230,10 +230,10 @@ module.exports.deleteStudyPLan = function (req, res, next) {
                 return next(err);
             }
 
-            return res.status(200).json({
+            return res.status(202).json({
                 data: msg,
                 err: null,
-                msg: 'Message deleted successfully.'
+                msg: 'Study Plan deleted successfully.'
             });
         });
 
