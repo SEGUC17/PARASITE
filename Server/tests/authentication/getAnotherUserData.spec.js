@@ -143,7 +143,7 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('Data Retrieval Is Successful (Email)!', function(done) {
+    it('Data Retrieval Is Successful (Email)!', function (done) {
         var self = this;
         chai.request(app).
             post(path + this.janeDoe.email).
@@ -158,7 +158,7 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('Data Retrieval Is Successful (Email Has Upper Case)!', function(done) {
+    it('Data Retrieval Is Successful (Email Has Upper Case)!', function (done) {
         var self = this;
         chai.request(app).
             post(path + this.janeDoe.email.toUpperCase()).
@@ -173,7 +173,7 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('Data Retrieval Is Successful (Email Has Space)!', function(done) {
+    it('Data Retrieval Is Successful (Email Has Space)!', function (done) {
         var self = this;
         chai.request(app).
             post(path + '  ' + this.janeDoe.email + '  ').
@@ -188,7 +188,7 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('Data Retrieval Is Successful (Username)!', function(done) {
+    it('Data Retrieval Is Successful (Username)!', function (done) {
         var self = this;
         chai.request(app).
             post(path + this.janeDoe.username).
@@ -203,7 +203,7 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('Data Retrieval Is Successful (Username Has Upper Case)!', function(done) {
+    it('Data Retrieval Is Successful (Username Has Upper Case)!', function (done) {
         var self = this;
         chai.request(app).
             post(path + this.janeDoe.username.toUpperCase()).
@@ -218,7 +218,7 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('Data Retrieval Is Successful (Username Has Space)!', function(done) {
+    it('Data Retrieval Is Successful (Username Has Space)!', function (done) {
         var self = this;
         chai.request(app).
             post(path + '  ' + this.janeDoe.username + '  ').
@@ -233,7 +233,7 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('Requested Column(s) Is/Are Not Valid!', function(done) {
+    it('Requested Column(s) Is/Are Not Valid!', function (done) {
         this.userDataColumns.push('wrongColumn');
         var self = this;
         chai.request(app).
@@ -244,10 +244,15 @@ describe('getAnotherUserData', function () {
                 res.should.have.status(200);
                 res.body.should.have.property('data');
                 res.body.data.should.not.have.property('wrongColumn');
+                for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                    if (self.userDataColumns[index] !== 'wrongColumn') {
+                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
+                    }
+                }
                 done();
             });
     });
-    it('"password" Attribute Is Requested!', function(done) {
+    it('"password" Attribute Is Requested!', function (done) {
         this.userDataColumns.push('password');
         var self = this;
         chai.request(app).
@@ -258,10 +263,15 @@ describe('getAnotherUserData', function () {
                 res.should.have.status(200);
                 res.body.should.have.property('data');
                 res.body.data.should.not.have.property('password');
+                for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                    if (self.userDataColumns[index] !== 'password') {
+                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
+                    }
+                }
                 done();
             });
     });
-    it('"Non-Admin" Requesting "schedule"!', function(done) {
+    it('"Non-Admin" Requesting "schedule"!', function (done) {
         this.userDataColumns.push('schedule');
         var self = this;
         chai.request(app).
@@ -272,10 +282,15 @@ describe('getAnotherUserData', function () {
                 res.should.have.status(200);
                 res.body.should.have.property('data');
                 res.body.data.should.not.have.property('schedule');
+                for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                    if (self.userDataColumns[index] !== 'schedule') {
+                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
+                    }
+                }
                 done();
             });
     });
-    it('"Non-Admin" Requesting "studyPlans"!', function(done) {
+    it('"Non-Admin" Requesting "studyPlans"!', function (done) {
         this.userDataColumns.push('studyPlans');
         var self = this;
         chai.request(app).
@@ -286,6 +301,11 @@ describe('getAnotherUserData', function () {
                 res.should.have.status(200);
                 res.body.should.have.property('data');
                 res.body.data.should.not.have.property('studyPlans');
+                for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                    if (self.userDataColumns[index] !== 'studyPlans') {
+                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
+                    }
+                }
                 done();
             });
     });

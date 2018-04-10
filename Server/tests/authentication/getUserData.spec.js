@@ -125,6 +125,7 @@ describe('getUserData', function () {
     });
     it('Requested Column(s) Is/Are Not Valid!', function (done) {
         this.userDataColumns.push('wrongColumn');
+        var self = this;
         chai.request(app).
             post(path).
             send(this.userDataColumns).
@@ -133,11 +134,17 @@ describe('getUserData', function () {
                 res.should.have.status(200);
                 res.body.should.have.property('data');
                 res.body.data.should.not.have.property('wrongColumn');
+                for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                    if (self.userDataColumns[index] !== 'wrongColumn') {
+                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.johnDoe[self.userDataColumns[index]]);
+                    }
+                }
                 done();
             });
     });
     it('"password" Attribute Is Requested!', function (done) {
         this.userDataColumns.push('password');
+        var self = this;
         chai.request(app).
             post(path).
             send(this.userDataColumns).
@@ -146,6 +153,11 @@ describe('getUserData', function () {
                 res.should.have.status(200);
                 res.body.should.have.property('data');
                 res.body.data.should.not.have.property('password');
+                for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                    if (self.userDataColumns[index] !== 'password') {
+                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.johnDoe[self.userDataColumns[index]]);
+                    }
+                }
                 done();
             });
     });
