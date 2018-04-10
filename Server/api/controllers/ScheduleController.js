@@ -75,7 +75,7 @@ module.exports.updateSchedule = function (req, res, next) {
     }
 };
 
-module.exports.scheduleActivity = function (req, res, next) {
+module.exports.addEvent = function (req, res, next) {
     var indexChild = req.user.children.indexOf(req.params.username);
     if (indexChild >= 0 ||
         (req.params.username === req.user.username && !req.user.isChild)) {
@@ -83,7 +83,7 @@ module.exports.scheduleActivity = function (req, res, next) {
         if (!valid) {
             return res.status(422).json({
                 data: null,
-                err: 'Invalid Activity Event',
+                err: 'Invalid Event',
                 msg: null
             });
         }

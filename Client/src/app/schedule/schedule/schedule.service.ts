@@ -25,7 +25,7 @@ export class ScheduleService {
       end: activity.toDateTime,
       title: activity.name
     };
-    return this.http.put(this.endpoint + 'schedule/scheduleActivity/' + username, newEvent);
+    return this.http.put(this.endpoint + 'schedule/addEvent/' + username, newEvent);
 
   }
 
