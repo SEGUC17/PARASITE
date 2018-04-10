@@ -74,7 +74,15 @@ describe('isUserExist', function () {
                 done();
             });
     });
-    it('Requested "Email" Is Not In DB!');
+    it('Requested "Email" Is Not In DB!', function(done) {
+        chai.request(app).
+            get(path + this.janeDoe.email).
+            end(function(err, res) {
+                res.should.have.status(404);
+                res.body.should.have.property('msg').eql('User Not Found!');
+                done();
+            });
+    });
     it('Requested "Username" Is In DB!');
     it('Requested "Username" Is In DB (Username Has Upper Case)!');
     it('Requested "Username" Is In DB (Username Has Space)!');
