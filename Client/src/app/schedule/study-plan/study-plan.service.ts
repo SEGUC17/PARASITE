@@ -5,6 +5,8 @@ import { StudyPlan } from './study-plan';
 import { Rating } from './star-rating/rating';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
+import { RequestOptions, Headers, Body } from '@angular/http';
+import { Options } from 'selenium-webdriver';
 
 @Injectable()
 export class StudyPlanService {
@@ -45,5 +47,10 @@ export class StudyPlanService {
 
   rateStudyPlan(studyPlanID: String, rating: Number): Observable<any> {
     return this.http.patch(this.endpoint + '/study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
+  }
+
+  deleteStudyPlan(username: String, studyPlanID: String): Observable<any> {
+    return this.http.delete(this.endpoint + '/study-plan/deleteStudyPlan/' + username + '/' + studyPlanID);
+
   }
 }

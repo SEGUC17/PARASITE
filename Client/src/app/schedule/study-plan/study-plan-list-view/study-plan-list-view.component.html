@@ -15,9 +15,7 @@
         <mat-card-subtitle>{{plan.creator}}</mat-card-subtitle>
         <mat-card-actions>
           <a mat-raised-button routerLink="/study-plan/{{type}}/{{plan._id}}/{{username}}">View</a>
-        <div *ngIf="!currIsChild">
-        <a mat-raised-button routerLink="/study-plan/{{type}}/{{plan._id}}/{{username}}">Delete</a>
-        </div>
+          <button mat-raised-button (click)="delete(username,plan)" color="primary" *ngIf="!currIsChild">Delete</button>
         </mat-card-actions>
       </mat-card>
     </div>

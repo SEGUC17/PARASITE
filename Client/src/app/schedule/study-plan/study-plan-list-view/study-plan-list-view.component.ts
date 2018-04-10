@@ -44,4 +44,8 @@ export class StudyPlanListViewComponent implements OnInit {
     this.pageSize = res.data.limit;
     this.pageIndex = res.data.pageIndex;
   }
+
+  delete(username , plan): void {
+this.studyPlanService.deleteStudyPlan(username, plan._ID );
+  }
 }
