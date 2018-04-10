@@ -47,78 +47,76 @@ describe('/GET sent messages', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-  it('it should GET all sent messages of logged in user', function (done) {
+    it('it should GET all sent messages of logged in user', function (done) {
 
-           // message that should be retreived
-           var message = new Message({
-               body: 'hi',
-               recipient: 'blah',
-               sender: 'sarah'
-           });
+        // message that should be retreived
+        var message = new Message({
+            body: 'hi',
+            recipient: 'blah',
+            sender: 'sarah'
+        });
 
-           // message that should not be retreived
-           var message1 = new Message({
+        // message that should not be retreived
+        var message1 = new Message({
             body: 'hi',
             recipient: 'hsghg',
             sender: 'blah'
         });
 
-            // sign up and be authenticated
-            chai.request(server).
-                post('/api/signUp').
-                send(user).
-                end(function (err, response) {
+        // sign up and be authenticated
+        chai.request(server).
+            post('/api/signUp').
+            send(user).
+            end(function (err, response) {
+                if (err) {
+                    return console.log(err);
+                }
+                response.should.have.status(201);
+                token = response.body.token;
+
+                message.save(function (err) {
                     if (err) {
                         return console.log(err);
                     }
-                    response.should.have.status(201);
-                    token = response.body.token;
 
-                    message.save(function(err) {
+                    message1.save(function (err) {
                         if (err) {
                             return console.log(err);
                         }
 
-                    message1.save(function(err) {
-                        if (err) {
-                            return console.log(err);
-                       }
-                
-                    // get username of logged in user
-                    chai.request(server).post('/api/userData').
-                        send(['username']).
-                        set('Authorization', token).
-                        end(function (err, result) {
-                            if (err) {
-                                return console.log(err);
-                            }
-                            result.should.have.status(200);
-                      
-                        chai.request(server).
-                            get('/api/message/sent/' + result.body.data.username).
+                        // get username of logged in user
+                        chai.request(server).post('/api/userData').
+                            send(['username']).
                             set('Authorization', token).
-                            end(function (error, res) {
-                                if (error) {
-                                    return console.log(error);
-                                 }
-                                // console.log(res.body.data);
-                                res.should.have.status(200);
-                                res.body.data.should.be.a('array');
-                                var msgs = res.body.data.docs;
-                                for (var msg in msgs) {
-                                    msg.should.have.property('sender').eql(result.body.data.username);
-                                    msg.should.have.property('body');
-                                    msg.should.have.property('sentAt');
+                            end(function (err, result) {
+                                if (err) {
+                                    return console.log(err);
                                 }
-                                done();
-                          });
-                     });
-                });
-           });
-       });
-    });
-});
+                                result.should.have.status(200);
 
+                                chai.request(server).
+                                    get('/api/message/sent/' + result.body.data.username).
+                                    set('Authorization', token).
+                                    end(function (error, res) {
+                                        if (error) {
+                                            return console.log(error);
+                                        }
+                                        // console.log(res.body.data);
+                                        res.should.have.status(200);
+                                        res.body.data.should.be.a('array');
+                                        var msgs = res.body.data.docs;
+                                        for (var msg in msgs) {
+                                            msg.should.have.property('sender').eql(result.body.data.username);
+                                            msg.should.have.property('body');
+                                            msg.should.have.property('sentAt');
+                                        }
+                                        done();
+                                    });
+                            });
+                    });
+                });
+            });
+    });
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
@@ -126,3 +124,5 @@ describe('/GET sent messages', function () {
         });
     });
     // --- End of "Mockgoose Termination" --- //
+});
+
