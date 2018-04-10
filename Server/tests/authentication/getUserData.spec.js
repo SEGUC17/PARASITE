@@ -62,96 +62,92 @@ describe('getUserData', function () {
     // --- End of "Clearing Mockgoose" --- //
 
     // --- Tests --- //
-    describe('Failure', function () {
-        it('User Is Not Signed In!', function (done) {
-            chai.request(app).
-                post(path).
-                send(this.userDataColumns).
-                end(function (err, res) {
-                    res.should.have.status(401);
-                    res.body.should.have.property('msg').eql('User Is Not Signed In!');
-                    done();
-                });
-        });
-        it('Request "body" Is Empty!', function (done) {
-            this.userDataColumns = [];
-            chai.request(app).
-                post(path).
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function (err, res) {
-                    res.should.have.status(422);
-                    res.body.should.have.property('msg').eql('Request Body: Expected non-empty value!');
-                    done();
-                });
-        });
-        it('Request "body" Is Not Valid!', function (done) {
-            this.userDataColumns = null;
-            chai.request(app).
-                post(path).
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function (err, res) {
-                    res.should.have.status(422);
-                    res.body.should.have.property('msg').eql('Request Body: Expected array value!');
-                    done();
-                });
-        });
-        it('Request "body" Element(s) Is/Are Not Valid!', function (done) {
-            this.userDataColumns = [123];
-            chai.request(app).
-                post(path).
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function (err, res) {
-                    res.should.has.status(422);
-                    res.body.should.property('msg').eql('Request Body Element(s): Expected string value!');
-                    done();
-                });
-        });
+    it('User Is Not Signed In!', function (done) {
+        chai.request(app).
+            post(path).
+            send(this.userDataColumns).
+            end(function (err, res) {
+                res.should.have.status(401);
+                res.body.should.have.property('msg').eql('User Is Not Signed In!');
+                done();
+            });
     });
-    describe('Success!', function () {
-        it('Data Retrieval Is Successful!', function (done) {
-            var self = this;
-            chai.request(app).
-                post(path).
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function (err, res) {
-                    res.should.has.status(200);
-                    res.body.should.have.property('data');
-                    for (var index = 0; index < self.userDataColumns.length; index += 1) {
-                        res.body.data.should.have.property(self.userDataColumns[index]).eql(self.johnDoe[self.userDataColumns[index]]);
-                    }
-                    done();
-                });
-        });
-        it('Requested Column(s) Is/Are Not Valid!', function (done) {
-            this.userDataColumns.push('wrongColumn');
-            chai.request(app).
-                post(path).
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function (err, res) {
-                    res.should.has.status(200);
-                    res.body.should.have.property('data');
-                    res.body.data.should.not.have.property('wrongColumn');
-                    done();
-                });
-        });
-        it('"password" Attribute Is Requested!', function (done) {
-            this.userDataColumns.push('password');
-            chai.request(app).
-                post(path).
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function (err, res) {
-                    res.should.has.status(200);
-                    res.body.should.have.property('data');
-                    res.body.data.should.not.have.property('password');
-                    done();
-                });
-        });
+    it('Request "body" Is Empty!', function (done) {
+        this.userDataColumns = [];
+        chai.request(app).
+            post(path).
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(422);
+                res.body.should.have.property('msg').eql('Request Body: Expected non-empty value!');
+                done();
+            });
+    });
+    it('Request "body" Is Not Valid!', function (done) {
+        this.userDataColumns = null;
+        chai.request(app).
+            post(path).
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(422);
+                res.body.should.have.property('msg').eql('Request Body: Expected array value!');
+                done();
+            });
+    });
+    it('Request "body" Element(s) Is/Are Not Valid!', function (done) {
+        this.userDataColumns.push(123);
+        chai.request(app).
+            post(path).
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.has.status(422);
+                res.body.should.property('msg').eql('Request Body Element(s): Expected string value!');
+                done();
+            });
+    });
+    it('Data Retrieval Is Successful!', function (done) {
+        var self = this;
+        chai.request(app).
+            post(path).
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.has.status(200);
+                res.body.should.have.property('data');
+                for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                    res.body.data.should.have.property(self.userDataColumns[index]).eql(self.johnDoe[self.userDataColumns[index]]);
+                }
+                done();
+            });
+    });
+    it('Requested Column(s) Is/Are Not Valid!', function (done) {
+        this.userDataColumns.push('wrongColumn');
+        chai.request(app).
+            post(path).
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.has.status(200);
+                res.body.should.have.property('data');
+                res.body.data.should.not.have.property('wrongColumn');
+                done();
+            });
+    });
+    it('"password" Attribute Is Requested!', function (done) {
+        this.userDataColumns.push('password');
+        chai.request(app).
+            post(path).
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.has.status(200);
+                res.body.should.have.property('data');
+                res.body.data.should.not.have.property('password');
+                done();
+            });
     });
     // --- End of "Tests" --- //
 

@@ -75,92 +75,87 @@ describe('getAnotherUserData', function () {
     // --- End of "Clearing Mockgoose" --- //
 
     // --- Tests --- //
-    describe('Failure', function () {
-        it('User Is Not Signed In!', function (done) {
-            chai.request(app).
-                post(path + this.janeDoe.username).
-                send(this.userDataColumns).
-                end(function(err, res) {
-                    res.should.have.status(401);
-                    res.body.should.have.property('msg').eql('User Is Not Signed In!');
-                    done();
-                });
-        });
-        it('Request "body" Is Empty!', function (done) {
-            this.userDataColumns = [];
-            chai.request(app).
-                post(path + this.janeDoe.username).
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function(err, res) {
-                    res.should.have.status(422);
-                    res.body.should.have.property('msg').eql('Request Body: Expected non-empty value!');
-                    done();
-                });
-        });
-        it('Request "body" Is Not Valid!', function (done) {
-            this.userDataColumns = null;
-            chai.request(app).
-                post(path + this.janeDoe.username).
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function(err, res) {
-                    res.should.have.status(422);
-                    res.body.should.have.property('msg').eql('Request Body: Expected array value!');
-                    done();
-                });
-        });
-        it('Request "body" Element(s) Is/Are Not Valid!', function (done) {
-            this.userDataColumns = [123];
-            chai.request(app).
-                post(path + this.janeDoe.email + 'Is Wrong').
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function(err, res) {
-                    res.should.have.status(422);
-                    res.body.should.have.property('msg').eql('Request Body Element(s): Expected string value!');
-                    done();
-                });
-        });
-        it('Requested "Email" Is Not In DB!', function (done) {
-            this.userDataColumns = ['email', 'firstName', 'lastName', 'username'];
-            chai.request(app).
-                post(path + this.janeDoe.email + 'Is Wrong').
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function(err, res) {
-                    res.should.have.status(404);
-                    res.body.should.have.property('msg').eql('User Not Found');
-                    done();
-                });
-        });
-        it('Requested "Username" Is Not In DB!', function (done) {
-            chai.request(app).
-                post(path + this.janeDoe.username + 'Is Wrong').
-                send(this.userDataColumns).
-                set('Authorization', this.token).
-                end(function(err, res) {
-                    res.should.have.status(404);
-                    res.body.should.have.property('msg').eql('User Not Found');
-                    done();
-                });
-        });
+    it('User Is Not Signed In!', function (done) {
+        chai.request(app).
+            post(path + this.janeDoe.username).
+            send(this.userDataColumns).
+            end(function (err, res) {
+                res.should.have.status(401);
+                res.body.should.have.property('msg').eql('User Is Not Signed In!');
+                done();
+            });
     });
-    describe('Success!', function () {
-        it('Data Retrieval Is Successful!');
-        it('Requested Column(s) Is/Are Not Valid!');
-        it('"password" Attribute Is Requested!');
-        it('"Non-Admin" Requesting "schdule"!');
-        it('"Non-Admin" Requesting "studyPlans"!');
-        it('"Non-Parent" Requesting "schdule"!');
-        it('"Non-Parent" Requesting "studyPlans"!');
-        it('"Admin" Requesting "schdule"!');
-        it('"Admin" Requesting "studyPlans"!');
-        it('"Parent" Requesting "schdule"!');
-        it('"Parent" Requesting "studyPlans"!');
-        it('"Owner" Requesting "schdule"!');
-        it('"Owner" Requesting "studyPlans"!');
+    it('Request "body" Is Empty!', function (done) {
+        this.userDataColumns = [];
+        chai.request(app).
+            post(path + this.janeDoe.username).
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(422);
+                res.body.should.have.property('msg').eql('Request Body: Expected non-empty value!');
+                done();
+            });
     });
+    it('Request "body" Is Not Valid!', function (done) {
+        this.userDataColumns = null;
+        chai.request(app).
+            post(path + this.janeDoe.username).
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(422);
+                res.body.should.have.property('msg').eql('Request Body: Expected array value!');
+                done();
+            });
+    });
+    it('Request "body" Element(s) Is/Are Not Valid!', function (done) {
+        this.userDataColumns.push(123);
+        chai.request(app).
+            post(path + this.janeDoe.email + 'Is Wrong').
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(422);
+                res.body.should.have.property('msg').eql('Request Body Element(s): Expected string value!');
+                done();
+            });
+    });
+    it('Requested "Email" Is Not In DB!', function (done) {
+        chai.request(app).
+            post(path + this.janeDoe.email + 'Is Wrong').
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(404);
+                res.body.should.have.property('msg').eql('User Not Found');
+                done();
+            });
+    });
+    it('Requested "Username" Is Not In DB!', function (done) {
+        chai.request(app).
+            post(path + this.janeDoe.username + 'Is Wrong').
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(404);
+                res.body.should.have.property('msg').eql('User Not Found');
+                done();
+            });
+    });
+    it('Data Retrieval Is Successful!');
+    it('Requested Column(s) Is/Are Not Valid!');
+    it('"password" Attribute Is Requested!');
+    it('"Non-Admin" Requesting "schdule"!');
+    it('"Non-Admin" Requesting "studyPlans"!');
+    it('"Non-Parent" Requesting "schdule"!');
+    it('"Non-Parent" Requesting "studyPlans"!');
+    it('"Admin" Requesting "schdule"!');
+    it('"Admin" Requesting "studyPlans"!');
+    it('"Parent" Requesting "schdule"!');
+    it('"Parent" Requesting "studyPlans"!');
+    it('"Owner" Requesting "schdule"!');
+    it('"Owner" Requesting "studyPlans"!');
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //

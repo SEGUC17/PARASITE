@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // --- Requirements --- //
 var app = require('../../app');
 var chai = require('chai');
@@ -37,18 +39,14 @@ describe('isUserExist', function () {
         });
     });
     // --- End of "Clearing Mockgoose" --- //
-    describe('Failure', function () {
-        it('Requested "Username" Is Not In DB!');
-        it('Requested "Email" Is Not In DB!');
-    });
-    describe('Success!', function () {
-        it('Requested "Username" Is In DB!');
-        it('Requested "Username" Is In DB (Username Has Upper Case)!');
-        it('Requested "Username" Is In DB (Username Has Space)!');
-        it('Requested "Email" Is In DB!');
-        it('Requested "Email" Is In DB (Email Has Upper Case)!');
-        it('Requested "Email" Is In DB (Email Has Space)!');
-    });
+    it('Requested "Username" Is Not In DB!');
+    it('Requested "Email" Is Not In DB!');
+    it('Requested "Username" Is In DB!');
+    it('Requested "Username" Is In DB (Username Has Upper Case)!');
+    it('Requested "Username" Is In DB (Username Has Space)!');
+    it('Requested "Email" Is In DB!');
+    it('Requested "Email" Is In DB (Email Has Upper Case)!');
+    it('Requested "Email" Is In DB (Email Has Space)!');
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //
