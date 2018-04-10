@@ -247,7 +247,20 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('"password" Attribute Is Requested!');
+    it('"password" Attribute Is Requested!', function(done) {
+        this.userDataColumns.push('password');
+        var self = this;
+        chai.request(app).
+            post(path + '  ' + this.janeDoe.username + '  ').
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(200);
+                res.body.should.have.property('data');
+                res.body.data.should.not.have.property('password');
+                done();
+            });
+    });
     it('"Non-Admin" Requesting "schdule"!');
     it('"Non-Admin" Requesting "studyPlans"!');
     it('"Non-Parent" Requesting "schdule"!');
