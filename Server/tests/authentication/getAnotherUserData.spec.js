@@ -110,8 +110,19 @@ describe('getAnotherUserData', function () {
                     done();
                 });
         });
-        it('Requested "Username" Is Not In DB!', function (done) {
+        it('Requested "Email" Is Not In DB!', function (done) {
             this.userDataColumns = ['email', 'firstName', 'lastName', 'username'];
+            chai.request(app).
+                post(path + this.janeDoe.email + 'Is Wrong').
+                send(this.userDataColumns).
+                set('Authorization', this.token).
+                end(function(err, res) {
+                    res.should.have.status(404);
+                    res.body.should.have.property('msg').eql('User Not Found');
+                    done();
+                });
+        });
+        it('Requested "Username" Is Not In DB!', function (done) {
             chai.request(app).
                 post(path + this.janeDoe.username + 'Is Wrong').
                 send(this.userDataColumns).
@@ -122,7 +133,6 @@ describe('getAnotherUserData', function () {
                     done();
                 });
         });
-        it('Requested "Email" Is Not In DB!');
         it('Request "body" Element(s) Is/Are Not Valid!');
     });
     describe('Success!', function () {
