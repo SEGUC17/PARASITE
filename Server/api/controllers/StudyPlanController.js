@@ -241,7 +241,7 @@ module.exports.deleteStudyPLan = function (req, res, next) {
 
 };
 
-module.exports.deleteStudyPLan = function (req, res, next) {
+module.exports.deletePublishedStudyPLan = function (req, res, next) {
     if (req.user.username !== req.params.username) {
         return res.status(401).json({
             data: null,
