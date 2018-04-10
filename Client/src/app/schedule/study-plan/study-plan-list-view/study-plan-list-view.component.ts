@@ -46,6 +46,7 @@ export class StudyPlanListViewComponent implements OnInit {
   }
 
   delete(username , plan): void {
+    /////////////////
 this.studyPlanService.deleteStudyPlan(username, plan._ID );
   }
 }
