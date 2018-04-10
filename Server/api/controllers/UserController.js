@@ -406,27 +406,18 @@ module.exports.signUpChild = function (req, res, next) {
                 });
             }  //---end of duplicate checks--///
             //--hashing password--//
-            Encryption.hashPassword(newUser.password, function (err3, hash) {
-                if (err3) {
-                    //  console.log('entered if err3');
+            User.create(newUser, function (error) {
+                if (error) {
+                    //  console.log('entered if error');
 
-                    return next(err3);
+                    return next(error);
                 }
 
-                newUser.password = hash;
-                User.create(newUser, function (error) {
-                    if (error) {
-                        //  console.log('entered if error');
-
-                        return next(error);
-                    }
-
-                    // --- Variable Assign --- //
-                    return res.status(201).json({
-                        data: newUser,
-                        error: null,
-                        msg: 'Child Successfully Signed Up!'
-                    });
+                // --- Variable Assign --- //
+                return res.status(201).json({
+                    data: newUser,
+                    error: null,
+                    msg: 'Child Successfully Signed Up!'
                 });
             });
         }
