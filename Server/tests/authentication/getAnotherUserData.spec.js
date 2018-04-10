@@ -86,7 +86,18 @@ describe('getAnotherUserData', function () {
                     done();
                 });
         });
-        it('Request "body" Is Empty!');
+        it('Request "body" Is Empty!', function (done) {
+            this.userDataColumns = [];
+            chai.request(app).
+                post(path + this.janeDoe.username).
+                send(this.userDataColumns).
+                set('Authorization', this.token).
+                end(function(err, res) {
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').eql('Request Body: Expected non-empty value!');
+                    done();
+                });
+        });
         it('Request "body" Is Not Valid!');
         it('Requested "Username" Is Not In DB!');
         it('Requested "Email" Is Not In DB!');
