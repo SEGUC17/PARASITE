@@ -30,12 +30,11 @@ module.exports.updateSchedule = function (req, res, next) {
     if (indexChild >= 0 ||
         (req.params.username === req.user.username && !req.user.isChild)) {
         var valid = Array.isArray(req.body);
-        if (valid) {
-            for (var index = 0; index < req.body.length; index += 1) {
-                valid = valid && req.body[index].title &&
-                    req.body[index].start;
-            }
+        for (var index = 0; index < req.body.length && valid; index += 1) {
+            valid = valid && req.body[index].title &&
+                req.body[index].start;
         }
+        
         if (!valid) {
             return res.status(422).json({
                 data: null,
