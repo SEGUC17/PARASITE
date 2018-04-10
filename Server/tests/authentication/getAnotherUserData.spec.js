@@ -143,7 +143,27 @@ describe('getAnotherUserData', function () {
                 done();
             });
     });
-    it('Data Retrieval Is Successful!');
+    it('Data Retrieval Is Successful (Email)!', function(done) {
+        var self = this;
+        chai.request(app).
+            post(path + this.janeDoe.email).
+            send(this.userDataColumns).
+            set('Authorization', this.token).
+            end(function (err, res) {
+                res.should.have.status(200);
+                res.should.has.status(200);
+                res.body.should.have.property('data');
+                for (var index = 0; index < self.userDataColumns.length; index += 1) {
+                    res.body.data.should.have.property(self.userDataColumns[index]).eql(self.janeDoe[self.userDataColumns[index]]);
+                }
+                done();
+            });
+    });
+    it('Data Retrieval Is Successful (Email Has Upper Case)!');
+    it('Data Retrieval Is Successful (Email Has Space)!');
+    it('Data Retrieval Is Successful (Username)!');
+    it('Data Retrieval Is Successful (Username Has Upper Case)!');
+    it('Data Retrieval Is Successful (Username Has Space)!');
     it('Requested Column(s) Is/Are Not Valid!');
     it('"password" Attribute Is Requested!');
     it('"Non-Admin" Requesting "schdule"!');
