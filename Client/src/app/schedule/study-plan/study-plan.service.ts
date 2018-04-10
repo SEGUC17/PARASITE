@@ -53,4 +53,9 @@ export class StudyPlanService {
     return this.http.delete(this.endpoint + '/study-plan/deleteStudyPlan/' + username + '/' + studyPlanID);
 
   }
+
+  deletePublishedStudyPlan(studyPlanID: String): Observable<any> {
+    return this.http.delete(this.endpoint + '/study-plan/deletePublishedStudyPlan/' + studyPlanID);
+
+  }
 }

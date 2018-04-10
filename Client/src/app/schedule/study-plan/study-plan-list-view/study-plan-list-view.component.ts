@@ -49,8 +49,8 @@ export class StudyPlanListViewComponent implements OnInit {
     this.pageIndex = res.data.pageIndex;
   }
 
-  delete(username, plan): void {
-    this.studyPlanService.deleteStudyPlan(username, plan._ID).subscribe(
+  delete(username, planID): void {
+    this.studyPlanService.deleteStudyPlan(username, planID).subscribe(
       res => {
         if (res.msg === 'StudyPlan deleted successfully.') {
           alert(res.msg);
@@ -60,6 +60,16 @@ export class StudyPlanListViewComponent implements OnInit {
       });
   }
 
+  deletePublished(planID): void {
+    this.studyPlanService.deletePublishedStudyPlan(planID).subscribe(
+      res => {
+        if (res.msg === 'StudyPlan deleted successfully.') {
+          alert(res.msg);
+        } else {
+          alert('An error occured while deleting the study plan, please try again.');
+        }
+      });
+  }
   copy(username, plan): void {
     this.tempPlan = plan;
     this.tempPlan._id = undefined;
