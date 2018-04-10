@@ -194,3 +194,42 @@ module.exports.rateStudyPlan = function (req, res, next) {
         }
     );
 };
+
+module.exports.deleteStudyPLan = function (req, res, next) {
+    if (req.user.username !== req.params.username) {
+        return res.status(401).json({
+            data: null,
+            err: null,
+            msg: 'Unauthorized.'
+        });
+    }
+    User.findOne({ username: req.params.username }, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!user) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'User not found.'
+            });
+        }
+
+        var target = findStudyPlan(user.studyPlans, req.params.studyPlanID);
+
+        if (!target) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'Study plan not found.'
+            });
+        }
+
+        return res.status(200).json({
+            data: target,
+            err: null,
+            msg: 'Study plan deleted successfully.'
+        });
+    });
+};

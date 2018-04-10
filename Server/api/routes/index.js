@@ -120,7 +120,7 @@ module.exports = function (passport) {
   router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
   router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
   router.post('/study-plan/PublishStudyPlan', studyPlanController.PublishStudyPlan);
-  router.delete('/study-plan/deleteStudyPlan/:username/:studyPlanID', studyPlanController.deleteStudyPlan);
+  router.delete('/study-plan/deleteStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
