@@ -227,7 +227,7 @@ module.exports.deleteStudyPLan = function (req, res, next) {
         }
         user.studyPlans.remove(target, function (msg) {
             if (err) {
-                return next(err);
+                console.log(err);
             }
 
             return res.status(202).json({

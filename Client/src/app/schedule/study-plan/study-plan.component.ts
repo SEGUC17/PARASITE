@@ -52,6 +52,7 @@ export class StudyPlanComponent implements OnInit {
   starCount = 5;
   starColor = 'primary';
   studyPlan: StudyPlan;
+  tempStudyPlan: StudyPlan;
   description: String;
   view = 'month';
   viewDate: Date = new Date();
@@ -183,7 +184,14 @@ export class StudyPlanComponent implements OnInit {
   }
 
   copy(): void {
-    alert('Implement Copy Study Plan!');
+
+    this.tempStudyPlan = this.studyPlan;
+    this.tempStudyPlan._id = undefined;
+    this.studyPlanService.createStudyPlan(this.username, this.tempStudyPlan).subscribe(
+      res => {
+        alert(res.msg);
+      });
+
   }
 
   assign(): void {
