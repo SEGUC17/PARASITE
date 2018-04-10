@@ -119,7 +119,15 @@ describe('isUserExist', function () {
                 done();
             });
     });
-    it('Requested "Email" Is In DB (Email Has Upper Case)!');
+    it('Requested "Email" Is In DB (Email Has Upper Case)!', function(done) {
+        chai.request(app).
+            get(path + this.johnDoe.email.toUpperCase()).
+            end(function(err, res) {
+                res.should.have.status(409);
+                res.body.should.have.property('msg').eql('User Found!');
+                done();
+            });
+    });
     it('Requested "Email" Is In DB (Email Has Space)!');
     // --- End of "Tests" --- //
 
