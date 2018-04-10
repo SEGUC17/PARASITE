@@ -132,7 +132,7 @@ describe('getAnotherUserData', function () {
             set('Authorization', this.token).
             end(function (err, res) {
                 res.should.have.status(404);
-                res.body.should.have.property('msg').eql('User Not Found');
+                res.body.should.have.property('msg').eql('User Not Found!');
                 done();
             });
     });
@@ -143,7 +143,7 @@ describe('getAnotherUserData', function () {
             set('Authorization', this.token).
             end(function (err, res) {
                 res.should.have.status(404);
-                res.body.should.have.property('msg').eql('User Not Found');
+                res.body.should.have.property('msg').eql('User Not Found!');
                 done();
             });
     });
