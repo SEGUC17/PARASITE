@@ -20,7 +20,7 @@ export class ProfileService {
   private linkAnotherParentUrl = 'http://localhost:3000/api/profile/LinkAnotherParent';
   private UnlinkUrl = 'http://localhost:3000/api/profile/UnLinkChild/';
   private linkAsParentUrl = 'http://localhost:3000/api/profile/AddAsAParent/';
-  private getChildrenUrl = 'http://localhost:3000/api/profile';
+  private getChildrenUrl = 'http://localhost:3000/api/profile/';
   private continueUrl = 'getChildren';
   private pwURL = 'http://localhost:3000/api/profile/changePassword';
   private profileUrl = 'http://localhost:3000/api/profile';
@@ -56,9 +56,7 @@ export class ProfileService {
 
 
   // author: Heidi
-  getChildren(): any {
-    // getting usrname of the authenticated user and adding it to the get request
-    let username = this.authService.getUserData(this.UserData);
+  getChildren(username): any {
     return this.http.get(this.getChildrenUrl + username + '/getChildren');
   }
 
