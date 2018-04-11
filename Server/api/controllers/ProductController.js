@@ -134,7 +134,7 @@ module.exports.createProduct = function (req, res, next) {
                 'image(String) and description(String) are required fields.'
         });
     }
-
+    if (req.user.isAdmin) {
     Product.create(req.body, function (err, product) {
 
         if (err) {
@@ -146,11 +146,19 @@ module.exports.createProduct = function (req, res, next) {
             msg: 'Product was created successfully.'
         });
     });
+ } else {
+        res.status(403).json({
+            data: null,
+            err: 'Product sent to productRequest successfully',
+            msg: null
+        });
+    }
 };
 //createproduct end
 
 //createProductRequest start
 module.exports.createProductRequest = function (req, res, next) {
+    console.log(req.body);
     ProductRequest.create(req.body, function (err, productreq) {
         if (err) {
             return next(err);
@@ -226,4 +234,4 @@ module.exports.evaluateRequest = function (req, res, next) {
             });
         });
     }
-};
+                };
