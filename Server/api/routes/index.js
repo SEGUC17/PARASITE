@@ -152,7 +152,7 @@ module.exports = function (passport) {
   router.put('/profile/AddAsAParent/:parentId', profileController.addAsAParent);
   router.get('/profile/:username/getChildren', profileController.getChildren);
   router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
-  router.patch('/profile/changePassword/:uname', profileController.changePassword);
+  router.patch('/profile/changePassword/:id', profileController.changePassword);
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//

@@ -209,9 +209,9 @@ module.exports.getVCRs = function (req, res, next) {
     if (req.user.isAdmin) {
 
         try {
-            mongoose.connection.collection('VerifiedContributerRequest').
+            VCRmodel.
                 find({}).
-                toArray(function (err, result) {
+                exec(function (err, result) {
                     if (err) {
                         throw err;
                     }
@@ -219,6 +219,8 @@ module.exports.getVCRs = function (req, res, next) {
                     filteredVCRs = result.filter(function (request) {
                         return request.status === req.params.FilterBy;
                     });
+
+                    console.log(filteredVCRs);
 
                     return res.status(200).json({
                         data: { dataField: filteredVCRs },
@@ -229,6 +231,7 @@ module.exports.getVCRs = function (req, res, next) {
 
                 });
         } catch (err) {
+            console.log(err);
             res.status(500).json({
                 data: null,
                 err: null,
