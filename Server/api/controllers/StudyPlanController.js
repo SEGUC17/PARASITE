@@ -244,7 +244,7 @@ module.exports.deleteStudyPLan = function (req, res, next) {
                 msg: 'Study plan not found.'
             });
         }
-        user.studyPlans.remove(target, function (msg) {
+        user.studyPlans.remove({ studyPlan: target }, function (msg) {
             if (err) {
                 console.log(err);
             }
@@ -281,7 +281,7 @@ module.exports.deletePublishedStudyPLan = function (req, res, next) {
             });
         }
 
-        StudyPlan.remove(req.params.studyPlanID, function (msg) {
+        StudyPlan.remove({ _id: req.params.studyPlanID }, function (msg) {
             if (err) {
                 console.log(err);
             }

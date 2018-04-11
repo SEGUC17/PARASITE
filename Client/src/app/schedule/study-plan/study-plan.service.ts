@@ -46,16 +46,16 @@ export class StudyPlanService {
   }
 
   rateStudyPlan(studyPlanID: String, rating: Number): Observable<any> {
-    return this.http.patch(this.endpoint + '/study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
+    return this.http.patch(this.endpoint + 'study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
   }
 
   deleteStudyPlan(username: String, studyPlanID: String): Observable<any> {
-    return this.http.delete(this.endpoint + '/study-plan/deleteStudyPlan/' + username + '/' + studyPlanID);
+    return this.http.delete(this.endpoint + 'study-plan/deleteStudyPlan/' + username + '/' + studyPlanID);
 
   }
 
   deletePublishedStudyPlan(studyPlanID: String): Observable<any> {
-    return this.http.delete(this.endpoint + '/study-plan/deletePublishedStudyPlan/' + studyPlanID);
+    return this.http.delete(this.endpoint + 'study-plan/deletePublishedStudyPlan/' + studyPlanID);
 
   }
 }

@@ -4,7 +4,6 @@ var server = require('../../app');
 var StudyPlan = mongoose.model('StudyPlan');
 var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
-var expect = require('chai').expect;
 chai.use(chaiHttp);
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
@@ -23,22 +22,23 @@ var user = new User({
 });
 
 var studyPlan = new StudyPlan({
+  _id: '9ac09be2f578185d46efc3c7',
   creator: 'Jathri',
   description: '<p class="ql-align-center">' +
-    '<span class="ql-size-large">' +
-    'Are you ready to go on an adventure?</span></p>',
+      '<span class="ql-size-large">' +
+      'Are you ready to go on an adventure?</span></p>',
   events: [
-    {
-      _id: '5ac09ae2f538185d46efc8c4',
-      actions: [],
-      color: {
-        primary: '#1e90ff',
-        secondary: '#D1E8FF'
-      },
-      end: '2018-04-01T20:07:28.780Z',
-      start: '2018-03-29T22:00:00.000Z',
-      title: 'So Many Comebacks, So Little Time...'
-    }
+      {
+          _id: '5ac09ae2f538185d46efc8c4',
+          actions: [],
+          color: {
+              primary: '#1e90ff',
+              secondary: '#D1E8FF'
+          },
+          end: '2018-04-01T20:07:28.780Z',
+          start: '2018-03-29T22:00:00.000Z',
+          title: 'So Many Comebacks, So Little Time...'
+      }
   ],
   title: 'The Ultimate Guide to KPop'
 });
@@ -67,7 +67,7 @@ describe('/DELETE one of my study plans', function () {
   it('it should delete one of my Study Plans', function (done) {
     chai.request(server).
       delete('/api/study-plan/deleteStudyPlan' +
-        '/:jathri/' + studyPlan._id).
+        '/' + user.username + '/' + studyPlan._id).
       end(function (error, res) {
         if (error) {
             console.log(error);
