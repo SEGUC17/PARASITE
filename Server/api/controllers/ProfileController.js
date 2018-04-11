@@ -144,29 +144,28 @@ module.exports.requestUserValidation = function (req, res, next) {
   //     image: 'imageMaher.com',
   //     creator: '5ac12591a813a63e419ebce5'
   // }
-  VCRSchema.create(reqObj, function (err, next) { // insert the request to the database.
+  VCRSchema.create(reqObj, function (err, next) {   // insert the request to the database.
     if (err) {
       console.log('duplicate key');
-      if (err.message.startsWith('E11000 duplicate key error')) { // if request already existed
+      if (err.message.startsWith('E11000 duplicate key error')) {    // if request already existed
         return res.status(400).json({
           err: null,
           msg: 'the request already submitted',
           data: null
         });
       }
-
+      else {
         console.log('passing error to next');
         next(err);
-
+      }
       res.status(200).json({
         err: null,
         msg: 'the request is submitted',
         data: null
-      });
+      })
     }
   });
 };
-
 
 //--------------------------- Profile Info ------------------------- AUTHOR: H
 
