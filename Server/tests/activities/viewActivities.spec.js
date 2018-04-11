@@ -281,6 +281,17 @@ describe('View Activities', function () {
                     done();
                 });
         });
+        it('it should return 404', function (done) {
+            chai.request(app).get('/api/activities/5abcd64de097957f8d90c386').
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(404);
+                    done();
+                });
+        });
     });
     // --- Clearing Mockgoose --- //
     after(function (done) {
