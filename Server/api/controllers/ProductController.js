@@ -128,7 +128,7 @@ module.exports.createProduct = function (req, res, next) {
         req.body.acquiringType &&
         req.body.image &&
         req.body.description;
-    if (!valid) { 
+    if (!valid) {
         return res.status(422).json({
             data: null,
             err: null,
@@ -142,13 +142,14 @@ module.exports.createProduct = function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.status(201).json({ 
+            res.status(201).json({
                 data: product,
                 err: null,
                 msg: 'Product was created successfully.'
             });
         });
-    } else {//If user is not an Admin
+    } else {
+        //If user is not an Admin
         res.status(403).json({
             data: null,
             err: 'You are not an admin to do that',
@@ -165,7 +166,8 @@ module.exports.createProductRequest = function (req, res, next) {
         if (err) {
             return next(err);
         }
-        res.status(200).json({ //Created successfully
+        //Created successfully
+        res.status(200).json({
             data: productreq,
             err: null,
             msg: 'ProductRequest was created successfully.'
