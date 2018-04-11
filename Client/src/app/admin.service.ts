@@ -17,6 +17,7 @@ export class AdminService {
   private respondContentStatusURL = 'admin/RespondContentStatus/';
   private getContent = 'admin/getContent/';
   private URL = 'http://localhost:3000/api/admin/';
+  private addContributionPtsURL = 'admin/addContPts';
 
 
   constructor(private http: HttpClient) {
@@ -101,6 +102,16 @@ export class AdminService {
         )
       );
   }
+  // TO-DO ContributionPts
+  // addContPts(userName: any ): any {
+  //   const self = this;
+  //   return this.http.patch<any>(self.baseURL + self.addContributionPtsURL , { username: userName })
+  //   .pipe(
+  //     catchError(
+  //       self.handleError('AddContributionPts', [])
+  //     )
+  //   );
+  // }
 
   // general error handler
   private handleError<T>(operation = 'operation', result?: T) {

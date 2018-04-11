@@ -1,57 +1,152 @@
-.request-form {
-  max-width: 700px;
+.wrapper {
+  margin-left:auto;
+  margin-right:auto;
+  max-width:760px;
 }
-.first {
-  max-width: 400;
-  width: 75%;
-  margin-left: 30px;
-  font-size: 20px;
+::ng-deep .mat-card-header{
+  background-color: #303F9F !important;
+  padding:30px !important;
+  box-shadow: 0px 4px 5px grey;
 }
-.last {
-  max-width: 400;
-  width: 75%;
-  margin-left: 30px;
-  font-size: 20px;
+::ng-deep .mat-card-content{
+  padding:0 !important;
 }
-.phone {
-  max-width: 400;
-  width: 75%;
-  margin-left: 30px;
-  font-size: 20px;
+::ng-deep .request-form {
+  padding:0 !important;
+  max-width: 750px;
 }
-.address {
-  max-width: 400;
-  width: 75%;
-  margin-left: 30px;
-  font-size: 20px;
-}
-.email {
-  max-width: 400;
-  width: 75%;
-  margin-left: 30px;
-  font-size: 20px;
-}
-.days {
-  max-width: 400;
-  width: 50%;
-  margin-left: 30px;
-  font-size: 20px;
-}
-.price {
-  max-width: 400;
-  width: 75%;
-  margin-left: 30px;
-  font-size: 20px;
-}
-.submit-btn {
+.mat-card-actions {
   margin-right: 51px;
 }
-.title {
-  font-size: 35px;
-  color: darkblue;
+.mat-card-footer {
+  height: 25px;
+  margin-left: 0px;
+  max-width : 100%;
+  background-color: #303F9F; 
+  box-shadow: 0px -1px 5px grey;
 }
-.note {
-  font-size: 10px;
-  margin-right: 40px;
-  color: darkblue;
+#title {
+  margin-left: 100px;
+  font-size: 40px;
+  color: white;
+}
+#title1 {
+  margin-left: 100px;
+  font-size: 40px;
+  color: white;
+}
+#first-name-input {
+  max-width: 400;
+  width: 80%;
+  margin-left: 65px;
+  font-size: 20px;
+}
+#last-name-input {
+  max-width: 400;
+  width: 80%;
+  margin-left: 65px;
+  font-size: 20px;
+}
+#phone-input {
+  max-width: 400;
+  width: 80%;
+  margin-left: 65px;
+  font-size: 20px;
+}
+#address-input {
+  max-width: 400;
+  width: 80%;
+  margin-left: 65px;
+  font-size: 20px;
+}
+#email-input {
+  max-width: 400;
+  width: 80%;
+  margin-left: 65px;
+  font-size: 20px;
+}
+#days-off-input {
+  max-width: 400;
+  width: 30%;
+  margin-left: 65px;
+  font-size: 20px;
+}
+#price-input {
+  max-width: 400;
+  width: 41%;
+  margin-left: 65px;
+  font-size: 20px;
+}
+#btn{
+  box-shadow: 0px 4px 5px grey;
+}
+#note {
+  margin-left: 15px;
+  font-size: 16px;
+  color: white; 
+}
+
+@media (max-width: 800px) {
+  .wrapper {
+      max-width: 90%;
+  }
+  #title {
+    margin-left: 50px;
+    font-size: 250%;
+  }
+  #title1 {
+    margin-left: 50px;
+    font-size: 250%;
+  }
+  }
+@media (max-width: 600px) {
+  .wrapper {
+      max-width: 90%;
+  }
+  #title {
+    margin-left: 30px;
+    font-size: 180%;
+  }
+  #title1 {
+    margin-left: 30px;
+    font-size: 180%;
+  }
+  #first-name-input {
+    width: 80%;
+    margin-left: 40px;
+    font-size: 15px;
+  }
+  #last-name-input {
+    width: 80%;
+    margin-left: 40px;
+    font-size: 15px;
+  }
+  #phone-input {
+    width: 80%;
+    margin-left: 40px;
+    font-size: 15px;
+  }
+  #address-input {
+    width: 80%;
+    margin-left: 40px;
+    font-size: 15px;
+  }
+  #email-input {
+    width: 80%;
+    margin-left: 40px;
+    font-size: 15px;
+  }
+  #days-off-input {
+    width: 80%;
+    margin-left: 40px;
+    font-size: 15px;
+  }
+  #price-input {
+    width: 80%;
+    margin-left: 40px;
+    font-size: 15px;
+  }
+  #note {
+    font-size: 10px;
+  }
 }

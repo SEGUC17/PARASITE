@@ -8,7 +8,7 @@ import { StudyPlanService } from '../study-plan.service';
 })
 export class PublishedStudyPlansComponent implements OnInit {
   type: String = 'published';
-
+// declaring the type with published for the if condition is study-plan-list-view
   constructor() { }
 
   ngOnInit() {
