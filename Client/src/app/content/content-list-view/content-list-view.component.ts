@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
-import { PageEvent, MatPaginator } from '@angular/material';
 import { Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
-import { MatSidenav } from '@angular/material/sidenav';
-import { ViewChild } from '@angular/core';
 import { Category } from '../category';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/user';
@@ -17,28 +13,26 @@ import { User } from '../../auth/user';
 })
 export class ContentListViewComponent implements OnInit {
   // general contents for viewing
-  contents: Content[];
+  contents: Content[] = [];
 
   // content created by the current user
-  myContributions: Content[];
+  myContributions: Content[] = [];
 
   // categories for the general contents view
   categories: Category;
 
   // shared between myContributions and content list
-  numberOfEntriesPerPage = 5;
+  numberOfEntriesPerPage = 20;
 
   // for content list pagination
-  totalNumberOfPages: number;
   totalNumberOfEntries: number;
   selectedCategory: String = 'NoCat';
   selectedSection: String = 'NoSec';
-  currentPageNumber: number;
+  currentPageNumber = 1;
 
   // for my contributions pagination
   myContributionsTotalNumberOfEntries: number;
-  myContributionsTotalNumberOfPages: number;
-  myContributionsCurrentPageNumber: number;
+  myContributionsCurrentPageNumber = 1;
 
   // search variables
   searchQueryTitle: String = '';
@@ -46,46 +40,31 @@ export class ContentListViewComponent implements OnInit {
   isSearching: Boolean = false;
 
   // sorting variables
-  sortResultsBy: String = 'touchDate rating';
+  sortResultsBy: String = 'title touchDate rating';
 
   // signed in user
   currentUser: User;
 
-  // category sidenav and paginator, retrieved from view for manipulation
-  @ViewChild('sidenav') public myNav: MatSidenav;
-  @ViewChild('allContentPaginator') public paginator: MatPaginator;
-  constructor(private contentService: ContentService, @Inject(DOCUMENT) private document: Document, private authService: AuthService) { }
+  constructor(private contentService: ContentService, private authService: AuthService) { }
 
   ngOnInit() {
     const self = this;
     this.authService.getUserData(['username']).
       subscribe(function (user) {
         self.currentUser = user.data;
+        if (self.currentUser) {
+          self.getMyContributionsPage();
+        }
       });
-    this.currentPageNumber = 1;
-    this.myContributionsCurrentPageNumber = 1;
     this.getContentPage();
     this.getCategories();
   }
 
-  // retrieves a pagee of general content according to currentPageNumber
-  getContentPage(): void {
-    const self = this;
-    this.contentService.getContentPage(self.numberOfEntriesPerPage,
-      self.currentPageNumber, self.selectedCategory, self.selectedSection)
-      .subscribe(function (retrievedContents) {
-        self.contents = retrievedContents.data.docs;
-        self.totalNumberOfEntries = retrievedContents.data.total;
-        self.totalNumberOfPages = retrievedContents.data.pages;
-        console.log('Total Number of Pages: ' + self.totalNumberOfPages);
-      });
-  }
-
-  // respond to user changing the page of general content
-  onPaginateChange(event): void {
-    // pages in the paginator are numbered starting by zero
-    // To retrieve correct page from database, add 1
-    this.currentPageNumber = event.pageIndex + 1;
+  // respond to user scrolling to the end of the general content
+  onScroll(): void {
+    console.log('scrolled!!');
+    // increment the page number
+    this.currentPageNumber += 1;
 
     // update the content array
     // check whether we are searching or not
@@ -94,22 +73,30 @@ export class ContentListViewComponent implements OnInit {
     } else {
       this.getContentPage();
     }
-
-    this.scrollToTheTop();
   }
 
-  scrollToTheTop(): void {
-    document.querySelector('.mat-sidenav-content').scrollTop = 0;
+  // respond to user scrolling to the end of the my contributions section
+  onScrollMyContributions(): void {
+    console.log('scrolled!!');
+    // increment the page number
+    this.myContributionsCurrentPageNumber += 1;
+
+    // update the content array
+    this.getMyContributionsPage();
   }
 
-  // respond to the user changing tabs
-  tabChanged(event): void {
-    if (this.myNav.opened) {
-      this.myNav.toggle();
-    }
-    if (event.tab.textLabel === 'My Contributions' && !this.myContributions) {
-      this.getMyContributionsPage();
-    }
+  // retrieves a pagee of general content according to currentPageNumber
+  getContentPage(): void {
+    const self = this;
+    this.contentService.getContentPage(self.numberOfEntriesPerPage,
+      self.currentPageNumber, self.selectedCategory, self.selectedSection)
+      .subscribe(function (retrievedContents) {
+        // append a new page of content to general content
+        self.contents = self.contents.concat(retrievedContents.data.docs);
+        // update the total number of results
+        self.totalNumberOfEntries = retrievedContents.data.total;
+        console.log('Total Number of Pages: ' + retrievedContents.data.pages);
+      });
   }
 
   // get a page of the content created by the current user
@@ -118,22 +105,12 @@ export class ContentListViewComponent implements OnInit {
     this.contentService.
       getContentByCreator(self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber).
       subscribe(function (retrievedContents) {
-        self.myContributions = retrievedContents.data.docs;
+        // append a new page to the myContributions array
+        self.myContributions = self.myContributions.concat(retrievedContents.data.docs);
+        // update the total number of entries
         self.myContributionsTotalNumberOfEntries = retrievedContents.data.total;
-        self.myContributionsTotalNumberOfPages = retrievedContents.data.pages;
         console.log('Get Contributions');
       });
-  }
-
-  // respond to the user changing the page number of MyContributions section
-  onPaginateChangeMyContributions(event): void {
-    // pages in the paginator are numbered starting by zero
-    // To retrieve correct page from database, add 1
-    this.myContributionsCurrentPageNumber = event.pageIndex + 1;
-    // update the content array
-    this.getMyContributionsPage();
-
-    this.scrollToTheTop();
   }
 
   // retrieve the categories from the server
@@ -147,7 +124,6 @@ export class ContentListViewComponent implements OnInit {
 
   // respond to the user changing the current category and section
   changeCategoryAndSection(category: any, section: any): void {
-    this.currentPageNumber = 1;
 
     // user changed the category or section, nullifying the validity of his search query
     this.isSearching = false;
@@ -157,26 +133,39 @@ export class ContentListViewComponent implements OnInit {
     // intialize category/section browsing
     this.selectedCategory = category;
     this.selectedSection = section;
-    this.paginator.firstPage();
+
+    // start from page 1
+    this.currentPageNumber = 1;
+    this.contents = [];
     this.getContentPage();
-    this.myNav.toggle();
   }
 
   // respond to the user clicking the search button
   searchContent(): void {
+    // user is searching
     this.isSearching = true;
+
+    // reset contents array
+    this.contents = [];
     this.currentPageNumber = 1;
+
+    // get first page of search content
     this.getSearchContentPage();
   }
 
   // retrieve a page of content that matches the search query
   getSearchContentPage(): void {
     const self = this;
+    // remove unnecessary spaces
     this.searchQueryTags = this.searchQueryTags.trim();
     this.searchQueryTitle = this.searchQueryTitle.trim();
+
+    // print statements for debugging
     console.log('Query Tags: ' + this.searchQueryTags);
     console.log('Query Title: ' + this.searchQueryTitle);
     console.log('Retrieving Page: ' + this.currentPageNumber);
+
+    // retrieve search page from the server
     this.contentService.getSearchPage(
       self.currentPageNumber,
       self.numberOfEntriesPerPage,
@@ -186,11 +175,11 @@ export class ContentListViewComponent implements OnInit {
       self.selectedSection,
       self.sortResultsBy
     ).subscribe(function (retrievedContents) {
-      self.contents = retrievedContents.data.docs;
-      console.log(retrievedContents.data);
+      // update the contents array
+      self.contents = self.contents.concat(retrievedContents.data.docs);
+      // update the total number of retrieved items
       self.totalNumberOfEntries = retrievedContents.data.total;
-      self.totalNumberOfPages = retrievedContents.data.pages;
-      console.log('Total Number of Pages Search: ' + self.totalNumberOfPages);
+      console.log('Total Number of Pages Search: ' + retrievedContents.data.pages);
     });
   }
 }

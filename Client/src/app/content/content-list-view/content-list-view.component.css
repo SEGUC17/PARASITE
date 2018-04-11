@@ -9,3 +9,9 @@
 .radio-button {
   margin: 2%;
 }
+
+.search-results {
+  height: 87vh;
+  overflow: scroll;
+  overflow-x: hidden;
+}

@@ -1,102 +1,82 @@
-<mat-sidenav-container>
-  <mat-sidenav #sidenav mode="over" opened="false" fixedInViewport="false" multi="false">
-    <h3>Categories</h3>
-    <button mat-button (click)="changeCategoryAndSection('NoCat','NoSec')">All</button>
-    <mat-accordion>
-      <mat-expansion-panel *ngFor="let category of categories">
-        <mat-expansion-panel-header>
-          <mat-panel-title>{{ category.name }}</mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-row *ngFor="let section of category.sections">
-          <button mat-button (click)="changeCategoryAndSection(category.name, section.name)">{{ section.name }}</button>
-        </mat-action-row>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-tab-group #myTabGroup (selectedTabChange)="tabChanged($event)" dynamicHeight>
-      <mat-tab label="Browse Resources and Ideas">
-        <div class="row">
-          <div class="col" align="center">
-            <div>
-              <mat-form-field>
-                <input matInput [(ngModel)]="searchQueryTitle" type="text" placeholder="Search By Title" />
-              </mat-form-field>
-              <mat-form-field>
-                <input matInput [(ngModel)]="searchQueryTags" type="text" placeholder="Search By Tags" />
-              </mat-form-field>
-            </div>
-            <button mat-raised-button color="primary" (click)="searchContent()">Search</button>
-            <button mat-raised-button color="primary" (click)="sidenav.toggle()">Categories</button>
+<mat-tab-group dynamicHeight>
+  <mat-tab label="Browse Resources and Ideas">
+    <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+      [scrollWindow]="false">
+      <div class="row">
+        <div class="col" align="center">
+          <div>
+            <mat-form-field>
+              <input matInput [(ngModel)]="searchQueryTitle" type="text" placeholder="Search By Title" />
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [(ngModel)]="searchQueryTags" type="text" placeholder="Search By Tags" />
+            </mat-form-field>
           </div>
+          <button mat-raised-button color="primary" (click)="searchContent()">Search</button>
+          <button mat-raised-button color="primary">Categories</button>
         </div>
-        <div class="container">
-          <h2 align="center" *ngIf="selectedCategory !== 'NoCat'"> Category: {{ selectedCategory }}</h2>
-          <h3 align="center" *ngIf="selectedSection !== 'NoSec'"> Section: {{ selectedSection }}</h3>
-        </div>
-        <div class="row" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
-          <mat-card *ngFor="let content of contents" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
-            <mat-card-header *ngIf="content.creator">
-              <div mat-card-avatar [ngStyle]="{'background-image':'url(' + content.creatorAvatarLink + ')'}" class="creator-avatar"></div>
-              <mat-card-title>
-                <a [href]="content.creatorProfileLink">{{content.creator}}</a>
-              </mat-card-title>
-              <mat-card-subtitle class="small-title">Contributor</mat-card-subtitle>
-            </mat-card-header>
-            <a routerLink="/content-view/{{content._id}}">
-              <mat-card-content class="mt-2">
-                <img *ngIf="content.image" mat-card-image [src]="content.image" />
-                <p *ngIf="content.title" class="mat-typography">{{content.title}}</p>
-              </mat-card-content>
-            </a>
-            <mat-card-footer *ngIf="content.tags">
-              <mat-chip-list>
-                <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
-                  {{tag}}
-                </mat-chip>
-              </mat-chip-list>
-            </mat-card-footer>
-          </mat-card>
-        </div>
-        <div class="paginator">
-          <mat-paginator #allContentPaginator [length]="totalNumberOfEntries" [pageSize]="numberOfEntriesPerPage" (page)="onPaginateChange($event)">
-          </mat-paginator>
-        </div>
-      </mat-tab>
-      <mat-tab *ngIf="currentUser" label="My Contributions">
-        <div class="row" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
-          <mat-card *ngFor="let content of myContributions" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
-            <mat-card-header *ngIf="content.creator">
-              <div mat-card-avatar [ngStyle]="{'background-image':'url(' + content.creatorAvatarLink + ')'}" class="creator-avatar"></div>
-              <mat-card-title>
-                <a [href]="content.creatorProfileLink">
-                  {{content.creator}}
-                </a>
-              </mat-card-title>
-              <mat-card-subtitle class="small-title">
-                Contributor
-              </mat-card-subtitle>
-            </mat-card-header>
-            <a routerLink="/content-view/{{content._id}}">
-              <mat-card-content class="mt-2">
-                <img mat-card-image *ngIf="content.image" [src]="content.image" />
-                <p *ngIf="content.title" class="mat-typography">{{content.title}}</p>
-              </mat-card-content>
-            </a>
-            <mat-card-footer *ngIf="content.tags">
-              <mat-chip-list>
-                <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
-                  {{tag}}
-                </mat-chip>
-              </mat-chip-list>
-            </mat-card-footer>
-          </mat-card>
-        </div>
-        <div class="paginator">
-          <mat-paginator [length]="myContributionsTotalNumberOfEntries" [pageSize]="numberOfEntriesPerPage" (page)="onPaginateChangeMyContributions($event)">
-          </mat-paginator>
-        </div>
-      </mat-tab>
-    </mat-tab-group>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+      </div>
+      <div class="container">
+        <h2 align="center" *ngIf="selectedCategory !== 'NoCat'"> Category: {{ selectedCategory }}</h2>
+        <h3 align="center" *ngIf="selectedSection !== 'NoSec'"> Section: {{ selectedSection }}</h3>
+      </div>
+      <div class="row" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
+        <mat-card *ngFor="let content of contents" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
+          <mat-card-header *ngIf="content.creator">
+            <div mat-card-avatar [ngStyle]="{'background-image':'url(' + content.creatorAvatarLink + ')'}" class="creator-avatar"></div>
+            <mat-card-title>
+              <a [href]="content.creatorProfileLink">{{content.creator}}</a>
+            </mat-card-title>
+            <mat-card-subtitle class="small-title">Contributor</mat-card-subtitle>
+          </mat-card-header>
+          <a routerLink="/content-view/{{content._id}}">
+            <mat-card-content class="mt-2">
+              <img *ngIf="content.image" mat-card-image [src]="content.image" />
+              <p *ngIf="content.title" class="mat-typography">{{content.title}}</p>
+            </mat-card-content>
+          </a>
+          <mat-card-footer *ngIf="content.tags">
+            <mat-chip-list>
+              <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
+                {{tag}}
+              </mat-chip>
+            </mat-chip-list>
+          </mat-card-footer>
+        </mat-card>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab *ngIf="currentUser" label="My Contributions">
+    <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollMyContributions()"
+      [scrollWindow]="false">
+      <div class="row" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
+        <mat-card *ngFor="let content of myContributions" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
+          <mat-card-header *ngIf="content.creator">
+            <div mat-card-avatar [ngStyle]="{'background-image':'url(' + content.creatorAvatarLink + ')'}" class="creator-avatar"></div>
+            <mat-card-title>
+              <a [href]="content.creatorProfileLink">
+                {{content.creator}}
+              </a>
+            </mat-card-title>
+            <mat-card-subtitle class="small-title">
+              Contributor
+            </mat-card-subtitle>
+          </mat-card-header>
+          <a routerLink="/content-view/{{content._id}}">
+            <mat-card-content class="mt-2">
+              <img mat-card-image *ngIf="content.image" [src]="content.image" />
+              <p *ngIf="content.title" class="mat-typography">{{content.title}}</p>
+            </mat-card-content>
+          </a>
+          <mat-card-footer *ngIf="content.tags">
+            <mat-chip-list>
+              <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
+                {{tag}}
+              </mat-chip>
+            </mat-chip-list>
+          </mat-card-footer>
+        </mat-card>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
