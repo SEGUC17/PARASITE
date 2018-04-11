@@ -39,8 +39,26 @@ module.exports.PublishStudyPlan = function (req, res, next) {
     //which is the studyPlan I want to publish and it returns an
     //error if there is an error else that studyPlan published successfully
 
+    if (req.user.username !== req.params.username) {
+        return res.status(401).json({
+            data: null,
+            err: null,
+            msg: 'Unauthorized.'
+        });
+    }
+    User.findOne({ username: req.params.username }, function (err, user) {
+        if (err) {
+            return next(err);
+        }
 
-    StudyPlan.create(req.body, function (err) {
+        if (!user) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'User not found.'
+            });
+        }
+    StudyPlan.create(req.body, function () {
         if (err) {
             return next(err);
         }
@@ -50,6 +68,7 @@ module.exports.PublishStudyPlan = function (req, res, next) {
 
         });
     });
+});
 };
 
 var findStudyPlan = function (studyPlans, studyPlanID) {

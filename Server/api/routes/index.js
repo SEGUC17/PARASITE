@@ -119,7 +119,7 @@ module.exports = function (passport) {
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
   router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
-  router.post('/study-plan/PublishStudyPlan', studyPlanController.PublishStudyPlan);
+  router.post('/study-plan/PublishStudyPlan', isAuthenticated, studyPlanController.PublishStudyPlan);
   router.delete('/study-plan/deleteStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
  router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deletePublishedStudyPLan);
   //------------------- End of Study Plan Endpoints-----------//
