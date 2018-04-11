@@ -31,15 +31,13 @@ res.status(200).json({
           err: null,
           msg: 'Children retrieved successfully.'
       });
-    }); }
+    });
+};
 module.exports.EditChildIndependence = function (req, res, next) {
 
   // searching for username in the params and setting isChild to false
-  
-   User.findOneAndUpdate(
-     { username: req.params.username },
-    { $set: { isChild: false } }
-  ).exec(function (err, user) {
+
+   User.findOne({ username: req.params.username }).exec(function (err, user) {
        if (err) {
             return next(err);
         }
@@ -48,21 +46,21 @@ module.exports.EditChildIndependence = function (req, res, next) {
           return res.
           status(404).
           json({
-  data: null,
+  data: user.isChild,
   err: null,
   msg: 'user not found'
   });
       }
-  
-  
+
+
   // checking that the child to be updated birth year < 13
-  
+
   if (new Date().getFullYear() - user.birthdate.getFullYear() < 13) {
-  
+
     return res.
                 status(403).
                 json({
-        data: null,
+        data: user.isChild,
         err: null,
         msg: 'Child under 13.'
         });
@@ -73,24 +71,38 @@ module.exports.EditChildIndependence = function (req, res, next) {
     return res.
     status(403).
     json({
-  data: null,
+  data: user.isChild,
   err: null,
   msg: 'Child under 13.'
   });
   }
-  
+
   // if the previous conditions are false then child is changed successefuly
+  console.log('hna');
+  User.update(
+user,
+    { $set: { isChild: false } }
+).
+       exec(function (error, updated) {
+         if (err) {
+           console.log('hwa da el error');
+
+return err;
+
+}
   res.status(200).json({
-  
-  
+
+
             data: user.isChild,
             err: null,
             msg: 'Successefully changed from child to independent.'
         });
-  
+
     });
-  };
-  
+
+
+  });
+};
 
 // @author: MAHER
 // requestUserValidation() take some of the
@@ -114,7 +126,7 @@ module.exports.requestUserValidation = function(req, res, next) {
         bio: status + ', @' + req.user.username + ',\n' + req.user.email + ', Number of Children : ' + req.user.children.length,
         name: req.user.firstName + ' ' + req.user.lastName,
         AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
-        ProfileLink: 'localhost:4200/profile/'+ req.user.username,
+        ProfileLink: 'localhost:4200/profile/' + req.user.username,
         image: 'src of an image',
         creator: req.user._id
     };
@@ -128,34 +140,34 @@ module.exports.requestUserValidation = function(req, res, next) {
     //     image: 'imageMaher.com',
     //     creator: '5ac12591a813a63e419ebce5'
     // }
-  VCRSchema.create(reqObj, function (err, next) {   // insert the request to the database.
+  VCRSchema.create(reqObj, function (err, next) { // insert the request to the database.
    if (err) {
        console.log('duplicate key');
-       if(err.message.startsWith('E11000 duplicate key error')){    // if request already existed
+       if (err.message.startsWith('E11000 duplicate key error')) { // if request already existed
            return res.status(400).json({
                err: null,
                msg: 'the request already submitted',
                data: null
            });
        }
-       else {
+
            console.log('passing error to next');
            next(err);
-       }
+
       res.status(200).json({
           err: null,
           msg: 'the request is submitted',
           data: null
-      })
-   }});
+      });
+   }
+ });
 };
-
 
 
 //--------------------------- Profile Info ------------------------- AUTHOR: H
 
 module.exports.getUserInfo = function(req, res, next) {
-  User.find({username : req.params.username}).exec(function(err, user) {
+  User.find({ username: req.params.username }).exec(function(err, user) {
     if (err) {
       return next(err);
     }
@@ -188,50 +200,47 @@ module.exports.getUserInfo = function(req, res, next) {
   module.exports.linkAnotherParent = function(req, res, next) {
 
     var id = req.params.parentId;
-    User.findOne({_id: id}, function(err, user){
-      if(err){
+    User.findOne({ _id: id }, function(err, user) {
+      if (err) {
         console.log(err);
         res.status(500).send();
-      } else {
-          if(!user){
+      } else if (!user) {
             res.status(404).send();
           } else {
-              if(req.body){
+              if (req.body) {
                 user.children.push(req.body);
               }
 
-              user.save(function(err, updatedUser){
-                if(err){
+              user.save(function(err, updatedUser) {
+                if (err) {
                   console.log(err);
                   res.status(500).send();
                 } else {
                   res.send(updatedUser);
-                  user.isParent= true;
+                  user.isParent = true;
                 }
               });
             }
-      }
 
-        })
+        });
 };
 
   module.exports.Unlink = function(req, res, next) {
-  
+
     var id = req.params.parentId;
-    User.findOne({_id: id}, function(err, user){
-      if(err){
+    User.findOne({ _id: id }, function(err, user) {
+      if (err) {
         console.log(err);
         res.status(500).send();
-      } else {
-          if(!user){
+      } else if (!user) {
             res.status(404).send();
           } else {
-              if(req.body){
-                user.children.splice(user.children.indexOf(req.body) , 1);
+              if (req.body) {
+                user.children.splice(user.children.indexOf(req.body), 1);
               }
 
-              user.save(function(err, updatedUser){
-                if(err){
+              user.save(function(err, updatedUser) {
+                if (err) {
                   console.log(err);
                   res.status(500).send();
                 } else {
@@ -239,61 +248,56 @@ module.exports.getUserInfo = function(req, res, next) {
                 }
               });
             }
-      }
 
-        })
+        });
 };
 
 
-
-  module.exports.linkAsParent=function(req,res,next){
-   User.findOne({_id: req.params.userId}, function(err, user){
-      if(err){
+  module.exports.linkAsParent = function(req, res, next) {
+   User.findOne({ _id: req.params.userId }, function(err, user) {
+      if (err) {
         console.log(err);
         res.status(500).send();
-      } else {
-          if(!user){
+      } else if (!user) {
             res.status(404).send();
           } else {
-              if(req.body){
+              if (req.body) {
                 user.children.push(req.body);
               }
 
-              user.save(function(err, updatedUser){
-                if(err){
+              user.save(function(err, updatedUser) {
+                if (err) {
                   console.log(err);
                   res.status(500).send();
                 } else {
                   res.send(updatedUser);
-                  user.isParent= true;
+                  user.isParent = true;
                 }
               });
             }
-      }
 
-        })
+        });
 
 
     };
-    module.exports.changePassword = function(req,res, next) {
-      
+    module.exports.changePassword = function(req, res, next) {
+
       console.log('Old Password entered is: ', req.body.oldpw);
       // match user to one of the users in the database
-    User.findOne({ username: req.params.uname }, function (err, user)
-     {
+    User.findOne({ username: req.params.uname }, function (err, user) {
        if (err) {
          return next(err);
        } else if (!user) {
-         console.log('Username is incorrect')
+         console.log('Username is incorrect');
          res.status(401).json({
            data: null,
            err: null,
            msg: 'Username is incorrect'
                  });
- 
+
        return;
        }
- 
+
  console.log('New Password to enter: ', req.body.newpw);
        // compare entered password with existing hashed password in database
       Encryption.comparePasswordToHash(req.body.oldpw, user.password, function (
@@ -304,23 +308,24 @@ module.exports.getUserInfo = function(req, res, next) {
              return next(err);
          } else if (!passwordMatches) {
            console.log('Password entered is incorrect');
-           return res.status(401).json({
-             err:null,
+
+return res.status(401).json({
+             err: null,
              msg: 'Password is incorrect',
              data: null
            });
-         } 
-         
+         }
+
          // hash the new password
-          Encryption.hashPassword(req.body.newpw,function(err, hash) {
+          Encryption.hashPassword(req.body.newpw, function(err, hash) {
             if (err) {
               return next(err);
             }
-            console.log(hash)
+            console.log(hash);
             // update user password with hash
-            User.findOneAndUpdate({username: req.params.uname }, { password: hash }, function(err, user) {
+            User.findOneAndUpdate({ username: req.params.uname }, { password: hash }, function(err, user) {
              if (err) {
-             return next( err );
+             return next(err);
              }
          console.log('User password updated successfully.');
           res.status(200).json({
