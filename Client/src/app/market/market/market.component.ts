@@ -63,8 +63,8 @@ export class MarketComponent implements OnInit {
     }
 
   }
-// Opens the dialog form of creating a product
-  goToCreate() { 
+  // Opens the dialog form of creating a product
+  goToCreate() {
     const self = this;
     let dialogRef = self.dialog.open(CreateProductComponent, {
       width: '850px',
@@ -141,6 +141,14 @@ export class MarketComponent implements OnInit {
     this.selectedName = undefined;
     this.selectedPrice = undefined;
     this.firstPage();
+  }
+  onPaginateChangeMarket(event): void {
+    this.currentPageNumber = event.pageIndex + 1;
+    this.getPage();
+  }
+  onPaginateChangeMyItems(event): void {
+    this.userItemsCurrentPage = event.pageIndex + 1;
+    this.getUserPage();
   }
 
 }
