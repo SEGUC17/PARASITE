@@ -9,7 +9,6 @@
       <label id="ProfileName" >{{(currIsOwner? firstName : vFirstName) + " " + (currIsOwner? lastName : vLastName)}}</label>
       <br>
       <label id="Badge">Badge goes here</label><br>
-      <button mat-raised-button style="margin-left: 40px">Direct Message</button>
 
       <div class = "RightSideBtns">
           <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "!currIsChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>

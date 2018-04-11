@@ -48,15 +48,13 @@ export class ProfileService {
    */
   makeContributerValidationRequest(requestObj): any {
     let self = this;
-    return this.http.post(
-      this.profileUrl + '/VerifiedContributerRequest',
-      { obj: {} })
-      .subscribe();
+    return this.http.post(this.profileUrl + '/VerifiedContributerRequest', { obj: {} });
   }
 
 
   // author: Heidi
   getChildren(username): any {
+    console.log(username);
     return this.http.get(this.getChildrenUrl + username + '/getChildren');
   }
 
