@@ -89,9 +89,15 @@ module.exports.getActivity = function (req, res, next) {
         if (err) {
             return next(err);
         }
+        if (!activity) {
+            return res.status(404).json({
+                data: null,
+                err: 'Activity doesn\'t exist',
+                msg: null
+            });
+        }
         var creatorName = activity.creator;
 
-        console.log(activity.status);
         if (activity.status !== 'verified') {
 
             if (!isAdmin && creatorName !== user.username) {
