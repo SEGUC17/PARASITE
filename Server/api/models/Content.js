@@ -33,6 +33,12 @@ var contentSchema = mongoose.Schema({
         trim: false,
         type: String
     },
+    rating: {
+        default: 0,
+        required: false,
+        trim: true,
+        type: Number
+    },
     section: {
         required: true,
         trim: true,
