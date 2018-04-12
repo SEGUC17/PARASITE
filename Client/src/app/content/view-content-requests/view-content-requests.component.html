@@ -3,20 +3,55 @@
     <mat-radio-button value="resource" (click)="setFilterToResource()" class="col-4"> Resource Requests </mat-radio-button>
     <mat-radio-button value="idea" (click)="setFilterToIdea()" class="col-4"> Idea Requests </mat-radio-button>
   </mat-radio-group>
+
   <div class="row justify-content-center mt-5">
     <mat-card class="m-2 col-lg-3 col-md-6 col-sm-12 col-xs-12" *ngFor="let req of reqs">
-        <div class="text-center">{{req.contentTitle}}</div>
-        <div class="text-center">{{req.contentType}}</div>
-      <mat-card-content>
-        <div>creator is: {{req.creator}}</div>
-        <div>Date of creation is: {{req.createdOn}}</div>
-        <div>current Status is: {{req.status}} </div>
-        <div>contentID is: {{req.contentID}} </div>
+      
+        <div class="text-center">
+        <span style="font-weight: bold ; font-size: 25px" >{{req.contentTitle}} </span>
+        </div>
+        <!--
+        <div class="text-center">
+          <span style="font-weight: bold; font-size: 25px" >{{req.contentType}}</span>
+        </div> -->
+
+      <mat-card-content style="margin-left: 5%">
+
+        <div class="row">
+          <mat-icon style="color: #FDC334; font-size: 20px" >account_circle</mat-icon>
+          <span style =" font-size:17px; " >{{req.creator}} </span> 
+        </div>
+        
+        <div class="row">
+          <mat-icon style="color: #FDC334; font-size: 20px" >today</mat-icon>
+          <span style="font-size: 15px" > {{req.createdOn}} </span> 
+        </div>
+        
+        <!--<div class="row">
+            <mat-icon style="color: #FDC334" >data pending</mat-icon>
+            <span style="font-weight: bold" >current Status is: </span> {{req.status}} 
+        </div>
+        
+        <div class="row">
+            <span style="font-weight: bold" > contentTitle is: </span> {{req.contentTitle}} 
+        </div> -->
+
       </mat-card-content>
-      <mat-card-actions class="row">
-        <button mat-button class="col-auto" (click)="approveContentRequest(req._id)" color="primary"> Approve </button>
-        <button mat-button class="col-auto"  (click)="disapproveContentRequest(req._id)" color="primary"> Disapprove </button>
-        <button mat-button class="col-auto" (click)="viewCont(req.contentID)" color="primary"> Details </button>
+      <mat-card-actions class="row" align="end" >
+        <button mat-icon-button class="col-auto" (click)="approveContentRequest(req._id,req.contentID,req.creator)" style = "color: #99D5C9"
+        matTooltip="Accept" >
+        <mat-icon>check_circle</mat-icon> 
+        </button>
+
+        <button mat-icon-button class="col-auto"  (click)="disapproveContentRequest(req._id, req.contentID)" style = "color: #DA572B" 
+        matTooltip = "Reject">
+        <mat-icon>cancel</mat-icon>
+        </button>
+        
+        <button mat-icon-button class="col-auto" (click)="viewCont(req.contentID)" style = "color: #99D5C9"
+        matTooltip="View {{req.contentType}}"  >
+        <mat-icon>info</mat-icon>
+        </button>
 
       </mat-card-actions>
     </mat-card>

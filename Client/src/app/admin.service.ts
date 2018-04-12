@@ -53,25 +53,17 @@ export class AdminService {
       );
   }
 
-  respondContentRequest(response, id): any {
+  respondContentRequest(response, rid, cid, cresponse, username, oldscore): any {
     const self = this;
-    return this.http.patch<any>(this.baseURL + this.respondContentRequestURL + id, { str: response })
+    return this.http.patch<any>(this.baseURL + this.respondContentRequestURL + rid + '/' + cid ,
+    { str: response, approved: cresponse, userName: username, oldScore: oldscore })
       .pipe(
         catchError(
           self.handleError('respondContentRequest', [])
         )
       );
   }
-  modifyContentStatus(response: boolean, id: any): any {
-    const self = this;
-    return this.http.patch<any>(this.baseURL + this.respondContentStatusURL + id, { str: response })
-      .pipe(
-        catchError(
-          self.handleError('modifyContentStatus', [])
-        )
-      );
-  }
-  getcontent(): any {
+getcontent(): any {
     const self = this;
     return this.http.get<any>(this.baseURL + this.getContent)
       .pipe(
@@ -101,16 +93,6 @@ export class AdminService {
           self.handleError('createSection', [])
         )
       );
-  }
-  // TO-DO ContributionPts
-  addContPts(userName: any, newScore: number): any {
-    const self = this;
-    return this.http.patch<any>(self.baseURL + self.addContributionPtsURL , { username: userName, newscore: newScore })
-    .pipe(
-      catchError(
-        self.handleError('AddContributionPts', [])
-      )
-    );
   }
 
   // general error handler

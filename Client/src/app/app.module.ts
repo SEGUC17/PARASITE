@@ -29,7 +29,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
-import { MatNativeDateModule, MatIconModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 
 
 
@@ -67,7 +68,8 @@ import { MatNativeDateModule, MatIconModule } from '@angular/material';
     CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule,
-    AuthModule
+    AuthModule,
+    MatIconModule
   ],
   providers: [
     {
