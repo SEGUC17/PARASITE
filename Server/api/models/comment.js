@@ -8,6 +8,27 @@ var timestamps = require('mongoose-timestamp-date-unix');
 
 var Schema = mongoose.Schema;
 
+var replySchema = Schema({
+
+    /*
+     * A schema for replies on comments
+     *
+     * @author: Wessam Ali
+     */
+
+     creator: {
+         type: String,
+         required: true
+     },
+
+     text: {
+         type: String,
+         required: true,
+         maxlength: 500
+     }
+});
+
+
 var commentSchema = Schema({
 
     /*
@@ -19,5 +40,12 @@ var commentSchema = Schema({
     creator: {
         type: String,
         required: true
-    }
+    },
+
+    text: {
+        type: String,
+        required: true,
+        maxlength: 500
+    },
+    replies: { type: [replySchema] }
 });
