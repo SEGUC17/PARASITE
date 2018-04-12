@@ -237,6 +237,13 @@ module.exports.reviewActivity = function (req, res, next) {
                     msg: null
                 });
             }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
+                    msg: null
+                });
+            }
             res.status(200).send({
                 data: activity,
                 err: null,
