@@ -294,9 +294,7 @@ module.exports.commentOnActivity = function (req, res, next) {
             }
 
             res.status(201).json({
-                data: activity.discussion.filter(function(comment) {
-                        return comment.text === req.body.text;
-                })[0],
+                data: activity.discussion.pop(),
                 err: null,
                 msg: null
             });
