@@ -93,19 +93,7 @@ describe('View Activities', function () {
                 fromDateTime: Date.now(),
                 toDateTime: Date.now() + 5,
                 status: 'verified',
-                price: 50,
-                discussion: [
-                    {
-                        creator: 'normalusername',
-                        text: 'comment text',
-                        replies: [
-                            {
-                                creator: 'normalusername',
-                                text: 'reply text'
-                            }
-                        ]
-                    }
-                ]
+                price: 50
             }, function (err, activity) {
                 if (err) {
                     console.log(err);
@@ -169,22 +157,6 @@ describe('View Activities', function () {
                     for (var activity in activities) {
                         activity = activities[activity];
                         expect(activity.status).to.equal('verified');
-                    }
-                    done();
-                });
-        });
-        it('it shouldn\'t include discussion', function (done) {
-            chai.request(app).get('/api/activities').
-                end(function (err, res) {
-                    if (err) {
-                        console.log(err);
-                    }
-                    res.should.have.status(200);
-                    expect(res.body.data.docs.length).to.equal(1);
-                    var activities = res.body.data.docs;
-                    for (var activity in activities) {
-                        activity = activities[activity];
-                        expect(activity).to.not.haveOwnProperty('discussion');
                     }
                     done();
                 });
