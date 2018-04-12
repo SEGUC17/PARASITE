@@ -136,7 +136,8 @@ var prepareQueryOptionsForSearch = function (query, params) {
         sort: { }
     };
 
-    // sort option was provided, default is relevance
+    // sort option was provided, default is relevance;
+    // therefore, the string relevance is not checked
     if (query.sort) {
 
         if (query.sort === 'upload date') {
