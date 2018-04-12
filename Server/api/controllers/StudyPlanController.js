@@ -5,11 +5,16 @@ var CalendarEvent = mongoose.model('CalendarEvent'),
 
 
 module.exports.getPublishedStudyPlans = function (req, res, next) {
+
+    //@author: Ola
+    //paginate returns the published plans page by page
     StudyPlan.paginate(
         {},
         {
             limit: 20,
+            //retreive 20 published plans starting from page 1 till 20
             page: req.params.pageNumber
+            //page number to be returned is passed each call
         }, function (err, result) {
 
             if (err) {
@@ -25,30 +30,16 @@ module.exports.getPublishedStudyPlans = function (req, res, next) {
     );
 };
 
-
-module.exports.getPerosnalStudyPlans = function (req, res, next) {
-    User.findOne({ username: req.params.username }, function (err, user) {
-        if (err) {
-            return next(err);
-        }
-
-        if (!user) {
-            return res.status(404).json({
-                data: null,
-                err: 'User not found.',
-                msg: null
-            });
-        }
-
-        return res.status(200).json({
-            data: user.studyPlans,
-            err: null,
-            msg: 'Study plans retrieved successfully.'
-        });
-    });
-};
-
 module.exports.PublishStudyPlan = function (req, res, next) {
+
+    // @author: Ola
+    //publishing a study plan is creating a new studyPlan in
+    //the studyPlan schema as it is for the published plans only
+    //so i am creating a new studyPlan with the body of the request
+    //which is the studyPlan I want to publish and it returns an
+    //error if there is an error else that studyPlan published successfully
+
+
     StudyPlan.create(req.body, function (err) {
         if (err) {
             return next(err);
@@ -72,16 +63,33 @@ var findStudyPlan = function (studyPlans, studyPlanID) {
     return null;
 };
 
-module.exports.getPerosnalStudyPlan = function (req, res, next) {
+module.exports.getPersonalStudyPlan = function (req, res, next) {
+    if (req.user.username !== req.params.username &&
+        req.user.children.indexOf(req.params.username) < 0) {
+        return res.status(401).json({
+            data: null,
+            err: null,
+            msg: 'Unauthorized.'
+        });
+    }
+
     User.findOne({ username: req.params.username }, function (err, user) {
         if (err) {
             return next(err);
         }
 
+        if (!user) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'User not found.'
+            });
+        }
+
         var target = findStudyPlan(user.studyPlans, req.params.studyPlanID);
 
         if (!target) {
-            return res.status(400).json({
+            return res.status(404).json({
                 data: null,
                 err: null,
                 msg: 'Study plan not found.'
@@ -102,6 +110,14 @@ module.exports.getPublishedStudyPlan = function (req, res, next) {
             return next(err);
         }
 
+        if (!studyPlan) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'Study plan not found.'
+            });
+        }
+
         return res.status(200).json({
             data: studyPlan,
             err: null,
@@ -114,9 +130,17 @@ module.exports.createStudyPlan = function (req, res, next) {
     User.findOneAndUpdate(
         { username: req.params.username },
         { $push: { studyPlans: req.body } },
-        function (err) {
+        function (err, user) {
             if (err) {
                 return next(err);
+            }
+
+            if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User not found.'
+                });
             }
 
             res.status(201).json({

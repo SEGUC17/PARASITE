@@ -26,8 +26,8 @@ var adminUser = {
     phone: 23456,
     username: 'adminsalma'
 };
-describe('Invalid and non-existing inputs', function() {
- // --- Mockgoose Initiation --- //
+describe('Invalid and non-existing inputs', function () {
+    // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
@@ -44,186 +44,196 @@ describe('Invalid and non-existing inputs', function() {
         });
     });
 
-    beforeEach(function(done) {
+    beforeEach(function (done) {
         chai.request(server).
-        post('/api/signUp').
-        send(adminUser).
-        end(function (err, response) {
+            post('/api/signUp').
+            send(adminUser).
+            end(function (err, response) {
 
-        if (err) {
-            console.log(err);
+                if (err) {
+                    console.log(err);
 
-            return console.log(err);
-        }
-        response.should.have.status(201);
-        adminToken = response.body.token;
-        users.updateOne(
-            { username: 'adminsalma' },
-            { $set: { isAdmin: true } },
-                function (err1) {
-        if (err1) {
-            console.log(err1);
-        }
-    }
-);
-        done();
+                    return console.log(err);
+                }
+                response.should.have.status(201);
+                adminToken = response.body.token;
+                users.updateOne(
+                    { username: 'adminsalma' },
+                    { $set: { isAdmin: true } },
+                    function (err1) {
+                        if (err1) {
+                            console.log(err1);
+                        }
+                    }
+                );
+                done();
 
             });
-   });
-    describe('NonExistent/Invalid requests tests', function() {
+    });
+    describe('NonExistent/Invalid requests tests', function () {
 
         it(
-        'Non-existent query should display error 404(nonexistent Content)',
-        function(done) {
-            var Cont = new cont({
-                _id: '5aca0d4d8865fc24fe140713',
-                approved: false,
-                body: 'this is the body',
-                category: 'this is a category',
-                creator: 'salma',
-                section: 'this is a section',
-                title: 'this is a title',
-                type: 'idea'
-            });
-            Cont.save(function(err) {
-                if (err) {
-                    console.log(err);
-                }
-            });
-            chai.request(server).
-            patch('/api/admin/RespondContentStatus/' +
-            '5aca0d4d8865fc24fe140714').
-            send({ str: false }).
-            set('Authorization', adminToken).
-            end(function(err, res) {
-                if (!err === null) {
-                    console.log(err);
-                }
-                should.exist(res);
-                res.should.have.property('body');
-                res.should.have.status(404);
-                res.body.err.should.be.a('string');
-                expect(res.body.data).to.equal(null);
-                expect(res.body.err).to.equal('Content not found');
-                done();
-            });
-        }
-    );
-            it(
+            'Non-existent query should display error 404(nonexistent Content)',
+            function (done) {
+                var Cont = new cont({
+                    _id: '5aca0d4d8865fc24fe140713',
+                    approved: false,
+                    body: 'this is the body',
+                    category: 'this is a category',
+                    creator: 'salma',
+                    section: 'this is a section',
+                    title: 'this is a title',
+                    type: 'idea'
+                });
+                Cont.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+                chai.request(server).
+                    patch('/api/admin/RespondContentStatus/' +
+                        '5aca0d4d8865fc24fe140714').
+                    send({ str: false }).
+                    set('Authorization', adminToken).
+                    end(function (err, res) {
+                        if (!err === null) {
+                            console.log(err);
+                        }
+                        should.exist(res);
+                        res.should.have.property('body');
+                        res.should.have.status(404);
+                        res.body.err.should.be.a('string');
+                        expect(res.body.data).to.equal(null);
+                        expect(res.body.err).to.equal('Content not found');
+                        done();
+                    });
+            }
+        );
+        it(
             'Non-existent query should display error 404' +
             '(nonexistent ContentRequest)',
-            function(done) {
+            function (done) {
                 var ContReq = new contReq({
-                _id: '5aca0d4d8865fc24fe140712',
-                contentType: 'resource',
-                createdOn: '1/1/1111',
-                creator: 'salma',
-                requestType: 'create'
-            });
-            ContReq.save(function(err) {
-                if (err) {
-                    console.log(err);
-                }
-            });
+                    _id: '5aca0d4d8865fc24fe140712',
+                    contentType: 'resource',
+                    createdOn: '1/1/1111',
+                    creator: 'salma',
+                    requestType: 'create'
+                });
+                ContReq.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
 
-            chai.request(server).
-            patch('/api/admin/RespondContentRequest/' +
-            '5aca0d4d8865fc24fe14071a').
-            send({ str: false }).
-            set('Authorization', adminToken).
-            end(function(err, res) {
-                if (!err === null) {
-                    console.log(err);
-                }
-                should.exist(res);
-                res.should.have.property('body');
-                res.should.have.status(404);
-                res.body.err.should.be.a('string');
-                expect(res.body.data).to.equal(null);
-                expect(res.body.err).to.equal('Request not found');
-                done();
-            });
-        }
-    );
-    it(
-    'Invalid requestId should display error 422' +
-    '(On invalid ObjectId Of Request)',
-    function(done) {
-        var ContReq = new contReq({
-            _id: '5aca0d4d8865fc24fe140719',
-            contentType: 'resource',
-            createdOn: '1/1/1111',
-            creator: 'salma',
-            requestType: 'create'
-        });
-        ContReq.save(function(err) {
-            if (err) {
-                console.log(err);
+                chai.request(server).
+                    patch('/api/admin/RespondContentRequest/' +
+                        '5aca0d4d8865fc24fe14071a').
+                    send({ str: false }).
+                    set('Authorization', adminToken).
+                    end(function (err, res) {
+                        if (!err === null) {
+                            console.log(err);
+                        }
+                        should.exist(res);
+                        res.should.have.property('body');
+                        res.should.have.status(404);
+                        res.body.err.should.be.a('string');
+                        expect(res.body.data).to.equal(null);
+                        expect(res.body.err).to.equal('Request not found');
+                        done();
+                    });
             }
-        });
-        chai.request(server).
-        patch('/api/admin/RespondContentRequest/' +
-        '1').
-        send({ str: false }).
-        set('Authorization', adminToken).
-        end(function(err, res) {
-            if (!err === null) {
-                console.log(err);
+        );
+        it(
+            'Invalid requestId should display error 422' +
+            '(On invalid ObjectId Of Request)',
+            function (done) {
+                var ContReq = new contReq({
+                    _id: '5aca0d4d8865fc24fe140719',
+                    contentType: 'resource',
+                    createdOn: '1/1/1111',
+                    creator: 'salma',
+                    requestType: 'create'
+                });
+                ContReq.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+                chai.request(server).
+                    patch('/api/admin/RespondContentRequest/' +
+                        '1').
+                    send({ str: false }).
+                    set('Authorization', adminToken).
+                    end(function (err, res) {
+                        if (!err === null) {
+                            console.log(err);
+                        }
+                        should.exist(res);
+                        res.should.have.property('body');
+                        res.should.have.status(422);
+                        res.body.err.should.be.a('string');
+                        expect(res.body.data).to.equal(null);
+                        expect(res.body.err).to.equal('The Request Id' +
+                            ' is not valid');
+                        done();
+                    });
             }
-            should.exist(res);
-            res.should.have.property('body');
-            res.should.have.status(422);
-            res.body.err.should.be.a('string');
-            expect(res.body.data).to.equal(null);
-            expect(res.body.err).to.equal('The Request Id is not valid');
+        );
+        it(
+            'Invalid requestId should display error 422' +
+            '(On invalid ObjectId Of Content)',
+            function (done) {
+                var Cont = new cont({
+                    _id: '5aca0d4d8865fc24fe140715',
+                    approved: false,
+                    body: 'this is the body',
+                    category: 'this is a category',
+                    creator: 'salma',
+                    section: 'this is a section',
+                    title: 'this is a title',
+                    type: 'idea'
+                });
+                Cont.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+                chai.request(server).
+                    patch('/api/admin/RespondContentStatus/' +
+                        '1').
+                    send({ str: false }).
+                    set('Authorization', adminToken).
+                    end(function (err, res) {
+                        if (!err === null) {
+                            console.log(err);
+                        }
+                        should.exist(res);
+                        res.should.have.property('body');
+                        res.should.have.status(422);
+                        res.body.err.should.be.a('string');
+                        expect(res.body.data).to.equal(null);
+                        expect(res.body.err).to.equal('The Content Id' +
+                            ' is not valid');
+                        done();
+                    });
+            }
+        );
+    });
+    // --- Clearing Mockgoose --- //
+    after(function (done) {
+        mockgoose.helper.reset().then(function () {
             done();
         });
-    }
-);
-    it(
-        'Invalid requestId should display error 422' +
-        '(On invalid ObjectId Of Content)',
-        function(done) {
-            var Cont = new cont({
-                _id: '5aca0d4d8865fc24fe140715',
-                approved: false,
-                body: 'this is the body',
-                category: 'this is a category',
-                creator: 'salma',
-                section: 'this is a section',
-                title: 'this is a title',
-                type: 'idea'
-            });
-            Cont.save(function(err) {
-                if (err) {
-                    console.log(err);
-                }
-            });
-            chai.request(server).
-        patch('/api/admin/RespondContentStatus/' +
-        '1').
-        send({ str: false }).
-        set('Authorization', adminToken).
-        end(function(err, res) {
-            if (!err === null) {
-                console.log(err);
-            }
-            should.exist(res);
-            res.should.have.property('body');
-            res.should.have.status(422);
-            res.body.err.should.be.a('string');
-            expect(res.body.data).to.equal(null);
-            expect(res.body.err).to.equal('The Content Id is not valid');
+    });
+    // --- End of "Clearing Mockgoose" --- //
+
+    // --- Mockgoose Termination --- //
+    after(function (done) {
+        mongoose.connection.close(function () {
             done();
-        });
-    }
-);
-});
-            // --- Mockgoose Termination --- //
-  after(function (done) {
-    mongoose.connection.close(function () {
-        done();
-        console.log('mockgoose closing the connection');
+            console.log('mockgoose closing the connection');
         });
     });
 

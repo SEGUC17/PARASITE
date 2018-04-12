@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
 var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
+var User = mongoose.model('User');
 
 // send a page of general content (resources and ideas) to the front end
 module.exports.getContentPage = function (req, res, next) {
@@ -237,6 +238,26 @@ var handleAdminCreate = function (req, res, next) {
         if (contentError) {
             return next(contentError);
         }
+
+        User.findOneAndUpdate(
+            { 'username': req.user.username },
+            { $set: { contributionScore: req.user.contributionScore + 10 } },
+            { new: true },
+            function (err, user) {
+                if (err) {
+                    console.log('cannot add contributionPoints to' +
+                        req.user.username);
+                }
+                // if not found return error
+                if (!user) {
+                    return res.status(404).json({
+                        data: null,
+                        err: 'User not found',
+                        msg: null
+                    });
+                }
+            }
+        );
 
         return res.status(201).json({
             data: content,

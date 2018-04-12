@@ -21,7 +21,10 @@ export class ActivityComponent implements OnInit {
   canCreate: Boolean;
 
   private createUrl = '/create-activity';
-  user: any;
+  user = {
+    isAdmin: false,
+    verified: false
+  }
 
   constructor(
     private activityService: ActivityService,
@@ -47,8 +50,11 @@ export class ActivityComponent implements OnInit {
     this.activityService.getActivities(page).subscribe(
       res => this.updateLayout(res)
     );
-    this.user = this.authService.getUser();
-    this.canCreate = this.user.isAdmin || this.user.verified;
+    this.authService.getUserData(['isAdmin']).subscribe((user) => {
+      this.user.isAdmin = user.data.isAdmin;
+      this.user.verified = user.data.verified;
+      this.canCreate = this.user.isAdmin || this.user.verified;
+    });
   }
 
 

@@ -6,7 +6,7 @@
     <div id = "PPDiv">
       <img id = "PP" src= "../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
       <br>
-      <label id="ProfileName" >{{firstName + " " + lastName}}</label>
+      <label id="ProfileName" >{{(currIsOwner? firstName : vFirstName) + " " + (currIsOwner? lastName : vLastName)}}</label>
       <br>
       <label id="Badge">Badge goes here</label><br>
       <button mat-raised-button style="margin-left: 40px">Direct Message</button>
@@ -41,19 +41,19 @@
           <div id = "personalinfo" class = "tabcontent">
             <h3 style="font-weight: bold">Personal Info:</h3>
 
-            <label>Username: {{username}}</label> <br>
-            <label>Email: {{email}}</label> <br>
-            <label>Address: {{address}}</label> <br>
-            <label>Phone: {{phone}}</label> <br>
+            <label>Username: {{currIsOwner? username : vUsername}}</label> <br>
+            <label>Email: {{currIsOwner? email : vEmail}}</label> <br>
+            <label>Address: {{currIsOwner? address : vAddress}}</label> <br>
+            <label>Phone: {{currIsOwner? phone : vPhone}}</label> <br>
 
           </div>
         </mat-tab>
-        <mat-tab label="Personal Schedule" *ngIf="iHaveAcess">
+        <mat-tab label="Personal Schedule" *ngIf="currIsOwner || visitedIsMyChild">
           <div id = "schedule" class = "tabcontent">
-            <app-schedule [profileUser]="vUsername" [loggedInUser]="user"></app-schedule>
+            <app-schedule [profileUser]="vUsername"></app-schedule>
           </div>
         </mat-tab>
-        <mat-tab label="List of children">
+        <mat-tab label="List of children" *ngIf = "currIsOwner? !currIsChild : !visitedIsChild">
           <div id = "children" class = "tabcontent">
             <h3 style="font-weight: bold">Your Children:</h3>
             <app-childern></app-childern>
@@ -63,13 +63,13 @@
           <div id = "studyplans" class = "tabcontent">
             <app-study-plan-list-view
               type="personal"
-              [(username)]="vUsername"
+              [username]="currIsOwner? username : vUsername"
               [(currIsChild)]="currIsChild"
               >
             </app-study-plan-list-view>
           </div>
         </mat-tab>
-        <mat-tab label="Settings">
+        <mat-tab label="Settings" *ngIf = "(currIsOwner && !currIsChild) || visitedIsMyChild">
           <div id = "Settings" class = "tabcontent">
             <h3>Settings</h3>
             <h4>Change Password</h4>
@@ -81,8 +81,9 @@
             New Password<br> <input #Newpw type="password" name="newpw" [(ngModel)]=newpw><br>
             Confirm New Password <br>
              <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
-            <button type="button"class="btn btn-primary"(click)="ChangePassword(Uname.value, {oldpw: Oldpw.value, newpw: Newpw.value})">Change Password</button>
-
+            <button type="button"class="btn btn-primary"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
+            
+            <p [innerHTML]="message"></p>
           </div>
             </mat-tab>
       </mat-tab-group>
