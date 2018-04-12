@@ -96,11 +96,11 @@ describe('Activities Comments creation', function () {
                 status: 'verified',
                 discussion: [
                     {
-                        creator: 'normalusername',
+                        creator: 'dummyUser',
                         text: 'comment text',
                         replies: [
                             {
-                                creator: 'normalusername',
+                                creator: 'dummyUser',
                                 text: 'reply text'
                             }
                         ]
@@ -156,10 +156,35 @@ describe('Activities Comments creation', function () {
                         console.log(err);
                     }
                     res.should.have.status(201);
-                    console.log(res.body.data);
                     expect(res.body.data).to.have.ownProperty('text');
                     expect(res.body.data).to.have.ownProperty('_id');
                     expect(res.body.data.text).to.equal(commentBody.text);
+                    expect(res.body.data.creator).to.equal(normalUser.username);
+                    done();
+                });
+        });
+        it('it should return the right comment in the body', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            var existingComment = { text: 'comment text' };
+            chai.request(app).
+                post('/api/activities/' + verifiedActivity._id + '/addComment').
+                send(existingComment).
+                set('Authorization', token).
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(201);
+                    console.log(res.body.data);
+                    expect(res.body.data).to.have.ownProperty('text');
+                    expect(res.body.data).to.have.ownProperty('_id');
+                    expect(res.body.data.creator).to.equal(normalUser.username);
+                    expect(res.body.data.text).to.equal(existingComment.text);
                     done();
                 });
         });
