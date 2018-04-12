@@ -94,7 +94,7 @@ module.exports.getActivity = function (req, res, next) {
         console.log(activity.status);
         if (activity.status !== 'verified') {
 
-            if (!isAdmin || creatorName !== user.username) {
+            if (!isAdmin && creatorName !== user.username) {
                 return res.status(403).json({
                     data: null,
                     err: 'this activity isn\'t verified yet',
@@ -160,7 +160,11 @@ module.exports.postActivity = function (req, res, next) {
 
     Activity.create(req.body, function (err, activity) {
         if (err) {
-            return next(err);
+            return res.status(422).json({
+                data: null,
+                err: err,
+                message: null
+            });
         }
         res.status(201).json({
             data: activity,
@@ -185,8 +189,8 @@ module.exports.reviewActivity = function (req, res, next) {
      */
 
     var user = req.user;
-    var activityId = req.body.get('_id');
-    var newStatus = req.body.get('status');
+    var activityId = req.body._id;
+    var newStatus = req.body.status;
 
     if (!activityId || !newStatus) {
         return res.status(422).json({
@@ -213,12 +217,19 @@ module.exports.reviewActivity = function (req, res, next) {
     Activity.findByIdAndUpdate(
         activityId,
         { status: newStatus },
+        {
+            new: true,
+            runValidators: true
+        },
         function(err, activity) {
-
             if (err) {
-                return next(err);
+                return res.status(422).json({
+                    data: null,
+                    err: err,
+                    msg: null
+                });
             }
-            res.status(204).json({
+            res.status(200).send({
                 data: activity,
                 err: null,
                 msg: 'Activity status is updated'

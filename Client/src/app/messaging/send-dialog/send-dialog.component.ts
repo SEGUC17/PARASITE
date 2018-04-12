@@ -14,43 +14,47 @@ import { MatInputModule } from '@angular/material/input';
 export class SendDialogComponent implements OnInit {
 
   Body: String = '';
-  Sender: String = '';
   Receiver: String = '';
-  div1: Boolean;
-  div2: Boolean;
-  div3: Boolean;
+  div1: Boolean; // div for empty recipient error message
+  div2: Boolean; // div for empty body error message
+  div3: Boolean; // div for sent message success notification
   msg: any;
-  currentUser: any;
-  username: String;
-  isChild: Boolean;
+  currentUser: any; // currently logged in user
 
   constructor(public dialogRef: MatDialogRef<SendDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService) {
-      /*this.currentUser = this.authService.getUser();
-      this.username = this.currentUser.username;
-      this.isChild = this.currentUser.isChild;*/
-     }
+    @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService) { }
 
   onNoClick(): void {
       this.dialogRef.close();
   }
 
   ngOnInit() {
+    const self = this;
+    const userDataColumns = ['username'];
+    // getting username of logged in user
+    this.authService.getUserData(userDataColumns).subscribe(function (res) {
+      self.currentUser = res.data;
+    });
   }
 
   send(): void {
+    // notify user if recipient field is empty
     if (this.Receiver === '') {
       this.div1 = true;
       this.div2 = false;
       this.div3 = false;
     } else {
+      // notify user if message body is empty
       if (this.Body === '') {
         this.div2 = true;
         this.div1 = false;
         this.div3 = false;
       } else {
         const self = this;
-        this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.Sender};
+        // create a message object with the info the user entered
+        this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.currentUser.username};
+
+        // make a POST request using messaging service
         this.messageService.send(this.msg)
          .subscribe(function() {
           self.div3 = true;

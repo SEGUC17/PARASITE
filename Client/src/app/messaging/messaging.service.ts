@@ -19,18 +19,22 @@ export class MessageService {
 
   constructor(private http: HttpClient) { }
 
+  // making a POST request to send a message
   send(message: any): Observable<any> {
     return this.http.post<any>(this.url + 'message/sendMessage', message, httpOptions);
   }
 
+  // making a GET request to get inbox
   getInbox(user: any): Observable<any> {
     return this.http.get<any>(this.url + 'message/inbox/' + user);
   }
 
+  // making a GET request to get sent messages
   getSent(user: any): Observable<any> {
     return this.http.get<any>(this.url + 'message/sent/' + user);
   }
 
+  // making a DELETE request to delete a specific message (using the message id)
   deleteMessage(message: any): Observable<any> {
     return this.http.delete<any>(this.url + `message/${message._id}`, httpOptions);
   }

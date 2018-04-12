@@ -45,42 +45,27 @@ export class ViewContentRequestsComponent implements OnInit {
     console.log(res.msg);
      });
   }
-  approveContentRequest(Rid): any {
+  approveContentRequest(Rid, Cid, username): any {
     let self = this;
-   self._adminService.respondContentRequest('approved', Rid ).subscribe(function(res) {
-     self.viewPendingContReqs();
-      self.modifyContentStatus( true, res.data.contentID );
+    let wantedCols: string[] = ['contributionScore'];
+    self._authService.getAnotherUserData(wantedCols, username).subscribe(function(res) {
+    self._adminService.respondContentRequest('approved', Rid, Cid, true, username, res.data.contributionScore).subscribe(function(res1) {
+    self.viewPendingContReqs();
+  });
    });
   }
-  disapproveContentRequest(Rid): any {
+  disapproveContentRequest(Rid, Cid): any {
     let self = this;
-    self._adminService.respondContentRequest('disapproved', Rid).subscribe(function(res) {
+    let wantedCols: string[] = ['contributionScore'];
+    self._adminService.respondContentRequest('disapproved', Rid, Cid, false, 'NotNeededHere', 0).subscribe(function(res1) {
       self.viewPendingContReqs();
-      self.modifyContentStatus( false, res.data.contentID);
     });
 }
-  modifyContentStatus(response: boolean, id): any {
-    let self = this;
-    this._adminService.modifyContentStatus( response, id).subscribe(
-      function(res1) {
-        if (response === true ) {
-         console.log('should be after approved only , res1.creator is: ' + res1.data.creator);
-          self.addContributionPts( res1.data.creator);
-       }
-});
-}
+
   getcontent(): any {
     let self = this;
     self._adminService.getcontent().subscribe(
       function(res) {
       });
   }
-  addContributionPts(username): any {
-    let self = this;
-    let wantedCols: string[] = ['contributionScore'];
-    self._authService.getAnotherUserData(wantedCols, username).subscribe(function(res) {
-    console.log('retrieved contribution Score' + res.data.contributionScore);
-    self._adminService.addContPts(username, res.data.contributionScore + 10 ).subscribe();
-       });
-      }
-  }
+}

@@ -81,16 +81,13 @@ export class ContentEditComponent implements OnInit {
       return;
     }
     // get username of the registered user
-    this.authService.getUserData(['username', 'isAdmin', 'contributionScore']).subscribe(function (authRes) {
+    this.authService.getUserData(['username']).subscribe(function (authRes) {
       self.content.creator = authRes.data.username;
       // create content for for that registered user
       self.contentService.createContent(content).subscribe(function (contentRes) {
         // TODO: (Universal Error Handler/ Modal Errors)
         if (!contentRes) {
           return;
-        }
-        if (authRes.data.isAdmin) {
-          self.addContributionPts(authRes.data.username, authRes.data.contributionScore);
         }
         if (contentRes.data.content) {
           self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
@@ -102,12 +99,6 @@ export class ContentEditComponent implements OnInit {
 
 
   }
-  addContributionPts(username, oldPoints): any {
-    let self = this;
-    self.adminService.addContPts(username, oldPoints + 10 ).subscribe();
-       }
-
-
   // retrieve all categories from server
   getCategories(): void {
     const self = this;

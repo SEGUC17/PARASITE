@@ -1,9 +1,3 @@
-
-      <mat-form-field>
-          <input #sender matInput [(ngModel)]="Sender" placeholder="From">
-       </mat-form-field>
-       <br/>
-  
       <mat-form-field>
           <input #receiver matInput [(ngModel)]="Receiver" placeholder="To">
       </mat-form-field>
@@ -14,7 +8,7 @@
       </mat-form-field>
       <br/>
       
-      <button mat-raised-button color="primary" (click)="send(); sender.value=''; receiver.value=''; body.value=''">Send</button>
+      <button mat-raised-button color="primary" (click)="send(); receiver.value=''; body.value=''">Send</button>
       <br/>
   
 
