@@ -57,58 +57,55 @@ describe('/POST message', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-  it('it should send a message to the specified recipient', function (done) {
+    it('it should send a message to the specified recipient', function (done) {
 
-    // sign up and be authenticated
-    chai.request(server).
-    post('/api/signUp').
-    send(user).
-    end(function (err, response) {
-        if (err) {
-            return console.log(err);
-        }
-        response.should.have.status(201);
-        token = response.body.token;
-
-        // get username of logged in user
-        chai.request(server).post('/api/userData').
-            send(['username']).
-            set('Authorization', token).
-            end(function (err, result) {
+        // sign up and be authenticated
+        chai.request(server).
+            post('/api/signUp').
+            send(user).
+            end(function (err, response) {
                 if (err) {
                     return console.log(err);
                 }
-                result.should.have.status(200);
-                var message = {
-                    body: 'hi',
-                    recipient: 'test',
-                    sender: result.body.data.username
-                };
-            
-            // send post request
-            chai.request(server).
-                post('/api/message/sendMessage').
-                send(message).
-                set('Authorization', token).
-                end(function (error, res) {
-                    if (error) {
-                        return console.log(error);
-                     }
-                    // console.log(res.body.data);
-                    res.should.have.status(200);
-                    res.body.data.should.be.a('Object');
-                    res.body.data.should.have.property('sender').eql(result.body.data.username);
-                    res.body.data.should.have.property('recipient').eql(message.recipient);
-                    res.body.data.should.have.property('body').eql(message.body);
-                    
-                    done();
-              });
-         });
+                response.should.have.status(201);
+                token = response.body.token;
+
+                // get username of logged in user
+                chai.request(server).post('/api/userData').
+                    send(['username']).
+                    set('Authorization', token).
+                    end(function (err, result) {
+                        if (err) {
+                            return console.log(err);
+                        }
+                        result.should.have.status(200);
+                        var message = {
+                            body: 'hi',
+                            recipient: 'test',
+                            sender: result.body.data.username
+                        };
+
+                        // send post request
+                        chai.request(server).
+                            post('/api/message/sendMessage').
+                            send(message).
+                            set('Authorization', token).
+                            end(function (error, res) {
+                                if (error) {
+                                    return console.log(error);
+                                }
+                                // console.log(res.body.data);
+                                res.should.have.status(200);
+                                res.body.data.should.be.a('Object');
+                                res.body.data.should.have.property('sender').eql(result.body.data.username);
+                                res.body.data.should.have.property('recipient').eql(message.recipient);
+                                res.body.data.should.have.property('body').eql(message.body);
+
+                                done();
+                            });
+                    });
+            });
     });
-  });
-});
-
-
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
@@ -116,3 +113,5 @@ describe('/POST message', function () {
         });
     });
     // --- End of "Mockgoose Termination" --- //
+});
+

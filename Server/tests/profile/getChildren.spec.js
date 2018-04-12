@@ -19,13 +19,13 @@ describe('/GET/ Children ', function () {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
 
-                    done();
-                });
-
-
+                done();
             });
 
+
         });
+
+    });
 
 
     // --- End of "Mockgoose Initiation" --- //
@@ -39,38 +39,38 @@ describe('/GET/ Children ', function () {
     // --- End of "Clearing Mockgoose" --- /
 
     //testing get children
- it('it should GET cchildren from the server', function (done) {
- var user1 = new User({
- address: 'Mars',
- birthdate: '1990-11-10T22:00:00.000Z',
- children: ['onechild'],
- email: 'haidy@gmail.com',
- firstName: 'haidy',
-isParent: true,
- lastName: 'last',
- password: '12345678',
- phone: '01213944266',
- username: 'heidi'
- });
- user1.save(function (err, savedCategory) {
- if (err) {
- return console.log(err);
- }
- chai.request(server).get('/api/profile/' + user1.username + '/getChildren').
- end(function (error, res) {
- if (error) {
- return console.log(error);
- }
- expect(res).to.have.status(200);
-res.body.data.should.be.a('array');
-res.body.should.have.property('msg').
-        eql('Children retrieved successfully.');
-        res.body.should.have.property('err').eql(null);
-  res.body.should.have.property('data').eql(user1.children);
- done();
- });
- });
- });
+    it('it should GET cchildren from the server', function (done) {
+        var user1 = new User({
+            address: 'Mars',
+            birthdate: '1990-11-10T22:00:00.000Z',
+            children: ['onechild'],
+            email: 'haidy@gmail.com',
+            firstName: 'haidy',
+            isParent: true,
+            lastName: 'last',
+            password: '12345678',
+            phone: '01213944266',
+            username: 'heidi'
+        });
+        user1.save(function (err, savedCategory) {
+            if (err) {
+                return console.log(err);
+            }
+            chai.request(server).get('/api/profile/' + user1.username + '/getChildren').
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    expect(res).to.have.status(200);
+                    res.body.data.should.be.a('array');
+                    res.body.should.have.property('msg').
+                        eql('Children retrieved successfully.');
+                    res.body.should.have.property('err').eql(null);
+                    res.body.should.have.property('data').eql(user1.children);
+                    done();
+                });
+        });
+    });
 
 
     // --- Mockgoose Termination --- //
