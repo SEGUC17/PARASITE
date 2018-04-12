@@ -102,7 +102,7 @@ describe('View Activities', function () {
             });
             User.create({
                 birthdate: Date.now(),
-                email: 'test@email.com',
+                email: 'test0@email.com',
                 firstName: 'firstname',
                 isAdmin: false,
                 lastName: 'lastname',
@@ -116,7 +116,7 @@ describe('View Activities', function () {
                 normalUser = user;
                 User.create({
                     birthdate: Date.now(),
-                    email: 'test@email.com',
+                    email: 'test1@email.com',
                     firstName: 'firstname',
                     isAdmin: true,
                     lastName: 'lastname',
