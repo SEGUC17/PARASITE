@@ -9,6 +9,7 @@ import { Section } from '../section';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from '../category';
 import { AuthService } from '../../auth/auth.service';
+import { AdminService } from '../../admin.service';
 @Component({
   selector: 'app-content-edit',
   templateUrl: './content-edit.component.html',
@@ -41,7 +42,8 @@ export class ContentEditComponent implements OnInit {
     private contentService: ContentService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private adminService: AdminService) {
   }
 
   // Add a tag chip event handler
@@ -97,7 +99,6 @@ export class ContentEditComponent implements OnInit {
 
 
   }
-
   // retrieve all categories from server
   getCategories(): void {
     const self = this;

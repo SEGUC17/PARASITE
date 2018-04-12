@@ -139,18 +139,9 @@ module.exports = function (passport) {
     adminController.viewPendingContReqs
   );
   router.patch(
-    '/admin/RespondContentRequest/:ContentRequestId', isAuthenticated,
+    '/admin/RespondContentRequest/:ContentRequestId/:ContentId', isAuthenticated,
     adminController.respondContentRequest
   );
-  router.patch(
-    '/admin/RespondContentStatus/:ContentId', isAuthenticated,
-    adminController.respondContentStatus
-  );
-  // TO-DO ContributionPts
-  // router.patch(
-  //   'admin/addContPts', isAuthenticated,
-  //   adminController.addContPts
-  // );
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
@@ -206,6 +197,12 @@ module.exports = function (passport) {
   router.get(
     '/content/view/:id',
     contentController.getContentById
+  );
+
+  // Get a page of content according to a search query
+  router.get(
+    '/content/:pageSize/:pageNumber/search',
+    contentController.getSearchPage
   );
 
   // Get Categories

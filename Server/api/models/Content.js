@@ -66,6 +66,22 @@ var contentSchema = mongoose.Schema({
     }
 });
 
+contentSchema.index(
+    {
+        tags: 'text',
+        title: 'text'
+    },
+    {
+        name: 'ContentTextIndex',
+        weights: {
+            tags: 10,
+            title: 15
+        }
+    }
+);
+
 // apply the mongoose paginate library to the schema
 contentSchema.plugin(mongoosePaginate);
 var Content = mongoose.model('Content', contentSchema, 'contents');
+
+Content.ensureIndexes();

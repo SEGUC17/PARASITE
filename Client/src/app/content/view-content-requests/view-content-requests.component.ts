@@ -4,6 +4,7 @@ import { ContentRequest } from '../contentRequest';
 import { Router} from '@angular/router';
 import { ContentRoutingModule } from '../content-routing.module';
 import { AuthService } from '../../auth/auth.service';
+import { SafeResourceUrlPipe } from '../safe-resource-url.pipe';
 @Component({
   selector: 'app-view-content-requests',
   templateUrl: './view-content-requests.component.html',
@@ -44,52 +45,27 @@ export class ViewContentRequestsComponent implements OnInit {
     console.log(res.msg);
      });
   }
-  approveContentRequest(Rid): any {
+  approveContentRequest(Rid, Cid, username): any {
     let self = this;
-   self._adminService.respondContentRequest('approved', Rid ).subscribe(function(res) {
-     self.viewPendingContReqs();
-      self.modifyContentStatus( true, res.data.contentID );
+    let wantedCols: string[] = ['contributionScore'];
+    self._authService.getAnotherUserData(wantedCols, username).subscribe(function(res) {
+    self._adminService.respondContentRequest('approved', Rid, Cid, true, username, res.data.contributionScore).subscribe(function(res1) {
+    self.viewPendingContReqs();
+  });
    });
   }
-  disapproveContentRequest(Rid): any {
+  disapproveContentRequest(Rid, Cid): any {
     let self = this;
-    self._adminService.respondContentRequest('disapproved', Rid).subscribe(function(res) {
+    let wantedCols: string[] = ['contributionScore'];
+    self._adminService.respondContentRequest('disapproved', Rid, Cid, false, 'NotNeededHere', 0).subscribe(function(res1) {
       self.viewPendingContReqs();
-      self.modifyContentStatus( false, res.data.contentID);
     });
 }
-  modifyContentStatus(response: boolean, id): any {
-    let self = this;
-    this._adminService.modifyContentStatus( response, id).subscribe(
-      function(res1) {
-        if (response === true ) {
-         console.log('should be after approved only , res1.creator is: ' + res1.data.creator);
-          // self.addContributionPts(/*res1.data.creator*/ 'salma');
-       }
-});
-}
+
   getcontent(): any {
     let self = this;
     self._adminService.getcontent().subscribe(
       function(res) {
       });
   }
-  // TO-DO ContributionPts
-  // getOldContPts(username): any {
-  //   let self = this;
-  //   let wantedCols: string[] = ['contributionScore'];
-
-  //   self._authService.getAnotherUserData(wantedCols, username).subscribe();
-  // }
-
-  // addContributionPts(username): any {
-  //   let self = this;
-  //   console.log('I\'m in addContributionPts with username: ' + username);
-  //   // console.log('Outcome of the auth servive, oldPoints is: ' + self.getOldContPts(username));
-  //   self._adminService.addContPts(username).subscribe(
-  //     function(res) {
-  //       console.log('final contPts' + res.contibutionPoints);
-  //     }
-  //   );
-  // }
 }
