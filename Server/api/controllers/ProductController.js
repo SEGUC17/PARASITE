@@ -272,3 +272,25 @@ module.exports.getUserRequests = function (req, res, next) {
         });
     }
 };
+
+module.exports.updateRequest = function (req, res, next) {
+    if (req.user.username === req.params.username) {
+        ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(201).json({
+                data: null,
+                err: null,
+                msg: 'Request updated.'
+            });
+        });
+    } else {
+        return res.status(403).json({
+            data: null,
+            err: 'You can only edit your requests',
+            msg: null
+        });
+    }
+};
