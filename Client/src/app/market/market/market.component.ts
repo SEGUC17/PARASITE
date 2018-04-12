@@ -17,7 +17,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class MarketComponent implements OnInit {
 
-  user: any;
+  user: any = {};
   products: Product[];
   currentPageNumber: number;
   entriesPerPage = 15;
@@ -26,6 +26,7 @@ export class MarketComponent implements OnInit {
   numberOfProducts: number;
   numberOfUserProducts: number;
   userItems: Product[];
+  userRequests: Product[];
   userItemsCurrentPage: number;
 
   constructor(public dialog: MatDialog, public router: Router,
@@ -35,7 +36,7 @@ export class MarketComponent implements OnInit {
   // gets the products in the market and the products owned by the user)
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['username'];
+    const userDataColumns = ['username', 'isAdmin'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.user = res.data;
       if (!self.user) {
@@ -45,6 +46,7 @@ export class MarketComponent implements OnInit {
         self.currentPageNumber = 1;
         self.firstPage();
         self.firstUserPage();
+        self.getUserRequests();
       }
     });
   }
@@ -54,7 +56,7 @@ export class MarketComponent implements OnInit {
       let dialogRef = this.dialog.open(ProductDetailComponent, {
         width: '1000px',
         height: '400px',
-        data: { product: prod }
+        data: { product: prod, curUser: this.user.username }
       });
 
       dialogRef.afterClosed().subscribe(result => {
@@ -73,6 +75,7 @@ export class MarketComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.getUserRequests();
     });
   }
 
@@ -151,4 +154,12 @@ export class MarketComponent implements OnInit {
     this.getUserPage();
   }
 
+  getUserRequests(): void {
+    let self = this;
+    this.marketService.getUserRequests(this.user.username).subscribe(function (res) {
+      if (res.msg === 'Requests retrieved.') {
+        self.userRequests = res.data;
+      }
+    });
+  }
 }

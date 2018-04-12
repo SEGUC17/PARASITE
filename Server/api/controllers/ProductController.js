@@ -252,8 +252,8 @@ module.exports.evaluateRequest = function (req, res, next) {
 };
 
 module.exports.getUserRequests = function (req, res, next) {
-    if (req.user.username === req.body.username) {
-        ProductRequest.find({ username: req.user.username }).exec(function (err, prodRequests) {
+    if (req.user.username === req.params.username) {
+        ProductRequest.find({ seller: req.user.username }).exec(function (err, prodRequests) {
             if (err) {
                 return next(err);
             }
