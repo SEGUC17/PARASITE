@@ -93,6 +93,18 @@ describe('View Activities', function () {
                 fromDateTime: Date.now(),
                 toDateTime: Date.now() + 5,
                 status: 'verified',
+                discussion: [
+                    {
+                        creator: 'normalusername',
+                        text: 'comment text',
+                        replies: [
+                            {
+                                creator: 'normalusername',
+                                text: 'reply text'
+                            }
+                        ]
+                    }
+                ],
                 price: 50
             }, function (err, activity) {
                 if (err) {
@@ -157,6 +169,22 @@ describe('View Activities', function () {
                     for (var activity in activities) {
                         activity = activities[activity];
                         expect(activity.status).to.equal('verified');
+                    }
+                    done();
+                });
+        });
+        it('it shouldn\'t include discussion in body', function (done) {
+            chai.request(app).get('/api/activities').
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(200);
+                    expect(res.body.data.docs.length).to.equal(1);
+                    var activities = res.body.data.docs;
+                    for (var activity in activities) {
+                        activity = activities[activity];
+                        expect(activity).to.not.have.ownProperty('discussion');
                     }
                     done();
                 });
@@ -227,8 +255,11 @@ describe('View Activities', function () {
                     expect(res.body.data).to.have.ownProperty('description');
                     expect(res.body.data.description).to.
                         equal(verifiedActivity.description);
-                    done();
-                });
+                    expect(res.body.data).to.haveOwnProperty('discussion');
+                    expect(res.body.data.discussion[0].text).to.
+                        equal(verifiedActivity.discussion[0].text);
+                        done();
+                    });
         });
         it('it should GET return 403', function (done) {
             chai.request(app).get('/api/activities/' + pendingActivity._id).

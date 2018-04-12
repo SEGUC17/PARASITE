@@ -47,10 +47,11 @@ module.exports.getActivities = function (req, res, next) {
         filter.status = 'verified';
     }
     Activity.paginate(
-        filter, { discussion: 0 },
+        filter,
         {
-        limit: 10,
-         page: pageN
+            limit: 10,
+            page: pageN,
+            select: { discussion: 0 }
         },
         function (err, activities) {
             if (err) {
@@ -228,7 +229,7 @@ module.exports.reviewActivity = function (req, res, next) {
             new: true,
             runValidators: true
         },
-        function(err, activity) {
+        function (err, activity) {
             if (err) {
                 return res.status(422).json({
                     data: null,
