@@ -18,7 +18,8 @@ export class SignupComponent implements OnInit {
     email: '',
     birthdate: new Date(),
     phone: '',
-    address: ''
+    address: '',
+    isTeacher: false,
   };
 
   constructor(private location: Location, private authService: AuthService) { }
