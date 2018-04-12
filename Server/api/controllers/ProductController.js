@@ -250,3 +250,25 @@ module.exports.evaluateRequest = function (req, res, next) {
         });
     }
 };
+
+module.exports.getUserRequests = function (req, res, next) {
+    if (req.user.username === req.body.username) {
+        ProductRequest.find({ username: req.user.username }).exec(function (err, prodRequests) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: prodRequests,
+                err: null,
+                msg: 'Requests retrieved.'
+            });
+        });
+    } else {
+        return res.status(403).json({
+            data: null,
+            err: 'You can only view your requests',
+            msg: null
+        });
+    }
+};
