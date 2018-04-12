@@ -54,4 +54,4 @@ var commentSchema = Schema({
 // Adds CreatedAt, UpdatedAt fields in Unix format
 commentSchema.plugin(timestamps);
 
-mongoose.model('Comment', commentSchema, 'comments');
+mongoose.model('Comment', commentSchema);
