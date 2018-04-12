@@ -12,7 +12,8 @@ import {
   MatFormFieldModule,
   MatButtonModule,
   MatDatepickerModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatSelectModule
 } from '@angular/material';
 
 @NgModule({
@@ -27,7 +28,8 @@ import {
     MatIconModule,
     MatButtonModule,
     MatDatepickerModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatSelectModule
   ],
   declarations: [LoginComponent, SignupComponent]
 })

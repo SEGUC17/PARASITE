@@ -45,8 +45,13 @@
       <mat-placeholder>Phone</mat-placeholder>
     </mat-form-field>
     <mat-form-field class="register-input">
-      <input matInput name="address" [(ngModel)]="user.address" #address="ngModel" />
-      <mat-placeholder>Address</mat-placeholder>
+      <mat-select matInput name="address" [(ngModel)]="user.address" #address="ngModel" required>
+        <mat-option *ngFor="let city of cities" [value]="city">
+          {{ city }}
+        </mat-option>
+        <mat-error *ngIf="address.touched">Select A City</mat-error>
+      </mat-select>
+      <mat-placeholder>City</mat-placeholder>
     </mat-form-field>
     <mat-checkbox class="is-teacher" #isTeacher [(ngModel)]="user.isTeacher" name="isTeacher" color="primary">
       Are You A Teacher?
