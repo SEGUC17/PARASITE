@@ -47,7 +47,8 @@ module.exports.getActivities = function (req, res, next) {
         filter.status = 'verified';
     }
     Activity.paginate(
-        filter, {
+        filter, { discussion: 0 },
+        {
         limit: 10,
          page: pageN
         },
