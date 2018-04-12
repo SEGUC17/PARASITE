@@ -188,6 +188,12 @@ module.exports = function (passport) {
     contentController.getContentById
   );
 
+  // Get a page of content according to a search query
+  router.get(
+    '/content/:pageSize/:pageNumber/search',
+    contentController.getSearchPage
+  );
+
   // Get Categories
   router.get(
     '/content/category',

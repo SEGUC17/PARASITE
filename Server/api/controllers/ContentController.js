@@ -27,83 +27,41 @@ module.exports.getContentPage = function (req, res, next) {
         });
     }
 
-    if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
-        // no category and section were specified
-        // fectch a page of content
-        Content.paginate(
-            {
-                approved: true,
-                category: req.params.category,
-                section: req.params.section
-            },
-            {
-                limit: Number(req.params.numberOfEntriesPerPage),
-                page: Number(req.params.pageNumber)
-            },
-            function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
+    // intitialize the retrieval conditions
+    var conditions = {
+        'approved': true,
+        'category': req.params.category,
+        'section': req.params.section
+    };
 
-                // send a page of content
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-            }
-        );
-    } else if (req.params.category === 'NoCat') {
-        // category, and thus section, were not specified
-        // fetch a page from the database
-        Content.paginate(
-            { approved: true },
-            {
-                limit: Number(req.params.numberOfEntriesPerPage),
-                page: Number(req.params.pageNumber)
-            },
-            function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
-
-                // send a page of content
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-            }
-        );
-    } else {
-        // only a category was specified
-        // fetch a page from the database
-        Content.paginate(
-            {
-                approved: true,
-                category: req.params.category
-            },
-            {
-                limit: Number(req.params.numberOfEntriesPerPage),
-                page: Number(req.params.pageNumber)
-            },
-            function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
-
-                // send a page of content
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-            }
-        );
+    // category or section not of interest
+    if (req.params.category === 'NoCat') {
+        delete conditions.category;
+        delete conditions.section;
+    } else if (req.params.section === 'NoSec') {
+        delete conditions.section;
     }
+
+    // retrieve page of content
+    Content.paginate(
+        conditions,
+        {
+            limit: Number(req.params.numberOfEntriesPerPage),
+            page: Number(req.params.pageNumber)
+        },
+        function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+            // send a page of content
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'Page retrieved successfully'
+            });
+        }
+    );
 };
 
 // retrieve content (resource  or idea) by ObejctId
@@ -143,6 +101,90 @@ module.exports.getContentById = function (req, res, next) {
 
     });
 
+};
+
+// helper for getSearchPage
+var prepareQueryConditionsForSearch = function (query) {
+    // default search conditions
+    var conditions = {
+        '$text': { '$search': query.searchQuery },
+        'approved': true,
+        'category': query.category,
+        'section': query.section
+    };
+
+    // section and category are not of interest
+    if (query.category === 'NoCat' || query.section === 'NoSec') {
+        delete conditions.category;
+        delete conditions.section;
+    }
+
+    // title and tags not of interest
+    if (query.searchQuery === '') {
+        delete conditions.$text;
+    }
+
+    return conditions;
+};
+
+// helper for getSearchPage
+var prepareQueryOptionsForSearch = function (query, params) {
+    // default search options
+    var options = {
+        limit: Number(params.pageSize),
+        page: Number(params.pageNumber),
+        sort: { }
+    };
+
+    // sort option was provided, default is relevance
+    if (query.sort) {
+
+        if (query.sort === 'upload date') {
+            options.sort.touchDate = 1;
+        }
+
+        if (query.sort === 'rating') {
+            options.sort.rating = -1;
+        }
+    }
+
+    // relevance is of importance to the query
+    if (query.searchQuery !== '') {
+        options.select = { score: { $meta: 'textScore' } };
+        options.sort.score = { $meta: 'textScore' };
+    }
+
+    return options;
+};
+
+module.exports.getSearchPage = function (req, res, next) {
+    // prepare the conditions and options for the query
+    var conditions = prepareQueryConditionsForSearch(req.query);
+    var options = prepareQueryOptionsForSearch(req.query, req.params);
+
+    // log the options and conditions for debugging
+    console.log(options);
+    console.log(conditions);
+
+    // execute the database query
+    Content.paginate(
+        conditions,
+        options,
+        function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+
+            // send the page of contents
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'The contents searched for by ' +
+                    'the user were retrieved successfully'
+            });
+        }
+    );
 };
 
 // retrieve the content (resources and ideas) created by the specified user
