@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var isTimestamp = require('validate.io-timestamp');
 var timestamps = require('mongoose-timestamp-date-unix');
 
 /*eslint max-statements: ["error", 20]*/
@@ -28,6 +27,8 @@ var replySchema = Schema({
      }
 });
 
+// Adds CreatedAt, UpdatedAt fields in Unix format
+replySchema.plugin(timestamps);
 
 var commentSchema = Schema({
 
@@ -49,3 +50,8 @@ var commentSchema = Schema({
     },
     replies: { type: [replySchema] }
 });
+
+// Adds CreatedAt, UpdatedAt fields in Unix format
+commentSchema.plugin(timestamps);
+
+mongoose.model('Comment', commentSchema, 'comments');
