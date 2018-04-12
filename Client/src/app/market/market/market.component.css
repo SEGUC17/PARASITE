@@ -28,3 +28,11 @@
   .button{
     background:#3f51b5; color:white
   }
+
+  mat-tab-group {
+    background-color: #DA572B;
+    color: white;
+  }
+  mat-tab{
+    color: white;
+  }

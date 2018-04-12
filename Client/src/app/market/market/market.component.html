@@ -1,29 +1,8 @@
 <mat-tab-group dynamicHeight>
   <mat-tab label="Market">
-    <mat-card>
-      <mat-card-content>
-        <mat-tab-group  style="width:500px">
-          <mat-tab label="price" >
-            <mat-slider class="margin10 widthFloat" [disabled]=false [invert]=false [max]=10000000 [min]=0 [step]=1 [thumb-label]=false
-              [tick-interval]=false [(ngModel)]="selectedPrice" [vertical]=false>
-            </mat-slider>
-            <section class="section">
-              <input matInput type="number" placeholder="Value" [(ngModel)]="selectedPrice">
-              <button mat-button class="md-raised md-primary button" (click)="this.firstPage()">Filter</button>
-            </section>
-          </mat-tab>
-          <mat-tab label="Name">
-            <mat-form-field class="margin10">
-              <input matInput placeholder="Value" [(ngModel)]="selectedName">
-            </mat-form-field>
-            <button mat-button class="md-raised md-primary button" (click)="this.firstPage()">Filter</button>
-          </mat-tab>
-        </mat-tab-group>
-      </mat-card-content>
-    </mat-card>
-    <mat-card style="min-height: 300px; padding-left: 5px; padding-right:5px">
+    <mat-card style="min-height: 300px;max-width: 75%;float: left;">
       <div class="row justify-content-md-center">
-        <mat-card *ngFor="let product of products" style="width:18%; margin:3px">
+        <mat-card *ngFor="let product of products" style="margin:5px; width:30%">
           <img mat-card-image src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
             alt="Photo of product" style="height:200px">
           <mat-card-content class="mt-2">
@@ -35,12 +14,28 @@
           </mat-card-actions>
         </mat-card>
       </div>
+      <div class="paginator">
+        <mat-paginator [length]="numberOfProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChangeMarket($event)">
+        </mat-paginator>
+      </div>
+    </mat-card>
+    <mat-card style="width:25%; float: right; background-color: transparent">
+      <mat-card-content>
+        <mat-slider class="margin10" [disabled]=false [invert]=false [max]=10000000 [min]=0 [step]=1 [thumb-label]=false [tick-interval]=false
+          [(ngModel)]="selectedPrice" [vertical]=false>
+        </mat-slider>
+        <section class="section">
+          <input matInput type="number" placeholder="Value" [(ngModel)]="selectedPrice">
+          <button mat-button class="md-raised md-primary button" (click)="this.firstPage()">Filter</button>
+        </section>
+        <mat-form-field class="margin10">
+          <input matInput placeholder="Value" [(ngModel)]="selectedName">
+        </mat-form-field>
+        <button mat-button class="md-raised md-primary button" (click)="this.firstPage()">Filter</button>
+
+      </mat-card-content>
     </mat-card>
 
-    <div class="paginator">
-      <mat-paginator [length]="numberOfProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChangeMarket($event)">
-      </mat-paginator>
-    </div>
   </mat-tab>
   <mat-tab label="My items">
     <mat-card style="height:80px">
