@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
+import { cities } from '../../variables';
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -18,8 +19,10 @@ export class SignupComponent implements OnInit {
     email: '',
     birthdate: new Date(),
     phone: '',
-    address: ''
+    address: '',
+    isTeacher: false,
   };
+  public cities = cities;
 
   constructor(private location: Location, private authService: AuthService) { }
 
