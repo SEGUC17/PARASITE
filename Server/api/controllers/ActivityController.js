@@ -252,3 +252,54 @@ module.exports.reviewActivity = function (req, res, next) {
         }
     );
 };
+
+module.exports.commentOnActivity = function (req, res, next) {
+
+    /*
+     * Middleware to add comment in activities discussion
+     *
+     * author: Wessam Ali
+     */
+
+    var valid = typeof req.body.text === 'string';
+    var activityId = req.params.activityId;
+    Activity.findByIdAndUpdate(
+        activityId,
+        {
+            $push: {
+                'discussion': {
+                    creator: req.user.username,
+                    text: req.body.text
+                }
+            }
+        },
+        {
+            new: true,
+            runValidators: true
+        },
+        function(err, activity) {
+            if (err) {
+                return res.status(422).json({
+                    data: null,
+                    err: err,
+                    msg: null
+                });
+            }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
+                    msg: null
+                });
+            }
+
+            res.status(201).json({
+                data: activity.discussion.filter(function(comment) {
+                        return comment.text === req.body.text;
+                }),
+                err: null,
+                msg: null
+            });
+        }
+    );
+};
