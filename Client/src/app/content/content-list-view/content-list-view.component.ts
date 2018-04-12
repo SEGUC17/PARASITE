@@ -26,8 +26,8 @@ export class ContentListViewComponent implements OnInit {
 
   // for content list pagination
   totalNumberOfEntries: number;
-  selectedCategory: String = 'NoCat';
-  selectedSection: String = 'NoSec';
+  selectedCategory: String = 'cat1';
+  selectedSection: String = 'sec1.1';
   currentPageNumber = 1;
 
   // for my contributions pagination
@@ -39,7 +39,8 @@ export class ContentListViewComponent implements OnInit {
   isSearching: Boolean = false;
 
   // sorting variables
-  sortResultsBy: String = '';
+  sortResultsBy: String = 'relevance';
+  sortOptions = ['relevance', 'upload date', 'rating'];
 
   // signed in user
   currentUser: User;

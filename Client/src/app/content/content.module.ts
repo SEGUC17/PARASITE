@@ -24,7 +24,7 @@ import { SafeHtmlPipe } from './safe-html.pipe';
 import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
 import { AdminModule } from '../admin/admin.module';
 import { MatSelectModule } from '@angular/material/select';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({

@@ -1,21 +1,12 @@
 <mat-tab-group dynamicHeight>
   <mat-tab label="Browse Resources and Ideas">
-    <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+    <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
       [scrollWindow]="false">
       <div class="row">
-        <div class="col" align="center">
-          <div>
-            <mat-form-field>
-              <input matInput [(ngModel)]="searchQuery" type="text" placeholder="Search" />
-            </mat-form-field>
-          </div>
-          <button mat-raised-button color="primary" (click)="searchContent()">Search</button>
-          <button mat-raised-button color="primary">Categories</button>
+        <div class="col">
+          <h2 align="center" *ngIf="selectedCategory !== 'NoCat'"> Category: {{ selectedCategory }}</h2>
+          <h3 align="center" *ngIf="selectedSection !== 'NoSec'"> Section: {{ selectedSection }}</h3>
         </div>
-      </div>
-      <div class="container">
-        <h2 align="center" *ngIf="selectedCategory !== 'NoCat'"> Category: {{ selectedCategory }}</h2>
-        <h3 align="center" *ngIf="selectedSection !== 'NoSec'"> Section: {{ selectedSection }}</h3>
       </div>
       <div class="row" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
         <mat-card *ngFor="let content of contents" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
@@ -44,7 +35,7 @@
     </div>
   </mat-tab>
   <mat-tab *ngIf="currentUser" label="My Contributions">
-    <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollMyContributions()"
+    <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollMyContributions()"
       [scrollWindow]="false">
       <div class="row" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
         <mat-card *ngFor="let content of myContributions" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
