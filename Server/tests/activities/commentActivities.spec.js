@@ -160,7 +160,16 @@ describe('Activities Comments creation', function () {
                     expect(res.body.data).to.have.ownProperty('_id');
                     expect(res.body.data.text).to.equal(commentBody.text);
                     expect(res.body.data.creator).to.equal(normalUser.username);
-                    done();
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion.length).to.equal(2);
+                            done();
+                        }
+                    );
                 });
         });
         it('it should return the right comment in the body', function (done) {
@@ -180,12 +189,43 @@ describe('Activities Comments creation', function () {
                         console.log(err);
                     }
                     res.should.have.status(201);
-                    console.log(res.body.data);
                     expect(res.body.data).to.have.ownProperty('text');
                     expect(res.body.data).to.have.ownProperty('_id');
                     expect(res.body.data.creator).to.equal(normalUser.username);
                     expect(res.body.data.text).to.equal(existingComment.text);
-                    done();
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function(err2, activity) {
+                        if (err2) {
+                            console.log(err2);
+                        }
+                        expect(activity.discussion.length).to.equal(2);
+                        done();
+                        }
+                    );
+                });
+        });
+        it('it should return 401 for unverified user', function (done) {
+            var existingComment = { text: 'comment text' };
+            chai.request(app).
+                post('/api/activities/' + verifiedActivity._id + '/addComment').
+                send(existingComment).
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(401);
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion.length).to.equal(1);
+                            done();
+                        }
+                    );
                 });
         });
     });
