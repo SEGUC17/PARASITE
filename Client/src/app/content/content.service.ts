@@ -66,8 +66,7 @@ export class ContentService {
   // get search page from server
   getSearchPage(currentPageNumber: number,
     numberOfEntriesPerPage: number,
-    searchQueryTags: String,
-    searchQueryTitle: String,
+    searchQuery: String,
     selectedCategory: String,
     selectedSection: String,
     sortResultsBy: String
@@ -76,16 +75,14 @@ export class ContentService {
     const self = this;
 
     // encoding the search queries for sending
-    searchQueryTags = encodeURIComponent(searchQueryTags.toString());
-    searchQueryTitle = encodeURIComponent(searchQueryTitle.toString());
+    searchQuery = encodeURIComponent(searchQuery.toString());
     selectedCategory = encodeURIComponent(selectedCategory.toString());
     selectedSection = encodeURIComponent(selectedSection.toString());
     sortResultsBy = encodeURIComponent(sortResultsBy.toString());
 
     return this.http.get(self.endpoint + 'content/' + numberOfEntriesPerPage +
-      '/' + currentPageNumber + '/search?tags=' +
-      searchQueryTags + '&title=' + searchQueryTitle +
-      '&category=' + selectedCategory + '&section=' + selectedSection
+      '/' + currentPageNumber + '/search?searchQuery=' +
+      searchQuery + '&category=' + selectedCategory + '&section=' + selectedSection
       + '&sort=' + sortResultsBy)
       .pipe(
         catchError(self.handleError('getSearchPage', []))

@@ -102,52 +102,70 @@ module.exports.getContentById = function (req, res, next) {
 
 };
 
-module.exports.getSearchPage = function (req, res, next) {
-    console.log(req.query);
-
-    // search conditions
+// helper for getSearchPage
+var prepareQueryConditionsForSearch = function (query) {
+    // default search conditions
     var conditions = {
+        '$text': { '$search': query.searchQuery },
         'approved': true,
-        'category': req.query.category,
-        'section': req.query.section,
-        'tags': { $elemMatch: { $in: req.query.tags.split(' ') } },
-        'title': {
-            $options: 'i',
-            $regex: '.*' + req.query.title + '.*'
-        }
+        'category': query.category,
+        'section': query.section
     };
 
     // section and category are not of interest
-    if (req.query.category === 'NoCat' || req.query.section === 'NoSec') {
+    if (query.category === 'NoCat' || query.section === 'NoSec') {
         delete conditions.category;
         delete conditions.section;
     }
 
-    // title not of interest
-    if (req.query.title === '') {
-        delete conditions.title;
+    // title and tags not of interest
+    if (query.searchQuery === '') {
+        delete conditions.$text;
     }
 
-    // tags not of interest
-    if (req.query.tags === '') {
-        delete conditions.tags;
-    }
+    return conditions;
+};
 
-    // search options
+// helper for getSearchPage
+var prepareQueryOptionsForSearch = function (query, params) {
+    // default search options
     var options = {
-        limit: Number(req.params.pageSize),
-        page: Number(req.params.pageNumber),
-        sort: {}
+        limit: Number(params.pageSize),
+        page: Number(params.pageNumber),
+        sort: { }
     };
 
-    // sort options were provided, assuming descending sort
-    if (req.query.sort && req.query.sort !== '') {
-        var sortBy = req.query.sort.split(' ');
-        for (var counter = 0; counter < sortBy.length; counter += 1) {
-            options.sort[sortBy[counter]] = -1;
+    // sort option was provided, default is relevance
+    if (query.sort) {
+
+        if (query.sort === 'upload date') {
+            options.sort.touchDate = 1;
+        }
+
+        if (query.sort === 'rating') {
+            options.sort.rating = -1;
         }
     }
 
+    // relevance is of importance to the query
+    if (query.searchQuery !== '') {
+        options.select = { score: { $meta: 'textScore' } };
+        options.sort.score = { $meta: 'textScore' };
+    }
+
+    return options;
+};
+
+module.exports.getSearchPage = function (req, res, next) {
+    // prepare the conditions and options for the query
+    var conditions = prepareQueryConditionsForSearch(req.query);
+    var options = prepareQueryOptionsForSearch(req.query, req.params);
+
+    // log the options and conditions for debugging
+    console.log(options);
+    console.log(conditions);
+
+    // execute the database query
     Content.paginate(
         conditions,
         options,

@@ -35,12 +35,11 @@ export class ContentListViewComponent implements OnInit {
   myContributionsCurrentPageNumber = 1;
 
   // search variables
-  searchQueryTitle: String = '';
-  searchQueryTags: String = '';
+  searchQuery: String = '';
   isSearching: Boolean = false;
 
   // sorting variables
-  sortResultsBy: String = 'title touchDate rating';
+  sortResultsBy: String = '';
 
   // signed in user
   currentUser: User;
@@ -127,8 +126,7 @@ export class ContentListViewComponent implements OnInit {
 
     // user changed the category or section, nullifying the validity of his search query
     this.isSearching = false;
-    this.searchQueryTitle = '';
-    this.searchQueryTags = '';
+    this.searchQuery = '';
 
     // intialize category/section browsing
     this.selectedCategory = category;
@@ -157,20 +155,17 @@ export class ContentListViewComponent implements OnInit {
   getSearchContentPage(): void {
     const self = this;
     // remove unnecessary spaces
-    this.searchQueryTags = this.searchQueryTags.trim();
-    this.searchQueryTitle = this.searchQueryTitle.trim();
+    this.searchQuery = this.searchQuery.trim();
 
     // print statements for debugging
-    console.log('Query Tags: ' + this.searchQueryTags);
-    console.log('Query Title: ' + this.searchQueryTitle);
+    console.log('Query Tags: ' + this.searchQuery);
     console.log('Retrieving Page: ' + this.currentPageNumber);
 
     // retrieve search page from the server
     this.contentService.getSearchPage(
       self.currentPageNumber,
       self.numberOfEntriesPerPage,
-      self.searchQueryTags,
-      self.searchQueryTitle,
+      self.searchQuery,
       self.selectedCategory,
       self.selectedSection,
       self.sortResultsBy
