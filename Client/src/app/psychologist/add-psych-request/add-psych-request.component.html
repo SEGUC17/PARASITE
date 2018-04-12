@@ -1,38 +1,41 @@
 <form>
-	<div align="center">
-
+	<div align="center" class="wrapper">
 		<mat-card class="request-form">
-			<br>
-			<mat-card-title class="title">
-			  Request to add contact information:
-			</mat-card-title>
+				<br>
+				<mat-card-header style="width:100%">
+					<mat-card-title id="title">
+						Request to add contact
+					</mat-card-title>
+					<mat-card-subtitle> <br></mat-card-subtitle>
+					<mat-card-subtitle id="title1"> information:</mat-card-subtitle>
+				</mat-card-header>
 			<br><br>
 			<div align="left">
-				<mat-card-content>
-					 <mat-form-field class="first">
-						    <input matInput placeholder="First Name:" id="psychFirstName" [formControl]="fNameFormControl"
+				<mat-card-content class="mat-card-content">
+					 <mat-form-field id="first-name-input">
+						    <input matInput placeholder="First Name:" id="psychFirstName" [formControl]="firstNameFormControl"
 						           [errorStateMatcher]="matcher" [(ngModel)]="value" required>
 											 <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
 												 <mat-icon>close</mat-icon>
 											 </button>
-						    <mat-error *ngIf="fNameFormControl.hasError('required')">
+						    <mat-error *ngIf="firstNameFormControl.hasError('required')">
 						      First Name is <strong>required</strong>
 								</mat-error>
   					</mat-form-field>
 
-  					<mat-form-field class="last">
-						    <input matInput placeholder="Last Name:" id="psychLastName" [formControl]="lNameFormControl"
+  					<mat-form-field id="last-name-input">
+						    <input matInput placeholder="Last Name:" id="psychLastName" [formControl]="lastNameFormControl"
 						           [errorStateMatcher]="matcher" required [(ngModel)]="value1" required>
 											 <button mat-button *ngIf="value1" matSuffix mat-icon-button aria-label="Clear" (click)="value1=''">
 												 <mat-icon>close</mat-icon>
 											 </button>
-						    <mat-error *ngIf="lNameFormControl.hasError('required')">
+						    <mat-error *ngIf="lastNameFormControl.hasError('required')">
 						      Last Name is <strong>required</strong>
 						    </mat-error>
 
   					</mat-form-field> <br>
 
-  					<mat-form-field class="phone">
+  					<mat-form-field id="phone-input">
 								<input matInput placeholder="Phone Number:" id="psychPhoneNumber" [formControl]="phoneFormControl"
 								[(ngModel)]="value2" >
 											 <button mat-button *ngIf="value2" matSuffix mat-icon-button aria-label="Clear" (click)="value2=''">
@@ -40,7 +43,7 @@
 											 </button>
 					</mat-form-field> <br>
 
-  					<mat-form-field class="address">
+  					<mat-form-field id="address-input">
 								<textarea matInput placeholder="Address:" id="psychAddress" [formControl]="addFormControl"
 								[(ngModel)]="value3"></textarea>
 											 <button mat-button *ngIf="value3" matSuffix mat-icon-button aria-label="Clear" (click)="value3=''">
@@ -48,7 +51,7 @@
 											 </button>
 					</mat-form-field> <br>
 
-  					<mat-form-field class="email">
+  					<mat-form-field id="email-input">
 						    <input matInput placeholder="email:" id="psychEmail" [formControl]="emailFormControl"
 						           [errorStateMatcher]="matcher" required [(ngModel)]="value4" required>
 											 <button mat-button *ngIf="value4" matSuffix mat-icon-button aria-label="Clear" (click)="value4=''">
@@ -63,14 +66,14 @@
 
   					</mat-form-field> <br>
 
-					<mat-form-field class="days">
+					<mat-form-field id="days-off-input">
 					  <mat-select placeholder="Days Off:" [formControl]="daysOff" multiple >
 					    <mat-option *ngFor="let day of daysOfWeek" [value]="day">{{day}}</mat-option>
 					  </mat-select>
-					</mat-form-field> <br>
+					</mat-form-field> 
 
 
-  					<mat-form-field class="price">
+  					<mat-form-field id="price-input">
 								<input matInput placeholder="Maximum Price Range:" id="psychPriceRange" 
 								[formControl]="priceFormControl" [(ngModel)]="value5">
 								<button mat-button *ngIf="value5" matSuffix mat-icon-button aria-label="Clear" (click)="value5=''">
@@ -81,15 +84,15 @@
 				</mat-card-content>
 
 			<div align="right">
-				<mat-card-actions class="submit-btn">
-						<button mat-raised-button color="primary" id="11" (click)="submitReq()">Submit</button>
+				<mat-card-actions class="mat-card-actions">
+						<button mat-raised-button color="primary" id="btn" (click)="submitReq()" >Submit</button>
 			 	</mat-card-actions>
 			 </div>
 
-		 	<mat-card-footer class="note">
-		 		<p>
-					 Fields marked with "*" are required.
-				</p>
+		 	<mat-card-footer class="mat-card-footer">
+		 		<sub id="note">
+					 Fields marked with * are required.
+				 </sub>
 		 	</mat-card-footer>
 
 			</div>

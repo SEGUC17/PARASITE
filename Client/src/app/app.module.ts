@@ -11,11 +11,15 @@ import { AppComponent } from './app.component';
 import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
+import { AuthService } from './auth/auth.service';
+
 import { MarketModule } from './market/market.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDialogContent } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -28,9 +32,14 @@ import { ChildsignupModule } from './childsignup/childsignup.module';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule, MatSelectModule } from '@angular/material';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatChipsModule } from '@angular/material';
 import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
-import { MatNativeDateModule, MatIconModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material';
 
 
 
@@ -69,6 +78,12 @@ import { MatNativeDateModule, MatIconModule } from '@angular/material';
     CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule,
+    MatChipsModule,
+    LayoutModule,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    CommonModule,
     AuthModule
   ],
   providers: [

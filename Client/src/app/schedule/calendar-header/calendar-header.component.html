@@ -1,54 +1,59 @@
 <div class="row text-center">
   <div class="col-md-4">
-    <div class="btn-group">
-      <div
-        class="btn btn-primary"
+      <button
+        mat-raised-button
+        color="primary"
         mwlCalendarPreviousView
         [view]="view"
         [(viewDate)]="viewDate"
         (viewDateChange)="viewDateChange.next(viewDate)">
         Previous
-      </div>
-      <div
-        class="btn btn-outline-secondary"
+      </button>
+      <mat-divider [vertical]="true"></mat-divider>
+      <button
+        mat-raised-button
         mwlCalendarToday
         [(viewDate)]="viewDate"
         (viewDateChange)="viewDateChange.next(viewDate)">
         Today
-      </div>
-      <div
-        class="btn btn-primary"
+      </button>
+      <mat-divider [vertical]="true"></mat-divider>
+      <button
+        mat-raised-button
+        color="primary"
         mwlCalendarNextView
         [view]="view"
         [(viewDate)]="viewDate"
         (viewDateChange)="viewDateChange.next(viewDate)">
         Next
-      </div>
-    </div>
+      </button>
   </div>
   <div class="col-md-4">
     <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h3>
   </div>
   <div class="col-md-4">
-    <div class="btn-group">
-      <div
-        class="btn btn-primary"
+    <div>
+      <button
+        mat-raised-button
+        color="primary"
         (click)="viewChange.emit('month')"
         [class.active]="view === 'month'">
         Month
-      </div>
-      <div
-        class="btn btn-primary"
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
         (click)="viewChange.emit('week')"
         [class.active]="view === 'week'">
         Week
-      </div>
-      <div
-        class="btn btn-primary"
+      </button>
+      <button
+        mat-raised-button
+        color="primary"
         (click)="viewChange.emit('day')"
         [class.active]="view === 'day'">
         Day
-      </div>
+      </button>
     </div>
   </div>
 </div>

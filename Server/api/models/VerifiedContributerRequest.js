@@ -6,22 +6,6 @@ var db = mongoose.connection;
 var Schema = mongoose.Schema;
 
 var VCRSchema = mongoose.Schema({
-    status: {
-        enum: [
-            'pending',
-            'approved',
-            'disapproved'
-        ],
-        type: String
-    },
-    bio: {
-        required: false,
-        type: String
-    },
-    name: {
-        required: true,
-        type: String
-    },
     AvatarLink: {
         trim: true,
         type: String
@@ -30,23 +14,46 @@ var VCRSchema = mongoose.Schema({
         trim: true,
         type: String
     },
-    image: {
-        trim: false,
-        type: String
-    },
     RequestDate: {
         default: Date.now,
         type: Date
     },
+    bio: {
+        required: false,
+        type: String
+    },
     creator: {
         type: [
-            { type: Schema.Types.ObjectId, ref: 'User' }
+            {
+                ref: 'User',
+                type: Schema.Types.ObjectId
+            }
         ],
         unique: true
+    },
+    image: {
+        trim: false,
+        type: String
+    },
+    name: {
+        required: true,
+        type: String
+    },
+    status: {
+        enum: [
+            'pending',
+            'approved',
+            'disapproved'
+        ],
+        type: String
     }
 });
 
-var VerifiedContributerRequest = mongoose.model('VerifiedContributerRequest', VCRSchema, 'verifiedContributerRequests');
+var VerifiedContributerRequest = mongoose.model(
+    'VerifiedContributerRequest',
+    VCRSchema,
+    'verifiedContributerRequests'
+);
 
 module.exports.createVCR = function (VCR) {
     console.log(VCR);
@@ -54,9 +61,10 @@ module.exports.createVCR = function (VCR) {
     var vcr = new VerifiedContributerRequest(VCR);
 
     vcr.save(function (err, VcrAfter) {
-        if (err) return err;
-        console.log(VcrAfter.name + " saved to VCR collection.");
+        if (err) {
+            return err;
+        }
     });
 
-}
+};
 
