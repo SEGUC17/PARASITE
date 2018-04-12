@@ -22,8 +22,8 @@ var Encryption = require('../utils/encryption/encryption');
 
 
 // ---------------------- JWT Token Generator ---------------------- //
-var generateJWTToken = function (id, callback) {
-    callback('JWT ' + jwt.sign({ 'id': id }, config.SECRET, { expiresIn: '12h' }));
+var generateJWTToken = function (id, time, callback) {
+    callback('JWT ' + jwt.sign({ 'id': id }, config.SECRET, { expiresIn: time }));
 };
 // ---------------------- End of "JWT Token Generator" ---------------------- //
 
@@ -174,7 +174,9 @@ module.exports.signUp = function (req, res, next) {
                     throw err2;
                 }
 
-                generateJWTToken(newUser._id, function (jwtToken) {
+                var time = '12h';
+
+                generateJWTToken(newUser._id, time, function (jwtToken) {
                     return res.status(201).json({
                         data: null,
                         err: null,
@@ -242,7 +244,9 @@ module.exports.signIn = function (req, res, next) {
                     });
                 }
 
-                generateJWTToken(user._id, function (jwtToken) {
+                var time = req.body.rememberMe ? '1w' : '12h';
+
+                generateJWTToken(user._id, time, function (jwtToken) {
                     return res.status(200).json({
                         data: null,
                         err: null,
@@ -349,7 +353,7 @@ module.exports.signUpChild = function (req, res, next) {
     newUser.address = newUser.address ? newUser.address.toLowerCase() : newUser.address;
     newUser.email = newUser.email ? newUser.email.toLowerCase().trim() : newUser.email;
     newUser.username = newUser.username ? newUser.username.toLowerCase().trim() : newUser.username;
-    // --- End of "Trimming & Lowering Cases"--- //  
+    // --- End of "Trimming & Lowering Cases"--- //
     // --- Check: Phone Regex Match ---//
     for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
         if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
@@ -404,7 +408,9 @@ module.exports.signUpChild = function (req, res, next) {
                     err8: null,
                     msg: 'Username Is In Use!'
                 });
-            }  //---end of duplicate checks--///
+            }
+            //---end of duplicate checks--//
+
             //--hashing password--//
             User.create(newUser, function (error) {
                 if (error) {
@@ -425,13 +431,9 @@ module.exports.signUpChild = function (req, res, next) {
     User.findByIdAndUpdate(
         req.user._id, {
             $push:
-                {
-                    'children': req.body.username
-                },
+                { 'children': req.body.username },
             $set:
-                {
-                    'isParent': true
-                }
+                { 'isParent': true }
         }
         , { new: true }, function (err, updatedob) {
             if (err) {
