@@ -40,6 +40,7 @@ import { MatChipsModule } from '@angular/material';
 import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { MatNativeDateModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 
@@ -84,7 +85,8 @@ import { MatNativeDateModule } from '@angular/material';
     MatSelectModule,
     MatFormFieldModule,
     CommonModule,
-    AuthModule
+    AuthModule,
+    MatCheckboxModule
   ],
   providers: [
     {

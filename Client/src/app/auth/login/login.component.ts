@@ -11,7 +11,8 @@ export class LoginComponent implements OnInit {
 
   public user: User = {
     username: '',
-    password: ''
+    password: '',
+    rememberMe: false
   };
 
 
