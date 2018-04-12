@@ -12,21 +12,20 @@ chai.use(chaiHttp);
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
-
+var userToken = null;
+var adminToken = null;
+var cat1 = new Category({
+    name: 'testcat1',
+    sections: [{ name: 'sec1.1' }]
+});
+var testContent = {
+    body: 'hello there',
+    category: cat1.name,
+    creator: 'Hellothere',
+    section: cat1.sections[0].name,
+    title: 'test title'
+};
 describe('/POST/content/', function () {
-    var userToken = null;
-    var adminToken = null;
-    var cat1 = new Category({
-        name: 'testcat1',
-        sections: [{ name: 'sec1.1' }]
-    });
-    var testContent = {
-        body: 'hello there',
-        category: cat1.name,
-        creator: 'Hellothere',
-        section: cat1.sections[0].name,
-        title: 'test title'
-    };
     var validateContent = function (content, isAdmin) {
         should.exist(content.approved);
         if (isAdmin) {
@@ -233,5 +232,10 @@ describe('/POST/content/', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-
+    // --- Mockgoose Termination --- //
+    after(function (done) {
+        mongoose.connection.close(function () {
+            done();
+        });
+    });
 });

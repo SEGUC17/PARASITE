@@ -175,7 +175,6 @@ module.exports.getVCRs = function (req, res, next) {
                     filteredVCRs = result.filter(function (request) {
                         return request.status === req.params.FilterBy;
                     });
-                    console.log('retrieved all VCRs');
 
                     return res.status(200).json({
                         data: { dataField: filteredVCRs },
@@ -218,10 +217,8 @@ module.exports.VCRResponde = function (req, res, next) {
             { new: false },
             function (err) {
                 if (err) {
-                    console.log(err.msg);
                     throw err;
                 }
-                console.log('1 document updated');
             }
         );
 
@@ -236,7 +233,6 @@ module.exports.VCRResponde = function (req, res, next) {
                 }
                 userId = result[0].creator;
                 if (req.body.responce === 'approved') {
-                    console.log('approving user');
 
                     // Updating verified by Approved.
                     userModel.update(
@@ -247,12 +243,15 @@ module.exports.VCRResponde = function (req, res, next) {
                             if (error) {
                                 throw error;
                             }
-                            console.log('1 User approved updated');
+                            res.status(200).json({
+                                data: null,
+                                err: null,
+                                msg: 'reponse has been submitted'
+                            });
                         }
                     );
                 }
                 if (req.body.responce === 'disapproved') {
-                    console.log('disapproving user');
                     // Updating verified by disapproved.
                     userModel.update(
                         { _id: userId },
@@ -262,7 +261,11 @@ module.exports.VCRResponde = function (req, res, next) {
                             if (error) {
                                 throw error;
                             }
-                            console.log('1 User disapproved updated');
+                            res.status(200).json({
+                                data: null,
+                                err: null,
+                                msg: 'reponse has been submitted'
+                            });
                         }
                     );
                 }

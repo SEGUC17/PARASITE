@@ -12,18 +12,15 @@ module.exports = function (passport) {
             'secretOrKey': config.SECRET
         },
         function (jwtPayload, done) {
-            User.findOne(
-                { '_id': jwtPayload.id },
-                function (err, user) {
-                    if (err) {
-                        return done(false, null);
-                    } else if (!user) {
-                        return done(null, false);
-                    }
-
-                    return done(null, user);
+            User.findById(jwtPayload.id, function (err, user) {
+                if (err) {
+                    return done(false, null);
+                } else if (!user) {
+                    return done(null, false);
                 }
-            );
+
+                return done(null, user);
+            });
         }
     ));
 };

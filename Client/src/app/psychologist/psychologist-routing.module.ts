@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PsychologistComponent } from './psychologist/psychologist.component';
 import { AddPsychRequestComponent } from './add-psych-request/add-psych-request.component';
 const routes = [
-  { path: 'psychologist/view/:id', component: PsychologistComponent },
+  { path: 'psychologist', component: PsychologistComponent },
   { path: 'psychologist/request/add', component: AddPsychRequestComponent }
 ];
 @NgModule({

@@ -5,7 +5,7 @@ import { Rating } from './star-rating/rating';
 import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   isSameMonth,
   isSameDay,
@@ -78,7 +78,8 @@ export class StudyPlanComponent implements OnInit {
     }
   ];
 
-  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService) { }
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
+    private router: Router) { }
 
   ngOnInit() {
     this.studyPlan = {
@@ -163,11 +164,18 @@ export class StudyPlanComponent implements OnInit {
   }
 
   publish(): void {
+    /*
+     @author: Ola
+     Here , I am just calling the PublishStudyPlan method in studyPlanService an dpassing to it the
+     studyPlan I want to publish if the response is that studyPlan published i will redirect to
+     the published studyPlans else i will return the error message
+    */
     this.studyPlan._id = undefined;
     this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
       res => {
         if (res.msg === 'StudyPlan published successfully.') {
           alert(res.msg);
+          this.router.navigate(['/published-study-plans']);
         } else {
           alert('An error occured while publishing the study plan, please try again.');
         }

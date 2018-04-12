@@ -5,6 +5,7 @@ var models = require('../models/Message');
 var Message = mongoose.model('Message');
 var User = mongoose.model('User');
 
+// add a message to the messages collection in the DB
 module.exports.sendMessage = function(req, res, next) {
 
   /*var valid =
@@ -21,9 +22,9 @@ module.exports.sendMessage = function(req, res, next) {
       err: null,
       msg: 'body and sender and recipient are required fields'
     });
-  }
+  }*/
 
-  User.find({ username: req.body.recipient }).exec(function (err, user) {
+  /*User.find({ username: req.body.recipient }).exec(function (err, user) {
     if (err) {
         return next(err);
     }
@@ -34,14 +35,6 @@ module.exports.sendMessage = function(req, res, next) {
             err: 'This user does not exist.',
             msg: null
         });
-    }
-
-    if (user.isChild) {
-      return res.status(404).json({
-        data: null,
-        err: 'You cannot message a user who is below the age of 13.',
-        msg: null
-      });
     }
 
     res.status(200).json({
@@ -55,12 +48,14 @@ module.exports.sendMessage = function(req, res, next) {
   // Security Check
   delete req.body.sentAt;
 
+  // create new entry in DB
   Message.create(req.body, function(err, msg) {
     if (err) {
       return next(err);
     }
 
-    return res.status(201).json({
+    // return response message
+    return res.status(200).json({
       data: msg,
       err: null,
       msg: 'Message was sent successfully.'
@@ -68,6 +63,8 @@ module.exports.sendMessage = function(req, res, next) {
   });
 };
 
+// get messages stored in the DB
+// where the recipient is specified by an input parameter in the URL
 module.exports.getInbox = function(req, res, next) {
 
   Message.find({ recipient: req.params.user }).exec(function(err, msgs) {
@@ -83,6 +80,8 @@ module.exports.getInbox = function(req, res, next) {
   });
 };
 
+// get messages stored in the DB
+// where the sender is specified by an input parameter in the URL
 module.exports.getSent = function(req, res, next) {
 
   Message.find({ sender: req.params.user }).exec(function(err, msgs) {
@@ -98,12 +97,15 @@ module.exports.getSent = function(req, res, next) {
   });
 };
 
+// delete a message from the DB
 module.exports.deleteMessage = function(req, res, next) {
+  // find the message by its id, then delete it
   Message.remove({ _id: req.params.id }, function (err, msg) {
     if (err) {
       return next(err);
     }
 
+    // return response message
     return res.status(200).json({
       data: msg,
       err: null,
