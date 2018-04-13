@@ -7,63 +7,6 @@ var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
 
-// send a page of general content (resources and ideas) to the front end
-module.exports.getContentPage = function (req, res, next) {
-
-    // validations
-    var valid = req.params.category && req.params.section &&
-        req.params.numberOfEntriesPerPage && req.params.pageNumber &&
-        typeof req.params.category === 'string' &&
-        typeof req.params.section === 'string' &&
-        !isNaN(req.params.numberOfEntriesPerPage) &&
-        !isNaN(req.params.pageNumber);
-
-    // the request was not valid
-    if (!valid) {
-        return res.status(422).json({
-            data: null,
-            err: 'The required fields were missing or of wrong type.',
-            msg: null
-        });
-    }
-
-    // intitialize the retrieval conditions
-    var conditions = {
-        'approved': true,
-        'category': req.params.category,
-        'section': req.params.section
-    };
-
-    // category or section not of interest
-    if (req.params.category === 'NoCat') {
-        delete conditions.category;
-        delete conditions.section;
-    } else if (req.params.section === 'NoSec') {
-        delete conditions.section;
-    }
-
-    // retrieve page of content
-    Content.paginate(
-        conditions,
-        {
-            limit: Number(req.params.numberOfEntriesPerPage),
-            page: Number(req.params.pageNumber)
-        },
-        function (err, contents) {
-            if (err) {
-                return next(err);
-            }
-            // send a page of content
-
-            return res.status(200).json({
-                data: contents,
-                err: null,
-                msg: 'Page retrieved successfully'
-            });
-        }
-    );
-};
-
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
 

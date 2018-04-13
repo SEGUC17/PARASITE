@@ -12,15 +12,6 @@ export class ContentService {
 
   constructor(private http: HttpClient) { }
 
-  getContentPage(numberOfEntriesPerPage: any, pageNumber: any, category: any, section: any): Observable<any> {
-    const self = this;
-    return this.http.get(self.endpoint + 'content/getContentPage/' + numberOfEntriesPerPage +
-      '/' + pageNumber + '/' + category + '/' + section)
-      .pipe(
-        catchError(self.handleError('getContentPage', []))
-      );
-  }
-
   getContentById(id: any): Observable<any> {
     const self = this;
     return this.http.get(self.endpoint + 'content/view/' + id)
