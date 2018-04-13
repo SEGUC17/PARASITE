@@ -16,7 +16,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-add-psych-request',
   templateUrl: './add-psych-request.component.html',
-  styleUrls: ['./add-psych-request.component.css']
+  styleUrls: ['./add-psych-request.component.scss']
 })
 export class AddPsychRequestComponent implements OnInit {
   request: AddPsychologistRequest;
