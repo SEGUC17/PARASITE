@@ -27,8 +27,10 @@ chai.use(chaiHttp);
 // Objects variables for testing
 var normalUser = null;
 var adminUser = null;
-var creatorUser = null;
+var commentCreatorUser = null;
+var replyCreatorUser = null;
 var pendingContent = null;
+var contentCreatorUser = null;
 var approvedContent = null;
 
 describe('Contents Comments/replies deletion', function () {
@@ -140,13 +142,43 @@ describe('Contents Comments/replies deletion', function () {
                         lastName: 'lastname',
                         password: 'password',
                         phone: '0111111111',
-                        username: 'username'
+                        username: 'commentCreatorUser'
                     }, function (err3, user3) {
                         if (err) {
                             console.log(err3);
                         }
-                        creatorUser = user3;
-                        done();
+                        commentCreatorUser = user3;
+                        User.create({
+                            birthdate: Date.now(),
+                            email: 'test1@email.com',
+                            firstName: 'firstname',
+                            isAdmin: true,
+                            lastName: 'lastname',
+                            password: 'password',
+                            phone: '0111111111',
+                            username: 'contentCreatorUser'
+                        }, function (err4, user4) {
+                            if (err) {
+                                console.log(err4);
+                            }
+                            contentCreatorUser = user4;
+                            User.create({
+                                birthdate: Date.now(),
+                                email: 'test1@email.com',
+                                firstName: 'firstname',
+                                isAdmin: true,
+                                lastName: 'lastname',
+                                password: 'password',
+                                phone: '0111111111',
+                                username: 'replyCreatorUser'
+                            }, function (err5, user5) {
+                                if (err) {
+                                    console.log(err4);
+                                }
+                                replyCreatorUser = user4;
+                                done();
+                            });
+                        });
                     });
                 });
             });
@@ -157,10 +189,204 @@ describe('Contents Comments/replies deletion', function () {
     describe('/Deleting comments from contents', function () {
 
         /*
-         * Tests for Commenting on contents
+         * Tests for deleting comments from contents
          *
          * @author: Wessam
          */
+
+        it('it should delete comment by comment creator', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': commentCreatorUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/content/' +
+                    approvedContent._id +
+                    '/comments/' +
+                    approvedContent.discussion[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(204);
+
+                    Content.findById(
+                        approvedContent._id,
+                        function (err2, content) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(content.discussion.length).to.equal(0);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should delete comment by content creator', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': contentCreatorUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/content/' +
+                    approvedContent._id +
+                    '/comments/' +
+                    approvedContent.discussion[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(204);
+
+                    Content.findById(
+                        approvedContent._id,
+                        function (err2, content) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(content.discussion.length).to.equal(0);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should delete comment by admin', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/content/' +
+                    approvedContent._id +
+                    '/comments/' +
+                    approvedContent.discussion[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(204);
+
+                    Content.findById(
+                        approvedContent._id,
+                        function (err2, content) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(content.discussion.length).to.equal(0);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 403 for normal user', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/content/' +
+                    approvedContent._id +
+                    '/comments/' +
+                    approvedContent.discussion[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(403);
+
+                    Content.findById(
+                        approvedContent._id,
+                        function (err2, content) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(content.discussion.length).to.equal(1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 401 for unverified user', function (done) {
+            chai.request(app).
+                delete('/api/content/' +
+                    approvedContent._id +
+                    '/comments/' +
+                    approvedContent.discussion[0]._id).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(401);
+
+                    Content.findById(
+                        approvedContent._id,
+                        function (err2, content) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(content.discussion.length).to.equal(1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 404 for wrong content id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/content/' +
+                    approvedContent.discussion[0]._id +
+                    '/comments/' +
+                    approvedContent.discussion[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(404);
+
+                    done();
+                });
+        });
+        it('it should return 404 for wrong comment id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/content/' +
+                    approvedContent._id +
+                    '/comments/' +
+                    approvedContent._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(404);
+
+                    done();
+                });
+        });
 
     });
     // --- Clearing Mockgoose --- //
