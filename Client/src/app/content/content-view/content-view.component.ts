@@ -52,7 +52,7 @@ export class ContentViewComponent implements OnInit {
     this.router.navigate(['admin/ContentRequests']);
   }
   // admin or owner user of content wishes to edit the content
-  redirectToContnetEdit(): void {
-    this.router.navigate(['content-edit/' + this.content._id]);
+  redirectToContentEdit(): void {
+    this.router.navigateByUrl('/content-edit/' + this.content._id);
   }
 }
