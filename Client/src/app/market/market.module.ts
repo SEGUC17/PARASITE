@@ -15,10 +15,11 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {MatSliderModule,
 MatSlideToggleModule, MatIconModule, MatRadioModule} from '@angular/material';
-
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 @NgModule({
   imports: [
     CommonModule,
+    InfiniteScrollModule,
     MarketRoutingModule,
     MatButtonModule,
     MatCardModule,

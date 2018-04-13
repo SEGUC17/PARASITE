@@ -18,7 +18,7 @@ import { AuthService } from '../../auth/auth.service';
 export class MarketComponent implements OnInit {
 
   user: any;
-  products: Product[];
+  products: Product[] = [];
   currentPageNumber: number;
   entriesPerPage = 15;
   selectedName: String;
@@ -92,7 +92,7 @@ export class MarketComponent implements OnInit {
     self.marketService.getMarketPage(self.entriesPerPage,
       self.currentPageNumber, limiters)
       .subscribe(function (products) {
-        self.products = products.data.docs;
+        self.products = self.products.concat(products.data.docs);
       });
   }
 
@@ -159,6 +159,11 @@ export class MarketComponent implements OnInit {
     this.selectedName = undefined;
     this.selectedPrice = undefined;
     this.firstPage();
+  }
+  onScroll(): void {
+    console.log('scrolled');
+    this.currentPageNumber += 1;
+    this.getPage();
   }
   onPaginateChangeMarket(event): void {
     this.currentPageNumber = event.pageIndex + 1;
