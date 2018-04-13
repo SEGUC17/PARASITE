@@ -1,0 +1,58 @@
+<p>
+  edite-psych works! 
+</p> 
+
+<h1 mat-dialog-title style="font-size: 35px; font-weight: bold">Edite info</h1>
+<form (ngSubmit)="editePsychologists" #createproduct="ngForm">
+  <!-- <mat-card style="float:left;width:460px;height:430px"> -->
+      <mat-card class="psych" *ngFor="let psych of psychologists; let i = index" style="top:20px">
+    <mat-form-field>
+        <!-- <input matInput placeholder="Product's name" name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name"> -->
+      <input matInput placeholder="firstName" name="firstName" id="firstName" hintLabel= {{psych.firstName}} [(ngModel)]="formInput.name">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="lastName" name="lastName" id="lastName" hintLabel= {{psych.lastName}} [(ngModel)]="formInput.name">
+    </mat-form-field>
+    
+    <mat-form-field>
+        <input matInput placeholder="phone" name="phone" id="phone" hintLabel= {{psych.phone}} [(ngModel)]="formInput.name">
+      </mat-form-field>
+
+      <mat-form-field>
+          <input matInput placeholder="address" name="address" id="address" hintLabel= {{psych.address}} [(ngModel)]="formInput.name">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput placeholder="email" name="email" id="email" hintLabel= {{psych.email}} [(ngModel)]="formInput.name">
+          </mat-form-field>
+
+          <!-- <li>
+              <span style="font-weight: bold">Days off:</span>
+              <div class="chips">
+              <mat-chip-list>
+                <mat-chip *ngFor="let day of psych.daysOff" style="background: #DA572B;color:white;">{{day}}</mat-chip>
+              </mat-chip-list>
+            </div>
+            </li> -->
+
+          <mat-form-field>
+              <input matInput placeholder="daysOff" name="daysOff" id="daysOff" hintLabel= {{psych.daysOff}} 
+              [(ngModel)]="formInput.name">
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="priceRange" name="priceRange" id="priceRange" hintLabel= {{psych.priceRange}} [(ngModel)]="formInput.name">
+              </mat-form-field>
+
+    <mat-card-actions>
+      <button mat-button style="margin-top:30px;float:right;width:50%;background:#3f51b5; color:white">Edite</button>
+    </mat-card-actions>
+
+
+
+
+
+
+  </mat-card>
+</form>

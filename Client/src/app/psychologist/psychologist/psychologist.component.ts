@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PsychologistService } from '../psychologist.service';
 import { MatSnackBar } from '@angular/material';
+import { EditePsychComponent } from '../edite-psych/edite-psych.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-psychologist',
@@ -11,7 +14,7 @@ export class PsychologistComponent implements OnInit {
 
   psychologists: any[];
 
-  constructor(private psychologistService: PsychologistService,
+  constructor(private psychologistService: PsychologistService,public dialog: MatDialog, public router: Router,
                public snackBar: MatSnackBar) { }
 
   getPsychologists(): void {
@@ -35,6 +38,17 @@ export class PsychologistComponent implements OnInit {
         });
         self.getPsychologists();
       }
+    });
+  }
+  goToEdite() {
+    const self = this;
+    let dialogRef = self.dialog.open(EditePsychComponent, {
+      width: '850px',
+      height: '550px',
+      data: { market: self }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
   ngOnInit() {

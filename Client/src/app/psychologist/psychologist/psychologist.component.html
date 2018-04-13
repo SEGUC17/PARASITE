@@ -31,8 +31,14 @@
     </mat-card-content>
       <mat-card-footer id="footer" style="padding-bottom:5px">
           <button mat-icon-button id="delete" align="right" (click)="deletePsychologist(i)"> <mat-icon>close</mat-icon></button>
-          <button mat-icon-button id="edit" align="right" > <mat-icon>edit</mat-icon></button>
+          <button mat-icon-button id="edit" align="right" (click)="this.goToEdite()"> <mat-icon>Edite</mat-icon></button>
       </mat-card-footer>
+      
+
+
+
+
+
     </mat-card>
   </div>
 </mat-card>
