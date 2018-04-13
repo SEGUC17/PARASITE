@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-view-psych-requests',
   templateUrl: './view-psych-requests.component.html',
-  styleUrls: ['./view-psych-requests.component.css']
+  styleUrls: ['./view-psych-requests.component.scss']
 })
 export class ViewPsychRequestsComponent implements OnInit {
 

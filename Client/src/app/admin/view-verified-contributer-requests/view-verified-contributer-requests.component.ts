@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-view-verified-contributer-requests',
   templateUrl: './view-verified-contributer-requests.component.html',
-  styleUrls: ['./view-verified-contributer-requests.component.css']
+  styleUrls: ['./view-verified-contributer-requests.component.scss']
 })
 export class ViewVerifiedContributerRequestsComponent implements OnInit {
   /*
