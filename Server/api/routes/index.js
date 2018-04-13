@@ -205,12 +205,12 @@ module.exports = function (passport) {
 
   //Content Production
 
-  // Create new Content
   router.post(
+  // Create new Content
     '/content',
     isAuthenticated,
     contentController.validateContent,
-    contentController.validateCategory,
+    contentController.validateSelectedCategory,
     contentController.createContent
   );
 
@@ -219,7 +219,7 @@ module.exports = function (passport) {
     '/content',
     isAuthenticated,
     contentController.validateContent,
-    contentController.validateCategory,
+    contentController.validateSelectedCategory,
     contentController.updateContent
   );
   //-------------------- Messaging Module Endpoints ------------------//
