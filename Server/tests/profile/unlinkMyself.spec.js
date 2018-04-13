@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
-var server = require('../app');
+var server = require('../../app');
 var User = mongoose.model('User');
 var Activity = mongoose.model('Activity');
 var chaiHttp = require('chai-http');
@@ -8,7 +8,7 @@ var expect = require('chai').expect;
 var should = chai.should();
 //var d ate= new Date("October 13, 2014 11:13:00");
 chai.use(chaiHttp);
-var config = require('../api/config/config');
+var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 chai.use(chaiHttp);
