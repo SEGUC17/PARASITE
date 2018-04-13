@@ -3,8 +3,9 @@ var auth = require('basic-auth');
 var Activity = mongoose.model('Activity');
 var User = mongoose.model('User');
 
-/*eslint max-statements: ["error", 20]*/
+/* eslint max-statements: ["error", 20] */
 /* eslint multiline-comment-style: ["error", "starred-block"] */
+/* eslint-disable eqeqeq */
 
 module.exports.getActivities = function (req, res, next) {
 
@@ -47,9 +48,11 @@ module.exports.getActivities = function (req, res, next) {
         filter.status = 'verified';
     }
     Activity.paginate(
-        filter, {
-        limit: 10,
-         page: pageN
+        filter,
+        {
+            limit: 10,
+            page: pageN,
+            select: { discussion: 0 }
         },
         function (err, activities) {
             if (err) {
@@ -89,9 +92,15 @@ module.exports.getActivity = function (req, res, next) {
         if (err) {
             return next(err);
         }
+        if (!activity) {
+            return res.status(404).json({
+                data: null,
+                err: 'Activity doesn\'t exist',
+                msg: null
+            });
+        }
         var creatorName = activity.creator;
 
-        console.log(activity.status);
         if (activity.status !== 'verified') {
 
             if (!isAdmin && creatorName !== user.username) {
@@ -221,11 +230,18 @@ module.exports.reviewActivity = function (req, res, next) {
             new: true,
             runValidators: true
         },
-        function(err, activity) {
+        function (err, activity) {
             if (err) {
                 return res.status(422).json({
                     data: null,
                     err: err,
+                    msg: null
+                });
+            }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
                     msg: null
                 });
             }
@@ -236,4 +252,200 @@ module.exports.reviewActivity = function (req, res, next) {
             });
         }
     );
+};
+
+module.exports.commentOnActivity = function (req, res, next) {
+
+    /*
+     * Middleware to add comment in activities discussion
+     *
+     * author: Wessam Ali
+     */
+
+    var user = req.user;
+    var activityId = req.params.activityId;
+
+    var filter = { _id: activityId };
+
+    if (!user.isAdmin) {
+        filter = {
+            $and: [
+                filter,
+                {
+                    $or: [
+                        { status: 'verified' },
+                        { creator: user.username }
+                    ]
+                }
+            ]
+        };
+    }
+
+    Activity.findOneAndUpdate(
+        filter,
+        {
+            $push: {
+                'discussion': {
+                    creator: req.user.username,
+                    text: req.body.text
+                }
+            }
+        },
+        {
+            new: true,
+            runValidators: true
+        },
+        function (err, activity) {
+            if (err) {
+                return res.status(422).json({
+                    data: null,
+                    err: err,
+                    msg: null
+                });
+            }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
+                    msg: null
+                });
+            }
+            res.status(201).json({
+                data: activity.discussion.pop(),
+                err: null,
+                msg: null
+            });
+        }
+    );
+};
+
+module.exports.getActivityComment = function (req, res, next) {
+
+    /*
+     *  Endpoint to retreive comments detail of activity
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var activityId = req.params.activityId;
+    var commentId = req.params.commentId;
+
+    Activity.findById(activityId).
+        exec(function (err, activity) {
+            if (err) {
+                return next(err);
+            }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
+                    msg: null
+                });
+            }
+
+            var isCreator = user && user.username === activity.creator;
+            var isAdmin = user && user.isAdmin;
+
+            if (activity.status !== 'verified' && !isAdmin && !isCreator) {
+                var status = user ? 403 : 401;
+
+                return res.status(status).json({
+                    data: null,
+                    err: 'Activity is not verified',
+                    msg: null
+                });
+            }
+            var comment = activity.discussion.filter(function (com) {
+                return com._id == commentId;
+            }).pop();
+            if (!comment) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Comment doesn\'t exist',
+                    msg: null
+                });
+            }
+
+            return res.status(200).json({
+                data: comment,
+                err: null,
+                msg: 'Comment retreived successfully'
+            });
+        });
+};
+
+module.exports.postActivityCommentReply = function (req, res, next) {
+
+    /*
+     *  Endpoint for commenting on activities
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var activityId = req.params.activityId;
+    var commentId = req.params.commentId;
+
+    var filter = { _id: activityId };
+
+    if (!user.isAdmin) {
+        filter = {
+            $and: [
+                filter,
+                {
+                    $or: [
+                        { status: 'verified' },
+                        { creator: user.username }
+                    ]
+                }
+            ]
+        };
+    }
+
+    Activity.findOne(filter, function (err, activity) {
+            if (err) {
+                return next(err);
+            }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
+                    msg: null
+                });
+            }
+
+            var comment = activity.discussion.filter(function (com) {
+                return com._id == commentId;
+            }).pop();
+            if (!comment) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Comment doesn\'t exist',
+                    msg: null
+                });
+            }
+
+            comment.replies.push({
+                creator: user.username,
+                text: req.body.text
+            });
+
+            activity.save(function (err2, activity2) {
+                if (err2) {
+                    return res.status(422).json({
+                        data: null,
+                        err: 'reply can\'t be empty',
+                        msg: null
+                    });
+                }
+
+                return res.status(201).json({
+                    data: comment.replies.pop(),
+                    err: null,
+                    msg: 'reply created successfully'
+                });
+            });
+
+        });
 };
