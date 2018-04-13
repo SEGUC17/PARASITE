@@ -12,10 +12,10 @@ export class ActivityDetailComponent implements OnInit {
   /*
     @author: Wessam
   */
- 
+
   activity: Activity;
 
-  constructor( 
+  constructor(
     private route: ActivatedRoute,
     private activityService: ActivityService
   ) { }
@@ -37,10 +37,10 @@ export class ActivityDetailComponent implements OnInit {
       res => {
         this.activity = res.data;
         if (!this.activity.image) {
-          this.activity.image = "assets/images/activity-view/default-activity-image.jpg";
+          this.activity.image = 'assets/images/activity-view/default-activity-image.jpg';
         }
       }
-    )
+    );
   }
 
 }
