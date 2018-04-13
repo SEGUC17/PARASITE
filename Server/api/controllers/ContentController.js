@@ -381,20 +381,24 @@ module.exports.createContent = function (req, res, next) {
 
 var handleAdminUpdate = function (req, res, next) {
     req.body.approved = true;
-    Content.findByIdAndUpdate(req.body._id, req.body, {
-        new: true,
-        overwrite: true
-    }, function (err, updatedContent) {
-        if (err) {
-            return next(err);
-        }
+    var id = req.body._id;
+    delete req.body._id;
+    Content.findByIdAndUpdate(
+        id,
+        req.body,
+        { new: true },
+        function (err, updatedContent) {
+            if (err) {
+                return next(err);
+            }
+            console.log(updatedContent);
 
-        return res.status(200).json({
-            data: updatedContent,
-            err: null,
-            mesg: 'retrieved the content successfully'
+            return res.status(200).json({
+                data: updatedContent,
+                err: null,
+                mesg: 'retrieved the content successfully'
+            });
         });
-    });
 };
 
 var handleNonAdminUpdate = function (req, res, next) {
