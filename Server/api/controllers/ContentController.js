@@ -594,6 +594,7 @@ module.exports.commentOnContent = function (req, res, next) {
      * author: Wessam Ali
      */
 
+
     var user = req.user;
     var contentId = req.params.contentId;
 

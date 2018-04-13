@@ -234,6 +234,7 @@ module.exports = function (passport) {
     contentController.validateSelectedCategory,
     contentController.createContent
   );
+  router.post('/content/:contentId/comments', isAuthenticated, contentController.commentOnContent);
 
   // Edit content
   router.patch(
