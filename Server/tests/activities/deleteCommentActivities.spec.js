@@ -28,6 +28,7 @@ chai.use(chaiHttp);
 var normalUser = null;
 var adminUser = null;
 var commentCreatorUser = null;
+var replyCreatorUser = null;
 var activityCreatorUser = null;
 var verifiedActivity = null;
 
@@ -59,7 +60,7 @@ describe('Activities Comments/replies deleting', function () {
         mockgoose.helper.reset().then(function () {
             // Creating data for testing
             Activity.create({
-                creator: 'activityCreatorUser',
+                creator: 'activitycreatoruser',
                 name: 'activity3',
                 description: 'activity3 des',
                 fromDateTime: Date.now(),
@@ -67,11 +68,11 @@ describe('Activities Comments/replies deleting', function () {
                 status: 'verified',
                 discussion: [
                     {
-                        creator: 'commentCreatorUser',
+                        creator: 'commentcreatoruser',
                         text: 'comment text',
                         replies: [
                             {
-                                creator: 'commentCreatorUser',
+                                creator: 'replycreatoruser',
                                 text: 'reply text'
                             }
                         ]
@@ -140,7 +141,22 @@ describe('Activities Comments/replies deleting', function () {
                                 console.log(err4);
                             }
                             activityCreatorUser = user4;
-                            done();
+                            User.create({
+                                birthdate: Date.now(),
+                                email: 'test1@email.com',
+                                firstName: 'firstname',
+                                isAdmin: true,
+                                lastName: 'lastname',
+                                password: 'password',
+                                phone: '0111111111',
+                                username: 'replyCreatorUser'
+                            }, function (err5, user5) {
+                                if (err) {
+                                    console.log(err4);
+                                }
+                                replyCreatorUser = user4;
+                                done();
+                            });
                         });
                     });
                 });
@@ -348,6 +364,40 @@ describe('Activities Comments/replies deleting', function () {
                     res.should.have.status(404);
 
                     done();
+                });
+        });
+        it('it should delete reply by reply creator', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': replyCreatorUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/activities/' +
+                    verifiedActivity._id +
+                    '/comments/' +
+                    verifiedActivity.discussion[0]._id +
+                    '/replies/' +
+                    verifiedActivity.discussion[0].replies[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(204);
+
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion[0].replies.length).
+                            to.equal(0);
+                            done();
+                        }
+                    );
                 });
         });
         // --- Clearing Mockgoose --- //
