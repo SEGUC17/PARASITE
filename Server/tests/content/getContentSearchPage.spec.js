@@ -4,7 +4,7 @@ var server = require('../../app');
 var Content = mongoose.model('Content');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-
+var should = require('chai').should();
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
@@ -65,6 +65,7 @@ var saveAllAndTest = function (
                     // expect status 200, an array result,
                     // and a length matching the page length
                     expect(res).to.have.status(200);
+                    console.log(res.body.data.docs);
                     res.body.data.docs.should.be.a('array');
                     res.body.data.docs.should.have.lengthOf(pageLength);
                     valiateCategoryAndSection(
@@ -92,9 +93,9 @@ var runValidityTests = function () {
         'it should fail with 422 because page number is not valid',
         function (done) {
             chai.request(server).
-                get('/api/content/getContentPage/3/' +
-                    'number/search?searchQuery=""' +
-                    '&sort="relevance"&category="cat1"&section="sec1"').
+                get('/api/content/3/' +
+                    'number/search?searchQuery=' +
+                    '&sort=relevance&category=cat1&section=sec1').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -109,9 +110,9 @@ var runValidityTests = function () {
         'it should fail with 422 because page size is not valid',
         function (done) {
             chai.request(server).
-                get('/api/content/getContentPage/number/' +
-                    '1/search?searchQuery=""' +
-                    '&sort="relevance"&category="cat1"&section="sec1"').
+                get('/api/content/number/' +
+                    '1/search?searchQuery=' +
+                    '&sort=relevance&category=cat1&section=sec1').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -126,9 +127,9 @@ var runValidityTests = function () {
         'it should fail with 422 because searchQuery is not provided',
         function (done) {
             chai.request(server).
-                get('/api/content/getContentPage/3/' +
+                get('/api/content/3/' +
                     '1/search?' +
-                    '&sort="relevance"&category="cat1"&section="sec1"').
+                    '&sort=relevance&category=cat1&section=sec1').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -143,9 +144,9 @@ var runValidityTests = function () {
         'it should fail with 422 because sort is not provided',
         function (done) {
             chai.request(server).
-                get('/api/content/getContentPage/3/' +
-                    '1/search?searchQuery=""' +
-                    '&category="cat1"&section="sec1"').
+                get('/api/content/3/' +
+                    '1/search?searchQuery=' +
+                    '&category=cat1&section=sec1').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -160,9 +161,9 @@ var runValidityTests = function () {
         'it should fail with 422 because category is not provided',
         function (done) {
             chai.request(server).
-                get('/api/content/getContentPage/3/' +
-                    '1/search?searchQuery=""' +
-                    '&sort="relevance"&section="sec1"').
+                get('/api/content/3/' +
+                    '1/search?searchQuery=' +
+                    '&sort=relevance&section=sec1').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -177,9 +178,9 @@ var runValidityTests = function () {
         'it should fail with 422 because page size is not valid',
         function (done) {
             chai.request(server).
-                get('/api/content/getContentPage/3/' +
-                    '1/search?searchQuery=""' +
-                    '&sort="relevance"&category="cat1"').
+                get('/api/content/3/' +
+                    '1/search?searchQuery=' +
+                    '&sort=relevance&category=cat1').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -241,8 +242,8 @@ describe('/GET/ Content Search Page', function () {
             // save the docs and perform the test
             saveAllAndTest(
                 done,
-                '/api/content/getContentPage/3/1/search?searchQuery=""' +
-                '&sort="relevance"&category="cat1"&section="sec1"',
+                '/api/content/3/1/search?searchQuery=' +
+                '&sort=relevance&category=cat1&section=sec1',
                 3,
                 'cat1',
                 'sec1'
@@ -267,8 +268,8 @@ describe('/GET/ Content Search Page', function () {
             // save the docs and test
             saveAllAndTest(
                 done,
-                '/api/content/getContentPage/3/1/search?searchQuery=""' +
-                '&sort="relevance"&category=""&section=""',
+                '/api/content/3/1/search?searchQuery=' +
+                '&sort=relevance&category=&section=',
                 3,
                 '',
                 ''
