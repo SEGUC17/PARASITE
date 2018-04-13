@@ -247,6 +247,12 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.commentOnContent
   );
+  // replying to a content
+  router.post(
+    '/content/:contentId/comments/:commentId/replies',
+    isAuthenticated,
+    contentController.postContentCommentReply
+  );
 
   // Edit content
   router.patch(
