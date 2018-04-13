@@ -14,25 +14,6 @@ const httpOptions = {
 @Injectable()
 
 export class ProfileService {
-<<<<<<< HEAD
-// ------------- Profile Page Method(s) -------------- AUTHOR: H
-constructor(private http: HttpClient, private authService: AuthService) { }
-
-UserData = ['username'];
-username = '';
-private linkAnotherParentUrl = 'http://localhost:3000/api/profile/LinkAnotherParent';
-private UnlinkUrl = 'http://localhost:3000/api/profile/UnLinkChild/';
-private linkAsParentUrl = 'http://localhost:3000/api/profile/AddAsAParent/';
-private getChildrenUrl = 'http://localhost:3000/api/profile/';
-private continueUrl = 'getChildren';
-private pwURL = 'http://localhost:3000/api/profile/changePassword';
-private profileUrl = 'http://localhost:3000/api/profile';
-
-// Author: Yomna
-linkAnotherParent(children, vId): Observable<any> {
-  return this.http.put<any>(`${this.linkAnotherParentUrl}/${vId}`, children, httpOptions);
-}
-=======
   // ------------- Profile Page Method(s) -------------- AUTHOR: H
   constructor(private http: HttpClient, private authService: AuthService) { }
   UserData = ['username'];
@@ -48,7 +29,6 @@ linkAnotherParent(children, vId): Observable<any> {
   linkAnotherParent(children, vId): Observable<any> {
     return this.http.put<any>(`${this.linkAnotherParentUrl}/${vId}`, children, httpOptions);
   }
->>>>>>> fcc3039e23d32eacef07177ff8ee5a0e05e908d1
 
 
   Unlink(childrenList, Id): Observable<any> {
@@ -73,23 +53,10 @@ linkAnotherParent(children, vId): Observable<any> {
 
 
   // author: Heidi
-<<<<<<< HEAD
-  getChildren(): any {
-    // getting usrname of the authenticated user and adding it to the get request
-
-
-           this.authService.getUserData(this.UserData).subscribe((user) => {
-            this.username = user.data.username;
-          });
-
-         return this.http.get(this.getChildrenUrl + this.username + '/getChildren');
-           }
-=======
   getChildren(username): any {
     console.log(username);
     return this.http.get(this.getChildrenUrl + username + '/getChildren');
   }
->>>>>>> fcc3039e23d32eacef07177ff8ee5a0e05e908d1
 
   // Author: Nehal
   changePassword(id, info): Observable<any> {
@@ -97,9 +64,15 @@ linkAnotherParent(children, vId): Observable<any> {
     return this.http.patch<any>(`${this.pwURL}/${id}`, info, httpOptions);
 
   }
+  // author :Heidi
   EditChildIndependence(visitedChildUsername): any {
     // adding username of the visited child to the patch request
     return this.http.patch('http://localhost:3000/api/profile/' + visitedChildUsername + '/EditChildIndependence', null);
+  }
+// Author: Heidi
+  UnlinkMyself(visitedParentUsername): any {
+    // adding username of the visited parent to the patch request
+    return this.http.patch('http://localhost:3000/api/profile/' + visitedParentUsername + '/UnlinkMyself', null);
   }
 
 }
