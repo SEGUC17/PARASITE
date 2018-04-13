@@ -20,6 +20,7 @@ var cat1 = new Category({
     sections: [{ name: 'sec1.1' }]
 });
 var testContent = new Content({
+    approved: true,
     body: 'hello there',
     category: cat1.name,
     creator: 'Hellothere',
@@ -67,7 +68,7 @@ describe('/PATCH /content', function () {
             }).
             end(function (err, res) {
                 if (err) {
-                    done(err);
+                    return done(err);
                 }
                 // get the first test user token
                 userToken = res.body.token;
@@ -77,7 +78,7 @@ describe('/PATCH /content', function () {
     before(function (done) {
         cat1.save(function (catError) {
             if (catError) {
-                done(catError);
+                return done(catError);
             }
             done();
         });
@@ -85,7 +86,7 @@ describe('/PATCH /content', function () {
     before(function (done) {
         testContent.save(function (contentError) {
             if (contentError) {
-                done(contentError);
+                return done(contentError);
             }
             done();
         });
@@ -121,5 +122,45 @@ describe('/PATCH /content', function () {
             });
     });
 
+    it(
+        'should update content successfully for an admin' +
+        ' with true approval status' +
+        ' and no content request is generated',
+        function (done) {
+            //deep clone the test content
+            var updatedContent = JSON.parse(JSON.stringify(testContent));
+            updatedContent.title = 'hello, this is an update';
+            chai.request(server).
+                patch('/api/content').
+                set('Authorization', adminToken).
+                send(updatedContent).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    should.exist(res);
+                    res.should.have.status(200);
+                    should.exist(res.body.data);
+                    should.not.exist(res.body.data.content);
+                    should.not.exist(res.body.data.contentRequest);
+                    res.body.data.body.should.
+                        be.equal('hello, this is an update');
+                    done();
+                });
+
+        }
+    );
+    // --- Clearing Mockgoose --- //
+    after(function (done) {
+        mockgoose.helper.reset().then(function () {
+            done();
+        });
+    });
+    // --- End of "Clearing Mockgoose" --- //
+
+    // --- Mockgoose Termination --- //
+    after(function (done) {
+        mongoose.connection.close(function () {
+            done();
+        });
+    });
 });
 
