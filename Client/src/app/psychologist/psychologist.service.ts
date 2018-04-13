@@ -23,6 +23,12 @@ export class PsychologistService {
       catchError(this.handleError('getPsychologists', []))
     );
   }
+  editePsychologists(psychologist:any){
+    return this.http.post<any>(this.host + 'psychologist/editePsych', psychologist, httpOptions);
+
+  }
+
+
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
       console.error(error);

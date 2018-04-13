@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Inject} from '@angular/core';
 import { PsychologistService } from '../psychologist.service';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PsychologistComponent } from '../psychologist/psychologist.component';
+import { FormControl, Validators } from '@angular/forms';
+
 
 
 
@@ -12,6 +14,8 @@ import { PsychologistComponent } from '../psychologist/psychologist.component';
 })
 export class EditePsychComponent implements OnInit {
   psychologists: any[];
+  formInput = <any>{};
+  user: any = {};
 
   constructor(private psychologistService: PsychologistService,   public dialogRef: MatDialogRef<EditePsychComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -26,8 +30,18 @@ export class EditePsychComponent implements OnInit {
     });
   }
 
-  editePsychologists():void{
-    
+  editePsychologists(psychologist:any):void{
+    let pro = { // here i put the inputs i take and place them in pro
+      firstName: this.formInput.firstName,
+      lastName: this.formInput.lastName,
+      //seller: this.user.username,
+      phone: this.formInput.phone,
+      address: this.formInput.address,
+      email: this.formInput.email,
+      daysOff: this.formInput.daysOff,
+      priceRange: this.formInput.priceRange,
+      createdAt: new Date,
+    };
 
   }
 
