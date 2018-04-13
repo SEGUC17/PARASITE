@@ -114,7 +114,7 @@ var prepareQueryConditionsForSearch = function (query) {
     };
 
     // section and category are not of interest
-    if (query.category === 'NoCat' || query.section === 'NoSec') {
+    if (query.category === '' || query.section === '') {
         delete conditions.category;
         delete conditions.section;
     }

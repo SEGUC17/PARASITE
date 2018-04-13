@@ -1,7 +1,7 @@
 <div class="row no-gutters">
   <div class="col-2 categories-sidebar">
     <mat-accordion>
-      <mat-expansion-panel hideToggle (click)="changeCategoryAndSection('NoCat','NoSec')">
+      <mat-expansion-panel hideToggle (click)="changeCategoryAndSection('','')">
         <mat-expansion-panel-header>
           <mat-panel-title>All</mat-panel-title>
         </mat-expansion-panel-header>
@@ -25,8 +25,8 @@
           <div class="col-10">
             <div class="row">
               <div class="col">
-                <h2 align="center" *ngIf="selectedCategory !== 'NoCat'"> Category: {{ selectedCategory }}</h2>
-                <h3 align="center" *ngIf="selectedSection !== 'NoSec'"> Section: {{ selectedSection }}</h3>
+                <h2 align="center" *ngIf="selectedCategory !== ''"> Category: {{ selectedCategory }}</h2>
+                <h3 align="center" *ngIf="selectedSection !== ''"> Section: {{ selectedSection }}</h3>
               </div>
             </div>
             <div class="row" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">

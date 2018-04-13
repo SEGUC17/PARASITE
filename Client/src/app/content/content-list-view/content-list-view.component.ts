@@ -26,8 +26,8 @@ export class ContentListViewComponent implements OnInit {
 
   // for content list pagination
   totalNumberOfEntries: number;
-  selectedCategory: String = 'cat1';
-  selectedSection: String = 'sec1.1';
+  selectedCategory: String = '';
+  selectedSection: String = '';
   currentPageNumber = 1;
 
   // for my contributions pagination
@@ -56,7 +56,7 @@ export class ContentListViewComponent implements OnInit {
           self.getMyContributionsPage();
         }
       });
-    this.getContentPage();
+    this.getSearchContentPage();
     this.getCategories();
   }
 
@@ -67,12 +67,7 @@ export class ContentListViewComponent implements OnInit {
     this.currentPageNumber += 1;
 
     // update the content array
-    // check whether we are searching or not
-    if (this.isSearching) {
-      this.getSearchContentPage();
-    } else {
-      this.getContentPage();
-    }
+    this.getSearchContentPage();
   }
 
   // respond to user scrolling to the end of the my contributions section
@@ -136,7 +131,7 @@ export class ContentListViewComponent implements OnInit {
     // start from page 1
     this.currentPageNumber = 1;
     this.contents = [];
-    this.getContentPage();
+    this.getSearchContentPage();
   }
 
   // respond to the user clicking the search button
