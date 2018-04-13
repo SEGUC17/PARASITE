@@ -453,7 +453,7 @@ module.exports.postActivityCommentReply = function (req, res, next) {
 module.exports.deleteActivityComment = function(req, res, next) {
 
     /*
-     *  Endpoint to retreive comments detail of activity
+     *  Endpoint to remove a comment from an activity
      *
      * @author: Wessam
      */
@@ -502,6 +502,93 @@ module.exports.deleteActivityComment = function(req, res, next) {
         comment.remove();
 
         activity.save(function(err2, activity2) {
+            if (err2) {
+                return next(500);
+            }
+
+            return res.status(204).json({
+                data: null,
+                err: null,
+                msg: 'comment deleted successfully'
+            });
+        });
+    });
+};
+
+module.exports.deleteActivityCommentReply = function (req, res, next) {
+
+    /*
+     *  Endpoint to retreive comments detail of activity
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var activityId = req.params.activityId;
+    var commentId = req.params.commentId;
+    var replyId = req.params.replyId;
+
+    Activity.findById(activityId, function (err, activity) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!activity) {
+            return res.status(404).json({
+                data: null,
+                err: 'Activity doesn\'t exist',
+                msg: null
+            });
+        }
+
+        var isActivityCreator = user.username === activity.creator;
+
+        var comment = activity.discussion.filter(function (comm) {
+            return comm._id == commentId;
+        }).pop();
+
+        if (!comment) {
+            return res.status(404).json({
+                data: null,
+                err: 'Comment doesn\'t exist',
+                msg: null
+            });
+        }
+
+        var isCommentCreator = comment.creator === user.username;
+
+        var reply = comment.replies.filter(function(rep) {
+            return reply._id == replyId;
+        });
+
+        if (!reply) {
+            if (!comment) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Comment doesn\'t exist',
+                    msg: null
+                });
+            }
+        }
+
+        var isReplyCreator = reply.creator === user.username;
+
+        if (
+            !user.isAdmin &&
+            !isActivityCreator &&
+            !isCommentCreator &&
+            !isReplyCreator
+        ) {
+            return res.status(403).json({
+                data: null,
+                err: 'You can\'t delete this comment',
+                msg: null
+            });
+        }
+
+        reply.remove();
+
+        activity.save(function (err2, activity2) {
             if (err2) {
                 return next(500);
             }

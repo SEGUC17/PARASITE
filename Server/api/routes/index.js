@@ -97,6 +97,11 @@ module.exports = function (passport) {
     isAuthenticated,
     ActivityController.deleteActivityComment
   );
+  router.delete(
+    '/activities/:activityId/comments/:commentId/replies/:replyId',
+    isAuthenticated,
+    ActivityController.deleteActivityCommentReply
+  );
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
 
   // ------------- psychologist's requests Controller ------------- //
