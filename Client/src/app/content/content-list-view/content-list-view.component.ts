@@ -25,18 +25,15 @@ export class ContentListViewComponent implements OnInit {
   numberOfEntriesPerPage = 20;
 
   // for content list pagination
-  totalNumberOfEntries: number;
   selectedCategory: String = '';
   selectedSection: String = '';
   currentPageNumber = 1;
 
   // for my contributions pagination
-  myContributionsTotalNumberOfEntries: number;
   myContributionsCurrentPageNumber = 1;
 
   // search variables
   searchQuery: String = '';
-  isSearching: Boolean = false;
 
   // sorting variables
   sortResultsBy: String = 'relevance';
@@ -80,20 +77,6 @@ export class ContentListViewComponent implements OnInit {
     this.getMyContributionsPage();
   }
 
-  // retrieves a pagee of general content according to currentPageNumber
-  getContentPage(): void {
-    const self = this;
-    this.contentService.getContentPage(self.numberOfEntriesPerPage,
-      self.currentPageNumber, self.selectedCategory, self.selectedSection)
-      .subscribe(function (retrievedContents) {
-        // append a new page of content to general content
-        self.contents = self.contents.concat(retrievedContents.data.docs);
-        // update the total number of results
-        self.totalNumberOfEntries = retrievedContents.data.total;
-        console.log('Total Number of Pages: ' + retrievedContents.data.pages);
-      });
-  }
-
   // get a page of the content created by the current user
   getMyContributionsPage(): void {
     const self = this;
@@ -102,8 +85,6 @@ export class ContentListViewComponent implements OnInit {
       subscribe(function (retrievedContents) {
         // append a new page to the myContributions array
         self.myContributions = self.myContributions.concat(retrievedContents.data.docs);
-        // update the total number of entries
-        self.myContributionsTotalNumberOfEntries = retrievedContents.data.total;
         console.log('Get Contributions');
       });
   }
@@ -119,9 +100,7 @@ export class ContentListViewComponent implements OnInit {
 
   // respond to the user changing the current category and section
   changeCategoryAndSection(category: any, section: any): void {
-
     // user changed the category or section, nullifying the validity of his search query
-    this.isSearching = false;
     this.searchQuery = '';
 
     // intialize category/section browsing
@@ -136,9 +115,6 @@ export class ContentListViewComponent implements OnInit {
 
   // respond to the user clicking the search button
   searchContent(): void {
-    // user is searching
-    this.isSearching = true;
-
     // reset contents array
     this.contents = [];
     this.currentPageNumber = 1;
@@ -168,8 +144,6 @@ export class ContentListViewComponent implements OnInit {
     ).subscribe(function (retrievedContents) {
       // update the contents array
       self.contents = self.contents.concat(retrievedContents.data.docs);
-      // update the total number of retrieved items
-      self.totalNumberOfEntries = retrievedContents.data.total;
       console.log('Total Number of Pages Search: ' + retrievedContents.data.pages);
     });
   }
