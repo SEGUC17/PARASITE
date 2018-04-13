@@ -378,6 +378,39 @@ describe('Activities Comments creation', function () {
                     );
                 });
         });
+        it('it should reply on comment', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/activities/' + verifiedActivity._id + '/comments/' +
+                    verifiedActivity.discussion[0]._id + '/replies/').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(201);
+                    expect(res.body.data).to.have.ownProperty('text');
+                    expect(res.body.data).to.have.ownProperty('_id');
+                    expect(res.body.data.text).to.equal(commentBody.text);
+                    expect(res.body.data.creator).to.equal(normalUser.username);
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion[0].
+                                replies.length).to.equal(2);
+                            done();
+                        }
+                    );
+                });
+        });
     });
     // --- Clearing Mockgoose --- //
     after(function (done) {
