@@ -139,7 +139,7 @@ export class ContentEditComponent implements OnInit {
         return;
       }
       self.content = res.data;
-
+      self.getSections();
     });
 
   }
