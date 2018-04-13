@@ -408,7 +408,7 @@ var handleNonAdminUpdate = function (req, res, next) {
         contentTitle: req.body.title,
         contentType: req.body.type,
         creator: req.user.username,
-        requestType: 'edit'
+        requestType: 'update'
     }, function (requestError, contentRequest) {
         if (requestError) {
             return next(requestError);
@@ -421,7 +421,6 @@ var handleNonAdminUpdate = function (req, res, next) {
                 if (contentError) {
                     return next(contentError);
                 }
-                console.log(updatedContent);
 
                 return res.status(200).json({
                     data: {
@@ -550,7 +549,6 @@ module.exports.createSection = function (req, res, next) {
         { new: true },
         function (updateError, updatedCategory) {
             if (updateError) {
-                console.log(updateError);
 
                 return next(updateError);
             }
@@ -571,7 +569,6 @@ module.exports.getContent = function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            console.log(contents);
 
             return res.status(200).json({
                 data: contents,
