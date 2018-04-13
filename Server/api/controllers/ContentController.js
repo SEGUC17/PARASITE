@@ -385,20 +385,20 @@ var handleAdminUpdate = function (req, res, next) {
     delete req.body._id;
     Content.findByIdAndUpdate(
         id,
-        req.body,
+        { $set: req.body },
         { new: true },
         function (err, updatedContent) {
             if (err) {
                 return next(err);
             }
-            console.log(updatedContent);
 
             return res.status(200).json({
                 data: updatedContent,
                 err: null,
                 mesg: 'retrieved the content successfully'
             });
-        });
+        }
+    );
 };
 
 var handleNonAdminUpdate = function (req, res, next) {
@@ -413,27 +413,31 @@ var handleNonAdminUpdate = function (req, res, next) {
         if (requestError) {
             return next(requestError);
         }
-        Content.findByIdAndUpdate(req.body._id, req.body, {
-            new: true,
-            overwrite: true
-        }, function (contentError, updatedContent) {
-            if (contentError) {
-                return next(contentError);
-            }
+        Content.findByIdAndUpdate(
+            req.body._id,
+            { $set: req.body },
+            { new: true },
+            function (contentError, updatedContent) {
+                if (contentError) {
+                    return next(contentError);
+                }
+                console.log(updatedContent);
 
-            return res.status(200).json({
-                data: {
-                    content: updatedContent,
-                    request: contentRequest
-                },
-                err: null,
-                msg: 'updated content successfully'
-            });
-        });
+                return res.status(200).json({
+                    data: {
+                        content: updatedContent,
+                        request: contentRequest
+                    },
+                    err: null,
+                    msg: 'updated content successfully'
+                });
+            }
+        );
     });
 };
 module.exports.updateContent = function (req, res, next) {
     delete req.body.approved;
+    delete req.body.v;
     req.body.touchDate = moment().toDate();
     req.body.creator = req.user.username;
     if (req.user.isAdmin) {
