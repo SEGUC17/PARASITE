@@ -33,33 +33,31 @@ beforeEach(function (done) {
 });
 
 /* End of "Clearing Mockgoose" */
-
-describe('Send a request to contact info to address book', function () {
-    describe('send a request by a reular rgistered/unregistered user', function () {
-        it('post a request to add psychologist information', function () {
-            var req = {
-                address: 'here',
-                createdAt: '1/1/2018',
-                daysOff:
-                    [
-                        'sat',
-                        'sun'
-                    ],
-                email: 'blah@blah.com',
-                firstName: 'mariam',
-                lastName: 'mahran',
-                phone: '010101',
-                priceRange: 1000
-            };
-            chai.request(server).post('/api/psychologist/request/add/addRequest').
-                send(req).
-                end(function (err, res) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    res.should.have.status(200);
-                });
-        });
+describe('send a request to add psychologist by a reular rgistered/unregistered user', function () {
+    it('post a request to add psychologist information', function () {
+        var req = {
+            address: 'here',
+            createdAt: '1/1/2018',
+            daysOff:
+                [
+                    'sat',
+                    'sun'
+                ],
+            email: 'blah@blah.com',
+            firstName: 'mariam',
+            lastName: 'mahran',
+            phone: '010101',
+            priceRange: 1000
+        };
+        chai.request(server).post('/api/psychologist/request/add/addRequest').
+            send(req).
+            end(function (err, res) {
+                if (err) {
+                    return console.log(err);
+                }
+                res.should.have.status(200);
+                res.body.msg.should.be.equal('Request was created successfully.');
+            });
     });
 });
 
