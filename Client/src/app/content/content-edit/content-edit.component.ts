@@ -149,26 +149,32 @@ export class ContentEditComponent implements OnInit {
   }
 
 
-  initUpdateView() {
+  initUpdateView(contentID) {
     const self = this;
-    const contentID = this.route.snapshot.params.id;
-    if (!contentID) {
-      return;
-    }
-    this.contentService.getContentById(contentID).subscribe(function (res) {
-      if (!res) {
-        console.log('couldn\'t find the content');
-        return;
+    self.contentService.getCategories().subscribe(function (res) {
+      if (!res || !res.data) {
+        return [];
       }
-      self.isUpdate = true;
-      self.content = res.data;
-      self.getSections();
+      self.categories = res.data;
+      self.contentService.getContentById(contentID).subscribe(function (contentResponse) {
+        if (!contentResponse) {
+          console.log('couldn\'t find the content');
+          return;
+        }
+        self.isUpdate = true;
+        self.content = contentResponse.data;
+        self.getSections();
+      });
     });
 
   }
 
   ngOnInit() {
+    const contentID = this.route.snapshot.params.id;
+    if (contentID) {
+      this.isUpdate = true;
+      this.initUpdateView(contentID);
+    }
     this.getCategories();
-    this.initUpdateView();
   }
 }
