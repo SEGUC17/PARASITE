@@ -14,7 +14,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {MatSliderModule,
-MatSlideToggleModule} from '@angular/material';
+MatSlideToggleModule, MatIconModule, MatRadioModule} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -28,6 +28,8 @@ MatSlideToggleModule} from '@angular/material';
     MatSelectModule,
     MatGridListModule,
     MatPaginatorModule,
+    MatRadioModule,
+    MatIconModule,
     MatSliderModule,
     MatSlideToggleModule,
     MatTabsModule,

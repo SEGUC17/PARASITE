@@ -7,7 +7,7 @@
     display: flex;
     align-content: center;
     align-items: center;
-    height: 60px;
+    height: 30px;
   }
   
   .widthFloat{
@@ -27,12 +27,4 @@
   
   .button{
     background:#3f51b5; color:white
-  }
-
-  mat-tab-group {
-    background-color: #DA572B;
-    color: white;
-  }
-  mat-tab{
-    color: white;
   }

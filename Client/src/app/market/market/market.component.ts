@@ -23,6 +23,7 @@ export class MarketComponent implements OnInit {
   entriesPerPage = 15;
   selectedName: String;
   selectedPrice;
+  selectedSeller;
   numberOfProducts: number;
   numberOfUserProducts: number;
   userItems: Product[];
@@ -80,9 +81,13 @@ export class MarketComponent implements OnInit {
   // restrict the products to the ones following the delimiters given
   getPage(): void {
     const self = this;
+    if ( self.selectedName ) {
+      self.selectedName = self.selectedName.trim();
+    }
     const limiters = {
       price: self.selectedPrice + 1,
-      name: self.selectedName
+      name: self.selectedName,
+      seller: self.selectedSeller
     };
     self.marketService.getMarketPage(self.entriesPerPage,
       self.currentPageNumber, limiters)
@@ -96,9 +101,13 @@ export class MarketComponent implements OnInit {
   // restrict the products to the ones following the delimiters given
   firstPage(): void {
     const self = this;
+    if ( self.selectedName ) {
+      self.selectedName = self.selectedName.trim();
+    }
     const limiters = {
       price: self.selectedPrice + 1,
-      name: self.selectedName
+      name: self.selectedName,
+      seller: self.selectedSeller
     };
     this.marketService.numberOfMarketPages(limiters)
       .subscribe(function (numberOfProducts) {
@@ -135,6 +144,15 @@ export class MarketComponent implements OnInit {
       .subscribe(function (products) {
         self.userItems = products.data.docs;
       });
+  }
+  seller(x: number): void {
+    let self = this;
+    if ( x === 0 ) {
+      self.selectedSeller = undefined;
+    } else {
+      self.selectedSeller = this.user.username;
+    }
+    self.firstPage();
   }
   // clears search critirea
   clearLimits(): void {
