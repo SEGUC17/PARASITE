@@ -262,9 +262,27 @@ module.exports.commentOnActivity = function (req, res, next) {
      */
 
     var valid = typeof req.body.text === 'string';
+    var user = req.user;
     var activityId = req.params.activityId;
-    Activity.findByIdAndUpdate(
-        activityId,
+
+    var filter = { _id: activityId };
+
+    if (!user.isAdmin) {
+        filter = {
+            $and: [
+                filter,
+                {
+                    $or: [
+                        { status: 'verified' },
+                        { creator: user.username }
+                    ]
+                }
+            ]
+        };
+    }
+
+    Activity.findOneAndUpdate(
+        filter,
         {
             $push: {
                 'discussion': {
@@ -277,7 +295,7 @@ module.exports.commentOnActivity = function (req, res, next) {
             new: true,
             runValidators: true
         },
-        function(err, activity) {
+        function (err, activity) {
             if (err) {
                 return res.status(422).json({
                     data: null,
@@ -292,7 +310,6 @@ module.exports.commentOnActivity = function (req, res, next) {
                     msg: null
                 });
             }
-
             res.status(201).json({
                 data: activity.discussion.pop(),
                 err: null,
