@@ -123,9 +123,17 @@ module.exports = function (passport) {
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
-
   router.get('/admin/VerifiedContributerRequests/:FilterBy', isAuthenticated, adminController.getVCRs);
   router.patch('/admin/VerifiedContributerRequestRespond/:targetId', isAuthenticated, adminController.VCRResponde);
+  router.get('/admin/removePublishedStudyPlan/:studyPlanID', isAuthenticated, adminController.removePublishedStudyPlans);
+  router.get(
+    '/admin/PendingStudyPlanPublishRequests', isAuthenticated,
+    adminController.viewStudyPlanPublishReqs
+  );
+  router.patch(
+    '/admin/RespondStudyPlanPublishRequest/:studyPlanPublishRequestId', isAuthenticated,
+    adminController.respondStudyPlanPublishRequest
+  );
   router.get(
     '/admin/PendingContentRequests/:type', isAuthenticated,
     adminController.viewPendingContReqs

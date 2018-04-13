@@ -12,6 +12,9 @@ const httpOptions = {
 
 export class AdminService {
   private baseURL = 'http://localhost:3000/api/';
+  private removePublishedStudyPlansURL = 'admin/removePublishedStudyPlan/';
+  private viewPendingStudyPlanPublishReqsURL = 'admin/PendingStudyPlanPublishRequests';
+  private respondStudyPlanPublishRequestURL = 'admin/RespondStudyPlanPublishRequest/';
   private viewPendingContReqsURL = 'admin/PendingContentRequests/';
   private respondContentRequestURL = 'admin/RespondContentRequest/';
   private respondContentStatusURL = 'admin/RespondContentStatus/';
@@ -99,6 +102,33 @@ export class AdminService {
       .pipe(
         catchError(
           self.handleError('createSection', [])
+        )
+      );
+  }
+  removePublishedStudyPlans(studyPlanId: any): Observable<any> {
+    const self = this;
+    return this.http.get(self.baseURL + self.removePublishedStudyPlansURL + studyPlanId)
+      .pipe(
+        catchError(
+          self.handleError('removePublishedStudyPlan', [])
+        )
+      );
+  }
+  viewStudyPlanPublishReqs(): Observable<any> {
+    const self = this;
+    return this.http.get(self.baseURL + self.viewPendingStudyPlanPublishReqsURL)
+      .pipe(
+        catchError(
+          self.handleError('viewStudyPlanPublishReqs', [])
+        )
+      );
+  }
+  respondStudyPlanPublishReqs(res, id): Observable<any> {
+    const self = this;
+    return this.http.patch<any>(self.baseURL + self.respondStudyPlanPublishRequestURL + id,  res)
+      .pipe(
+        catchError(
+          self.handleError('respondContentRequest', [])
         )
       );
   }
