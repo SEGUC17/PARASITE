@@ -26,11 +26,13 @@ chai.use(chaiHttp);
 
 // Objects variables for testing
 var normalUser = null;
+var adminUser = null;
 var rejectedActivity = null;
+var creatorUser = null;
 var pendingActivity = null;
 var verifiedActivity = null;
 
-var commentBody = { text: 'comment test text' };
+var commentBody = null;
 
 describe('Activities Comments creation', function () {
 
@@ -59,8 +61,9 @@ describe('Activities Comments creation', function () {
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
             // Creating data for testing
+            commentBody = { text: 'comment test text' };
             Activity.create({
-                creator: 'normalusername',
+                creator: 'username',
                 name: 'activity1',
                 description: 'activity1 des',
                 fromDateTime: Date.now(),
@@ -74,7 +77,7 @@ describe('Activities Comments creation', function () {
                 pendingActivity = activity;
             });
             Activity.create({
-                creator: 'normalusername',
+                creator: 'username',
                 name: 'activity2',
                 description: 'activity2 des',
                 fromDateTime: Date.now(),
@@ -88,7 +91,7 @@ describe('Activities Comments creation', function () {
                 rejectedActivity = activity;
             });
             Activity.create({
-                creator: 'normalusername',
+                creator: 'username',
                 name: 'activity3',
                 description: 'activity3 des',
                 fromDateTime: Date.now(),
@@ -127,7 +130,37 @@ describe('Activities Comments creation', function () {
                     console.log(err);
                 }
                 normalUser = user;
-                done();
+                User.create({
+                    birthdate: Date.now(),
+                    email: 'test1@email.com',
+                    firstName: 'firstname',
+                    isAdmin: true,
+                    lastName: 'lastname',
+                    password: 'password',
+                    phone: '0111111111',
+                    username: 'adminusername'
+                }, function (err2, user2) {
+                    if (err) {
+                        console.log(err2);
+                    }
+                    adminUser = user2;
+                    User.create({
+                        birthdate: Date.now(),
+                        email: 'test1@email.com',
+                        firstName: 'firstname',
+                        isAdmin: true,
+                        lastName: 'lastname',
+                        password: 'password',
+                        phone: '0111111111',
+                        username: 'username'
+                    }, function (err3, user3) {
+                        if (err) {
+                            console.log(err3);
+                        }
+                        creatorUser = user3;
+                        done();
+                    });
+                });
             });
         });
     });
@@ -195,12 +228,12 @@ describe('Activities Comments creation', function () {
                     expect(res.body.data.text).to.equal(existingComment.text);
                     Activity.findById(
                         verifiedActivity._id,
-                        function(err2, activity) {
-                        if (err2) {
-                            console.log(err2);
-                        }
-                        expect(activity.discussion.length).to.equal(2);
-                        done();
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion.length).to.equal(2);
+                            done();
                         }
                     );
                 });
@@ -218,6 +251,123 @@ describe('Activities Comments creation', function () {
                     res.should.have.status(401);
                     Activity.findById(
                         verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion.length).to.equal(1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 422 for empty text', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/activities/' + verifiedActivity._id + '/addComment').
+                send({ text: '' }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(422);
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion.length).to.equal(1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it(
+            'it should return 404 for commenting on a pedning activity',
+            function (done) {
+                var token = 'JWT ' + jwt.sign(
+                    { 'id': normalUser._id },
+                    config.SECRET,
+                    { expiresIn: '12h' }
+                );
+                chai.request(app).
+                    post('/api/activities/' + pendingActivity._id +
+                        '/addComment').
+                    send(commentBody).
+                    set('Authorization', token).
+                    end(function (err, res) {
+                        // testing get activities for unverified user
+                        if (err) {
+                            console.log(err);
+                        }
+                        res.should.have.status(404);
+                        done();
+                    });
+            }
+        );
+        it('it should comment on pending activity by creator', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': creatorUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/activities/' + pendingActivity._id + '/addComment').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(201);
+                    expect(res.body.data).to.have.ownProperty('text');
+                    expect(res.body.data).to.have.ownProperty('_id');
+                    expect(res.body.data.text).to.equal(commentBody.text);
+                    expect(res.body.data.creator).
+                        to.equal(creatorUser.username);
+                    Activity.findById(
+                        pendingActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion.length).to.equal(1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should comment on pending activity by adming', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/activities/' + pendingActivity._id + '/addComment').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(201);
+                    expect(res.body.data).to.have.ownProperty('text');
+                    expect(res.body.data).to.have.ownProperty('_id');
+                    expect(res.body.data.text).to.equal(commentBody.text);
+                    expect(res.body.data.creator).
+                        to.equal(adminUser.username);
+                    Activity.findById(
+                        pendingActivity._id,
                         function (err2, activity) {
                             if (err2) {
                                 console.log(err2);
