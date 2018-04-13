@@ -27,7 +27,6 @@ chai.use(chaiHttp);
 // Objects variables for testing
 var normalUser = null;
 var adminUser = null;
-var rejectedActivity = null;
 var creatorUser = null;
 var pendingActivity = null;
 var verifiedActivity = null;
@@ -83,20 +82,6 @@ describe('Activities Comments/replies creation', function () {
                     console.log(err);
                 }
                 pendingActivity = activity;
-            });
-            Activity.create({
-                creator: 'username',
-                name: 'activity2',
-                description: 'activity2 des',
-                fromDateTime: Date.now(),
-                toDateTime: Date.now() + 5,
-                status: 'rejected',
-                price: 50
-            }, function (err, activity) {
-                if (err) {
-                    console.log(err);
-                }
-                rejectedActivity = activity;
             });
             Activity.create({
                 creator: 'username',
@@ -353,7 +338,7 @@ describe('Activities Comments/replies creation', function () {
                     );
                 });
         });
-        it('it should comment on pending activity by adming', function (done) {
+        it('it should comment on pending activity by admin', function (done) {
             var token = 'JWT ' + jwt.sign(
                 { 'id': adminUser._id },
                 config.SECRET,
