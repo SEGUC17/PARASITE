@@ -319,66 +319,10 @@ module.exports.commentOnActivity = function (req, res, next) {
     );
 };
 
-module.exports.getActivityComment = function(req, res, next) {
+module.exports.getActivityComment = function (req, res, next) {
 
     /*
      *  Endpoint to retreive comments detail of activity
-     *
-     * @author: Wessam
-     */
-
-    var user = req.user;
-    var activityId = req.params.activityId;
-    var commentId = req.params.commentId;
-
-    Activity.findById(activityId).
-        exec(function(err, activity) {
-            if (err) {
-                return next(err);
-            }
-            if (!activity) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'Activity doesn\'t exist',
-                    msg: null
-                });
-            }
-
-            var isCreator = user && user.username === activity.creator;
-            var isAdmin = user && user.isAdmin;
-
-            if (activity.status !== 'verified' && !isAdmin && !isCreator) {
-                var status = user ? 403 : 401;
-
-                return res.status(status).json({
-                    data: null,
-                    err: 'Activity is not verified',
-                    msg: null
-                });
-            }
-            var comment = activity.discussion.filter(function(com) {
-                return com._id == commentId;
-            }).pop();
-            if (!comment) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'Comment doesn\'t exist',
-                    msg: null
-                });
-            }
-
-            return res.status(200).json({
-                data: comment,
-                err: null,
-                msg: 'Comment retreived successfully'
-            });
-        });
-};
-
-module.exports.postActivityCommentReply = function (req, res, next) {
-
-    /*
-     *  Endpoint for commenting on activities
      *
      * @author: Wessam
      */
@@ -423,16 +367,75 @@ module.exports.postActivityCommentReply = function (req, res, next) {
                 });
             }
 
+            return res.status(200).json({
+                data: comment,
+                err: null,
+                msg: 'Comment retreived successfully'
+            });
+        });
+};
+
+module.exports.postActivityCommentReply = function (req, res, next) {
+
+    /*
+     *  Endpoint for commenting on activities
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var activityId = req.params.activityId;
+    var commentId = req.params.commentId;
+
+    var filter = { _id: activityId };
+
+    if (!user.isAdmin) {
+        filter = {
+            $and: [
+                filter,
+                {
+                    $or: [
+                        { status: 'verified' },
+                        { creator: user.username }
+                    ]
+                }
+            ]
+        };
+    }
+
+    Activity.findOne(filter, function (err, activity) {
+            if (err) {
+                return next(err);
+            }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
+                    msg: null
+                });
+            }
+
+            var comment = activity.discussion.filter(function (com) {
+                return com._id == commentId;
+            }).pop();
+            if (!comment) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Comment doesn\'t exist',
+                    msg: null
+                });
+            }
+
             comment.replies.push({
                 creator: user.username,
                 text: req.body.text
             });
 
-            activity.save(function(err2, activity2) {
+            activity.save(function (err2, activity2) {
                 if (err2) {
                     return res.status(422).json({
                         data: null,
-                        err: err,
+                        err: 'reply can\'t be empty',
                         msg: null
                     });
                 }
