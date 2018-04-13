@@ -15,6 +15,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {MatSliderModule,
 MatSlideToggleModule} from '@angular/material';
+import { RequestDetailComponent } from './request-detail/request-detail.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,7 @@ MatSlideToggleModule} from '@angular/material';
   ],
   providers: [MarketService, { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }],
-    entryComponents: [MarketComponent, ProductDetailComponent],
-  declarations: [MarketComponent, ProductDetailComponent, CreateProductComponent]
+    entryComponents: [MarketComponent, ProductDetailComponent, RequestDetailComponent],
+  declarations: [MarketComponent, ProductDetailComponent, CreateProductComponent, RequestDetailComponent]
 })
 export class MarketModule { }

@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+/*eslint no-underscore-dangle: ["error", { "allow": ["__v","_id"] }]*/
 var mongoose = require('mongoose');
 var Validations = require('../utils/validators/is-object-id');
 var Product = mongoose.model('Product');
@@ -275,6 +276,12 @@ module.exports.getUserRequests = function (req, res, next) {
 
 module.exports.updateRequest = function (req, res, next) {
     if (req.user.username === req.params.username) {
+
+        delete req.body.createdAt;
+        delete req.body.seller;
+        delete req.body.__v;
+        delete req.body._id;
+
         ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err) {
             if (err) {
                 return next(err);

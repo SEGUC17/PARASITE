@@ -10,6 +10,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angu
 import { Router } from '@angular/router';
 import { CreateProductComponent } from '../create-product/create-product.component';
 import { AuthService } from '../../auth/auth.service';
+import { RequestDetailComponent } from '../request-detail/request-detail.component';
+
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
@@ -53,18 +55,30 @@ export class MarketComponent implements OnInit {
   // opens the product details dialog
   showProductDetails(prod: any): void {
     if (prod) {
-      let dialogRef = this.dialog.open(ProductDetailComponent, {
-        width: '1000px',
-        height: '400px',
-        data: { product: prod, curUser: this.user.username }
-      });
+      if (this.products.indexOf(prod) !== -1 || this.userItems.indexOf(prod) !== -1) {
+        let dialogRef = this.dialog.open(ProductDetailComponent, {
+          width: '1000px',
+          height: '400px',
+          data: { product: prod, curUser: this.user.username }
+        });
 
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-      });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+      } else if (this.userRequests.indexOf(prod) !== -1) {
+        let dialogRef = this.dialog.open(RequestDetailComponent, {
+          width: '1000px',
+          height: '400px',
+          data: { product: prod, curUser: this.user.username }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+      }
     }
-
   }
+
   // Opens the dialog form of creating a product
   goToCreate() {
     const self = this;
