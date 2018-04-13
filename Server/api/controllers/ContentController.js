@@ -356,7 +356,23 @@ module.exports.createContent = function (req, res, next) {
 };
 
 var handleAdminUpdate = function (req, res, next) {
+    req.body.approved = true;
+    req.body.touchDate = moment.toDate();
+    req.body.creator = req.user.username;
+    Content.findByIdAndUpdate(req.body._id, req.body, {
+        new: true,
+        overwrite: true
+    }, function (err, updatedContent) {
+        if (err) {
+            return next(err);
+        }
 
+        return res.status(200).json({
+            data: updatedContent,
+            err: null,
+            mesg: 'retrieved the content successfully'
+        });
+    });
 };
 
 var handleNonAdminUpdate = function (req, res, next) {
