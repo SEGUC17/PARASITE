@@ -19,6 +19,7 @@ export class MessageService {
 
   constructor(private http: HttpClient) { }
 
+
   // making a POST request to send a message
   send(message: any): Observable<any> {
     return this.http.post<any>(this.url + 'message/sendMessage', message, httpOptions);
@@ -39,6 +40,9 @@ export class MessageService {
     return this.http.delete<any>(this.url + `message/${message._id}`, httpOptions);
   }
 
-
+   block(blocked: any, user: any): Observable<any> {
+      const self = this;
+       return this.http.patch(this.url + `message/block/${blocked}`, user, httpOptions);
+   }
 
 }
