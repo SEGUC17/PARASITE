@@ -141,13 +141,38 @@ describe('/PATCH /content', function () {
                     should.exist(res.body.data);
                     should.not.exist(res.body.data.content);
                     should.not.exist(res.body.data.contentRequest);
-                    res.body.data.body.should.
-                        be.equal('hello, this is an update');
+                    res.body.data.title.should.
+                        be.equal(updatedContent.title);
                     done();
                 });
-
         }
     );
+
+    it(
+        'should update content successfully for an non admin' +
+        ' with false approval status' +
+        ' and content request is generated',
+        function (done) {
+            var updatedContent = JSON.parse(JSON.stringify(testContent));
+            updatedContent.body = 'hello, come and test me';
+            chai.request(server).
+                patch('/api/content').
+                set('Authorization', userToken).
+                send(updatedContent).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    var resultContent = res.body.data.content;
+                    var resultRequest = res.body.data.request;
+                    should.exist(resultContent);
+                    should.exist(resultRequest);
+                    resultContent.should.have.property('body');
+                    resultContent.body.should.equal(updatedContent.body);
+                    done();
+                });
+        }
+    );
+
+
     // --- Clearing Mockgoose --- //
     after(function (done) {
         mockgoose.helper.reset().then(function () {
