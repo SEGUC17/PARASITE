@@ -103,10 +103,6 @@ var prepareQueryOptionsForSearch = function (query, params) {
 
 // helper for getSearchPage
 var checkRequestValidityForSearch = function (req) {
-    console.log(req.params);
-    console.log(req.query);
-    console.log(typeof req.query.searchQuery === 'string');
-    console.log(req.query.searchQuery);
 
     return req.params.pageSize &&
         req.params.pageNumber &&

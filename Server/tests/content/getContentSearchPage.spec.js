@@ -87,8 +87,113 @@ var saveAllAndTest = function (
     });
 };
 
+var runValidityTests = function () {
+    it(
+        'it should fail with 422 because page number is not valid',
+        function (done) {
+            chai.request(server).
+                get('/api/content/getContentPage/3/' +
+                    'number/search?searchQuery=""' +
+                    '&sort="relevance"&category="cat1"&section="sec1"').
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    // expect error status
+                    expect(res).to.have.status(422);
+                    done();
+                });
+        }
+    );
+    it(
+        'it should fail with 422 because page size is not valid',
+        function (done) {
+            chai.request(server).
+                get('/api/content/getContentPage/number/' +
+                    '1/search?searchQuery=""' +
+                    '&sort="relevance"&category="cat1"&section="sec1"').
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    // expect error status
+                    expect(res).to.have.status(422);
+                    done();
+                });
+        }
+    );
+    it(
+        'it should fail with 422 because searchQuery is not provided',
+        function (done) {
+            chai.request(server).
+                get('/api/content/getContentPage/3/' +
+                    '1/search?' +
+                    '&sort="relevance"&category="cat1"&section="sec1"').
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    // expect error status
+                    expect(res).to.have.status(422);
+                    done();
+                });
+        }
+    );
+    it(
+        'it should fail with 422 because sort is not provided',
+        function (done) {
+            chai.request(server).
+                get('/api/content/getContentPage/3/' +
+                    '1/search?searchQuery=""' +
+                    '&category="cat1"&section="sec1"').
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    // expect error status
+                    expect(res).to.have.status(422);
+                    done();
+                });
+        }
+    );
+    it(
+        'it should fail with 422 because category is not provided',
+        function (done) {
+            chai.request(server).
+                get('/api/content/getContentPage/3/' +
+                    '1/search?searchQuery=""' +
+                    '&sort="relevance"&section="sec1"').
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    // expect error status
+                    expect(res).to.have.status(422);
+                    done();
+                });
+        }
+    );
+    it(
+        'it should fail with 422 because page size is not valid',
+        function (done) {
+            chai.request(server).
+                get('/api/content/getContentPage/3/' +
+                    '1/search?searchQuery=""' +
+                    '&sort="relevance"&category="cat1"').
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    // expect error status
+                    expect(res).to.have.status(422);
+                    done();
+                });
+        }
+    );
+};
+
 // tests
-describe('/GET/ Content Page', function () {
+describe('/GET/ Content Search Page', function () {
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -136,64 +241,13 @@ describe('/GET/ Content Page', function () {
             // save the docs and perform the test
             saveAllAndTest(
                 done,
-                '/api/content/getContentPage/3/1/cat1/sec1',
+                '/api/content/getContentPage/3/1/search?searchQuery=""' +
+                '&sort="relevance"&category="cat1"&section="sec1"',
                 3,
                 'cat1',
                 'sec1'
             );
         });
-
-    // test that the server should get a page of content by category only
-    it('it should GET page of content from the server ' +
-        'with a specific category only', function (done) {
-            // content that will not be retrieved
-            docArray.push(new Content({
-                approved: true,
-                body: '<h1>Hello</h1>',
-                category: 'cat77',
-                creator: 'Omar',
-                section: 'sec1',
-                title: 'Test Content'
-            }));
-
-            // content that will be retrieved
-            for (var counter = 0; counter < 3; counter += 1) {
-                docArray.push(new Content({
-                    approved: true,
-                    body: '<h1>Hello</h1>',
-                    category: 'cat1',
-                    creator: 'Omar',
-                    section: 'sec1',
-                    title: 'Test Content' + counter
-                }));
-            }
-
-            // save the docs and run the test
-            saveAllAndTest(
-                done,
-                '/api/content/getContentPage/3/1/cat1/NoSec',
-                3,
-                'cat1',
-                'NoSec'
-            );
-        });
-
-    // test that the server will send an error when parameters are invalid
-    it(
-        'it should fail with 422 because parameters are not valid',
-        function (done) {
-            chai.request(server).
-                get('/api/content/getContentPage/MyLifeIsAHHH/1/cat1/sec1').
-                end(function (error, res) {
-                    if (error) {
-                        return console.log(error);
-                    }
-                    // expect error status
-                    expect(res).to.have.status(422);
-                    done();
-                });
-        }
-    );
 
     // test that a page of content will be retrieved from the server
     // without category or section
@@ -213,12 +267,17 @@ describe('/GET/ Content Page', function () {
             // save the docs and test
             saveAllAndTest(
                 done,
-                '/api/content/getContentPage/3/1/NoCat/NoSec',
+                '/api/content/getContentPage/3/1/search?searchQuery=""' +
+                '&sort="relevance"&category=""&section=""',
                 3,
-                'NoCat',
-                'NoSec'
+                '',
+                ''
             );
         });
+
+    // test that the server will send an error when parameters are invalid
+    runValidityTests();
+
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
