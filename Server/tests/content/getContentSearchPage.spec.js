@@ -22,8 +22,8 @@ var valiateCategoryAndSection = function (
 ) {
     var counter = 0;
     // validate category and section retrieval
-    if (expectedCategory !== 'NoCat' &&
-        expectedSection !== 'NoSec') {
+    if (expectedCategory !== '' &&
+        expectedSection !== '') {
         // check category and section
         for (
             counter = 0;
@@ -34,16 +34,6 @@ var valiateCategoryAndSection = function (
                 should.have.property('category', expectedCategory);
             res.body.data.docs[counter].
                 should.have.property('section', expectedSection);
-        }
-    } else if (expectedCategory !== 'NoCat') {
-        // check category only
-        for (
-            counter = 0;
-            counter < res.body.data.docs.length;
-            counter += 1
-        ) {
-            res.body.data.docs[counter].
-                should.have.property('category', expectedCategory);
         }
     }
 };
