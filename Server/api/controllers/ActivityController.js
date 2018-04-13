@@ -343,6 +343,19 @@ module.exports.getActivityComment = function(req, res, next) {
                     msg: null
                 });
             }
+
+            var isCreator = user && user.username === activity.creator;
+            var isAdmin = user && user.isAdmin;
+
+            if (activity.status !== 'verified' && !isAdmin && !isCreator) {
+                var status = user ? 403 : 401;
+
+                return res.status(status).json({
+                    data: null,
+                    err: 'Activity is not verified',
+                    msg: null
+                });
+            }
             var comment = activity.discussion.filter(function(com) {
                 return com._id == commentId;
             }).pop();
