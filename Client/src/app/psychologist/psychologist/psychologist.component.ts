@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-psychologist',
   templateUrl: './psychologist.component.html',
-  styleUrls: ['./psychologist.component.css']
+  styleUrls: ['./psychologist.component.scss']
 })
 export class PsychologistComponent implements OnInit {
 

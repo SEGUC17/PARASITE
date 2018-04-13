@@ -4,11 +4,11 @@ import { StudyPlanService } from '../study-plan.service';
 @Component({
   selector: 'app-published-study-plans',
   templateUrl: './published-study-plans.component.html',
-  styleUrls: ['./published-study-plans.component.css']
+  styleUrls: ['./published-study-plans.component.scss']
 })
 export class PublishedStudyPlansComponent implements OnInit {
   type: String = 'published';
-
+// declaring the type with published for the if condition is study-plan-list-view
   constructor() { }
 
   ngOnInit() {

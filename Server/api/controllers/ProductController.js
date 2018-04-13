@@ -1,10 +1,11 @@
+/* eslint-disable max-len */
 var mongoose = require('mongoose');
 var Validations = require('../utils/validators/is-object-id');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
 
 
-var limits = function(toFind) {
+var limits = function (toFind) {
 
     var limiters = {};
     if (toFind.price) {
@@ -26,8 +27,8 @@ module.exports.getNumberOfProducts = function (req, res, next) {
     var toFind = JSON.parse(req.params.limiters);
     // validations
     var valid = (!toFind.price || !isNaN(toFind.price)) &&
-    (!toFind.name || typeof toFind.name === 'string') &&
-    (!toFind.seller || typeof toFind.seller === 'string');
+        (!toFind.name || typeof toFind.name === 'string') &&
+        (!toFind.seller || typeof toFind.seller === 'string');
 
     // the request was not valid
     if (!valid) {
@@ -93,7 +94,7 @@ module.exports.getMarketPage = function (req, res, next) {
     );
 };
 
-// Get the psychologist requests in the database
+// Get the products requests in the database
 module.exports.getRequests = function (req, res, next) {
     if (req.user.isAdmin) {
         ProductRequest.find({}).exec(function (err, requests) {
@@ -117,6 +118,7 @@ module.exports.getRequests = function (req, res, next) {
 
 // createproduct
 module.exports.createProduct = function (req, res, next) {
+    //Validity check
     if (!(typeof req.body.name === 'string')) {
         console.log('please insert product"s name as a string');
     }
@@ -134,27 +136,37 @@ module.exports.createProduct = function (req, res, next) {
                 'image(String) and description(String) are required fields.'
         });
     }
-
-    Product.create(req.body, function (err, product) {
-
-        if (err) {
-            return next(err);
-        }
-        res.status(201).json({
-            data: product,
-            err: null,
-            msg: 'Product was created successfully.'
+    // If the user is an admin then create product
+    if (req.user.isAdmin) {
+        Product.create(req.body, function (err, product) {
+            if (err) {
+                return next(err);
+            }
+            res.status(201).json({
+                data: product,
+                err: null,
+                msg: 'Product was created successfully.'
+            });
         });
-    });
+    } else {
+        //If user is not an Admin
+        res.status(403).json({
+            data: null,
+            err: 'You are not an admin to do that',
+            msg: null
+        });
+    }
 };
 //createproduct end
 
-//createProductRequest start
+// createProductRequest start
 module.exports.createProductRequest = function (req, res, next) {
+    console.log(req.body);
     ProductRequest.create(req.body, function (err, productreq) {
         if (err) {
             return next(err);
         }
+        //Created successfully
         res.status(200).json({
             data: productreq,
             err: null,
@@ -162,68 +174,79 @@ module.exports.createProductRequest = function (req, res, next) {
         });
     });
 };
-//createProductRequest end
+// createProductRequest end
 
 
 module.exports.evaluateRequest = function (req, res, next) {
-    if (req.body.result) {
-        var newProduct = {};
-
-        // Ensure the request still exists
-        ProductRequest.findById(req.body._id).exec(function (err, productReq) {
-            if (err) {
-                return next(err);
-            }
-            if (!productReq) {
-                return res.status(404).json({
-                    data: null,
-                    err: null,
-                    msg: 'Request not found.'
-                });
-            }
-            // If found, make the newProduct to insert
-            newProduct = {
-                acquiringType: req.body.acquiringType,
-                createdAt: req.body.createdAt,
-                description: req.body.description,
-                image: req.body.image,
-                name: req.body.name,
-                price: req.body.price,
-                rentPeriod: req.body.rentPeriod,
-                seller: req.body.seller
-            };
-            // Delete the request
-            ProductRequest.deleteOne({ _id: req.body._id }, function (error) {
-                if (error) {
-                    return next(error);
+    if (req.user.isAdmin) {
+        if (req.body.result) {
+            var newProduct = {};
+            // Ensure the request still exists
+            ProductRequest.findById(req.body._id).exec(function (err, productReq) {
+                if (err) {
+                    return next(err);
                 }
-                // Insert the product
-                Product.create(newProduct, function (error1) {
-                    if (error1) {
-                        return next(error1);
-                    }
-                    res.status(201).json({
-                        data: newProduct,
+                if (!productReq) {
+                    return res.status(404).json({
+                        data: null,
                         err: null,
-                        msg: 'Request accepted and product added to database.'
+                        msg: 'Request not found.'
+                    });
+                }
+                // If found, make the newProduct to insert
+                newProduct = {
+                    acquiringType: req.body.acquiringType,
+                    createdAt: req.body.createdAt,
+                    description: req.body.description,
+                    image: req.body.image,
+                    name: req.body.name,
+                    price: req.body.price,
+                    rentPeriod: req.body.rentPeriod,
+                    seller: req.body.seller
+                };
+                // Delete the request
+                ProductRequest.deleteOne({ _id: req.body._id }, function (error) {
+                    if (error) {
+                        return next(error);
+                    }
+                    // Insert the product
+                    Product.create(newProduct, function (error1) {
+                        if (error1) {
+                            return next(error1);
+                        }
+                        res.status(201).json({
+                            data: newProduct,
+                            err: null,
+                            msg: 'Request accepted and product added to database.'
+                        });
                     });
                 });
             });
-        });
-    } else {
-        // Simply delete the request and notify the user
-        ProductRequest.findByIdAndRemove(req.body._id, function (err, product) {
-            if (err) {
-                return next(err);
-            }
-            // TODO Notify user
+        } else {
+            // Simply delete the request and notify the user
+            ProductRequest.findByIdAndRemove(req.body._id, function (err, product) {
+                if (err) {
+                    return res.status(404).json({
+                        data: null,
+                        err: null,
+                        msg: 'Request not found.'
+                    });
+                }
+                // TODO Notify user
 
-            // When done, send response
-            return res.status(200).json({
-                data: product,
-                err: null,
-                msg: 'Request rejected and user notified.'
+                // When done, send response
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'Request rejected and user notified.'
+                });
             });
+        }
+    } else {
+        return res.status(403).json({
+            data: null,
+            err: 'You are not an admin OR you are not signed in',
+            msg: null
         });
     }
-};
+                };

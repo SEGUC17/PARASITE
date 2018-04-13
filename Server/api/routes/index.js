@@ -74,14 +74,14 @@ module.exports = function (passport) {
   });
 
   // --------------------- Search Contoller -------------------- //
-  router.get('/User/Search/:username/:educationLevel/:educationSystem/:location/:curr/:pp', SearchController.Search);
+  router.get('/User/Search/:username/:educationLevel/:educationSystem/:location/:curr/:pp', isAuthenticated, SearchController.Search);
   // --------------------- End of Search Controller ------------ //
 
   // --------------------- Activity Contoller -------------------- //
   router.get('/activities', optionalAuthentication, ActivityController.getActivities);
   router.get('/activities/:activityId', optionalAuthentication, ActivityController.getActivity);
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
-  router.put('/unverifiedActivities', ActivityController.reviewActivity);
+  router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
 
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist', psychCtrl.getPsychologists);
@@ -100,7 +100,7 @@ module.exports = function (passport) {
   );
   router.post('/productrequest/evaluateRequest', isAuthenticated, productCtrl.evaluateRequest);
   router.get('/productrequest/getRequests', isAuthenticated, productCtrl.getRequests);
-  router.post('/productrequest/createproduct', productCtrl.createProduct);
+  router.post('/productrequest/createproduct', isAuthenticated, productCtrl.createProduct);
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
 
   // --------------End Of Product Contoller ---------------------- //
@@ -115,9 +115,8 @@ module.exports = function (passport) {
   // ---------------------- End of User Controller --------------- //
 
   //-------------------- Study Plan Endpoints ------------------//
-  router.get('/study-plan/getPersonalStudyPlans/:username', studyPlanController.getPerosnalStudyPlans);
   router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);
-  router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', studyPlanController.getPerosnalStudyPlan);
+  router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.getPersonalStudyPlan);
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
   router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
@@ -126,39 +125,30 @@ module.exports = function (passport) {
 
   // -------------- Admin Contoller ---------------------- //
 
-  router.get('/admin/VerifiedContributerRequests/:FilterBy', adminController.getVCRs);
-  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', adminController.VCRResponde);
+  router.get('/admin/VerifiedContributerRequests/:FilterBy', isAuthenticated, adminController.getVCRs);
+  router.patch('/admin/VerifiedContributerRequestRespond/:targetId', isAuthenticated, adminController.VCRResponde);
   router.get(
     '/admin/PendingContentRequests/:type', isAuthenticated,
     adminController.viewPendingContReqs
   );
   router.patch(
-    '/admin/RespondContentRequest/:ContentRequestId', isAuthenticated,
+    '/admin/RespondContentRequest/:ContentRequestId/:ContentId', isAuthenticated,
     adminController.respondContentRequest
   );
-  router.patch(
-    '/admin/RespondContentStatus/:ContentId', isAuthenticated,
-    adminController.respondContentStatus
-  );
-  // TO-DO ContributionPts
-  // router.patch(
-  //   'admin/addContPts', isAuthenticated,
-  //   adminController.addContPts
-  // );
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
-  router.post('/profile/VerifiedContributerRequest', profileController.requestUserValidation);
-  router.get('/profile/:parentId', profileController.getUserInfo);
+  router.post('/profile/VerifiedContributerRequest', isAuthenticated, profileController.requestUserValidation);
   router.put('/profile/LinkAnotherParent/:parentId', profileController.linkAnotherParent);
-  router.put('/profile/UnlinkAnotherParent/:parentId', profileController.Unlink);
-  router.put('/profile/LinkAsAParent/:parentId', profileController.linkAsParent);
+  router.put('/profile/UnLinkChild/:parentId', profileController.unLinkChild);
+  router.put('/profile/AddAsAParent/:parentId', profileController.addAsAParent);
   router.get('/profile/:username/getChildren', profileController.getChildren);
-  router.patch('/profile/changePassword/:uname', profileController.changePassword);
+  router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
+  router.patch('/profile/changePassword/:id', profileController.changePassword);
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
-  router.patch('/schedule/SaveScheduleChanges/:username', scheduleController.updateSchedule);
+  router.patch('/schedule/SaveScheduleChanges/:username', isAuthenticated, scheduleController.updateSchedule);
   router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
   // ------------End of Schedule Controller Endpoints -----------//
 
@@ -202,6 +192,12 @@ module.exports = function (passport) {
     contentController.getContentById
   );
 
+  // Get a page of content according to a search query
+  router.get(
+    '/content/:pageSize/:pageNumber/search',
+    contentController.getSearchPage
+  );
+
   // Get Categories
   router.get(
     '/content/category',
@@ -210,9 +206,23 @@ module.exports = function (passport) {
 
   //Content Production
 
+  router.post(
   // Create new Content
-  router.post('/content', isAuthenticated, contentController.createContent);
+    '/content',
+    isAuthenticated,
+    contentController.validateContent,
+    contentController.validateSelectedCategory,
+    contentController.createContent
+  );
 
+  // Edit content
+  router.patch(
+    '/content',
+    isAuthenticated,
+    contentController.validateContent,
+    contentController.validateSelectedCategory,
+    contentController.updateContent
+  );
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message

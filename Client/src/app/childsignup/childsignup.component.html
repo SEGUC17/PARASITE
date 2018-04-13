@@ -1,8 +1,9 @@
+<!--
 <p> Please fill in these fields to create an account for your child</p>
 <p> Note: your password should be more than 8 characters</p>
 
 <!--attributes to be entered by the unregistered user-->
-
+<!--
 <div>FirstName: <input #firstname [(ngModel)]=Firstname placeholder="Firstname.."required/></div> 
 <div>LastName: <input #lastname [(ngModel)]=Lastname placeholder="Lastname.."required/></div> 
 <div>UserName: <input #username [(ngModel)]=Username  placeholder="Username.."required/></div> 
@@ -14,10 +15,11 @@
 <div>Address: <input #address [(ngModel)]=Address placeholder="Address.."/></div>  
           
 
+-->
 
 
     <!--buttons-->
-<!--"register({address:address.value, birthdate: birthdate.value, email: email.value, isChild: student.value, isParent: parent.value, isTeacher: teacher.value, password: password.value, phone: phone.value, username: username.value})"-->
+<!--
 <div>
   <input type="submit" class="btn btn-hero-success main-btn"  (click) ="register()"  value="Submit">
   <input type="submit" class="btn btn-hero-success main-btn" (click)="redirect()"    value="Back">
@@ -38,3 +40,31 @@
     Please insert all the required fields
   </label>
 
+-->
+<div class="con">
+  <h1>Sign Up</h1>
+    <p>Sign up for your child </p>
+    <hr>
+  <div>
+      <input type="text" #fname [(ngModel)]="Firstname" name= "" placeholder="Enter first name:" required/>
+      <input type="text" #lname [(ngModel)]=Lastname name= "" placeholder="Enter last name:" required/>
+      <input type="text" #username [(ngModel)]=Username name= "" placeholder="Enter username:" required/>
+    <input type="text" [(ngModel)]=Email name= "" placeholder="Enter email:" required/>
+    <input type="password" [(ngModel)]=Password name= "" placeholder="Enter password: ***" required/>
+    <input type="password" [(ngModel)]=ConfirmPassword name= "" placeholder="Enter password again: ***" required/>
+    <input type="text" [(ngModel)]=Birthdate name= "" placeholder="Enter birthdate: MM/DD/YYYY" required/>
+    <input type="text" [(ngModel)]=Phone name= "" placeholder="Enter phone:"required/>
+    <input type="text" [(ngModel)]=Address name= "" placeholder="Enter address:"/>
+
+    <input type="submit" (click) ="register()" />
+  </div>
+  </div>
+
+
+     
+<div *ngIf ="Div1">  
+
+    <label>
+      Your passwords don't match, please re-insert them!
+    </label>
+  </div>

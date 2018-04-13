@@ -4,6 +4,8 @@ module.exports = {
     //either dev or prod
     FRONTEND_URI: process.env.FRONTEND_URI || 'http://localhost:4200/',
     ENV: 'dev',
+    MAIL_ID: 'parasite.nawwar@gmail.com',
+    MAIL_PW: 'ParaSiteNawwar',
     MONGO_URI: this.env === 'prod' ? '' : 'mongodb://localhost:27017/nawwar',
     PHONE_REGEX: /^\d+$/,
     SECRET: ';iN.yVt,Tmu44cZkX#.|tS>s`4xb;-oRe66iMz0[L^e9;ltF_5"DUvPphj:f:&'
