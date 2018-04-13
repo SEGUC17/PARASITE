@@ -400,6 +400,239 @@ describe('Activities Comments/replies deleting', function () {
                     );
                 });
         });
+        it('it should delete reply by comment creator', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': commentCreatorUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/activities/' +
+                    verifiedActivity._id +
+                    '/comments/' +
+                    verifiedActivity.discussion[0]._id +
+                    '/replies/' +
+                    verifiedActivity.discussion[0].replies[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(204);
+
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion[0].replies.length).
+                                to.equal(0);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should delete reply by activity creator', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': activityCreatorUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/activities/' +
+                    verifiedActivity._id +
+                    '/comments/' +
+                    verifiedActivity.discussion[0]._id +
+                    '/replies/' +
+                    verifiedActivity.discussion[0].replies[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(204);
+
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion[0].replies.length).
+                                to.equal(0);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should delete reply by admin', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/activities/' +
+                    verifiedActivity._id +
+                    '/comments/' +
+                    verifiedActivity.discussion[0]._id +
+                    '/replies/' +
+                    verifiedActivity.discussion[0].replies[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(204);
+
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion[0].replies.length).
+                                to.equal(0);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 403 for normal user', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/activities/' +
+                    verifiedActivity._id +
+                    '/comments/' +
+                    verifiedActivity.discussion[0]._id +
+                    '/replies/' +
+                    verifiedActivity.discussion[0].replies[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(403);
+
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion[0].replies.length).
+                                to.equal(1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 401 for unverified user', function (done) {
+            chai.request(app).
+                delete('/api/activities/' +
+                    verifiedActivity._id +
+                    '/comments/' +
+                    verifiedActivity.discussion[0]._id +
+                    '/replies/' +
+                    verifiedActivity.discussion[0].replies[0]._id).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(401);
+
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion[0].replies.length).
+                                to.equal(1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 404 for wrong activity id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': replyCreatorUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/activities/' +
+                    verifiedActivity.discussion[0]._id +
+                    '/comments/' +
+                    verifiedActivity.discussion[0]._id +
+                    '/replies/' +
+                    verifiedActivity.discussion[0].replies[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(404);
+                    done();
+                });
+        });
+        it('it should return 404 for wrong comment id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': replyCreatorUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/activities/' +
+                    verifiedActivity.discussion[0]._id +
+                    '/comments/' +
+                    verifiedActivity._id +
+                    '/replies/' +
+                    verifiedActivity.discussion[0].replies[0]._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(404);
+                    done();
+                });
+        });
+        it('it should return 404 for wrong reply id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': replyCreatorUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                delete('/api/activities/' +
+                    verifiedActivity.discussion[0]._id +
+                    '/comments/' +
+                    verifiedActivity._id +
+                    '/replies/' +
+                    verifiedActivity._id).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+
+                    res.should.have.status(404);
+                    done();
+                });
+        });
         // --- Clearing Mockgoose --- //
         after(function (done) {
             mockgoose.helper.reset().then(function () {

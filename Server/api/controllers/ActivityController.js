@@ -585,7 +585,6 @@ module.exports.deleteActivityCommentReply = function (req, res, next) {
         }
 
         comment.replies.id(replyId).remove();
-        console.log('heeeeeeeeeeeeeeeeeeere');
 
         activity.save(function (err2, activity2) {
             if (err2) {
