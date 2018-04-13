@@ -133,7 +133,7 @@ var prepareQueryOptionsForSearch = function (query, params) {
     var options = {
         limit: Number(params.pageSize),
         page: Number(params.pageNumber),
-        sort: { }
+        sort: {}
     };
 
     // sort option was provided, default is relevance;
@@ -141,7 +141,7 @@ var prepareQueryOptionsForSearch = function (query, params) {
     if (query.sort) {
 
         if (query.sort === 'upload date') {
-            options.sort.touchDate = 1;
+            options.sort.touchDate = -1;
         }
 
         if (query.sort === 'rating') {
@@ -158,7 +158,37 @@ var prepareQueryOptionsForSearch = function (query, params) {
     return options;
 };
 
+// helper for getSearchPage
+var checkRequestValidityForSearch = function (req) {
+    console.log(req.params);
+    console.log(req.query);
+    console.log(typeof req.query.searchQuery === 'string');
+    console.log(req.query.searchQuery);
+
+    return req.params.pageSize &&
+        req.params.pageNumber &&
+        req.query &&
+        typeof req.query.category === 'string' &&
+        typeof req.query.section === 'string' &&
+        typeof req.query.searchQuery === 'string' &&
+        typeof req.query.sort === 'string' &&
+        !isNaN(req.params.pageSize) &&
+        !isNaN(req.params.pageNumber);
+};
+
 module.exports.getSearchPage = function (req, res, next) {
+    // check for validtity
+    var valid = checkRequestValidityForSearch(req);
+
+    // the request was not valid
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required fields were missing or of wrong type.',
+            msg: null
+        });
+    }
+
     // prepare the conditions and options for the query
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
