@@ -58,7 +58,7 @@ describe('Contents Comments/replies creation', function () {
             // Creating data for testing
             commentBody = { text: 'comment test text' };
             Content.create({
-                approved: true,
+                approved: false,
                 body: '<h1>Hello</h1>',
                 category: 'cat1',
                 creator: 'username',
@@ -164,7 +164,7 @@ describe('Contents Comments/replies creation', function () {
          *
          * @author: Wessam
          */
-        it('it should comment on the content', function (done) {
+        it('it should comment on the approved content', function (done) {
             var token = 'JWT ' + jwt.sign(
                 { 'id': normalUser._id },
                 config.SECRET,
@@ -194,6 +194,142 @@ describe('Contents Comments/replies creation', function () {
                             done();
                         }
                     );
+                });
+        });
+        it('it should return 401 for unverified user', function (done) {
+            chai.request(app).
+                post('/api/content/' + approvedContent._id + '/comments').
+                send(commentBody).
+                end(function (err, res) {
+                    // testing get contents for unapproved user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(401);
+                    Content.findById(
+                        approvedContent._id,
+                        function (err2, content) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(content.discussion.length).to.equal(1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it(
+            'it should comment on not approved content by creator',
+            function (done) {
+                var token = 'JWT ' + jwt.sign(
+                    { 'id': creatorUser._id },
+                    config.SECRET,
+                    { expiresIn: '12h' }
+                );
+                chai.request(app).
+                    post('/api/content/' + pendingContent._id + '/comments').
+                    send(commentBody).
+                    set('Authorization', token).
+                    end(function (err, res) {
+                        // testing get contents for unapproved user
+                        if (err) {
+                            console.log(err);
+                        }
+                        res.should.have.status(201);
+                        expect(res.body.data).to.have.ownProperty('text');
+                        expect(res.body.data).to.have.ownProperty('_id');
+                        expect(res.body.data.text).to.equal(commentBody.text);
+                        expect(res.body.data.creator).
+                            to.equal(creatorUser.username);
+                        Content.findById(
+                            pendingContent._id,
+                            function (err2, content) {
+                                if (err2) {
+                                    console.log(err2);
+                                }
+                                expect(content.discussion.length).to.equal(2);
+                                done();
+                            }
+                        );
+                    });
+            }
+        );
+        it(
+            'it should comment on not approved content by admin',
+            function (done) {
+                var token = 'JWT ' + jwt.sign(
+                    { 'id': adminUser._id },
+                    config.SECRET,
+                    { expiresIn: '12h' }
+                );
+                chai.request(app).
+                    post('/api/content/' + pendingContent._id + '/comments').
+                    send(commentBody).
+                    set('Authorization', token).
+                    end(function (err, res) {
+                        // testing get contents for unapproved user
+                        if (err) {
+                            console.log(err);
+                        }
+                        res.should.have.status(201);
+                        expect(res.body.data).to.have.ownProperty('text');
+                        expect(res.body.data).to.have.ownProperty('_id');
+                        expect(res.body.data.text).to.equal(commentBody.text);
+                        expect(res.body.data.creator).
+                            to.equal(adminUser.username);
+                        Content.findById(
+                            pendingContent._id,
+                            function (err2, content) {
+                                if (err2) {
+                                    console.log(err2);
+                                }
+                                expect(content.discussion.length).to.equal(2);
+                                done();
+                            }
+                        );
+                    });
+            }
+        );
+        it(
+            'it should 404 for normalUser pending Content',
+            function (done) {
+                var token = 'JWT ' + jwt.sign(
+                    { 'id': normalUser._id },
+                    config.SECRET,
+                    { expiresIn: '12h' }
+                );
+                chai.request(app).
+                    post('/api/content/' + pendingContent._id + '/comments').
+                    send(commentBody).
+                    set('Authorization', token).
+                    end(function (err, res) {
+                        // testing get contents for unapproved user
+                        if (err) {
+                            console.log(err);
+                        }
+                        res.should.have.status(404);
+                        done();
+                    });
+            }
+        );
+        it('it should return 404 for wrong content id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/content/' +
+                    approvedContent.discussion[0]._id + '/comments').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    // testing get contents for unapproved user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(404);
+                    done();
                 });
         });
     });
