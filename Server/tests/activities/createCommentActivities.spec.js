@@ -34,7 +34,7 @@ var verifiedActivity = null;
 
 var commentBody = null;
 
-describe('Activities Comments creation', function () {
+describe('Activities Comments/replies creation', function () {
 
     /*
      * Tests for GET Activity both list and detail
