@@ -23,7 +23,7 @@ export class ChildernComponent implements OnInit {
     let username;
 
     let self = this;
-    // getting usrname of the authenticated user and adding it to the get request
+    // getting username of the authenticated user and adding it to the get request
     this.authService.getUserData(['username']).subscribe(function (res) {
       self.username = res.data.username;
       console.log('Here ' + self.username);
