@@ -58,6 +58,8 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
                     ) {
                         res.body.data.docs[counter].
                             should.have.property('creator', 'omar');
+                        res.body.data.docs[counter].
+                            should.not.have.property('discussion');
                     }
                     done();
                 });

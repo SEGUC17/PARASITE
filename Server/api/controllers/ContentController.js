@@ -48,7 +48,8 @@ module.exports.getContentPage = function (req, res, next) {
         conditions,
         {
             limit: Number(req.params.numberOfEntriesPerPage),
-            page: Number(req.params.pageNumber)
+            page: Number(req.params.pageNumber),
+            select: { discussion: 0 }
         },
         function (err, contents) {
             if (err) {
@@ -164,6 +165,12 @@ module.exports.getSearchPage = function (req, res, next) {
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
 
+    if (options.select) {
+        options.select.discussion = 0;
+    } else {
+        options.select = { discussion: 0 };
+    }
+
     // log the options and conditions for debugging
     console.log(options);
     console.log(conditions);
@@ -213,7 +220,8 @@ module.exports.getContentByCreator = function (req, res, next) {
         { creator: req.user.username },
         {
             limit: Number(req.params.pageSize),
-            page: Number(req.params.pageNumber)
+            page: Number(req.params.pageNumber),
+            select: { discussion: 0 }
         },
         function (err, contents) {
             if (err) {
