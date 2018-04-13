@@ -7,7 +7,7 @@ import { apiUrl } from '../../variables';
 @Component({
   selector: 'view-unverified-activities',
   templateUrl: './view-unverified-activities.component.html',
-  styleUrls: ['./view-unverified-activities.component.css']
+  styleUrls: ['./view-unverified-activities.component.scss']
 })
 export class ViewUnverifiedActivitiesComponent implements OnInit {
   /*

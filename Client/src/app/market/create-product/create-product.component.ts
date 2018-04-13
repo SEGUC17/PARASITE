@@ -8,7 +8,7 @@ import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
-  styleUrls: ['./create-product.component.css']
+  styleUrls: ['./create-product.component.scss']
 })
 
 export class CreateProductComponent {

@@ -24,7 +24,7 @@ import {
 @Component({
   selector: 'app-study-plan-edit-view',
   templateUrl: './study-plan-edit-view.component.html',
-  styleUrls: ['./study-plan-edit-view.component.css']
+  styleUrls: ['./study-plan-edit-view.component.scss']
 })
 export class StudyPlanEditViewComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;

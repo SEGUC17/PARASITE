@@ -13,7 +13,7 @@ import { AdminService } from '../../admin.service';
 @Component({
   selector: 'app-content-edit',
   templateUrl: './content-edit.component.html',
-  styleUrls: ['./content-edit.component.css']
+  styleUrls: ['./content-edit.component.scss']
 })
 export class ContentEditComponent implements OnInit {
   private editor;
