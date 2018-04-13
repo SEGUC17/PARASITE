@@ -709,3 +709,78 @@ module.exports.getContentComment = function (req, res, next) {
             });
         });
 };
+
+module.exports.postContentCommentReply = function (req, res, next) {
+
+    /*
+     *  Endpoint for commenting on contents
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var contentId = req.params.contentId;
+    var commentId = req.params.commentId;
+
+    var filter = { _id: contentId };
+
+    if (!user.isAdmin) {
+        filter = {
+            $and: [
+                filter,
+                {
+                    $or: [
+                        { approved: true },
+                        { creator: user.username }
+                    ]
+                }
+            ]
+        };
+    }
+
+    Content.findOne(filter, function (err, content) {
+        if (err) {
+            return next(err);
+        }
+        if (!content) {
+            return res.status(404).json({
+                data: null,
+                err: 'Content doesn\'t exist',
+                msg: null
+            });
+        }
+
+        var comment = content.discussion.filter(function (com) {
+            return com._id == commentId;
+        }).pop();
+        if (!comment) {
+            return res.status(404).json({
+                data: null,
+                err: 'Comment doesn\'t exist',
+                msg: null
+            });
+        }
+
+        comment.replies.push({
+            creator: user.username,
+            text: req.body.text
+        });
+
+        content.save(function (err2) {
+            if (err2) {
+                return res.status(422).json({
+                    data: null,
+                    err: 'reply can\'t be empty',
+                    msg: null
+                });
+            }
+
+            return res.status(201).json({
+                data: comment.replies.pop(),
+                err: null,
+                msg: 'reply created successfully'
+            });
+        });
+
+    });
+};
