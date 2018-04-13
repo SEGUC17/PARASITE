@@ -54,12 +54,10 @@ module.exports.addRequest = function (req, res, next) {
 };
 
 module.exports.getPsychologists = function (req, res, next) {
-  console.log('got psychs');
   Psychologists.find({}).exec(function (err, psychs) {
     if (err) {
       return next(err);
     }
-    console.log(psychs);
     res.status(200).json({
       data: psychs,
       err: null,
@@ -168,24 +166,31 @@ module.exports.deletePsych = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      if (!psych) {
-        return res.status(404).json({
-          data: null,
-          err: null,
-          msg: 'Psychologist not found.'
-        });
-      }
-    });
-    Psychologists.remove({ _id: req.params.id }, function (err, msg) {
-      if (err) {
-        return next(err);
-      }
+      if (psych) {
+        Psychologists.remove({ _id: req.params.id }, function (err1, msg) {
+          if (err1) {
+            return next(err1);
+          }
 
-      return res.status(200).json({
-        data: msg,
-        err: null,
-        msg: 'Psychologist deleted successfully.'
+          return res.status(200).json({
+            data: msg,
+            err: null,
+            msg: 'Psychologist deleted successfully.'
+          });
         });
+      } else {
+        return res.status(404).json({
+        data: null,
+        err: null,
+        msg: 'Psychologist not found.'
+        });
+    }
+  });
+  } else {
+    res.status(403).json({
+      data: null,
+      err: 'You are not an admin to do that OR You are not signed in',
+      msg: null
     });
   }
 };
