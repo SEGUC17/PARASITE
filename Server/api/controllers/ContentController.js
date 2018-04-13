@@ -653,7 +653,7 @@ module.exports.commentOnContent = function (req, res) {
     );
 };
 
-module.exports.getActivityComment = function (req, res, next) {
+module.exports.getContentComment = function (req, res, next) {
 
     /*
      *  Endpoint to retreive comments detail of content
@@ -681,7 +681,7 @@ module.exports.getActivityComment = function (req, res, next) {
             var isCreator = user && user.username === content.creator;
             var isAdmin = user && user.isAdmin;
 
-            if (content.approved && !isAdmin && !isCreator) {
+            if (!content.approved && !isAdmin && !isCreator) {
                 var status = user ? 403 : 401;
 
                 return res.status(status).json({
