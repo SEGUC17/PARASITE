@@ -1,3 +1,5 @@
+/* eslint-disable eqeqeq */
+/* eslint max-statements: ["error", 20] */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 /* eslint multiline-comment-style: ["error", "starred-block"] */
 
@@ -586,14 +588,13 @@ module.exports.getContent = function (req, res, next) {
         });
 };
 
-module.exports.commentOnContent = function (req, res, next) {
+module.exports.commentOnContent = function (req, res) {
 
     /*
      * Middleware to add comment in contents discussion
      *
      * author: Wessam Ali
      */
-
 
     var user = req.user;
     var contentId = req.params.contentId;
@@ -650,4 +651,61 @@ module.exports.commentOnContent = function (req, res, next) {
             });
         }
     );
+};
+
+module.exports.getActivityComment = function (req, res, next) {
+
+    /*
+     *  Endpoint to retreive comments detail of content
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var contentId = req.params.contentId;
+    var commentId = req.params.commentId;
+
+    Content.findById(contentId).
+        exec(function (err, content) {
+            if (err) {
+                return next(err);
+            }
+            if (!content) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'content doesn\'t exist',
+                    msg: null
+                });
+            }
+
+            var isCreator = user && user.username === content.creator;
+            var isAdmin = user && user.isAdmin;
+
+            if (content.approved && !isAdmin && !isCreator) {
+                var status = user ? 403 : 401;
+
+                return res.status(status).json({
+                    data: null,
+                    err: 'content is not approved',
+                    msg: null
+                });
+            }
+            var comment = content.discussion.filter(function (com) {
+                // I had to user == instead of ===
+                return com._id == commentId;
+            }).pop();
+            if (!comment) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Comment doesn\'t exist',
+                    msg: null
+                });
+            }
+
+            return res.status(200).json({
+                data: comment,
+                err: null,
+                msg: 'Comment retreived successfully'
+            });
+        });
 };
