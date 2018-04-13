@@ -247,6 +247,11 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.commentOnContent
   );
+  router.delete(
+    '/content/:contentId/comments/:commentId',
+    isAuthenticated,
+    contentController.deleteContentComment
+  );
   // replying to a content
   router.post(
     '/content/:contentId/comments/:commentId/replies',
