@@ -1,7 +1,5 @@
 var mongoose = require('mongoose');
-var auth = require('basic-auth');
 var Activity = mongoose.model('Activity');
-var User = mongoose.model('User');
 
 /* eslint max-statements: ["error", 20] */
 /* eslint multiline-comment-style: ["error", "starred-block"] */
@@ -121,7 +119,7 @@ module.exports.getActivity = function (req, res, next) {
 };
 
 
-module.exports.postActivity = function (req, res, next) {
+module.exports.postActivity = function (req, res) {
 
     /*
      *   Middleware for creating an activity
@@ -183,7 +181,7 @@ module.exports.postActivity = function (req, res, next) {
     });
 };
 
-module.exports.reviewActivity = function (req, res, next) {
+module.exports.reviewActivity = function (req, res) {
 
     /*
      *  Middleware for reviewing an activity by admin
@@ -254,7 +252,7 @@ module.exports.reviewActivity = function (req, res, next) {
     );
 };
 
-module.exports.commentOnActivity = function (req, res, next) {
+module.exports.commentOnActivity = function (req, res) {
 
     /*
      * Middleware to add comment in activities discussion
@@ -431,7 +429,7 @@ module.exports.postActivityCommentReply = function (req, res, next) {
             text: req.body.text
         });
 
-        activity.save(function (err2, activity2) {
+        activity.save(function (err2) {
             if (err2) {
                 return res.status(422).json({
                     data: null,
@@ -501,7 +499,7 @@ module.exports.deleteActivityComment = function (req, res, next) {
 
         comment.remove();
 
-        activity.save(function (err2, activity2) {
+        activity.save(function (err2) {
             if (err2) {
                 return next(500);
             }
@@ -586,7 +584,7 @@ module.exports.deleteActivityCommentReply = function (req, res, next) {
 
         comment.replies.id(replyId).remove();
 
-        activity.save(function (err2, activity2) {
+        activity.save(function (err2) {
             if (err2) {
                 return next(500);
             }
