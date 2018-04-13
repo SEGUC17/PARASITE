@@ -69,6 +69,18 @@ describe('Activities Comments creation', function () {
                 fromDateTime: Date.now(),
                 toDateTime: Date.now() + 5,
                 status: 'pending',
+                discussion: [
+                    {
+                        creator: 'dummyUser',
+                        text: 'comment text',
+                        replies: [
+                            {
+                                creator: 'dummyUser',
+                                text: 'reply text'
+                            }
+                        ]
+                    }
+                ],
                 price: 50
             }, function (err, activity) {
                 if (err) {
@@ -339,7 +351,7 @@ describe('Activities Comments creation', function () {
                             if (err2) {
                                 console.log(err2);
                             }
-                            expect(activity.discussion.length).to.equal(1);
+                            expect(activity.discussion.length).to.equal(2);
                             done();
                         }
                     );
@@ -372,7 +384,7 @@ describe('Activities Comments creation', function () {
                             if (err2) {
                                 console.log(err2);
                             }
-                            expect(activity.discussion.length).to.equal(1);
+                            expect(activity.discussion.length).to.equal(2);
                             done();
                         }
                     );
@@ -409,6 +421,119 @@ describe('Activities Comments creation', function () {
                             done();
                         }
                     );
+                });
+        });
+        it('it return 401 for unverified user', function (done) {
+            chai.request(app).
+                post('/api/activities/' + verifiedActivity._id + '/comments/' +
+                    verifiedActivity.discussion[0]._id + '/replies/').
+                send(commentBody).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(401);
+                    Activity.findById(
+                        verifiedActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion[0].
+                                replies.length).to.equal(1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 404 for pending activity', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/activities/' + pendingActivity._id + '/comments/' +
+                    verifiedActivity.discussion[0]._id + '/replies/').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(404);
+                    done();
+                });
+        });
+        it('it should return reply on comment for admin', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/activities/' + pendingActivity._id + '/comments/' +
+                    pendingActivity.discussion[0]._id + '/replies/').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(201);
+                    expect(res.body.data).to.have.ownProperty('text');
+                    expect(res.body.data).to.have.ownProperty('_id');
+                    expect(res.body.data.text).to.equal(commentBody.text);
+                    expect(res.body.data.creator).to.equal(adminUser.username);
+                    Activity.findById(
+                        pendingActivity._id,
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.discussion[0].
+                                replies.length).to.equal(2);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 404 for wrong comment id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/activities/' + verifiedActivity._id + '/comments/' +
+                    pendingActivity.discussion[0]._id + '/replies/').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(404);
+                    done();
+                });
+        });
+        it('it should return 422 for empty text', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/activities/' + verifiedActivity._id + '/comments/' +
+                    verifiedActivity.discussion[0]._id + '/replies/').
+                send({ text: '' }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(422);
+                    done();
                 });
         });
     });
