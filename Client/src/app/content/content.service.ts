@@ -29,9 +29,14 @@ export class ContentService {
   }
 
 
-  getContentByCreator(pageSize: any, pageNumber: any): Observable<any> {
+  getContentByCreator(pageSize: any, pageNumber: any,
+    category: String, section: String): Observable<any> {
     const self = this;
-    return this.http.get(self.endpoint + 'content/username/' + pageSize + '/' + pageNumber)
+    category = encodeURIComponent(category.toString());
+    section = encodeURIComponent(section.toString());
+    return this.http.get(self.endpoint + 'content/username/' +
+      pageSize + '/' + pageNumber + '/categorization?category=' + category +
+      '&section=' + section)
       .pipe(
         catchError(self.handleError('getContentByCreator', []))
       );

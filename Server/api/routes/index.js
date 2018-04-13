@@ -173,7 +173,7 @@ module.exports = function (passport) {
 
   // Get the contents of a user
   router.get(
-    '/content/username/:pageSize/:pageNumber',
+    '/content/username/:pageSize/:pageNumber/categorization',
     isAuthenticated,
     contentController.getContentByCreator
   );

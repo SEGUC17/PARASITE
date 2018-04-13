@@ -21,6 +21,9 @@ export class ContentListViewComponent implements OnInit {
   // categories for the general contents view
   categories: Category;
 
+  // determine which tab we are on
+  selectedTab: Number = 0;
+
   // shared between myContributions and content list
   numberOfEntriesPerPage = 20;
 
@@ -30,6 +33,8 @@ export class ContentListViewComponent implements OnInit {
   currentPageNumber = 1;
 
   // for my contributions pagination
+  myContributionsSelectedCategory: String = '';
+  myContributionsSelectedSection: String = '';
   myContributionsCurrentPageNumber = 1;
 
   // search variables
@@ -81,7 +86,8 @@ export class ContentListViewComponent implements OnInit {
   getMyContributionsPage(): void {
     const self = this;
     this.contentService.
-      getContentByCreator(self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber).
+      getContentByCreator(self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber,
+      self.myContributionsSelectedCategory, self.myContributionsSelectedSection).
       subscribe(function (retrievedContents) {
         // append a new page to the myContributions array
         self.myContributions = self.myContributions.concat(retrievedContents.data.docs);
@@ -100,17 +106,29 @@ export class ContentListViewComponent implements OnInit {
 
   // respond to the user changing the current category and section
   changeCategoryAndSection(category: any, section: any): void {
-    // user changed the category or section, nullifying the validity of his search query
-    this.searchQuery = '';
+    // we are in the general content tab
+    if (this.selectedTab === 0) {
+      // user changed the category or section, nullifying the validity of his search query
+      this.searchQuery = '';
 
-    // intialize category/section browsing
-    this.selectedCategory = category;
-    this.selectedSection = section;
+      // intialize category/section browsing
+      this.selectedCategory = category;
+      this.selectedSection = section;
 
-    // start from page 1
-    this.currentPageNumber = 1;
-    this.contents = [];
-    this.getSearchContentPage();
+      // start from page 1
+      this.currentPageNumber = 1;
+      this.contents = [];
+      this.getSearchContentPage();
+    } else {
+      // initialize category/section for my contributions
+      this.myContributionsSelectedCategory = category;
+      this.myContributionsSelectedSection = section;
+
+      // start from page 1
+      this.myContributionsCurrentPageNumber = 1;
+      this.myContributions = [];
+      this.getMyContributionsPage();
+    }
   }
 
   // respond to the user clicking the search button

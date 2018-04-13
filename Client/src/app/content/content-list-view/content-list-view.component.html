@@ -16,7 +16,7 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
-  <mat-tab-group dynamicHeight class="col-10">
+  <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab" class="col-10">
     <mat-tab label="Browse Resources and Ideas">
       <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
         [scrollWindow]="false">
@@ -75,6 +75,12 @@
     <mat-tab *ngIf="currentUser" label="My Contributions">
       <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollMyContributions()"
         [scrollWindow]="false">
+        <div class="row">
+          <div class="col">
+            <h2 align="center" *ngIf="myContributionsSelectedCategory !== ''"> Category: {{ myContributionsSelectedCategory }}</h2>
+            <h3 align="center" *ngIf="myContributionsSelectedSection !== ''"> Section: {{ myContributionsSelectedSection }}</h3>
+          </div>
+        </div>
         <div class="row" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
           <mat-card *ngFor="let content of myContributions" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
             <mat-card-header *ngIf="content.creator">

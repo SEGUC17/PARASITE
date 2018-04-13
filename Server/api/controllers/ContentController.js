@@ -165,6 +165,9 @@ module.exports.getContentByCreator = function (req, res, next) {
     // validations
     var valid = req.params.pageSize &&
         req.params.pageNumber &&
+        req.query &&
+        typeof req.query.category === 'string' &&
+        typeof req.query.section === 'string' &&
         !isNaN(req.params.pageNumber) &&
         !isNaN(req.params.pageSize);
 
@@ -177,9 +180,22 @@ module.exports.getContentByCreator = function (req, res, next) {
         });
     }
 
+    // database query conditions
+    var conditions = {
+        category: req.query.category,
+        creator: req.user.username,
+        section: req.query.section
+    };
+
+    // category and section are not of interest
+    if (req.query.section === '' || req.query.category === '') {
+        delete conditions.category;
+        delete conditions.section;
+    }
+
     // send back a page of the content created by the current user
     Content.paginate(
-        { creator: req.user.username },
+        conditions,
         {
             limit: Number(req.params.pageSize),
             page: Number(req.params.pageNumber)
