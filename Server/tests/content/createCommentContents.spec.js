@@ -332,6 +332,152 @@ describe('Contents Comments/replies creation', function () {
                     done();
                 });
         });
+        it('it should reply on comment', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/content/' + approvedContent._id + '/comments/' +
+                    approvedContent.discussion[0]._id + '/replies/').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(201);
+                    expect(res.body.data).to.have.ownProperty('text');
+                    expect(res.body.data).to.have.ownProperty('_id');
+                    expect(res.body.data.text).to.equal(commentBody.text);
+                    expect(res.body.data.creator).to.equal(normalUser.username);
+                    Content.findById(
+                        approvedContent._id,
+                        function (err2, content) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(content.discussion[0].
+                                replies.length).to.equal(2);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it return 401 for unverified user', function (done) {
+            chai.request(app).
+                post('/api/content/' + approvedContent._id + '/comments/' +
+                    approvedContent.discussion[0]._id + '/replies/').
+                send(commentBody).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(401);
+                    Content.findById(
+                        approvedContent._id,
+                        function (err2, content) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(content.discussion[0].
+                                replies.length).to.equal(1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 404 for pending content', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/content/' + pendingContent._id + '/comments/' +
+                    approvedContent.discussion[0]._id + '/replies/').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(404);
+                    done();
+                });
+        });
+        it('it should return reply on comment for admin', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/content/' + pendingContent._id + '/comments/' +
+                    pendingContent.discussion[0]._id + '/replies/').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(201);
+                    expect(res.body.data).to.have.ownProperty('text');
+                    expect(res.body.data).to.have.ownProperty('_id');
+                    expect(res.body.data.text).to.equal(commentBody.text);
+                    expect(res.body.data.creator).to.equal(adminUser.username);
+                    Content.findById(
+                        pendingContent._id,
+                        function (err2, content) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(content.discussion[0].
+                                replies.length).to.equal(2);
+                            done();
+                        }
+                    );
+                });
+        });
+        it('it should return 404 for wrong comment id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/content/' + approvedContent._id + '/comments/' +
+                    pendingContent.discussion[0]._id + '/replies/').
+                send(commentBody).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(404);
+                    done();
+                });
+        });
+        it('it should return 422 for empty text', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': normalUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).
+                post('/api/content/' + approvedContent._id + '/comments/' +
+                    approvedContent.discussion[0]._id + '/replies/').
+                send({ text: '' }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(422);
+                    done();
+                });
+        });
     });
     // --- Clearing Mockgoose --- //
     after(function (done) {
