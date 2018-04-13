@@ -3,8 +3,9 @@ var auth = require('basic-auth');
 var Activity = mongoose.model('Activity');
 var User = mongoose.model('User');
 
-/*eslint max-statements: ["error", 20]*/
+/* eslint max-statements: ["error", 20] */
 /* eslint multiline-comment-style: ["error", "starred-block"] */
+/* eslint-disable eqeqeq */
 
 module.exports.getActivities = function (req, res, next) {
 
@@ -316,4 +317,47 @@ module.exports.commentOnActivity = function (req, res, next) {
             });
         }
     );
+};
+
+module.exports.getActivityComment = function(req, res, next) {
+
+    /*
+     *  Endpoint to retreive comments detail of activity
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var activityId = req.params.activityId;
+    var commentId = req.params.commentId;
+
+    Activity.findById(activityId).
+        exec(function(err, activity) {
+            if (err) {
+                return next(err);
+            }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
+                    msg: null
+                });
+            }
+            var comment = activity.discussion.filter(function(com) {
+                return com._id == commentId;
+            }).pop();
+            if (!comment) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Comment doesn\'t exist',
+                    msg: null
+                });
+            }
+
+            return res.status(200).json({
+                data: comment,
+                err: null,
+                msg: 'Comment retreived successfully'
+            });
+        });
 };

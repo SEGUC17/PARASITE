@@ -32,9 +32,7 @@ var creatorUser = null;
 var pendingActivity = null;
 var verifiedActivity = null;
 
-var commentBody = null;
-
-describe('Activities Comments creation', function () {
+describe('Activities Comments viewing', function () {
 
     /*
      * Tests for GET Activity both list and detail
@@ -61,7 +59,6 @@ describe('Activities Comments creation', function () {
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
             // Creating data for testing
-            commentBody = { text: 'comment test text' };
             Activity.create({
                 creator: 'username',
                 name: 'activity1',
@@ -190,26 +187,24 @@ describe('Activities Comments creation', function () {
     });
     // --- End of 'Clearing Mockgoose' --- //
 
-    describe('/Commenting on activities', function () {
+    describe('/Activities comment detail', function () {
 
         /*
          * Tests for viewing on activity's comment
          *
          * @author: Wessam
          */
-        it('it should comment on the activity', function (done) {
+        it('it should return comment detail', function (done) {
             chai.request(app).
-                post('/api/activities/' +
+                get('/api/activities/' +
                  verifiedActivity._id +
-                 '/viewComment/' +
+                 '/comments/' +
                  verifiedActivity.discussion[0]._id).
-                send(commentBody).
                 end(function (err, res) {
                     // testing get activities for unverified user
                     if (err) {
                         console.log(err);
                     }
-                    console.log(verifiedActivity.discussion[0]);
                     res.should.have.status(200);
                     expect(res.body.data).to.have.ownProperty('text');
                     expect(res.body.data.text).

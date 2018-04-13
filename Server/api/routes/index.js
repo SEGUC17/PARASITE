@@ -80,6 +80,11 @@ module.exports = function (passport) {
   // --------------------- Activity Contoller -------------------- //
   router.get('/activities', optionalAuthentication, ActivityController.getActivities);
   router.get('/activities/:activityId', optionalAuthentication, ActivityController.getActivity);
+  router.get(
+    '/activities/:activityId/comments/:commentId',
+    optionalAuthentication,
+    ActivityController.getActivityComment
+  );
   router.post('/activities/:activityId/addComment', isAuthenticated, ActivityController.commentOnActivity);
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
