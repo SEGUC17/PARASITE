@@ -9,7 +9,7 @@ import { ViewChild } from '@angular/core';
 @Component({
   selector: 'app-search-control',
   templateUrl: './search-control.component.html',
-  styleUrls: ['./search-control.component.css']
+  styleUrls: ['./search-control.component.scss']
 })
 export class SearchControlComponent implements OnInit {
   users: User[];

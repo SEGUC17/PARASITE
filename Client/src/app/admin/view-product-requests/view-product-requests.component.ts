@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-view-product-requests',
   templateUrl: './view-product-requests.component.html',
-  styleUrls: ['./view-product-requests.component.css']
+  styleUrls: ['./view-product-requests.component.scss']
 })
 export class ViewProductRequestsComponent implements OnInit {
 
