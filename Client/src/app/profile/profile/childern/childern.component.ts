@@ -5,7 +5,7 @@ import { AuthService } from './../../../auth/auth.service';
 @Component({
   selector: 'app-childern',
   templateUrl: './childern.component.html',
-  styleUrls: ['./childern.component.css']
+  styleUrls: ['./childern.component.scss']
 })
 export class ChildernComponent implements OnInit {
 
@@ -28,7 +28,7 @@ export class ChildernComponent implements OnInit {
       self.username = res.data.username;
       console.log('Here ' + self.username);
       // calling service method that sends get request and subscribing to the data from the response
-      self.profileService.getChildren(self.username).subscribe(res => self.child = res.data);
+      self.profileService.getChildren(self.username).subscribe(response => self.child = response.data);
     });
   }
 }
