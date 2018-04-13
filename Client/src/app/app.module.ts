@@ -12,7 +12,6 @@ import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
 import { AuthService } from './auth/auth.service';
-
 import { MarketModule } from './market/market.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -79,6 +78,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule,
+    AuthModule,
+    MatIconModule,
     MatChipsModule,
     LayoutModule,
     MatInputModule,

@@ -7,7 +7,7 @@ import { ActivityCreate } from '../activity';
 @Component({
   selector: 'app-activity-create',
   templateUrl: './activity-create.component.html',
-  styleUrls: ['./activity-create.component.css']
+  styleUrls: ['./activity-create.component.scss']
 })
 export class ActivityCreateComponent implements OnInit {
   /*
