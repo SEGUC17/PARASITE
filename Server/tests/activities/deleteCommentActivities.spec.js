@@ -109,7 +109,7 @@ describe('Activities Comments/replies deleting', function () {
                     phone: '0111111111',
                     username: 'adminusername'
                 }, function (err2, user2) {
-                    if (err) {
+                    if (err2) {
                         console.log(err2);
                     }
                     adminUser = user2;
@@ -123,7 +123,7 @@ describe('Activities Comments/replies deleting', function () {
                         phone: '0111111111',
                         username: 'commentCreatorUser'
                     }, function (err3, user3) {
-                        if (err) {
+                        if (err3) {
                             console.log(err3);
                         }
                         commentCreatorUser = user3;
@@ -137,7 +137,7 @@ describe('Activities Comments/replies deleting', function () {
                             phone: '0111111111',
                             username: 'activityCreatorUser'
                         }, function (err4, user4) {
-                            if (err) {
+                            if (err4) {
                                 console.log(err4);
                             }
                             activityCreatorUser = user4;
@@ -151,10 +151,10 @@ describe('Activities Comments/replies deleting', function () {
                                 phone: '0111111111',
                                 username: 'replyCreatorUser'
                             }, function (err5, user5) {
-                                if (err) {
+                                if (err5) {
                                     console.log(err4);
                                 }
-                                replyCreatorUser = user4;
+                                replyCreatorUser = user5;
                                 done();
                             });
                         });
