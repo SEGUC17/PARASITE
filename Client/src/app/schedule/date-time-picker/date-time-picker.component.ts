@@ -27,7 +27,7 @@ export const DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'app-date-time-picker',
   templateUrl: './date-time-picker.component.html',
-  styleUrls: ['./date-time-picker.component.css'],
+  styleUrls: ['./date-time-picker.component.scss'],
   providers: [DATE_TIME_PICKER_CONTROL_VALUE_ACCESSOR, DatePipe]
 })
 export class DateTimePickerComponent implements ControlValueAccessor {

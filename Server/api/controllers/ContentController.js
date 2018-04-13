@@ -6,6 +6,7 @@ var Content = mongoose.model('Content');
 var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
+var moment = require('moment');
 
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
@@ -200,6 +201,55 @@ module.exports.getContentByCreator = function (req, res, next) {
     );
 };
 
+module.exports.validateSelectedCategory = function (req, res, next) {
+    Category.findOne({ name: req.body.category }, function (err, category) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!category) {
+            return res.status(422).json({
+                data: null,
+                err: 'the category supplied is invalid',
+                msg: null
+            });
+        }
+        var sectionNames = category.sections.map(function (section) {
+            return section.name;
+        });
+        if (!sectionNames.includes(req.body.section)) {
+            return res.status(422).json({
+                data: null,
+                err: 'the section supplied is invalid',
+                msg: null
+            });
+        }
+        next();
+    });
+};
+
+module.exports.validateContent = function (req, res, next) {
+    var valid = req.body.title &&
+        req.body.body &&
+        req.body.category &&
+        req.body.section &&
+        req.body.creator &&
+        typeof req.body.title === 'string' &&
+        typeof req.body.body === 'string' &&
+        typeof req.body.category === 'string' &&
+        typeof req.body.section === 'string' &&
+        typeof req.body.creator === 'string';
+
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'content metadata is not supplied',
+            msg: null
+        });
+    }
+    next();
+};
+
 
 var handleAdminCreate = function (req, res, next) {
     req.body.approved = true;
@@ -266,7 +316,6 @@ var handleNonAdminCreate = function (req, res, next) {
 };
 
 
-/*eslint max-statements: ["error", 19]*/
 module.exports.createContent = function (req, res, next) {
     var valid = req.body.title &&
         req.body.body &&
@@ -286,41 +335,79 @@ module.exports.createContent = function (req, res, next) {
             msg: null
         });
     }
-    Category.findOne({ name: req.body.category }, function (err, category) {
+    delete req.body.touchDate;
+    delete req.body.approved;
+    delete req.body.creator;
+    req.body.creator = req.user.username;
+    // admin user content creation handler
+    if (req.user.isAdmin) {
+        return handleAdminCreate(req, res, next);
+    }
+
+    // non admin user content creation handler
+    return handleNonAdminCreate(req, res, next);
+};
+
+var handleAdminUpdate = function (req, res, next) {
+    req.body.approved = true;
+    req.body.touchDate = moment.toDate();
+    req.body.creator = req.user.username;
+    Content.findByIdAndUpdate(req.body._id, req.body, {
+        new: true,
+        overwrite: true
+    }, function (err, updatedContent) {
         if (err) {
             return next(err);
         }
 
-        if (!category) {
-            return res.status(422).json({
-                data: null,
-                err: 'the category supplied is invalid',
-                msg: null
-            });
-        }
-        var sectionNames = category.sections.map(function (section) {
-            return section.name;
+        return res.status(200).json({
+            data: updatedContent,
+            err: null,
+            mesg: 'retrieved the content successfully'
         });
-        if (!sectionNames.includes(req.body.section)) {
-            return res.status(422).json({
-                data: null,
-                err: 'the section supplied is invalid',
-                msg: null
-            });
-        }
-        delete req.body.touchDate;
-        delete req.body.approved;
-        delete req.body.creator;
-        req.body.creator = req.user.username;
-        // admin handler for now open for anyone
-        if (req.user.isAdmin) {
-            return handleAdminCreate(req, res, next);
-        }
-
-        // non admin handler, toggle condition to activate
-        return handleNonAdminCreate(req, res, next);
     });
+};
 
+var handleNonAdminUpdate = function (req, res, next) {
+    req.body.approved = false;
+    ContentRequest.create({
+        contentID: req.body._id,
+        contentTitle: req.body.title,
+        contentType: req.body.type,
+        creator: req.user.username,
+        requestType: 'edit'
+    }, function (requestError, contentRequest) {
+        if (requestError) {
+            return next(requestError);
+        }
+        Content.findByIdAndUpdate(req.body._id, req.body, {
+            new: true,
+            overwrite: true
+        }, function (contentError, updatedContent) {
+            if (contentError) {
+                return next(contentError);
+            }
+
+            return res.status(200).json({
+                data: {
+                    content: updatedContent,
+                    request: contentRequest
+                },
+                err: null,
+                msg: 'updated content successfully'
+            });
+        });
+    });
+};
+module.exports.updateContent = function (req, res, next) {
+    delete req.body.approved;
+    req.body.touchDate = moment.toDate();
+    req.body.creator = req.user.username;
+    if (req.user.isAdmin) {
+        return handleAdminUpdate(req, res, next);
+    }
+
+    return handleNonAdminUpdate(req, res, next);
 };
 
 // retrieve the categories

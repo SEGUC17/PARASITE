@@ -9,7 +9,7 @@ import { User } from '../../auth/user';
 @Component({
   selector: 'app-content-list-view',
   templateUrl: './content-list-view.component.html',
-  styleUrls: ['./content-list-view.component.css']
+  styleUrls: ['./content-list-view.component.scss']
 })
 export class ContentListViewComponent implements OnInit {
   // general contents for viewing

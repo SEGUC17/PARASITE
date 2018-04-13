@@ -143,7 +143,7 @@ module.exports = function (passport) {
   router.put('/profile/AddAsAParent/:parentId', profileController.addAsAParent);
   router.get('/profile/:username/getChildren', profileController.getChildren);
   router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
-  router.patch('/profile/changePassword/:uname', profileController.changePassword);
+  router.patch('/profile/changePassword/:id', profileController.changePassword);
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
@@ -198,9 +198,23 @@ module.exports = function (passport) {
 
   //Content Production
 
+  router.post(
   // Create new Content
-  router.post('/content', isAuthenticated, contentController.createContent);
+    '/content',
+    isAuthenticated,
+    contentController.validateContent,
+    contentController.validateSelectedCategory,
+    contentController.createContent
+  );
 
+  // Edit content
+  router.patch(
+    '/content',
+    isAuthenticated,
+    contentController.validateContent,
+    contentController.validateSelectedCategory,
+    contentController.updateContent
+  );
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
