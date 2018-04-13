@@ -404,53 +404,53 @@ module.exports.postActivityCommentReply = function (req, res, next) {
     }
 
     Activity.findOne(filter, function (err, activity) {
-            if (err) {
-                return next(err);
-            }
-            if (!activity) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'Activity doesn\'t exist',
-                    msg: null
-                });
-            }
-
-            var comment = activity.discussion.filter(function (com) {
-                return com._id == commentId;
-            }).pop();
-            if (!comment) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'Comment doesn\'t exist',
-                    msg: null
-                });
-            }
-
-            comment.replies.push({
-                creator: user.username,
-                text: req.body.text
+        if (err) {
+            return next(err);
+        }
+        if (!activity) {
+            return res.status(404).json({
+                data: null,
+                err: 'Activity doesn\'t exist',
+                msg: null
             });
+        }
 
-            activity.save(function (err2, activity2) {
-                if (err2) {
-                    return res.status(422).json({
-                        data: null,
-                        err: 'reply can\'t be empty',
-                        msg: null
-                    });
-                }
-
-                return res.status(201).json({
-                    data: comment.replies.pop(),
-                    err: null,
-                    msg: 'reply created successfully'
-                });
+        var comment = activity.discussion.filter(function (com) {
+            return com._id == commentId;
+        }).pop();
+        if (!comment) {
+            return res.status(404).json({
+                data: null,
+                err: 'Comment doesn\'t exist',
+                msg: null
             });
+        }
 
+        comment.replies.push({
+            creator: user.username,
+            text: req.body.text
         });
+
+        activity.save(function (err2, activity2) {
+            if (err2) {
+                return res.status(422).json({
+                    data: null,
+                    err: 'reply can\'t be empty',
+                    msg: null
+                });
+            }
+
+            return res.status(201).json({
+                data: comment.replies.pop(),
+                err: null,
+                msg: 'reply created successfully'
+            });
+        });
+
+    });
 };
 
-module.exports.deleteActivityComment = function(req, res, next) {
+module.exports.deleteActivityComment = function (req, res, next) {
 
     /*
      *  Endpoint to remove a comment from an activity
@@ -462,7 +462,7 @@ module.exports.deleteActivityComment = function(req, res, next) {
     var activityId = req.params.activityId;
     var commentId = req.params.commentId;
 
-    Activity.findById(activityId, function(err, activity) {
+    Activity.findById(activityId, function (err, activity) {
         if (err) {
             return next(err);
         }
@@ -477,7 +477,7 @@ module.exports.deleteActivityComment = function(req, res, next) {
 
         var isActivityCreator = user.username === activity.creator;
 
-        var comment = activity.discussion.filter(function(comm) {
+        var comment = activity.discussion.filter(function (comm) {
             return comm._id == commentId;
         }).pop();
 
@@ -501,7 +501,7 @@ module.exports.deleteActivityComment = function(req, res, next) {
 
         comment.remove();
 
-        activity.save(function(err2, activity2) {
+        activity.save(function (err2, activity2) {
             if (err2) {
                 return next(500);
             }
@@ -557,18 +557,16 @@ module.exports.deleteActivityCommentReply = function (req, res, next) {
 
         var isCommentCreator = comment.creator === user.username;
 
-        var reply = comment.replies.filter(function(rep) {
-            return reply._id == replyId;
+        var reply = comment.replies.filter(function (rep) {
+            return rep._id == replyId;
         });
 
         if (!reply) {
-            if (!comment) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'Comment doesn\'t exist',
-                    msg: null
-                });
-            }
+            return res.status(404).json({
+                data: null,
+                err: 'reply doesn\'t exist',
+                msg: null
+            });
         }
 
         var isReplyCreator = reply.creator === user.username;
@@ -586,7 +584,8 @@ module.exports.deleteActivityCommentReply = function (req, res, next) {
             });
         }
 
-        reply.remove();
+        comment.replies.id(replyId).remove();
+        console.log('heeeeeeeeeeeeeeeeeeere');
 
         activity.save(function (err2, activity2) {
             if (err2) {
