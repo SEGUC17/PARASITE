@@ -57,6 +57,45 @@ export class ActivityService {
     return this.http.put<any>( this.unverifiedActivitiesUrl, activity );
   }
 
+  postCommentOnActivity(activityId: any, comment: any) {
+    return this.http.post<any>(this.activitiesUrl + '/'
+      + activityId + '/comments', {text: comment}).
+    pipe(
+      catchError(this.handleError('creatingActivity', []))
+    );
+  }
+  // '/activities/:activityId/comments/:commentId'
+  getCommentOnActivity(activityId: any, commentId: any) {
+    return this.http.get<any>(this.activitiesUrl + '/'
+      + activityId + '/comments/' + commentId).
+    pipe(
+      catchError(this.handleError('creatingActivity', []))
+    );
+  }
+
+  postReplyOnCommentOnActivity(activityId: any, commentId: any, Reply: any) {
+    return this.http.post<any>(this.activitiesUrl + '/'
+      + activityId + '/comments/' + commentId + '/replies', {text: Reply}).
+    pipe(
+      catchError(this.handleError('creatingActivity', []))
+    );
+  }
+  deleteCommentOnActivity(activityId: any, commentId: any) {
+    return this.http.delete(this.activitiesUrl + '/'
+    + activityId + '/comments/' + commentId).
+    pipe(
+      catchError(this.handleError('creatingActivity', []))
+    );
+  }
+
+  deleteReplyOnCommentOnActivity(activityId: any, commentId: any, replyId: any) {
+    return this.http.delete(this.activitiesUrl + '/'
+      + activityId + '/comments/' + commentId + '/replies/' + replyId).
+    pipe(
+      catchError(this.handleError('creatingActivity', []))
+    );
+  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
       console.error(error); // log to console instead

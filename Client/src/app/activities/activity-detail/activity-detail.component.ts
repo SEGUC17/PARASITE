@@ -36,8 +36,13 @@ export class ActivityDetailComponent implements OnInit {
     this.refreshComments(12);
   }
 
-  onReply() {
-    this.somePlaceholder = 'write your reply ...';
+  onReply(): any {
+    let self = this;
+    let element = document.getElementById('target');
+    element.scrollIntoView();
+    let input = document.getElementById('lala');
+    self.somePlaceholder = 'leave a reply';
+    input.focus();
   }
 
   getActivity() {
