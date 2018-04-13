@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './send-dialog.component.html',
   styleUrls: ['./send-dialog.component.scss']
 })
+
 export class SendDialogComponent implements OnInit {
 
   Body: String = '';

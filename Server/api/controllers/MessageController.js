@@ -137,7 +137,7 @@ module.exports.deleteMessage = function(req, res, next) {
           });
       }
       console.log('status is 200');
-     
+    
       return res.status(200).json({
        data: null,
        err: null,

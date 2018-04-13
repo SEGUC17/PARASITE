@@ -10,6 +10,10 @@
       
       <button mat-raised-button color="primary" (click)="send(); receiver.value=''; body.value=''">Send</button>
       <br/>
+
+      <button mat-button (click)="dialogRef.close()">
+        Cancel
+      </button>
   
 
   <div id="div1" *ngIf="div1">
