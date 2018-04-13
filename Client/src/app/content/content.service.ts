@@ -37,6 +37,14 @@ export class ContentService {
       );
   }
 
+  updateContent(content: Content): Observable<any> {
+    const self = this;
+    return this.http.patch(self.endpoint + 'content', content)
+      .pipe(
+        catchError(self.handleError('Update Content'))
+      );
+  }
+
 
   getContentByCreator(pageSize: any, pageNumber: any): Observable<any> {
     const self = this;
