@@ -6,6 +6,7 @@ var Content = mongoose.model('Content');
 var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
+var moment = require('moment');
 
 // send a page of general content (resources and ideas) to the front end
 module.exports.getContentPage = function (req, res, next) {
@@ -133,7 +134,7 @@ var prepareQueryOptionsForSearch = function (query, params) {
     var options = {
         limit: Number(params.pageSize),
         page: Number(params.pageNumber),
-        sort: { }
+        sort: {}
     };
 
     // sort option was provided, default is relevance;
@@ -343,15 +344,51 @@ module.exports.createContent = function (req, res, next) {
         delete req.body.approved;
         delete req.body.creator;
         req.body.creator = req.user.username;
-        // admin handler for now open for anyone
+        // admin user content creation handler
         if (req.user.isAdmin) {
             return handleAdminCreate(req, res, next);
         }
 
-        // non admin handler, toggle condition to activate
+        // non admin user content creation handler
         return handleNonAdminCreate(req, res, next);
     });
 
+};
+
+var handleAdminUpdate = function (req, res, next) {
+
+};
+
+var handleNonAdminUpdate = function (req, res, next) {
+
+};
+module.exports.updateContent = function (req, res, next) {
+    var valid = req.body.title &&
+        req.body.body &&
+        req.body.category &&
+        req.body.section &&
+        req.body.creator &&
+        typeof req.body.title === 'string' &&
+        typeof req.body.body === 'string' &&
+        typeof req.body.category === 'string' &&
+        typeof req.body.section === 'string' &&
+        typeof req.body.creator === 'string';
+
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'content metadata is not supplied',
+            msg: null
+        });
+    }
+    delete req.body.approved;
+    req.body.touchDate = moment.toDate();
+    req.body.creator = req.user.username;
+    if (req.user.isAdmin) {
+        return handleAdminUpdate(req, res, next);
+    }
+
+    return handleNonAdminUpdate(req, res, next);
 };
 
 // retrieve the categories
