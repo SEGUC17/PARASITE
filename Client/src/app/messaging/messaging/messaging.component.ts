@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material';
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
-  styleUrls: ['./messaging.component.css'],
+  styleUrls: ['./messaging.component.scss'],
   providers: [MessageService, AuthService]
 })
 

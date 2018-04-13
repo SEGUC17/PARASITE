@@ -7,7 +7,7 @@ import { PageEvent } from '@angular/material/paginator';
 @Component({
   selector: 'app-study-plan-list-view',
   templateUrl: './study-plan-list-view.component.html',
-  styleUrls: ['./study-plan-list-view.component.css']
+  styleUrls: ['./study-plan-list-view.component.scss']
 })
 export class StudyPlanListViewComponent implements OnInit {
   @Input() type: string;
