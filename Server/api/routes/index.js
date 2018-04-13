@@ -239,7 +239,7 @@ module.exports = function (passport) {
   router.get(
     '/content/:contentId/comments/:commentId',
     optionalAuthentication,
-    contentController.commentOnContent
+    contentController.getContentComment
   );
   // Commenting on a content
   router.post(
