@@ -1,5 +1,5 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-
+/* eslint multiline-comment-style: ["error", "starred-block"] */
 
 var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
@@ -139,6 +139,7 @@ var prepareQueryOptionsForSearch = function (query, params) {
     };
 
     // sort option was provided, default is relevance;
+
     // therefore, the string relevance is not checked
     if (query.sort) {
 
@@ -197,6 +198,7 @@ module.exports.getSearchPage = function (req, res, next) {
 };
 
 // retrieve the content (resources and ideas) created by the specified user
+
 //must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
 
@@ -450,6 +452,7 @@ module.exports.updateContent = function (req, res, next) {
 };
 
 // retrieve the categories
+
 // by which the contents (ideas and resources) are classified
 module.exports.getCategories = function (req, res, next) {
 
@@ -581,4 +584,69 @@ module.exports.getContent = function (req, res, next) {
                 msg: 'Contents retrieved successfully.'
             });
         });
+};
+
+module.exports.commentOnContent = function (req, res, next) {
+
+    /*
+     * Middleware to add comment in contents discussion
+     *
+     * author: Wessam Ali
+     */
+
+    var user = req.user;
+    var contentId = req.params.contentId;
+
+    var filter = { _id: contentId };
+
+    if (!user.isAdmin) {
+        filter = {
+            $and: [
+                filter,
+                {
+                    $or: [
+                        { approved: true },
+                        { creator: user.username }
+                    ]
+                }
+            ]
+        };
+    }
+
+    Content.findOneAndUpdate(
+        filter,
+        {
+            $push: {
+                'discussion': {
+                    creator: req.user.username,
+                    text: req.body.text
+                }
+            }
+        },
+        {
+            new: true,
+            runValidators: true
+        },
+        function (err, content) {
+            if (err) {
+                return res.status(422).json({
+                    data: null,
+                    err: err,
+                    msg: null
+                });
+            }
+            if (!content) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Content doesn\'t exist',
+                    msg: null
+                });
+            }
+            res.status(201).json({
+                data: content.discussion.pop(),
+                err: null,
+                msg: null
+            });
+        }
+    );
 };
