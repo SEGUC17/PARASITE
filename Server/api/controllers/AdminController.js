@@ -1,4 +1,5 @@
 /* eslint no-underscore-dangle: ["error", {"allow" : ["_id" , "_now"]}] */
+/* eslint-disable */
 var moment = require('moment');
 var mongoose = require('mongoose');
 var ContentRequest = mongoose.model('ContentRequest');
@@ -183,7 +184,7 @@ module.exports.respondContentRequest = function (req, res, next) {
             }
         }, { new: true },
         function (err, updatedcontentrequest) {
-            // check if the id in the URL is valid, if not return error
+            // if ContentRequestId is not valid return error
             if (!mongoose.Types.ObjectId.isValid(req.params.ContentRequestId)) {
                 return res.status(422).json({
                     data: null,
@@ -192,20 +193,11 @@ module.exports.respondContentRequest = function (req, res, next) {
                 });
             }
             if (err) {
-                console.log('cannot ' + req.body.str);
 
-                return next(err);
-            }
-            // if not admin return error
-            if (!req.user.isAdmin) {
-                return res.status(403).json({
-                    data: null,
-                    err: 'Unauthorized action',
-                    msg: null
+                return 'cannot update request';
 
-                });
             }
-            // if not found return error
+            // if the request is not  found return error
             if (!updatedcontentrequest) {
                 return res.status(404).json({
                     data: null,
@@ -213,33 +205,8 @@ module.exports.respondContentRequest = function (req, res, next) {
                     msg: null
                 });
             }
-            // return 200 if everything is OK
+            // if ContentId is not valid return error
 
-
-            return res.status(200).json({
-                data: updatedcontentrequest,
-                err: null,
-                msg: updatedcontentrequest.contentTitle +
-                    ' request is now ' + req.body.str
-            });
-        }
-    );
-};
-
-// Update the approved attribute in the content itself
-module.exports.respondContentStatus = function (req, res, next) {
-    // find the proper content by id from URL
-    Content.findByIdAndUpdate(
-        req.params.ContentId, {
-            $set: {
-                // update certain values (approved/touchDate)
-                // with an object sent from frontEnd
-                approved: req.body.str,
-                touchDate: moment().toDate()
-            }
-        }, { new: true },
-        function (err, updatedContent) {
-            // check if the id in the URL is valid, if not return error
             if (!mongoose.Types.ObjectId.isValid(req.params.ContentId)) {
                 return res.status(422).json({
                     data: null,
@@ -247,75 +214,66 @@ module.exports.respondContentStatus = function (req, res, next) {
                     msg: null
                 });
             }
-            if (err) {
-                console.log('cannot set it to' + req.body.str);
+            //Update the content to approved
+            Content.findByIdAndUpdate(
+                req.params.ContentId,
+                {
+                    $set: {
+                        // update certain values (approved/touchDate)
+                        // with an object sent from frontEnd
+                        approved: req.body.approved,
+                        touchDate: moment().toDate()
+                    }
+                },
+                { new: true },
+                function (err, content) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    if (!Content) {
+                        return res.status(404).json({
+                            data: null,
+                            err: 'Content not found',
+                            msg: null
+                        });
+                    }
 
-                return next(err);
-            }
-            // if not admin return error
-            if (!req.user.isAdmin) {
-                return res.status(403).json({
-                    data: null,
-                    err: 'Unauthorized action',
-                    msg: null
+                }
+            );
+            if (req.body.approved == true) {
+                //give the user extra 10 points
+            User.findOneAndUpdate(
+                { 'username': req.body.userName },
+                { $set: { contributionScore: req.body.oldScore + 10 } },
+                { new: true },
+                function (err, User) {
 
-                });
-            }
+                    if (err) {
+                            req.body.username;
+                    }
+                    // if not found return error
+                    if (!User) {
+                        return res.status(404).json({
+                            data: null,
+                            err: 'User not found',
+                            msg: null
+                        });
+                    }
+                }
+            );
+        }
 
-            // if not found return error
-            if (!updatedContent) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'Content not found',
-                    msg: null
-                });
-            }
-            // return 200 if everything is OK
-
-
-            return res.status(200).json({
-                data: updatedContent,
+return res.status(200).json({
+                data: updatedcontentrequest,
                 err: null,
-                msg: updatedContent.title +
+                msg: updatedcontentrequest.contentTitle +
                     ' is now ' + req.body.str
             });
+
         }
     );
 };
-// TO-DO ContributionPts
-// module.exports.addContPts = function(req, res, next) {
-//     User.findOneAndUpdate(
-//         { 'username': req.body.username },
-//         { $set: { contributionScore: 10 } },
-//         { new: true },
-//         function(err, updatedUser) {
 
-//             if (err) {
-//                 console.log('cannot add contributionPoints to' +
-//                 req.body.username);
-
-//                 return next(err);
-//             }
-//             // if not found return error
-//             if (!updatedUser) {
-//                 return res.status(404).json({
-//                     data: null,
-//                     err: 'User not found',
-//                     msg: null
-//                 });
-//             }
-//             // return 200 if everything is OK
-
-
-//             return res.status(200).json({
-//                 data: updatedUser,
-//                 err: null,
-//                 msg: updatedUser.username +
-//                     ' hase now ' + req.body.newpoints + 'points'
-//             });
-//         }
-//     );
-// };
 
 //-------------------------------------------//
 
