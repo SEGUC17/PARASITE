@@ -12,15 +12,6 @@ export class ContentService {
 
   constructor(private http: HttpClient) { }
 
-  getContentPage(numberOfEntriesPerPage: any, pageNumber: any, category: any, section: any): Observable<any> {
-    const self = this;
-    return this.http.get(self.endpoint + 'content/getContentPage/' + numberOfEntriesPerPage +
-      '/' + pageNumber + '/' + category + '/' + section)
-      .pipe(
-        catchError(self.handleError('getContentPage', []))
-      );
-  }
-
   getContentById(id: any): Observable<any> {
     const self = this;
     return this.http.get(self.endpoint + 'content/view/' + id)
@@ -46,9 +37,14 @@ export class ContentService {
   }
 
 
-  getContentByCreator(pageSize: any, pageNumber: any): Observable<any> {
+  getContentByCreator(pageSize: any, pageNumber: any,
+    category: String, section: String): Observable<any> {
     const self = this;
-    return this.http.get(self.endpoint + 'content/username/' + pageSize + '/' + pageNumber)
+    category = encodeURIComponent(category.toString());
+    section = encodeURIComponent(section.toString());
+    return this.http.get(self.endpoint + 'content/username/' +
+      pageSize + '/' + pageNumber + '/categorization?category=' + category +
+      '&section=' + section)
       .pipe(
         catchError(self.handleError('getContentByCreator', []))
       );

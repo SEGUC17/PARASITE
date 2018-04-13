@@ -8,63 +8,6 @@ var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
 var moment = require('moment');
 
-// send a page of general content (resources and ideas) to the front end
-module.exports.getContentPage = function (req, res, next) {
-
-    // validations
-    var valid = req.params.category && req.params.section &&
-        req.params.numberOfEntriesPerPage && req.params.pageNumber &&
-        typeof req.params.category === 'string' &&
-        typeof req.params.section === 'string' &&
-        !isNaN(req.params.numberOfEntriesPerPage) &&
-        !isNaN(req.params.pageNumber);
-
-    // the request was not valid
-    if (!valid) {
-        return res.status(422).json({
-            data: null,
-            err: 'The required fields were missing or of wrong type.',
-            msg: null
-        });
-    }
-
-    // intitialize the retrieval conditions
-    var conditions = {
-        'approved': true,
-        'category': req.params.category,
-        'section': req.params.section
-    };
-
-    // category or section not of interest
-    if (req.params.category === 'NoCat') {
-        delete conditions.category;
-        delete conditions.section;
-    } else if (req.params.section === 'NoSec') {
-        delete conditions.section;
-    }
-
-    // retrieve page of content
-    Content.paginate(
-        conditions,
-        {
-            limit: Number(req.params.numberOfEntriesPerPage),
-            page: Number(req.params.pageNumber)
-        },
-        function (err, contents) {
-            if (err) {
-                return next(err);
-            }
-            // send a page of content
-
-            return res.status(200).json({
-                data: contents,
-                err: null,
-                msg: 'Page retrieved successfully'
-            });
-        }
-    );
-};
-
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
 
@@ -115,7 +58,7 @@ var prepareQueryConditionsForSearch = function (query) {
     };
 
     // section and category are not of interest
-    if (query.category === 'NoCat' || query.section === 'NoSec') {
+    if (query.category === '' || query.section === '') {
         delete conditions.category;
         delete conditions.section;
     }
@@ -142,7 +85,7 @@ var prepareQueryOptionsForSearch = function (query, params) {
     if (query.sort) {
 
         if (query.sort === 'upload date') {
-            options.sort.touchDate = 1;
+            options.sort.touchDate = -1;
         }
 
         if (query.sort === 'rating') {
@@ -159,7 +102,33 @@ var prepareQueryOptionsForSearch = function (query, params) {
     return options;
 };
 
+// helper for getSearchPage
+var checkRequestValidityForSearch = function (req) {
+
+    return req.params.pageSize &&
+        req.params.pageNumber &&
+        req.query &&
+        typeof req.query.category === 'string' &&
+        typeof req.query.section === 'string' &&
+        typeof req.query.searchQuery === 'string' &&
+        typeof req.query.sort === 'string' &&
+        !isNaN(req.params.pageSize) &&
+        !isNaN(req.params.pageNumber);
+};
+
 module.exports.getSearchPage = function (req, res, next) {
+    // check for validtity
+    var valid = checkRequestValidityForSearch(req);
+
+    // the request was not valid
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required fields were missing or of wrong type.',
+            msg: null
+        });
+    }
+
     // prepare the conditions and options for the query
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
@@ -196,6 +165,9 @@ module.exports.getContentByCreator = function (req, res, next) {
     // validations
     var valid = req.params.pageSize &&
         req.params.pageNumber &&
+        req.query &&
+        typeof req.query.category === 'string' &&
+        typeof req.query.section === 'string' &&
         !isNaN(req.params.pageNumber) &&
         !isNaN(req.params.pageSize);
 
@@ -208,9 +180,22 @@ module.exports.getContentByCreator = function (req, res, next) {
         });
     }
 
+    // database query conditions
+    var conditions = {
+        category: req.query.category,
+        creator: req.user.username,
+        section: req.query.section
+    };
+
+    // category and section are not of interest
+    if (req.query.section === '' || req.query.category === '') {
+        delete conditions.category;
+        delete conditions.section;
+    }
+
     // send back a page of the content created by the current user
     Content.paginate(
-        { creator: req.user.username },
+        conditions,
         {
             limit: Number(req.params.pageSize),
             page: Number(req.params.pageNumber)
