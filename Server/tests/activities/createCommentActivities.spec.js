@@ -39,10 +39,6 @@ describe('Activities Comments/replies creation', function () {
     /*
      * Tests for GET Activity both list and detail
      *
-     * All users can view a verified activity in list or in detail
-     * While pending and rejected activities can be viewed by admin
-     * in list and in detail and their creator in detail only.
-     *
      * @author: Wessam
      */
 
