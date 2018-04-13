@@ -247,6 +247,7 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.commentOnContent
   );
+  // deleting a comment
   router.delete(
     '/content/:contentId/comments/:commentId',
     isAuthenticated,
@@ -257,6 +258,12 @@ module.exports = function (passport) {
     '/content/:contentId/comments/:commentId/replies',
     isAuthenticated,
     contentController.postContentCommentReply
+  );
+  // deleting a reply
+  router.delete(
+    '/content/:contentId/comments/:commentId/replies/:replyId',
+    isAuthenticated,
+    contentController.deleteContentCommentReply
   );
 
   // Edit content
