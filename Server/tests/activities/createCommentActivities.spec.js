@@ -180,7 +180,7 @@ describe('Activities Comments creation', function () {
                 { expiresIn: '12h' }
             );
             chai.request(app).
-                post('/api/activities/' + verifiedActivity._id + '/addComment').
+                post('/api/activities/' + verifiedActivity._id + '/comments').
                 send(commentBody).
                 set('Authorization', token).
                 end(function (err, res) {
@@ -213,7 +213,7 @@ describe('Activities Comments creation', function () {
             );
             var existingComment = { text: 'comment text' };
             chai.request(app).
-                post('/api/activities/' + verifiedActivity._id + '/addComment').
+                post('/api/activities/' + verifiedActivity._id + '/comments').
                 send(existingComment).
                 set('Authorization', token).
                 end(function (err, res) {
@@ -241,7 +241,7 @@ describe('Activities Comments creation', function () {
         it('it should return 401 for unverified user', function (done) {
             var existingComment = { text: 'comment text' };
             chai.request(app).
-                post('/api/activities/' + verifiedActivity._id + '/addComment').
+                post('/api/activities/' + verifiedActivity._id + '/comments').
                 send(existingComment).
                 end(function (err, res) {
                     // testing get activities for unverified user
@@ -268,7 +268,7 @@ describe('Activities Comments creation', function () {
                 { expiresIn: '12h' }
             );
             chai.request(app).
-                post('/api/activities/' + verifiedActivity._id + '/addComment').
+                post('/api/activities/' + verifiedActivity._id + '/comments').
                 send({ text: '' }).
                 set('Authorization', token).
                 end(function (err, res) {
@@ -299,7 +299,7 @@ describe('Activities Comments creation', function () {
                 );
                 chai.request(app).
                     post('/api/activities/' + pendingActivity._id +
-                        '/addComment').
+                        '/comments').
                     send(commentBody).
                     set('Authorization', token).
                     end(function (err, res) {
@@ -319,7 +319,7 @@ describe('Activities Comments creation', function () {
                 { expiresIn: '12h' }
             );
             chai.request(app).
-                post('/api/activities/' + pendingActivity._id + '/addComment').
+                post('/api/activities/' + pendingActivity._id + '/comments').
                 send(commentBody).
                 set('Authorization', token).
                 end(function (err, res) {
@@ -352,7 +352,7 @@ describe('Activities Comments creation', function () {
                 { expiresIn: '12h' }
             );
             chai.request(app).
-                post('/api/activities/' + pendingActivity._id + '/addComment').
+                post('/api/activities/' + pendingActivity._id + '/comments').
                 send(commentBody).
                 set('Authorization', token).
                 end(function (err, res) {
