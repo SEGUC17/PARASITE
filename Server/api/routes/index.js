@@ -234,7 +234,19 @@ module.exports = function (passport) {
     contentController.validateSelectedCategory,
     contentController.createContent
   );
-  router.post('/content/:contentId/comments', isAuthenticated, contentController.commentOnContent);
+
+  // Getting comment details
+  router.get(
+    '/content/:contentId/comments/:commentId',
+    optionalAuthentication,
+    contentController.commentOnContent
+  );
+  // Commenting on a content
+  router.post(
+    '/content/:contentId/comments',
+    isAuthenticated,
+    contentController.commentOnContent
+  );
 
   // Edit content
   router.patch(
