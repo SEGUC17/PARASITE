@@ -35,15 +35,19 @@ export class StudyPlanService {
   }
 
   PublishStudyPlan(studyPlan: StudyPlan): Observable<any> {
-     /*
-     @author: Ola
-     post request with the required studyPlan to be published in the body of the request with the route specified in the index.js
-     */
+    /*
+    @author: Ola
+    post request with the required studyPlan to be published in the body of the request with the route specified in the index.js
+    */
     return this.http.post(this.endpoint + 'study-plan/PublishStudyPlan', studyPlan);
 
   }
 
   rateStudyPlan(studyPlanID: String, rating: Number): Observable<any> {
     return this.http.patch(this.endpoint + '/study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
+  }
+
+  editPersonalStudyPlan(username: String, studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
+    return this.http.patch(this.endpoint + '/study-plan/editPersonalStudyPlan/' + username + '/' + studyPlanID, studyPlan);
   }
 }

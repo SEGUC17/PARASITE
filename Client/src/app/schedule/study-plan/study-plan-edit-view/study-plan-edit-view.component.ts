@@ -28,15 +28,15 @@ import {
 })
 export class StudyPlanEditViewComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  type: String;
-  _id: String;
-  username: String;
+  type: string;
+  _id: string;
+  username: string;
   studyPlan: StudyPlan;
   view = 'month';
   viewDate: Date = new Date();
-  title: String;
+  title: string;
   events: CalendarEvent[];
-  description: SafeHtml;
+  description: string;
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
   private editor;
@@ -187,14 +187,36 @@ export class StudyPlanEditViewComponent implements OnInit {
     this.studyPlan.creator = this.username;
     this.studyPlanService.createStudyPlan(this.username, this.studyPlan).subscribe(
       res => {
-        alert(res.msg);
-        this.router.navigate(['/profile']);
+        if (res.err) {
+          alert(res.err);
+        } else {
+          alert(res.msg);
+          this.router.navigate(['/profile']);
+        }
       }
     );
   }
 
   saveChanges(): void {
-    alert('Work in progress...');
+    if (!(this.title && this.description && this.events.length)) {
+      alert('A Study Plan needs a title, a description, and at least one event.');
+      return;
+    }
+
+    this.studyPlanService.editPersonalStudyPlan(this.username, this._id, new StudyPlan(
+      this.title,
+      this.username,
+      this.events,
+      this.description
+    ))
+      .subscribe(res => {
+        if (res.err) {
+          alert(res.err);
+        } else {
+          alert(res.msg);
+          this.router.navigate(['/profile']);
+        }
+      });
   }
 
   onContentChanged(quill) {

@@ -45,9 +45,9 @@ module.exports.PublishStudyPlan = function (req, res, next) {
             return next(err);
         }
         res.status(201).json({
+            data: null,
             err: null,
             msg: 'StudyPlan published successfully.'
-
         });
     });
 };
@@ -57,8 +57,8 @@ module.exports.getPersonalStudyPlan = function (req, res, next) {
         req.user.children.indexOf(req.params.username) < 0) {
         return res.status(401).json({
             data: null,
-            err: null,
-            msg: 'Unauthorized.'
+            err: 'Unauthorized.',
+            msg: null
         });
     }
 
@@ -70,8 +70,8 @@ module.exports.getPersonalStudyPlan = function (req, res, next) {
         if (!user) {
             return res.status(404).json({
                 data: null,
-                err: null,
-                msg: 'User not found.'
+                err: 'User not found.',
+                msg: null
             });
         }
 
@@ -82,8 +82,8 @@ module.exports.getPersonalStudyPlan = function (req, res, next) {
         if (!target.length) {
             return res.status(404).json({
                 data: null,
-                err: null,
-                msg: 'Study plan not found.'
+                err: 'Study plan not found.',
+                msg: null
             });
         }
 
@@ -104,8 +104,8 @@ module.exports.getPublishedStudyPlan = function (req, res, next) {
         if (!studyPlan) {
             return res.status(404).json({
                 data: null,
-                err: null,
-                msg: 'Study plan not found.'
+                err: 'Study plan not found.',
+                msg: null
             });
         }
 
@@ -129,8 +129,8 @@ module.exports.createStudyPlan = function (req, res, next) {
             if (!user) {
                 return res.status(404).json({
                     data: null,
-                    err: null,
-                    msg: 'User not found.'
+                    err: 'User not found.',
+                    msg: null
                 });
             }
 
@@ -189,8 +189,8 @@ module.exports.editPersonalStudyPlan = function (req, res, next) {
         req.user.children.indexOf(req.params.username) < 0) {
         return res.status(401).json({
             data: null,
-            err: null,
-            msg: 'Unauthorized.'
+            err: 'Unauthorized.',
+            msg: null
         });
     }
 
@@ -214,8 +214,8 @@ module.exports.editPersonalStudyPlan = function (req, res, next) {
             if (!user) {
                 return res.status(404).json({
                     data: null,
-                    err: null,
-                    msg: 'User not found.'
+                    err: 'User not found.',
+                    msg: null
                 });
             }
 
