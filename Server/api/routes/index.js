@@ -206,10 +206,22 @@ module.exports = function (passport) {
   //Content Production
 
   // Create new Content
-  router.post('/content', isAuthenticated, contentController.createContent);
+  router.post(
+    '/content',
+    isAuthenticated,
+    contentController.validateContent,
+    contentController.validateCategory,
+    contentController.createContent
+  );
 
   // Edit content
-  router.patch('/content', isAuthenticated, contentController.updateContent);
+  router.patch(
+    '/content',
+    isAuthenticated,
+    contentController.validateContent,
+    contentController.validateCategory,
+    contentController.updateContent
+  );
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
