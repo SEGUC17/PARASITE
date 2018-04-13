@@ -351,6 +351,24 @@ describe('Activities Comments viewing', function () {
                     });
             }
         );
+        it(
+            'it should return 404 for wrong comment id',
+            function (done) {
+                chai.request(app).
+                    get('/api/activities/' +
+                        verifiedActivity._id +
+                        '/comments/' +
+                        pendingActivity.discussion[0]._id).
+                    end(function (err, res) {
+                        // testing get activities for unverified user
+                        if (err) {
+                            console.log(err);
+                        }
+                        res.should.have.status(404);
+                        done();
+                    });
+            }
+        );
     });
     // --- Clearing Mockgoose --- //
     after(function (done) {
