@@ -11,7 +11,7 @@ import { User } from '../../auth/user';
 @Component({
   selector: 'app-content-view',
   templateUrl: './content-view.component.html',
-  styleUrls: ['./content-view.component.css']
+  styleUrls: ['./content-view.component.scss']
 })
 export class ContentViewComponent implements OnInit {
   // the content that the user is viewing

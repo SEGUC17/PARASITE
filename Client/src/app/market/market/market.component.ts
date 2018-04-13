@@ -13,7 +13,7 @@ import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
-  styleUrls: ['./market.component.css']
+  styleUrls: ['./market.component.scss']
 })
 export class MarketComponent implements OnInit {
 
@@ -23,6 +23,7 @@ export class MarketComponent implements OnInit {
   entriesPerPage = 15;
   selectedName: String;
   selectedPrice;
+  selectedSeller;
   numberOfProducts: number;
   numberOfUserProducts: number;
   userItems: Product[];
@@ -63,7 +64,7 @@ export class MarketComponent implements OnInit {
     }
 
   }
-
+  // Opens the dialog form of creating a product
   goToCreate() {
     const self = this;
     let dialogRef = self.dialog.open(CreateProductComponent, {
@@ -80,9 +81,13 @@ export class MarketComponent implements OnInit {
   // restrict the products to the ones following the delimiters given
   getPage(): void {
     const self = this;
+    if ( self.selectedName ) {
+      self.selectedName = self.selectedName.trim();
+    }
     const limiters = {
       price: self.selectedPrice + 1,
-      name: self.selectedName
+      name: self.selectedName,
+      seller: self.selectedSeller
     };
     self.marketService.getMarketPage(self.entriesPerPage,
       self.currentPageNumber, limiters)
@@ -96,9 +101,13 @@ export class MarketComponent implements OnInit {
   // restrict the products to the ones following the delimiters given
   firstPage(): void {
     const self = this;
+    if ( self.selectedName ) {
+      self.selectedName = self.selectedName.trim();
+    }
     const limiters = {
       price: self.selectedPrice + 1,
-      name: self.selectedName
+      name: self.selectedName,
+      seller: self.selectedSeller
     };
     this.marketService.numberOfMarketPages(limiters)
       .subscribe(function (numberOfProducts) {
@@ -136,11 +145,28 @@ export class MarketComponent implements OnInit {
         self.userItems = products.data.docs;
       });
   }
+  seller(x: number): void {
+    let self = this;
+    if ( x === 0 ) {
+      self.selectedSeller = undefined;
+    } else {
+      self.selectedSeller = this.user.username;
+    }
+    self.firstPage();
+  }
   // clears search critirea
   clearLimits(): void {
     this.selectedName = undefined;
     this.selectedPrice = undefined;
     this.firstPage();
+  }
+  onPaginateChangeMarket(event): void {
+    this.currentPageNumber = event.pageIndex + 1;
+    this.getPage();
+  }
+  onPaginateChangeMyItems(event): void {
+    this.userItemsCurrentPage = event.pageIndex + 1;
+    this.getUserPage();
   }
 
 }

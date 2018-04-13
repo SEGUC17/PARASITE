@@ -37,6 +37,7 @@ export class ContentService {
       );
   }
 
+
   getContentByCreator(pageSize: any, pageNumber: any): Observable<any> {
     const self = this;
     return this.http.get(self.endpoint + 'content/username/' + pageSize + '/' + pageNumber)
@@ -57,9 +58,35 @@ export class ContentService {
   deleteContent(contentId: any): Observable<any> {
     const self = this;
     return this.http.delete(self.endpoint + 'content/' + contentId)
-    .pipe(
-      catchError(self.handleError('deleteContent', []))
-    );
+      .pipe(
+        catchError(self.handleError('deleteContent', []))
+      );
+  }
+
+  // get search page from server
+  getSearchPage(currentPageNumber: number,
+    numberOfEntriesPerPage: number,
+    searchQuery: String,
+    selectedCategory: String,
+    selectedSection: String,
+    sortResultsBy: String
+  ): Observable<any> {
+
+    const self = this;
+
+    // encoding the search queries for sending
+    searchQuery = encodeURIComponent(searchQuery.toString());
+    selectedCategory = encodeURIComponent(selectedCategory.toString());
+    selectedSection = encodeURIComponent(selectedSection.toString());
+    sortResultsBy = encodeURIComponent(sortResultsBy.toString());
+
+    return this.http.get(self.endpoint + 'content/' + numberOfEntriesPerPage +
+      '/' + currentPageNumber + '/search?searchQuery=' +
+      searchQuery + '&category=' + selectedCategory + '&section=' + selectedSection
+      + '&sort=' + sortResultsBy)
+      .pipe(
+        catchError(self.handleError('getSearchPage', []))
+      );
   }
 
   // general error handler

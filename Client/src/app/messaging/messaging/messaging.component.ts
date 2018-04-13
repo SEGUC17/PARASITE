@@ -10,35 +10,23 @@ import { MatButtonModule } from '@angular/material';
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
-  styleUrls: ['./messaging.component.css'],
+  styleUrls: ['./messaging.component.scss'],
   providers: [MessageService, AuthService]
 })
 
 export class MessagingComponent implements OnInit {
 
-  Body: String = '';
-  Sender: String = '';
-  Receiver: String = '';
-  currentUser: any;
-  username: String;
-  isChild: Boolean;
+  currentUser: any; // the currently logged in user
   msg: any;
-  div1: Boolean;
-  div2: Boolean;
-  div3: Boolean;
+  div: Boolean; // controls appearance of a div notifying the user that they can't access messaging (in case the logged in user is a child)
   inbox: any[];
   sent: any[];
-  x: Boolean = false;
   displayedColumns = ['sender', 'body', 'sentAt', 'delete'];
   displayedColumns1 = ['recipient', 'body', 'sentAt', 'delete'];
 
+  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
 
-  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) {
-    /*this.currentUser = this.authService.getUser();
-    this.username = this.currentUser.username;
-    this.isChild = this.currentUser.isChild;*/
-  }
-
+  // opening the send dialog (on pressing the compose button)
   openDialog(): void {
     let dialogRef = this.dialog.open(SendDialogComponent, {
       width: '600px',
@@ -51,47 +39,42 @@ export class MessagingComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log(this.currentUser.username);
-
-    if (this.x) {
-      this.div3 = true;
-    } else {
-      this.div3 = false;
-      this.getInbox();
-      this.getSent();
-    }
+    const self = this;
+    const userDataColumns = ['username', 'isChild'];
+    this.authService.getUserData(userDataColumns).subscribe(function (res) {
+      self.currentUser = res.data;
+      if (self.currentUser.isChild) {
+        self.div = true; // logged in user is a child
+      } else {
+        self.div = false;
+        self.getInbox();
+        self.getSent();
+      }
+    });
   }
 
-  send(): void {
-    if (this.Receiver === '') {
-      this.div1 = true;
-    }
-
-    if (this.Body === '') {
-      this.div2 = true;
-    } else {
-      this.msg = { 'body': this.Body, 'recipient': this.Receiver, 'sender': this.Sender };
-      this.messageService.send(this.msg)
-        .subscribe(res => console.log(res));
-    }
-  }
-
+  // retreive inbox of logged in user (called when page is loaded)
   getInbox(): void {
     const self = this;
-    this.messageService.getInbox('sarah').subscribe(function (msgs) {
+    // make GET request using messaging service
+    this.messageService.getInbox(this.currentUser.username).subscribe(function (msgs) {
       self.inbox = msgs.data;
     });
   }
 
+  // retreive sent messages of logged in user (called when page is loaded)
   getSent(): void {
     const self = this;
-    this.messageService.getSent('sarah').subscribe(function (msgs) {
+    // make GET request using messaging service
+    this.messageService.getSent(this.currentUser.username).subscribe(function (msgs) {
       self.sent = msgs.data;
     });
   }
 
+  // deleteing a message from inbox or sent (on pressing delete button)
   deleteMessage(message): void {
     const self = this;
+    // make DELETE request using messaging service
     this.messageService.deleteMessage(message).subscribe(function (res) {
     });
   }
