@@ -1,8 +1,23 @@
+#header{
+    font-size: 50px;
+    font-weight: bold;
+    color: #00031e;
+    height: 50px;
+    width: 100%;
+}
+#header_icon {
+    font-size: 130%;
+    color:#DA572B;
+    margin-left:1%;
+    margin-right:1%;
+    height: 70px;
+    width: 70px;
+}
 #edit {
     margin-right: 3%;
     float: right;
     width: 30px;
-    height: 30px;
+    height: 45px;
     color: white;
 }
 #delete {
@@ -10,12 +25,13 @@
     float: right;
     color: white;
     width: 30px;
-    height: 30px;
+    height: 45px;
 }
 .mat-icon {
     font-size: 150%;
 }
 .psych {
+    word-break: break-all;
     width:32%;
     margin-left:1%;
     margin-top: 20px;
@@ -25,14 +41,37 @@
     padding-left:0px;
     padding-right:0px;
 }
-.info {
+.psych .mat-card-content {
+    font-size: 130%;
+    color:#00031e;
     margin-right:3%;
-    margin-left:3%;
+    margin-left:5%;
+    padding-right:5%;
+    padding-left:5%;
+}
+
+.psych .mat-card-content #contnt {
+    margin-left: 1%;
+    font-size: 80%;
+}
+
+.psych .mat-card-content #icon {
+    margin-right: 1%;
+    font-size: 130%;
+}
+
+.psych .mat-card-title{
+    font-size: 220%;
+    text-align: center;
+    font-weight: bold;
+    color:#00031e;
+    margin-right:3%;
+    margin-left:5%;
     padding-right:5%;
     padding-left:5%;
 }
 .mat-card-footer {
-    background: #99D5C9;
+    background: #353851;
     height:42px ;
     margin-left: 0 !important;
     margin-right: 0 !important;
@@ -40,23 +79,12 @@
     padding: 0px 0px 0px !important;
     margin-top: 10%;
 }
-.row {
-    padding: 2%;
-}
 .chips {
     height:50px;
 }
 @media (max-width: 800px) {
     .psych {
         width: 45%;
-    }
-    .chips {
-        height:80px;
-    }
-}
-@media (max-width: 1000px) {
-    .chips {
-        height:80px;
     }
 }
 @media (max-width: 600px) {
