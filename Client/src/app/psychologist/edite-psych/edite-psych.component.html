@@ -8,23 +8,33 @@
       <mat-card class="psych" *ngFor="let psych of psychologists; let i = index" style="top:20px">
     <mat-form-field>
         <!-- <input matInput placeholder="Product's name" name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name"> -->
-      <input matInput placeholder="firstName" name="firstName" id="firstName" hintLabel= {{psych.firstName}} [(ngModel)]="formInput.name">
+        <span style="font-weight: bold">firstName:</span>
+        <span>{{psych.firstName}}</span>
+        <input matInput placeholder="firstName" name="firstName" id="firstName" [(ngModel)]="formInput.name">
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput placeholder="lastName" name="lastName" id="lastName" hintLabel= {{psych.lastName}} [(ngModel)]="formInput.name">
+        <span style="font-weight: bold">lastName:</span>
+        <span>{{psych.lastName}}</span>
+      <input matInput placeholder="lastName" name="lastName" id="lastName"  [(ngModel)]="formInput.name">
     </mat-form-field>
     
     <mat-form-field>
-        <input matInput placeholder="phone" name="phone" id="phone" hintLabel= {{psych.phone}} [(ngModel)]="formInput.name">
+        <span style="font-weight: bold">phone:</span>
+        <span>{{psych.phone}}</span>
+        <input matInput placeholder="phone" name="phone" id="phone"  [(ngModel)]="formInput.name">
       </mat-form-field>
 
       <mat-form-field>
-          <input matInput placeholder="address" name="address" id="address" hintLabel= {{psych.address}} [(ngModel)]="formInput.name">
+          <span style="font-weight: bold">address:</span>
+        <span>{{psych.address}}</span>
+          <input matInput placeholder="address" name="address" id="address"  [(ngModel)]="formInput.name">
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput placeholder="email" name="email" id="email" hintLabel= {{psych.email}} [(ngModel)]="formInput.name">
+            <span style="font-weight: bold">email:</span>
+        <span>{{psych.email}}</span>
+            <input matInput placeholder="email" name="email" id="email"  [(ngModel)]="formInput.name">
           </mat-form-field>
 
           <!-- <li>
@@ -37,12 +47,16 @@
             </li> -->
 
           <mat-form-field>
-              <input matInput placeholder="daysOff" name="daysOff" id="daysOff" hintLabel= {{psych.daysOff}} 
+              <span style="font-weight: bold">daysOff:</span>
+              <span>{{psych.daysOff}}</span>
+              <input matInput placeholder="daysOff" name="daysOff" id="daysOff" 
               [(ngModel)]="formInput.name">
             </mat-form-field>
 
             <mat-form-field>
-                <input matInput placeholder="priceRange" name="priceRange" id="priceRange" hintLabel= {{psych.priceRange}} [(ngModel)]="formInput.name">
+                <span style="font-weight: bold">priceRange:</span>
+                <span>{{psych.priceRange}}</span>
+                <input matInput placeholder="priceRange" name="priceRange" id="priceRange"  [(ngModel)]="formInput.name">
               </mat-form-field>
 
     <mat-card-actions>

@@ -43,6 +43,15 @@ export class EditePsychComponent implements OnInit {
       createdAt: new Date,
     };
 
+    // if (((<HTMLInputElement>document.getElementById('firstName')).value) === ''){
+    //   firstname : psych.firstName;
+    // }
+    
+    //   || ((<HTMLInputElement>document.getElementById('description')).value) === ''
+    //   || ((<HTMLInputElement>document.getElementById('price')).value) === ''
+    //   || ((<HTMLInputElement>document.getElementById('name')).value) === '') {
+    // }
+
   }
 
 }
