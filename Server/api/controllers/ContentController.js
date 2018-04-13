@@ -381,8 +381,6 @@ module.exports.createContent = function (req, res, next) {
 
 var handleAdminUpdate = function (req, res, next) {
     req.body.approved = true;
-    req.body.touchDate = moment.toDate();
-    req.body.creator = req.user.username;
     Content.findByIdAndUpdate(req.body._id, req.body, {
         new: true,
         overwrite: true
@@ -432,7 +430,7 @@ var handleNonAdminUpdate = function (req, res, next) {
 };
 module.exports.updateContent = function (req, res, next) {
     delete req.body.approved;
-    req.body.touchDate = moment.toDate();
+    req.body.touchDate = moment().toDate();
     req.body.creator = req.user.username;
     if (req.user.isAdmin) {
         return handleAdminUpdate(req, res, next);
