@@ -208,6 +208,8 @@ module.exports = function (passport) {
   // Create new Content
   router.post('/content', isAuthenticated, contentController.createContent);
 
+  // Edit content
+  router.patch('/content', isAuthenticated, contentController.updateContent);
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
