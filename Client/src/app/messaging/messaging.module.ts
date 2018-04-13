@@ -11,6 +11,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material';
 
 @NgModule({
   providers: [MessageService, AuthService, MatDialog],
@@ -20,6 +21,7 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     MatTableModule,
     MatTabsModule,
+    MatIconModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatDialogModule,

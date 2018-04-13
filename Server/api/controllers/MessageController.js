@@ -1,3 +1,8 @@
+/* eslint-disable max-len */
+/* eslint-disable max-statements */
+/* eslint-disable object-shorthand */
+/* eslint-disable complexity */
+
 var mongoose = require('mongoose');
 var moment = require('moment');
 var Validations = require('../utils/validators');
@@ -114,4 +119,31 @@ module.exports.deleteMessage = function(req, res, next) {
       });
   });
  };
+
+ module.exports.block = function(req, res, next) {
+   var blocked = req.params.blocked;
+     console.log('username of blocked: ', blocked);
+    console.log('ID of user is: ', req.body._id);
+     User.findByIdAndUpdate(
+       req.body._id, { $push: { 'blocked': blocked } },
+      { new: true }, function (err, updatedob) {
+      if (err) {
+            console.log('entered the error stage of update');
+
+          return res.status(402).json({
+              data: null,
+              msg: 'error occurred during addition of blocked user to array , user is:' +
+              req.body.username + 'Blocked is: ' + blocked
+          });
+      }
+      console.log('status is 200');
+      
+      return res.status(200).json({
+       data: null,
+       err: null,
+       msg: 'Blocked user'
+      });
+  }
+ );
+};
 

@@ -36,9 +36,16 @@
 
               <ng-container matColumnDef="delete">
                 <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let message"> <button mat-raised-button (click)="deleteMessage(message)">Delete</button></mat-cell>
+                <mat-cell *matCellDef="let message"> <button class="btn" (click)="deleteMessage(message)">Delete</button></mat-cell>
               </ng-container>
           
+
+              <ng-container matColumnDef="block">
+                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                <mat-cell *matCellDef="let message">  <button class="btn"
+                    class="btn" (click)="block(message)">Block</button></mat-cell>
+         </ng-container>
+
               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
               <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
@@ -67,9 +74,14 @@
 
               <ng-container matColumnDef="delete">
                   <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                  <mat-cell *matCellDef="let msg"> <button mat-raised-button (click)="deleteMessage(msg)">Delete</button></mat-cell>
+                  <mat-cell *matCellDef="let msg"> <button class="btn" (click)="deleteMessage(msg)">Delete</button></mat-cell>
                 </ng-container>
-          
+
+                <ng-container matColumnDef="block">
+                  <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                  <mat-cell *matCellDef="let msg">  <button class="btn" (click)="block(msg)" >Block</button></mat-cell>
+                </ng-container>
+
               <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
               <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
             </mat-table>
@@ -80,5 +92,8 @@
 
   
     
+
+<!--    <button class="btn"><i class="fa fa-trash"></i> Trash</button> -->
+
 
   

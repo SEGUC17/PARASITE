@@ -225,6 +225,8 @@ module.exports = function (passport) {
   //Delete message
   router.delete('/message/:id', messageController.deleteMessage);
 
+  //Blocking users from messaging
+  router.patch('/message/block/:blocked', messageController.block);
   //------------------- End of Messaging Module Endpoints-----------//
 
 

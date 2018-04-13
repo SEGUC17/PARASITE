@@ -21,9 +21,11 @@ export class MessagingComponent implements OnInit {
   div: Boolean; // controls appearance of a div notifying the user that they can't access messaging (in case the logged in user is a child)
   inbox: any[];
   sent: any[];
-  displayedColumns = ['sender', 'body', 'sentAt', 'delete'];
-  displayedColumns1 = ['recipient', 'body', 'sentAt', 'delete'];
-
+  blockedUser: any;
+  sender: any;
+  receipient: any;
+  displayedColumns = ['sender', 'body', 'sentAt', 'delete', 'block'];
+  displayedColumns1 = ['recipient', 'body', 'sentAt', 'delete', 'block'];
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
 
   // opening the send dialog (on pressing the compose button)
@@ -40,9 +42,11 @@ export class MessagingComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['username', 'isChild'];
+    const userDataColumns = ['_id', 'username', 'isChild'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
+      console.log(self.currentUser.username);
+      console.log(self.currentUser._id);
       if (self.currentUser.isChild) {
         self.div = true; // logged in user is a child
       } else {
@@ -78,4 +82,25 @@ export class MessagingComponent implements OnInit {
     this.messageService.deleteMessage(message).subscribe(function (res) {
     });
   }
-}
+
+// blocking the reciever of the message from messaging the current user again
+  block(message): void {
+    const self = this;
+    //  if the currentUser is the sender then the receipent is the person to block
+   if ( message.recipient !== this.currentUser.username ) {
+      console.log('receipient is:' + message.recipient);
+      this.blockedUser = message.recipient;
+      // else the recipient is the currentUser & the sender is the person to block
+    } else {
+      console.log(message.sender);
+        this.blockedUser = message.sender;
+  }
+    console.log('blocked user is:' + this.blockedUser);
+    this.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
+    if ( res.data) {
+    alert(res.msg);
+    }
+  });
+ }// end method
+
+}// end class
