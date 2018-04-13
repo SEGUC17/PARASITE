@@ -191,7 +191,7 @@ export class StudyPlanComponent implements OnInit {
   }
 
   edit(): void {
-    alert('Implement Edit Study Plan!');
+    this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.username]);
   }
 
 }

@@ -83,17 +83,33 @@ export class StudyPlanEditViewComponent implements OnInit {
       this._id = params.id;
     });
     if (this.type === 'edit') {
-      this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
-        .subscribe(res => {
-          this.studyPlan = res.data;
-          this.title = this.studyPlan.title;
-          this.events = this.studyPlan.events;
-          this.description = this.studyPlan.description;
-          for (let index = 0; index < this.events.length; index++) {
-            this.events[index].start = new Date(this.events[index].start);
-            this.events[index].end = new Date(this.events[index].end);
-          }
-        });
+      if (this.username) {
+        this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
+          .subscribe(res => {
+            this.studyPlan = res.data;
+            this.title = this.studyPlan.title;
+            this.events = this.studyPlan.events;
+            this.description = this.studyPlan.description;
+            this.editorContent = this.studyPlan.description;
+            for (let index = 0; index < this.events.length; index++) {
+              this.events[index].start = new Date(this.events[index].start);
+              this.events[index].end = new Date(this.events[index].end);
+            }
+          });
+      } else {
+        this.studyPlanService.getPublishedStudyPlan(this._id)
+          .subscribe(res => {
+            this.studyPlan = res.data;
+            this.title = this.studyPlan.title;
+            this.events = this.studyPlan.events;
+            this.description = this.studyPlan.description;
+            this.editorContent = this.studyPlan.description;
+            for (let index = 0; index < this.events.length; index++) {
+              this.events[index].start = new Date(this.events[index].start);
+              this.events[index].end = new Date(this.events[index].end);
+            }
+          });
+      }
     }
   }
 
@@ -175,6 +191,10 @@ export class StudyPlanEditViewComponent implements OnInit {
         this.router.navigate(['/profile']);
       }
     );
+  }
+
+  saveChanges(): void {
+    alert('Work in progress...');
   }
 
   onContentChanged(quill) {
