@@ -261,7 +261,6 @@ module.exports.commentOnActivity = function (req, res, next) {
      * author: Wessam Ali
      */
 
-    var valid = typeof req.body.text === 'string';
     var user = req.user;
     var activityId = req.params.activityId;
 
