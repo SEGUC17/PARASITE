@@ -849,3 +849,88 @@ module.exports.deleteContentComment = function (req, res, next) {
         });
     });
 };
+
+module.exports.deleteContentCommentReply = function (req, res, next) {
+
+    /*
+     *  Endpoint to retreive comments detail of content
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var contentId = req.params.contentId;
+    var commentId = req.params.commentId;
+    var replyId = req.params.replyId;
+
+    Content.findById(contentId, function (err, content) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!content) {
+            return res.status(404).json({
+                data: null,
+                err: 'Content doesn\'t exist',
+                msg: null
+            });
+        }
+
+        var isContentCreator = user.username === content.creator;
+
+        var comment = content.discussion.filter(function (comm) {
+            return comm._id == commentId;
+        }).pop();
+
+        if (!comment) {
+            return res.status(404).json({
+                data: null,
+                err: 'Comment doesn\'t exist',
+                msg: null
+            });
+        }
+
+        var isCommentCreator = comment.creator === user.username;
+
+        var reply = comment.replies.filter(function (rep) {
+            return rep._id == replyId;
+        });
+
+        if (!reply) {
+            return res.status(404).json({
+                data: null,
+                err: 'reply doesn\'t exist',
+                msg: null
+            });
+        }
+
+        var isReplyCreator = reply.creator === user.username;
+
+        if (
+            !user.isAdmin &&
+            !isContentCreator &&
+            !isCommentCreator &&
+            !isReplyCreator
+        ) {
+            return res.status(403).json({
+                data: null,
+                err: 'You can\'t delete this comment',
+                msg: null
+            });
+        }
+
+        comment.replies.id(replyId).remove();
+
+        content.save(function (err2) {
+            if (err2) {
+                return next(500);
+            }
+
+            return res.status(204).json({
+                data: null,
+                err: null,
+                msg: 'comment deleted successfully'
+            });
+        });
+    });
+};
