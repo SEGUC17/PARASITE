@@ -3,7 +3,7 @@
     <mat-card-title>{{mockReq.name}}</mat-card-title>
     <mat-card-subtitle>Sold by {{mockReq.seller}}</mat-card-subtitle>
   </mat-card-header>
-  {{mockReq.image}}
+  <img mat-card-image src="{{mockReq.image}}" alt="Product photo">
   <mat-card-content>
     <h3>This item is up for {{mockReq.acquiringType}}</h3>
 

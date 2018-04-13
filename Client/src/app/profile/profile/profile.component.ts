@@ -139,8 +139,7 @@ export class ProfileComponent implements OnInit {
     //     image: 'imageMaher.com',
     //     creator: '5ac12591a813a63e419ebce5'
     // }
-    this._ProfileService.makeContributerValidationRequest({}
-    ).subscribe(function (res) {
+    this._ProfileService.makeContributerValidationRequest({}).subscribe(function (res) {
       console.log(res);
     });
   }
