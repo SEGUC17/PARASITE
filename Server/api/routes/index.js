@@ -103,7 +103,8 @@ module.exports = function (passport) {
   router.delete(
     '/activities/:activityId/comments/:commentId',
     isAuthenticated,
-    ActivityController.deleteActivityComment
+    ActivityController.prepareActivity,
+    DiscussionController.deleteComment
   );
   router.delete(
     '/activities/:activityId/comments/:commentId/replies/:replyId',

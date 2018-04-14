@@ -131,8 +131,8 @@ module.exports.postCommentReply = function(req, res, next) {
         text: req.body.text
     });
 
-    object.save(function (err2) {
-        if (err2) {
+    object.save(function (err) {
+        if (err) {
             return res.status(422).json({
                 data: null,
                 err: 'reply can\'t be empty',
@@ -144,6 +144,57 @@ module.exports.postCommentReply = function(req, res, next) {
             data: comment.replies.pop(),
             err: null,
             msg: 'reply created successfully'
+        });
+    });
+};
+
+module.exports.deleteComment = function (req, res, next) {
+
+    /*
+     * Middleware for deleting on comments
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var isAdmin = user && user.isAdmin;
+    var object = req.object;
+    var isActivityCreator = user && object.creator === user.username;
+    var commentId = req.params.commentId;
+
+    var comment = object.discussion.filter(function (comm) {
+        return comm._id == commentId;
+    }).pop();
+
+    if (!comment) {
+        return res.status(404).json({
+            data: null,
+            err: 'Comment doesn\'t exist',
+            msg: null
+        });
+    }
+
+    var isCommentCreator = comment.creator === user.username;
+
+    if (!isAdmin && !isActivityCreator && !isCommentCreator) {
+        return res.status(403).json({
+            data: null,
+            err: 'You can\'t delete this comment',
+            msg: null
+        });
+    }
+
+    comment.remove();
+
+    object.save(function (err) {
+        if (err) {
+            return next(500);
+        }
+
+        return res.status(204).json({
+            data: null,
+            err: null,
+            msg: 'comment deleted successfully'
         });
     });
 };
