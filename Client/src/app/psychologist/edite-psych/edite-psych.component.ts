@@ -18,7 +18,19 @@ export class EditePsychComponent implements OnInit {
   user: any = {};
 
   constructor(private psychologistService: PsychologistService,   public dialogRef: MatDialogRef<EditePsychComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {  
+       const userDataColumns = ['firstname', 'lastname','email','phone', 'address' , 'priceRange','daysOff'];
+    let self = this;
+    // this.psychologistService.getPsychologists(userDataColumns).subscribe(function (res) {
+    //   if (res.msg === 'Data Retrieval Is Successful!') {
+    //     console.log('Got here');
+    //     self.user = res.data;
+    //     console.log(self.user);
+    //   }
+    // }
+  );
+
+  }
 
   ngOnInit() { 
   }
@@ -43,14 +55,32 @@ export class EditePsychComponent implements OnInit {
       createdAt: new Date,
     };
 
-    // if (((<HTMLInputElement>document.getElementById('firstName')).value) === ''){
-    //   firstname : psych.firstName;
-    // }
+    if (((<HTMLInputElement>document.getElementById('firstName')).value) === ''){
+      firstname : this.user.firstName;
+    }
+    if (((<HTMLInputElement>document.getElementById('lastName')).value) === ''){
+      lastName : this.user.lastName;
+    }
+    if (((<HTMLInputElement>document.getElementById('phone')).value) === ''){
+      lastName : this.user.phone;
+    }
+    if (((<HTMLInputElement>document.getElementById('address')).value) === ''){
+      lastName : this.user.address;
+    }
+    if (((<HTMLInputElement>document.getElementById('email')).value) === ''){
+      lastName : this.user.email;
+    }
+    if (((<HTMLInputElement>document.getElementById('daysOff')).value) === ''){
+      lastName : this.user.daysOff;
+    }
+    if (((<HTMLInputElement>document.getElementById('priceRange')).value) === ''){
+      lastName : this.user.priceRange;
+    }
     
-    //   || ((<HTMLInputElement>document.getElementById('description')).value) === ''
-    //   || ((<HTMLInputElement>document.getElementById('price')).value) === ''
-    //   || ((<HTMLInputElement>document.getElementById('name')).value) === '') {
-    // }
+    //call deletePsychologist() from psychologist component 
+    //call submitReq() from add-psych component
+    
+   
 
   }
 

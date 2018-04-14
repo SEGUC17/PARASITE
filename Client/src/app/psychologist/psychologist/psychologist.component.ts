@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material';
 import { EditePsychComponent } from '../edite-psych/edite-psych.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-psychologist',
@@ -13,6 +15,8 @@ import { Router } from '@angular/router';
 export class PsychologistComponent implements OnInit {
 
   psychologists: any[];
+  formInput = <any>{};
+  
 
   constructor(private psychologistService: PsychologistService,public dialog: MatDialog, public router: Router,
                public snackBar: MatSnackBar) { }
@@ -24,7 +28,7 @@ export class PsychologistComponent implements OnInit {
     });
   }
   deletePsychologist(index: any): void {
-    const self = this;
+    const self = this;  
     this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function(res) {
       if (res.err != null) {
         /* if an error returned notify the user to try again */
@@ -42,6 +46,11 @@ export class PsychologistComponent implements OnInit {
   }
   goToEdite() {
     const self = this;
+    let idd = {
+      idd: this.formInput.idd,
+    };
+    //get info of idd = input??how
+
     let dialogRef = self.dialog.open(EditePsychComponent, {
       width: '850px',
       height: '550px',
