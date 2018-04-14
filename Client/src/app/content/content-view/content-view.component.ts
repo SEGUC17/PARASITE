@@ -146,4 +146,8 @@ export class ContentViewComponent implements OnInit {
     this.viewedReplies[i] = !this.viewedReplies[i];
   }
 
+  // admin or owner user of content wishes to edit the content
+  redirectToContentEdit(): void {
+    this.router.navigateByUrl('/content-edit/' + this.content._id);
+  }
 }
