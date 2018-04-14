@@ -14,7 +14,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {MatSliderModule,
-MatSlideToggleModule, MatIconModule, MatRadioModule} from '@angular/material';
+MatSlideToggleModule, MatIconModule, MatRadioModule, MatChipsModule} from '@angular/material';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 @NgModule({
   imports: [
@@ -23,6 +23,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MarketRoutingModule,
     MatButtonModule,
     MatCardModule,
+    MatChipsModule,
     MatDialogModule,
     MatInputModule,
     MatOptionModule,

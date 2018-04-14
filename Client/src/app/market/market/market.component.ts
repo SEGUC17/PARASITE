@@ -24,11 +24,19 @@ export class MarketComponent implements OnInit {
   selectedName: String;
   selectedPrice;
   selectedSeller;
+  writtenPrice;
+  writtenName;
   numberOfProducts: number;
   numberOfUserProducts: number;
   userItems: Product[];
   userItemsCurrentPage: number;
-
+  removable = true;
+  seller = 'all';
+  sort: string;
+  sorts = [
+    'latest',
+    'cheapest'
+  ];
   constructor(public dialog: MatDialog, public router: Router,
     private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) { }
 
@@ -81,13 +89,14 @@ export class MarketComponent implements OnInit {
   // restrict the products to the ones following the delimiters given
   getPage(): void {
     const self = this;
-    if ( self.selectedName ) {
+    if (self.selectedName) {
       self.selectedName = self.selectedName.trim();
     }
     const limiters = {
       price: self.selectedPrice + 1,
       name: self.selectedName,
-      seller: self.selectedSeller
+      seller: self.selectedSeller,
+      sort: self.sort
     };
     self.marketService.getMarketPage(self.entriesPerPage,
       self.currentPageNumber, limiters)
@@ -101,20 +110,9 @@ export class MarketComponent implements OnInit {
   // restrict the products to the ones following the delimiters given
   firstPage(): void {
     const self = this;
-    if ( self.selectedName ) {
-      self.selectedName = self.selectedName.trim();
-    }
-    const limiters = {
-      price: self.selectedPrice + 1,
-      name: self.selectedName,
-      seller: self.selectedSeller
-    };
-    this.marketService.numberOfMarketPages(limiters)
-      .subscribe(function (numberOfProducts) {
-        self.numberOfProducts = numberOfProducts.data;
-        console.log(numberOfProducts.data);
-        self.getPage();
-      });
+    self.currentPageNumber = 1;
+    self.products = [];
+    self.getPage();
   }
 
   // gets the totals number of products owned by the user
@@ -145,30 +143,52 @@ export class MarketComponent implements OnInit {
         self.userItems = products.data.docs;
       });
   }
-  seller(x: number): void {
+  applySeller(x: number): void {
     let self = this;
-    if ( x === 0 ) {
-      self.selectedSeller = undefined;
+    if (x === 0) {
+      self.selectedSeller = null;
     } else {
       self.selectedSeller = this.user.username;
     }
     self.firstPage();
   }
-  // clears search critirea
-  clearLimits(): void {
-    this.selectedName = undefined;
-    this.selectedPrice = undefined;
-    this.firstPage();
+  applyPrice(): void {
+    let self = this;
+    self.selectedPrice = self.writtenPrice;
+    self.firstPage();
   }
+  applyName(): void {
+    let self = this;
+    self.selectedName = self.writtenName;
+    self.firstPage();
+  }
+  applySort(x: string): void {
+    let self = this;
+    self.sort = x;
+    self.firstPage();
+  }
+  remove(toRemove: string): void {
+    let self = this;
+    if (toRemove === 'seller') {
+      self.selectedSeller = null;
+      self.seller = 'all';
+    } else if (toRemove === 'price') {
+      self.selectedPrice = null;
+      self.writtenPrice = null;
+    } else if (toRemove === 'name') {
+      self.selectedName = null;
+      self.writtenName = null;
+    } else {
+      self.sort = null;
+    }
+    self.firstPage();
+  }
+
   onScroll(): void {
-    console.log('scrolled');
     this.currentPageNumber += 1;
     this.getPage();
   }
-  onPaginateChangeMarket(event): void {
-    this.currentPageNumber = event.pageIndex + 1;
-    this.getPage();
-  }
+
   onPaginateChangeMyItems(event): void {
     this.userItemsCurrentPage = event.pageIndex + 1;
     this.getUserPage();

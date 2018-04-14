@@ -20,6 +20,25 @@ var limits = function (toFind) {
 
     return limiters;
 };
+var options = function (toFind, params) {
+
+    var ret = {
+
+        limit: Number(params.entriesPerPage),
+        page: Number(params.pageNumber),
+        sort: {}
+    };
+    if (toFind.sort) {
+        if (toFind.sort === 'cheapest') {
+            ret.sort.price = 1;
+        }
+        if (toFind.sort === 'latest') {
+            ret.sort.createdAt = -1;
+        }
+    }
+
+    return ret;
+};
 
 // get number of products in the DB
 // restricted by delimiters given as a JSON object in the URL
@@ -75,13 +94,13 @@ module.exports.getMarketPage = function (req, res, next) {
     }
     // extract the limiters out of the header
     var limiters = limits(toFind);
+    // get the search options
+    var opt = options(toFind, req.params);
     // get the products by pagination
     Product.paginate(
         limiters,
-        {
-            limit: Number(req.params.entriesPerPage),
-            page: Number(req.params.pageNumber)
-        }, function (err, products) {
+        opt,
+        function (err, products) {
             if (err) {
                 return next(err);
             }
@@ -249,4 +268,4 @@ module.exports.evaluateRequest = function (req, res, next) {
             msg: null
         });
     }
-                };
+};
