@@ -29,8 +29,7 @@ export class MarketComponent implements OnInit {
   writtenPrice;
   writtenName;
   userRequests: Product[];
-  removable = true;
-  seller: string;
+  seller = 'all';
   sort: string;
   sorts = [
     'latest',
