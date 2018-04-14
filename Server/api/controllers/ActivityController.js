@@ -259,7 +259,6 @@ module.exports.commentOnActivity = function (req, res) {
      *
      * author: Wessam Ali
      */
-
     var user = req.user;
     var activityId = req.params.activityId;
 
@@ -278,7 +277,6 @@ module.exports.commentOnActivity = function (req, res) {
             ]
         };
     }
-
     Activity.findOneAndUpdate(
         filter,
         {
