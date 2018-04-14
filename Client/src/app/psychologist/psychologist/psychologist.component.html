@@ -1,7 +1,7 @@
 <div align = "center">
 <mat-card style="width: 98%; top:10px; padding: 5%">
   <div align = "left">
-    <div class="row">
+    <div class="row"> 
   
   <span id="header"><mat-icon id="header_icon">face</mat-icon>Verified Psychologists</span>
   </div>
@@ -47,8 +47,17 @@
     </mat-card-content>
       <mat-card-footer id="footer" style="padding-bottom:5px">
           <button mat-icon-button id="delete" align="right" (click)="deletePsychologist(i)"> <mat-icon>close</mat-icon></button>
-          <button mat-icon-button id="edit" align="right" > <mat-icon>edit</mat-icon></button>
+          <mat-form-field>
+              <input matInput placeholder="idd" type="number" name="idd" id="idd" [(ngModel)]="formInput.idd"  class="example-right-align">       
+            </mat-form-field>
+          <button mat-icon-button id="edit" align="right" (click)="this.goToEdite()"> <mat-icon>Edite</mat-icon></button>
       </mat-card-footer>
+      
+
+
+
+
+
     </mat-card>
   </div> </div>
 </mat-card>

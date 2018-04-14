@@ -3,8 +3,11 @@ import { PsychologistService } from '../psychologist.service';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AddPsychRequestComponent } from '../add-psych-request/add-psych-request.component';
+import { EditePsychComponent } from '../edite-psych/edite-psych.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-psychologist',
@@ -22,6 +25,8 @@ export class PsychologistComponent implements OnInit {
               private authService: AuthService,
               private router: Router,
               private dialog: MatDialog) { }
+  formInput = <any>{};
+
 
   getPsychologists(): void {
     let self = this;
@@ -44,7 +49,7 @@ export class PsychologistComponent implements OnInit {
   deletePsychologist(index: any): void {
     const self = this;
     if (this.admin) {
-      this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function(res) {
+      this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
         if (res.err != null) {
           /* if an error returned notify the user to try again */
           self.snackBar.open('Something went wrong, please try again.', '', {
@@ -74,6 +79,24 @@ export class PsychologistComponent implements OnInit {
       }
       self.getPsychologists();
     });
-
   }
+  goToEdite() {
+    const self = this;
+    let idd = {
+      idd: this.formInput.idd,
+    };
+    // get info of idd = input??how
+
+    let dialogRef = self.dialog.open(EditePsychComponent, {
+      width: '850px',
+      height: '550px',
+      data: { market: self , id: idd }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+
 }
+
