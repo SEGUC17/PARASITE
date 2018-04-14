@@ -34,6 +34,8 @@ var valiateCategoryAndSection = function (
                 should.have.property('category', expectedCategory);
             res.body.data.docs[counter].
                 should.have.property('section', expectedSection);
+            res.body.data.docs[counter].
+                should.not.have.property('discussion');
         }
     } else if (expectedCategory !== 'NoCat') {
         // check category only
