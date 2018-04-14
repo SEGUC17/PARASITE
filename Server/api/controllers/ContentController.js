@@ -548,17 +548,3 @@ module.exports.createSection = function (req, res, next) {
     );
 
 };
-module.exports.getContent = function (req, res, next) {
-    Content.find({}).
-        exec(function (err, contents) {
-            if (err) {
-                return next(err);
-            }
-
-            return res.status(200).json({
-                data: contents,
-                err: null,
-                msg: 'Contents retrieved successfully.'
-            });
-        });
-};
