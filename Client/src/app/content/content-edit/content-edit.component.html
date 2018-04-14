@@ -41,7 +41,7 @@
                             <mat-icon matChipRemove>cancel</mat-icon>
                         </mat-chip>
                         <input placeholder="New tag ..." name="tags" [matChipInputFor]="tagList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" (blur)="add($event)" />
+                            [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)" (blur)="add($event)" />
                     </mat-chip-list>
                 </mat-form-field>
             </mat-card>
