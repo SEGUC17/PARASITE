@@ -5,7 +5,7 @@ import { MessagingRoutingModule } from './messaging-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from './messaging.service';
 import { AuthService } from '../auth/auth.service';
-import { MatTableModule, MatTab, MatTabsModule, MatDialogModule, MatButtonModule, MatCardModule } from '@angular/material';
+import { MatTableModule, MatTab, MatTabsModule, MatDialogModule, MatButtonModule, MatCardModule, MatListModule } from '@angular/material';
 import { SendDialogComponent } from './send-dialog/send-dialog.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,7 +30,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatChipsModule
+    MatChipsModule,
+    MatListModule
   ],
   declarations: [MessagingComponent, SendDialogComponent, ReplyDialogComponent],
   entryComponents: [SendDialogComponent, ReplyDialogComponent]

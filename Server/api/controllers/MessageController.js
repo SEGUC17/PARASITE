@@ -32,6 +32,7 @@ module.exports.sendMessage = function(req, res, next) {
         msg: 'User exists.'
     });
 });*/
+
 // checking that the sender is not on the recipient's blocklist
 console.log('sender is: ', req.body.msg.sender);
 console.log('array is: ', req.body.list);
@@ -51,7 +52,6 @@ var list=req.body.list;
     });
    };
   };
-
 
   // Security Check
   delete req.body.msg.sentAt;

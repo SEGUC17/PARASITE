@@ -10,7 +10,14 @@
       <br/>
       <br/>
   </div>
-  
+
+  <!-- <div style="float:right; margin-left:200px;">
+      <mat-list role="list" class="list">
+          <mat-list-item role="listitem">Item 1</mat-list-item>
+          <mat-list-item role="listitem">Item 2</mat-list-item>
+          <mat-list-item role="listitem">Item 3</mat-list-item>
+        </mat-list>
+  </div> -->
 
   <div *ngIf="!div">
   <mat-tab-group>
@@ -93,11 +100,6 @@
                 <mat-cell *matCellDef="let msg"> {{msg.sentAt|date}} </mat-cell>
               </ng-container>
 
-              <ng-container matColumnDef="reply">
-                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let msg"> <button class="btn" (click)="openReplyDialog(msg)">Reply</button></mat-cell>
-              </ng-container>
-
               <ng-container matColumnDef="delete">
                   <mat-header-cell *matHeaderCellDef> </mat-header-cell>
                   <mat-cell *matCellDef="let msg"> <button class="btn" (click)="deleteMessage(msg)">Delete</button></mat-cell>
@@ -115,6 +117,8 @@
       </mat-tab>
     </mat-tab-group>
     </div>
+
+
 
 
 

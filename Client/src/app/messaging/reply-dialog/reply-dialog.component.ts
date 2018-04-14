@@ -20,6 +20,7 @@ export class ReplyDialogComponent implements OnInit {
   div3: Boolean;
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
+
   constructor(public dialogRef: MatDialogRef<ReplyDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService) {}
 
@@ -45,11 +46,13 @@ export class ReplyDialogComponent implements OnInit {
     } else {
        // create a message object with the info the user entered
        this.msg = {'body': this.Body, 'recipient': this.data.replyTo, 'sender': this.currentUser.username};
+
        this.authService.getAnotherUserData(this.UserList, this.data.replyTo.toString()).subscribe((user)  => {
        const pack = {
         list: user.data.blocked,
         msg: this.msg
       };
+
        // make a POST request using messaging service
        this.messageService.send(this.msg, (pack))
        .subscribe(function() {

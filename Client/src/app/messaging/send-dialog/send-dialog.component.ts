@@ -24,6 +24,7 @@ export class SendDialogComponent implements OnInit {
   currentUser: any; // currently logged in user
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
+
   constructor(public dialogRef: MatDialogRef<SendDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService) { }
 
@@ -60,19 +61,19 @@ export class SendDialogComponent implements OnInit {
         // retrieveing the reciepient's info as an object
         console.log(this.Receiver.toString());
         this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user)  => {
-        // make a POST request using messaging service
         console.log('length of array is: ', user.data.blocked.length);
         // compressing the block list and message into one object
         const pack = {
           list: user.data.blocked,
           msg: this.msg
         };
+
+        // make a POST request using messaging service
         this.messageService.send(this.msg, (pack))
          .subscribe(function(res) {
           self.div3 = true;
           self.div1 = false;
           self.div2 = false;
-          alert(res.msg);
          });
         });
       }// end 2nd else
