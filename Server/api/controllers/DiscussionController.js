@@ -44,3 +44,49 @@ module.exports.getComment = function (req, res) {
         msg: 'Comment retreived successfully'
     });
 };
+
+module.exports.postComment = function(req, res) {
+
+    /*
+     * Middleware function for creating a comment in
+     * a content or an activity
+     *
+     * @author: Wessam Ali
+     */
+
+    var user = req.user;
+    var isVerified = req.verified;
+    var isAdmin = user && user.isAdmin;
+    var object = req.object;
+    var isCreator = user && object.creator === user.username;
+
+    if (!isVerified && !isAdmin && !isCreator) {
+
+        return res.status(404).json({
+            data: null,
+            err: 'This page isn\'t verified by admin yet',
+            msg: null
+        });
+    }
+
+    object.discussion.push({
+        creator: user.username,
+        text: req.body.text
+    });
+
+    object.save(function(err, obj) {
+        if (err) {
+            return res.status(422).json({
+                data: null,
+                err: 'Comment can\'t be empty',
+                msg: null
+            });
+        }
+
+        return res.status(201).json({
+            data: obj.discussion.pop(),
+            err: null,
+            msg: null
+        });
+    });
+};

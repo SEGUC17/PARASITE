@@ -87,7 +87,12 @@ module.exports = function (passport) {
     ActivityController.prepareActivity,
     DiscussionController.getComment
   );
-  router.post('/activities/:activityId/comments', isAuthenticated, ActivityController.commentOnActivity);
+  router.post(
+    '/activities/:activityId/comments',
+    isAuthenticated,
+    ActivityController.prepareActivity,
+    DiscussionController.postComment
+  );
   router.post(
     '/activities/:activityId/comments/:commentId/replies',
     isAuthenticated,
