@@ -2,7 +2,18 @@
     margin-top: 2%;
     height: 90%;
 }
-
+.comment-container {
+    margin-top: 4%;
+}
+.example-container {
+    display: flex;
+    flex-direction: column;
+}
+.example-header-image {
+background-image:url(../../../assets/images/profile-view/defaultPP.png);
+background-size: cover;
+}
+    
 .title {
     word-wrap: break-word;
     text-align: center;

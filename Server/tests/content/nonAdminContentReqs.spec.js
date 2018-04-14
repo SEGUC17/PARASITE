@@ -131,44 +131,7 @@ describe('View ContentRequest tests(Unauthorized)', function () {
         'shouldn\'t get anything, should get unauthorized error' +
         '(trying to respond to requests)',
         function (done) {
-            var ContReq = new contReq({
-                _id: '5aca0d4d8865fc24fe140711',
-                contentType: 'idea',
-                createdOn: '1/1/1111',
-                creator: 'salma',
-                requestType: 'create',
-                status: 'pending'
-            });
-            ContReq.save(function (err) {
-                if (err) {
-                    console.log(err);
-                }
-            });
-            chai.request(server).
-                patch('/api/admin/RespondContentRequest/' +
-                    '5aca0d4d8865fc24fe140711').
-                send({ str: 'disapproved' }).
-                set('Authorization', nonAdminToken).
-                end(function (err, res) {
-                    console.log(err);
-                    if (!err === null) {
-                        console.log('respond to Request err msg is: ' +
-                            err);
-                    }
-                    should.exist(res);
-                    res.should.have.status(403);
-                    res.body.err.should.be.a('string');
-                    expect(res.body.data).to.equal(null);
-                    expect(res.body.err).to.equal('Unauthorized action');
-                    done();
-                });
-        }
-    );
-    it(
-        'shouldn\'t get anything, should get unauthorized error' +
-        '(trying to change status of Content)',
-        function (done) {
-            var Cont = new cont({
+                var Cont = new cont({
                 _id: '5aca0d4d8865fc24fe140713',
                 approved: false,
                 body: 'this is the body',
@@ -182,17 +145,32 @@ describe('View ContentRequest tests(Unauthorized)', function () {
                 if (err) {
                     console.log(err);
                 }
+
+            var ContReq = new contReq({
+                _id: '5aca0d4d8865fc24fe140711',
+                contentID: '5aca0d4d8865fc24fe140713',
+                contentType: 'idea',
+                createdOn: '1/1/1111',
+                creator: 'salma',
+                requestType: 'create',
+                status: 'pending'
+            });
+            ContReq.save(function (err1) {
+                if (err) {
+                    console.log(err1);
+                }
             });
             chai.request(server).
-                patch('/api/admin/RespondContentStatus/' +
-                    '5aca0d4d8865fc24fe140713').
-                send({ str: true }).
+                patch('/api/admin/RespondContentRequest/' +
+                    '5aca0d4d8865fc24fe140711/5aca0d4d8865fc24fe140713').
+                send({ str: 'disapproved' }).
                 set('Authorization', nonAdminToken).
-                end(function (err, res) {
+                end(function (err2, res) {
+                    console.log(err);
                     if (!err === null) {
-                        console.log('respond to content error msg is: ' + err);
+                        console.log('respond to Request err msg is: ' +
+                            err2);
                     }
-                    console.log(res.body);
                     should.exist(res);
                     res.should.have.status(403);
                     res.body.err.should.be.a('string');
@@ -200,9 +178,49 @@ describe('View ContentRequest tests(Unauthorized)', function () {
                     expect(res.body.err).to.equal('Unauthorized action');
                     done();
                 });
-        }
-    );
-});
+        });
+}
+);
+//     it(
+//         'shouldn\'t get anything, should get unauthorized error' +
+//         '(trying to change status of Content)',
+//         function (done) {
+//             var Cont = new cont({
+//                 _id: '5aca0d4d8865fc24fe140713',
+//                 approved: false,
+//                 body: 'this is the body',
+//                 category: 'this is a category',
+//                 creator: 'salma',
+//                 section: 'this is a section',
+//                 title: 'this is a title',
+//                 type: 'idea'
+//             });
+//             Cont.save(function (err) {
+//                 if (err) {
+//                     console.log(err);
+//                 }
+//             });
+//             chai.request(server).
+//                 patch('/api/admin/RespondContentStatus/' +
+//                     '5aca0d4d8865fc24fe140713').
+//                 send({ str: true }).
+//                 set('Authorization', nonAdminToken).
+//                 end(function (err, res) {
+//                     if (!err === null) {
+//                         console.log(
+//                   'respond to content error msg is: ' + err);
+//                     }
+//                     console.log(res.body);
+//                     should.exist(res);
+//                     res.should.have.status(403);
+//                     res.body.err.should.be.a('string');
+//                     expect(res.body.data).to.equal(null);
+//                     expect(res.body.err).to.equal('Unauthorized action');
+//                     done();
+//                 });
+//         }
+//     );
+    });
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
