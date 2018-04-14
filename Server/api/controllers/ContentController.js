@@ -474,7 +474,7 @@ module.exports.createCategory = function (req, res, next) {
     if (typeof req.body.category === 'string') {
         return res.status(422).json({
             data: null,
-            err: 'No category supplied',
+            err: 'category type is invalid',
             msg: null
         });
     }
