@@ -4,13 +4,15 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { Content } from './content';
+import { MatSnackBar } from '@angular/material';
+
 
 @Injectable()
 export class ContentService {
 
   endpoint: String = 'http://localhost:3000/api/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 
   getContentById(id: any): Observable<any> {
     const self = this;
@@ -25,6 +27,14 @@ export class ContentService {
     return this.http.post(self.endpoint + 'content', content)
       .pipe(
         catchError(self.handleError('Create Content'))
+      );
+  }
+
+  updateContent(content: Content): Observable<any> {
+    const self = this;
+    return this.http.patch(self.endpoint + 'content', content)
+      .pipe(
+        catchError(self.handleError('Update Content'))
       );
   }
 
@@ -87,11 +97,12 @@ export class ContentService {
 
   // general error handler
   private handleError<T>(operation = 'operation', result?: T) {
-
+    const self = this;
     return function (error: any): Observable<T> {
 
-      console.error(error); // log to console instead
-
+      self.snackBar.open(operation + ' failed. Please try again later.', 'Undo', {
+        duration: 3000
+      });
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };

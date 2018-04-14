@@ -366,22 +366,24 @@ module.exports.createContent = function (req, res, next) {
 
 var handleAdminUpdate = function (req, res, next) {
     req.body.approved = true;
-    req.body.touchDate = moment.toDate();
-    req.body.creator = req.user.username;
-    Content.findByIdAndUpdate(req.body._id, req.body, {
-        new: true,
-        overwrite: true
-    }, function (err, updatedContent) {
-        if (err) {
-            return next(err);
-        }
+    var id = req.body._id;
+    delete req.body._id;
+    Content.findByIdAndUpdate(
+        id,
+        { $set: req.body },
+        { new: true },
+        function (err, updatedContent) {
+            if (err) {
+                return next(err);
+            }
 
-        return res.status(200).json({
-            data: updatedContent,
-            err: null,
-            mesg: 'retrieved the content successfully'
-        });
-    });
+            return res.status(200).json({
+                data: updatedContent,
+                err: null,
+                mesg: 'retrieved the content successfully'
+            });
+        }
+    );
 };
 
 var handleNonAdminUpdate = function (req, res, next) {
@@ -391,33 +393,36 @@ var handleNonAdminUpdate = function (req, res, next) {
         contentTitle: req.body.title,
         contentType: req.body.type,
         creator: req.user.username,
-        requestType: 'edit'
+        requestType: 'update'
     }, function (requestError, contentRequest) {
         if (requestError) {
             return next(requestError);
         }
-        Content.findByIdAndUpdate(req.body._id, req.body, {
-            new: true,
-            overwrite: true
-        }, function (contentError, updatedContent) {
-            if (contentError) {
-                return next(contentError);
-            }
+        Content.findByIdAndUpdate(
+            req.body._id,
+            { $set: req.body },
+            { new: true },
+            function (contentError, updatedContent) {
+                if (contentError) {
+                    return next(contentError);
+                }
 
-            return res.status(200).json({
-                data: {
-                    content: updatedContent,
-                    request: contentRequest
-                },
-                err: null,
-                msg: 'updated content successfully'
-            });
-        });
+                return res.status(200).json({
+                    data: {
+                        content: updatedContent,
+                        request: contentRequest
+                    },
+                    err: null,
+                    msg: 'updated content successfully'
+                });
+            }
+        );
     });
 };
 module.exports.updateContent = function (req, res, next) {
     delete req.body.approved;
-    req.body.touchDate = moment.toDate();
+    delete req.body.v;
+    req.body.touchDate = moment().toDate();
     req.body.creator = req.user.username;
     if (req.user.isAdmin) {
         return handleAdminUpdate(req, res, next);
@@ -529,7 +534,6 @@ module.exports.createSection = function (req, res, next) {
         { new: true },
         function (updateError, updatedCategory) {
             if (updateError) {
-                console.log(updateError);
 
                 return next(updateError);
             }
@@ -550,7 +554,6 @@ module.exports.getContent = function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            console.log(contents);
 
             return res.status(200).json({
                 data: contents,
