@@ -10,7 +10,7 @@ var psychReqSchema = mongoose.Schema({
     type: Date
   },
   daysOff: { type: [String] },
-  deleteID: {
+  editID: {
     required: false,
     trim: true,
     type: String
@@ -36,7 +36,7 @@ var psychReqSchema = mongoose.Schema({
     default: 'add',
     enum: [
     'add',
-    'delete'
+    'edit'
     ],
     required: false,
     trim: true,
