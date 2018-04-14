@@ -24,7 +24,7 @@ export class EditPsychComponent implements OnInit {
 
   id: String;
 
-  constructor(private psychologistService: PsychologistService,   public dialogRef: MatDialogRef<EditePsychComponent>,
+  constructor(private psychologistService: PsychologistService,   public dialogRef: MatDialogRef<EditPsychComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       // this.oldData = data.product;
       // console.log(this.oldData);
