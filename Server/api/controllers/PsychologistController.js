@@ -6,6 +6,30 @@ var mongoose = require('mongoose');
 var Request = mongoose.model('PsychologistRequest');
 var Psychologists = mongoose.model('Psychologist');
 
+
+
+module.exports.editePsychologists = function (req, res, next) {
+    if (req.user.username === req.params.username) {
+      Psychologists.findOne({ _id: req.body.idd }).exec(function (err, prodRequests) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: prodRequests,
+                err: null,
+                msg: 'Edited successfully.'
+            });
+        });
+    } else {
+        return res.status(403).json({
+            data: null,
+            err: 'not such Id Exists',
+            msg: null
+        });
+    }
+};
+
 module.exports.addRequest = function (req, res, next) {
   var valid =
     req.body.firstName &&

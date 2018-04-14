@@ -76,7 +76,7 @@ export class PsychologistComponent implements OnInit {
     let dialogRef = self.dialog.open(EditePsychComponent, {
       width: '850px',
       height: '550px',
-      data: { market: self }
+      data: { market: self , id:idd }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
