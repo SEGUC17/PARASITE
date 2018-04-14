@@ -4,7 +4,7 @@ import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'app-childsignup',
   templateUrl: './childsignup.component.html',
-  styleUrls: ['./childsignup.component.css']
+  styleUrls: ['./childsignup.component.scss']
 })
 export class ChildsignupComponent implements OnInit {
 

@@ -23,8 +23,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule, MatPaginatorModule } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
 import { AuthService } from '../auth/auth.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   imports: [
@@ -44,7 +46,9 @@ import { AuthService } from '../auth/auth.service';
     MatTabsModule,
     MatRadioModule,
     MatPaginatorModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatIconModule,
+    MatTooltipModule
   ],
   declarations: [
     AdminControlComponent,

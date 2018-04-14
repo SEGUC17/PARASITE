@@ -5,7 +5,7 @@ import { AuthService } from './../../../auth/auth.service';
 @Component({
   selector: 'app-childern',
   templateUrl: './childern.component.html',
-  styleUrls: ['./childern.component.css']
+  styleUrls: ['./childern.component.scss']
 })
 export class ChildernComponent implements OnInit {
 

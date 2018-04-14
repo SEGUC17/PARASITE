@@ -9,10 +9,11 @@ import { Section } from '../section';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from '../category';
 import { AuthService } from '../../auth/auth.service';
+import { AdminService } from '../../admin.service';
 @Component({
   selector: 'app-content-edit',
   templateUrl: './content-edit.component.html',
-  styleUrls: ['./content-edit.component.css']
+  styleUrls: ['./content-edit.component.scss']
 })
 export class ContentEditComponent implements OnInit {
   private editor;
@@ -41,7 +42,8 @@ export class ContentEditComponent implements OnInit {
     private contentService: ContentService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private adminService: AdminService) {
   }
 
   // Add a tag chip event handler
@@ -97,7 +99,6 @@ export class ContentEditComponent implements OnInit {
 
 
   }
-
   // retrieve all categories from server
   getCategories(): void {
     const self = this;
@@ -138,7 +139,7 @@ export class ContentEditComponent implements OnInit {
         return;
       }
       self.content = res.data;
-
+      self.getSections();
     });
 
   }
