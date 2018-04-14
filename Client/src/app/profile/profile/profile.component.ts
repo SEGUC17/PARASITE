@@ -194,7 +194,7 @@ export class ProfileComponent implements OnInit {
     // getting the visited profile username and passing it to service method to add it to the patch request
 
   }
-// Edite My Personal Info
+
 ChangeInfo(info: any): void {
   console.log('in Profile component.ts');
   console.log(info.username);
