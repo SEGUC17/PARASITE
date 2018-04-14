@@ -38,20 +38,6 @@ module.exports.getComment = function (req, res) {
         });
     }
 
-    comment.replies.sort(function(rep1, rep2) {
-        var date1 = new Date(rep1.created_at);
-        var date2 = new Date(rep2.created_at);
-
-        if (date1 < date2) {
-         return -1;
-        }
-        if (date1 > date2) {
-            return 1;
-        }
-
-        return 0;
-    });
-
     return res.status(200).json({
         data: comment,
         err: null,
@@ -84,6 +70,7 @@ module.exports.postComment = function(req, res) {
     }
 
     object.discussion.push({
+        $sort: { createdAt: -1 },
         creator: user.username,
         text: req.body.text
     });
@@ -141,6 +128,7 @@ module.exports.postCommentReply = function(req, res, next) {
     }
 
     comment.replies.push({
+        $sort: { createdAt: -1 },
         creator: user.username,
         text: req.body.text
     });
