@@ -18,6 +18,8 @@ export class ReplyDialogComponent implements OnInit {
   currentUser: any;
   div2: Boolean;
   div3: Boolean;
+  div4: Boolean; // div for blocked user
+  allisWell: Boolean = true;
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
   constructor(public dialogRef: MatDialogRef<ReplyDialogComponent>,
@@ -46,18 +48,24 @@ export class ReplyDialogComponent implements OnInit {
        // create a message object with the info the user entered
        this.msg = {'body': this.Body, 'recipient': this.data.replyTo, 'sender': this.currentUser.username};
        this.authService.getAnotherUserData(this.UserList, this.data.replyTo.toString()).subscribe((user)  => {
-       const pack = {
-        list: user.data.blocked,
-        msg: this.msg
-      };
+      const list = user.data.blocked;
+      for ( let i = 0 ; i < user.data.blocked.length ; i++) {
+        if ( this.currentUser.username === list[i] ) {
+             console.log('blocked is:', list[i]);
+              this.div4 = true;
+              this.allisWell = false;
+        } // end if
+       }// end for
        // make a POST request using messaging service
-       this.messageService.send(this.msg, (pack))
-       .subscribe(function() {
-         self.div3 = true;
-         self.div2 = false;
-        });
-      });
-
-    }
+       if ( this.allisWell === true) {
+        this.messageService.send(this.msg)
+         .subscribe(function(res) {
+          alert(res.msg);
+          self.div3 = true;
+          self.div2 = false;
+         });
+         }// end if
+    });
    }// end method
 }// end class
+}
