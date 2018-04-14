@@ -8,7 +8,7 @@ import { SafeResourceUrlPipe } from '../safe-resource-url.pipe';
 @Component({
   selector: 'app-view-content-requests',
   templateUrl: './view-content-requests.component.html',
-  styleUrls: ['./view-content-requests.component.css']
+  styleUrls: ['./view-content-requests.component.scss']
 })
 export class ViewContentRequestsComponent implements OnInit {
 

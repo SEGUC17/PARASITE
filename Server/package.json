@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "nyc mocha \"tests/**/nonAdminContentReqs.spec.js\" --exit --timeout 120000",
+    "test": "nyc mocha ./tests/**/*.spec.js --exit --timeout 1200000",
     "cover": "nyc report --reporter=html"
   },
   "nyc": {
@@ -23,6 +23,7 @@
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.1",
     "body-parser": "~1.18.2",
+    "chaid": "^1.0.2",
     "compression": "^1.7.2",
     "connect-flash": "*",
     "cookie-parser": "~1.4.3",
@@ -46,6 +47,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "chaid": "^1.0.2",
     "eslint": "^4.19.1",
     "eslint-plugin-chai-friendly": "^0.4.1",
     "istanbul": "^0.4.5",

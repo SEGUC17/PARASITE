@@ -5,7 +5,7 @@ import { AuthService } from './auth/auth.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnDestroy {
   title = 'app';
@@ -20,7 +20,7 @@ export class AppComponent implements OnDestroy {
     },
     {
       url: '/content-list-view',
-      name: 'Content List View'
+      name: 'Content List'
     },
     {
       url: '/auth/login',
@@ -37,7 +37,7 @@ export class AppComponent implements OnDestroy {
     },
     {
       url: '/childsignup',
-      name: 'ChildSignUp'
+      name: 'Child SignUp'
     },
     {
       url: 'message',
@@ -48,21 +48,16 @@ export class AppComponent implements OnDestroy {
       name: 'Market'
     },
     {
-      url: '/schedule/0',
-      name: 'Random Schedule'
-    },
-    {
       url: 'published-study-plans',
       name: 'Published Study Plans'
     },
     {
-
-      url: '/psychologist/view/0',
-      name: 'Psychologist'
+      url: '/psychologist',
+      name: 'Psychologists'
     },
     {
       url: '/activities',
-      name: 'Random Activity'
+      name: 'Activities'
     },
     {
       url: '/admin',
@@ -70,7 +65,6 @@ export class AppComponent implements OnDestroy {
 
     },
     {
-
       url: '/search',
       name: 'Search'
     },
@@ -80,7 +74,7 @@ export class AppComponent implements OnDestroy {
     },
     {
       url: '/psychologist/request/add',
-      name: 'Sample add psychologist request'
+      name: 'Add a Psychologist'
     }
   ];
   mobileQuery: MediaQueryList;

@@ -3,12 +3,15 @@
     <mat-card-title>{{mockReq.name}}</mat-card-title>
     <mat-card-subtitle>Sold by {{mockReq.seller}}</mat-card-subtitle>
   </mat-card-header>
-  {{mockReq.image}}
+  <img mat-card-image src="{{mockReq.image}}" alt="Product photo">
   <mat-card-content>
     <h3>This item is up for {{mockReq.acquiringType}}</h3>
+
+    <!-- According to the object type, different displays of the price will be shown -->
     <h3 *ngIf="mockReq.acquiringType === 'sell'">{{mockReq.price | currency}}</h3>
     <h3 *ngIf="mockReq.acquiringType === 'rent'">{{mockReq.price | currency}} a day</h3>
     <h3 *ngIf="mockReq.acquiringType === 'rent'">For up to {{mockReq.rentPeriod}} days</h3>
+    
     <p>
       {{mockReq.description}}
     </p>

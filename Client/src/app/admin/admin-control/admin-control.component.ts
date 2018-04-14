@@ -1,8 +1,8 @@
-import { OnInit, Input, Output, ViewChild, Component} from '@angular/core';
-import {ViewVerifiedContributerRequestsComponent} from '../view-verified-contributer-requests/view-verified-contributer-requests.component';
-import {ViewContentRequestsComponent } from '../../content/view-content-requests/view-content-requests.component';
-import {ViewUnverifiedActivitiesComponent} from '../view-unverified-activities/view-unverified-activities.component';
-import {AdminService} from '../../admin.service';
+import { OnInit, Input, Output, ViewChild, Component } from '@angular/core';
+import { ViewVerifiedContributerRequestsComponent } from '../view-verified-contributer-requests/view-verified-contributer-requests.component';
+import { ViewContentRequestsComponent } from '../../content/view-content-requests/view-content-requests.component';
+import { ViewUnverifiedActivitiesComponent } from '../view-unverified-activities/view-unverified-activities.component';
+import { AdminService } from '../../admin.service';
 import { Router } from '@angular/router';
 import { ViewProductRequestsComponent } from '../view-product-requests/view-product-requests.component';
 import { ViewPsychRequestsComponent } from '../view-psych-requests/view-psych-requests.component';
@@ -10,7 +10,7 @@ import { ViewPsychRequestsComponent } from '../view-psych-requests/view-psych-re
 @Component({
   selector: 'app-admin-control',
   templateUrl: './admin-control.component.html',
-  styleUrls: ['./admin-control.component.css']
+  styleUrls: ['./admin-control.component.scss']
 })
 
 export class AdminControlComponent implements OnInit {
@@ -35,8 +35,8 @@ export class AdminControlComponent implements OnInit {
 
   }
 
+  // changing the visibility of the component
   viewProdRequests() {
-    // this.router.navigateByUrl('/admin/prod-req');
     this.hideProdReqs = 1 - this.hideProdReqs;
   }
 
@@ -51,7 +51,7 @@ export class AdminControlComponent implements OnInit {
     }
   }
 
-
+  // changing the visibility of the component
   goToPsychReq() {
     this.hidePsychReqs = 1 - this.hidePsychReqs;
   }

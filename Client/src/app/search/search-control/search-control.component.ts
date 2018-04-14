@@ -9,7 +9,7 @@ import { ViewChild } from '@angular/core';
 @Component({
   selector: 'app-search-control',
   templateUrl: './search-control.component.html',
-  styleUrls: ['./search-control.component.css']
+  styleUrls: ['./search-control.component.scss']
 })
 export class SearchControlComponent implements OnInit {
   users: User[];
@@ -29,23 +29,9 @@ export class SearchControlComponent implements OnInit {
   // Enter, comma
   separatorKeysCodes = [ENTER, COMMA];
 
-  @ViewChild('allSearchPaginator') public paginator: MatPaginator;
+
   constructor(private searchService: SearchService) { }
-
-  add(event: MatChipInputEvent): void {
-    let input = event.input;
-    let value = event.value;
-    console.log('entered');
-
-    if ((value || '').trim()) {
-      this.tag = (value.trim());
-    }
-
-    // Reset the input value
-    if (input) {
-      input.value = '';
-    }
-  }
+// removing a tag from the search delimiters if removed by user
   remove(tab: string): void {
     const self = this;
     switch (tab) {
@@ -55,16 +41,12 @@ export class SearchControlComponent implements OnInit {
       case 'loc': this.tags[3] = 'NA'; break;
     }
     console.log('updating');
+// updating the search result according to the new set of tags
     this.currPage = 1;
-    this.searchService.getParents(this.tags, this.currPage, this.numberPerPage
-    ).subscribe(function (retreivedUsers) {
-      self.users = retreivedUsers.data.docs,
-        self.totPages = retreivedUsers.data.pages,
-        self.totParents = retreivedUsers.data.total;
-    });
+    this.getCurrPage();
     console.log(self.tags[0] + ' ' + self.tags[1] + ' ' + self.tags[2] + ' ' + self.tags[3]);
   }
-
+// updating the tags used to search according to tab
   getParents(tab: String) {
     const self = this;
     switch (tab) {
@@ -81,25 +63,25 @@ export class SearchControlComponent implements OnInit {
         this.tags[3] = this.loc;
         break;
     }
-    this.searchService.getParents(this.tags, this.currPage, this.numberPerPage
-    ).subscribe(function (retreivedUsers) {
-      self.users = retreivedUsers.data.docs,
-        self.totPages = retreivedUsers.data.pages,
-        self.totParents = retreivedUsers.data.total;
-    });
+// updating search page according to new set of tags
+    this.currPage = 1;
+    this.getCurrPage();
 
   }
-
+// navigating to profile clicked on
   goToProfile(username: string) {
     this.searchService.viewProfile(username);
   }
-
+// getting the page according to the index
   getPage(event): void {
 
     this.currPage = event.pageIndex + 1;
-    this.getCurrPage();
+    this.searchService.getParents(this.tags, this.currPage, this.numberPerPage
+    ).subscribe(function (retreivedUsers) {
+      this.users = retreivedUsers.data.docs;
+    });
   }
-
+// getting the content of the current page
   getCurrPage(): void {
     this.searchService.getParents(this.tags, this.currPage, this.numberPerPage
     ).subscribe(function (retreivedUsers) {
@@ -108,7 +90,7 @@ export class SearchControlComponent implements OnInit {
         this.totParents = retreivedUsers.data.total;
     });
   }
-
+// initializing all the parameters to starter values
   ngOnInit() {
     this.currPage = 1;
     this.tags = ['NA', 'NA', 'NA', 'NA'];

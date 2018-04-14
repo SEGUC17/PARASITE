@@ -25,13 +25,19 @@
       <mwl-calendar-week-view
         *ngSwitchCase="'week'"
         [viewDate]="viewDate"
-        [events]="events">
+        [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-week-view>
 
       <mwl-calendar-day-view
         *ngSwitchCase="'day'"
         [viewDate]="viewDate"
-        [events]="events">
+        [events]="events"
+        [refresh]="refresh"
+        (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-day-view>
     </div>
   </mat-card>
@@ -42,8 +48,9 @@
         </div>
         <div class="col-md-3">
           <button
+            mat-raised-button
+            color="primary"
             style="float: right;"
-            class="btn btn-primary"
             (click)="addEvent()">
             Add new
           </button>
@@ -91,20 +98,23 @@
               <td>
                 <app-date-time-picker
                   [(ngModel)]="event.start"
+                  [time]="event.start | date:'HH:mm'"
                   (ngModelChange)="refresh.next()"
-                  placeholder="Not set">
+                  placeholder="Choose a date">
                 </app-date-time-picker>
               </td>
               <td>
                 <app-date-time-picker
                   [(ngModel)]="event.end"
+                  [time]="event.end | date:'HH:mm'"
                   (ngModelChange)="refresh.next()"
-                  placeholder="Not set">
+                  placeholder="Choose a date">
                 </app-date-time-picker>
               </td>
               <td>
                 <button
-                  class="btn btn-danger"
+                  mat-raised-button
+                  color="warn"
                   (click)="events.splice(index, 1); refresh.next()">
                   Delete
                 </button>
@@ -126,8 +136,9 @@
     <h2>
       Press the button on the right to finish creation.
       <button
+        mat-raised-button
+        color="primary"
         style="float: right;"
-        class="btn btn-primary"
         (click)="create()">
         Create
       </button>

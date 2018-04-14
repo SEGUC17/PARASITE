@@ -16,32 +16,31 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-add-psych-request',
   templateUrl: './add-psych-request.component.html',
-  styleUrls: ['./add-psych-request.component.css']
+  styleUrls: ['./add-psych-request.component.scss']
 })
 export class AddPsychRequestComponent implements OnInit {
-
   request: AddPsychologistRequest;
+
+  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
+
+  /* form controls for each input form field */
+  firstNameFormControl = new FormControl('', [
+    Validators.required
+  ]);
+
+  lastNameFormControl = new FormControl('', [
+    Validators.required
+  ]);
 
   emailFormControl = new FormControl('', [
     Validators.required,
     Validators.email
   ]);
 
-  fNameFormControl = new FormControl('', [
-    Validators.required
-  ]);
-
-  lNameFormControl = new FormControl('', [
-    Validators.required
-  ]);
-
   addFormControl = new FormControl();
   phoneFormControl = new FormControl();
   daysOff = new FormControl();
   priceFormControl = new FormControl();
-
-  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
-
 
   matcher = new MyErrorStateMatcher();
 
@@ -54,25 +53,29 @@ export class AddPsychRequestComponent implements OnInit {
   ngOnInit() {
   }
 
-
+  /* called when user clicks on submit button */
   submitReq(): void {
     let self = this;
 
-    if (this.emailFormControl.hasError('required') || this.fNameFormControl.hasError('required')
-        || this.lNameFormControl.hasError('required')) {
+    /* check if any of the required fields are empty, if yes notify user he should fill them*/
+    if (this.emailFormControl.hasError('required') || this.firstNameFormControl.hasError('required')
+        || this.lastNameFormControl.hasError('required')) {
             this.snackBar.open('Please fill all the required fields', '', {
               duration: 1500
             });
     } else if (this.emailFormControl.hasError('email')) {
+      // if the emil user provided is not the in correct format
+      // notify user he should enter a valid email
       this.snackBar.open('Please enter a valid email address!', '', {
         duration: 1500
       });
     } else {
       let req = this.request;
 
+      /* create a request object with user's info */
       req = {
-        firstName: this.fNameFormControl.value,
-        lastName: this.lNameFormControl.value,
+        firstName: this.firstNameFormControl.value,
+        lastName: this.lastNameFormControl.value,
         phone: this.phoneFormControl.value,
         address: this.addFormControl.value,
         email: this.emailFormControl.value,
@@ -80,18 +83,22 @@ export class AddPsychRequestComponent implements OnInit {
         priceRange: parseInt(this.priceFormControl.value, 10)
       };
 
+      /* make a POST request with the request data */
       this.RequestService.addRequest(req).subscribe(function (res) {
-        if (res.msg !== 'Request was created successfully.') {
+        if (res.err != null) {
+          /* if an error returned notify the user to try again */
           self.snackBar.open('Something went wrong, please try again.', '', {
-            duration: 2000
+            duration: 2500
           });
         } else {
-          self.snackBar.open('Request Sent Successfully!', '', {
-            duration: 2000
+          /* everything went great!! notify the user it was a success. */
+          self.snackBar.open(res.msg, '', {
+            duration: 2300
           });
 
-          self.fNameFormControl.setValue(null);
-          self.lNameFormControl.setValue(null);
+          /* clear the request form */
+          self.firstNameFormControl.setValue(null);
+          self.lastNameFormControl.setValue(null);
           self.phoneFormControl.setValue(null);
           self.addFormControl.setValue(null);
           self.emailFormControl.setValue(null);
