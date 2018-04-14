@@ -249,31 +249,36 @@ module.exports = function (passport) {
   router.get(
     '/content/:contentId/comments/:commentId',
     optionalAuthentication,
-    contentController.getContentComment
+    contentController.prepareContent,
+    DiscussionController.getComment
   );
   // Commenting on a content
   router.post(
     '/content/:contentId/comments',
     isAuthenticated,
-    contentController.commentOnContent
+    contentController.prepareContent,
+    DiscussionController.postComment
   );
   // deleting a comment
   router.delete(
     '/content/:contentId/comments/:commentId',
     isAuthenticated,
-    contentController.deleteContentComment
+    contentController.prepareContent,
+    DiscussionController.deleteComment
   );
   // replying to a content
   router.post(
     '/content/:contentId/comments/:commentId/replies',
     isAuthenticated,
-    contentController.postContentCommentReply
+    contentController.prepareContent,
+    DiscussionController.postCommentReply
   );
   // deleting a reply
   router.delete(
     '/content/:contentId/comments/:commentId/replies/:replyId',
     isAuthenticated,
-    contentController.deleteContentCommentReply
+    contentController.prepareContent,
+    DiscussionController.deleteCommentReply
   );
 
   // Edit content

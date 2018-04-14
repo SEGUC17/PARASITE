@@ -188,7 +188,7 @@ module.exports.deleteComment = function (req, res, next) {
 
     object.save(function (err) {
         if (err) {
-            return next(500);
+            return next(err);
         }
 
         return res.status(204).json({
@@ -257,9 +257,9 @@ module.exports.deleteCommentReply = function (req, res, next) {
 
     comment.replies.id(replyId).remove();
 
-    object.save(function (err2) {
-        if (err2) {
-            return next(500);
+    object.save(function (err) {
+        if (err) {
+            return next(err);
         }
 
         return res.status(204).json({
