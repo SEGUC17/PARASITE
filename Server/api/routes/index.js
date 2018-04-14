@@ -241,7 +241,7 @@ module.exports = function (passport) {
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//
-  router.post('/rating/postRating', UserRatingController.postRating);
+  router.post('/rating/postRating', isAuthenticated, UserRatingController.postRating);
   //------------------- End of Rating Endpoints-----------//
 
   // -------------------------------------------------------------------- //

@@ -3,6 +3,7 @@ var UserRating = mongoose.model('UserRating');
 var Content = mongoose.model('Content');
 var Product = mongoose.model('Product');
 var StudyPlan = mongoose.model('StudyPlan');
+var User = mongoose.model('User');
 
 var rate = function (model, message, oldRating, newRating, res, next) {
     model.findOneAndUpdate(
@@ -30,6 +31,13 @@ var rate = function (model, message, oldRating, newRating, res, next) {
 };
 
 module.exports.postRating = function (req, res, next) {
+    if (req.user.username !== req.body.userRating.username) {
+        return res.status(401).json({
+            data: null,
+            err: 'Not authorized to change another user\'s rating',
+            msg: null
+        });
+    }
     UserRating.findOneAndUpdate(
         {
             ratedId: req.body.userRating.ratedId,
