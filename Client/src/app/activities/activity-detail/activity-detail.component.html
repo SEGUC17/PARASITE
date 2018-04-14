@@ -23,12 +23,10 @@
           </mat-form-field>
         </mat-card-content>
         <mat-card-actions class = "row" align = "end">
-          <button mat-button (click)="addComment(commentInput.value)"  [disabled]="changingComment == ''"> Comment</button>
+          <button mat-button (click)="addComment(commentInput.value)"  [disabled]="changingComment == ''">Comment</button>
         </mat-card-actions>
       </mat-card>
-      <mat-divider></mat-divider>
     </mat-list-item>
-    <!--*ngIf="comment.replies.  > 0"-->
     <mat-list-item role = "list" *ngFor= "let comment of comments; let i = index">
       <mat-card>
         <mat-card-header>
@@ -42,9 +40,10 @@
         </mat-card-header>
         <mat-list *ngIf="viewedReplies[i]" style="margin-left: 10%">
           <mat-list-item dir="rtl" *ngFor="let reply of comment.replies">
-            <mat-icon style="horiz-align: left" mat-card-avatar class="example-header-image">sdf</mat-icon>
+            <mat-icon mat-card-avatar class="example-header-image">sdf</mat-icon>
             <h3 mat-line style="margin-left: 2%" >{{reply.creator.username}}</h3>
             <p mat-line style="margin-left: 2%">{{reply.text}}</p>
+            <mat-divider></mat-divider>
           </mat-list-item>
         </mat-list>
       </mat-card>

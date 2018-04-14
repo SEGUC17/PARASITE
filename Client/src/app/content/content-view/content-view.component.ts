@@ -22,8 +22,11 @@ export class ContentViewComponent implements OnInit {
 
   // comments
   comments: any;
+  viewedReplies: boolean[] = [];
   changingComment: String;
   somePlaceholder: String = '';
+  showReplies: String = 'Show replies';
+  hideReplies: String = 'Hide replies';
   // inject the needed services
   constructor(private contentService: ContentService, private route: ActivatedRoute,
     private adminService: AdminService, private authService: AuthService, private router: Router) { }
@@ -67,7 +70,7 @@ export class ContentViewComponent implements OnInit {
   }
     console.log(inputtext);
     if (isEmpty(inputtext)) {
-    console.log('bhdcbn');
+    console.log('Empty comment/reply');
     }
     if (!isEmpty(inputtext)) {
     const comment = {
@@ -133,10 +136,14 @@ export class ContentViewComponent implements OnInit {
     self.comments.push(comment1);
     self.comments.push(comment2);
     self.comments.push(comment3);
-    self.comments.push(comment1);
-    self.comments.push(comment2);
-    self.comments.push(comment3);
+    self.viewedReplies.push(false);
+    self.viewedReplies.push(false);
+    self.viewedReplies.push(false);
 
+
+  }
+  showReply(i: number) {
+    this.viewedReplies[i] = !this.viewedReplies[i];
   }
 
 }

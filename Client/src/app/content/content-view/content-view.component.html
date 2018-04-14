@@ -1,4 +1,4 @@
-<div *ngIf="content" style= "background: #f8f8f8">
+<div *ngIf="content">
     <div *ngIf="currentUser" class="row">
         <div class="col" align="center">
             <div *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)">
@@ -10,61 +10,103 @@
             </div>
         </div>
     </div>
-    <div class="container"  >
+    <div class="container">
         <div class="video-container">
             <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
                 <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>
             </div>
         </div>
         <h1 class="title">{{content.title}}</h1>
-        <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml" ></div>
+        <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
     </div>
 </div>
-<div class = "container">
+<div class="container">
     <div class="comment-container">
         <h1> Comments :</h1>
-        <mat-list-item role ="list" id="target">
-            <mat-card *ngIf= "currentUser">
+        <mat-list-item role="list" id="target">
+            <mat-card *ngIf="currentUser">
                 <mat-card-header>
                     <div mat-card-avatar class="example-header-image"></div>
-                    <mat-card-title style="font-weight: bold"> {{currentUser.username}}  </mat-card-title>
+                    <mat-card-title style="font-weight: bold"> {{currentUser.username}} </mat-card-title>
                 </mat-card-header>
-                <mat-card-content > 
-                        <mat-form-field class="example-container" >
-                           <textarea  matInput id="lala" placeholder={{somePlaceholder}} #commentInput [(ngModel)]="changingComment" ></textarea>
-                        </mat-form-field>
+                <mat-card-content>
+                    <mat-form-field class="example-container">
+                        <textarea matInput id="lala" placeholder={{somePlaceholder}} #commentInput [(ngModel)]="changingComment"></textarea>
+                    </mat-form-field>
                 </mat-card-content>
-                <mat-card-actions class = "row" align = "end">
-                        <button mat-button (click)="addComment(commentInput.value)"  [disabled]="changingComment == ''"> Comment</button>
+                <mat-card-actions class="row" align="end">
+                    <button mat-button (click)="addComment(commentInput.value)" [disabled]="changingComment == ''"> Comment</button>
                 </mat-card-actions>
             </mat-card>
-            <mat-divider></mat-divider>
         </mat-list-item>
 
-            <mat-list-item role = "list" *ngFor= "let comment of comments">
-                <mat-card>
-                    <mat-card-header>
-                        <div mat-card-avatar class="example-header-image"></div>
-                        <mat-card-title  style="font-weight: bold" >{{comment.creator}}</mat-card-title>
-                        <mat-card-subtitle style="font-weight: bold" >{{comment.text}}</mat-card-subtitle>
-                        <mat-card-actions   align="end">
-                        <button mat-button (click)="onReply()"> Reply </button>
+        <mat-list-item role="list" *ngFor="let comment of comments; let i = index">
+            <mat-card>
+                <div class="row">
+                    <div style="width:48%">
+                        <mat-card-header class="row">
+                            <div mat-card-avatar class="example-header-image"></div>
+                            <mat-card-title style="font-weight: bold">{{comment.creator}}</mat-card-title>
+                            <mat-card-subtitle style="font-weight: bold">{{comment.text}}</mat-card-subtitle>
+                        </mat-card-header>
+                    </div>
+                    <div style="width:52%" align="end">
+                        <mat-card-actions class="row">
+                            <button mat-icon-button class="col-auto" (click)="deleteComment(comment._id)" matTooltip="delete">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <button mat-icon-button class="col-auto" *ngIf="comment.replies.length > 0" (click)="showReply(i)" matTooltip={{(viewedReplies[i])?hideReplies:showReplies}}>
+                                <mat-icon>{{(viewedReplies[i])?"arrow_drop_up":"arrow_drop_down"}}</mat-icon>
+                            </button>
+                            <button mat-icon-button class="col-auto" (click)="onReply(comment._id)" matTooltip="Reply">
+                                <mat-icon>reply</mat-icon>
+                            </button>
                         </mat-card-actions>
-                    </mat-card-header>
-                    <mat-card-content *ngIf="comment.replies.length > 0" style="margin-left: 10%">
-                        <mat-list-item role = "list" *ngFor="let reply of comment.replies">
-                            <mat-card style="margin-top:0.5%">
-                                <mat-card-header>
-                                        <div mat-card-avatar class="example-header-image"></div>
-                                        <mat-card-title   style="font-weight: bold" >{{reply.creator}}</mat-card-title>
-                                        <mat-card-subtitle style="font-weight: bold" >{{reply.text}}</mat-card-subtitle>
-                                </mat-card-header>
-                            </mat-card>
-                        </mat-list-item>
-                    </mat-card-content>
-                </mat-card>
-            
-                 <mat-divider></mat-divider>
-           </mat-list-item>
+                    </div>
+                </div>
+
+
+                <mat-list *ngIf="viewedReplies[i]" style="margin-left: 10%">
+                    <mat-list-item  *ngFor="let reply of comment.replies; let j = index">
+
+                        <button mat-icon-button  (click)="deleteReply(comment._id,reply._id)" matTooltip="delete">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+
+
+                        <div style="width:60%">
+                            <mat-icon mat-card-avatar class="example-header-image"></mat-icon>
+                        </div>
+                        <div style="width:20%">
+                            <h3 mat-line style="font-weight: bold;margin-left: 2%">{{reply.creator}}</h3>
+                            <p mat-line style="font-weight: bold; margin-left: 2%; color: rgb(129, 129, 129)">{{reply.text}}</p>
+                        </div>
+
+
+                        <mat-divider *ngIf="j!=comment.replies.length-1"></mat-divider>
+                    </mat-list-item>
+
+
+                    <!--        <mat-list-item dir="rtl" *ngFor="let reply of comment.replies; let j = index">
+
+                        <button mat-icon-button style="width:80%" align="start" (click)="deleteReply(comment._id,reply._id)" matTooltip="delete">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+
+
+                        <div style="width:60%">
+                        <mat-icon mat-card-avatar class="example-header-image"></mat-icon>
+                    </div>
+                        <div style="width:20%">
+                            <h3 mat-line style="font-weight: bold;margin-left: 2%">{{reply.creator}}</h3>
+                            <p mat-line style="font-weight: bold; margin-left: 2%; color: rgb(129, 129, 129)">{{reply.text}}</p>
+                        </div>  
+
+
+                        <mat-divider *ngIf="j!=comment.replies.length-1"></mat-divider>
+                    </mat-list-item> -->
+                </mat-list>
+            </mat-card>
+        </mat-list-item>
     </div>
 </div>
