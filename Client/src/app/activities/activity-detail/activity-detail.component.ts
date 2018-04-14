@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
 import { ActivatedRoute } from '@angular/router';
+import { DiscussionService } from '../../discussion.service';
 
 @Component({
   selector: 'app-activity-detail',
@@ -40,11 +41,12 @@ export class ActivityDetailComponent implements OnInit {
     updatedAt: null,
     image: '',
     discussion: []
-  }
+  };
 
   constructor(
     private route: ActivatedRoute,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private discussionService: DiscussionService
   ) { }
 
   ngOnInit() {
@@ -52,20 +54,20 @@ export class ActivityDetailComponent implements OnInit {
     this.refreshComments(true);
   }
 
-  onReply(id:any): any {
+  onReply(id: any): any {
     let self = this;
     let element = document.getElementById('target');
     element.scrollIntoView();
     let input = document.getElementById('lala');
     self.somePlaceholder = 'leave a reply';
     input.focus();
-    this.isReplying =true;
+    this.isReplying = true;
     this.commentReplyingOn = id;
   }
 
   onDelete(i: any) {
-    var self = this;
-    this.activityService.deleteCommentOnActivity(this.activity._id, i).subscribe(function(err) {
+    let self = this;
+    this.discussionService.deleteCommentOnActivity(this.activity._id, i).subscribe(function(err) {
       if (err) {
         console.log(err);
       }
@@ -75,7 +77,7 @@ export class ActivityDetailComponent implements OnInit {
 
   onDeleteReply(commentId: any, replyId: any) {
     let self = this;
-    this.activityService.deleteReplyOnCommentOnActivity(this.activity._id, commentId, replyId).subscribe(function (err) {
+    this.discussionService.deleteReplyOnCommentOnActivity(this.activity._id, commentId, replyId).subscribe(function (err) {
       if (err) {
         console.log(err);
       }
@@ -128,7 +130,7 @@ export class ActivityDetailComponent implements OnInit {
 
       console.log('replying');
       let self = this;
-      this.activityService.postReplyOnCommentOnActivity(
+      this.discussionService.postReplyOnCommentOnActivity(
         this.activity._id,
         this.commentReplyingOn,
         self.changingComment).subscribe(function (err) {
@@ -142,7 +144,7 @@ export class ActivityDetailComponent implements OnInit {
       });
     } else {
       let self = this;
-      this.activityService.postCommentOnActivity(this.activity._id, self.changingComment).subscribe(function (err) {
+      this.discussionService.postCommentOnActivity(this.activity._id, self.changingComment).subscribe(function (err) {
         if (err.msg === 'reply created successfully') {
           console.log('err in posting');
         }
