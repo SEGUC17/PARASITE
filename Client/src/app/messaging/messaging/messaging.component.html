@@ -76,6 +76,11 @@
                 <mat-cell *matCellDef="let msg"> {{msg.sentAt|date}} </mat-cell>
               </ng-container>
 
+              <ng-container matColumnDef="reply">
+                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                <mat-cell *matCellDef="let msg"> <button class="btn" (click)="openReplyDialog(msg)">Reply</button></mat-cell>
+              </ng-container>
+
               <ng-container matColumnDef="delete">
                   <mat-header-cell *matHeaderCellDef> </mat-header-cell>
                   <mat-cell *matCellDef="let msg"> <button class="btn" (click)="deleteMessage(msg)">Delete</button></mat-cell>

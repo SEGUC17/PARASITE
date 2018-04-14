@@ -225,7 +225,7 @@ module.exports = function (passport) {
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
-  router.post('/message/sendMessage/:user', messageController.sendMessage);
+  router.post('/message/sendMessage', messageController.sendMessage);
 
   //View inbox
   router.get('/message/inbox/:user', messageController.getInbox);
