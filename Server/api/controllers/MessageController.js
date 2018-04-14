@@ -33,6 +33,7 @@ module.exports.sendMessage = function(req, res, next) {
     });
 });*/
 
+
 // checking that the sender is not on the recipient's blocklist
 /*console.log('sender is: ', req.body.msg.sender);
 console.log('array is: ', req.body.list);
@@ -41,7 +42,7 @@ console.log('array length is: ', req.body.list.length);
 
 
 var list=req.body.list;
-  
+
   for(let i = 0 ; i< list.length ; i++) {
    if(req.body.msg.sender === list[i] ) {
         console.log(list[i]);
@@ -152,7 +153,7 @@ module.exports.deleteMessage = function(req, res, next) {
  );
 };
 
-/*module.exports.getRecentlyContacted = function(req, res, next) {
+module.exports.getRecentlyContacted = function(req, res, next) {
 
   Message.find({ sender: req.params.user }).sort({ sentAt: -1 }).
   limit(10).
@@ -167,5 +168,5 @@ module.exports.deleteMessage = function(req, res, next) {
       msg: 'Success.'
       });
   });
-};*/
+};
 

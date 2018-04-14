@@ -70,6 +70,7 @@ export class MessagingComponent implements OnInit {
         self.div = false;
         self.getInbox();
         self.getSent();
+        self.getContacts();
       }
     });
   }
@@ -117,5 +118,12 @@ export class MessagingComponent implements OnInit {
     alert(res.msg);
   });
  }// end method
+
+ getContacts(): void {
+  const self = this;
+  this.messageService.getContacts(this.currentUser.username).subscribe(function (contacts) {
+    self.contacts = contacts.data;
+  });
+}
 
 }// end class

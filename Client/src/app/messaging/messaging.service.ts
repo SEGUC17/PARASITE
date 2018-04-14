@@ -45,4 +45,8 @@ export class MessageService {
        return this.http.patch(this.url + `message/block/${blocked}`, user, httpOptions);
    }
 
+   getContacts(user: any): Observable<any> {
+    return this.http.get<any>(this.url + 'message/contacts/' + user);
+  }
+
 }

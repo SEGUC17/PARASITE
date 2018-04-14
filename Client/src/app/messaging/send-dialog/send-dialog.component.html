@@ -4,8 +4,7 @@
       <br/>
   
       <mat-form-field class="example-container">
-          <textarea class="textarea" matInput [(ngModel)]="Body"></textarea>
-          <!-- <input #body matInput [(ngModel)]="Body"> -->
+          <textarea #body class="textarea" matInput [(ngModel)]="Body"></textarea>
       </mat-form-field>
       <br/>
       
@@ -31,9 +30,13 @@
       <mat-card>Your message has been sent.</mat-card>
   </div>
 
-
   <div id="div4" *ngIf="div4">
     <br/>
     <br/>
     <mat-card>Sorry, you are blocked.</mat-card>
-</div>
+  </div>
+
+  <div id="div5" *ngIf="div5">
+      <br/>
+      <mat-card>The user you are trying to send to doesn't exist. Please make sure to enter a valid username.</mat-card>
+  </div>

@@ -12,18 +12,16 @@
   </div>
 
   <!-- <div style="float:right; margin-left:200px;">
-      <mat-list role="list" class="list">
-          <mat-list-item role="listitem">Item 1</mat-list-item>
-          <mat-list-item role="listitem">Item 2</mat-list-item>
-          <mat-list-item role="listitem">Item 3</mat-list-item>
-        </mat-list>
+      <mat-list role="list" class="list" *ngFor="let contact of contacts">
+          <mat-list-item role="listitem"> {{contact.recipient}} </mat-list-item>
+      </mat-list>
   </div> -->
 
   <div *ngIf="!div">
   <mat-tab-group>
     <!-- table for inbox -->
       <mat-tab label="Inbox">
-        <!-- <div class="example-container mat-elevation-z8">
+        <div class="example-container mat-elevation-z8">
             <mat-table #table [dataSource]="inbox">
       
               <ng-container matColumnDef="sender">
@@ -60,9 +58,9 @@
               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
               <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
-          </div> -->
+          </div>
 
-          <div style="max-width:800px;" *ngFor="let message of inbox">
+          <!-- <div style="max-width:800px;" *ngFor="let message of inbox">
           <mat-card>
               <mat-card-header>
                 <div mat-card-avatar><mat-icon>face</mat-icon></div>
@@ -76,7 +74,7 @@
               </mat-card-content>
           </mat-card>
           <br/>
-          </div>
+          </div> -->
             
       </mat-tab>
 

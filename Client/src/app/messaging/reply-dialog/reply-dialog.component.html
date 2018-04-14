@@ -4,7 +4,7 @@
 </mat-chip-list>
 
 <mat-form-field class="example-container">
-  <textarea class="textarea" matInput [(ngModel)]="Body"></textarea>
+  <textarea #body class="textarea" matInput [(ngModel)]="Body"></textarea>
 </mat-form-field>
 <br/>
 
@@ -26,7 +26,6 @@
 
 
 <div id="div4" *ngIf="div4">
-  <br/>
   <br/>
   <mat-card>Sorry, you are blocked.</mat-card>
 </div>
