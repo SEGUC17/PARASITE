@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
 import { ActivatedRoute } from '@angular/router';
+import { DiscussionService } from '../../discussion.service';
 
 @Component({
   selector: 'app-activity-detail',
@@ -12,10 +13,13 @@ export class ActivityDetailComponent implements OnInit {
   /*
     @author: Wessam
   */
-  comments: any[];
+  // comments: any[];
   changingComment: any = '';
   somePlaceholder: any = 'write a comment ...';
   viewedReplies: boolean[];
+  isReplying: boolean;
+  commentReplyingOn: any;
+
 
   currentUser = {
     isAdmin: false,
@@ -24,25 +28,61 @@ export class ActivityDetailComponent implements OnInit {
     username: 'Mohamed Maher'
 
   };
-  activity: Activity;
+  activity: Activity = {
+    _id: '',
+    name: '',
+    description: '',
+    bookedBy: [''], // userIds
+    price: 0,
+    status: '',
+    fromDateTime: null,
+    toDateTime: null,
+    createdAt: null,
+    updatedAt: null,
+    image: '',
+    discussion: []
+  };
 
   constructor(
     private route: ActivatedRoute,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private discussionService: DiscussionService
   ) { }
 
   ngOnInit() {
     this.getActivity();
-    this.refreshComments(12);
+    this.refreshComments(true);
   }
 
-  onReply(): any {
+  onReply(id: any): any {
     let self = this;
     let element = document.getElementById('target');
     element.scrollIntoView();
     let input = document.getElementById('lala');
     self.somePlaceholder = 'leave a reply';
     input.focus();
+    this.isReplying = true;
+    this.commentReplyingOn = id;
+  }
+
+  onDelete(i: any) {
+    let self = this;
+    this.discussionService.deleteCommentOnActivity(this.activity._id, i).subscribe(function(err) {
+      if (err) {
+        console.log(err);
+      }
+      self.refreshComments(false);
+    });
+  }
+
+  onDeleteReply(commentId: any, replyId: any) {
+    let self = this;
+    this.discussionService.deleteReplyOnCommentOnActivity(this.activity._id, commentId, replyId).subscribe(function (err) {
+      if (err) {
+        console.log(err);
+      }
+      self.refreshComments(false);
+    });
   }
 
   getActivity() {
@@ -65,37 +105,15 @@ export class ActivityDetailComponent implements OnInit {
   }
 
 
-  refreshComments(id: any): any {
-    let self = this;
-    self.comments = [];
-    self.viewedReplies = [];
+  refreshComments(refreshViewReplies: boolean): any {
 
-    const comment1 = {
-      creator: 'salma',
-      text: 'ana ba7eb sharmoofers aweee',
-      replies: [
-        {creator: { username: 'MohamedMaher' }, text: 'ya 5aynaaaa, maher bsss' },
-        {creator: { username: 'MohamedMaher' }, text: 'ba7eb casey niestattt <3' }
-        ]
-    };
-    const comment2 = {
-      creator: 'salma',
-      text: 'ana ba7eb sharmoofers aweee',
-      replies: []
-    };
-    const comment3 = {
-      creator: 'salma',
-      text: 'ana ba7eb sharmoofers aweee',
-      replies: [
-        {creator: {username: 'MohamedMaher'}, text: '3 maraat kmann, w homa band ya3ny msh ragel wa7ed !!'}
-      ]
-    };
-    self.comments.push(comment1);
-    self.viewedReplies.push(false);
-    self.comments.push(comment2);
-    self.viewedReplies.push(false);
-    self.comments.push(comment3);
-    self.viewedReplies.push(false);
+    this.getActivity();
+    if (refreshViewReplies) {
+      this.viewedReplies = [];
+      for (let i = 0; i < this.activity.discussion.length; i++) {
+        this.viewedReplies.push(false);
+      }
+    }
   }
 
   showReply(i: number) {
@@ -103,14 +121,37 @@ export class ActivityDetailComponent implements OnInit {
   }
 
   addComment() {
-    const comment = {
-      creator: 'maher',
-      text: this.changingComment
-    };
-    let self = this;
-    self.comments.push(comment);
-    this.changingComment = '';
 
+    if (!this.changingComment || 0 === this.changingComment.length || !this.changingComment.trim()) {
+      console.log('you have to write something.');
+      return;
+    }
+    if (this.isReplying) {
+
+      console.log('replying');
+      let self = this;
+      this.discussionService.postReplyOnCommentOnActivity(
+        this.activity._id,
+        this.commentReplyingOn,
+        self.changingComment).subscribe(function (err) {
+        if (err.msg !== 'reply created successfully') {
+          console.log('err in posting');
+          self.refreshComments(false);
+        }
+        console.log('no error elhamdulla ');
+        self.refreshComments(false);
+        self.changingComment = '';
+      });
+    } else {
+      let self = this;
+      this.discussionService.postCommentOnActivity(this.activity._id, self.changingComment).subscribe(function (err) {
+        if (err.msg === 'reply created successfully') {
+          console.log('err in posting');
+        }
+        self.refreshComments(false);
+        self.changingComment = '';
+      });
+    }
 
   }
 

@@ -10,7 +10,6 @@ var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
 var moment = require('moment');
 
-<<<<<<< HEAD
 // send a page of general content (resources and ideas) to the front end
 module.exports.getContentPage = function (req, res, next) {
 
@@ -69,8 +68,6 @@ module.exports.getContentPage = function (req, res, next) {
     );
 };
 
-=======
->>>>>>> dc1ddcf24dc9e97634d51917cd65c6512b8c42b3
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
 
@@ -621,7 +618,6 @@ module.exports.createSection = function (req, res, next) {
     );
 
 };
-<<<<<<< HEAD
 module.exports.getContent = function (req, res, next) {
     Content.find({}).
         exec(function (err, contents) {
@@ -666,5 +662,3 @@ module.exports.prepareContent = function (req, res, next) {
             return next();
         });
 };
-=======
->>>>>>> dc1ddcf24dc9e97634d51917cd65c6512b8c42b3

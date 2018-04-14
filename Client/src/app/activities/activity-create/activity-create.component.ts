@@ -22,7 +22,8 @@ export class ActivityCreateComponent implements OnInit {
     toDateN: null,
     fromDateTime: null,
     toDateTime: null,
-    image: null
+    image: null,
+    discussion: []
   };
 
   constructor(

@@ -15,6 +15,7 @@ import { ActivityService } from './activity.service';
 import { AuthService } from '../auth/auth.service';
 import { ActivityCreateComponent } from './activity-create/activity-create.component';
 import { ActivityDetailComponent } from './activity-detail/activity-detail.component';
+import { DiscussionService } from "../discussion.service";
 
 @NgModule({
   imports: [
@@ -30,6 +31,6 @@ import { ActivityDetailComponent } from './activity-detail/activity-detail.compo
     MatListModule
   ],
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent],
-  providers: [ActivityService, AuthService]
+  providers: [ActivityService, AuthService, DiscussionService]
 })
 export class ActivitiesModule { }
