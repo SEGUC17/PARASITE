@@ -64,7 +64,7 @@ module.exports.postComment = function(req, res) {
 
         return res.status(404).json({
             data: null,
-            err: 'This page isn\'t verified by admin yet',
+            err: 'This page isn\'t available',
             msg: null
         });
     }
@@ -87,6 +87,63 @@ module.exports.postComment = function(req, res) {
             data: obj.discussion.pop(),
             err: null,
             msg: null
+        });
+    });
+};
+
+module.exports.postCommentReply = function(req, res, next) {
+
+    /*
+     * Middleware for replying on comments
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var isVerified = req.verified;
+    var isAdmin = user && user.isAdmin;
+    var object = req.object;
+    var isCreator = user && object.creator === user.username;
+    var commentId = req.params.commentId;
+
+    if (!isVerified && !isAdmin && !isCreator) {
+
+        return res.status(404).json({
+            data: null,
+            err: 'This page isn\'t available',
+            msg: null
+        });
+    }
+
+    var comment = object.discussion.filter(function (com) {
+        return com._id == commentId;
+    }).pop();
+    if (!comment) {
+        return res.status(404).json({
+            data: null,
+            err: 'Comment doesn\'t exist',
+            msg: null
+        });
+    }
+
+    comment.replies.push({
+        creator: user.username,
+        text: req.body.text
+    });
+
+    object.save(function (err2) {
+        if (err2) {
+            return res.status(422).json({
+                data: null,
+                err: 'reply can\'t be empty',
+                msg: null
+            });
+        }
+
+        return res.status(201).json({
+            data: comment.replies.pop(),
+            err: null,
+            msg: 'reply created successfully'
         });
     });
 };

@@ -96,7 +96,8 @@ module.exports = function (passport) {
   router.post(
     '/activities/:activityId/comments/:commentId/replies',
     isAuthenticated,
-    ActivityController.postActivityCommentReply
+    ActivityController.prepareActivity,
+    DiscussionController.postCommentReply
   );
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
   router.delete(
