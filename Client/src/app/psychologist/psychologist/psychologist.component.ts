@@ -3,6 +3,8 @@ import { PsychologistService } from '../psychologist.service';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AddPsychRequestComponent } from '../add-psych-request/add-psych-request.component';
 
 @Component({
   selector: 'app-psychologist',
@@ -18,12 +20,25 @@ export class PsychologistComponent implements OnInit {
   constructor(private psychologistService: PsychologistService,
               public snackBar: MatSnackBar,
               private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private dialog: MatDialog) { }
 
   getPsychologists(): void {
     let self = this;
     self.psychologistService.getPsychologists().subscribe(function (psychs) {
       self.psychologists = psychs.data;
+    });
+  }
+  addRequest(): void {
+    const self = this;
+    let dialogOpener = this.dialog.open(AddPsychRequestComponent, {
+      width: '60%',
+      height: '90%'
+    });
+
+    dialogOpener.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      self.getPsychologists();
     });
   }
   deletePsychologist(index: any): void {

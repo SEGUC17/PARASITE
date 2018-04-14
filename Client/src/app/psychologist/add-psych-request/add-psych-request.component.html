@@ -4,10 +4,8 @@
 				<br>
 				<mat-card-header style="width:100%">
 					<mat-card-title id="title">
-						Request to add contact
+							Add your information to our address book:
 					</mat-card-title>
-					<mat-card-subtitle> <br></mat-card-subtitle>
-					<mat-card-subtitle id="title1"> information:</mat-card-subtitle>
 				</mat-card-header>
 			<br><br>
 			<div align="left">
@@ -85,6 +83,7 @@
 
 			<div align="right">
 				<mat-card-actions class="mat-card-actions">
+						<button mat-raised-button color="primary" id="btn" (click)="close()" >Cancel</button>
 						<button mat-raised-button color="primary" id="btn" (click)="submitReq()" >Submit</button>
 			 	</mat-card-actions>
 			 </div>

@@ -7,7 +7,7 @@
   </div>
   <br>
   <div align="right">
-  <button mat-fab color="primary" style="color:white" align="right"><mat-icon>add</mat-icon></button>
+  <button mat-fab color="primary" style="color:white" align="right" (click)="addRequest()"><mat-icon>add</mat-icon></button>
   </div>
   <div class="row" style="min-height:250px">
     <mat-card class="psych" *ngFor="let psych of psychologists; let i = index" style="top:20px">
@@ -18,7 +18,7 @@
         <span style="font-weight: bold">Phone</span>
         <span id="contnt">{{psych.phone}}</span>
         </div>
-        <div class="row" style="height: 80px">
+        <div class="row" style="height: 50px">
         <mat-icon id="icon">home</mat-icon>
         <span style="font-weight: bold">Address</span>
         <span id="contnt">{{psych.address}}</span>
