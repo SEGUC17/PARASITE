@@ -105,7 +105,7 @@ describe('updateSchedule', function () {
                 // Updating Schedule
                 chai.request(server).
                     patch('/api/schedule/saveScheduleChanges/' +
-                         johnDoe.username).
+                        johnDoe.username).
                     set('Authorization', signupData.body.token).
                     send([aCalendarEvent]).
                     end(function (err2, updateData) {
@@ -151,7 +151,7 @@ describe('updateSchedule', function () {
                         // Updating Schedule
                         chai.request(server).
                             patch('/api/schedule/saveScheduleChanges/' +
-                                 johnny.username).
+                                johnny.username).
                             set('Authorization', signupData.body.token).
                             send([aCalendarEvent]).
                             end(function (err3, updateData) {
@@ -208,7 +208,7 @@ describe('updateSchedule', function () {
                                 // Updating schedule
                                 chai.request(server).
                                     patch('/api/schedule/saveScheduleChanges/' +
-                                         johnny.username).
+                                        johnny.username).
                                     set('Authorization', siginData.body.token).
                                     send([aCalendarEvent]).
                                     end(function (err4, updateData) {
@@ -250,7 +250,7 @@ describe('updateSchedule', function () {
                             // Updating schedule
                             chai.request(server).
                                 patch('/api/schedule/saveScheduleChanges/' +
-                                     janeDoe.username).
+                                    janeDoe.username).
                                 set('Authorization', signup2Data.body.token).
                                 send([aCalendarEvent]).
                                 end(function (err3, updateData) {

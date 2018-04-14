@@ -39,7 +39,7 @@ const colors: any = {
 @Component({
   selector: 'app-study-plan',
   templateUrl: './study-plan.component.html',
-  styleUrls: ['./study-plan.component.css']
+  styleUrls: ['./study-plan.component.scss']
 })
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
@@ -191,7 +191,7 @@ export class StudyPlanComponent implements OnInit {
   }
 
   edit(): void {
-    alert('Implement Edit Study Plan!');
+    this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.username]);
   }
 
 }

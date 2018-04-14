@@ -110,12 +110,13 @@ describe('/GET/ personal Schedule', function () {
                 done();
             });
     });
+    // --- Mockgoose Termination --- //
+    after(function (done) {
+        mongoose.connection.close(function () {
+            done();
+        });
+    });
+    // --- End of "Mockgoose Termination" --- //
 });
 
-// --- Mockgoose Termination --- //
-after(function (done) {
-    mongoose.connection.close(function () {
-        done();
-    });
-});
-// --- End of "Mockgoose Termination" --- //
+

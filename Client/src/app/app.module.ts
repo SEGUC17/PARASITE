@@ -5,13 +5,13 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { ContentModule } from './content/content.module';
 import { MessagingModule } from './messaging/messaging.module';
 import { ProfileModule } from './profile/profile.module';
+import { SearchModule } from './search/search.module';
 import { AuthModule } from './auth/auth.module';
 import { AppComponent } from './app.component';
 import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
 import { AuthService } from './auth/auth.service';
-
 import { MarketModule } from './market/market.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -60,6 +60,7 @@ import { MatNativeDateModule } from '@angular/material';
     DashboardModule,
     AdminModule,
     ProfileModule,
+    SearchModule,
     ContentModule,
     MatDialogModule,
     MatSnackBarModule,
@@ -76,6 +77,8 @@ import { MatNativeDateModule } from '@angular/material';
     CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule,
+    AuthModule,
+    MatIconModule,
     MatChipsModule,
     LayoutModule,
     MatInputModule,
