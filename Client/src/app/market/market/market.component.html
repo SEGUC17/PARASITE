@@ -21,6 +21,7 @@
       </mat-card>
       <mat-card style="width:25%;height:100%; float: right;position: fixed; left:74%">
         <mat-card-content>
+          <button mat-button class="md-raised md-primary" style="position:relative; float:right; background:#3f51b5; color:white" (click)="this.goToCreate()">Add a new item</button>
           <h3>Search</h3>
           <mat-form-field>
             <input matInput placeholder="Value" [(ngModel)]="writtenName">
