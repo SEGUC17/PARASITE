@@ -90,6 +90,20 @@ module.exports.getPsychologists = function (req, res, next) {
   });
 };
 
+module.exports.getPsychologistData = function (req, res, next) {
+    Psychologists.findOne({ _id: req.params.id }).exec(function (err, psych) {
+          if (err) {
+              return next(err);
+          }
+
+          return res.status(200).json({
+              data: psych,
+              err: null,
+              msg: 'psych retrieved successfully.'
+          });
+      });
+};
+
 module.exports.getRequests = function (req, res, next) {
   if (req.user.isAdmin) {
     Request.find({}).exec(function (err, requests) {

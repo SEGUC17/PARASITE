@@ -1,37 +1,36 @@
 
 <h1 mat-dialog-title style="font-size: 35px; font-weight: bold">Edite info</h1>
-<form (ngSubmit)="editePsychologists" #createproduct="ngForm">
+<form (ngSubmit)="editPsychologists()" #editePsychologists="ngForm">
   <!-- <mat-card style="float:left;width:460px;height:430px"> -->
-      <mat-card class="psych" *ngFor="let psych of psychologists; let i = index" style="top:20px">
+      <mat-card class="psych" style="top:20px">
     <mat-form-field>
-        <!-- <input matInput placeholder="Product's name" name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name"> -->
         <span style="font-weight: bold">firstName:</span>
-        <span>{{psych.firstName}}</span>
-        <input matInput placeholder="firstName" name="firstName" id="firstName" [(ngModel)]="formInput.name">
+        <span>{{psychologist.firstName}}</span>
+        <input matInput placeholder="firstName" name="firstName" id="firstName" [(ngModel)]="formInput.firstName">
     </mat-form-field>
 
     <mat-form-field>
         <span style="font-weight: bold">lastName:</span>
-        <span>{{psych.lastName}}</span>
-      <input matInput placeholder="lastName" name="lastName" id="lastName"  [(ngModel)]="formInput.name">
+        <span>{{psychologist.lastName}}</span>
+      <input matInput placeholder="lastName" name="lastName" id="lastName"  [(ngModel)]="formInput.lastName">
     </mat-form-field>
     
     <mat-form-field>
         <span style="font-weight: bold">phone:</span>
-        <span>{{psych.phone}}</span>
-        <input matInput placeholder="phone" name="phone" id="phone"  [(ngModel)]="formInput.name">
+        <span>{{psychologist.phone}}</span>
+        <input matInput placeholder="phone" name="phone" id="phone"  [(ngModel)]="formInput.phone">
       </mat-form-field>
 
       <mat-form-field>
           <span style="font-weight: bold">address:</span>
-        <span>{{psych.address}}</span>
-          <input matInput placeholder="address" name="address" id="address"  [(ngModel)]="formInput.name">
+        <span>{{psychologist.address}}</span>
+          <input matInput placeholder="address" name="address" id="address"  [(ngModel)]="formInput.address">
         </mat-form-field>
 
         <mat-form-field>
             <span style="font-weight: bold">email:</span>
-        <span>{{psych.email}}</span>
-            <input matInput placeholder="email" name="email" id="email"  [(ngModel)]="formInput.name">
+        <span>{{psychologist.email}}</span>
+            <input matInput placeholder="email" name="email" id="email"  [(ngModel)]="formInput.email">
           </mat-form-field>
 
           <!-- <li>
@@ -45,19 +44,19 @@
 
           <mat-form-field>
               <span style="font-weight: bold">daysOff:</span>
-              <span>{{psych.daysOff}}</span>
+              <span>{{psychologist.daysOff}}</span>
               <input matInput placeholder="daysOff" name="daysOff" id="daysOff" 
-              [(ngModel)]="formInput.name">
+              [(ngModel)]="formInput.daysOff">
             </mat-form-field>
 
             <mat-form-field>
                 <span style="font-weight: bold">priceRange:</span>
-                <span>{{psych.priceRange}}</span>
-                <input matInput placeholder="priceRange" name="priceRange" id="priceRange"  [(ngModel)]="formInput.name">
+                <span>{{psychologist.priceRange}}</span>
+                <input matInput placeholder="priceRange" name="priceRange" id="priceRange"  [(ngModel)]="formInput.priceRange">
               </mat-form-field>
 
     <mat-card-actions>
-      <button mat-button style="margin-top:30px;float:right;width:50%;background:#3f51b5; color:white">Edite</button>
+      <button mat-button style="margin-top:30px;float:right;width:50%;background:#3f51b5; color:white">Edit</button>
     </mat-card-actions>
 
 

@@ -19,6 +19,7 @@ export class PsychologistComponent implements OnInit {
   user: any;
   psychologists: any[];
   admin: boolean;
+  idInput = new FormControl();
 
   constructor(private psychologistService: PsychologistService,
               public snackBar: MatSnackBar,
@@ -80,17 +81,14 @@ export class PsychologistComponent implements OnInit {
       self.getPsychologists();
     });
   }
-  goToEdite() {
+  goToEdit() {
     const self = this;
-    let idd = {
-      idd: this.formInput.idd,
-    };
     // get info of idd = input??how
 
     let dialogRef = self.dialog.open(EditePsychComponent, {
       width: '850px',
       height: '550px',
-      data: { market: self , id: idd }
+      data: { idd: this.idInput.value }
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

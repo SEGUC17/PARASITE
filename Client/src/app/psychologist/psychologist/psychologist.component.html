@@ -47,10 +47,10 @@
     </mat-card-content>
       <mat-card-footer id="footer" style="padding-bottom:5px">
           <button mat-icon-button id="delete" align="right" (click)="deletePsychologist(i)"> <mat-icon>close</mat-icon></button>
-          <mat-form-field>
-              <input matInput placeholder="idd" type="number" name="idd" id="idd" [(ngModel)]="formInput.idd"  class="example-right-align">       
+          <mat-form-field  style="margin-left: 1%; color:white">
+              <input matInput placeholder="request ID" name="idd" id="idd"  [formControl]="idInput" style="color:white" [(ngModel)]="formInput.idd"  class="example-right-align">       
             </mat-form-field>
-          <button mat-icon-button id="edit" align="right" (click)="this.goToEdite()"> <mat-icon>Edite</mat-icon></button>
+          <button mat-icon-button id="edit" align="right" (click)="this.goToEdit()"> <mat-icon>edit</mat-icon></button>
       </mat-card-footer>
       
 
