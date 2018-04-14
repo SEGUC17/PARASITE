@@ -12,6 +12,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material';
+import { ReplyDialogComponent } from './reply-dialog/reply-dialog.component';
+import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
   providers: [MessageService, AuthService, MatDialog],
@@ -27,10 +29,11 @@ import { MatIconModule } from '@angular/material';
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatChipsModule
   ],
-  declarations: [MessagingComponent, SendDialogComponent],
-  entryComponents: [SendDialogComponent]
+  declarations: [MessagingComponent, SendDialogComponent, ReplyDialogComponent],
+  entryComponents: [SendDialogComponent, ReplyDialogComponent]
 })
 export class MessagingModule { }
 

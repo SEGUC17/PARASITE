@@ -5,6 +5,8 @@ var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
 var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
+var User = mongoose.model('User');
+var moment = require('moment');
 
 // send a page of general content (resources and ideas) to the front end
 module.exports.getContentPage = function (req, res, next) {
@@ -26,83 +28,41 @@ module.exports.getContentPage = function (req, res, next) {
         });
     }
 
-    if (req.params.category !== 'NoCat' && req.params.section !== 'NoSec') {
-        // no category and section were specified
-        // fectch a page of content
-        Content.paginate(
-            {
-                approved: true,
-                category: req.params.category,
-                section: req.params.section
-            },
-            {
-                limit: Number(req.params.numberOfEntriesPerPage),
-                page: Number(req.params.pageNumber)
-            },
-            function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
+    // intitialize the retrieval conditions
+    var conditions = {
+        'approved': true,
+        'category': req.params.category,
+        'section': req.params.section
+    };
 
-                // send a page of content
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-            }
-        );
-    } else if (req.params.category === 'NoCat') {
-        // category, and thus section, were not specified
-        // fetch a page from the database
-        Content.paginate(
-            { approved: true },
-            {
-                limit: Number(req.params.numberOfEntriesPerPage),
-                page: Number(req.params.pageNumber)
-            },
-            function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
-
-                // send a page of content
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-            }
-        );
-    } else {
-        // only a category was specified
-        // fetch a page from the database
-        Content.paginate(
-            {
-                approved: true,
-                category: req.params.category
-            },
-            {
-                limit: Number(req.params.numberOfEntriesPerPage),
-                page: Number(req.params.pageNumber)
-            },
-            function (err, contents) {
-                if (err) {
-                    return next(err);
-                }
-
-                // send a page of content
-
-                return res.status(200).json({
-                    data: contents,
-                    err: null,
-                    msg: 'Page retrieved successfully'
-                });
-            }
-        );
+    // category or section not of interest
+    if (req.params.category === 'NoCat') {
+        delete conditions.category;
+        delete conditions.section;
+    } else if (req.params.section === 'NoSec') {
+        delete conditions.section;
     }
+
+    // retrieve page of content
+    Content.paginate(
+        conditions,
+        {
+            limit: Number(req.params.numberOfEntriesPerPage),
+            page: Number(req.params.pageNumber)
+        },
+        function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+            // send a page of content
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'Page retrieved successfully'
+            });
+        }
+    );
 };
 
 // retrieve content (resource  or idea) by ObejctId
@@ -142,6 +102,91 @@ module.exports.getContentById = function (req, res, next) {
 
     });
 
+};
+
+// helper for getSearchPage
+var prepareQueryConditionsForSearch = function (query) {
+    // default search conditions
+    var conditions = {
+        '$text': { '$search': query.searchQuery },
+        'approved': true,
+        'category': query.category,
+        'section': query.section
+    };
+
+    // section and category are not of interest
+    if (query.category === 'NoCat' || query.section === 'NoSec') {
+        delete conditions.category;
+        delete conditions.section;
+    }
+
+    // title and tags not of interest
+    if (query.searchQuery === '') {
+        delete conditions.$text;
+    }
+
+    return conditions;
+};
+
+// helper for getSearchPage
+var prepareQueryOptionsForSearch = function (query, params) {
+    // default search options
+    var options = {
+        limit: Number(params.pageSize),
+        page: Number(params.pageNumber),
+        sort: {}
+    };
+
+    // sort option was provided, default is relevance;
+    // therefore, the string relevance is not checked
+    if (query.sort) {
+
+        if (query.sort === 'upload date') {
+            options.sort.touchDate = 1;
+        }
+
+        if (query.sort === 'rating') {
+            options.sort.rating = -1;
+        }
+    }
+
+    // relevance is of importance to the query
+    if (query.searchQuery !== '') {
+        options.select = { score: { $meta: 'textScore' } };
+        options.sort.score = { $meta: 'textScore' };
+    }
+
+    return options;
+};
+
+module.exports.getSearchPage = function (req, res, next) {
+    // prepare the conditions and options for the query
+    var conditions = prepareQueryConditionsForSearch(req.query);
+    var options = prepareQueryOptionsForSearch(req.query, req.params);
+
+    // log the options and conditions for debugging
+    console.log(options);
+    console.log(conditions);
+
+    // execute the database query
+    Content.paginate(
+        conditions,
+        options,
+        function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+
+            // send the page of contents
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'The contents searched for by ' +
+                    'the user were retrieved successfully'
+            });
+        }
+    );
 };
 
 // retrieve the content (resources and ideas) created by the specified user
@@ -187,6 +232,55 @@ module.exports.getContentByCreator = function (req, res, next) {
     );
 };
 
+module.exports.validateSelectedCategory = function (req, res, next) {
+    Category.findOne({ name: req.body.category }, function (err, category) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!category) {
+            return res.status(422).json({
+                data: null,
+                err: 'the category supplied is invalid',
+                msg: null
+            });
+        }
+        var sectionNames = category.sections.map(function (section) {
+            return section.name;
+        });
+        if (!sectionNames.includes(req.body.section)) {
+            return res.status(422).json({
+                data: null,
+                err: 'the section supplied is invalid',
+                msg: null
+            });
+        }
+        next();
+    });
+};
+
+module.exports.validateContent = function (req, res, next) {
+    var valid = req.body.title &&
+        req.body.body &&
+        req.body.category &&
+        req.body.section &&
+        req.body.creator &&
+        typeof req.body.title === 'string' &&
+        typeof req.body.body === 'string' &&
+        typeof req.body.category === 'string' &&
+        typeof req.body.section === 'string' &&
+        typeof req.body.creator === 'string';
+
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'content metadata is not supplied',
+            msg: null
+        });
+    }
+    next();
+};
+
 
 var handleAdminCreate = function (req, res, next) {
     req.body.approved = true;
@@ -194,6 +288,26 @@ var handleAdminCreate = function (req, res, next) {
         if (contentError) {
             return next(contentError);
         }
+
+        User.findOneAndUpdate(
+            { 'username': req.user.username },
+            { $set: { contributionScore: req.user.contributionScore + 10 } },
+            { new: true },
+            function (err, user) {
+                if (err) {
+                    console.log('cannot add contributionPoints to' +
+                        req.user.username);
+                }
+                // if not found return error
+                if (!user) {
+                    return res.status(404).json({
+                        data: null,
+                        err: 'User not found',
+                        msg: null
+                    });
+                }
+            }
+        );
 
         return res.status(201).json({
             data: content,
@@ -233,7 +347,6 @@ var handleNonAdminCreate = function (req, res, next) {
 };
 
 
-/*eslint max-statements: ["error", 19]*/
 module.exports.createContent = function (req, res, next) {
     var valid = req.body.title &&
         req.body.body &&
@@ -253,41 +366,79 @@ module.exports.createContent = function (req, res, next) {
             msg: null
         });
     }
-    Category.findOne({ name: req.body.category }, function (err, category) {
+    delete req.body.touchDate;
+    delete req.body.approved;
+    delete req.body.creator;
+    req.body.creator = req.user.username;
+    // admin user content creation handler
+    if (req.user.isAdmin) {
+        return handleAdminCreate(req, res, next);
+    }
+
+    // non admin user content creation handler
+    return handleNonAdminCreate(req, res, next);
+};
+
+var handleAdminUpdate = function (req, res, next) {
+    req.body.approved = true;
+    req.body.touchDate = moment.toDate();
+    req.body.creator = req.user.username;
+    Content.findByIdAndUpdate(req.body._id, req.body, {
+        new: true,
+        overwrite: true
+    }, function (err, updatedContent) {
         if (err) {
             return next(err);
         }
 
-        if (!category) {
-            return res.status(422).json({
-                data: null,
-                err: 'the category supplied is invalid',
-                msg: null
-            });
-        }
-        var sectionNames = category.sections.map(function (section) {
-            return section.name;
+        return res.status(200).json({
+            data: updatedContent,
+            err: null,
+            mesg: 'retrieved the content successfully'
         });
-        if (!sectionNames.includes(req.body.section)) {
-            return res.status(422).json({
-                data: null,
-                err: 'the section supplied is invalid',
-                msg: null
-            });
-        }
-        delete req.body.touchDate;
-        delete req.body.approved;
-        delete req.body.creator;
-        req.body.creator = req.user.username;
-        // admin handler for now open for anyone
-        if (req.user.isAdmin) {
-            return handleAdminCreate(req, res, next);
-        }
-
-        // non admin handler, toggle condition to activate
-        return handleNonAdminCreate(req, res, next);
     });
+};
 
+var handleNonAdminUpdate = function (req, res, next) {
+    req.body.approved = false;
+    ContentRequest.create({
+        contentID: req.body._id,
+        contentTitle: req.body.title,
+        contentType: req.body.type,
+        creator: req.user.username,
+        requestType: 'edit'
+    }, function (requestError, contentRequest) {
+        if (requestError) {
+            return next(requestError);
+        }
+        Content.findByIdAndUpdate(req.body._id, req.body, {
+            new: true,
+            overwrite: true
+        }, function (contentError, updatedContent) {
+            if (contentError) {
+                return next(contentError);
+            }
+
+            return res.status(200).json({
+                data: {
+                    content: updatedContent,
+                    request: contentRequest
+                },
+                err: null,
+                msg: 'updated content successfully'
+            });
+        });
+    });
+};
+module.exports.updateContent = function (req, res, next) {
+    delete req.body.approved;
+    req.body.touchDate = moment.toDate();
+    req.body.creator = req.user.username;
+    if (req.user.isAdmin) {
+        return handleAdminUpdate(req, res, next);
+    }
+
+    return handleNonAdminUpdate(req, res, next);
 };
 
 // retrieve the categories

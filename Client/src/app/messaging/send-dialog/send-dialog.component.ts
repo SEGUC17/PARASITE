@@ -9,8 +9,9 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-send-dialog',
   templateUrl: './send-dialog.component.html',
-  styleUrls: ['./send-dialog.component.css']
+  styleUrls: ['./send-dialog.component.scss']
 })
+
 export class SendDialogComponent implements OnInit {
 
   Body: String = '';

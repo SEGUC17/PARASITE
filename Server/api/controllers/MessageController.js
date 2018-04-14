@@ -47,7 +47,6 @@ module.exports.sendMessage = function(req, res, next) {
         err: null,
         msg: 'User exists.'
     });
-
 });*/
 // checking that the sender is not on the recipient's blocklist
 console.log('sender is: ', req.body.msg.sender);
@@ -99,7 +98,8 @@ var list=req.body.list;
 // where the recipient is specified by an input parameter in the URL
 module.exports.getInbox = function(req, res, next) {
 
-  Message.find({ recipient: req.params.user }).exec(function(err, msgs) {
+  Message.find({ recipient: req.params.user }).sort({ sentAt: -1 }).
+  exec(function(err, msgs) {
     if (err) {
       return next(err);
     }
@@ -116,7 +116,8 @@ module.exports.getInbox = function(req, res, next) {
 // where the sender is specified by an input parameter in the URL
 module.exports.getSent = function(req, res, next) {
 
-  Message.find({ sender: req.params.user }).exec(function(err, msgs) {
+  Message.find({ sender: req.params.user }).sort({ sentAt: -1 }).
+  exec(function(err, msgs) {
     if (err) {
       return next(err);
     }
@@ -162,8 +163,13 @@ module.exports.deleteMessage = function(req, res, next) {
               req.body.username + 'Blocked is: ' + blocked
           });
       }
+<<<<<<< HEAD
      // console.log('status is 200');
       
+=======
+      console.log('status is 200');
+    
+>>>>>>> f123ebd039c6496bbac0f6371b4487fabad0bac1
       return res.status(200).json({
        data: null,
        err: null,

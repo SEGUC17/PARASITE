@@ -86,7 +86,7 @@ module.exports.signUp = function (req, res, next) {
         isString(newUser.username);
 
     } catch (err) {
-        return res.status(422).json({
+        return res.status(422).json({   
             data: null,
             err: null,
             msg: field + ': ' + err.message + '!'
