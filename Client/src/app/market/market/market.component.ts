@@ -28,17 +28,17 @@ export class MarketComponent implements OnInit {
   selectedSeller;
   writtenPrice;
   writtenName;
-  numberOfProducts: number;
-  numberOfUserProducts: number;
-  userItems: Product[];
   userRequests: Product[];
-  userItemsCurrentPage: number;
   removable = true;
-  seller = 'all';
+  seller: string;
   sort: string;
   sorts = [
     'latest',
     'cheapest'
+  ];
+  sellers = [
+    'all',
+    'me'
   ];
   constructor(public dialog: MatDialog, public router: Router,
     private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) { }
@@ -53,10 +53,8 @@ export class MarketComponent implements OnInit {
       if (!self.user) {
         self.router.navigate(['/']);
       } else {
-        self.userItemsCurrentPage = 1;
         self.currentPageNumber = 1;
         self.firstPage();
-        self.firstUserPage();
         self.getUserRequests();
       }
     });
@@ -64,7 +62,7 @@ export class MarketComponent implements OnInit {
   // opens the product details dialog
   showProductDetails(prod: any): void {
     if (prod) {
-      if (this.products.indexOf(prod) !== -1 || this.userItems.indexOf(prod) !== -1) {
+      if (this.products.indexOf(prod) !== -1) {
         let dialogRef = this.dialog.open(ProductDetailComponent, {
           width: '1000px',
           height: '400px',
@@ -98,7 +96,8 @@ export class MarketComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.getUserRequests();
+      self.getUserRequests();
+      self.firstPage();
     });
   }
 
@@ -132,37 +131,10 @@ export class MarketComponent implements OnInit {
     self.getPage();
   }
 
-  // gets the totals number of products owned by the user
-  // gets the current user items page products
-  // restrict the products to the ones following the delimiters given
-  firstUserPage(): void {
-    const self = this;
-    const limiters = {
-      seller: self.user.username
-    };
-    this.marketService.numberOfMarketPages(limiters)
-      .subscribe(function (numberOfProducts) {
-        self.numberOfUserProducts = numberOfProducts.data;
-        self.getUserPage();
-      });
-  }
-
-  // gets the current user items page products
-  // restrict the products to the ones following the delimiters given
-  getUserPage(): void {
-    const self = this;
-    const limiters = {
-      seller: self.user.username
-    };
-    self.marketService.getMarketPage(self.entriesPerPage,
-      self.userItemsCurrentPage, limiters)
-      .subscribe(function (products) {
-        self.userItems = products.data.docs;
-      });
-  }
-  applySeller(x: number): void {
+  applySeller(x: string): void {
     let self = this;
-    if (x === 0) {
+    self.seller = x;
+    if (x === 'all') {
       self.selectedSeller = null;
     } else {
       self.selectedSeller = this.user.username;
@@ -190,8 +162,8 @@ export class MarketComponent implements OnInit {
       self.selectedSeller = null;
       self.seller = 'all';
     } else if (toRemove === 'price') {
-      self.selectedPrice = null;
-      self.writtenPrice = null;
+      self.selectedPrice = undefined;
+      self.writtenPrice = undefined;
     } else if (toRemove === 'name') {
       self.selectedName = null;
       self.writtenName = null;
@@ -204,11 +176,6 @@ export class MarketComponent implements OnInit {
   onScroll(): void {
     this.currentPageNumber += 1;
     this.getPage();
-  }
-
-  onPaginateChangeMyItems(event): void {
-    this.userItemsCurrentPage = event.pageIndex + 1;
-    this.getUserPage();
   }
 
   getUserRequests(): void {
