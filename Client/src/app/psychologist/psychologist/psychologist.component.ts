@@ -1,3 +1,7 @@
+
+/* tslint-disable max-len */
+/* tslint-disable max-statements */
+
 import { Component, OnInit } from '@angular/core';
 import { PsychologistService } from '../psychologist.service';
 import { MatSnackBar } from '@angular/material';
@@ -7,6 +11,7 @@ import { AddPsychRequestComponent } from '../add-psych-request/add-psych-request
 import { EditPsychComponent } from '../edit-psych/edit-psych.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
+import { Psychologist } from '../psychologist/psychologist';
 
 
 @Component({
@@ -20,6 +25,7 @@ export class PsychologistComponent implements OnInit {
   psychologists: any[];
   admin: boolean;
   idInput = new FormControl();
+  psychologist: Psychologist;
 
   constructor(private psychologistService: PsychologistService,
               public snackBar: MatSnackBar,
@@ -81,20 +87,43 @@ export class PsychologistComponent implements OnInit {
       self.getPsychologists();
     });
   }
-  goToEdit() {
-    const self = this;
-    // get info of idd = input??how
 
-    let dialogRef = self.dialog.open(EditPsychComponent, {
-      width: '850px',
-      height: '550px',
-      data: { idd: this.idInput.value }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+  getPsychologistData(idIn: String): void {
+    let self = this;
+    self.psychologistService.getPsychologistData(idIn).subscribe(function (psych) {
+      if (psych) {
+        self.psychologist = psych.data;
+        self.idInput.setValue(null);
+        let dialogRef = self.dialog.open(EditPsychComponent, {
+          width: '60%',
+          height: '90%',
+          data: { psych: self.psychologist }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+          this.getPsychologists();
+        });
+      } else {
+        let msg1 = 'The ID you Entered doesn\'t exist,';
+        let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
+        self.snackBar.open(msg1 + msg2, '', {
+          duration: 3500
+        });
+      }
     });
   }
 
+  goToEdit(i): void {
+    const self = this;
+    if (! ( this.idInput.value === this.psychologists[i]._id)) {
+      let msg1 = 'The ID you Entered doesn\'t match the Information you selected,';
+        let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
+        self.snackBar.open(msg1 + msg2, '', {
+          duration: 3500
+        });
+    } else {
+      this.getPsychologistData(this.idInput.value);
+  }
 
+  }
 }
-
