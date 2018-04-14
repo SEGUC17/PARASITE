@@ -56,13 +56,6 @@ console.log('array length is: ', req.body.list.length);
 
 
 var list=req.body.list;
-/* User.findOne( { username: req.params.user } ).exec(function(err, myyuser) {
-    if (err) {
-      console.log('entered error of findOne')
-      return next(err);
-     }
-      myuser=myyuser; 
-    });*/
   
   for(let i = 0 ; i< list.length ; i++) {
    if(req.body.msg.sender === list[i] ) {
@@ -163,13 +156,8 @@ module.exports.deleteMessage = function(req, res, next) {
               req.body.username + 'Blocked is: ' + blocked
           });
       }
-<<<<<<< HEAD
-     // console.log('status is 200');
-      
-=======
       console.log('status is 200');
     
->>>>>>> f123ebd039c6496bbac0f6371b4487fabad0bac1
       return res.status(200).json({
        data: null,
        err: null,
