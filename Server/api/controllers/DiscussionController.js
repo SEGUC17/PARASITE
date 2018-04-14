@@ -151,7 +151,7 @@ module.exports.postCommentReply = function(req, res, next) {
 module.exports.deleteComment = function (req, res, next) {
 
     /*
-     * Middleware for deleting on comments
+     * Middleware for deleting comments
      *
      * @author: Wessam
      */
@@ -159,7 +159,7 @@ module.exports.deleteComment = function (req, res, next) {
     var user = req.user;
     var isAdmin = user && user.isAdmin;
     var object = req.object;
-    var isActivityCreator = user && object.creator === user.username;
+    var isObjectCreator = user && object.creator === user.username;
     var commentId = req.params.commentId;
 
     var comment = object.discussion.filter(function (comm) {
@@ -176,7 +176,7 @@ module.exports.deleteComment = function (req, res, next) {
 
     var isCommentCreator = comment.creator === user.username;
 
-    if (!isAdmin && !isActivityCreator && !isCommentCreator) {
+    if (!isAdmin && !isObjectCreator && !isCommentCreator) {
         return res.status(403).json({
             data: null,
             err: 'You can\'t delete this comment',
@@ -188,6 +188,77 @@ module.exports.deleteComment = function (req, res, next) {
 
     object.save(function (err) {
         if (err) {
+            return next(500);
+        }
+
+        return res.status(204).json({
+            data: null,
+            err: null,
+            msg: 'comment deleted successfully'
+        });
+    });
+};
+
+module.exports.deleteCommentReply = function (req, res, next) {
+
+    /*
+     * Middleware for deleting replies
+     *
+     * @author: Wessam
+     */
+
+    var user = req.user;
+    var isAdmin = user && user.isAdmin;
+    var object = req.object;
+    var isObjectCreator = user && object.creator === user.username;
+    var commentId = req.params.commentId;
+    var replyId = req.params.replyId;
+
+    var comment = object.discussion.filter(function (comm) {
+        return comm._id == commentId;
+    }).pop();
+
+    if (!comment) {
+        return res.status(404).json({
+            data: null,
+            err: 'Comment doesn\'t exist',
+            msg: null
+        });
+    }
+
+    var isCommentCreator = comment.creator === user.username;
+
+    var reply = comment.replies.filter(function (rep) {
+        return rep._id == replyId;
+    });
+
+    if (!reply) {
+        return res.status(404).json({
+            data: null,
+            err: 'reply doesn\'t exist',
+            msg: null
+        });
+    }
+
+    var isReplyCreator = reply.creator === user.username;
+
+    if (
+        !isAdmin &&
+        !isObjectCreator &&
+        !isCommentCreator &&
+        !isReplyCreator
+    ) {
+        return res.status(403).json({
+            data: null,
+            err: 'You can\'t delete this comment',
+            msg: null
+        });
+    }
+
+    comment.replies.id(replyId).remove();
+
+    object.save(function (err2) {
+        if (err2) {
             return next(500);
         }
 
