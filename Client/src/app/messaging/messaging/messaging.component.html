@@ -16,7 +16,7 @@
   <mat-tab-group>
     <!-- table for inbox -->
       <mat-tab label="Inbox">
-        <div class="example-container mat-elevation-z8">
+        <!-- <div class="example-container mat-elevation-z8">
             <mat-table #table [dataSource]="inbox">
       
               <ng-container matColumnDef="sender">
@@ -53,9 +53,26 @@
               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
               <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
+          </div> -->
+
+          <div style="max-width:800px;" *ngFor="let message of inbox">
+          <mat-card>
+              <mat-card-header>
+                <div mat-card-avatar><mat-icon>face</mat-icon></div>
+                <mat-card-title> {{message.sender}} </mat-card-title>
+                <mat-card-subtitle> {{message.sentAt|date}} </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>
+                    {{message.body}}
+                </p>
+              </mat-card-content>
+          </mat-card>
+          <br/>
           </div>
+            
       </mat-tab>
-      
+
       <!-- table for sent messages -->
       <mat-tab label="Sent">
         <div class="example-container mat-elevation-z8">
@@ -94,10 +111,6 @@
     </mat-tab-group>
     </div>
 
-  
-    
-
-<!--    <button class="btn"><i class="fa fa-trash"></i> Trash</button> -->
 
 
   
