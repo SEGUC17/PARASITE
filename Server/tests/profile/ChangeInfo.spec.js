@@ -15,7 +15,7 @@ var mockgoose = new Mockgoose(mongoose);
 
 var token = null;
 
-describe('Add user as a parent', function () {
+describe('Change my personal information', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
@@ -35,7 +35,7 @@ describe('Add user as a parent', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-    it('It should change my personal information', function (done) {
+    it('It should update my personal information', function (done) {
         var user = {
             address: 'rehab',
             birthdate: '1/1/1997',
@@ -47,32 +47,15 @@ describe('Add user as a parent', function () {
             username: 'snickers123'
         };
         var AUser1 = {
-            address: 'Cairo',
+            address: 'cairo',
             birthdate: '5/5/1990',
-            email: 'Magicxx@gmail.com',
-            firstName: 'Omar',
-            lastName: 'Osama',
+            email: 'magicxx@gmail.com',
+            firstName: 'omar',
+            lastName: 'osama',
             phone: '0122222',
-            username: 'OmarOsama'
+            username: 'omarosama'
         };
-        var AUser2 = {
-            address: '',
-            birthdate: '5/5/1990',
-            email: 'Magicxx@gmail.com',
-            firstName: 'Omar',
-            lastName: 'Osama',
-            phone: '',
-            username: 'OmarOsama'
-        };
-        var RUser = {
-            address: 'Alex',
-            birthdate: '5/5/1990',
-            email: 'Magicxx@gmail',
-            firstName: 'Omar',
-            lastName: 'Osama',
-            phone: '0122222',
-            username: 'OmarOsama'
-        };
+        
         var UserIn = {
             password: '123456789',
             username: 'snickers123'
@@ -117,26 +100,23 @@ describe('Add user as a parent', function () {
                                         expect(Response).to.have.
                                             status(200);
                                         Response.body.data.should.have.
-                                            property('adress').
-                                            eql('Cairo');
+                                            property('address').
+                                            eql('cairo');
                                         Response.body.data.should.have.
                                             property('email').
-                                            eql('Magicxx@gmail.com');
+                                            eql('mgicxx@gmail.com');
                                         Response.body.data.should.have.
                                             property('birthdate').
                                             eql('5/5/1990');
                                         Response.body.data.should.have.
                                             property('lastName').
-                                            eql('Osama');
+                                            eql('osama');
                                         Response.body.data.should.have.
                                             property('phone').
-                                            eql([
-                                                '01111111111',
-                                                '0122222'
-                                            ]);
+                                            eql(['0122222']);
                                         Response.body.data.should.have.
                                             property('username').
-                                            eql('OmarOsama');
+                                            eql('omarosama');
 
                                         done();
                                     });
