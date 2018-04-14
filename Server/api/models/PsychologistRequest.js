@@ -10,6 +10,11 @@ var psychReqSchema = mongoose.Schema({
     type: Date
   },
   daysOff: { type: [String] },
+  deleteID: {
+    required: false,
+    trim: true,
+    type: String
+  },
   email: {
     required: true,
     trim: true,
@@ -26,7 +31,17 @@ var psychReqSchema = mongoose.Schema({
     type: String
   },
   phone: { type: String },
-  priceRange: { type: Number }
+  priceRange: { type: Number },
+  type: {
+    default: 'add',
+    enum: [
+    'add',
+    'delete'
+    ],
+    required: false,
+    trim: true,
+    type: String
+  }
 });
 
 mongoose.model('PsychologistRequest', psychReqSchema, 'psychologistrequests');
