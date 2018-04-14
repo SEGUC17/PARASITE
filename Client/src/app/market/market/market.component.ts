@@ -10,6 +10,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angu
 import { Router } from '@angular/router';
 import { CreateProductComponent } from '../create-product/create-product.component';
 import { AuthService } from '../../auth/auth.service';
+import { RequestDetailComponent } from '../request-detail/request-detail.component';
+
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
@@ -18,17 +20,25 @@ import { AuthService } from '../../auth/auth.service';
 export class MarketComponent implements OnInit {
 
   user: any;
-  products: Product[];
+  products: Product[] = [];
   currentPageNumber: number;
   entriesPerPage = 15;
   selectedName: String;
   selectedPrice;
   selectedSeller;
-  numberOfProducts: number;
-  numberOfUserProducts: number;
-  userItems: Product[];
-  userItemsCurrentPage: number;
-
+  writtenPrice;
+  writtenName;
+  userRequests: Product[];
+  seller = 'all';
+  sort: string;
+  sorts = [
+    'latest',
+    'cheapest'
+  ];
+  sellers = [
+    'all',
+    'me'
+  ];
   constructor(public dialog: MatDialog, public router: Router,
     private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) { }
 
@@ -36,34 +46,45 @@ export class MarketComponent implements OnInit {
   // gets the products in the market and the products owned by the user)
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['username'];
+    const userDataColumns = ['username', 'isAdmin'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.user = res.data;
       if (!self.user) {
         self.router.navigate(['/']);
       } else {
-        self.userItemsCurrentPage = 1;
         self.currentPageNumber = 1;
         self.firstPage();
-        self.firstUserPage();
+        self.getUserRequests();
       }
     });
   }
   // opens the product details dialog
   showProductDetails(prod: any): void {
     if (prod) {
-      let dialogRef = this.dialog.open(ProductDetailComponent, {
-        width: '1000px',
-        height: '400px',
-        data: { product: prod }
-      });
+      if (this.products.indexOf(prod) !== -1) {
+        let dialogRef = this.dialog.open(ProductDetailComponent, {
+          width: '1000px',
+          height: '400px',
+          data: { product: prod, curUser: this.user.username }
+        });
 
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-      });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+      } else if (this.userRequests.indexOf(prod) !== -1) {
+        let dialogRef = this.dialog.open(RequestDetailComponent, {
+          width: '1000px',
+          height: '400px',
+          data: { product: prod, curUser: this.user.username }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+      }
     }
-
   }
+
   // Opens the dialog form of creating a product
   goToCreate() {
     const self = this;
@@ -74,6 +95,8 @@ export class MarketComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      self.getUserRequests();
+      self.firstPage();
     });
   }
 
@@ -81,18 +104,19 @@ export class MarketComponent implements OnInit {
   // restrict the products to the ones following the delimiters given
   getPage(): void {
     const self = this;
-    if ( self.selectedName ) {
+    if (self.selectedName) {
       self.selectedName = self.selectedName.trim();
     }
     const limiters = {
       price: self.selectedPrice + 1,
       name: self.selectedName,
-      seller: self.selectedSeller
+      seller: self.selectedSeller,
+      sort: self.sort
     };
     self.marketService.getMarketPage(self.entriesPerPage,
       self.currentPageNumber, limiters)
       .subscribe(function (products) {
-        self.products = products.data.docs;
+        self.products = self.products.concat(products.data.docs);
       });
   }
 
@@ -101,72 +125,64 @@ export class MarketComponent implements OnInit {
   // restrict the products to the ones following the delimiters given
   firstPage(): void {
     const self = this;
-    if ( self.selectedName ) {
-      self.selectedName = self.selectedName.trim();
-    }
-    const limiters = {
-      price: self.selectedPrice + 1,
-      name: self.selectedName,
-      seller: self.selectedSeller
-    };
-    this.marketService.numberOfMarketPages(limiters)
-      .subscribe(function (numberOfProducts) {
-        self.numberOfProducts = numberOfProducts.data;
-        console.log(numberOfProducts.data);
-        self.getPage();
-      });
+    self.currentPageNumber = 1;
+    self.products = [];
+    self.getPage();
   }
 
-  // gets the totals number of products owned by the user
-  // gets the current user items page products
-  // restrict the products to the ones following the delimiters given
-  firstUserPage(): void {
-    const self = this;
-    const limiters = {
-      seller: self.user.username
-    };
-    this.marketService.numberOfMarketPages(limiters)
-      .subscribe(function (numberOfProducts) {
-        self.numberOfUserProducts = numberOfProducts.data;
-        self.getUserPage();
-      });
-  }
-
-  // gets the current user items page products
-  // restrict the products to the ones following the delimiters given
-  getUserPage(): void {
-    const self = this;
-    const limiters = {
-      seller: self.user.username
-    };
-    self.marketService.getMarketPage(self.entriesPerPage,
-      self.userItemsCurrentPage, limiters)
-      .subscribe(function (products) {
-        self.userItems = products.data.docs;
-      });
-  }
-  seller(x: number): void {
+  applySeller(x: string): void {
     let self = this;
-    if ( x === 0 ) {
-      self.selectedSeller = undefined;
+    self.seller = x;
+    if (x === 'all') {
+      self.selectedSeller = null;
     } else {
       self.selectedSeller = this.user.username;
     }
     self.firstPage();
   }
-  // clears search critirea
-  clearLimits(): void {
-    this.selectedName = undefined;
-    this.selectedPrice = undefined;
-    this.firstPage();
+  applyPrice(): void {
+    let self = this;
+    self.selectedPrice = self.writtenPrice;
+    self.firstPage();
   }
-  onPaginateChangeMarket(event): void {
-    this.currentPageNumber = event.pageIndex + 1;
-    this.getPage();
+  applyName(): void {
+    let self = this;
+    self.selectedName = self.writtenName;
+    self.firstPage();
   }
-  onPaginateChangeMyItems(event): void {
-    this.userItemsCurrentPage = event.pageIndex + 1;
-    this.getUserPage();
+  applySort(x: string): void {
+    let self = this;
+    self.sort = x;
+    self.firstPage();
+  }
+  remove(toRemove: string): void {
+    let self = this;
+    if (toRemove === 'seller') {
+      self.selectedSeller = null;
+      self.seller = 'all';
+    } else if (toRemove === 'price') {
+      self.selectedPrice = undefined;
+      self.writtenPrice = undefined;
+    } else if (toRemove === 'name') {
+      self.selectedName = null;
+      self.writtenName = null;
+    } else {
+      self.sort = null;
+    }
+    self.firstPage();
   }
 
+  onScroll(): void {
+    this.currentPageNumber += 1;
+    this.getPage();
+  }
+
+  getUserRequests(): void {
+    let self = this;
+    this.marketService.getUserRequests(this.user.username).subscribe(function (res) {
+      if (res.msg === 'Requests retrieved.') {
+        self.userRequests = res.data;
+      }
+    });
+  }
 }
