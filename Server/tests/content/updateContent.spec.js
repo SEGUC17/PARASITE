@@ -172,6 +172,24 @@ describe('/PATCH /content', function () {
         }
     );
 
+    it('should fail to create new content successfully,' +
+        ' because of invalid metadata', function (done) {
+            chai.request(server).
+                patch('/api/content').
+                set('Authorization', userToken).
+                send({ body: 'hello' }).
+                end(function (err, res) {
+                    if (err) {
+                        done();
+                    }
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('content metadata' +
+                        ' is not supplied');
+                    done();
+                });
+        });
+
 
     // --- Clearing Mockgoose --- //
     after(function (done) {
