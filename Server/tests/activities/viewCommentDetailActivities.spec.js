@@ -285,7 +285,6 @@ describe('Activities Comments viewing', function () {
                         if (err) {
                             console.log(err);
                         }
-                        console.log(res.body);
                         res.should.have.status(403);
                         done();
                     });

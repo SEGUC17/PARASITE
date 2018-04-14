@@ -19,6 +19,7 @@ var adminController = require('../controllers/AdminController');
 var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
+var DiscussionController = require('../controllers/DiscussionController');
 
 module.exports = function (passport) {
 
@@ -83,7 +84,8 @@ module.exports = function (passport) {
   router.get(
     '/activities/:activityId/comments/:commentId',
     optionalAuthentication,
-    ActivityController.getActivityComment
+    ActivityController.prepareActivity,
+    DiscussionController.getComment
   );
   router.post('/activities/:activityId/comments', isAuthenticated, ActivityController.commentOnActivity);
   router.post(

@@ -317,7 +317,7 @@ module.exports.commentOnActivity = function (req, res) {
     );
 };
 
-module.exports.getActivityComment = function (req, res, next) {
+module.exports.prepareActivity = function (req, res, next) {
 
     /*
      *  Endpoint to retreive comments detail of activity
@@ -325,9 +325,7 @@ module.exports.getActivityComment = function (req, res, next) {
      * @author: Wessam
      */
 
-    var user = req.user;
     var activityId = req.params.activityId;
-    var commentId = req.params.commentId;
 
     Activity.findById(activityId).
         exec(function (err, activity) {
@@ -341,35 +339,10 @@ module.exports.getActivityComment = function (req, res, next) {
                     msg: null
                 });
             }
+            req.object = activity;
+            req.verified = activity.status === 'verified';
 
-            var isCreator = user && user.username === activity.creator;
-            var isAdmin = user && user.isAdmin;
-
-            if (activity.status !== 'verified' && !isAdmin && !isCreator) {
-                var status = user ? 403 : 401;
-
-                return res.status(status).json({
-                    data: null,
-                    err: 'Activity is not verified',
-                    msg: null
-                });
-            }
-            var comment = activity.discussion.filter(function (com) {
-                return com._id == commentId;
-            }).pop();
-            if (!comment) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'Comment doesn\'t exist',
-                    msg: null
-                });
-            }
-
-            return res.status(200).json({
-                data: comment,
-                err: null,
-                msg: 'Comment retreived successfully'
-            });
+            return next();
         });
 };
 
