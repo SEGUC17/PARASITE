@@ -34,7 +34,7 @@ module.exports.sendMessage = function(req, res, next) {
 });*/
 
 // checking that the sender is not on the recipient's blocklist
-console.log('sender is: ', req.body.msg.sender);
+/*console.log('sender is: ', req.body.msg.sender);
 console.log('array is: ', req.body.list);
 console.log('object is: ', req.body);
 console.log('array length is: ', req.body.list.length);
@@ -52,12 +52,13 @@ var list=req.body.list;
     });
    };
   };
+*/
 
   // Security Check
-  delete req.body.msg.sentAt;
+  delete req.body.sentAt;
 
   // create new entry in DB
-  Message.create(req.body.msg, function(err, msg) {
+  Message.create(req.body, function(err, msg) {
     if (err) {
       return next(err);
     }

@@ -11,7 +11,6 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './send-dialog.component.html',
   styleUrls: ['./send-dialog.component.scss']
 })
-
 export class SendDialogComponent implements OnInit {
 
   Body: String = '';
@@ -20,6 +19,8 @@ export class SendDialogComponent implements OnInit {
   div1: Boolean; // div for empty recipient error message
   div2: Boolean; // div for empty body error message
   div3: Boolean; // div for sent message success notification
+  div4: Boolean; // div for blocked user
+  allisWell: Boolean = true;
   msg: any;
   currentUser: any; // currently logged in user
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
@@ -63,18 +64,23 @@ export class SendDialogComponent implements OnInit {
         this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user)  => {
         console.log('length of array is: ', user.data.blocked.length);
         // compressing the block list and message into one object
-        const pack = {
-          list: user.data.blocked,
-          msg: this.msg
-        };
-
-        // make a POST request using messaging service
-        this.messageService.send(this.msg, (pack))
+        const list = user.data.blocked;
+        for ( let i = 0 ; i < user.data.blocked.length ; i++) {
+          if ( this.currentUser.username === list[i] ) {
+               console.log('blocked is:', list[i]);
+                this.div4 = true;
+                this.allisWell = false;
+          } // end if
+         }// end for
+        if ( this.allisWell === true) {
+        this.messageService.send(this.msg)
          .subscribe(function(res) {
+          alert(res.msg);
           self.div3 = true;
           self.div1 = false;
           self.div2 = false;
          });
+         }// end if
         });
       }// end 2nd else
 

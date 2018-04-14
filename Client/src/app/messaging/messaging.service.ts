@@ -21,8 +21,8 @@ export class MessageService {
 
 
   // making a POST request to send a message
-  send(message: any, user: any): Observable<any> {
-    return this.http.post<any>(this.url + 'message/sendMessage', user, httpOptions);
+  send(message: any): Observable<any> {
+    return this.http.post<any>(this.url + 'message/sendMessage', message, httpOptions);
   }
 
   // making a GET request to get inbox
