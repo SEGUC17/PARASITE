@@ -86,7 +86,7 @@ module.exports.signUp = function (req, res, next) {
         isString(newUser.username);
 
     } catch (err) {
-        return res.status(422).json({
+        return res.status(422).json({   
             data: null,
             err: null,
             msg: field + ': ' + err.message + '!'
@@ -395,16 +395,17 @@ module.exports.signUpChild = function (req, res, next) {
                     return res.status(409).json({
                         data: null,
                         err8: null,
-                        msg: 'Email Is In Use!'
+                        msg: 'Email already exists!'
                     });
                 }
 
                 return res.status(409).json({
                     data: null,
                     err8: null,
-                    msg: 'Username Is In Use!'
+                    msg: 'Username already exists!'
                 });
-            }  //---end of duplicate checks--///
+            }
+            //---end of duplicate checks--///
             //--hashing password--//
             User.create(newUser, function (error) {
                 if (error) {

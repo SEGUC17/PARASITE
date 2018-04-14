@@ -114,9 +114,7 @@ export class MessagingComponent implements OnInit {
   }
     console.log('blocked user is:' + this.blockedUser);
     this.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
-    if ( res.data) {
     alert(res.msg);
-    }
   });
  }// end method
 

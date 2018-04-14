@@ -31,32 +31,35 @@ module.exports.sendMessage = function(req, res, next) {
         err: null,
         msg: 'User exists.'
     });
+});*/
+// checking that the sender is not on the recipient's blocklist
+console.log('sender is: ', req.body.msg.sender);
+console.log('array is: ', req.body.list);
+console.log('object is: ', req.body);
+console.log('array length is: ', req.body.list.length);
 
-    // Security Check
-    delete req.body.sentAt;
 
-    // create new entry in DB
-    Message.create(req.body, function(error, msg) {
-      if (error) {
-        return next(error);
-      }
- 
-      // return response message
-      return res.status(200).json({
-        data: msg,
-        err: null,
-        msg: 'Message was sent successfully.'
-      });
+var list=req.body.list;
+  
+  for(let i = 0 ; i< list.length ; i++) {
+   if(req.body.msg.sender === list[i] ) {
+        console.log(list[i]);
+    return res.status(422).json({
+      data: null,
+      err: null,
+      msg: 'Sorry, you are can not message this user'
     });
-  });*/
+   };
+  };
+
 
   // Security Check
-  delete req.body.sentAt;
+  delete req.body.msg.sentAt;
 
   // create new entry in DB
-  Message.create(req.body, function(error, msg) {
-    if (error) {
-      return next(error);
+  Message.create(req.body.msg, function(err, msg) {
+    if (err) {
+      return next(err);
     }
 
     // return response message
@@ -123,13 +126,13 @@ module.exports.deleteMessage = function(req, res, next) {
 
  module.exports.block = function(req, res, next) {
    var blocked = req.params.blocked;
-     console.log('username of blocked: ', blocked);
-    console.log('ID of user is: ', req.body._id);
+   //  console.log('username of blocked: ', blocked);
+   // console.log('ID of user is: ', req.body._id);
      User.findByIdAndUpdate(
        req.body._id, { $push: { 'blocked': blocked } },
       { new: true }, function (err, updatedob) {
       if (err) {
-            console.log('entered the error stage of update');
+     //       console.log('entered the error stage of update');
 
           return res.status(402).json({
               data: null,
