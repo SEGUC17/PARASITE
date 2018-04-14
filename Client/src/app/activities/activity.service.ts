@@ -59,8 +59,10 @@ export class ActivityService {
 
   postCommentOnActivity(activityId: any, comment: any) {
     return this.http.post<any>(this.activitiesUrl + '/'
-      + activityId + '/comments', {text: comment});
-
+      + activityId + '/comments', {text: comment}).
+    pipe(
+      catchError(this.handleError('creatingActivity', []))
+    );
   }
   // '/activities/:activityId/comments/:commentId'
   getCommentOnActivity(activityId: any, commentId: any) {

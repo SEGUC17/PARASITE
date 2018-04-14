@@ -19,6 +19,7 @@ var adminController = require('../controllers/AdminController');
 var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
+var DiscussionController = require('../controllers/DiscussionController');
 
 module.exports = function (passport) {
 
@@ -83,24 +84,33 @@ module.exports = function (passport) {
   router.get(
     '/activities/:activityId/comments/:commentId',
     optionalAuthentication,
-    ActivityController.getActivityComment
+    ActivityController.prepareActivity,
+    DiscussionController.getComment
   );
-  router.post('/activities/:activityId/comments', isAuthenticated, ActivityController.commentOnActivity);
+  router.post(
+    '/activities/:activityId/comments',
+    isAuthenticated,
+    ActivityController.prepareActivity,
+    DiscussionController.postComment
+  );
   router.post(
     '/activities/:activityId/comments/:commentId/replies',
     isAuthenticated,
-    ActivityController.postActivityCommentReply
+    ActivityController.prepareActivity,
+    DiscussionController.postCommentReply
   );
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
   router.delete(
     '/activities/:activityId/comments/:commentId',
     isAuthenticated,
-    ActivityController.deleteActivityComment
+    ActivityController.prepareActivity,
+    DiscussionController.deleteComment
   );
   router.delete(
     '/activities/:activityId/comments/:commentId/replies/:replyId',
     isAuthenticated,
-    ActivityController.deleteActivityCommentReply
+    ActivityController.prepareActivity,
+    DiscussionController.deleteCommentReply
   );
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
 
@@ -239,31 +249,36 @@ module.exports = function (passport) {
   router.get(
     '/content/:contentId/comments/:commentId',
     optionalAuthentication,
-    contentController.getContentComment
+    contentController.prepareContent,
+    DiscussionController.getComment
   );
   // Commenting on a content
   router.post(
     '/content/:contentId/comments',
     isAuthenticated,
-    contentController.commentOnContent
+    contentController.prepareContent,
+    DiscussionController.postComment
   );
   // deleting a comment
   router.delete(
     '/content/:contentId/comments/:commentId',
     isAuthenticated,
-    contentController.deleteContentComment
+    contentController.prepareContent,
+    DiscussionController.deleteComment
   );
   // replying to a content
   router.post(
     '/content/:contentId/comments/:commentId/replies',
     isAuthenticated,
-    contentController.postContentCommentReply
+    contentController.prepareContent,
+    DiscussionController.postCommentReply
   );
   // deleting a reply
   router.delete(
     '/content/:contentId/comments/:commentId/replies/:replyId',
     isAuthenticated,
-    contentController.deleteContentCommentReply
+    contentController.prepareContent,
+    DiscussionController.deleteCommentReply
   );
 
   // Edit content

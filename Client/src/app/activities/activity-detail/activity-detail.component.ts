@@ -74,7 +74,7 @@ export class ActivityDetailComponent implements OnInit {
   }
 
   onDeleteReply(commentId: any, replyId: any) {
-    var self = this;
+    let self = this;
     this.activityService.deleteReplyOnCommentOnActivity(this.activity._id, commentId, replyId).subscribe(function (err) {
       if (err) {
         console.log(err);
@@ -108,8 +108,8 @@ export class ActivityDetailComponent implements OnInit {
     this.getActivity();
     if (refreshViewReplies) {
       this.viewedReplies = [];
-      for (var i = 0; i < this.activity.discussion.length; i++) {
-        this.viewedReplies.push(false)
+      for (let i = 0; i < this.activity.discussion.length; i++) {
+        this.viewedReplies.push(false);
       }
     }
   }
