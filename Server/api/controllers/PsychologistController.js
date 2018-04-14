@@ -8,7 +8,7 @@ var Psychologists = mongoose.model('Psychologist');
 
 
 
-module.exports.editePsychologists = function (req, res, next) {
+module.exports.editPsychologists = function (req, res, next) {
     if (req.user.username === req.params.username) {
       Psychologists.findOne({ _id: req.body.idd }).exec(function (err, prodRequests) {
             if (err) {

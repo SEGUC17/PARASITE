@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { AddPsychRequestComponent } from '../add-psych-request/add-psych-request.component';
-import { EditePsychComponent } from '../edite-psych/edite-psych.component';
+import { EditPsychComponent } from '../edit-psych/edit-psych.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 
@@ -85,7 +85,7 @@ export class PsychologistComponent implements OnInit {
     const self = this;
     // get info of idd = input??how
 
-    let dialogRef = self.dialog.open(EditePsychComponent, {
+    let dialogRef = self.dialog.open(EditPsychComponent, {
       width: '850px',
       height: '550px',
       data: { idd: this.idInput.value }

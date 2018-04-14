@@ -23,8 +23,8 @@ export class PsychologistService {
       catchError(this.handleError('getPsychologists', []))
     );
   }
-  editePsychologists(psychologist: any) {
-    return this.http.post<any>(this.host + 'psychologist/editePsych', psychologist, httpOptions);
+  editPsychologists(psychologist: any) {
+    return this.http.post<any>(this.host + 'psychologist/editPsych', psychologist, httpOptions);
 
   }
 

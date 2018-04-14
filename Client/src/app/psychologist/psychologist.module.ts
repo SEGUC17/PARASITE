@@ -13,7 +13,7 @@ import { PsychologistRoutingModule } from './psychologist-routing.module';
 import { MatChipsModule } from '@angular/material';
 import { PsychologistService } from './psychologist.service';
 import { MatButtonModule } from '@angular/material';
-import { EditePsychComponent } from './edite-psych/edite-psych.component';
+import { EditPsychComponent } from './edit-psych/edit-psych.component';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 
 
@@ -37,6 +37,6 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angula
   ],
   providers: [ PsychologistService, { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ErrorStateMatcher ],
-  declarations: [PsychologistComponent, AddPsychRequestComponent, EditePsychComponent]
+  declarations: [PsychologistComponent, AddPsychRequestComponent, EditPsychComponent]
 })
 export class PsychologistModule { }
