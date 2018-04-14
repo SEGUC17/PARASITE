@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AddPsychologistRequest } from './AddPsychologistRequest';
+import { PsychologistRequest } from '../PsychologistRequest';
 import { PsychologistService } from '../psychologist.service';
 import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
@@ -20,7 +20,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./add-psych-request.component.scss']
 })
 export class AddPsychRequestComponent implements OnInit {
-  request: AddPsychologistRequest;
+  request: PsychologistRequest;
 
   daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
 
@@ -84,6 +84,7 @@ export class AddPsychRequestComponent implements OnInit {
         address: this.addFormControl.value,
         email: this.emailFormControl.value,
         daysOff: this.daysOff.value,
+        type: 'add',
         priceRange: parseInt(this.priceFormControl.value, 10)
       };
 

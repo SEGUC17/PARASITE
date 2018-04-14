@@ -101,7 +101,7 @@ export class PsychologistComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
           console.log('The dialog was closed');
-          this.getPsychologists();
+          self.getPsychologists();
         });
       } else {
         let msg1 = 'The ID you Entered doesn\'t exist,';

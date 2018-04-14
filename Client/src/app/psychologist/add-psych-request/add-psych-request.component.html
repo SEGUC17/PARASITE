@@ -31,7 +31,7 @@
 						      Last Name is <strong>required</strong>
 						    </mat-error>
 
-  					</mat-form-field> <br>
+  					</mat-form-field>
 
   					<mat-form-field id="phone-input">
 								<input matInput placeholder="Phone Number:" id="psychPhoneNumber" [formControl]="phoneFormControl"
@@ -39,7 +39,7 @@
 											 <button mat-button *ngIf="value2" matSuffix mat-icon-button aria-label="Clear" (click)="value2=''">
 												 <mat-icon>close</mat-icon>
 											 </button>
-					</mat-form-field> <br>
+					</mat-form-field>
 
   					<mat-form-field id="address-input">
 								<textarea matInput placeholder="Address:" id="psychAddress" [formControl]="addFormControl"
@@ -47,7 +47,7 @@
 											 <button mat-button *ngIf="value3" matSuffix mat-icon-button aria-label="Clear" (click)="value3=''">
 												 <mat-icon>close</mat-icon>
 											 </button>
-					</mat-form-field> <br>
+						</mat-form-field>
 
   					<mat-form-field id="email-input">
 						    <input matInput placeholder="email:" id="psychEmail" [formControl]="emailFormControl"
@@ -62,7 +62,7 @@
 						      Email is <strong>required</strong>
 						    </mat-error>
 
-  					</mat-form-field> <br>
+  					</mat-form-field>
 
 					<mat-form-field id="days-off-input">
 					  <mat-select placeholder="Days Off:" [formControl]="daysOff" multiple >
@@ -77,7 +77,7 @@
 								<button mat-button *ngIf="value5" matSuffix mat-icon-button aria-label="Clear" (click)="value5=''">
 									<mat-icon>close</mat-icon>
 								</button>
-					</mat-form-field> <br>
+					</mat-form-field>
 
 				</mat-card-content>
 

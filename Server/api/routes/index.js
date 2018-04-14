@@ -87,7 +87,7 @@ module.exports = function (passport) {
   router.get('/psychologist', psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
   router.delete('/psychologist/delete/:id', isAuthenticated, psychCtrl.deletePsych);
-  router.post('/psychologist/request/edit/:id', optionalAuthentication, psychCtrl.editPsych);
+  router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
   router.post('/psychologist/request/add/addRequest', optionalAuthentication, psychCtrl.addRequest);
   router.get('/psychologist/request/getRequests', isAuthenticated, psychCtrl.getRequests);
   router.post('/psychologist/request/evalRequest', isAuthenticated, psychCtrl.evaluateRequest);
