@@ -58,7 +58,7 @@ export class ContentListViewComponent implements OnInit {
           self.getMyContributionsPage();
         }
       });
-    this.getSearchContentPage();
+    this.getContentPage();
     this.getCategories();
   }
 
@@ -69,7 +69,7 @@ export class ContentListViewComponent implements OnInit {
     this.currentPageNumber += 1;
 
     // update the content array
-    this.getSearchContentPage();
+    this.getContentPage();
   }
 
   // respond to user scrolling to the end of the my contributions section
@@ -118,7 +118,7 @@ export class ContentListViewComponent implements OnInit {
       // start from page 1
       this.currentPageNumber = 1;
       this.contents = [];
-      this.getSearchContentPage();
+      this.getContentPage();
     } else {
       // initialize category/section for my contributions
       this.myContributionsSelectedCategory = category;
@@ -138,11 +138,11 @@ export class ContentListViewComponent implements OnInit {
     this.currentPageNumber = 1;
 
     // get first page of search content
-    this.getSearchContentPage();
+    this.getContentPage();
   }
 
   // retrieve a page of content that matches the search query
-  getSearchContentPage(): void {
+  getContentPage(): void {
     const self = this;
     // remove unnecessary spaces
     this.searchQuery = this.searchQuery.trim();
