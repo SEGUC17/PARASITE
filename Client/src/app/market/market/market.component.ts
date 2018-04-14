@@ -10,6 +10,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angu
 import { Router } from '@angular/router';
 import { CreateProductComponent } from '../create-product/create-product.component';
 import { AuthService } from '../../auth/auth.service';
+import { RequestDetailComponent } from '../request-detail/request-detail.component';
+
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
@@ -29,6 +31,7 @@ export class MarketComponent implements OnInit {
   numberOfProducts: number;
   numberOfUserProducts: number;
   userItems: Product[];
+  userRequests: Product[];
   userItemsCurrentPage: number;
   removable = true;
   seller = 'all';
@@ -44,7 +47,7 @@ export class MarketComponent implements OnInit {
   // gets the products in the market and the products owned by the user)
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['username'];
+    const userDataColumns = ['username', 'isAdmin'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.user = res.data;
       if (!self.user) {
@@ -54,24 +57,37 @@ export class MarketComponent implements OnInit {
         self.currentPageNumber = 1;
         self.firstPage();
         self.firstUserPage();
+        self.getUserRequests();
       }
     });
   }
   // opens the product details dialog
   showProductDetails(prod: any): void {
     if (prod) {
-      let dialogRef = this.dialog.open(ProductDetailComponent, {
-        width: '1000px',
-        height: '400px',
-        data: { product: prod }
-      });
+      if (this.products.indexOf(prod) !== -1 || this.userItems.indexOf(prod) !== -1) {
+        let dialogRef = this.dialog.open(ProductDetailComponent, {
+          width: '1000px',
+          height: '400px',
+          data: { product: prod, curUser: this.user.username }
+        });
 
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-      });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+      } else if (this.userRequests.indexOf(prod) !== -1) {
+        let dialogRef = this.dialog.open(RequestDetailComponent, {
+          width: '1000px',
+          height: '400px',
+          data: { product: prod, curUser: this.user.username }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+      }
     }
-
   }
+
   // Opens the dialog form of creating a product
   goToCreate() {
     const self = this;
@@ -82,6 +98,7 @@ export class MarketComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+      this.getUserRequests();
     });
   }
 
@@ -194,4 +211,12 @@ export class MarketComponent implements OnInit {
     this.getUserPage();
   }
 
+  getUserRequests(): void {
+    let self = this;
+    this.marketService.getUserRequests(this.user.username).subscribe(function (res) {
+      if (res.msg === 'Requests retrieved.') {
+        self.userRequests = res.data;
+      }
+    });
+  }
 }
