@@ -9,7 +9,7 @@ var adminController = require('./AdminController');
 var User = mongoose.model('User');
 var VCRSchema = mongoose.model('VerifiedContributerRequest');
 
-
+// author: Heidi
 module.exports.getChildren = function (req, res, next) {
   // finding user by username from params
   User.findOne({ username: req.params.username }).exec(function (err, user) {
@@ -35,66 +35,74 @@ module.exports.getChildren = function (req, res, next) {
       msg: 'Children retrieved successfully.'
     });
   });
-}
+};
+ // author: Heidi
 module.exports.EditChildIndependence = function (req, res, next) {
 
-  // searching for username in the params and setting isChild to false
+  // searching for username in the params
 
-  User.findOneAndUpdate(
-    { username: req.params.username },
+   User.findOne({ username: req.params.username }).exec(function (err, user) {
+       if (err) {
+            return next(err);
+        }
+  // checking if user is not found
+        if (!user) {
+          return res.
+          status(404).
+          json({
+  data: user.isChild,
+  err: null,
+  msg: 'user not found'
+  });
+      }
+
+
+  // checking that the child to be updated birth year < 13
+
+  if (new Date().getFullYear() - user.birthdate.getFullYear() < 13) {
+
+    return res.
+                status(202).
+                json({
+        data: user.isChild,
+        err: null,
+        msg: 'Child under 13.'
+        });
+  }
+  // checking that child is older than 13
+  if (new Date().getFullYear() - user.birthdate.getFullYear() === 13 &&
+  new Date().getMonth() < user.birthdate.getMonth()) {
+    return res.
+    status(202).
+   json({
+  data: user.isChild,
+  err: null,
+  msg: 'Child under 13.'
+  });
+ }
+
+  // if the previous conditions are false then child is changed successefuly
+
+  User.update(
+user,
     { $set: { isChild: false } }
-  ).exec(function (err, user) {
-    if (err) {
-      return next(err);
-    }
-    // checking if user is not found
-    if (!user) {
-      return res.
-        status(404).
-        json({
-          data: null,
-          err: null,
-          msg: 'user not found'
+).
+       exec(function (error, updated) {
+         if (err) {
+       return err;
+
+}
+     res.status(200).json({
+            data: user.isChild,
+            err: null,
+            msg: 'Successefully changed from child to independent.'
         });
-    }
 
-
-    // checking that the child to be updated birth year < 13
-
-    if (new Date().getFullYear() - user.birthdate.getFullYear() < 13) {
-
-      return res.
-        status(403).
-        json({
-          data: null,
-          err: null,
-          msg: 'Child under 13.'
-        });
-    }
-    // checking that child is older than 13
-    if (new Date().getFullYear() - user.birthdate.getFullYear() === 13 &&
-      new Date().getMonth() < user.birthdate.getMonth()) {
-      return res.
-        status(403).
-        json({
-          data: null,
-          err: null,
-          msg: 'Child under 13.'
-        });
-    }
-
-    // if the previous conditions are false then child is changed successefuly
-    res.status(200).json({
-
-
-      data: user.isChild,
-      err: null,
-      msg: 'Successefully changed from child to independent.'
     });
+
 
   });
 };
-
 
 // @author: MAHER
 // requestUserValidation() take some of the
@@ -132,29 +140,28 @@ module.exports.requestUserValidation = function (req, res, next) {
   //     image: 'imageMaher.com',
   //     creator: '5ac12591a813a63e419ebce5'
   // }
-  VCRSchema.create(reqObj, function (err, next) {   // insert the request to the database.
+  VCRSchema.create(reqObj, function (err, next) { // insert the request to the database.
     if (err) {
       console.log('duplicate key');
-      if (err.message.startsWith('E11000 duplicate key error')) {    // if request already existed
+      if (err.message.startsWith('E11000 duplicate key error')) { // if request already existed
         return res.status(400).json({
           err: null,
           msg: 'the request already submitted',
           data: null
         });
       }
-      else {
+
         console.log('passing error to next');
         next(err);
-      }
+
       res.status(200).json({
         err: null,
         msg: 'the request is submitted',
         data: null
-      })
+      });
     }
   });
 };
-
 
 //--------------------------- Profile Info ------------------------- AUTHOR: H
 
@@ -308,3 +315,64 @@ module.exports.changePassword = function (req, res, next) {
   });
 };
 
+//author:Haidy
+
+module.exports.UnlinkIndependent = function (req, res, next) {
+// checking whether the signed-in user is independent
+ if (req.user.isChild) {
+   console.log(' is child');
+console.log(req.user);
+
+return res.
+  status(403).
+  json({
+data: null,
+err: null,
+msg: 'user cannot take this action'
+});
+ }
+
+ //}
+// searching for username given in the parameter
+ User.findOne({ username: req.params.username }).exec(function (err, user) {
+
+if (err) {
+return err;
+ }
+ // checking if the username in the params is a parent to the logged in user
+
+if (user.children.indexOf(req.user.username) < 0) {
+  console.log('not linked');
+  console.log(req.user);
+
+return res.
+  status(403).
+  json({
+data: null,
+err: null,
+msg: 'parent and child accounts are not linked'
+});
+}
+ // updating parent's children list
+
+   User.findOneAndUpdate(
+{ username: user.username },
+{ $pull: { children: { $in: [req.user.username] } } }, { new: true }
+).
+ exec(function (error, updated) {
+             if (error) {
+          return error;
+ }
+ console.log(updated.username);
+ console.log(updated.children);
+ console.log(req.user.username);
+      res.status(200).json({
+         data: updated.children,
+         err: null,
+         msg: 'Successefully removed child from parent\'s list of children'
+            });
+
+        });
+
+ });
+};

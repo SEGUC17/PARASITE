@@ -25,7 +25,7 @@ export class ActivityCreateComponent implements OnInit {
     image: null
   };
 
-  constructor( 
+  constructor(
     private router: Router,
     private activityService: ActivityService
   ) { }
@@ -33,7 +33,7 @@ export class ActivityCreateComponent implements OnInit {
   ngOnInit() {
   }
 
-  createActivity(){
+  createActivity() {
     /*
       Creating a new activity after converting the dates to
       unix timestamp
@@ -47,7 +47,7 @@ export class ActivityCreateComponent implements OnInit {
           console.log(res);
           this.router.navigate([`activities/${res.data._id}`]);
       }
-    )
+    );
   }
 
 }

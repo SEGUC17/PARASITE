@@ -42,7 +42,6 @@ import { MatNativeDateModule } from '@angular/material';
 import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,

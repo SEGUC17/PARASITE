@@ -20,6 +20,7 @@ var adminController = require('../controllers/AdminController');
 var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
+var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
 
 module.exports = function (passport) {
@@ -82,9 +83,39 @@ module.exports = function (passport) {
   // --------------------- Activity Contoller -------------------- //
   router.get('/activities', optionalAuthentication, ActivityController.getActivities);
   router.get('/activities/:activityId', optionalAuthentication, ActivityController.getActivity);
+  router.get(
+    '/activities/:activityId/comments/:commentId',
+    optionalAuthentication,
+    ActivityController.prepareActivity,
+    DiscussionController.getComment
+  );
+  router.post(
+    '/activities/:activityId/comments',
+    isAuthenticated,
+    ActivityController.prepareActivity,
+    DiscussionController.postComment
+  );
+  router.post(
+    '/activities/:activityId/comments/:commentId/replies',
+    isAuthenticated,
+    ActivityController.prepareActivity,
+    DiscussionController.postCommentReply
+  );
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
+  router.delete(
+    '/activities/:activityId/comments/:commentId',
+    isAuthenticated,
+    ActivityController.prepareActivity,
+    DiscussionController.deleteComment
+  );
+  router.delete(
+    '/activities/:activityId/comments/:commentId/replies/:replyId',
+    isAuthenticated,
+    ActivityController.prepareActivity,
+    DiscussionController.deleteCommentReply
+  );
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
-
+  router.patch('/activities/:activityId/EditActivity', isAuthenticated, ActivityController.editActivity);
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist', psychCtrl.getPsychologists);
   router.post('/psychologist/request/add/addRequest', optionalAuthentication, psychCtrl.addRequest);
@@ -146,6 +177,7 @@ module.exports = function (passport) {
   router.get('/profile/:username/getChildren', profileController.getChildren);
   router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
   router.patch('/profile/changePassword/:id', profileController.changePassword);
+  router.patch('/profile/:username/UnlinkMyself', isAuthenticated, profileController.UnlinkIndependent);
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
@@ -207,6 +239,42 @@ module.exports = function (passport) {
     contentController.validateContent,
     contentController.validateSelectedCategory,
     contentController.createContent
+  );
+
+  // Getting comment details
+  router.get(
+    '/content/:contentId/comments/:commentId',
+    optionalAuthentication,
+    contentController.prepareContent,
+    DiscussionController.getComment
+  );
+  // Commenting on a content
+  router.post(
+    '/content/:contentId/comments',
+    isAuthenticated,
+    contentController.prepareContent,
+    DiscussionController.postComment
+  );
+  // deleting a comment
+  router.delete(
+    '/content/:contentId/comments/:commentId',
+    isAuthenticated,
+    contentController.prepareContent,
+    DiscussionController.deleteComment
+  );
+  // replying to a content
+  router.post(
+    '/content/:contentId/comments/:commentId/replies',
+    isAuthenticated,
+    contentController.prepareContent,
+    DiscussionController.postCommentReply
+  );
+  // deleting a reply
+  router.delete(
+    '/content/:contentId/comments/:commentId/replies/:replyId',
+    isAuthenticated,
+    contentController.prepareContent,
+    DiscussionController.deleteCommentReply
   );
 
   // Edit content

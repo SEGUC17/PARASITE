@@ -1,5 +1,7 @@
+/* eslint-disable eqeqeq */
+/* eslint max-statements: ["error", 20] */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-
+/* eslint multiline-comment-style: ["error", "starred-block"] */
 
 var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
@@ -81,6 +83,7 @@ var prepareQueryOptionsForSearch = function (query, params) {
     };
 
     // sort option was provided, default is relevance;
+
     // therefore, the string relevance is not checked
     if (query.sort) {
 
@@ -133,6 +136,12 @@ module.exports.getSearchPage = function (req, res, next) {
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
 
+    if (options.select) {
+        options.select.discussion = 0;
+    } else {
+        options.select = { discussion: 0 };
+    }
+
     // log the options and conditions for debugging
     console.log(options);
     console.log(conditions);
@@ -159,6 +168,7 @@ module.exports.getSearchPage = function (req, res, next) {
 };
 
 // retrieve the content (resources and ideas) created by the specified user
+
 //must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
 
@@ -198,7 +208,8 @@ module.exports.getContentByCreator = function (req, res, next) {
         conditions,
         {
             limit: Number(req.params.pageSize),
-            page: Number(req.params.pageNumber)
+            page: Number(req.params.pageNumber),
+            select: { discussion: 0 }
         },
         function (err, contents) {
             if (err) {
@@ -432,6 +443,7 @@ module.exports.updateContent = function (req, res, next) {
 };
 
 // retrieve the categories
+
 // by which the contents (ideas and resources) are classified
 module.exports.getCategories = function (req, res, next) {
 

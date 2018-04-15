@@ -1,22 +1,23 @@
 /*
-    Activity classes to help with creating 
+    Activity classes to help with creating
     and retreiving activities
 
     @author: Wessam
 */
 
 export class Activity {
-    _id : String;
-    name : String;
-    description : String;
-    bookedBy : [String]; // userIds
-    price : Number;
-    status : String;
-    fromDateTime : Date;
-    toDateTime : Date;
-    createdAt : Date;
-    updatedAt : Date;
-    image : String;
+    _id: String;
+    name: String;
+    description: String;
+    bookedBy: [String]; // userIds
+    price: Number;
+    status: String;
+    fromDateTime: Date;
+    toDateTime: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    image: String;
+    creator: String;
 }
 
 export class ActivityCreate {
@@ -30,4 +31,16 @@ export class ActivityCreate {
     fromDateTime: Number;
     toDateTime: Number;
     image: String;
+
+}
+export class ActivityEdit {
+    name: String;
+    description: String;
+    price: Number;
+    fromDateTime: Number;
+    toDateTime: Number;
+    image: String;
+    creator: String;
+    bookedBy: [String];
+
 }

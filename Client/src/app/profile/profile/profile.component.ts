@@ -22,6 +22,8 @@ export class ProfileComponent implements OnInit {
   visitedIsParent = false;
   visitedIsChild = false;
   visitedIsMyChild = false;
+  visitedIsMyParent = false;
+  visitedOld = true;
   // ------------------------------------
 
   // ---------- Current User Info ---------------
@@ -29,13 +31,13 @@ export class ProfileComponent implements OnInit {
   firstName: string;
   lastName: string;
   username: string;
-  age: Number;
+  // age: Number;
   email: string;
   address: string;
   phone: [string];
   schedule: any;
   studyPlans: any;
-  birthday: Date;
+  birthdate: Date;
   listOfChildren: any[];
   verified: Boolean = false;
   id: any;
@@ -48,25 +50,26 @@ export class ProfileComponent implements OnInit {
   vFirstName: string;
   vLastName: string;
   vUsername: string;
-  vAge: Number;
+   vAge: Number;
   vEmail: string;
   vAddress: string;
   vPhone: [string];
   vSchedule: any;
   vStudyPlans: any;
-  vBirthday: Date;
+  vBirthdate: Date;
   vListOfChildren: any[];
   vVerified: Boolean = false;
   vId: any;
   message: string;
+
   // ------------------------------------
 
   // ----------- Other Lists ------------
   listOfUncommonChildren: any[];
   listOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
-    'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent'];
+    'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent'];
   vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
-    'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent'];
+    'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent'];
   // ------------------------------------
 
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
@@ -102,19 +105,28 @@ export class ProfileComponent implements OnInit {
         this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
           this.vFirstName = info.data.firstName;
           this.vLastName = info.data.lastName;
-          this.vAge = info.data.birthday;
+      //    this.vAge = info.data.birthday;
           this.vEmail = info.data.email;
           this.vAddress = info.data.address;
           this.vPhone = info.data.phone;
-          this.vBirthday = info.data.birthday;
+          this.vBirthdate = info.data.birthdate;
           this.vListOfChildren = info.data.children;
           this.vVerified = info.data.verified;
           this.vId = info.data._id;
           this.visitedIsParent = info.data.isParent;
           this.visitedIsChild = info.data.isChild;
-          if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
+          if ((this.listOfChildren.indexOf(this.vUsername) < 0)) {
             this.visitedIsMyChild = true;
           }
+          if (!(this.vListOfChildren.indexOf(this.username) < 0)) {
+            this.visitedIsMyParent = true;
+          }
+
+          // Used Math.floor instead of Math.ceil
+          // so 26 years and 140 days would be considered as 26, not 27.
+
+
+
           // Getting the list of uncommon children
           this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
           console.log(this.username);
@@ -185,11 +197,24 @@ export class ProfileComponent implements OnInit {
       });
 
     }
-  }
+  } // Author: Heidi
   EditChildIndependence() {
 
-    this._ProfileService.EditChildIndependence(this.vUsername).subscribe();
+    this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
+
+      alert(res.msg);
+
+    }));
     // getting the visited profile username and passing it to service method to add it to the patch request
 
+  }  // Author :Heidi
+  UnlinkMyself() {
+// getting the visited profile username and passing it to service method to add it to the patch request
+    this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
+      console.log(res.msg);
+      alert(res.msg);
+
+  if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
+    }));
   }
 }

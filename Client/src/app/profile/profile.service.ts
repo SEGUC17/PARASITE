@@ -64,9 +64,15 @@ export class ProfileService {
     return this.http.patch<any>(`${this.pwURL}/${id}`, info, httpOptions);
 
   }
+  // author :Heidi
   EditChildIndependence(visitedChildUsername): any {
     // adding username of the visited child to the patch request
     return this.http.patch('http://localhost:3000/api/profile/' + visitedChildUsername + '/EditChildIndependence', null);
+  }
+// Author: Heidi
+  UnlinkMyself(visitedParentUsername): any {
+    // adding username of the visited parent to the patch request
+    return this.http.patch('http://localhost:3000/api/profile/' + visitedParentUsername + '/UnlinkMyself', null);
   }
 
 }
