@@ -18,6 +18,7 @@ var isDate = require('../utils/validators/is-date');
 var isString = require('../utils/validators/is-string');
 var isNotEmpty = require('../utils/validators/not-empty');
 var Encryption = require('../utils/encryption/encryption');
+var emails = require('../utils/emails/email-verification');
 // ---------------------- End of "Validators" ---------------------- //
 
 
@@ -595,3 +596,64 @@ module.exports.isUserExist = function (req, res, next) {
     );
 
 };
+
+module.exports.resetpassword = function (req, res, next) {
+// password gets trimmed of spaces
+    req.params.email = req.params.email.toLowerCase().trim();
+// check if the user exits
+    User.findOne(
+        { email: req.params.email },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (user) {
+                // generate random code to send to user
+                var code = Math.random().toString(36).
+                substring(7);
+
+                    emails.sendEmailVerification(user.email, code);
+
+                    return res.status(201).json({
+                        code: code,
+                        data: null,
+                        err: null,
+                        msg: 'User found!'
+                    });
+
+            } else if (!user) {
+                return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'User was not found!'
+            });
+         }
+
+        }
+    );
+
+};
+
+module.exports.changePassword = function (req, res, next) {
+    req.params.email = req.params.email.toLowerCase().trim();
+    // hash incoming password
+                Encryption.hashPassword(req.body.newpw, function (err3, hash) {
+                    if (err3) {
+                      return next(err3);
+                    }
+                    // update user password with hash
+                    User.findOneAndUpdate(
+                      { email: req.params.email },
+                      { password: hash }, function (err, user2) {
+                        if (err) {
+                          return next(err);
+                        }
+                        res.status(200).json({
+                          data: user2,
+                          err: null,
+                          msg: 'User password was reset successfully.'
+                        });
+                      }
+                    );
+                });
+            };
+

@@ -4,6 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 @Injectable()
 export class AuthService {
 
@@ -78,6 +82,21 @@ export class AuthService {
   }
   getUser(): any {
     return this.user;
+  }
+  resetpassword(email): any {
+    const self = this;
+    return this.http.get<any>(this.endPoint + 'resetpassword/' + email).pipe(
+      catchError(self.handleError('resetpassword', []))
+    );
+
+  }
+
+  ChangePassword(email, pws): Observable<any> {
+    const self = this;
+    return this.http.patch<any> (this.endPoint + 'changepassword/' + email, pws, httpOptions).pipe(
+      catchError(self.handleError('changepassword', []))
+    );
+
   }
 
 }

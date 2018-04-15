@@ -113,6 +113,8 @@ module.exports = function (passport) {
   router.post('/userData', isAuthenticated, userController.getUserData);
   router.post('/userData/:usernameOrEmail', isAuthenticated, userController.getAnotherUserData);
   router.get('/dupCheck/:usernameOrEmail', userController.isUserExist);
+  router.get('/resetpassword/:email', userController.resetpassword);
+  router.patch('/changepassword/:email', userController.changePassword);
   // ---------------------- End of User Controller --------------- //
 
   //-------------------- Study Plan Endpoints ------------------//
