@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-
+var mongoosePaginate = require('mongoose-paginate');
 var psychSchema = mongoose.Schema({
   address: {
     trim: true,
@@ -28,6 +28,6 @@ psychSchema.index({
       firstName: 'text',
       lastName: 'text'
   });
-
+  psychSchema.plugin(mongoosePaginate);
 var psychologist = mongoose.model('Psychologist', psychSchema, 'psychologists');
 psychologist.ensureIndexes();
