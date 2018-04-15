@@ -53,7 +53,7 @@ export class ContentListViewComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    this.authService.getUserData(['username']).
+    this.authService.getUserData(['username', 'avatar']).
       subscribe(function (user) {
         self.currentUser = user.data;
         if (self.currentUser) {
