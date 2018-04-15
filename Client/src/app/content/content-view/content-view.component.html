@@ -31,12 +31,22 @@
                 </mat-card-header>
                 <mat-card-content>
                     <mat-form-field class="example-container">
-                        <textarea matInput id="lala" placeholder={{somePlaceholder}} #commentInput [(ngModel)]="changingComment"></textarea>
+                        <textarea matInput id="input" placeholder={{somePlaceholder}} #commentInput [(ngModel)]="changingComment"></textarea>
                     </mat-form-field>
                 </mat-card-content>
+
                 <mat-card-actions class="row" align="end">
-                    <button mat-button (click)="addComment(commentInput.value)" [disabled]="changingComment == ''"> Comment</button>
+
+                    <button mat-icon-button id = "commentBtn" (click)="addComment(commentInput.value)" [disabled]="changingComment == ''"
+                        matTooltip={{(isReplying)?Reply:Comment}}>
+                        <mat-icon>{{(isReplying)?"reply":"comment"}}</mat-icon>
+                    </button>
+                    <button mat-icon-button id= "cancelBtn" style="margin-right:0.5%" (click)="cancel()" matTooltip=Cancel>
+                        <mat-icon>close</mat-icon>
+                    </button>
+
                 </mat-card-actions>
+
             </mat-card>
         </mat-list-item>
 
@@ -52,10 +62,10 @@
                     </div>
                     <div style="width:52%" align="end">
                         <mat-card-actions class="row">
-                            <button mat-icon-button class="col-auto" (click)="deleteComment(comment._id)" matTooltip="delete">
+                            <button mat-icon-button class="col-auto" (click)="onDelete(comment._id)" matTooltip="delete">
                                 <mat-icon>delete</mat-icon>
                             </button>
-                            <button mat-icon-button class="col-auto" *ngIf="comment.replies.length > 0" (click)="showReply(i)" matTooltip={{(viewedReplies[i])?hideReplies:showReplies}}>
+                            <button mat-icon-button class="col-auto" *ngIf="comment.replies.length > 0" (click)="showReply(i)" matTooltip={{(viewedReplies[i])?hideReplies:showreplies}}>
                                 <mat-icon>{{(viewedReplies[i])?"arrow_drop_up":"arrow_drop_down"}}</mat-icon>
                             </button>
                             <button mat-icon-button class="col-auto" (click)="onReply(comment._id)" matTooltip="Reply">
@@ -66,45 +76,20 @@
                 </div>
 
 
-                <mat-list *ngIf="viewedReplies[i]" style="margin-left: 10%">
-                    <mat-list-item  *ngFor="let reply of comment.replies; let j = index">
-
-                        <button mat-icon-button  (click)="deleteReply(comment._id,reply._id)" matTooltip="delete">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-
-
-                        <div style="width:60%">
+                <mat-list *ngIf="viewedReplies[i]" style="margin-left: 7%">
+                    <mat-list-item *ngFor="let reply of comment.replies; let j = index">
+                        <div style="width:44px;">
                             <mat-icon mat-card-avatar class="example-header-image"></mat-icon>
                         </div>
-                        <div style="width:20%">
-                            <h3 mat-line style="font-weight: bold;margin-left: 2%">{{reply.creator}}</h3>
-                            <p mat-line style="font-weight: bold; margin-left: 2%; color: rgb(129, 129, 129)">{{reply.text}}</p>
+                        <div align="start" style="width:100%">
+                            <h3 mat-line >{{reply.creator}}</h3>
+                            <p mat-line style=" color: rgb(129, 129, 129)">{{reply.text}}</p>
                         </div>
-
-
-                        <mat-divider *ngIf="j!=comment.replies.length-1"></mat-divider>
-                    </mat-list-item>
-
-
-                    <!--        <mat-list-item dir="rtl" *ngFor="let reply of comment.replies; let j = index">
-
-                        <button mat-icon-button style="width:80%" align="start" (click)="deleteReply(comment._id,reply._id)" matTooltip="delete">
+                        <button mat-icon-button (click)="onDeleteReply(comment._id,reply._id)" matTooltip="delete">
                             <mat-icon>delete</mat-icon>
                         </button>
-
-
-                        <div style="width:60%">
-                        <mat-icon mat-card-avatar class="example-header-image"></mat-icon>
-                    </div>
-                        <div style="width:20%">
-                            <h3 mat-line style="font-weight: bold;margin-left: 2%">{{reply.creator}}</h3>
-                            <p mat-line style="font-weight: bold; margin-left: 2%; color: rgb(129, 129, 129)">{{reply.text}}</p>
-                        </div>  
-
-
                         <mat-divider *ngIf="j!=comment.replies.length-1"></mat-divider>
-                    </mat-list-item> -->
+                    </mat-list-item>
                 </mat-list>
             </mat-card>
         </mat-list-item>

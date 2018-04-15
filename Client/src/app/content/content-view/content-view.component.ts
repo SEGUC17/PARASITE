@@ -6,6 +6,7 @@ import { AdminService } from '../../admin.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../auth/user';
+import { DiscussionService } from '../../discussion.service';
 
 
 @Component({
@@ -23,17 +24,22 @@ export class ContentViewComponent implements OnInit {
   // comments
   comments: any;
   viewedReplies: boolean[] = [];
-  changingComment: String;
-  somePlaceholder: String = '';
+  changingComment: String = '';
+  somePlaceholder: String = 'Leave a comment';
   showReplies: String = 'Show replies';
   hideReplies: String = 'Hide replies';
+  Comment: String = 'Comment';
+  Reply: String = 'Reply';
+  isReplying: boolean;
+  commentReplyingOn: any;
+
   // inject the needed services
   constructor(private contentService: ContentService, private route: ActivatedRoute,
-    private adminService: AdminService, private authService: AuthService, private router: Router) { }
+    private adminService: AdminService, private authService: AuthService,
+    private discussionService: DiscussionService, private router: Router) { }
 
   ngOnInit() {
     const self = this;
-    self.changingComment = '';
     // retrieve the user data
     this.authService.getUserData(['username', 'isAdmin']).
       subscribe(function (user) {
@@ -43,9 +49,6 @@ export class ContentViewComponent implements OnInit {
     this.route.params.subscribe(function (params) {
       console.log('Object Requested with Id: ' + params.id);
       self.getContentById(params.id);
-      self.refreshComments();
-      self.somePlaceholder = 'Leave a Comment';
-
     });
   }
   // retrieve the content from the server
@@ -53,6 +56,17 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
+      self.comments = retrievedContent.data.discussion;
+      let input = document.getElementById('input');
+      input.addEventListener('keyup', function (event) {
+      event.preventDefault();
+      if (event.keyCode === 13) {
+          document.getElementById('commentBtn').click();
+        }
+     if (event.keyCode === 27) {
+        document.getElementById('cancelBtn').click();
+      }
+      });
       console.log('Retrieved: ' + retrievedContent.data);
     });
   }
@@ -62,84 +76,89 @@ export class ContentViewComponent implements OnInit {
     this.router.navigate(['admin/ContentRequests']);
   }
 
+
   addComment(inputtext: String) {
     let self = this;
-
     function isEmpty(str) {
-      return (!str || 0 === str.length || !str.trim() );
-  }
-    console.log(inputtext);
-    if (isEmpty(inputtext)) {
-    console.log('Empty comment/reply');
+      return (!str || 0 === str.length || !str.trim());
     }
     if (!isEmpty(inputtext)) {
-    const comment = {
-      creator : this.currentUser.username,
-      text : self.changingComment
-    };
-    self.comments.push(comment);
-      self.changingComment = '';
+      if (this.isReplying) {
+        console.log('replying');
+        this.discussionService.postReplyOnCommentOnContent(
+          this.content._id,
+          this.commentReplyingOn,
+          self.changingComment).subscribe(function (err) {
+            if (err.msg !== 'reply created successfully') {
+              console.log('err in posting');
+              self.refreshComments(false);
+            }
+            console.log('no error elhamdulla ');
+            self.refreshComments(false);
+            self.changingComment = '';
+            let input = document.getElementById('input');
+            self.somePlaceholder = 'leave a comment';
+            self.isReplying = false;
+
+          });
+      } else {
+        console.log('commenting');
+        this.discussionService.postCommentOnContent(this.content._id, self.changingComment).subscribe(function (err) {
+          if (err.msg === 'reply created successfully') {
+            console.log('err in posting');
+          }
+          self.refreshComments(false);
+          self.changingComment = '';
+        });
+      }
+    }
   }
-}
-  onReply(): any {
+  onReply(id: any): any {
     let self = this;
     let element = document.getElementById('target');
     element.scrollIntoView();
-    let input = document.getElementById('lala');
+    let input = document.getElementById('input');
     self.somePlaceholder = 'leave a reply';
     input.focus();
+    this.isReplying = true;
+    this.commentReplyingOn = id;
   }
-  refreshComments(): any {
+  onDelete(i: any) {
     let self = this;
-    self.comments = [];
-
-
-    const replies11 = {
-      creator : 'ahmed',
-      text: '2aa msh awee'
-    };
-    const replies12 = {
-      creator : 'lala',
-      text : '2hii ahmed'
-    };
-    const replies1 = [];
-    replies1.push(replies11);
-    replies1.push(replies12);
-    const comment1 = {
-      creator: 'salma',
-      text: '1ana ba7eb sharmoofers awe',
-      replies : replies1
-    };
-
-    const replies21 = {
-      creator : 'ahmed',
-      text: '2aa msh awee'
-    };
-    const replies22 = {
-      creator : 'lala',
-      text : '2hii ahmed'
-    };
-    const replies2 = [];
-    replies2.push(replies21);
-    replies2.push(replies22);
-
-    const comment2 = {
-      creator: 'salma',
-      text: '2ana ba7eb sharmoofers awee',
-      replies: replies2
-    };
-    const comment3 = {
-      creator: 'salma',
-      text: 'ana ba7eb sharmoofers aweee',
-      replies: []
-    };
-    self.comments.push(comment1);
-    self.comments.push(comment2);
-    self.comments.push(comment3);
-    self.viewedReplies.push(false);
-    self.viewedReplies.push(false);
-    self.viewedReplies.push(false);
-
+    this.discussionService.deleteCommentOnContent(this.content._id, i).subscribe(function (err) {
+      if (err) {
+        console.log(err);
+      }
+      self.refreshComments(false);
+    });
+  }
+  onDeleteReply(commentId: any, replyId: any) {
+    let self = this;
+    this.discussionService.deleteReplyOnCommentOnContent(this.content._id, commentId, replyId).subscribe(function (err) {
+      if (err) {
+        console.log(err);
+      }
+      self.refreshComments(false);
+    });
+  }
+  refreshComments(refreshViewReplies: boolean): any {
+    let self = this;
+    this.contentService.getContentById(this.content._id).subscribe(function (retrievedContent) {
+      self.comments = retrievedContent.data.discussion;
+      if (refreshViewReplies) {
+        self.viewedReplies = [];
+        for (let i = 0; i < this.content.discussion.length; i++) {
+          this.viewedReplies.push(false);
+        }
+      }
+    });
+  }
+  cancel() {
+    this.changingComment = '';
+    this.isReplying = false;
+    let input = document.getElementById('input');
+    this.somePlaceholder = 'leave a comment';
+    input.blur();
 
   }
   showReply(i: number) {
