@@ -39,13 +39,16 @@ import { MatChipsModule } from '@angular/material';
 import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { MatNativeDateModule } from '@angular/material';
+import { RatingService } from './rating.service';
+import { RatingComponent } from './rating/rating.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChildsignupComponent
+    ChildsignupComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +96,8 @@ import { MatNativeDateModule } from '@angular/material';
       useClass: AuthInterceptor,
       multi: true
     },
-    MediaMatcher
+    MediaMatcher,
+    RatingService
   ],
   bootstrap: [AppComponent]
 })
