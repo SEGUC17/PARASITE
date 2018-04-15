@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
-
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { ActivityComponent } from './activity/activity.component';
 import { ActivitiesRoutingModule } from './activities-routing.module';
 import { ActivityService } from './activity.service';
@@ -28,7 +28,8 @@ import { DiscussionService } from "../discussion.service";
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    MatListModule
+    MatListModule,
+    MatTooltipModule
   ],
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent],
   providers: [ActivityService, AuthService, DiscussionService]

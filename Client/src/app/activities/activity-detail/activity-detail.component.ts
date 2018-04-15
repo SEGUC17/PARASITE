@@ -52,13 +52,16 @@ export class ActivityDetailComponent implements OnInit {
   ngOnInit() {
     this.getActivity();
     this.refreshComments(true);
+    
+
   }
+
 
   onReply(id: any): any {
     let self = this;
     let element = document.getElementById('target');
     element.scrollIntoView();
-    let input = document.getElementById('lala');
+    let input = document.getElementById('input');
     self.somePlaceholder = 'leave a reply';
     input.focus();
     this.isReplying = true;
@@ -118,6 +121,13 @@ export class ActivityDetailComponent implements OnInit {
 
   showReply(i: number) {
     this.viewedReplies[i] = !this.viewedReplies[i];
+  }
+
+  enterPressed(event){
+    if(event.keyCode == 13) {
+      alert('you just clicked enter');
+      // rest of your code
+    }
   }
 
   addComment() {
