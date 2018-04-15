@@ -49,7 +49,6 @@ export class PsychologistComponent implements OnInit {
     });
 
     dialogOpener.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       self.getPsychologists();
     });
   }
@@ -80,6 +79,7 @@ export class PsychologistComponent implements OnInit {
             self.snackBar.open('Something went wrong, please try again.', '', {
               duration: 2500
             });
+            self.getPsychologists();
           } else {
             /* everything went great!! notify the user it was a success then reload. */
             self.snackBar.open(res.msg, '', {

@@ -4,6 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { PsychologistRequest } from '../../psychologist/PsychologistRequest';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-view-psych-requests',
@@ -16,13 +17,16 @@ export class ViewPsychRequestsComponent implements OnInit {
   requests: PsychologistRequest[];
   editRequests: PsychologistRequest[];
   addRequests: PsychologistRequest[];
+  state: String;
   currentUser: any;
 
   constructor(private service: PsychRequestsService,
     private authService: AuthService,
-    private router: Router) {
+    private router: Router,
+    public snackBar: MatSnackBar) {
 
     let self = this;
+    self.state = 'add';
 
     // Retrieving the current user needed information
     const userDataColumns = ['username', 'isAdmin'];
@@ -35,16 +39,21 @@ export class ViewPsychRequestsComponent implements OnInit {
         // Check if currentUser is an admin
         if (self.currentUser.isAdmin) {
           // If yes, get the requests from the DB
-          self.service.getPsychRequests().subscribe(function (psychReq) {
-            if (psychReq.msg === 'Requests retrieved successfully.') {
-              self.filter(psychReq.data);
-              self.requests = self.addRequests;
-            }
-          });
+          self.getRequests();
         } else {
           // Else navigate to homepage
           self.router.navigateByUrl('/');
         }
+      }
+    });
+  }
+
+  private getRequests(): void {
+    const self = this;
+    this.service.getPsychRequests().subscribe(function (psychReq) {
+      if (psychReq.msg === 'Requests retrieved successfully.') {
+        self.filter(psychReq.data);
+        self.loadRequests(self.state);
       }
     });
   }
@@ -59,16 +68,16 @@ export class ViewPsychRequestsComponent implements OnInit {
         this.editRequests[h++] = reqs[i];
       }
     }
-    console.log(this.editRequests);
-    console.log(this.addRequests);
   }
 
   loadRequests(status: String): void {
     let self = this;
     if (status === 'add') {
+      self.state = 'add';
       let temp = self.addRequests;
       self.requests = temp;
     } else {
+      self.state = 'edit';
       let temp = self.editRequests;
       self.requests = temp;
     }
@@ -86,9 +95,20 @@ export class ViewPsychRequestsComponent implements OnInit {
     // Send the POST request
     let self = this;
     this.service.evalRequest(reqToSend).subscribe(function (res) {
-      if (res.msg === 'Request accepted and psychologist added to database.') {
+      console.log(res.msg);
+      if (res.err === null) {
         // If a 200 OK is received, remove the request from the view
         self.requests = self.removeElement(self.requests, index);
+        self.snackBar.open(res.msg, '', {
+          duration: 2000
+        });
+      } else {
+        self.snackBar.open('Request was not found.', '', {
+                duration: 2000
+              });
+              self.getRequests();
+              console.log(self.state);
+              self.loadRequests(self.state);
       }
     });
   }
@@ -102,9 +122,19 @@ export class ViewPsychRequestsComponent implements OnInit {
     // Send the POST request
     let self = this;
     this.service.evalRequest(reqToSend).subscribe(function (res) {
-      if (res.msg === 'Request rejected and applicant notified.') {
+      console.log(res.msg);
+      if (res.err === null) {
         // If a 200 OK is received, remove the request from the view
         self.requests = self.removeElement(self.requests, index);
+        self.snackBar.open(res.msg, '', {
+          duration: 2000
+        });
+      } else {
+        self.snackBar.open('Request was not found.', '', {
+                duration: 2000
+              });
+              self.getRequests();
+              self.loadRequests(self.state);
       }
     });
   }

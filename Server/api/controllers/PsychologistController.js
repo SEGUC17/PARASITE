@@ -1,6 +1,7 @@
 
 /* eslint-disable max-len */
 /* eslint-disable max-statements */
+/* eslint-disable id-length */
 
 var mongoose = require('mongoose');
 var Request = mongoose.model('PsychologistRequest');
@@ -186,34 +187,76 @@ module.exports.evaluateRequest = function (req, res, next) {
             msg: 'Request not found.'
           });
         }
-        // If found, make the newPsych to insert
-        var newPsych = {
-          address: req.body.address,
-          daysOff: req.body.daysOff,
-          email: req.body.email,
-          firstName: req.body.firstName,
-          lastName: req.body.lastName,
-          phone: req.body.phone,
-          priceRange: req.body.priceRange
-        };
-        // Delete the request
-        Request.deleteOne({ _id: req.body._id }, function (err1) {
-          if (err1) {
-            return next(err1);
-          }
-          // Insert the Psychologist
-          Psychologists.create(newPsych, function (err2) {
-            if (err2) {
-              return next(err2);
+        // If found check wether it is add or edit request
+        if (req.body.type === 'add') {
+          // make the newPsych to insert
+          var newPsych = {
+            address: req.body.address,
+            daysOff: req.body.daysOff,
+            email: req.body.email,
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            phone: req.body.phone,
+            priceRange: req.body.priceRange
+          };
+          // Delete the request
+          Request.deleteOne({ _id: req.body._id }, function (err1) {
+            if (err1) {
+              return next(err1);
             }
-            res.status(201).json({
-              data: newPsych,
-              err: null,
-              msg: 'Request accepted and psychologist added to database.'
+            // Insert the Psychologist
+            Psychologists.create(newPsych, function (err2) {
+              if (err2) {
+                return next(err2);
+              }
+              res.status(201).json({
+                data: newPsych,
+                err: null,
+                msg: 'Request accepted and psychologist added to database.'
+              });
             });
           });
-        });
-      });
+        } else {
+          // Delete the request
+          Request.deleteOne({ _id: req.body._id }, function (err1) {
+            if (err1) {
+              return next(err1);
+            }
+            // check if psychologist still exists
+            Psychologists.findById(req.body.editID).exec(function (err2, psych) {
+              if (err2) {
+                return next(err2);
+              }
+              if (!psych) {
+                return res.status(404).json({
+                  data: null,
+                  err: null,
+                  msg: 'Psychologist not found.'
+                });
+              }
+              // update the Psychologist
+              Psychologists.update({ _id: req.body.editID }, {
+                      address: req.body.address,
+                      daysOff: req.body.daysOff,
+                      email: req.body.email,
+                      firstName: req.body.firstName,
+                      lastName: req.body.lastName,
+                      phone: req.body.phone,
+                      priceRange: req.body.priceRange
+                    }, function (err3, modified, msg) {
+                if (err3) {
+                  return next(err3);
+                }
+                res.status(200).json({
+                  data: msg,
+                  err: null,
+                  msg: 'Request accepted and psychologist was updated successfully.'
+                });
+              });
+            });
+          });
+        }
+    });
     } else {
       // Simply delete the request and notify the applicant
       Request.findByIdAndRemove(req.body._id, function (err) {
