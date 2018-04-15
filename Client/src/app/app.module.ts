@@ -41,7 +41,6 @@ import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { MatNativeDateModule } from '@angular/material';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,7 +84,8 @@ import { MatNativeDateModule } from '@angular/material';
     MatSelectModule,
     MatFormFieldModule,
     CommonModule,
-    AuthModule
+    AuthModule,
+
   ],
   providers: [
     {

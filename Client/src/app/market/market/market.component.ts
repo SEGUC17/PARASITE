@@ -64,7 +64,7 @@ export class MarketComponent implements OnInit {
 
   }
 // Opens the dialog form of creating a product
-  goToCreate() { 
+  goToCreate() {
     const self = this;
     let dialogRef = self.dialog.open(CreateProductComponent, {
       width: '850px',
