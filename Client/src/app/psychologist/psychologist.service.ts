@@ -5,6 +5,7 @@ import { Psychologist } from './psychologist/psychologist';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 import { apiUrl } from '../variables';
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 @Injectable()
@@ -18,7 +19,7 @@ export class PsychologistService {
     return this.http.post<any>(this.host + '/psychologist/request/edit', req, httpOptions);
   }
   deletePsychologist(id: String): Observable<any> {
-    const url = this.host + '/psychologist/delete/' + id; 
+    const url = this.host + '/psychologist/delete/' + id;
     console.log(id);
     return this.http.delete<any>(url, httpOptions);
   }
