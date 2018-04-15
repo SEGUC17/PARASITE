@@ -11,7 +11,7 @@ import { User } from '../../auth/user';
 @Component({
   selector: 'app-content-view',
   templateUrl: './content-view.component.html',
-  styleUrls: ['./content-view.component.css']
+  styleUrls: ['./content-view.component.scss']
 })
 export class ContentViewComponent implements OnInit {
   // the content that the user is viewing
@@ -50,5 +50,9 @@ export class ContentViewComponent implements OnInit {
   // admin is done with reviewing the content, send him back to his page
   returnToContentRequests(): void {
     this.router.navigate(['admin/ContentRequests']);
+  }
+  // admin or owner user of content wishes to edit the content
+  redirectToContentEdit(): void {
+    this.router.navigateByUrl('/content-edit/' + this.content._id);
   }
 }

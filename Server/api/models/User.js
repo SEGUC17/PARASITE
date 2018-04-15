@@ -92,6 +92,10 @@ var userSchema = mongoose.Schema({
         sparse: true,
         type: String
     },
+    learningScore: {
+        default: 0,
+        type: Number
+    },
     password: {
         required: true,
         type: String

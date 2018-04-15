@@ -12,7 +12,6 @@ import { ActivitiesModule } from './activities/activities.module';
 import { ScheduleModule } from './schedule/schedule.module';
 import { PsychologistModule } from './psychologist/psychologist.module';
 import { AuthService } from './auth/auth.service';
-
 import { MarketModule } from './market/market.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -41,7 +40,8 @@ import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { MatNativeDateModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
+import { RatingService } from './rating.service';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -79,6 +79,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule,
+    AuthModule,
+    MatIconModule,
     MatChipsModule,
     LayoutModule,
     MatInputModule,
@@ -86,7 +88,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatFormFieldModule,
     CommonModule,
     AuthModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    SharedModule
   ],
   providers: [
     {
@@ -94,7 +97,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
       useClass: AuthInterceptor,
       multi: true
     },
-    MediaMatcher
+    MediaMatcher,
+    RatingService
   ],
   bootstrap: [AppComponent]
 })

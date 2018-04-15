@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
-var CalendarEvent = mongoose.model('CalendarEvent'),
-    StudyPlan = mongoose.model('StudyPlan'),
-    User = mongoose.model('User');
+var CalendarEvent = mongoose.model('CalendarEvent');
+var StudyPlan = mongoose.model('StudyPlan');
+var User = mongoose.model('User');
 
 
 module.exports.getPublishedStudyPlans = function (req, res, next) {

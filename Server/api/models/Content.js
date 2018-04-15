@@ -21,17 +21,21 @@ var contentSchema = mongoose.Schema({
         trim: true,
         type: String
     },
-    creatorAvatarLink: {
-        trim: true,
-        type: String
-    },
-    creatorProfileLink: {
-        trim: true,
-        type: String
-    },
     image: {
         trim: false,
         type: String
+    },
+    rating: {
+        default: {
+            number: 0,
+            sum: 0,
+            value: 0
+        },
+        type: {
+            number: Number,
+            sum: Number,
+            value: Number
+        }
     },
     section: {
         required: true,
@@ -66,6 +70,28 @@ var contentSchema = mongoose.Schema({
     }
 });
 
+contentSchema.index(
+    {
+        tags: 'text',
+        title: 'text'
+    },
+    {
+        name: 'ContentTextIndex',
+        weights: {
+            tags: 10,
+            title: 15
+        }
+    }
+);
+contentSchema.post('findOneAndUpdate', function (doc) {
+    var newRating = doc.rating.sum / doc.rating.number;
+    this.model.update(
+        { _id: doc._id },
+        { $set: { 'rating.value': newRating } }
+    ).exec();
+});
 // apply the mongoose paginate library to the schema
 contentSchema.plugin(mongoosePaginate);
 var Content = mongoose.model('Content', contentSchema, 'contents');
+
+Content.ensureIndexes();
