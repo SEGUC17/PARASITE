@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material';
 import { ReplyDialogComponent } from './reply-dialog/reply-dialog.component';
 import {MatChipsModule} from '@angular/material/chips';
+import { ForwardDialogComponent } from './forward-dialog/forward-dialog.component';
 
 @NgModule({
   providers: [MessageService, AuthService, MatDialog],
@@ -33,8 +34,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatChipsModule,
     MatListModule
   ],
-  declarations: [MessagingComponent, SendDialogComponent, ReplyDialogComponent],
-  entryComponents: [SendDialogComponent, ReplyDialogComponent]
+  declarations: [MessagingComponent, SendDialogComponent, ReplyDialogComponent, ForwardDialogComponent],
+  entryComponents: [SendDialogComponent, ReplyDialogComponent, ForwardDialogComponent]
 })
 export class MessagingModule { }
 
