@@ -12,6 +12,9 @@ const httpOptions = {
 
 export class AdminService {
   private baseURL = 'http://localhost:3000/api/';
+  private removePublishedStudyPlansURL = 'admin/removePublishedStudyPlan/';
+  private viewPendingStudyPlanPublishReqsURL = 'admin/PendingStudyPlanPublishRequests';
+  private respondStudyPlanPublishRequestURL = 'admin/RespondStudyPlanPublishRequest/';
   private viewPendingContReqsURL = 'admin/PendingContentRequests/';
   private respondContentRequestURL = 'admin/RespondContentRequest/';
   private respondContentStatusURL = 'admin/RespondContentStatus/';
@@ -94,6 +97,43 @@ getcontent(): any {
         )
       );
   }
+  removePublishedStudyPlans(studyPlanId: any): Observable<any> {
+    const self = this;
+    return this.http.get(self.baseURL + self.removePublishedStudyPlansURL + studyPlanId)
+      .pipe(
+        catchError(
+          self.handleError('removePublishedStudyPlan', [])
+        )
+      );
+  }
+  viewStudyPlanPublishReqs(): Observable<any> {
+    const self = this;
+    return this.http.get(self.baseURL + self.viewPendingStudyPlanPublishReqsURL)
+      .pipe(
+        catchError(
+          self.handleError('viewStudyPlanPublishReqs', [])
+        )
+      );
+  }
+  respondStudyPlanPublishReqs(respo, id, sid): Observable<any> {
+    const self = this;
+    return this.http.patch<any>(self.baseURL + self.respondStudyPlanPublishRequestURL + id + '/' + sid,  respo)
+      .pipe(
+        catchError(
+          self.handleError('respondContentRequest', [])
+        )
+      );
+  }
+  // TO-DO ContributionPts
+  // addContPts(userName: any ): any {
+  //   const self = this;
+  //   return this.http.patch<any>(self.baseURL + self.addContributionPtsURL , { username: userName })
+  //   .pipe(
+  //     catchError(
+  //       self.handleError('AddContributionPts', [])
+  //     )
+  //   );
+  // }
 
   // general error handler
   private handleError<T>(operation = 'operation', result?: T) {

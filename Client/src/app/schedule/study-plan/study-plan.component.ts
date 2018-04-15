@@ -61,7 +61,8 @@ export class StudyPlanComponent implements OnInit {
   starColor = 'primary';
   studyPlan: StudyPlan;
   tempStudyPlan: StudyPlan;
-  description: String;
+  description: string;
+  editorContent: SafeHtml;
   view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[];
@@ -102,6 +103,7 @@ export class StudyPlanComponent implements OnInit {
       console.log(user.data.children);
     });
     this.description = '';
+    this.editorContent = '';
     this.events = [];
     this.route.params.subscribe(params => {
       this.type = params.type;
@@ -115,6 +117,7 @@ export class StudyPlanComponent implements OnInit {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
           this.description = this.studyPlan.description;
+          this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);
@@ -122,18 +125,19 @@ export class StudyPlanComponent implements OnInit {
         });
     } else {
       this.studyPlanService.getPublishedStudyPlan(this._id)
-      .subscribe(res => {
-        this.studyPlan = res.data;
-        this.events = this.studyPlan.events;
-        this.description = this.studyPlan.description;
-        if (this.studyPlan.rating) {
-          this.rating = this.studyPlan.rating.value;
-        }
-        for (let index = 0; index < this.events.length; index++) {
-          this.events[index].start = new Date(this.events[index].start);
-          this.events[index].end = new Date(this.events[index].end);
-        }
-      });
+        .subscribe(res => {
+          this.studyPlan = res.data;
+          this.events = this.studyPlan.events;
+          this.description = this.studyPlan.description;
+          this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
+          if (this.studyPlan.rating) {
+            this.rating = this.studyPlan.rating.value;
+          }
+          for (let index = 0; index < this.events.length; index++) {
+            this.events[index].start = new Date(this.events[index].start);
+            this.events[index].end = new Date(this.events[index].end);
+          }
+        });
     }
   }
 
@@ -186,13 +190,13 @@ export class StudyPlanComponent implements OnInit {
     this.studyPlan._id = undefined;
     this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
       res => {
-      if (res.msg === 'StudyPlan published successfully.') {
-        alert(res.msg);
-        this.router.navigate(['/published-study-plans']);
-      } else {
-        alert('An error occured while publishing the study plan, please try again.');
-      }
-    });
+        if (res.msg === 'StudyPlan published successfully.') {
+          alert(res.msg);
+          this.router.navigate(['/published-study-plans']);
+        } else {
+          alert('An error occured while publishing the study plan, please try again.');
+        }
+      });
   }
 
   copy(): void {

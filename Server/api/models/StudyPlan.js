@@ -60,6 +60,17 @@ studyPlanSchema.plugin(mongoosePaginate);
 // ---------------------- End of Plugins ---------------------- //
 
 
+// ---------------------- Middlewares ---------------------- //
+studyPlanSchema.post('findOneAndUpdate', function (doc) {
+    var newRating = doc.rating.sum / doc.rating.number;
+    this.model.update(
+        { _id: doc._id },
+        { $set: { 'rating.value': newRating } }
+    ).exec();
+});
+// ---------------------- End of Middlewares ---------------------- //
+
+
 // ---------------------- Models ---------------------- //
 var StudyPlan = mongoose.model('StudyPlan', studyPlanSchema, 'studyPlans');
 // ---------------------- End of Models ---------------------- //

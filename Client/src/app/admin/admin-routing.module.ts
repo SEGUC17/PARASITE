@@ -7,6 +7,7 @@ import { ViewUnverifiedActivitiesComponent } from './view-unverified-activities/
 import { CategoryManagementComponent } from './category-management/category-management.component';
 import { ViewProductRequestsComponent } from './view-product-requests/view-product-requests.component';
 import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
+import { PublishRequestsComponent } from '../schedule/study-plan/publish-requests/publish-requests.component';
 
 const routes = [
   { path: 'admin', component: AdminControlComponent },
@@ -16,7 +17,8 @@ const routes = [
   { path: 'content-view/:id', component: ContentViewComponent },
   { path: 'admin/category', component: CategoryManagementComponent },
   { path: 'admin/UnverifiedActivities', component: ViewUnverifiedActivitiesComponent },
-  { path: 'admin/PsychRequests', component: ViewPsychRequestsComponent }
+  { path: 'admin/PsychRequests', component: ViewPsychRequestsComponent },
+  { path: 'admin/PubRequests', component: PublishRequestsComponent }
 ];
 @NgModule({
   imports: [
