@@ -279,7 +279,7 @@ describe('updateSchedule', function () {
     // --- End of "Mockgoose Termination" --- //
 });
 
-describe('scheduleActivity', function () {
+describe('addEvent', function () {
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
@@ -306,17 +306,17 @@ describe('scheduleActivity', function () {
             send(johnDoe).
             end(function (err1, signupData) {
                 if (err1) {
-                    return console.log(err1);
+                    console.log(err1);
                 }
                 // Updating Schedule
                 chai.request(server).
-                    put('/api/schedule/scheduleActivity/' +
+                    put('/api/schedule/addEvent/' +
                          johnDoe.username).
                     set('Authorization', signupData.body.token).
                     send(aCalendarEvent).
                     end(function (err2, updateData) {
                         if (err2) {
-                            return console.log(err2);
+                            console.log(err2);
                         }
                         updateData.should.have.status(200);
                         should.not.exist(updateData.body.err);
@@ -343,7 +343,7 @@ describe('scheduleActivity', function () {
             send(johnDoe).
             end(function (err1, signupData) {
                 if (err1) {
-                    return console.log(err1);
+                    console.log(err1);
                 }
                 // Creating the child
                 chai.request(server).
@@ -352,18 +352,18 @@ describe('scheduleActivity', function () {
                     send(johnny).
                     end(function (err2, childSignupData) {
                         if (err2) {
-                            return console.log(err2);
+                            console.log(err2);
                         }
                         childSignupData.should.have.status(201);
                         // Updating Schedule
                         chai.request(server).
-                            put('/api/schedule/scheduleActivity/' +
+                            put('/api/schedule/addEvent/' +
                                  johnny.username).
                             set('Authorization', signupData.body.token).
                             send(aCalendarEvent).
                             end(function (err3, updateData) {
                                 if (err3) {
-                                    return console.log(err3);
+                                    console.log(err3);
                                 }
                                 updateData.should.have.status(200);
                                 should.not.exist(updateData.body.err);
@@ -394,7 +394,7 @@ describe('scheduleActivity', function () {
             send(johnDoe).
             end(function (err1, signupData) {
                 if (err1) {
-                    return console.log(err1);
+                    console.log(err1);
                 }
                 // Creating Child
                 chai.request(server).
@@ -411,17 +411,17 @@ describe('scheduleActivity', function () {
                             }).
                             end(function (err3, signinData) {
                                 if (err3) {
-                                    return console.log(err3);
+                                    console.log(err3);
                                 }
                                 // Updating schedule
                                 chai.request(server).
-                                    put('/api/schedule/scheduleActivity/' +
+                                    put('/api/schedule/addEvent/' +
                                          johnny.username).
                                     set('Authorization', signinData.body.token).
                                     send(aCalendarEvent).
                                     end(function (err4, updateData) {
                                         if (err4) {
-                                            return console.log(err4);
+                                            console.log(err4);
                                         }
                                         updateData.should.have.status(401);
                                         updateData.body.err.should.
@@ -445,7 +445,7 @@ describe('scheduleActivity', function () {
                 send(janeDoe).
                 end(function (err1, signup1Data) {
                     if (err1) {
-                        return console.log(err1);
+                        console.log(err1);
                     }
                     // Creating user who'll try to change schedule
                     chai.request(server).
@@ -453,17 +453,17 @@ describe('scheduleActivity', function () {
                         send(johnDoe).
                         end(function (err2, signup2Data) {
                             if (err2) {
-                                return console.log(err2);
+                                console.log(err2);
                             }
                             // Updating schedule
                             chai.request(server).
-                                put('/api/schedule/scheduleActivity/' +
+                                put('/api/schedule/addEvent/' +
                                      janeDoe.username).
                                 set('Authorization', signup2Data.body.token).
                                 send(aCalendarEvent).
                                 end(function (err3, updateData) {
                                     if (err3) {
-                                        return console.log(err3);
+                                        console.log(err3);
                                     }
                                     updateData.should.have.status(401);
                                     updateData.body.err.should.be.a('string');

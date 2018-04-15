@@ -122,6 +122,7 @@ module.exports = function (passport) {
   router.post('/study-plan/PublishStudyPlan', studyPlanController.PublishStudyPlan);
   router.patch('/study-plan/assignStudyPlan/:username/:studyPlanID',isAuthenticated, studyPlanController.assignStudyPlan);
   router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', studyPlanController.unAssignStudyPlan);
+  router.patch('/study-plan/editPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.editPersonalStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
@@ -133,18 +134,9 @@ module.exports = function (passport) {
     adminController.viewPendingContReqs
   );
   router.patch(
-    '/admin/RespondContentRequest/:ContentRequestId', isAuthenticated,
+    '/admin/RespondContentRequest/:ContentRequestId/:ContentId', isAuthenticated,
     adminController.respondContentRequest
   );
-  router.patch(
-    '/admin/RespondContentStatus/:ContentId', isAuthenticated,
-    adminController.respondContentStatus
-  );
-  // TO-DO ContributionPts
-  // router.patch(
-  //   'admin/addContPts', isAuthenticated,
-  //   adminController.addContPts
-  // );
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
@@ -159,7 +151,7 @@ module.exports = function (passport) {
 
   // ---------------Schedule Controller Endpoints ---------------//
   router.patch('/schedule/SaveScheduleChanges/:username', isAuthenticated, scheduleController.updateSchedule);
-  router.put('/schedule/scheduleActivity/:username', isAuthenticated, scheduleController.scheduleActivity);
+  router.put('/schedule/addEvent/:username', isAuthenticated, scheduleController.addEvent);
   router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
   // ------------End of Schedule Controller Endpoints -----------//
 
@@ -203,6 +195,12 @@ module.exports = function (passport) {
     contentController.getContentById
   );
 
+  // Get a page of content according to a search query
+  router.get(
+    '/content/:pageSize/:pageNumber/search',
+    contentController.getSearchPage
+  );
+
   // Get Categories
   router.get(
     '/content/category',
@@ -211,9 +209,23 @@ module.exports = function (passport) {
 
   //Content Production
 
+  router.post(
   // Create new Content
-  router.post('/content', isAuthenticated, contentController.createContent);
+    '/content',
+    isAuthenticated,
+    contentController.validateContent,
+    contentController.validateSelectedCategory,
+    contentController.createContent
+  );
 
+  // Edit content
+  router.patch(
+    '/content',
+    isAuthenticated,
+    contentController.validateContent,
+    contentController.validateSelectedCategory,
+    contentController.updateContent
+  );
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
