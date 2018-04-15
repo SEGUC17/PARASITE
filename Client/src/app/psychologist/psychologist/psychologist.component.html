@@ -82,16 +82,11 @@
           <mat-radio-group [(ngModel)]="sort">
             <mat-radio-button *ngFor="let s of sorts" [value]="s" style="margin-right: 3px" (click)="applySort(s)">{{s}}</mat-radio-button>
           </mat-radio-group>
-          <!--
           <mat-chip-list>
-            <mat-chip *ngIf="this.selectedSeller" [removable]=true (remove)="remove('seller')">{{this.selectedSeller}}
-              <mat-icon matChipRemove>cancel</mat-icon>
+            <mat-chip *ngIf="this.selectedAddress" [removable]=true (remove)="remove('address')">
+             {{this.selectedAddress}} <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
-            <mat-chip *ngIf="!this.selectedSeller">All Sellers</mat-chip>
-            <mat-chip *ngIf="this.selectedPrice" [removable]=true (remove)="remove('price')">
-              <={{this.selectedPrice}}LE <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-            <mat-chip [removable]=true (remove)="remove('name')" *ngIf="this.selectedName">{{this.selectedName}}
+            <mat-chip [removable]=true (remove)="remove('search')" *ngIf="this.selectedSearch">{{this.selectedSearch}}
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
             <mat-chip [removable]=true (remove)="remove('sort')" *ngIf="this.sort">{{this.sort}}
@@ -99,7 +94,7 @@
             </mat-chip>
 
           </mat-chip-list>
-        -->
+     
         </mat-card-content>
       </div>
     </div>
