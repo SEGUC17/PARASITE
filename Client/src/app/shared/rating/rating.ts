@@ -1,5 +1,5 @@
 export interface UserRating {
-    ratedID: string;
+    ratedId: string;
     rating: number;
     type: 'content' | 'studyPlan' | 'product';
     username?: string;

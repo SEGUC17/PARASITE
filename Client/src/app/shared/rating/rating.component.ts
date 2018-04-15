@@ -12,7 +12,7 @@ export class RatingComponent implements OnInit {
   // one of the three following types
   @Input() type: 'content' | 'studyPlan' | 'product';
   // the ID of the object that you are rating.
-  @Input() ratedID: string;
+  @Input() ratedId: string;
   // input rating in the form of numbers
   @Input() rating: number;
   public userRating: UserRating;
@@ -23,7 +23,7 @@ export class RatingComponent implements OnInit {
   ngOnInit() {
     this.userRating = {
       type: this.type,
-      ratedID: this.ratedID,
+      ratedId: this.ratedId,
       rating: this.rating
     };
   }
@@ -34,8 +34,10 @@ export class RatingComponent implements OnInit {
       this.init = false;
       return;
     }
+    console.log(this.userRating);
     this.addRating();
   }
+
   addRating() {
     const self = this;
     // disable clicking on the rating component until you get a response from the server
