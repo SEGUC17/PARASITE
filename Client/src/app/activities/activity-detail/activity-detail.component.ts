@@ -20,7 +20,7 @@ export class ActivityDetailComponent implements OnInit {
   changingComment: any = '';
   somePlaceholder: any = 'write a comment ...';
   viewedReplies: boolean[];
-  isReplying: boolean;
+  isReplying: boolean = false;
   commentReplyingOn: any;
   signedIn: boolean = false;
 
@@ -200,6 +200,10 @@ export class ActivityDetailComponent implements OnInit {
       });
     }
 
+  }
+
+  cancelReplying() {
+    this.isReplying = false;
   }
 
 }
