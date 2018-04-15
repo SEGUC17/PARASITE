@@ -41,7 +41,7 @@ import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { MatNativeDateModule } from '@angular/material';
 import { RatingService } from './rating.service';
 import { RatingComponent } from './rating/rating.component';
-
+import { StarRatingModule } from 'angular-star-rating';
 
 
 @NgModule({
@@ -87,6 +87,7 @@ import { RatingComponent } from './rating/rating.component';
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
+    StarRatingModule.forRoot(),
     CommonModule,
     AuthModule
   ],
