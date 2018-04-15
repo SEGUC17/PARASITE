@@ -145,6 +145,9 @@ module.exports = function (passport) {
   router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
   router.patch('/profile/changePassword/:id', profileController.changePassword);
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
+  router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
+
+
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//

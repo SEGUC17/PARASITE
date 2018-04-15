@@ -40,7 +40,9 @@ export class ProfileComponent implements OnInit {
   verified: Boolean = false;
   id: any;
   pws: { oldpw: '', newpw: '', confirmpw: '' };
-
+  info: { address: '', birthdate: '', educationLevel: '',
+  educationSystem: '', email: '', firstName: '', lastName: '', phone: '', username: '' };
+  // NInfo: {type: '', value: ''};
   // -------------------------------------
 
   // ---------Visited User Info-----------
@@ -237,5 +239,18 @@ export class ProfileComponent implements OnInit {
       alert('Please enter a valid email address');
     }
   }
+
+ChangeInfo(info: any): void {
+  console.log('in Profile component.ts');
+  console.log(info.username);
+this._ProfileService.ChangeInfo(this.id, info).subscribe();
+}
+/*editInfo(NInfo: any): void {
+  console.log(NInfo.type);
+  console.log(NInfo.value);
+
+this._ProfileService.editeInfo(this.id, NInfo).subscribe();
+  //this._ProfileService.editeInfo(this.id, Info).subscribe();
+}*/
 
 }

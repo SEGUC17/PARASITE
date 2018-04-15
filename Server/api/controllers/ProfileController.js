@@ -1,6 +1,7 @@
 
 /* eslint-disable sort-keys */
 /* eslint-disable no-shadow */
+
 var mongoose = require('mongoose');
 var moment = require('moment');
 var Validations = require('../utils/validators');
@@ -35,7 +36,7 @@ module.exports.getChildren = function (req, res, next) {
       msg: 'Children retrieved successfully.'
     });
   });
-}
+};
 module.exports.EditChildIndependence = function (req, res, next) {
 
   // searching for username in the params and setting isChild to false
@@ -115,7 +116,9 @@ module.exports.requestUserValidation = function (req, res, next) {
 
   var reqObj = {
     status: 'pending',
-    bio: status + ', @' + req.user.username + ',\n' + req.user.email + ', Number of Children : ' + req.user.children.length,
+    bio: status + ', @' + req.user.username +
+      ',\n' + req.user.email + ', Number of Children : ' +
+      req.user.children.length,
     name: req.user.firstName + ' ' + req.user.lastName,
     AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
     ProfileLink: 'localhost:4200/profile/' + req.user.username,
@@ -132,37 +135,39 @@ module.exports.requestUserValidation = function (req, res, next) {
   //     image: 'imageMaher.com',
   //     creator: '5ac12591a813a63e419ebce5'
   // }
-  VCRSchema.create(reqObj, function (err, next) {   // insert the request to the database.
+  VCRSchema.create(reqObj, function (err, next) {
+    // insert the request to the database.
     if (err) {
       console.log('duplicate key');
-      if (err.message.startsWith('E11000 duplicate key error')) {    // if request already existed
+      if (err.message.startsWith('E11000 duplicate key error')) {
+        // if request already existed
         return res.status(400).json({
           err: null,
           msg: 'the request already submitted',
           data: null
         });
-      }
-      else {
+      } else {
         console.log('passing error to next');
         next(err);
       }
-      res.status(200).json({
-        err: null,
-        msg: 'the request is submitted',
-        data: null
-      })
     }
+    res.status(200).json({
+      err: null,
+      msg: 'the request is submitted',
+      data: null
+    });
   });
 };
 
 
 //--------------------------- Profile Info ------------------------- AUTHOR: H
 
-// method that finds a user by id, adds the passed child to the user's children list
+// method that finds a user by id,
+// adds the passed child to the user's children list
 // then ensure that isParent = true
 module.exports.linkAnotherParent = function (req, res, next) {
 
-  var id = req.params.parentId;
+  // var id = req.params.parentId;
   User.findByIdAndUpdate(
     req.params.parentId,
     {
@@ -190,7 +195,8 @@ module.exports.linkAnotherParent = function (req, res, next) {
   );
 };
 
-// method that finds a user by id, adds the passed child to the user's children list
+// method that finds a user by id,
+// adds the passed child to the user's children list
 // then ensure that isParent = true
 module.exports.addAsAParent = function (req, res, next) {
   User.findByIdAndUpdate(
@@ -361,3 +367,34 @@ module.exports.changeChildInfo = function (req, res, next) {
     }
   });
 };
+
+module.exports.ChangeInfo = function (req, res, next) {
+  console.log('in Profile controller.js');
+
+
+  User.findByIdAndUpdate(req.params.id, {
+    $set: {
+      address: req.body.address,
+      birthdate: req.body.birthdateBD,
+      educationLevel: req.body.educationLevel,
+      educationSystem: req.body.educationSystem,
+      email: req.body.email,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      phone: req.body.phone,
+      username: req.body.username
+    }
+  }, { new: true }, function (err, user) {
+    if (err) {
+      return next(err);
+    }
+    console.log('User personal info updated successfully.');
+    res.status(200).json({
+      data: user,
+      err: null,
+      msg: 'User personal info updated successfully.'
+    });
+  });
+
+};
+

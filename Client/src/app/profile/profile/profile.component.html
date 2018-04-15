@@ -41,6 +41,7 @@
             <h3 style="font-weight: bold">Personal Info:</h3>
 
             <label>Username: {{currIsOwner? username : vUsername}}</label> <br>
+            
             <label>Email: {{currIsOwner? email : vEmail}}</label> <br>
             <label>Address: {{currIsOwner? address : vAddress}}</label> <br>
             <label>Phone: {{currIsOwner? phone : vPhone}}</label> <br>
@@ -82,7 +83,37 @@
             Confirm New Password <br>
              <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
             <button type="button"class="btn btn-primary"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
-            
+           
+            <br>
+            <br>
+            <h4>Change Personal information</h4>
+           Address <br>
+           <input #NewAddress name="NewAddress" [(ngModel)]=address ><br>
+           Birthdate <br>
+           <input #NewBD name="NewBD" [(ngModel)]=birthdate><br>
+           Education Level <br>
+           <input #NewEduLevel name="NewEduLevel" [(ngModel)]=educationLevel><br> 
+           Education System <br>
+           <input #NewEduSystem name="NewEduSystem" [(ngModel)]=educationSystem> <br>
+           Email <br>
+           <input #NewEmail name="NewEmail" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" [(ngModel)]=email><br>
+            First Name <br>
+           <input #NewFN name="NewFN"[(ngModel)]=firstName > <br>
+           Last Name <br>
+           <input #NewLN name="NewLN" [(ngModel)]=lastName><br>
+            Phone <br>
+           <input #NewPhone name="NewPhone"[(ngModel)]=phone><br>
+
+            UserName <br>
+           <input #NewUserName name="NewUserName" [(ngModel)]=username><br>
+           
+
+           <button type="button"class="btn btn-primary"(click)="ChangeInfo({address: NewAddress.value,
+            birthdate: NewBD.value, educationLevel: NewEduLevel.value,
+            educationSystem: NewEduSystem.value, email: NewEmail.value, firstName: NewFN.value,
+            lastName: NewLN.value,phone: NewPhone.value,username: NewUserName.value})">Done</button>
+
+
             <p [innerHTML]="message"></p>
           </mat-expansion-panel>
           <mat-expansion-panel [expanded]="false">
