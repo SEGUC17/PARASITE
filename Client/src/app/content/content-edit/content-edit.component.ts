@@ -17,7 +17,7 @@ import { AdminService } from '../../admin.service';
 })
 export class ContentEditComponent implements OnInit {
   private editor;
-  private isUpdate;
+  private isUpdate = false;
   public videoInput: string;
   public categories: Category[];
   public requiredSections: Section[];
@@ -72,8 +72,8 @@ export class ContentEditComponent implements OnInit {
   }
 
 
-  // create content
-  createContent(content: Content): void {
+  // on content edit form submit
+  onSubmit(): void {
     const self = this;
     if (this.authService.getToken() === '') {
       // TODO: (Universal Error Handler/ Modal Errors)
@@ -84,20 +84,43 @@ export class ContentEditComponent implements OnInit {
     this.authService.getUserData(['username']).subscribe(function (authRes) {
       self.content.creator = authRes.data.username;
       // create content for for that registered user
-      self.contentService.createContent(content).subscribe(function (contentRes) {
-        // TODO: (Universal Error Handler/ Modal Errors)
-        if (!contentRes) {
-          return;
-        }
-        if (contentRes.data.content) {
-          self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
-          return;
-        }
-        self.router.navigateByUrl('/content-view/' + contentRes.data._id);
-      });
+
+      if (self.isUpdate) {
+        self.updateContent();
+      } else {
+        self.createContent();
+      }
     });
+  }
+  // create content
+  createContent(): void {
+    const self = this;
+    self.contentService.createContent(self.content).subscribe(function (contentRes) {
+      // TODO: (Universal Error Handler/ Modal Errors)
+      if (!contentRes) {
+        return;
+      }
+      if (contentRes.data.content) {
+        self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
+        return;
+      }
+      self.router.navigateByUrl('/content-view/' + contentRes.data._id);
+    });
+  }
 
-
+  // update content
+  updateContent(): void {
+    const self = this;
+    self.contentService.updateContent(self.content).subscribe(function (contentRes) {
+      // TODO: (Universal Error Handler/ Modal Errors)
+      if (!contentRes || !contentRes.data) {
+        return;
+      }
+      if (contentRes.data.content) {
+        self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
+      }
+      self.router.navigateByUrl('/content-view/' + contentRes.data._id);
+    });
   }
   // retrieve all categories from server
   getCategories(): void {
@@ -126,26 +149,32 @@ export class ContentEditComponent implements OnInit {
   }
 
 
-  initUpdateView() {
+  initUpdateView(contentID) {
     const self = this;
-    const contentID = this.route.snapshot.params.id;
-    if (!contentID) {
-      return;
-    }
-    this.contentService.getContentById(contentID).subscribe(function (res) {
-      if (!res) {
-        console.log('couldn\'t find the content');
-        self.isUpdate = false;
-        return;
+    self.contentService.getCategories().subscribe(function (res) {
+      if (!res || !res.data) {
+        return [];
       }
-      self.content = res.data;
-      self.getSections();
+      self.categories = res.data;
+      self.contentService.getContentById(contentID).subscribe(function (contentResponse) {
+        if (!contentResponse) {
+          console.log('couldn\'t find the content');
+          return;
+        }
+        self.isUpdate = true;
+        self.content = contentResponse.data;
+        self.getSections();
+      });
     });
 
   }
 
   ngOnInit() {
+    const contentID = this.route.snapshot.params.id;
+    if (contentID) {
+      this.isUpdate = true;
+      this.initUpdateView(contentID);
+    }
     this.getCategories();
-    this.initUpdateView();
   }
 }
