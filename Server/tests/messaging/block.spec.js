@@ -97,6 +97,8 @@ describe('blocking a user from messaging me', function () {
                                 }
                                 console.log('blocklist after: ', res.body.data.blocked);
                                 res.should.have.status(200);
+                                res.body.data.should.be.a('Object');
+                                res.body.data.should.have.property('blocked').eql(res.body.data.blocked);
 
                                 done();
                             });
