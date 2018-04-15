@@ -6,6 +6,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+var UserRating = require('../models/UserRating');
 
 var SearchController = require('../controllers/SearchController');
 
@@ -19,6 +20,7 @@ var adminController = require('../controllers/AdminController');
 var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
+var UserRatingController = require('../controllers/UserRatingController');
 
 module.exports = function (passport) {
 
@@ -179,16 +181,9 @@ module.exports = function (passport) {
 
   // Content Retrieval
 
-  // Get a page of content
-  router.get(
-    '/content/getContentPage/:numberOfEntriesPerPage' +
-    '/:pageNumber/:category/:section',
-    contentController.getContentPage
-  );
-
   // Get the contents of a user
   router.get(
-    '/content/username/:pageSize/:pageNumber',
+    '/content/username/:pageSize/:pageNumber/categorization',
     isAuthenticated,
     contentController.getContentByCreator
   );
@@ -214,7 +209,7 @@ module.exports = function (passport) {
   //Content Production
 
   router.post(
-  // Create new Content
+    // Create new Content
     '/content',
     isAuthenticated,
     contentController.validateContent,
@@ -246,6 +241,9 @@ module.exports = function (passport) {
 
   //------------------- End of Messaging Module Endpoints-----------//
 
+  //-------------------- Rating Endpoints ------------------//
+  router.put('/rating', isAuthenticated, UserRatingController.postRating);
+  //------------------- End of Rating Endpoints-----------//
 
   // -------------------------------------------------------------------- //
   module.exports = router;

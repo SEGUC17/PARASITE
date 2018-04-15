@@ -39,7 +39,8 @@ import { MatChipsModule } from '@angular/material';
 import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { MatNativeDateModule } from '@angular/material';
-
+import { RatingService } from './rating.service';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -85,6 +86,7 @@ import { MatNativeDateModule } from '@angular/material';
     MatSelectModule,
     MatFormFieldModule,
     CommonModule,
+    SharedModule,
     AuthModule
   ],
   providers: [
@@ -93,7 +95,8 @@ import { MatNativeDateModule } from '@angular/material';
       useClass: AuthInterceptor,
       multi: true
     },
-    MediaMatcher
+    MediaMatcher,
+    RatingService
   ],
   bootstrap: [AppComponent]
 })
