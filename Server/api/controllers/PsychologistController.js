@@ -8,25 +8,25 @@ var Psychologists = mongoose.model('Psychologist');
 
 
 module.exports.editPsychologists = function (req, res, next) {
-    if (req.user.username === req.params.username) {
-      Psychologists.findOne({ _id: req.body.idd }).exec(function (err, prodRequests) {
-            if (err) {
-                return next(err);
-            }
+  if (req.user.username === req.params.username) {
+    Psychologists.findOne({ _id: req.body.idd }).exec(function (err, prodRequests) {
+      if (err) {
+        return next(err);
+      }
 
-            return res.status(200).json({
-                data: prodRequests,
-                err: null,
-                msg: 'Edited successfully.'
-            });
-        });
-    } else {
-        return res.status(403).json({
-            data: null,
-            err: 'not such Id Exists',
-            msg: null
-        });
-    }
+      return res.status(200).json({
+        data: prodRequests,
+        err: null,
+        msg: 'Edited successfully.'
+      });
+    });
+  } else {
+    return res.status(403).json({
+      data: null,
+      err: 'not such Id Exists',
+      msg: null
+    });
+  }
 };
 
 module.exports.addRequest = function (req, res, next) {
@@ -123,31 +123,74 @@ module.exports.editRequest = function (req, res, next) {
   }
 };
 
-module.exports.getPsychologists = function (req, res, next) {
-  Psychologists.find({}).exec(function (err, psychs) {
-    if (err) {
-      return next(err);
+var limits = function (toFind) {
+  var limiters = { '$text': { '$search': toFind.search } };
+  if (toFind.address) {
+    limiters.address = new RegExp(toFind.address, 'i');
+  }
+  if (toFind.search === '') {
+    delete limiters.$text;
+  }
+
+  return limiters;
+};
+var options = function (toFind) {
+
+  var ret = {
+
+    limit: Number(toFind.entriesPerPage),
+    page: Number(toFind.pageNumber),
+    sort: {}
+  };
+  if (toFind.sort) {
+    if (toFind.sort === 'cheapest') {
+      ret.sort.priceRange = 1;
     }
-    res.status(200).json({
-      data: psychs,
-      err: null,
-      msg: 'Psychologists retrieved successfully.'
-    });
-  });
+    if (toFind.sort === 'a-z') {
+      ret.sort.firstName = 1;
+      ret.sort.lastName = -1;
+    }
+  }
+
+  return ret;
+};
+// get the psyhcologists page(given entries per page and page number)
+// search can be on address, name, sorted by price or lexographically
+module.exports.getPsychologists = function (req, res, next) {
+  // extract limiters out of header
+  var toFind = JSON.parse(req.params.limiters);
+  // get the search options (sort, entries/page, page #)
+  var opt = options(toFind);
+  // get the non null limiters
+  var limiters = limits(toFind);
+  Psychologists.paginate(
+    limiters,
+    opt,
+    function (err, psychologists) {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({
+        data: psychologists,
+        err: null,
+        msg: 'psychologists retrieved successfully'
+      });
+    }
+  );
 };
 
 module.exports.getPsychologistData = function (req, res, next) {
-    Psychologists.findOne({ _id: req.params.id }).exec(function (err, psych) {
-          if (err) {
-              return next(err);
-          }
+  Psychologists.findOne({ _id: req.params.id }).exec(function (err, psych) {
+    if (err) {
+      return next(err);
+    }
 
-          return res.status(200).json({
-              data: psych,
-              err: null,
-              msg: 'psych retrieved successfully.'
-          });
-      });
+    return res.status(200).json({
+      data: psych,
+      err: null,
+      msg: 'psych retrieved successfully.'
+    });
+  });
 };
 
 module.exports.getRequests = function (req, res, next) {
@@ -264,12 +307,12 @@ module.exports.deletePsych = function (req, res, next) {
         });
       } else {
         return res.status(404).json({
-        data: null,
-        err: null,
-        msg: 'Psychologist not found.'
+          data: null,
+          err: null,
+          msg: 'Psychologist not found.'
         });
-    }
-  });
+      }
+    });
   } else {
     res.status(403).json({
       data: null,

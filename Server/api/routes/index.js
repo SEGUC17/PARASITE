@@ -84,7 +84,7 @@ module.exports = function (passport) {
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
 
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist', psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
   router.delete('/psychologist/delete/:id', isAuthenticated, psychCtrl.deletePsych);
   router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);

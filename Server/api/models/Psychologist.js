@@ -24,5 +24,10 @@ var psychSchema = mongoose.Schema({
   phone: { type: String },
   priceRange: { type: Number }
 });
+psychSchema.index({
+      firstName: 'text',
+      lastName: 'text'
+  });
 
-mongoose.model('Psychologist', psychSchema, 'psychologists');
+var psychologist = mongoose.model('Psychologist', psychSchema, 'psychologists');
+psychologist.ensureIndexes();
