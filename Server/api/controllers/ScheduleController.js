@@ -34,7 +34,7 @@ module.exports.updateSchedule = function (req, res, next) {
             valid = valid && req.body[index].title &&
                 req.body[index].start;
         }
-        
+
         if (!valid) {
             return res.status(422).json({
                 data: null,

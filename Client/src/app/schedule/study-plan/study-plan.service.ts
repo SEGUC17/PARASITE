@@ -7,24 +7,24 @@ import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { RequestOptions, Headers } from '@angular/http';
 import { Options } from 'selenium-webdriver';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class StudyPlanService {
 
-  endpoint: String = 'http://localhost:3000/api/';
 
   constructor(private http: HttpClient) { }
 
   getPersonalStudyPlan(username: String, studyPlanID: String): Observable<any> {
-    return this.http.get(this.endpoint + 'study-plan/getPersonalStudyPlan/' + username + '/' + studyPlanID);
+    return this.http.get(environment.apiUrl + 'study-plan/getPersonalStudyPlan/' + username + '/' + studyPlanID);
   }
 
   getPublishedStudyPlan(studyPlanID: String): Observable<any> {
-    return this.http.get(this.endpoint + 'study-plan/getPublishedStudyPlan/' + studyPlanID);
+    return this.http.get(environment.apiUrl + 'study-plan/getPublishedStudyPlan/' + studyPlanID);
   }
 
   createStudyPlan(username: String, studyPlan: StudyPlan): Observable<any> {
-    return this.http.patch(this.endpoint + 'study-plan/createStudyPlan/' + username, studyPlan);
+    return this.http.patch(environment.apiUrl + 'study-plan/createStudyPlan/' + username, studyPlan);
   }
 
   getPublishedStudyPlans(pageNumber: Number): Observable<any> {
@@ -33,7 +33,7 @@ export class StudyPlanService {
     get all publishedStudyPlans (study plans schema in the database) page by page by passing
     page number to the controller which handles pagination
     */
-    return this.http.get(this.endpoint + 'study-plan/getPublishedStudyPlans/' + pageNumber);
+    return this.http.get(environment.apiUrl + 'study-plan/getPublishedStudyPlans/' + pageNumber);
   }
 
   PublishStudyPlan(studyPlan: StudyPlan): Observable<any> {
@@ -41,37 +41,37 @@ export class StudyPlanService {
     @author: Ola
     post request with the required studyPlan to be published in the body of the request with the route specified in the index.js
     */
-    return this.http.post(this.endpoint + 'study-plan/PublishStudyPlan', studyPlan);
+    return this.http.post(environment.apiUrl + 'study-plan/PublishStudyPlan', studyPlan);
 
   }
 
   rateStudyPlan(studyPlanID: String, rating: Number): Observable<any> {
-    return this.http.patch(this.endpoint + 'study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
+    return this.http.patch(environment.apiUrl + 'study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
   }
 
   deleteStudyPlan(username: String, studyPlanID: String): Observable<any> {
-    return this.http.delete(this.endpoint + 'study-plan/deleteStudyPlan/' + username + '/' + studyPlanID);
+    return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + username + '/' + studyPlanID);
 
   }
 
   deletePublishedStudyPlan(studyPlanID: String): Observable<any> {
-    return this.http.delete(this.endpoint + 'study-plan/deletePublishedStudyPlan/' + studyPlanID);
+    return this.http.delete(environment.apiUrl + 'study-plan/deletePublishedStudyPlan/' + studyPlanID);
 
   }
 
   assignStudyPlan(username: String, studyPlanID: String): Observable<any> {
 
-    return this.http.patch(this.endpoint + 'study-plan/assignStudyPlan/' + username + '/' + studyPlanID, {});
+    return this.http.patch(environment.apiUrl + 'study-plan/assignStudyPlan/' + username + '/' + studyPlanID, {});
 
   }
 
   unAssignStudyPlan(username: String, studyPlanID: String): Observable<any> {
 
-    return this.http.patch(this.endpoint + 'study-plan/unAssignStudyPlan/' + username + '/' + studyPlanID, {});
+    return this.http.patch(environment.apiUrl + 'study-plan/unAssignStudyPlan/' + username + '/' + studyPlanID, {});
 
   }
 
   editPersonalStudyPlan(username: String, studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
-    return this.http.patch(this.endpoint + '/study-plan/editPersonalStudyPlan/' + username + '/' + studyPlanID, studyPlan);
+    return this.http.patch(environment.apiUrl + '/study-plan/editPersonalStudyPlan/' + username + '/' + studyPlanID, studyPlan);
   }
 }
