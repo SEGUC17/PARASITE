@@ -59,7 +59,7 @@ module.exports.updateSchedule = function (req, res, next) {
 
 
                 return res.status(200).json({
-                    data: user.schedule,
+                    data: null,
                     err: null,
                     msg: 'Schedule updated succesfully.'
                 });
@@ -103,7 +103,7 @@ module.exports.addEvent = function (req, res, next) {
 
 
                 return res.status(200).json({
-                    data: user.schedule,
+                    data: null,
                     err: null,
                     msg: 'Schedule updated succesfully.'
                 });

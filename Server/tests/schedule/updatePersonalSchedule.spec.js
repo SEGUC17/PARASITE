@@ -53,12 +53,12 @@ var aCalendarEvent = {
         'secondary': '#FAE3E3'
     },
     draggable: true,
-    end: '2018-04-04T21:59:59.999Z',
+    end: Date(2020, 10, 6),
     resizable: {
         afterEnd: true,
         beforeStart: true
     },
-    start: '2018-04-04T18:59:00.000Z',
+    start: Date(2020, 8, 6),
     title: 'test event'
 
 };
@@ -115,18 +115,20 @@ describe('updateSchedule', function () {
                         }
                         updateData.should.have.status(200);
                         should.not.exist(updateData.body.err);
-                        updateData.body.data.should.be.a('array');
-                        updateData.body.data[0].should.be.a('object');
-                        updateData.body.data[0].should.have.property('title');
-                        updateData.body.data[0].should.have.property('start');
-                        updateData.body.data[0].should.have.property('end');
-                        updateData.body.data[0].title.should.
-                            equal(aCalendarEvent.title);
-                        updateData.body.data[0].start.should.
-                            equal(aCalendarEvent.start);
-                        updateData.body.data[0].end.should.
-                            equal(aCalendarEvent.end);
-                        done();
+                        User.findOne({ 'username': johnDoe.username }, function(err0, userData) {
+                            userData.schedule.should.be.a('array');
+                            userData.schedule[0].should.be.a('object');
+                            userData.schedule[0].should.have.property('title');
+                            userData.schedule[0].should.have.property('start');
+                            userData.schedule[0].should.have.property('end');
+                            userData.schedule[0].title.should.
+                                equal(aCalendarEvent.title);
+                            Date(userData.schedule[0].start).should.
+                                equal(Date(Date(aCalendarEvent.start)));
+                            Date(userData.schedule[0].end).should.
+                                equal(Date(Date(aCalendarEvent.end)));
+                            done();
+                        });
                     });
             });
     });
@@ -161,20 +163,22 @@ describe('updateSchedule', function () {
                                 }
                                 updateData.should.have.status(200);
                                 should.not.exist(updateData.body.err);
-                                updateData.body.data.should.be.a('array');
-                                updateData.body.data[0].should.be.a('object');
-                                updateData.body.data[0].should.
+                                User.findOne({ 'username': johnny.username }, function(err0, userData) {
+                                userData.schedule.should.be.a('array');
+                                userData.schedule[0].should.be.a('object');
+                                userData.schedule[0].should.
                                     have.property('title');
-                                updateData.body.data[0].should.have.
+                                userData.schedule[0].should.have.
                                     property('start');
-                                updateData.body.data[0].should.have.
+                                userData.schedule[0].should.have.
                                     property('end');
-                                updateData.body.data[0].title.should.
+                                userData.schedule[0].title.should.
                                     equal(aCalendarEvent.title);
-                                updateData.body.data[0].start.should.
-                                    equal(aCalendarEvent.start);
-                                updateData.body.data[0].end.should.
-                                    equal(aCalendarEvent.end);
+                                Date(userData.schedule[0].start).should.
+                                    equal(Date(aCalendarEvent.start));
+                                Date(userData.schedule[0].end).should.
+                                    equal(Date(aCalendarEvent.end));
+                                });
                                 done();
                             });
                     });
@@ -222,7 +226,6 @@ describe('updateSchedule', function () {
                                         updateData.body.err.should.
                                             equal('Not authorized to' +
                                                 ' edit user\'s Schedule');
-                                        should.not.exist(updateData.body.data);
                                         should.not.exist(updateData.body.msg);
                                         done();
                                     });
@@ -263,7 +266,6 @@ describe('updateSchedule', function () {
                                     updateData.body.err.should.
                                         equal('Not authorized to' +
                                             ' edit user\'s Schedule');
-                                    should.not.exist(updateData.body.data);
                                     should.not.exist(updateData.body.msg);
                                     done();
                                 });
@@ -320,18 +322,20 @@ describe('addEvent', function () {
                         }
                         updateData.should.have.status(200);
                         should.not.exist(updateData.body.err);
-                        updateData.body.data.should.be.a('array');
-                        updateData.body.data[0].should.be.a('object');
-                        updateData.body.data[0].should.have.property('title');
-                        updateData.body.data[0].should.have.property('start');
-                        updateData.body.data[0].should.have.property('end');
-                        updateData.body.data[0].title.should.
+                        User.findOne({ 'username': johnDoe.username }, function(err0, userData) {
+                        userData.schedule.should.be.a('array');
+                        userData.schedule[0].should.be.a('object');
+                        userData.schedule[0].should.have.property('title');
+                        userData.schedule[0].should.have.property('start');
+                        userData.schedule[0].should.have.property('end');
+                        userData.schedule[0].title.should.
                             equal(aCalendarEvent.title);
-                        updateData.body.data[0].start.should.
-                            equal(aCalendarEvent.start);
-                        updateData.body.data[0].end.should.
-                            equal(aCalendarEvent.end);
+                        Date(userData.schedule[0].start).should.
+                            equal(Date(aCalendarEvent.start));
+                        Date(userData.schedule[0].end).should.
+                            equal(Date(aCalendarEvent.end));
                         done();
+                        });
                     });
             });
     });
@@ -367,21 +371,23 @@ describe('addEvent', function () {
                                 }
                                 updateData.should.have.status(200);
                                 should.not.exist(updateData.body.err);
-                                updateData.body.data.should.be.a('array');
-                                updateData.body.data[0].should.be.a('object');
-                                updateData.body.data[0].should.
+                                User.findOne({ 'username': johnny.username }, function(err0, userData) {
+                                userData.schedule.should.be.a('array');
+                                userData.schedule[0].should.be.a('object');
+                                userData.schedule[0].should.
                                     have.property('title');
-                                updateData.body.data[0].should.have.
+                                userData.schedule[0].should.have.
                                     property('start');
-                                updateData.body.data[0].should.have.
+                                userData.schedule[0].should.have.
                                     property('end');
-                                updateData.body.data[0].title.should.
+                                userData.schedule[0].title.should.
                                     equal(aCalendarEvent.title);
-                                updateData.body.data[0].start.should.
-                                    equal(aCalendarEvent.start);
-                                updateData.body.data[0].end.should.
-                                    equal(aCalendarEvent.end);
+                                Date(userData.schedule[0].start).should.
+                                    equal(Date(aCalendarEvent.start));
+                                Date(userData.schedule[0].end).should.
+                                    equal(Date(aCalendarEvent.end));
                                 done();
+                                });
                             });
                     });
             });
@@ -429,7 +435,6 @@ describe('addEvent', function () {
                                         updateData.body.err.should.
                                             equal('Not authorized to' +
                                                 ' edit user\'s Schedule');
-                                        should.not.exist(updateData.body.data);
                                         should.not.exist(updateData.body.msg);
                                         done();
                                     });
@@ -470,7 +475,6 @@ describe('addEvent', function () {
                                     updateData.body.err.should.
                                         equal('Not authorized to' +
                                             ' edit user\'s Schedule');
-                                    should.not.exist(updateData.body.data);
                                     should.not.exist(updateData.body.msg);
                                     done();
                                 });
