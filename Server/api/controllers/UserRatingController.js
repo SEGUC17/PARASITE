@@ -34,7 +34,7 @@ module.exports.postRating = function (req, res, next) {
         {
             ratedId: req.body.userRating.ratedId,
             type: req.body.userRating.type,
-            username: req.body.userRating.username
+            username: req.user.username
         },
         { $set: { rating: req.body.userRating.rating } },
         { upsert: true },
