@@ -26,10 +26,16 @@ var contentSchema = mongoose.Schema({
         type: String
     },
     rating: {
-        default: 0,
-        required: false,
-        trim: true,
-        type: Number
+        default: {
+            number: 0,
+            sum: 0,
+            value: 0
+        },
+        type: {
+            number: Number,
+            sum: Number,
+            value: Number
+        }
     },
     section: {
         required: true,
