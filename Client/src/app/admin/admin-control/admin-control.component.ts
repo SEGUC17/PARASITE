@@ -10,7 +10,7 @@ import { ViewPsychRequestsComponent } from '../view-psych-requests/view-psych-re
 @Component({
   selector: 'app-admin-control',
   templateUrl: './admin-control.component.html',
-  styleUrls: ['./admin-control.component.css']
+  styleUrls: ['./admin-control.component.scss']
 })
 
 export class AdminControlComponent implements OnInit {

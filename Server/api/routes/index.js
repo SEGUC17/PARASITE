@@ -6,6 +6,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+var UserRating = require('../models/UserRating');
 
 var SearchController = require('../controllers/SearchController');
 
@@ -19,6 +20,7 @@ var adminController = require('../controllers/AdminController');
 var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
+var UserRatingController = require('../controllers/UserRatingController');
 
 module.exports = function (passport) {
 
@@ -131,18 +133,9 @@ module.exports = function (passport) {
     adminController.viewPendingContReqs
   );
   router.patch(
-    '/admin/RespondContentRequest/:ContentRequestId', isAuthenticated,
+    '/admin/RespondContentRequest/:ContentRequestId/:ContentId', isAuthenticated,
     adminController.respondContentRequest
   );
-  router.patch(
-    '/admin/RespondContentStatus/:ContentId', isAuthenticated,
-    adminController.respondContentStatus
-  );
-  // TO-DO ContributionPts
-  // router.patch(
-  //   'admin/addContPts', isAuthenticated,
-  //   adminController.addContPts
-  // );
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
@@ -152,7 +145,7 @@ module.exports = function (passport) {
   router.put('/profile/AddAsAParent/:parentId', profileController.addAsAParent);
   router.get('/profile/:username/getChildren', profileController.getChildren);
   router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
-  router.patch('/profile/changePassword/:uname', profileController.changePassword);
+  router.patch('/profile/changePassword/:id', profileController.changePassword);
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
@@ -180,16 +173,9 @@ module.exports = function (passport) {
 
   // Content Retrieval
 
-  // Get a page of content
-  router.get(
-    '/content/getContentPage/:numberOfEntriesPerPage' +
-    '/:pageNumber/:category/:section',
-    contentController.getContentPage
-  );
-
   // Get the contents of a user
   router.get(
-    '/content/username/:pageSize/:pageNumber',
+    '/content/username/:pageSize/:pageNumber/categorization',
     isAuthenticated,
     contentController.getContentByCreator
   );
@@ -200,6 +186,12 @@ module.exports = function (passport) {
     contentController.getContentById
   );
 
+  // Get a page of content according to a search query
+  router.get(
+    '/content/:pageSize/:pageNumber/search',
+    contentController.getSearchPage
+  );
+
   // Get Categories
   router.get(
     '/content/category',
@@ -208,9 +200,23 @@ module.exports = function (passport) {
 
   //Content Production
 
-  // Create new Content
-  router.post('/content', isAuthenticated, contentController.createContent);
+  router.post(
+    // Create new Content
+    '/content',
+    isAuthenticated,
+    contentController.validateContent,
+    contentController.validateSelectedCategory,
+    contentController.createContent
+  );
 
+  // Edit content
+  router.patch(
+    '/content',
+    isAuthenticated,
+    contentController.validateContent,
+    contentController.validateSelectedCategory,
+    contentController.updateContent
+  );
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
@@ -227,6 +233,9 @@ module.exports = function (passport) {
 
   //------------------- End of Messaging Module Endpoints-----------//
 
+  //-------------------- Rating Endpoints ------------------//
+  router.put('/rating', isAuthenticated, UserRatingController.postRating);
+  //------------------- End of Rating Endpoints-----------//
 
   // -------------------------------------------------------------------- //
   module.exports = router;
