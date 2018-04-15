@@ -26,6 +26,7 @@ import { AdminModule } from '../admin/admin.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatSelectModule,
     AdminModule,
     MatRadioModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    SharedModule
   ],
   providers: [ContentService],
   declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent, SafeResourceUrlPipe, SafeHtmlPipe]
