@@ -69,7 +69,6 @@ module.exports.PublishStudyPlan = function (req, res, next) {
         });
     });
 });
-};
 
 module.exports.getPersonalStudyPlan = function (req, res, next) {
     if (req.user.username !== req.params.username &&
@@ -354,6 +353,7 @@ module.exports.deletePublishedStudyPLan = function (req, res, next) {
             });
         });
     });
+};
 module.exports.editPersonalStudyPlan = function (req, res, next) {
     if (req.user.username !== req.params.username &&
         req.user.children.indexOf(req.params.username) < 0) {
@@ -394,6 +394,5 @@ module.exports.editPersonalStudyPlan = function (req, res, next) {
                 err: null,
                 msg: 'Study plan updated successfully.'
             });
-        }
-    );
-};
+        });
+};  

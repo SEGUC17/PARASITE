@@ -62,7 +62,7 @@ export class StudyPlanComponent implements OnInit {
   type: string;
   _id: String;
   username: String;
-  listOfChildren: any[]
+  listOfChildren: any[];
 
     // Users
     loggedInUser: any = {};
@@ -218,6 +218,21 @@ export class StudyPlanComponent implements OnInit {
           alert(res.msg);
         });
     }
+
+  assign(): void {
+    //this.studyPlan.assigned = true;
+    if (this.loggedInUser.username === this.profileUser) {
+    this.studyPlanService.assignStudyPlan(this.username,this._id).subscribe(
+      res => {
+        if (res.msg === 'StudyPlan assigned successfully.') {
+          alert(res.msg);
+        } else {
+          alert('An error occured while assigning the study plan');
+        }
+      });
+    }
+
+  }
 
   assign(): void {
     //this.studyPlan.assigned = true;
