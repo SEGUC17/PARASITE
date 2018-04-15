@@ -40,9 +40,8 @@ export class ProfileComponent implements OnInit {
   verified: Boolean = false;
   id: any;
   pws: { oldpw: '', newpw: '', confirmpw: '' };
-  info: { address: '', birthdate: '', educationLevel: '',
-  educationSystem: '', email: '', firstName: '', lastName: '', phone: '', username: '' };
-  // NInfo: {type: '', value: ''};
+  info: { address: '', birthdate: Date, email: '', firstName: '', lastName: '', phone: '', username: '' };
+
   // -------------------------------------
 
   // ---------Visited User Info-----------
@@ -94,6 +93,8 @@ export class ProfileComponent implements OnInit {
       this.id = user.data._id;
       this.currIsChild = user.data.isChild;
       this.currIsParent = user.data.isParent;
+
+
 
       if (!this.vUsername || this.vUsername === this.username) {
         this.currIsOwner = true;
@@ -194,18 +195,10 @@ export class ProfileComponent implements OnInit {
     // getting the visited profile username and passing it to service method to add it to the patch request
 
   }
-// Edite My Personal Info
-ChangeInfo(info: any): void {
-  console.log('in Profile component.ts');
-  console.log(info.username);
-this._ProfileService.ChangeInfo(this.id, info).subscribe();
-}
-/*editInfo(NInfo: any): void {
-  console.log(NInfo.type);
-  console.log(NInfo.value);
+  // Edit My Personal Info
+  ChangeInfo(info: any): void {
+    this._ProfileService.ChangeInfo(this.id, info).subscribe();
+  }
 
-this._ProfileService.editeInfo(this.id, NInfo).subscribe();
-  //this._ProfileService.editeInfo(this.id, Info).subscribe();
-}*/
 
 }

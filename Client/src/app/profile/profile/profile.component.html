@@ -31,7 +31,10 @@
           </span>
           <button mat-raised-button id="mkIndep" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsChild">Make Independent</button>
           <button mat-raised-button id="createChildAccount" *ngIf = "currIsParent && currIsOwner">Create child account</button>
-      </div>
+      
+          <button mat-raised-button id="reportAccount" *ngIf = "!currIsChild " (click)="Report()">Report</button>
+
+        </div>
     </div>
     <br>
     <div class="tab">
@@ -83,15 +86,12 @@
            
             <br>
             <br>
+            <br>
             <h4>Change Personal information</h4>
            Address <br>
            <input #NewAddress name="NewAddress" [(ngModel)]=address ><br>
            Birthdate <br>
-           <input #NewBD name="NewBD" [(ngModel)]=birthdate><br>
-           Education Level <br>
-           <input #NewEduLevel name="NewEduLevel" [(ngModel)]=educationLevel><br> 
-           Education System <br>
-           <input #NewEduSystem name="NewEduSystem" [(ngModel)]=educationSystem> <br>
+           <input #NewBD  name="NewBD" [(ngModel)]=birthdate><br>
            Email <br>
            <input #NewEmail name="NewEmail" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" [(ngModel)]=email><br>
             First Name <br>
@@ -103,11 +103,10 @@
 
             UserName <br>
            <input #NewUserName name="NewUserName" [(ngModel)]=username><br>
-           
+
 
            <button type="button"class="btn btn-primary"(click)="ChangeInfo({address: NewAddress.value,
-            birthdate: NewBD.value, educationLevel: NewEduLevel.value,
-            educationSystem: NewEduSystem.value, email: NewEmail.value, firstName: NewFN.value,
+            birthdate: NewBD.value, email: NewEmail.value, firstName: NewFN.value,
             lastName: NewLN.value,phone: NewPhone.value,username: NewUserName.value})">Done</button>
 
 

@@ -316,32 +316,60 @@ module.exports.changePassword = function (req, res, next) {
 
 
 module.exports.ChangeInfo = function (req, res, next) {
-  console.log('in Profile controller.js');
 
-
-  User.findByIdAndUpdate(req.params.id, {
-    $set: {
-      address: req.body.address,
-      birthdate: req.body.birthdateBD,
-      educationLevel: req.body.educationLevel,
-      educationSystem: req.body.educationSystem,
-      email: req.body.email,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      phone: req.body.phone,
-      username: req.body.username
-    }
-  }, { new: true }, function (err, user) {
+  User.findOne({
+    username: req.body.username,
+    _id: { $ne: req.params.id }
+  }, function (err, user1) {
     if (err) {
       return next(err);
+    } else if (user1) {
+      console.log('in username exist: ');
+
+      return res.status(403).json({
+        data: null,
+        err: null,
+        msg: 'Username already exists.'
+      });
     }
-    console.log('User personal info updated successfully.');
-    res.status(200).json({
-      data: user,
-      err: null,
-      msg: 'User personal info updated successfully.'
+
+    User.findOne({
+      email: req.body.email,
+      _id: { $ne: req.params.id }
+    }, function (err, user2) {
+      if (err) {
+        return next(err);
+      } else if (user2) {
+
+        return res.status(403).json({
+          data: null,
+          err: null,
+          msg: 'Email already exists.'
+        });
+      }
+
+      User.findByIdAndUpdate(req.params.id, {
+        $set: {
+          address: req.body.address,
+          birthdate: new Date(req.body.birthdate),
+          email: req.body.email,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          phone: req.body.phone,
+          username: req.body.username
+        }
+      }, { new: true }, function (err, user) {
+        if (err) {
+          return next(err);
+        }
+
+        return res.status(200).json({
+          data: user,
+          err: null,
+          msg: 'User personal info updated successfully.'
+        });
+      });
     });
   });
-
 };
 

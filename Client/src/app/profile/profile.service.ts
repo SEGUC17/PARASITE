@@ -25,7 +25,7 @@ export class ProfileService {
   private pwURL = 'http://localhost:3000/api/profile/changePassword';
   private profileUrl = 'http://localhost:3000/api/profile';
   private changeInfoUrl = 'http://localhost:3000/api/profile/ChangeInfo';
- // private editeInfoUrl = 'http://localhost:3000/api/profile/editInfo';
+  // private editeInfoUrl = 'http://localhost:3000/api/profile/editInfo';
 
   // Author: Yomna
   linkAnotherParent(children, vId): Observable<any> {
