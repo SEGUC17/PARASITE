@@ -171,6 +171,7 @@ module.exports.getPsychologists = function (req, res, next) {
       if (err) {
         return next(err);
       }
+      console.log(psychologists);
       res.status(200).json({
         data: psychologists,
         err: null,
