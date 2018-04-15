@@ -155,14 +155,41 @@ module.exports.getSearchPage = function (req, res, next) {
                 return next(err);
             }
 
-            // send the page of contents
+            // get a list of all the creators
+            var creators = [];
+            var counter = 0;
+            for (counter; counter < contents.docs.length; counter += 1) {
+                if (!creators.includes(contents.docs[counter].creator)) {
+                    creators.push(contents.docs[counter].creator);
+                }
+            }
 
-            return res.status(200).json({
-                data: contents,
-                err: null,
-                msg: 'The contents searched for by ' +
-                    'the user were retrieved successfully'
-            });
+            // find the creator's avatar links
+            User.find(
+                { username: { $in: creators } },
+                {
+                    _id: 0,
+                    avatar: 1,
+                    username: 1
+                },
+                function (error, userAvatars) {
+                    if (error) {
+                        return next(err);
+                    }
+                    console.log(userAvatars);
+                    // send the page of contents
+
+                    return res.status(200).json({
+                        data: {
+                            contents: contents,
+                            userAvatars: userAvatars
+                        },
+                        err: null,
+                        msg: 'The contents searched for by ' +
+                            'the user were retrieved successfully'
+                    });
+                }
+            );
         }
     );
 };

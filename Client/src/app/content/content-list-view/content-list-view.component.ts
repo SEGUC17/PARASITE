@@ -161,10 +161,19 @@ export class ContentListViewComponent implements OnInit {
       self.selectedCategory,
       self.selectedSection,
       self.sortResultsBy
-    ).subscribe(function (retrievedContents) {
+    ).subscribe(function (res) {
+      let retrievedContent = res.data.contents.docs;
+      let retrievedAvatars = res.data.userAvatars;
+      // match the retrieved content to their avatars
+      for (let counter = 0; counter < retrievedContent.length; counter += 1) {
+        retrievedContent[counter].creatorAvatarLink = retrievedAvatars.find(
+          function (element) {
+            return element.username === retrievedContent[counter].creator;
+          }
+        ).avatar;
+      }
       // update the contents array
-      self.contents = self.contents.concat(retrievedContents.data.docs);
-      console.log('Total Number of Pages Search: ' + retrievedContents.data.pages);
+      self.contents = self.contents.concat(retrievedContent);
     });
   }
 
