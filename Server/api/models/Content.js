@@ -83,7 +83,13 @@ contentSchema.index(
         }
     }
 );
-
+contentSchema.post('findOneAndUpdate', function (doc) {
+    var newRating = doc.rating.sum / doc.rating.number;
+    this.model.update(
+        { _id: doc._id },
+        { $set: { 'rating.value': newRating } }
+    ).exec();
+});
 // apply the mongoose paginate library to the schema
 contentSchema.plugin(mongoosePaginate);
 var Content = mongoose.model('Content', contentSchema, 'contents');
