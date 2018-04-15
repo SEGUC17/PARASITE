@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Product } from '../Product';
+import { MarketService } from '../market.service';
+
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -8,7 +10,7 @@ import { Product } from '../Product';
 })
 export class ProductDetailComponent {
 
-  product : Product;
+  product: Product;
   toggleEditForm = false;
   updatedFields = new Set();
   x = [];
@@ -16,38 +18,40 @@ export class ProductDetailComponent {
   oldData = <any>{};
   newData = <any>{};
 
-  constructor(public dialogRef: MatDialogRef<ProductDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { 
-this.oldData = data.product;
+  constructor( private marketService: MarketService, public dialogRef: MatDialogRef<ProductDetailComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.oldData = data.product;
     console.log(this.oldData);
-      this.product = data.product;
+    this.product = data.product;
 
-    }
+  }
 
-    
-    editPrice() {
-      if (this.toggleEditForm) {
-        let self = this;
-        this.updatedFields.forEach(function (field: String) {
-          self.newData['' + field] = self.formInput['' + field];
-        });
-        // if (this.newData.acquiringType === 'sell') {
-        //   delete this.newData.rentPeriod;
-        //   delete this.formInput.rentPeriod;
-        //   delete this.oldData.rentPeriod;
-        // }
-        console.log(this.newData);
-        // Sent HTTP here
+
+  editPrice() {
+    if (this.toggleEditForm) {
+      let newprice = this.formInput.price;
+      this.marketService.editPrice(newprice).subscribe(function (res) {
+
+        console.log('hiiiiii');
+        console.log(this.oldData);
+
+
         this.toggleEditForm = false;
-      } else {
-        this.toggleEditForm = true;
-        this.formInput = this.oldData;
-      }
-    }
-  
-    // addToUpdatedFields(event: any) {
-    //   this.updatedFields.add(event.target.id);
-    // }
 
-   
+        if (res.err == null) {
+          console.log(res.err);
+        }
+
+      });
+    } else {
+      this.toggleEditForm = true;
+      this.formInput = this.oldData;
+    }
+  }
+
+  // addToUpdatedFields(event: any) {
+  //   this.updatedFields.add(event.target.id);
+  // }
+
+
 }
