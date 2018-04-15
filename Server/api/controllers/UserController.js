@@ -263,7 +263,7 @@ module.exports.signIn = function (req, res, next) {
 
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
-    // console.log('entered the signUpChild method');
+     console.log('entered the signUpChild method');
     // console.log('userId is: ' + req.user._id);
     // console.log('username is: ' + req.user.username);
 
@@ -344,7 +344,7 @@ module.exports.signUpChild = function (req, res, next) {
         return res.status(401).json({
             data: null,
             err2: null,
-            msg: 'you are missing required data entry ' + field + '!' + err2.message
+            msg: 'you are missing required data entry '
         });
     }
     //---end of emptiness validations--////
