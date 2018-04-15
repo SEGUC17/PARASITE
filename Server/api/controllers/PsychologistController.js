@@ -160,3 +160,32 @@ module.exports.evaluateRequest = function (req, res, next) {
     });
   }
 };
+
+
+module.exports.deletePsych = function (req, res, next) {
+  if (req.user.isAdmin) {
+    Psychologists.findOne({ _id: req.params.id }).exec(function (err, psych) {
+      if (err) {
+        return next(err);
+      }
+      if (!psych) {
+        return res.status(404).json({
+          data: null,
+          err: null,
+          msg: 'Psychologist not found.'
+        });
+      }
+    });
+    Psychologists.remove({ _id: req.params.id }, function (err, msg) {
+      if (err) {
+        return next(err);
+      }
+
+      return res.status(200).json({
+        data: msg,
+        err: null,
+        msg: 'Psychologist deleted successfully.'
+        });
+    });
+  }
+};

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AddPsychologistRequest } from './add-psych-request/AddPsychologistRequest';
+import { Psychologist } from './psychologist/psychologist';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
@@ -10,8 +11,12 @@ export class PsychologistService {
   host: String = 'http://localhost:3000/api';
   constructor(private http: HttpClient) { }
   addRequest(req: AddPsychologistRequest): Observable<any> {
-    console.log(req);
     return this.http.post<any>(this.host + '/psychologist/request/add/addRequest', req, httpOptions);
+  }
+  deletePsychologist(id: String): Observable<any> {
+    const url = this.host + '/psychologist/delete/' + id;
+    console.log(id);
+    return this.http.delete<any>(url, httpOptions);
   }
   getPsychologists(): Observable<any> {
     return this.http.get<any>(this.host + '/psychologist').pipe(
