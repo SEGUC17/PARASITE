@@ -81,7 +81,7 @@ export class PsychologistComponent implements OnInit {
             });
           } else {
             /* everything went great!! notify the user it was a success then reload. */
-            alert('please insert the correct ID');
+            alert('DELETED successfully');
             self.snackBar.open(res.msg, '', {
               duration: 2300
             });
@@ -89,9 +89,17 @@ export class PsychologistComponent implements OnInit {
           }
         });
             
-      }
-    }
-  }
+      } else  {  self.snackBar.open('Please enter the correct ID.', '', {
+        duration: 2500}); }
+      
+      
+      }}
+  
+  
+
+
+
+
   ngOnInit() {
     const self = this;
     const userDataColumns = ['isAdmin'];
