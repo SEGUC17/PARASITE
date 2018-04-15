@@ -40,9 +40,13 @@ export class MessageService {
     return this.http.delete<any>(this.url + `message/${message._id}`, httpOptions);
   }
 
-   block(blocked: any, user: any): Observable<any> {
+  block(blocked: any, user: any): Observable<any> {
       const self = this;
        return this.http.patch(this.url + `message/block/${blocked}`, user, httpOptions);
    }
+
+   getContacts(user: any): Observable<any> {
+    return this.http.get<any>(this.url + 'message/contacts/' + user);
+  }
 
 }

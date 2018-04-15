@@ -13,23 +13,7 @@ var User = mongoose.model('User');
 // add a message to the messages collection in the DB
 module.exports.sendMessage = function(req, res, next) {
 
-  /*var valid =
-    req.body.body &&
-    Validations.isString(req.body.body) &&
-    req.body.sender &&
-    Validations.isString(req.body.sender) &&
-    req.body.recipient &&
-    Validations.isString(req.body.recipient);
-
-    if (!valid) {
-    return res.status(422).json({
-      data: null,
-      err: null,
-      msg: 'body and sender and recipient are required fields'
-    });
-  }*/
-
-  /*User.find({ username: req.body.recipient }).exec(function (err, user) {
+  /*User.findOne({ username: req.body.recipient }).exec(function (err, user) {
     if (err) {
         return next(err);
     }
@@ -146,5 +130,22 @@ module.exports.deleteMessage = function(req, res, next) {
       });
   }
  );
+};
+
+module.exports.getRecentlyContacted = function(req, res, next) {
+
+  Message.find({ sender: req.params.user }).sort({ sentAt: -1 }).
+  limit(10).
+  exec(function(err, msgs) {
+    if (err) {
+      return next(err);
+    }
+
+    return res.status(200).json({
+      data: msgs,
+      err: null,
+      msg: 'Success.'
+      });
+  });
 };
 

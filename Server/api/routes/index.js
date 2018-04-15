@@ -238,6 +238,10 @@ module.exports = function (passport) {
 
   //Blocking users from messaging
   router.patch('/message/block/:blocked', messageController.block);
+
+  //Get recently contacted users
+  router.get('/message/contacts/:user', messageController.getRecentlyContacted);
+
   //------------------- End of Messaging Module Endpoints-----------//
 
 

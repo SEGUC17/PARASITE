@@ -2,31 +2,30 @@
 <mat-chip-list>
   <mat-chip>{{ this.data.replyTo }}</mat-chip>
 </mat-chip-list>
-<br/>
 
 <mat-form-field class="example-container">
-  <input #body matInput [(ngModel)]="Body">
+  <textarea #body class="textarea" matInput [(ngModel)]="Body"></textarea>
 </mat-form-field>
 <br/>
 
 <button mat-raised-button color="primary" (click)="send(); body.value=''">Send</button>
-<br/>
+
+<button mat-raised-button color="warn" (click)="dialogRef.close()">
+  Cancel
+</button>
 
 <div id="div2" *ngIf="div2">
-    <br/>
     <br/>
     <mat-card>You can't send an empty message.</mat-card>
 </div>
 
 <div id="div3" *ngIf="div3">
     <br/>
-    <br/>
     <mat-card>Your message has been sent.</mat-card>
 </div>
 
 
 <div id="div4" *ngIf="div4">
-  <br/>
   <br/>
   <mat-card>Sorry, you are blocked.</mat-card>
 </div>

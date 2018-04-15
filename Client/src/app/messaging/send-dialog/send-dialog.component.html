@@ -4,39 +4,39 @@
       <br/>
   
       <mat-form-field class="example-container">
-          <input #body matInput [(ngModel)]="Body">
+          <textarea #body class="textarea" matInput [(ngModel)]="Body"></textarea>
       </mat-form-field>
       <br/>
       
       <button mat-raised-button color="primary" (click)="send(); receiver.value=''; body.value=''">Send</button>
-      <br/>
 
-      <button mat-button (click)="dialogRef.close()">
+      <button mat-raised-button color="warn" (click)="dialogRef.close()">
         Cancel
       </button>
   
 
   <div id="div1" *ngIf="div1">
       <br/>
-      <br/>
       <mat-card>Please specify a recipient.</mat-card>
   </div>
 
   <div id="div2" *ngIf="div2">
-      <br/>
       <br/>
       <mat-card>You can't send an empty message.</mat-card>
   </div>
 
   <div id="div3" *ngIf="div3">
       <br/>
-      <br/>
       <mat-card>Your message has been sent.</mat-card>
   </div>
-
 
   <div id="div4" *ngIf="div4">
     <br/>
     <br/>
     <mat-card>Sorry, you are blocked.</mat-card>
-</div>
+  </div>
+
+  <div id="div5" *ngIf="div5">
+      <br/>
+      <mat-card>The user you are trying to send to doesn't exist. Please make sure to enter a valid username.</mat-card>
+  </div>
