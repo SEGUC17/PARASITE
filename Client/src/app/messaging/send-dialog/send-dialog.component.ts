@@ -65,6 +65,8 @@ export class SendDialogComponent implements OnInit {
         // console.log(this.Receiver.toString());
         this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user)  => {
           if (!user.data) {
+            self.div1 = false;
+            self.div2 = false;
             self.div5 = true;
           } else {
             console.log('length of array is: ', user.data.blocked.length);
