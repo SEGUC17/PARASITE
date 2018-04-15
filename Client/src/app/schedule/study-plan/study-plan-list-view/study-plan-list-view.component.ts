@@ -17,6 +17,10 @@ export class StudyPlanListViewComponent implements OnInit {
   numberOfElements: Number;
   pageSize: Number;
   pageIndex: Number;
+  color: string;
+  availableColors = [
+    { name: 'assigned', color: '' }
+  ];
 
   constructor(private studyPlanService: StudyPlanService, private authService: AuthService) { }
 

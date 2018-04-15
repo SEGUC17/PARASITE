@@ -15,9 +15,18 @@ export class ScheduleService {
   }
 
 
-  saveScheduleChanges(username: String, schedule: CalendarEvent[]) {
-    console.log('service entered');
+  saveScheduleChanges(username: String, schedule: CalendarEvent[]): Observable<any> {
     return this.http.patch(this.endpoint + 'schedule/SaveScheduleChanges/' + username, schedule);
+  }
+
+  scheduleActivity(username: String, activity: any): Observable<any> {
+    const newEvent = {
+      start: activity.fromDateTime,
+      end: activity.toDateTime,
+      title: activity.name
+    };
+    return this.http.put(this.endpoint + 'schedule/addEvent/' + username, newEvent);
+
   }
 
 }
