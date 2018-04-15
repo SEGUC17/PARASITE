@@ -106,7 +106,7 @@ module.exports = function (passport) {
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
   router.get('/productrequest/getUserRequests/:username', isAuthenticated, productCtrl.getUserRequests);
   router.patch('/productrequest/getUserRequests/:id', isAuthenticated, productCtrl.updateRequest);
-  router.patch('/productrequest/editPrice/:id', isAuthenticated, productCtrl.editPrice);
+  router.patch('/productrequest/editPrice', isAuthenticated, productCtrl.editPrice);
 
   router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
 

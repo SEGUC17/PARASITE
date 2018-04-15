@@ -49,9 +49,6 @@ export class ProductDetailComponent {
     }
   }
 
-  // addToUpdatedFields(event: any) {
-  //   this.updatedFields.add(event.target.id);
-  // }
 
 
 }
