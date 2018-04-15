@@ -5,6 +5,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Inject } from '@angular/core';
 import { SendDialogComponent } from '../send-dialog/send-dialog.component';
 import { ReplyDialogComponent } from '../reply-dialog/reply-dialog.component';
+import { ForwardDialogComponent } from '../forward-dialog/forward-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
 
@@ -25,8 +26,8 @@ export class MessagingComponent implements OnInit {
   blockedUser: any;
   sender: any;
   receipient: any;
-  displayedColumns = ['sender', 'body', 'sentAt', 'reply', 'delete', 'block'];
-  displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'delete', 'block'];
+  displayedColumns = ['sender', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
+  displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
   contacts: any[];
 
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
@@ -53,6 +54,20 @@ export class MessagingComponent implements OnInit {
     });
 
     replydialog.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+  
+  openForwardDialog(message): void {
+    let dialogRef = this.dialog.open(ForwardDialogComponent, {
+      width: '600px',
+      height: '500px'
+      data: {
+        body: message.body;
+        }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
   }
