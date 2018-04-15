@@ -308,3 +308,56 @@ module.exports.changePassword = function (req, res, next) {
   });
 };
 
+module.exports.changeChildInfo = function (req, res, next) {
+  User.findOne({ username: req.body.username, _id : { $ne: req.body.id } }, function (err, user) {
+    if (user) {
+      console.log(user.username);
+      return res.status(403).json({
+        data: user,
+        err: null,
+        msg: 'Username already exists'
+      });
+    } else {
+      
+      User.findOne({ email: req.body.email, _id : { $ne: req.body.id } }, function (err2, user2) {
+        if (user2) {
+          return res.status(403).json({
+            data: user2,
+            err: null,
+            msg: 'Email already exists'
+          });
+        } else {
+
+          User.findByIdAndUpdate(
+            req.body.id,
+            {
+              $set: {
+                username: req.body.username, firstName: req.body.firstName,
+                lastName: req.body.lastName, email: req.body.email, address: req.body.address,
+                birthdate: req.body.birthdate, phone: req.body.phone
+              }
+            }, { new: true },
+            function (err, user3) {
+              if (err) {
+                return next(err);
+              }
+              if (!user3) {
+                return res.status(404).json({
+                  data: null,
+                  err: null,
+                  msg: 'User not found.'
+                });
+              }
+
+              return res.status(200).json({
+                data: user3,
+                err: null,
+                msg: 'Info updated succesfully.'
+              });
+            }
+          );
+        }
+      });
+    }
+  });
+};
