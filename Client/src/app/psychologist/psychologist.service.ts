@@ -18,7 +18,7 @@ export class PsychologistService {
     return this.http.post<any>(this.host + '/psychologist/request/edit', req, httpOptions);
   }
   deletePsychologist(id: String): Observable<any> {
-    const url = this.host + '/psychologist/delete/' + id;
+    const url = this.host + '/psychologist/delete/' + id; 
     console.log(id);
     return this.http.delete<any>(url, httpOptions);
   }
