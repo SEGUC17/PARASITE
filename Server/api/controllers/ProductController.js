@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+/*eslint no-underscore-dangle: ["error", { "allow": ["__v","_id"] }]*/
 var mongoose = require('mongoose');
 var Validations = require('../utils/validators/is-object-id');
 var Product = mongoose.model('Product');
@@ -19,6 +20,25 @@ var limits = function (toFind) {
     }
 
     return limiters;
+};
+var options = function (toFind, params) {
+
+    var ret = {
+
+        limit: Number(params.entriesPerPage),
+        page: Number(params.pageNumber),
+        sort: {}
+    };
+    if (toFind.sort) {
+        if (toFind.sort === 'cheapest') {
+            ret.sort.price = 1;
+        }
+        if (toFind.sort === 'latest') {
+            ret.sort.createdAt = -1;
+        }
+    }
+
+    return ret;
 };
 
 // get number of products in the DB
@@ -75,13 +95,13 @@ module.exports.getMarketPage = function (req, res, next) {
     }
     // extract the limiters out of the header
     var limiters = limits(toFind);
+    // get the search options
+    var opt = options(toFind, req.params);
     // get the products by pagination
     Product.paginate(
         limiters,
-        {
-            limit: Number(req.params.entriesPerPage),
-            page: Number(req.params.pageNumber)
-        }, function (err, products) {
+        opt,
+        function (err, products) {
             if (err) {
                 return next(err);
             }
@@ -249,4 +269,54 @@ module.exports.evaluateRequest = function (req, res, next) {
             msg: null
         });
     }
-                };
+};
+
+module.exports.getUserRequests = function (req, res, next) {
+    if (req.user.username === req.params.username) {
+        ProductRequest.find({ seller: req.user.username }).exec(function (err, prodRequests) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: prodRequests,
+                err: null,
+                msg: 'Requests retrieved.'
+            });
+        });
+    } else {
+        return res.status(403).json({
+            data: null,
+            err: 'You can only view your requests',
+            msg: null
+        });
+    }
+};
+
+module.exports.updateRequest = function (req, res, next) {
+    if (req.user.username === req.params.username) {
+
+        delete req.body.createdAt;
+        delete req.body.seller;
+        delete req.body.__v;
+        delete req.body._id;
+
+        ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(201).json({
+                data: null,
+                err: null,
+                msg: 'Request updated.'
+            });
+        });
+    } else {
+        return res.status(403).json({
+            data: null,
+            err: 'You can only edit your requests',
+            msg: null
+        });
+    }
+};

@@ -6,10 +6,11 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { apiUrl } from '../variables';
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 @Injectable()
 export class PsychologistService {
-  host: String = 'http://localhost:3000/api';
+  host: String = apiUrl;
   constructor(private http: HttpClient) { }
   addRequest(req: PsychologistRequest): Observable<any> {
     return this.http.post<any>(this.host + '/psychologist/request/add/addRequest', req, httpOptions);
@@ -22,8 +23,8 @@ export class PsychologistService {
     console.log(id);
     return this.http.delete<any>(url, httpOptions);
   }
-  getPsychologists(): Observable<any> {
-    return this.http.get<any>(this.host + '/psychologist').pipe(
+  getPsychologists(limiters: string): Observable<any> {
+    return this.http.get<any>(this.host + '/psychologist/search/' + limiters).pipe(
       catchError(this.handleError('getPsychologists', []))
     );
   }

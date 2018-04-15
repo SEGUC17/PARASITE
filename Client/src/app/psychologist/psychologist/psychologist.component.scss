@@ -41,6 +41,10 @@
     padding-left:0px;
     padding-right:0px;
 }
+.search{
+    margin-top: 40px;
+    align-content: left;
+}
 .psych .mat-card-content {
     font-size: 130%;
     color:#00031e;
@@ -82,6 +86,11 @@
 .chips {
     height:50px;
 }
+.search-results {
+    height: 87vh;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
 @media (max-width: 800px) {
     .psych {
         width: 45%;
