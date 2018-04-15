@@ -14,27 +14,25 @@ export class RatingComponent implements OnInit {
   // the ID of the object that you are rating.
   @Input() ratedId: string;
   // input rating in the form of numbers
-  @Input() rating: number;
+  @Input() inputRating: number;
   public userRating: UserRating;
   public disabled = false;
-  private init = true;
+  public objectRating;
   constructor(private ratingService: RatingService) { }
 
   ngOnInit() {
+    this.objectRating = this.inputRating;
     this.userRating = {
       type: this.type,
       ratedId: this.ratedId,
-      rating: this.rating
+      rating: 0
     };
   }
 
-  onRatingChange($event: RatingChangeEvent) {
+  onClick($event: ClickEvent) {
     // in case of rating change on component init, don't change anything.
-    if (this.init) {
-      this.init = false;
-      return;
-    }
-    console.log(this.userRating);
+    // in case of updates coming back from the server, don't resend a request
+    this.userRating.rating = $event.rating;
     this.addRating();
   }
 
@@ -47,8 +45,8 @@ export class RatingComponent implements OnInit {
         return;
       }
       // Re-enable clicking after rating is updated
-      self.disabled = true;
-      self.userRating.rating = res.data;
+      self.disabled = false;
+      self.objectRating = res.data;
     });
   }
 }
