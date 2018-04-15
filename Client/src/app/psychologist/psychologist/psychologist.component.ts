@@ -127,10 +127,8 @@ export class PsychologistComponent implements OnInit {
     const self = this;
     const userDataColumns = ['isAdmin'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
-      self.user = res.data;
-      if (!self.user) {
-        self.router.navigate(['/']);
-      } else {
+      if (res.user) {
+        self.user = res.data;
         self.admin = self.user.isAdmin;
       }
       self.getPsychologists();
