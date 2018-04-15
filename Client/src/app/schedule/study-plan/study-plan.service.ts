@@ -5,7 +5,7 @@ import { StudyPlan } from './study-plan';
 import { Rating } from './star-rating/rating';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
-import { RequestOptions, Headers} from '@angular/http';
+import { RequestOptions, Headers } from '@angular/http';
 import { Options } from 'selenium-webdriver';
 
 @Injectable()
@@ -59,32 +59,18 @@ export class StudyPlanService {
 
   }
 
-  assignStudyPlan(username : String ,studyPlanID: String): Observable<any> {
-  
-   return this.http.patch(this.endpoint + 'study-plan/assignStudyPlan/' + username +'/' + studyPlanID,{});
+  assignStudyPlan(username: String, studyPlanID: String): Observable<any> {
 
- }
+    return this.http.patch(this.endpoint + 'study-plan/assignStudyPlan/' + username + '/' + studyPlanID, {});
 
- unAssignStudyPlan(username : String ,studyPlanID: String): Observable<any> {
-  
-  return this.http.patch(this.endpoint + 'study-plan/unAssignStudyPlan/' + username +'/' + studyPlanID,{});
-
-}
-  editPersonalStudyPlan(username: String, studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
-    return this.http.patch(this.endpoint + '/study-plan/editPersonalStudyPlan/' + username + '/' + studyPlanID, studyPlan);
   }
 
-  assignStudyPlan(username : String ,studyPlanID: String): Observable<any> {
-  
-   return this.http.patch(this.endpoint + 'study-plan/assignStudyPlan/' + username +'/' + studyPlanID,{});
+  unAssignStudyPlan(username: String, studyPlanID: String): Observable<any> {
 
- }
+    return this.http.patch(this.endpoint + 'study-plan/unAssignStudyPlan/' + username + '/' + studyPlanID, {});
 
- unAssignStudyPlan(username : String ,studyPlanID: String): Observable<any> {
-  
-  return this.http.patch(this.endpoint + 'study-plan/unAssignStudyPlan/' + username +'/' + studyPlanID,{});
+  }
 
-}
   editPersonalStudyPlan(username: String, studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
     return this.http.patch(this.endpoint + '/study-plan/editPersonalStudyPlan/' + username + '/' + studyPlanID, studyPlan);
   }

@@ -30,7 +30,7 @@ module.exports.getPublishedStudyPlans = function (req, res, next) {
     );
 };
 
-module.exports.PublishStudyPlan = function (req, res, next) {
+module.exports.publishStudyPlan = function (req, res, next) {
 
     // @author: Ola
     //publishing a study plan is creating a new studyPlan in
@@ -278,7 +278,7 @@ var findStudyPlan = function (studyPlans, studyPlanID) {
     return null;
 };
 
-module.exports.deleteStudyPLan = function (req, res, next) {
+module.exports.deleteStudyPlan = function (req, res, next) {
     if (req.user.username !== req.params.username) {
         return res.status(401).json({
             data: null,
@@ -324,7 +324,7 @@ module.exports.deleteStudyPLan = function (req, res, next) {
 
 };
 
-module.exports.deletePublishedStudyPLan = function (req, res, next) {
+module.exports.deletePublishedStudyPlan = function (req, res, next) {
     if (req.user.username !== req.params.username) {
         return res.status(401).json({
             data: null,
