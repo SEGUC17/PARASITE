@@ -33,6 +33,18 @@ export class RatingComponent implements OnInit {
     if (this.userRating.rating === $event.rating) {
       return;
     }
+    this.addRating();
   }
-
+  addRating() {
+    const self = this;
+    // disable clicking on the rating component until you get a response from the server
+    self.disabled = true;
+    this.ratingService.rate(this.userRating).subscribe(function (res) {
+      if (!res) {
+        return;
+      }
+      self.disabled = true;
+      self.userRating.rating = res.data;
+    });
+  }
 }
