@@ -17,7 +17,7 @@ export class RatingComponent implements OnInit {
   @Input() rating: number;
   public userRating: UserRating;
   public disabled = false;
-
+  private init = true;
   constructor(private ratingService: RatingService) { }
 
   ngOnInit() {
@@ -30,7 +30,8 @@ export class RatingComponent implements OnInit {
 
   onRatingChange($event: RatingChangeEvent) {
     // in case of rating change on component init, don't change anything.
-    if (this.userRating.rating === $event.rating) {
+    if (this.init) {
+      this.init = false;
       return;
     }
     this.addRating();
@@ -43,6 +44,7 @@ export class RatingComponent implements OnInit {
       if (!res) {
         return;
       }
+      // Re-enable clicking after rating is updated
       self.disabled = true;
       self.userRating.rating = res.data;
     });
