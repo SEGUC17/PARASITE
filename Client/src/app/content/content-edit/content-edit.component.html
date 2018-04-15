@@ -14,6 +14,12 @@
                     <mat-icon matPrefix>link</mat-icon>
                     <input matInput [(ngModel)]="videoInput" #content.video name="video" placeholder="Video link goes here" (blur)="getSafeUrl()">
                 </mat-form-field>
+                <mat-form-field class="meta-input" hintLabel="Enter the type of content">
+                    <mat-select placeholder="content type..." required #content.type name="type" [(ngModel)]="content.type">
+                        <mat-option value="resource">Resource</mat-option>
+                        <mat-option value="idea">Idea</mat-option>
+                    </mat-select>
+                </mat-form-field>
                 <mat-form-field class="meta-input" hintLabel="Enter the category of choice here">
                     <mat-select placeholder="Category..." required name="category" [(ngModel)]="content.category" (ngModelChange)="getSections()">
                         <mat-option *ngFor="let category of categories" [value]="category.name">
@@ -35,7 +41,7 @@
                             <mat-icon matChipRemove>cancel</mat-icon>
                         </mat-chip>
                         <input placeholder="New tag ..." name="tags" [matChipInputFor]="tagList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)" />
+                            [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)" (blur)="add($event)" />
                     </mat-chip-list>
                 </mat-form-field>
             </mat-card>
@@ -58,7 +64,7 @@
             <mat-card class="offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-5">
                 <h1 class="text-center" *ngIf="contentEditForm.form.valid">All Is Well.</h1>
                 <h1 class="text-center" *ngIf="!contentEditForm.form.valid">Something is wrong</h1>
-                <button mat-button [hidden]="!contentEditForm.form.valid" (click)="createContent(content)">Submit</button>
+                <button class="center" mat-button [hidden]="!contentEditForm.form.valid" (click)="onSubmit()">Submit</button>
             </mat-card>
         </mat-step>
     </mat-vertical-stepper>

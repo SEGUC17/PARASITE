@@ -26,19 +26,42 @@ export class PsychologistComponent implements OnInit {
   admin: boolean;
   idInput = new FormControl();
   psychologist: Psychologist;
-
+  entriesPerPage = 25;
+  pageNumber: number;
+  sorts = [
+    'cheapest',
+    'a-z'
+  ];
+  sort: string;
+  writtenSearch: string;
+  selectedSearch: string;
+  writtenAddress: string;
+  selectedAddress: string;
   constructor(private psychologistService: PsychologistService,
-              public snackBar: MatSnackBar,
-              private authService: AuthService,
-              private router: Router,
-              private dialog: MatDialog) { }
+    public snackBar: MatSnackBar,
+    private authService: AuthService,
+    private router: Router,
+    private dialog: MatDialog) { }
   formInput = <any>{};
 
 
   getPsychologists(): void {
     let self = this;
-    self.psychologistService.getPsychologists().subscribe(function (psychs) {
-      self.psychologists = psychs.data;
+    self.psychologists = [];
+    self.pageNumber = 1;
+    self.getPage();
+  }
+  getPage(): void {
+    let self = this;
+    let limiters = {
+      entriesPerPage: self.entriesPerPage,
+      pageNumber: self.pageNumber,
+      sort: self.sort,
+      search: self.selectedSearch,
+      address: self.selectedAddress
+    };
+    self.psychologistService.getPsychologists(JSON.stringify(limiters)).subscribe(function (psychs) {
+      self.psychologists = self.psychologists.concat(psychs.data.docs);
     });
   }
   addRequest(): void {
@@ -49,7 +72,6 @@ export class PsychologistComponent implements OnInit {
     });
 
     dialogOpener.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       self.getPsychologists();
     });
   }
@@ -71,9 +93,36 @@ export class PsychologistComponent implements OnInit {
         }
       });
     } else {
-      alert('your are not an admin to do that >:(');
+
+      // if not admin, check if the input ID is same as the card ID
+      if (this.idInput.value === self.psychologists[index]._id) {
+        this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
+          if (res.err != null) {
+            /* if an error returned notify the user to try again */
+            self.snackBar.open('Something went wrong, please try again.', '', {
+              duration: 2500
+            });
+            self.getPsychologists();
+          } else {
+            /* everything went great!! notify the user it was a success then reload. */
+            self.snackBar.open(res.msg, '', {
+              duration: 2300
+            });
+            self.idInput.setValue(null);
+            self.getPsychologists();
+          }
+        });
+      } else {
+        // user entered th wrong ID
+        let msg1 = 'The ID you Entered doesn\'t match the Information you selected,';
+        let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
+        self.snackBar.open(msg1 + msg2, '', {
+          duration: 3500
+        });
+      }
     }
   }
+
   ngOnInit() {
     const self = this;
     const userDataColumns = ['isAdmin'];
@@ -100,7 +149,6 @@ export class PsychologistComponent implements OnInit {
           data: { psych: self.psychologist }
         });
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
           self.getPsychologists();
         });
       } else {
@@ -112,18 +160,50 @@ export class PsychologistComponent implements OnInit {
       }
     });
   }
+  applySort(x: string): void {
+    let self = this;
+    self.sort = x;
+    self.getPsychologists();
+  }
+  applyAddress(): void {
+    let self = this;
+    self.selectedAddress = self.writtenAddress;
+    self.getPsychologists();
+  }
+  applySearch(): void {
+    let self = this;
+    self.selectedSearch = self.writtenSearch;
+    self.getPsychologists();
+  }
+  remove(toRemove: string): void {
+    if (toRemove === 'search') {
+      this.selectedSearch = null;
+      this.writtenSearch = null;
+    } else if (toRemove === 'address') {
+      this.selectedAddress = null;
+      this.writtenAddress = null;
+    } else {
+      this.sort = null;
+    }
+    this.getPsychologists();
+  }
+  onScroll(): void {
+    this.pageNumber += 1;
+    this.getPage();
+  }
+
 
   goToEdit(i): void {
     const self = this;
-    if (! ( this.idInput.value === this.psychologists[i]._id)) {
+    if (!(this.idInput.value === this.psychologists[i]._id)) {
       let msg1 = 'The ID you Entered doesn\'t match the Information you selected,';
-        let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
-        self.snackBar.open(msg1 + msg2, '', {
-          duration: 3500
-        });
+      let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
+      self.snackBar.open(msg1 + msg2, '', {
+        duration: 3500
+      });
     } else {
       this.getPsychologistData(this.idInput.value);
-  }
+    }
 
   }
 }

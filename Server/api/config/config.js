@@ -2,13 +2,13 @@
 module.exports = {
     EMAIL_REGEX: /\S+@\S+\.\S+/,
     //either dev or prod
-    FRONTEND_URI: process.env.FRONTEND_URI || 'http://localhost:4200/',
     ENV: 'dev',
+    FRONTEND_URI: process.env.FRONTEND_URI || 'http://localhost:4200/',
     MAIL_ID: 'parasite.nawwar@gmail.com',
     MAIL_PW: 'ParaSiteNawwar',
-    MONGO_URI: this.env === 'prod' ? '' : 'mongodb://localhost:27017/nawwar',
+    MONGO_URI: process.env.DATABASE_URL || 'mongodb://localhost:27017/nawwar',
     PHONE_REGEX: /^\d+$/,
-    SECRET: ';iN.yVt,Tmu44cZkX#.|tS>s`4xb;-oRe66iMz0[L^e9;ltF_5"DUvPphj:f:&'
+    SECRET: process.env.API_KEY || ';iN.yVt,Tmu44cZkX#.|tS>s`4xb;-oRe66iMz0[L^e9;ltF_5"DUvPphj:f:&'
 };
 var mongoosePaginate = require('mongoose-paginate');
 
