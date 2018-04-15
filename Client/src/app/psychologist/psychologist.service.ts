@@ -6,11 +6,10 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { apiUrl } from '../variables';
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 @Injectable()
 export class PsychologistService {
-  host: String = apiUrl;
+  host: String = environment.apiUrl;
   constructor(private http: HttpClient) { }
   addRequest(req: PsychologistRequest): Observable<any> {
     return this.http.post<any>(this.host + '/psychologist/request/add/addRequest', req, httpOptions);
