@@ -57,13 +57,12 @@ export class MessagingComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
-  
   openForwardDialog(message): void {
     let dialogRef = this.dialog.open(ForwardDialogComponent, {
       width: '600px',
-      height: '500px'
+      height: '500px',
       data: {
-        body: message.body;
+        body: message.body
         }
     });
 
