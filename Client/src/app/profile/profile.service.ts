@@ -75,7 +75,6 @@ export class ProfileService {
     return this.http.patch<any>(`${this.changeInfoUrl}/${Id}`, info, httpOptions);
   }
 
-
   changeChildinfo(info): any {
     return this.http.patch('http://localhost:3000/api/profile/changeChildInfo', info );
   }

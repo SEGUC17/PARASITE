@@ -244,7 +244,24 @@ export class ProfileComponent implements OnInit {
   }
 
   // Edit My Personal Info
-  ChangeInfo(info: any): void {
-    this._ProfileService.ChangeInfo(this.id, info).subscribe();
+  ChangeInfo(): void {
+    const info = {
+      username: (<HTMLInputElement>document.getElementById('dUsername')).value,
+      firstName: (<HTMLInputElement>document.getElementById('dFirstName')).value,
+      lastName: (<HTMLInputElement>document.getElementById('dLastName')).value,
+      address: (<HTMLInputElement>document.getElementById('dAddress')).value,
+      phone: (<HTMLInputElement>document.getElementById('dPhone')).value,
+      birthdate: (<HTMLInputElement>document.getElementById('dBirthday')).value,
+      email: (<HTMLInputElement>document.getElementById('dEmail')).value
+    };
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (re.test(info.email)) {
+      this._ProfileService.ChangeInfo( this.id, info).subscribe(function(res){
+      alert(res.msg);
+    });
+
+    } else {
+      alert('Please enter a valid email address');
+    }
   }
 }

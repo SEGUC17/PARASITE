@@ -32,7 +32,6 @@
           <button mat-raised-button id="mkIndep" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsChild">Make Independent</button>
           <button mat-raised-button id="createChildAccount" *ngIf = "currIsParent && currIsOwner">Create child account</button>
       
-          <button mat-raised-button id="reportAccount" *ngIf = "!currIsChild " (click)="Report()">Report</button>
 
         </div>
     </div>
@@ -230,7 +229,7 @@
               <mat-datepicker #birthdatePicker disabled="false" startView="multi-year"></mat-datepicker>
           </mat-form-field>
           <br/>
-          <button mat-raised-button color="primary" (click)="changeChildInfo()">Save</button>
+          <button mat-raised-button color="primary" (click)="ChangeInfo()">Save</button>
         </div>
 
           </div>

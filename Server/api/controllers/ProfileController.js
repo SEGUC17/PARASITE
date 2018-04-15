@@ -386,8 +386,7 @@ module.exports.ChangeInfo = function (req, res, next) {
     if (err) {
       return next(err);
     } else if (user1) {
-      console.log('in username exist: ');
-
+      
       return res.status(403).json({
         data: null,
         err: null,
