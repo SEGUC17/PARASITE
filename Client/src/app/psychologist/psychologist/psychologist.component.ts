@@ -95,7 +95,7 @@ export class PsychologistComponent implements OnInit {
     } else {
 
       // if not admin, check if the input ID is same as the card ID
-      if ( this.idInput.value === self.psychologists[index]._id )  {
+      if (this.idInput.value === self.psychologists[index]._id) {
         this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
           if (res.err != null) {
             /* if an error returned notify the user to try again */
@@ -174,6 +174,18 @@ export class PsychologistComponent implements OnInit {
     let self = this;
     self.selectedSearch = self.writtenSearch;
     self.getPsychologists();
+  }
+  remove(toRemove: string): void {
+    if (toRemove === 'search') {
+      this.selectedSearch = null;
+      this.writtenSearch = null;
+    } else if (toRemove === 'address') {
+      this.selectedAddress = null;
+      this.writtenAddress = null;
+    } else {
+      this.sort = null;
+    }
+    this.getPsychologists();
   }
   onScroll(): void {
     this.pageNumber += 1;

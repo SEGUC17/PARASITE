@@ -41,6 +41,8 @@ import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { MatNativeDateModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
+import { RatingService } from './rating.service';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
@@ -86,8 +88,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSelectModule,
     MatFormFieldModule,
     CommonModule,
-    AuthModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    SharedModule,
+    AuthModule
   ],
   providers: [
     {
@@ -95,7 +98,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
       useClass: AuthInterceptor,
       multi: true
     },
-    MediaMatcher
+    MediaMatcher,
+    RatingService
   ],
   bootstrap: [AppComponent]
 })
