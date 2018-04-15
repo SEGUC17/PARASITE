@@ -320,3 +320,31 @@ module.exports.updateRequest = function (req, res, next) {
         });
     }
 };
+
+module.exports.editPrice = function (req, res, next) {
+    if (req.user.username === req.params.username) {
+
+        delete req.body.createdAt;
+        delete req.body.seller;
+        delete req.body.__v;
+        delete req.body._id;
+
+        ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(201).json({
+                data: null,
+                err: null,
+                msg: 'Price Edited Successfully'
+            });
+        });
+    } else {
+        return res.status(403).json({
+            data: null,
+            err: 'You can only edit your products',
+            msg: null
+        });
+    }
+};

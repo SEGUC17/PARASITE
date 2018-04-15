@@ -53,4 +53,9 @@ export class MarketService {
   getUserRequests(username: String): Observable<any> {
     return this.http.get<any>(this.host + 'productrequest/getUserRequests/' + username, httpOptions);
   }
+
+  editPrice(product: any): Observable<any> {
+    return this.http.patch<any>(apiUrl + 'productrequest/editPrice', product, httpOptions);
+  }
+ 
 }

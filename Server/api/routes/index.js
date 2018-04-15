@@ -106,6 +106,8 @@ module.exports = function (passport) {
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
   router.get('/productrequest/getUserRequests/:username', isAuthenticated, productCtrl.getUserRequests);
   router.patch('/productrequest/getUserRequests/:id', isAuthenticated, productCtrl.updateRequest);
+  router.patch('/productrequest/editPrice/:id', isAuthenticated, productCtrl.editPrice);
+
 
   // --------------End Of Product Contoller ---------------------- //
 
