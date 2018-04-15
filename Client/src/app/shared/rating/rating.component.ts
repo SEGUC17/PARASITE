@@ -5,7 +5,7 @@ import { ClickEvent, RatingChangeEvent } from 'angular-star-rating';
 @Component({
   selector: 'app-rating',
   templateUrl: './rating.component.html',
-  styleUrls: ['./rating.component..scss']
+  styleUrls: ['./rating.component.scss']
 })
 export class RatingComponent implements OnInit {
   // type of objects to be rated can only be
