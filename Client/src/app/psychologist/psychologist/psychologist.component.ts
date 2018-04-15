@@ -70,10 +70,36 @@ export class PsychologistComponent implements OnInit {
           self.getPsychologists();
         }
       });
-    } else {
-      alert('your are not an admin to do that >:(');
-    }
-  }
+    } else { //if not admin
+
+      if( this.getPsychologistData(this.idInput.value) == self.psychologists[index]._id )  {
+        this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
+          if (res.err != null) {
+            /* if an error returned notify the user to try again */
+            self.snackBar.open('Something went wrong, please try again.', '', {
+              duration: 2500
+            });
+          } else {
+            /* everything went great!! notify the user it was a success then reload. */
+            alert('DELETED successfully');
+            self.snackBar.open(res.msg, '', {
+              duration: 2300
+            });
+            self.getPsychologists();
+          }
+        });
+            
+      } else  {  self.snackBar.open('Please enter the correct ID.', '', {
+        duration: 2500}); }
+      
+      
+      }}
+  
+  
+
+
+
+
   ngOnInit() {
     const self = this;
     const userDataColumns = ['isAdmin'];

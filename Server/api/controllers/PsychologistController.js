@@ -244,8 +244,8 @@ module.exports.evaluateRequest = function (req, res, next) {
 };
 
 
-module.exports.deletePsych = function (req, res, next) {
-  if (req.user.isAdmin) {
+module.exports.deletePsychologist = function (req, res, next) {
+  if (req.user.isAdmin) { 
     Psychologists.findOne({ _id: req.params.id }).exec(function (err, psych) {
       if (err) {
         return next(err);
