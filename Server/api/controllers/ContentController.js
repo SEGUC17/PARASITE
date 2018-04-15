@@ -735,7 +735,6 @@ module.exports.deleteSection = function (req, res, next) {
                     });
                 }
             );
-
         }
     );
 };
