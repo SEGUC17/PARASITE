@@ -52,7 +52,7 @@ export class ActivityDetailComponent implements OnInit {
   ngOnInit() {
     this.getActivity();
     this.refreshComments(true);
-    
+
 
   }
 
