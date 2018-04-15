@@ -660,7 +660,7 @@ module.exports.deleteCategory = function (req, res, next) {
                 { category: deletedCategory.name },
                 function (error) {
                     if (error) {
-                        return next(err);
+                        return next(error);
                     }
                     // return response all okay
 
@@ -672,6 +672,70 @@ module.exports.deleteCategory = function (req, res, next) {
                     });
                 }
             );
+        }
+    );
+};
+
+module.exports.deleteSection = function (req, res, next) {
+
+    // verify that the issuer of the request is an admin
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'User does not have admin privileges and' +
+                'is not authorized to delete categories.',
+            msg: null
+        });
+    }
+
+    // validate category and section id
+    if (!mongoose.Types.ObjectId.isValid(req.params.categoryId) ||
+        !mongoose.Types.ObjectId.isValid(req.params.sectionId)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category or section id provided was not valid',
+            msg: null
+        });
+    }
+
+    // find the category and remove section
+    Category.findByIdAndUpdate(
+        req.params.categoryId,
+        { $pull: { sections: { _id: req.params.sectionId } } },
+        function (err, categoryBeforeDeletion) {
+            if (err) {
+                return next(err);
+            }
+
+            // determine the name of the section that was deleted
+            var sections = categoryBeforeDeletion.sections;
+            var deletedSection = '';
+            for (var counter = 0; counter < sections.length; counter += 1) {
+                if (sections[counter]._id === req.params.sectionId) {
+                    deletedSection = sections[counter].name;
+                }
+            }
+
+            // delete all the content associated with this section
+            Content.deleteMany(
+                {
+                    category: categoryBeforeDeletion.name,
+                    section: deletedSection
+                },
+                function (error) {
+                    if (error) {
+                        return next(error);
+                    }
+
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'Section and all associated content were ' +
+                            'deleted successfully'
+                    });
+                }
+            );
+
         }
     );
 };
