@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { apiUrl } from '../variables';
 import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 @Injectable()
 export class AuthService {
 
-  private endpoint: String = 'http://localhost:3000/api';
+  private endPoint: String = apiUrl;
   private localStorageTokenName = 'jwtToken';
   // Added To Satisfy Merge
   user: any;
@@ -26,14 +27,14 @@ export class AuthService {
 
   signUp(user: any): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endpoint + '/signUp', user).pipe(
+    return this.http.post<any>(this.endPoint + 'signUp', user).pipe(
       catchError(self.handleError('signUp', []))
     );
   }
 
   signIn(user: any): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endpoint + '/signIn', user).pipe(
+    return this.http.post<any>(this.endPoint + 'signIn', user).pipe(
       catchError(self.handleError('signIn', []))
     );
   }
@@ -44,33 +45,32 @@ export class AuthService {
 
   getUserData(userDataColumns: Array<string>): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endpoint + '/userData', userDataColumns).pipe(
+    return this.http.post<any>(this.endPoint + 'userData', userDataColumns).pipe(
       catchError(self.handleError('getUserDataFromServer', []))
     );
   }
 
   getAnotherUserData(userDataColumns: Array<string>, username: string): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endpoint + '/userData/' + username, userDataColumns).pipe(
+    return this.http.post<any>(this.endPoint + 'userData/' + username, userDataColumns).pipe(
       catchError(self.handleError('getUserDataFromServer', []))
+    );
+  }
+
+  childSignUp(user: any): Observable<any> {
+    const self = this;
+    return this.http.post<any>(this.endPoint + 'childsignup', user).pipe(
+      catchError(self.handleError('childsignup', []))
     );
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
-
       if (operation !== 'getUserDataFromServer') {
         alert(error.error.msg);
       }
       return of(result as T);
     };
-  }
-
-  childSignUp(user: any): Observable<any> {
-    const self = this;
-    return this.http.post<any>('http://localhost:3000/api/childsignup', user).pipe(
-      catchError(self.handleError('childsignup', []))
-    );
   }
 
   setUser(user: any): void {
@@ -79,6 +79,5 @@ export class AuthService {
   getUser(): any {
     return this.user;
   }
-
 
 }

@@ -64,6 +64,11 @@ var userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
+    emailVerified: {
+        default: false,
+        required: true,
+        type: Boolean
+    },
     firstName: {
         index: true,
         required: true,
