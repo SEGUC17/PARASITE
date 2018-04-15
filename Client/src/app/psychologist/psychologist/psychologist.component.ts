@@ -58,7 +58,7 @@ export class PsychologistComponent implements OnInit {
       pageNumber: self.pageNumber,
       sort: self.sort,
       search: self.selectedSearch,
-      addres: self.selectedAddress
+      address: self.selectedAddress
     };
     self.psychologistService.getPsychologists(JSON.stringify(limiters)).subscribe(function (psychs) {
       self.psychologists = self.psychologists.concat(psychs.data.docs);
@@ -111,14 +111,9 @@ export class PsychologistComponent implements OnInit {
             self.getPsychologists();
           }
         });
-            
       } else  {  self.snackBar.open('Please enter the correct ID.', '', {
         duration: 2500}); }
-      
-      
       }}
-  
-  
 
 
 
