@@ -150,6 +150,11 @@ export class PsychologistComponent implements OnInit {
     self.selectedSearch = self.writtenSearch;
     self.getPsychologists();
   }
+  onScroll(): void {
+    this.pageNumber += 1;
+    this.getPage();
+  }
+
 
   goToEdit(i): void {
     const self = this;
