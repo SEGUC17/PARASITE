@@ -247,10 +247,4 @@ export class ProfileComponent implements OnInit {
   ChangeInfo(info: any): void {
     this._ProfileService.ChangeInfo(this.id, info).subscribe();
   }
-/*editInfo(NInfo: any): void {
-  console.log(NInfo.type);
-  console.log(NInfo.value);
->>>>>>> 2a81c570eebc9d3d53efc87c3611722077d34af9
-
-
 }
