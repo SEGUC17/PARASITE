@@ -70,9 +70,10 @@ export class PsychologistComponent implements OnInit {
           self.getPsychologists();
         }
       });
-    } else { //if not admin
+    } else {
 
-      if( this.getPsychologistData(this.idInput.value) == self.psychologists[index]._id )  {
+      // if not admin, check if the input ID is same as the card ID
+      if ( this.idInput.value === self.psychologists[index]._id )  {
         this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
           if (res.err != null) {
             /* if an error returned notify the user to try again */
@@ -81,24 +82,23 @@ export class PsychologistComponent implements OnInit {
             });
           } else {
             /* everything went great!! notify the user it was a success then reload. */
-            alert('DELETED successfully');
             self.snackBar.open(res.msg, '', {
               duration: 2300
             });
+            self.idInput.setValue(null);
             self.getPsychologists();
           }
         });
-            
-      } else  {  self.snackBar.open('Please enter the correct ID.', '', {
-        duration: 2500}); }
-      
-      
-      }}
-  
-  
-
-
-
+      } else {
+        // user entered th wrong ID
+        let msg1 = 'The ID you Entered doesn\'t match the Information you selected,';
+        let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
+        self.snackBar.open(msg1 + msg2, '', {
+          duration: 3500
+        });
+      }
+    }
+  }
 
   ngOnInit() {
     const self = this;
@@ -126,7 +126,6 @@ export class PsychologistComponent implements OnInit {
           data: { psych: self.psychologist }
         });
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
           self.getPsychologists();
         });
       } else {

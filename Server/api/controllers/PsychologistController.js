@@ -245,7 +245,6 @@ module.exports.evaluateRequest = function (req, res, next) {
 
 
 module.exports.deletePsychologist = function (req, res, next) {
-  if (req.user.isAdmin) { 
     Psychologists.findOne({ _id: req.params.id }).exec(function (err, psych) {
       if (err) {
         return next(err);
@@ -267,14 +266,7 @@ module.exports.deletePsychologist = function (req, res, next) {
         data: null,
         err: null,
         msg: 'Psychologist not found.'
-        });
+      });
     }
   });
-  } else {
-    res.status(403).json({
-      data: null,
-      err: 'You are not an admin to do that OR You are not signed in',
-      msg: null
-    });
-  }
 };
