@@ -115,9 +115,9 @@ getcontent(): any {
         )
       );
   }
-  respondStudyPlanPublishReqs(res, id): Observable<any> {
+  respondStudyPlanPublishReqs(respo, id, sid): Observable<any> {
     const self = this;
-    return this.http.patch<any>(self.baseURL + self.respondStudyPlanPublishRequestURL + id,  res)
+    return this.http.patch<any>(self.baseURL + self.respondStudyPlanPublishRequestURL + id + '/' + sid,  respo)
       .pipe(
         catchError(
           self.handleError('respondContentRequest', [])

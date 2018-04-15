@@ -131,7 +131,7 @@ module.exports = function (passport) {
     adminController.viewStudyPlanPublishReqs
   );
   router.patch(
-    '/admin/RespondStudyPlanPublishRequest/:studyPlanPublishRequestId', isAuthenticated,
+    '/admin/RespondStudyPlanPublishRequest/:studyPlanPublishRequestId/:studyPlanId', isAuthenticated,
     adminController.respondStudyPlanPublishRequest
   );
   router.get(

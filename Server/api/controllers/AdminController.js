@@ -51,7 +51,7 @@ module.exports.viewPendingContReqs = function (req, res, next) {
 // view all pending study plan publish requests
 module.exports.viewStudyPlanPublishReqs = function (req, res, next) {
     StudyPlanPublishRequest.find({}).
-    exec(function (err, studyPlanPubRequests) {
+    exec(function (err, studyPlanPublishRequests) {
         if (err) {
             return next(err);
         }
@@ -64,11 +64,11 @@ module.exports.viewStudyPlanPublishReqs = function (req, res, next) {
             });
         }
         // filter by status=pending
-        var pendingstudyPlanPubRequests = studyPlanPubRequests.
+        var pendingstudyPlanPubRequests = studyPlanPublishRequests.
         filter(function (pending) {
             return pending.status === 'pending';
         });
-
+        console.log('dummy print');
         return res.status(200).json({
             data: pendingstudyPlanPubRequests,
             err: null,
@@ -76,19 +76,20 @@ module.exports.viewStudyPlanPublishReqs = function (req, res, next) {
         });
     });
 };
-// respond to a single contentRequest
+
 module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
+    //start
     StudyPlanPublishRequest.findByIdAndUpdate(
-        req.params.StudyPlanPubRequestId, {
+        req.params.studyPlanPublishRequestId, {
             $set: {
-                status: req.body.str,
+                status: req.body.respo,
                 updatedOn: moment().toDate()
             }
         }, { new: true },
         function (err, updatedStudyPlanPubRequest) {
             // check if the id in the URL is valid, if not return error
             if (!mongoose.Types.ObjectId.
-                isValid(req.params.StudyPlanPubRequestId)) {
+                isValid(req.params.studyPlanPublishRequestId)) {
                 return res.status(422).json({
                     data: null,
                     err: 'The Request Id is not valid',
@@ -96,8 +97,6 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                 });
             }
             if (err) {
-                console.log('cannot ' + req.body.str);
-
                 return next(err);
             }
             // if not admin return error
@@ -106,25 +105,46 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                     data: null,
                     err: 'Unauthorized action',
                     msg: null
-
                 });
             }
             // if not found return error
-            if (!updatedStudyPlanPubRequest) {
+            if (!updatedStudyPlanPubRequest) {                
                 return res.status(404).json({
                     data: null,
                     err: 'Request not found',
                     msg: null
                 });
             }
+            StudyPlan.findByIdAndUpdate(
+                req.params.studyPlanId,
+                {
+                    $set: {
+                        published: req.body.published,
+                        touchDate: moment().toDate()
+                    }
+                },
+                { new: true },
+                function (err, studyPlan) {
+                    if (err) {
+                        console.log(err );
+                    }
+                    if (!studyPlan) {
+                        return res.status(404).json({
+                            data: null,
+                            err: 'study plan not found',
+                            msg: null
+                        });
+                    }
+
+                }
+            );
             // return 200 if everything is OK
-
-
+            // console.log('eh el arf dah ?');
             return res.status(200).json({
                 data: updatedStudyPlanPubRequest,
                 err: null,
                 msg: updatedStudyPlanPubRequest.title +
-                    ' request is now ' + req.body.str
+                    ' request is now ' + req.body.respo
             });
         }
     );

@@ -6,12 +6,8 @@ var StudyPlanPublishreqschema = mongoose.Schema({
         type: Date
     },
     creator: {
-        type: [
-            {
-            ref: 'User',
-            type: Schema.Types.ObjectId
-        }
-    ]
+        trim: true,
+        type: String
     },
     requestType: {
         enum: [
@@ -46,7 +42,7 @@ var StudyPlanPublishreqschema = mongoose.Schema({
 });
 
 var StudyPlanPublishRequest = mongoose.model(
-    'StudyPlanRequest',
+    'StudyPlanPublishRequest',
     StudyPlanPublishreqschema,
-    'StudyPlanRequests'
+    'studyPlanPublishRequests'
 );

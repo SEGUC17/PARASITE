@@ -27,6 +27,7 @@ import { StudyPlanListViewComponent } from './study-plan/study-plan-list-view/st
 import { PublishedStudyPlansComponent } from './study-plan/published-study-plans/published-study-plans.component';
 import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/study-plan-edit-view.component';
 import { StarRatingComponent } from './study-plan/star-rating/star-rating.component';
+import { ViewPublishRequestsComponent } from './study-plan/view-publish-requests/view-publish-requests.component';
 
 
 
@@ -59,7 +60,8 @@ import { StarRatingComponent } from './study-plan/star-rating/star-rating.compon
     StudyPlanListViewComponent,
     PublishedStudyPlansComponent,
     StudyPlanEditViewComponent,
-    StarRatingComponent
+    StarRatingComponent,
+    ViewPublishRequestsComponent
   ],
   exports: [
     ScheduleComponent,
