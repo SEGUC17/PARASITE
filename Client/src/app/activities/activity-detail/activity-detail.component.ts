@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
-import { Activity } from '../activity';
+import { Activity, ActivityCreate, ActivityEdit } from '../activity';
 import { ActivatedRoute } from '@angular/router';
-
+import { Inject} from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {ActivityEditComponent} from '../activity-edit/activity-edit.component';
+import {AuthService} from '../../auth/auth.service';
 @Component({
   selector: 'app-activity-detail',
   templateUrl: './activity-detail.component.html',
@@ -25,17 +28,44 @@ export class ActivityDetailComponent implements OnInit {
 
   };
   activity: Activity;
+ // updatedActivity: ActivityCreate;
+isCreator = false ;
+isNotBooked = false;
+username = '';
+ public updatedActivity: ActivityEdit = {
+  name: '',
+  description: null,
+  bookedBy: null,
+  price: null,
+
+  fromDateTime: null,
+  toDateTime: null,
+
+  image: null,
+  creator: null,
+};
+
 
   constructor(
     private route: ActivatedRoute,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    public dialog: MatDialog,
+    private authService: AuthService ,
   ) { }
 
   ngOnInit() {
     this.getActivity();
     this.refreshComments(12);
-  }
 
+    this.authService.getUserData(['username']).subscribe(function (res) {
+      this.username = res.data.username;
+// if (this.updatedActivity.creator.equal(this.username)) { this.isCreator = true; }
+
+  });
+  // if ( this.updatedActivity.bookedBy.length < 1) {
+  // this.isNotBooked = true;
+ // }
+  }
   onReply(): any {
     let self = this;
     let element = document.getElementById('target');
@@ -57,6 +87,7 @@ export class ActivityDetailComponent implements OnInit {
     this.activityService.getActivity(id).subscribe(
       res => {
         this.activity = res.data;
+        this.updatedActivity = res.data;
         if (!this.activity.image) {
           this.activity.image = 'assets/images/activity-view/default-activity-image.jpg';
         }
@@ -114,4 +145,41 @@ export class ActivityDetailComponent implements OnInit {
 
   }
 
-}
+
+
+  openDialog(): void {
+    let from = new Date(this.activity.fromDateTime).toJSON();
+    let to   = new Date(this.activity.toDateTime).toJSON();
+  let   dialogRef = this.dialog.open(ActivityEditComponent, {
+      width: '350px',
+      height: '500px',
+      data: { name: this.activity.name, price : this.activity.price  ,
+         description: this.activity.description ,
+         fromDateTime: from.substr(0, from.length - 1)
+         , toDateTime : to.substr(0, to.length - 1)
+        }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.updatedActivity.name = result.name;
+      this.updatedActivity.price = result.price;
+      this.updatedActivity.description = result.description;
+      this.updatedActivity.fromDateTime = new Date(result.fromDateTime).getTime();
+      this.updatedActivity.toDateTime = new Date(result.toDateTime).getTime();
+      console.log('from' + this.updatedActivity.fromDateTime);
+      console.log('to' + this.updatedActivity.toDateTime);
+       this.EditActivity(this.updatedActivity);
+    });
+  }
+
+
+
+EditActivity(activity) {
+  let id = this.route.snapshot.paramMap.get('id');
+  this.activityService.EditActivity(this.updatedActivity, id).subscribe(
+    res => {
+        console.log(res);
+    }
+
+  );
+}}
