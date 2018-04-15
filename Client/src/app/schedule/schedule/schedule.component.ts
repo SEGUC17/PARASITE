@@ -23,7 +23,7 @@ import {
   selector: 'app-schedule',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './schedule.component.html',
-  styleUrls: ['./schedule.component.css']
+  styleUrls: ['./schedule.component.scss']
 })
 export class ScheduleComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;

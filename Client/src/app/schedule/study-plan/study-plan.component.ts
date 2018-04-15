@@ -19,6 +19,8 @@ import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+
 import {
   isSameMonth,
   isSameDay,
@@ -52,7 +54,7 @@ const colors: any = {
 @Component({
   selector: 'app-study-plan',
   templateUrl: './study-plan.component.html',
-  styleUrls: ['./study-plan.component.css']
+  styleUrls: ['./study-plan.component.scss']
 })
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
@@ -60,6 +62,12 @@ export class StudyPlanComponent implements OnInit {
   type: string;
   _id: String;
   username: String;
+  listOfChildren: any[]
+
+    // Users
+    loggedInUser: any = {};
+    @Input() profileUser;
+
   // end of routing parameters
   rating = 0;
   starCount = 5;
@@ -92,12 +100,8 @@ export class StudyPlanComponent implements OnInit {
     }
   ];
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private route: ActivatedRoute,
-    private studyPlanService: StudyPlanService,
-    private router: Router
-  ) {}
+  constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
+    private router: Router,private _AuthService: AuthService) { }
 
   ngOnInit() {
     this.studyPlan = {
@@ -106,6 +110,10 @@ export class StudyPlanComponent implements OnInit {
       events: [],
       title: ''
     };
+    this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
+      this.listOfChildren = user.data.children;
+      console.log(user.data.children);
+    });
     this.description = '';
     this.events = [];
     this.route.params.subscribe(params => {
@@ -212,10 +220,35 @@ export class StudyPlanComponent implements OnInit {
     }
 
   assign(): void {
-    alert('Implement Assign Study Plan!');
+    //this.studyPlan.assigned = true;
+    if (this.loggedInUser.username === this.profileUser) {
+    this.studyPlanService.assignStudyPlan(this.username,this._id).subscribe(
+      res => {
+        if (res.msg === 'StudyPlan assigned successfully.') {
+          alert(res.msg);
+        } else {
+          alert('An error occured while assigning the study plan');
+        }
+      });
+    }
+
+  }
+
+  unAssign(): void {
+    //this.studyPlan.assigned = false;
+    if (this.loggedInUser.username === this.profileUser) {
+    this.studyPlanService.unAssignStudyPlan(this.username,this._id).subscribe(
+      res => {
+        if (res.msg === 'StudyPlan Unassigned from me.') {
+          alert(res.msg);
+        } else {
+          alert('An error occured while Unassigning the study plan from me');
+        }
+      });
+    }
   }
 
   edit(): void {
-    alert('Implement Edit Study Plan!');
+    this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.username]);
   }
 }

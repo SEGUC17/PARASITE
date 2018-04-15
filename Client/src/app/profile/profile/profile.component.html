@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0.scss/font-awesome.min.scss">
 
 
 
@@ -6,10 +6,9 @@
     <div id = "PPDiv">
       <img id = "PP" src= "../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
       <br>
-      <label id="ProfileName" >{{firstName + " " + lastName}}</label>
+      <label id="ProfileName" >{{(currIsOwner? firstName : vFirstName) + " " + (currIsOwner? lastName : vLastName)}}</label>
       <br>
       <label id="Badge">Badge goes here</label><br>
-      <button mat-raised-button style="margin-left: 40px">Direct Message</button>
 
       <div class = "RightSideBtns">
           <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "!currIsChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>
@@ -41,10 +40,10 @@
           <div id = "personalinfo" class = "tabcontent">
             <h3 style="font-weight: bold">Personal Info:</h3>
 
-            <label>Username: {{username}}</label> <br>
-            <label>Email: {{email}}</label> <br>
-            <label>Address: {{address}}</label> <br>
-            <label>Phone: {{phone}}</label> <br>
+            <label>Username: {{currIsOwner? username : vUsername}}</label> <br>
+            <label>Email: {{currIsOwner? email : vEmail}}</label> <br>
+            <label>Address: {{currIsOwner? address : vAddress}}</label> <br>
+            <label>Phone: {{currIsOwner? phone : vPhone}}</label> <br>
 
           </div>
         </mat-tab>
@@ -53,7 +52,7 @@
             <app-schedule [profileUser]="vUsername"></app-schedule>
           </div>
         </mat-tab>
-        <mat-tab label="List of children">
+        <mat-tab label="List of children" *ngIf = "currIsOwner? !currIsChild : !visitedIsChild">
           <div id = "children" class = "tabcontent">
             <h3 style="font-weight: bold">Your Children:</h3>
             <app-childern></app-childern>
@@ -69,13 +68,11 @@
             </app-study-plan-list-view>
           </div>
         </mat-tab>
-        <mat-tab label="Settings">
+        <mat-tab label="Settings" *ngIf = "(currIsOwner && !currIsChild) || visitedIsMyChild">
           <div id = "Settings" class = "tabcontent">
             <h3>Settings</h3>
             <h4>Change Password</h4>
 
-            Username <br>
-            <input #Uname type="text" name="name" [(ngModel)]=uname><br>
             Current Password <br> 
             <input #Oldpw type="password" name="oldpw" [(ngModel)]=oldpw><br>
             New Password<br> <input #Newpw type="password" name="newpw" [(ngModel)]=newpw><br>

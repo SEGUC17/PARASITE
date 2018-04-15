@@ -58,4 +58,19 @@ export class StudyPlanService {
     return this.http.delete(this.endpoint + 'study-plan/deletePublishedStudyPlan/' + studyPlanID);
 
   }
+
+  assignStudyPlan(username : String ,studyPlanID: String): Observable<any> {
+  
+   return this.http.patch(this.endpoint + 'study-plan/assignStudyPlan/' + username +'/' + studyPlanID,{});
+
+ }
+
+ unAssignStudyPlan(username : String ,studyPlanID: String): Observable<any> {
+  
+  return this.http.patch(this.endpoint + 'study-plan/unAssignStudyPlan/' + username +'/' + studyPlanID,{});
+
+}
+  editPersonalStudyPlan(username: String, studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
+    return this.http.patch(this.endpoint + '/study-plan/editPersonalStudyPlan/' + username + '/' + studyPlanID, studyPlan);
+  }
 }
