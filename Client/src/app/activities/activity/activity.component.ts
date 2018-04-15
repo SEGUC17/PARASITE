@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
-import { apiUrl } from '../../variables';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({

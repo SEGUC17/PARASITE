@@ -4,7 +4,6 @@ import { Activity } from '../activity';
 import { ActivatedRoute } from '@angular/router';
 import { DiscussionService } from '../../discussion.service';
 import { Router } from '@angular/router';
-import { apiUrl } from "../../variables";
 import {AuthService} from "../../auth/auth.service";
 
 @Component({
