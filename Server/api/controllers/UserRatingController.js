@@ -19,9 +19,12 @@ var rate = function (model, message, oldRating, newRating, res, next) {
             if (err) {
                 return next(err);
             }
+            var updatedAverage = updatedDocument.rating.sum / updatedDocument.
+                rating.
+                number;
 
             return res.status(201).json({
-                data: updatedDocument.rating.value,
+                data: updatedAverage,
                 err: null,
                 msg: message + ' rated succesfully.'
             });
