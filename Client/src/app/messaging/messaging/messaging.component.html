@@ -32,9 +32,8 @@
               <ng-container matColumnDef="body">
                 <mat-header-cell *matHeaderCellDef> </mat-header-cell>
                 <mat-cell *matCellDef="let message"> {{message.body}} </mat-cell>
-                <br/>
               </ng-container>
-            
+           
               <ng-container matColumnDef="sentAt">
                 <mat-header-cell *matHeaderCellDef> </mat-header-cell>
                 <mat-cell *matCellDef="let message"> {{message.sentAt|date}} </mat-cell>
