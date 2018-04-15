@@ -15,13 +15,13 @@ var rate = function (model, message, oldRating, newRating, res, next) {
             }
         },
         { new: true },
-        function (err) {
+        function (err, updatedDocument) {
             if (err) {
                 return next(err);
             }
 
             return res.status(201).json({
-                data: null,
+                data: updatedDocument.rating.value,
                 err: null,
                 msg: message + ' rated succesfully.'
             });
