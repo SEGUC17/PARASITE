@@ -7,6 +7,7 @@ import { ViewProductRequestsComponent } from './view-product-requests/view-produ
 import { ProductRequestsService } from './view-product-requests/product-requests.service';
 import { ViewContentRequestsComponent } from '../content/view-content-requests/view-content-requests.component';
 import { ViewUnverifiedActivitiesComponent } from './view-unverified-activities/view-unverified-activities.component';
+import { PublishRequestsComponent } from '../schedule/study-plan/publish-requests/publish-requests.component';
 import {
   ViewVerifiedContributerRequestsComponent
 } from './view-verified-contributer-requests/view-verified-contributer-requests.component';
@@ -58,11 +59,13 @@ import { MatIconModule } from '@angular/material/icon';
     ViewUnverifiedActivitiesComponent,
     ViewProductRequestsComponent,
     ViewContentRequestsComponent,
-    ViewPsychRequestsComponent],
+    ViewPsychRequestsComponent,
+    PublishRequestsComponent],
   exports: [
     MatButtonModule,
     MatButtonToggleModule,
-    ViewContentRequestsComponent
+    ViewContentRequestsComponent,
+    PublishRequestsComponent
   ],
   providers: [
     AdminService, ProductRequestsService, PsychRequestsService, AuthService

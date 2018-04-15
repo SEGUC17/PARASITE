@@ -39,15 +39,13 @@ import { MatChipsModule } from '@angular/material';
 import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { MatNativeDateModule } from '@angular/material';
-import { ViewPublishRequestsComponent } from './view-publish-requests/view-publish-requests.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChildsignupComponent,
-    ViewPublishRequestsComponent
+    ChildsignupComponent
   ],
   imports: [
     BrowserModule,

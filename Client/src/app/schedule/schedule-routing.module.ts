@@ -8,7 +8,9 @@ const routes = [
   { path: 'schedule/:id', component: ScheduleComponent },
   { path: 'study-plan/:type/:id/:username', component: StudyPlanComponent },
   { path: 'published-study-plans', component: PublishedStudyPlansComponent },
-  { path: 'study-plan-edit/:type/:username/:id', component: StudyPlanEditViewComponent }
+  { path: 'study-plan-edit/:type/:username/:id', component: StudyPlanEditViewComponent },
+
+
 ];
 @NgModule({
   imports: [
