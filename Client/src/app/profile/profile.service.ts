@@ -24,6 +24,7 @@ export class ProfileService {
   private continueUrl = 'getChildren';
   private pwURL = 'http://localhost:3000/api/profile/changePassword';
   private profileUrl = 'http://localhost:3000/api/profile';
+  private changeChildInfoUrl = 'http://localhost:3000/api/profile/changeChildInfo';
   private changeInfoUrl = 'http://localhost:3000/api/profile/ChangeInfo';
   // private editeInfoUrl = 'http://localhost:3000/api/profile/editInfo';
 
@@ -74,5 +75,9 @@ export class ProfileService {
     return this.http.patch<any>(`${this.changeInfoUrl}/${Id}`, info, httpOptions);
   }
 
+
+  changeChildinfo(info): any {
+    return this.http.patch('http://localhost:3000/api/profile/changeChildInfo', info );
+  }
 
 }
