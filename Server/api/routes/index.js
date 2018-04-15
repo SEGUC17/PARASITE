@@ -173,16 +173,9 @@ module.exports = function (passport) {
 
   // Content Retrieval
 
-  // Get a page of content
-  router.get(
-    '/content/getContentPage/:numberOfEntriesPerPage' +
-    '/:pageNumber/:category/:section',
-    contentController.getContentPage
-  );
-
   // Get the contents of a user
   router.get(
-    '/content/username/:pageSize/:pageNumber',
+    '/content/username/:pageSize/:pageNumber/categorization',
     isAuthenticated,
     contentController.getContentByCreator
   );
