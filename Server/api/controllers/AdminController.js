@@ -75,6 +75,17 @@ module.exports.respondContentRequest = function (req, res, next) {
                 return 'cannot update request';
 
             }
+            if (!req.user.isAdmin) {
+                console.log(req.user.isAdmin);
+
+                return res.status(403).json({
+                    data: null,
+                    err: 'Unauthorized action',
+                    msg: null
+
+                });
+            }
+
             // if the request is not  found return error
             if (!updatedcontentrequest) {
                 return res.status(404).json({

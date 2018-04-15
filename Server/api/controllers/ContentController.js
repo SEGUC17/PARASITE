@@ -1,5 +1,7 @@
+/* eslint-disable eqeqeq */
+/* eslint max-statements: ["error", 20] */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-
+/* eslint multiline-comment-style: ["error", "starred-block"] */
 
 var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
@@ -7,6 +9,64 @@ var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
 var moment = require('moment');
+
+// send a page of general content (resources and ideas) to the front end
+module.exports.getContentPage = function (req, res, next) {
+
+    // validations
+    var valid = req.params.category && req.params.section &&
+        req.params.numberOfEntriesPerPage && req.params.pageNumber &&
+        typeof req.params.category === 'string' &&
+        typeof req.params.section === 'string' &&
+        !isNaN(req.params.numberOfEntriesPerPage) &&
+        !isNaN(req.params.pageNumber);
+
+    // the request was not valid
+    if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required fields were missing or of wrong type.',
+            msg: null
+        });
+    }
+
+    // intitialize the retrieval conditions
+    var conditions = {
+        'approved': true,
+        'category': req.params.category,
+        'section': req.params.section
+    };
+
+    // category or section not of interest
+    if (req.params.category === 'NoCat') {
+        delete conditions.category;
+        delete conditions.section;
+    } else if (req.params.section === 'NoSec') {
+        delete conditions.section;
+    }
+
+    // retrieve page of content
+    Content.paginate(
+        conditions,
+        {
+            limit: Number(req.params.numberOfEntriesPerPage),
+            page: Number(req.params.pageNumber),
+            select: { discussion: 0 }
+        },
+        function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+            // send a page of content
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'Page retrieved successfully'
+            });
+        }
+    );
+};
 
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
@@ -81,6 +141,7 @@ var prepareQueryOptionsForSearch = function (query, params) {
     };
 
     // sort option was provided, default is relevance;
+
     // therefore, the string relevance is not checked
     if (query.sort) {
 
@@ -133,6 +194,12 @@ module.exports.getSearchPage = function (req, res, next) {
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
 
+    if (options.select) {
+        options.select.discussion = 0;
+    } else {
+        options.select = { discussion: 0 };
+    }
+
     // log the options and conditions for debugging
     console.log(options);
     console.log(conditions);
@@ -159,6 +226,7 @@ module.exports.getSearchPage = function (req, res, next) {
 };
 
 // retrieve the content (resources and ideas) created by the specified user
+
 //must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
 
@@ -198,7 +266,8 @@ module.exports.getContentByCreator = function (req, res, next) {
         conditions,
         {
             limit: Number(req.params.pageSize),
-            page: Number(req.params.pageNumber)
+            page: Number(req.params.pageNumber),
+            select: { discussion: 0 }
         },
         function (err, contents) {
             if (err) {
@@ -432,6 +501,7 @@ module.exports.updateContent = function (req, res, next) {
 };
 
 // retrieve the categories
+
 // by which the contents (ideas and resources) are classified
 module.exports.getCategories = function (req, res, next) {
 
@@ -547,4 +617,48 @@ module.exports.createSection = function (req, res, next) {
         }
     );
 
+};
+module.exports.getContent = function (req, res, next) {
+    Content.find({}).
+        exec(function (err, contents) {
+            if (err) {
+                return next(err);
+            }
+            console.log(contents);
+
+            return res.status(200).json({
+                data: contents,
+                err: null,
+                msg: 'Contents retrieved successfully.'
+            });
+        });
+};
+
+module.exports.prepareContent = function (req, res, next) {
+
+    /*
+     *  function to prepare content for discussion
+     *
+     * @author: Wessam
+     */
+
+    var contentId = req.params.contentId;
+
+    Content.findById(contentId).
+        exec(function (err, content) {
+            if (err) {
+                return next(err);
+            }
+            if (!content) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Content doesn\'t exist',
+                    msg: null
+                });
+            }
+            req.object = content;
+            req.verified = content.approved;
+
+            return next();
+        });
 };
