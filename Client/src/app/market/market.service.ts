@@ -57,6 +57,6 @@ export class MarketService {
 
   // Send updated request to Database
   updateRequest(updatedReq: any, _id: String, username: String): Observable<any> {
-    return this.http.patch<any>(this.host + 'productrequest/getUserRequests/' + _id + '/' + username, updatedReq, httpOptions);
+    return this.http.patch<any>(this.host + 'productrequest/updateProdRequest/' + _id + '/' + username, updatedReq, httpOptions);
   }
 }

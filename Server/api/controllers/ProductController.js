@@ -301,13 +301,13 @@ module.exports.updateRequest = function (req, res, next) {
         delete req.body.__v;
         delete req.body._id;
 
-        ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err) {
+        ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err, updateRes) {
             if (err) {
                 return next(err);
             }
 
             return res.status(201).json({
-                data: null,
+                data: updateRes,
                 err: null,
                 msg: 'Request updated.'
             });
