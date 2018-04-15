@@ -49,13 +49,14 @@ export class ActivityService {
       catchError(this.handleError('creatingActivity', []))
     );
   }
-  
+
   reviewActivity(activity: any): Observable<any> {
     /*
       Put request to update activity's status
     */
-    return this.http.put<any>(this.unverifiedActivitiesUrl,activity);
+    return this.http.put<any>( this.unverifiedActivitiesUrl, activity );
   }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {

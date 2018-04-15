@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 // use the mongoose-paginate library to store contents in pages
 var mongoosePaginate = require('mongoose-paginate');
+
+var comment = mongoose.model('Comment');
+var commentSchema = comment.schema;
+
 // TODO: Omit creator specific schema [ProfileDependency | AuthDependency]
 var contentSchema = mongoose.Schema({
     approved: {
@@ -21,23 +25,22 @@ var contentSchema = mongoose.Schema({
         trim: true,
         type: String
     },
-    creatorAvatarLink: {
-        trim: true,
-        type: String
-    },
-    creatorProfileLink: {
-        trim: true,
-        type: String
-    },
+    discussion: { type: [commentSchema] },
     image: {
         trim: false,
         type: String
     },
     rating: {
-        default: 0,
-        required: false,
-        trim: true,
-        type: Number
+        default: {
+            number: 0,
+            sum: 0,
+            value: 0
+        },
+        type: {
+            number: Number,
+            sum: Number,
+            value: Number
+        }
     },
     section: {
         required: true,
@@ -85,7 +88,13 @@ contentSchema.index(
         }
     }
 );
-
+contentSchema.post('findOneAndUpdate', function (doc) {
+    var newRating = doc.rating.sum / doc.rating.number;
+    this.model.update(
+        { _id: doc._id },
+        { $set: { 'rating.value': newRating } }
+    ).exec();
+});
 // apply the mongoose paginate library to the schema
 contentSchema.plugin(mongoosePaginate);
 var Content = mongoose.model('Content', contentSchema, 'contents');
