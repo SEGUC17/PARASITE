@@ -10,7 +10,7 @@ import { ClickEvent, RatingChangeEvent } from 'angular-star-rating';
 export class RatingComponent implements OnInit {
   // type of objects to be rated can only be
   // one of the three following types
-  @Input() type: 'content' | 'studyPlan' | 'product';
+  @Input() type: 'content' | 'studyPlan' | 'seller';
   // the ID of the object that you are rating.
   @Input() ratedId: string;
   // input rating in the form of numbers

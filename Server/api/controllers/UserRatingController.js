@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var UserRating = mongoose.model('UserRating');
 var Content = mongoose.model('Content');
-var Product = mongoose.model('Product');
+var User = mongoose.model('User');
 var StudyPlan = mongoose.model('StudyPlan');
 
 var rate = function (model, message, oldRating, newRating, res, next) {
@@ -19,9 +19,12 @@ var rate = function (model, message, oldRating, newRating, res, next) {
             if (err) {
                 return next(err);
             }
+            var updatedAverage = updatedDocument.rating.sum / updatedDocument.
+                rating.
+                number;
 
             return res.status(201).json({
-                data: updatedDocument.rating.value,
+                data: updatedAverage,
                 err: null,
                 msg: message + ' rated succesfully.'
             });
@@ -53,10 +56,10 @@ module.exports.postRating = function (req, res, next) {
                         res,
                         next
                     );
-                case 'product':
+                case 'seller':
                     return rate(
-                        Product,
-                        'Product',
+                        User,
+                        'Seller',
                         oldRating,
                         req.body,
                         res,
@@ -67,7 +70,7 @@ module.exports.postRating = function (req, res, next) {
                         StudyPlan,
                         'Study plan',
                         oldRating,
-                        req.body.userRating,
+                        req.body,
                         res,
                         next
                     );
