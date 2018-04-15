@@ -20,6 +20,7 @@ export class ForwardDialogComponent implements OnInit {
   div3: Boolean;
   div4: Boolean; // div for blocked user
   allisWell: Boolean = true;
+  Receiver: any;
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
 
