@@ -616,3 +616,62 @@ module.exports.prepareContent = function (req, res, next) {
             return next();
         });
 };
+
+module.exports.deleteCategory = function (req, res, next) {
+
+    // verify that the issuer of the request is an admin
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'User does not have admin privileges and' +
+                'is not authorized to delete categories.',
+            msg: null
+        });
+    }
+
+    // validate category id
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category id provided was not valid',
+            msg: null
+        });
+    }
+
+    // find the category and delete it
+    Category.findByIdAndRemove(
+        req.params.id,
+        function (err, deletedCategory) {
+            if (err) {
+                return next(err);
+            }
+
+            // category was not found in the database
+            if (!deletedCategory) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'The category to be deleted could not be found.',
+                    msg: null
+                });
+            }
+
+            // category was deleted successfully; delete all associated content
+            Content.deleteMany(
+                { category: deletedCategory.name },
+                function (error) {
+                    if (error) {
+                        return next(err);
+                    }
+                    // return response all okay
+
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'Category and all associated content' +
+                            ' were deleted successfully.'
+                    });
+                }
+            );
+        }
+    );
+};

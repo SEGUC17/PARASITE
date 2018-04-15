@@ -284,6 +284,20 @@ module.exports = function (passport) {
     contentController.validateSelectedCategory,
     contentController.updateContent
   );
+
+  // delete a category
+  router.delete(
+    '/category/:id',
+    isAuthenticated,
+    contentController.deleteCategory
+  );
+
+  // delete a section
+  router.delete(
+    '/category/:categoryId/section/:sectionId',
+    isAuthenticated,
+    contentController.deleteSection
+  );
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
