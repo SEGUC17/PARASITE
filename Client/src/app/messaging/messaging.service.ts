@@ -6,7 +6,6 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { environment } from '../../environments/environment';
 
-
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type':  'application/json'
@@ -16,38 +15,38 @@ const httpOptions = {
 @Injectable()
 export class MessageService {
 
-  // url: String = 'http://localhost:3000/api/';
+  url: String = environment.apiUrl ;
 
   constructor(private http: HttpClient) { }
 
 
   // making a POST request to send a message
   send(message: any): Observable<any> {
-    return this.http.post<any>(environment.apiUrl + 'message/sendMessage', message, httpOptions);
+    return this.http.post<any>(this.url + 'message/sendMessage', message, httpOptions);
   }
 
   // making a GET request to get inbox
   getInbox(user: any): Observable<any> {
-    return this.http.get<any>(environment.apiUrl + 'message/inbox/' + user);
+    return this.http.get<any>(this.url + 'message/inbox/' + user);
   }
 
   // making a GET request to get sent messages
   getSent(user: any): Observable<any> {
-    return this.http.get<any>(environment.apiUrl + 'message/sent/' + user);
+    return this.http.get<any>(this.url + 'message/sent/' + user);
   }
 
   // making a DELETE request to delete a specific message (using the message id)
   deleteMessage(message: any): Observable<any> {
-    return this.http.delete<any>(environment.apiUrl + `message/${message._id}`, httpOptions);
+    return this.http.delete<any>(this.url + `message/${message._id}`, httpOptions);
   }
 
   block(blocked: any, user: any): Observable<any> {
       const self = this;
-       return this.http.patch(environment.apiUrl + `message/block/${blocked}`, user, httpOptions);
+       return this.http.patch(this.url + `message/block/${blocked}`, user, httpOptions);
    }
 
    getContacts(user: any): Observable<any> {
-    return this.http.get<any>(environment.apiUrl + 'message/contacts/' + user);
+    return this.http.get<any>(this.url + 'message/contacts/' + user);
   }
 
 }
