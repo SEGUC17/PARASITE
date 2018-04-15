@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { AuthService } from '../auth/auth.service';
+import { environment } from '../../environments/environment'
+import { apiUrl } from '../variables';
 
 
 const httpOptions = {
@@ -16,16 +18,17 @@ const httpOptions = {
 export class ProfileService {
   // ------------- Profile Page Method(s) -------------- AUTHOR: H
   constructor(private http: HttpClient, private authService: AuthService) { }
+  private apiUrl = environment.apiUrl;
   UserData = ['username'];
-  private linkAnotherParentUrl = 'http://localhost:3000/api/profile/LinkAnotherParent';
-  private UnlinkUrl = 'http://localhost:3000/api/profile/UnLinkChild/';
-  private linkAsParentUrl = 'http://localhost:3000/api/profile/AddAsAParent/';
-  private getChildrenUrl = 'http://localhost:3000/api/profile/';
+  private linkAnotherParentUrl = apiUrl + 'profile/LinkAnotherParent';
+  private UnlinkUrl = apiUrl + 'profile/UnLinkChild/';
+  private linkAsParentUrl = apiUrl + 'profile/AddAsAParent/';
+  private getChildrenUrl = apiUrl + 'profile/';
   private continueUrl = 'getChildren';
-  private pwURL = 'http://localhost:3000/api/profile/changePassword';
-  private profileUrl = 'http://localhost:3000/api/profile';
-  private changeChildInfoUrl = 'http://localhost:3000/api/profile/changeChildInfo';
-  private changeInfoUrl = 'http://localhost:3000/api/profile/ChangeInfo';
+  private pwURL = apiUrl + 'profile/changePassword';
+  private profileUrl = apiUrl + 'profile';
+  private changeChildInfoUrl = apiUrl + 'profile/changeChildInfo';
+  private changeInfoUrl = apiUrl + 'profile/ChangeInfo';
   // private editeInfoUrl = 'http://localhost:3000/api/profile/editInfo';
 
   // Author: Yomna
@@ -69,14 +72,14 @@ export class ProfileService {
   }
   EditChildIndependence(visitedChildUsername): any {
     // adding username of the visited child to the patch request
-    return this.http.patch('http://localhost:3000/api/profile/' + visitedChildUsername + '/EditChildIndependence', null);
+    return this.http.patch(apiUrl + 'profile/' + visitedChildUsername + '/EditChildIndependence', null);
   }
   ChangeInfo(Id, info): Observable<any> {
     return this.http.patch<any>(`${this.changeInfoUrl}/${Id}`, info, httpOptions);
   }
 
   changeChildinfo(info): any {
-    return this.http.patch('http://localhost:3000/api/profile/changeChildInfo', info );
+    return this.http.patch(apiUrl + 'profile/changeChildInfo', info );
   }
 
 }
