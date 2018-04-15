@@ -214,7 +214,7 @@ export class StudyPlanEditViewComponent implements OnInit {
           alert(res.err);
         } else {
           alert(res.msg);
-          this.router.navigate(['/profile']);
+          this.router.navigate(['/profile/' + this.username]);
         }
       });
   }
