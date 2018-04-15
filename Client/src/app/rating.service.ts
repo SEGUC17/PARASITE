@@ -8,6 +8,7 @@ import { catchError } from 'rxjs/operators';
 export class RatingService {
   endpoint: String = 'http://localhost:3000/api/';
   constructor(private http: HttpClient) { }
+
   rate(userRating): Observable<any> {
     return this.http.put(this.endpoint + 'rating', userRating).pipe(
       catchError(this.handleError('rating'))

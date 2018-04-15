@@ -40,15 +40,13 @@ import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { MatNativeDateModule } from '@angular/material';
 import { RatingService } from './rating.service';
-import { RatingComponent } from './rating/rating.component';
-import { StarRatingModule } from 'angular-star-rating';
+import { SharedModule } from './shared/shared.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChildsignupComponent,
-    RatingComponent
+    ChildsignupComponent
   ],
   imports: [
     BrowserModule,
@@ -87,8 +85,8 @@ import { StarRatingModule } from 'angular-star-rating';
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
-    StarRatingModule.forRoot(),
     CommonModule,
+    SharedModule,
     AuthModule
   ],
   providers: [

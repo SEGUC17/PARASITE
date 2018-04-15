@@ -1,0 +1,7 @@
+<p>
+  rating works!
+</p>
+<div class="row">
+
+<star-rating-comp class="col-1" [starType]="'svg'" [rating]="userRating.rating" [hoverEnabled]="true" (ratingChange)="userRating.rating = $event.rating" (starClickChange)="onClick($event)"></star-rating-comp>
+</div>
