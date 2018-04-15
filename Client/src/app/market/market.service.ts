@@ -50,6 +50,7 @@ export class MarketService {
     return this.http.post<any>(apiUrl + 'productrequest/createProductRequest', request, httpOptions);
   }
 
+  // Get user unverified requests
   getUserRequests(username: String): Observable<any> {
     return this.http.get<any>(this.host + 'productrequest/getUserRequests/' + username, httpOptions);
   }
@@ -58,4 +59,8 @@ export class MarketService {
     return this.http.patch<any>(apiUrl + 'productrequest/editPrice', product, httpOptions);
   }
  
+  // Send updated request to Database
+  updateRequest(updatedReq: any, _id: String, username: String): Observable<any> {
+    return this.http.patch<any>(this.host + 'productrequest/updateProdRequest/' + _id + '/' + username, updatedReq, httpOptions);
+  }
 }

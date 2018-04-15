@@ -1,7 +1,7 @@
 <form #updateDetails="ngForm" [ngSwitch]="this.toggleEditForm">
   <!-- Name -->
   <!-- Show Data -->
-  <h1 *ngSwitchCase="false" mat-dialog-title style="font-size: 35px; font-weight: bold">{{data.product.name}}</h1>
+  <h1 *ngSwitchCase="false" mat-dialog-title style="font-size: 35px; font-weight: bold">{{this.oldData.name}}</h1>
   <!-- Edit Data -->
   <mat-form-field *ngSwitchCase="true">
     <input (keyup)="addToUpdatedFields($event)" matInput style="font-size: 35px; font-weight: bold" name="name" id="name" hintLabel="Prdouct's name "
@@ -12,23 +12,28 @@
     <div class="row" style="height:300px">
 
       <!-- Image -->
-      <!-- TODO: See how you will handle this-->
       <mat-card class="col-3 mat-elevation-z0">
-        <img mat-card-image src={{data.product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
+        <img mat-card-image src={{formInput.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
           alt="Photo of product" style="height:300px ">
       </mat-card>
 
       <mat-card class="col-6 mat-elevation-z0">
 
+          <div *ngSwitchCase="true">
+              <mat-form-field>
+                <input matInput placeholder="Image URL" name="imageURL" id="imageURL" hintLabel="Image URL" [(ngModel)]="formInput.image">
+              </mat-form-field>
+            </div>
+
         <!-- PRICE-->
         <!-- Show Data -->
-        <p *ngSwitchCase="false" style="font-size:20px; color: #3f51b5">{{data.product.price}}
+        <p *ngSwitchCase="false" style="font-size:20px; color: #3f51b5">{{this.oldData.price}}
           <span style="font-size: 15px; color: #3f51b5"> EGP</span>
         </p>
         <!-- Edit Data -->
         <div *ngSwitchCase="true">
           <mat-form-field>
-            <input matInput (keyup)="addToUpdatedFields($event)" type="number" name="price" id="price" [(ngModel)]="formInput.price"
+            <input style="font-size: 15px; color: #3f51b5" matInput (keyup)="addToUpdatedFields($event)" type="number" name="price" id="price" [(ngModel)]="formInput.price"
               class="example-right-align">
             <span matPrefix>$&nbsp;</span>
           </mat-form-field>
@@ -41,7 +46,7 @@
 
         <!-- Description -->
         <!-- Show Data -->
-        <p *ngSwitchCase="false">{{data.product.description}}</p>
+        <p *ngSwitchCase="false">{{this.oldData.description}}</p>
         <!-- Edit Data -->
         <div *ngSwitchCase="true">
           <mat-form-field>
@@ -53,7 +58,7 @@
         <li>
           <span style="font-weight: bold">Created At:</span>
         </li>
-        <span>{{data.product.createdAt | date }}</span>
+        <span>{{this.oldData.createdAt | date }}</span>
 
       </mat-card>
       <mat-card class="col mat-elevation-z0">
@@ -61,8 +66,8 @@
         <!-- Acquiring Type -->
         <!-- Show Data -->
         <li *ngSwitchCase="false">
-          <span style="font-weight: bold">For {{data.product.acquiringType}}</span>
-          <span *ngIf="data.product.rentPeriod">: {{data.product.rentPeriod}} days</span>
+          <span style="font-weight: bold">For {{this.oldData.acquiringType}}</span>
+          <span *ngIf="this.oldData.rentPeriod">: {{this.oldData.rentPeriod}} days</span>
         </li>
         <!-- Edit Data -->
         <div *ngSwitchCase="true">
@@ -82,7 +87,7 @@
         <!-- Seller Name -->
         <li>
           <span style="font-weight: bold">Sold by: </span>
-          <a routerLink="market">{{data.product.seller}}</a>
+          <a routerLink="market">{{this.oldData.seller}}</a>
         </li>
 
         <!-- Shipping to -->
@@ -93,6 +98,8 @@
         <!-- Submission button -->
         <mat-card-actions>
           <button mat-button *ngIf="!this.toggleEditForm" (click)="this.toggleForm()" class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">Edit Request</button>
+          <button mat-button *ngIf="this.toggleEditForm" (click)="this.cancelEdits()"  class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">Cancel Edits</button>
+          <br />       
           <button mat-button *ngIf="this.toggleEditForm" (click)="this.toggleForm()"  class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">Submit Edits</button>
         </mat-card-actions>
       </mat-card>

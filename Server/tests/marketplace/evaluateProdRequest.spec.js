@@ -56,34 +56,30 @@ describe('EvaluateProdRequestByAdmin', function () {
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
-            done();
+            chai.request(server).
+                post('/api/signUp').
+                send(user).
+                end(function (err, response) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    response.should.have.status(201);
+                    token = response.body.token;
+                    users.updateOne({ username: 'omar' }, { $set: { isAdmin: true } }, function (err1) {
+                        if (err1) {
+                            console.log(err1);
+                        }
+                        prodReqTest.save(function (error) {
+                            if (error) {
+                                return console.log(err);
+                            }
+                            done();
+                        });
+                    });
+                });
         });
     });
     // --- End of "Clearing Mockgoose" --- //
-
-    beforeEach(function (done) {
-        chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                response.should.have.status(201);
-                token = response.body.token;
-                users.updateOne({ username: 'omar' }, { $set: { isAdmin: true } }, function (err1) {
-                    if (err1) {
-                        console.log(err1);
-                    }
-                    prodReqTest.save(function (error) {
-                        if (error) {
-                            return console.log(err);
-                        }
-                        done();
-                    });
-                });
-            });
-    });
 
     it('Request should be accepted', function (done) {
         var acceptedReq = {
