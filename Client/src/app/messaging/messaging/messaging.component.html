@@ -41,18 +41,18 @@
 
               <ng-container matColumnDef="reply">
                 <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let message"> <button class="btn" (click)="openReplyDialog(message)">Reply</button></mat-cell>
+                <mat-cell *matCellDef="let message"> <button mat-icon-button class="replybtn" (click)="openReplyDialog(message.sender)"><mat-icon>reply</mat-icon></button></mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="delete">
                 <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let message"> <button class="btn" (click)="deleteMessage(message)">Delete</button></mat-cell>
+                <mat-cell *matCellDef="let message"> <button mat-icon-button class="iconbtn" (click)="deleteMessage(message)"><mat-icon>delete</mat-icon></button></mat-cell>
               </ng-container>
               
               <ng-container matColumnDef="block">
                 <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let message">  <button class="btn"
-                  (click)="block(message)">Block</button></mat-cell>
+                <mat-cell *matCellDef="let message">  <button mat-icon-button class="iconbtn"
+                  (click)="block(message)"><mat-icon>block</mat-icon></button></mat-cell>
               </ng-container>
 
               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -98,14 +98,19 @@
                 <mat-cell *matCellDef="let msg"> {{msg.sentAt|date}} </mat-cell>
               </ng-container>
 
+              <ng-container matColumnDef="reply">
+                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                <mat-cell *matCellDef="let msg"> <button mat-icon-button class="replybtn" (click)="openReplyDialog(msg.recipient)"><mat-icon>reply</mat-icon></button></mat-cell>
+              </ng-container>
+
               <ng-container matColumnDef="delete">
                   <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                  <mat-cell *matCellDef="let msg"> <button class="btn" (click)="deleteMessage(msg)">Delete</button></mat-cell>
+                  <mat-cell *matCellDef="let msg"> <button mat-icon-button class="iconbtn" (click)="deleteMessage(msg)"><mat-icon>delete</mat-icon></button></mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="block">
                   <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                  <mat-cell *matCellDef="let msg">  <button class="btn" (click)="block(msg)" >Block</button></mat-cell>
+                  <mat-cell *matCellDef="let msg"> <button mat-icon-button class="iconbtn" (click)="block(msg)"><mat-icon>block</mat-icon></button></mat-cell>
                 </ng-container>
 
               <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>

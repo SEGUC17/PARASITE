@@ -18,8 +18,7 @@
     padding: 16px;
   }
 
-
-   
+ 
 .btn {
     background-color: royalblue;
     border: none;
@@ -32,4 +31,20 @@
 /* Darker background on mouse-over */
 .btn:hover {
     background-color: orange; 
+}
+
+.replybtn {
+  color: #3F51B5;
+}
+
+.replybtn:hover {
+  color: #EF6C00;
+}
+
+.iconbtn {
+  color: #3F51B5;
+}
+
+.iconbtn:hover {
+  color: #F44336; 
 }

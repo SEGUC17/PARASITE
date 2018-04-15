@@ -26,7 +26,7 @@ export class MessagingComponent implements OnInit {
   sender: any;
   receipient: any;
   displayedColumns = ['sender', 'body', 'sentAt', 'reply', 'delete', 'block'];
-  displayedColumns1 = ['recipient', 'body', 'sentAt', 'delete', 'block'];
+  displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'delete', 'block'];
   contacts: any[];
 
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
@@ -43,12 +43,12 @@ export class MessagingComponent implements OnInit {
     });
   }
 
-  openReplyDialog(message: any): void {
+  openReplyDialog(user: any): void {
     let replydialog = this.dialog.open(ReplyDialogComponent, {
       width: '600px',
       height: '500px',
       data: {
-        replyTo: message.sender
+        replyTo: user
       }
     });
 

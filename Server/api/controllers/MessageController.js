@@ -136,13 +136,13 @@ module.exports.getRecentlyContacted = function(req, res, next) {
 
   Message.find({ sender: req.params.user }).sort({ sentAt: -1 }).
   limit(10).
-  exec(function(err, msgs) {
+  exec(function(err, users) {
     if (err) {
       return next(err);
     }
 
     return res.status(200).json({
-      data: msgs,
+      data: users,
       err: null,
       msg: 'Success.'
       });
