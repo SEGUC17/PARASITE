@@ -10,8 +10,8 @@
 <div class="container">
   <div class="comment-container">
     <h1> Comments :</h1>
-    <mat-list-item role="list" id="target">
-      <mat-card *ngIf="currentUser">
+    <mat-list-item *ngIf="signedIn" role="list" id="target">
+      <mat-card >
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
           <mat-card-title style="font-weight: bold"> {{currentUser.username}} </mat-card-title>
@@ -32,14 +32,14 @@
         <div class="mat-card-header">
           <div style="width: 48%; margin: auto;">
             <mat-card-header>
-              <div mat-card-avatar class="example-header-image"></div>
+              <div mat-card-avatar (click)="redirectToProfile(comment.creator)" class="example-header-image"></div>
               <mat-card-title style="font-weight: bold; font-size: 1.17em;">{{comment.creator}}</mat-card-title>
               <mat-card-subtitle style="font-weight: bold">{{comment.text}}</mat-card-subtitle>
             </mat-card-header>
           </div>
           <div style="width:52%" align="end">
             <mat-card-actions>
-              <button mat-icon-button class="col-auto" (click)="onDelete(comment._id)" matTooltip="delete">
+              <button mat-icon-button class="col-auto" *ngIf="signedIn && ( comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === activity.creator )" (click)="onDelete(comment._id)" matTooltip="delete">
                 <mat-icon>delete</mat-icon>
               </button>
               <button mat-icon-button class="col-auto" *ngIf="comment.replies.length > 0" (click)="showReply(i)" matTooltip={{(viewedReplies[i])?hideReplies:showReplies}}>
@@ -66,7 +66,7 @@
                   <h3 mat-line style="font-weight: bold; margin-left: 2%; margin-bottom: 0px;">{{reply.creator}}</h3>
                   <p mat-line style="font-weight: bold; margin-left: 2%; margin-bottom: 0px; color: rgb(129, 129, 129)">{{reply.text}}</p>
               </div>
-            <button mat-icon-button style="width:7%" align="end" (click)="onDeleteReply(comment._id,reply._id)" matTooltip="delete">
+            <button mat-icon-button style="width:7%" align="end" *ngIf="reply.creator === currentUser.username || comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === activity.creator" (click)="onDeleteReply(comment._id,reply._id)" matTooltip="delete">
               <mat-icon>delete</mat-icon>
             </button>
 
