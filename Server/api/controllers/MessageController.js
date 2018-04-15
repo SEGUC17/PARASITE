@@ -12,28 +12,6 @@ var User = mongoose.model('User');
 
 // add a message to the messages collection in the DB
 module.exports.sendMessage = function(req, res, next) {
-
-  /*User.findOne({ username: req.body.recipient }).exec(function (err, user) {
-    if (err) {
-        return next(err);
-    }
-
-    if (!user) {
-        return res.status(404).json({
-            data: null,
-            err: 'This user does not exist.',
-            msg: null
-        });
-    }
-
-    res.status(200).json({
-        data: user,
-        err: null,
-        msg: 'User exists.'
-    });
-});*/
-
-
   // Security Check
   delete req.body.sentAt;
 
