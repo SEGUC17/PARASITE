@@ -72,8 +72,7 @@ var aStudyPlan = new StudyPlan({
 var aRating = {
     ratedId: aStudyPlan._id,
     rating: 5,
-    type: 'studyPlan',
-    username: 'john'
+    type: 'studyPlan'
 };
 // --- End of "Variables Needed In Testing" --- //
 
@@ -108,21 +107,25 @@ describe('updateSchedule', function () {
                 aStudyPlan.save(function(err2, savedStudyPlan) {
                     should.not.exist(err2);
                     chai.request(server).
-                    post('/api/rating/postRating').
+                    put('/api/rating').
                     set('Authorization', signupData.body.token).
-                    send({ 'userRating': aRating }).
+                    send({
+                        'ratedId': aRating.ratedId,
+                        'rating': aRating.rating,
+                        'type': aRating.type
+                    }).
                     end(function (err3, rateData) {
                         rateData.should.have.status(201);
                         should.not.exist(rateData.body.err);
-                        should.not.exist(rateData.body.data);
                         rateData.body.msg.should.equal('Study plan rated succesfully.');
+                        rateData.body.data.should.equal(5);
                         UserRating.findOne({ username: johnDoe.username }, function(err4, ratingInDb) {
                             if (err4) {
                                 console.log(err4);
                             }
                             should.not.exist(err4);
                             String(ratingInDb.ratedId).should.equal(String(aRating.ratedId));
-                            ratingInDb.username.should.equal(aRating.username);
+                            ratingInDb.username.should.equal(johnDoe.username);
                             ratingInDb.type.should.equal(aRating.type);
                             ratingInDb.rating.should.equal(aRating.rating);
                             done();

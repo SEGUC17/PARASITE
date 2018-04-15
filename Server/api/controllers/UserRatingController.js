@@ -70,7 +70,7 @@ module.exports.postRating = function (req, res, next) {
                         StudyPlan,
                         'Study plan',
                         oldRating,
-                        req.body.userRating,
+                        req.body,
                         res,
                         next
                     );
