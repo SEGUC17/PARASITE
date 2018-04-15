@@ -1,72 +1,107 @@
-<div align="center">
+<div align="center" class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+  (scrolled)="onScroll()" [scrollWindow]="false">
   <mat-card style="width: 98%; top:10px; padding: 5%">
     <div align="left">
       <div class="row">
-
         <span id="header">
           <mat-icon id="header_icon">face</mat-icon>Verified Psychologists</span>
       </div>
-      <br>
       <div align="right">
         <button mat-fab color="primary" style="color:white" align="right" (click)="addRequest()">
           <mat-icon>add</mat-icon>
         </button>
       </div>
-      <div class="row" style="min-height:250px">
-        <mat-card class="psych" *ngFor="let psych of psychologists; let i = index;" style="top:20px">
-          <mat-card-title class="info">{{psych.firstName}} {{psych.lastName}}</mat-card-title>
-          <mat-card-content class="info">
-            <div class="row">
-              <mat-icon id="icon">phone</mat-icon>
-              <span style="font-weight: bold">Phone</span>
-              <span id="contnt">{{psych.phone}}</span>
-            </div>
-            <div class="row" style="height: 50px">
-              <mat-icon id="icon">home</mat-icon>
-              <span style="font-weight: bold">Address</span>
-              <span id="contnt">{{psych.address}}</span>
-            </div>
-            <div class="row">
-              <mat-icon id="icon">mail</mat-icon>
-              <span style="font-weight: bold">Email</span>
-              <span id="contnt">{{psych.email}}</span>
-            </div>
-            <div class="row">
-              <mat-icon id="icon">date_range</mat-icon>
-              <span style="font-weight: bold">Days off</span>
-            </div>
-            <div class="chips">
-              <mat-chip-list>
-                <mat-chip *ngFor="let day of psych.daysOff" style="background: #00031e;color:white;">{{day}}</mat-chip>
-              </mat-chip-list>
-            </div>
-            <br>
-            <div class="row">
-              <mat-icon id="icon">money</mat-icon>
-              <span style="font-weight: bold">Maximum Price Range:</span>
-              <span id="contnt">{{psych.priceRange}}</span>
-            </div>
-          </mat-card-content>
-          <mat-card-footer id="footer" style="padding-bottom:5px">
-            <button *ngIf="this.user.isAdmin" mat-icon-button id="delete" align="right" (click)="deletePsychologist(i)">
-              <mat-icon>delete</mat-icon>
-            </button>
-            <mat-form-field style="margin-left: 1%; margin-bottom:2%;border: 1px; width: 70%" color="primary" floatLabel="never">
-              <input matInput [formControl]="idInput" id=i style="color:white" class="example-right-align">
-              <mat-placeholder Style="color:white">Click here to enter request ID</mat-placeholder>
-            </mat-form-field>
-            <button mat-icon-button id="edit" align="right" (click)="this.goToEdit(i)">
-              <mat-icon>edit</mat-icon>
-            </button>
-          </mat-card-footer>
+      <mat-card align="left" style="padding: 0px; width: 75%; float:left" class="mat-elevation-z0">
+        <div class="row" style="min-height:250px">
+          <mat-card class="psych" *ngFor="let psych of psychologists; let i = index;" style="top:20px">
+            <mat-card-title class="info">{{psych.firstName}} {{psych.lastName}}</mat-card-title>
+            <mat-card-content class="info">
+              <div class="row">
+                <mat-icon id="icon">phone</mat-icon>
+                <span style="font-weight: bold">Phone</span>
+                <span id="contnt">{{psych.phone}}</span>
+              </div>
+              <div class="row" style="height: 50px">
+                <mat-icon id="icon">home</mat-icon>
+                <span style="font-weight: bold">Address</span>
+                <span id="contnt">{{psych.address}}</span>
+              </div>
+              <div class="row">
+                <mat-icon id="icon">mail</mat-icon>
+                <span style="font-weight: bold">Email</span>
+                <span id="contnt">{{psych.email}}</span>
+              </div>
+              <div class="row">
+                <mat-icon id="icon">date_range</mat-icon>
+                <span style="font-weight: bold">Days off</span>
+              </div>
+              <div class="chips">
+                <mat-chip-list>
+                  <mat-chip *ngFor="let day of psych.daysOff" style="background: #00031e;color:white;">{{day}}</mat-chip>
+                </mat-chip-list>
+              </div>
+              <br>
+              <div class="row">
+                <mat-icon id="icon">money</mat-icon>
+                <span style="font-weight: bold">Maximum Price Range:</span>
+                <span id="contnt">{{psych.priceRange}}</span>
+              </div>
+            </mat-card-content>
+            <mat-card-footer id="footer" style="padding-bottom:5px">
+              <button *ngIf="this.user.isAdmin" mat-icon-button id="delete" align="right" (click)="deletePsychologist(i)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <mat-form-field style="margin-left: 1%; margin-bottom:2%;border: 1px; width: 70%" color="primary" floatLabel="never">
+                <input matInput [formControl]="idInput" id=i style="color:white" class="example-right-align">
+                <mat-placeholder Style="color:white">Click here to enter request ID</mat-placeholder>
+              </mat-form-field>
+              <button mat-icon-button id="edit" align="right" (click)="this.goToEdit(i)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </mat-card-footer>
 
 
 
 
 
 
-        </mat-card>
-      </div>
+          </mat-card>
+        </div>
+      </mat-card>
+      <mat-card style="height:100%; float: right;width:24%; position: fixed; left:75%;">
+        <mat-card-content>
+          <button mat-button class="md-raised md-primary" style="position:relative; float:right; background:#3f51b5; color:white">Add a new item</button>
+          <h3>Search</h3>
+          <mat-form-field>
+            <input matInput placeholder="Value">
+          </mat-form-field>
+          <button mat-icon-button>
+            <mat-icon>search</mat-icon>
+          </button>
+          <h3>Sort By</h3>
+          <mat-radio-group>
+            <mat-radio-button  style="margin-right: 3px">s</mat-radio-button>
+          </mat-radio-group>
+          <!--
+          <mat-chip-list>
+            <mat-chip *ngIf="this.selectedSeller" [removable]=true (remove)="remove('seller')">{{this.selectedSeller}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="!this.selectedSeller">All Sellers</mat-chip>
+            <mat-chip *ngIf="this.selectedPrice" [removable]=true (remove)="remove('price')">
+              <={{this.selectedPrice}}LE <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <mat-chip [removable]=true (remove)="remove('name')" *ngIf="this.selectedName">{{this.selectedName}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <mat-chip [removable]=true (remove)="remove('sort')" *ngIf="this.sort">{{this.sort}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+
+          </mat-chip-list>
+        -->
+        </mat-card-content>
+      </mat-card>
     </div>
   </mat-card>
 </div>

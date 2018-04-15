@@ -82,6 +82,11 @@
 .chips {
     height:50px;
 }
+.search-results {
+    height: 87vh;
+    overflow: scroll;
+    overflow-x: hidden;
+  }
 @media (max-width: 800px) {
     .psych {
         width: 45%;

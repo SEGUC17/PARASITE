@@ -26,6 +26,8 @@ export class PsychologistComponent implements OnInit {
   admin: boolean;
   idInput = new FormControl();
   psychologist: Psychologist;
+  entriesPerPage = 25;
+  pageNumber: number;
 
   constructor(private psychologistService: PsychologistService,
               public snackBar: MatSnackBar,
@@ -37,9 +39,18 @@ export class PsychologistComponent implements OnInit {
 
   getPsychologists(): void {
     let self = this;
-    let limiters = {};
+    self.psychologists = [];
+    self.pageNumber = 1;
+    self.getPage();
+  }
+  getPage(): void {
+    let self = this;
+    let limiters = {
+      entriesPerPage: self.entriesPerPage,
+      pageNumber: self.pageNumber
+    };
     self.psychologistService.getPsychologists(JSON.stringify(limiters)).subscribe(function (psychs) {
-      self.psychologists = psychs.data;
+      self.psychologists = self.psychologists.concat(psychs.data.docs);
     });
   }
   addRequest(): void {

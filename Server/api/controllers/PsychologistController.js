@@ -128,7 +128,7 @@ var limits = function (toFind) {
   if (toFind.address) {
     limiters.address = new RegExp(toFind.address, 'i');
   }
-  if (toFind.search === '') {
+  if (!toFind.search || toFind.search === '') {
     delete limiters.$text;
   }
 
