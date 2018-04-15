@@ -8,6 +8,9 @@
     <mat-card class="col-6 mat-elevation-z0">
       <p style="font-size:20px; color: #3f51b5">{{data.product.price}}
         <span style="font-size: 15px; color: #3f51b5"> EGP</span>
+        <button mat-icon-button *ngIf="data.product.seller == data.curUser">
+            <mat-icon>edit</mat-icon>
+          </button>
       </p>
       <li>
         <span style="font-weight: bold">Product Information:</span>
@@ -32,7 +35,12 @@
         <span style="font-weight: bold">Shipping to: </span>
       </li>
       <mat-card-actions>
-        <button *ngIf="data.product.seller !== data.curUser" mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">Acquire</button>
+        <div>
+          <button *ngIf="data.product.seller !== data.curUser" mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">Acquire</button>
+        </div>
+        <div>
+          <button *ngIf="data.product.seller == data.curUser || data.isAdmin" mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white; margin:3px 0px">Delete</button>
+        </div>
       </mat-card-actions>
 
     </mat-card>
