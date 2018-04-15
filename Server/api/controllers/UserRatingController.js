@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var UserRating = mongoose.model('UserRating');
 var Content = mongoose.model('Content');
-var Product = mongoose.model('Product');
+var User = mongoose.model('User');
 var StudyPlan = mongoose.model('StudyPlan');
 
 var rate = function (model, message, oldRating, newRating, res, next) {
@@ -53,10 +53,10 @@ module.exports.postRating = function (req, res, next) {
                         res,
                         next
                     );
-                case 'product':
+                case 'seller':
                     return rate(
-                        Product,
-                        'Product',
+                        User,
+                        'Seller',
                         oldRating,
                         req.body,
                         res,
