@@ -152,6 +152,78 @@ module.exports.createStudyPlan = function (req, res, next) {
     );
 };
 
+
+module.exports.assignStudyPlan = function (req, res, next) {
+            
+    User.findOneAndUpdate(
+        {
+            'studyPlans._id': req.params.studyPlanID,
+            username: req.params.username
+        },
+        {
+            $set: {
+                'studyPlans.$.assigned': true
+            }
+        },
+        function (err, user) {
+            if (err) {
+                return next(err);
+            }
+
+            if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'User not found.',
+                    msg: null
+                });
+            }
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'StudyPlan assigned successfully.'
+            });
+        }
+    );
+
+        };
+
+        module.exports.unAssignStudyPlan = function (req, res, next) {
+            
+            User.findOneAndUpdate(
+                {
+                    'studyPlans._id': req.params.studyPlanID,
+                    username: req.params.username
+                },
+                {
+                    $set: {
+                        'studyPlans.$.assigned': false
+                    }
+                },
+                function (err, user) {
+                    if (err) {
+                        return next(err);
+                    }
+        
+                    if (!user) {
+                        return res.status(404).json({
+                            data: null,
+                            err: 'User not found.',
+                            msg: null
+                        });
+                    }
+        
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'StudyPlan Unassigned from me.'
+                    });
+                }
+            );
+        
+                };
+    
+
 module.exports.rateStudyPlan = function (req, res, next) {
     console.log(req.params.studyPlanID);
     console.log(req.body);

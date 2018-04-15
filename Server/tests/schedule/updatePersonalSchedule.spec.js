@@ -75,6 +75,7 @@ var anActivity = {
 
 
 describe('updateSchedule', function () {
+    this.timeout(120000);
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {

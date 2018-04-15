@@ -46,4 +46,16 @@ export class StudyPlanService {
   rateStudyPlan(studyPlanID: String, rating: Number): Observable<any> {
     return this.http.patch(this.endpoint + '/study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
   }
+
+  assignStudyPlan(username : String ,studyPlanID: String): Observable<any> {
+  
+   return this.http.patch(this.endpoint + 'study-plan/assignStudyPlan/' + username +'/' + studyPlanID,{});
+
+ }
+
+ unAssignStudyPlan(username : String ,studyPlanID: String): Observable<any> {
+  
+  return this.http.patch(this.endpoint + 'study-plan/unAssignStudyPlan/' + username +'/' + studyPlanID,{});
+
+}
 }
