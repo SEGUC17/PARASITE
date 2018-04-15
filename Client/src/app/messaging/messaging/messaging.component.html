@@ -6,7 +6,7 @@
   
   <div *ngIf="!div">
       <br/>
-      <button class= "btn" (click)="openDialog()">COMPOSE</button>
+      <button mat-raised-button color="primary" class="btn" (click)="openDialog()">COMPOSE</button>
       <br/>
       <br/>
   </div>
@@ -19,104 +19,55 @@
 
   <div *ngIf="!div">
   <mat-tab-group>
-    <!-- table for inbox -->
       <mat-tab label="Inbox">
-        <div class="example-container mat-elevation-z8">
-            <mat-table #table [dataSource]="inbox">
-      
-              <ng-container matColumnDef="sender">
-                <mat-header-cell *matHeaderCellDef> From </mat-header-cell>
-                <mat-cell *matCellDef="let message"> {{message.sender}} </mat-cell>
-              </ng-container>
-          
-              <ng-container matColumnDef="body">
-                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let message"> {{message.body}} </mat-cell>
-              </ng-container>
-           
-              <ng-container matColumnDef="sentAt">
-                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let message"> {{message.sentAt|date}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="reply">
-                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let message"> <button mat-icon-button class="replybtn" (click)="openReplyDialog(message.sender)"><mat-icon>reply</mat-icon></button></mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="delete">
-                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let message"> <button mat-icon-button class="iconbtn" (click)="deleteMessage(message)"><mat-icon>delete</mat-icon></button></mat-cell>
-              </ng-container>
-              
-              <ng-container matColumnDef="block">
-                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let message">  <button mat-icon-button class="iconbtn"
-                  (click)="block(message)"><mat-icon>block</mat-icon></button></mat-cell>
-              </ng-container>
-
-              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-            </mat-table>
-          </div>
-
-          <!-- <div style="max-width:800px;" *ngFor="let message of inbox">
+          <div style="max-width:800px; padding-left: 6%;" *ngFor="let message of inbox">
           <mat-card>
               <mat-card-header>
                 <div mat-card-avatar><mat-icon>face</mat-icon></div>
-                <mat-card-title> {{message.sender}} </mat-card-title>
-                <mat-card-subtitle> {{message.sentAt|date}} </mat-card-subtitle>
+                <mat-card-title class="text"> {{message.sender}} </mat-card-title>
+                <div style="text-align: right; margin-left: 75%;">
+                    <mat-card-subtitle> {{message.sentAt|date}} </mat-card-subtitle>
+                </div>
               </mat-card-header>
               <mat-card-content>
                 <p>
                     {{message.body}}
                 </p>
               </mat-card-content>
+              <mat-card-footer style="text-align: right;">
+                  <button mat-icon-button class="replybtn" (click)="openReplyDialog(message.sender)"><mat-icon>reply</mat-icon></button>
+                  <button mat-icon-button class="iconbtn" (click)="deleteMessage(message)"><mat-icon>delete</mat-icon></button>
+                  <button mat-icon-button class="iconbtn" (click)="block(message)"><mat-icon>block</mat-icon></button>
+              </mat-card-footer>
           </mat-card>
           <br/>
-          </div> -->
-            
+          </div>
       </mat-tab>
 
-      <!-- table for sent messages -->
+
       <mat-tab label="Sent">
-        <div class="example-container mat-elevation-z8">
-            <mat-table #table1 [dataSource]="sent">
-      
-              <ng-container matColumnDef="recipient">
-                <mat-header-cell *matHeaderCellDef> To </mat-header-cell>
-                <mat-cell *matCellDef="let msg"> {{msg.recipient}} </mat-cell>
-              </ng-container>
-          
-              <ng-container matColumnDef="body">
-                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let msg"> {{msg.body}} </mat-cell>
-              </ng-container>
-          
-              <ng-container matColumnDef="sentAt">
-                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let msg"> {{msg.sentAt|date}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="reply">
-                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                <mat-cell *matCellDef="let msg"> <button mat-icon-button class="replybtn" (click)="openReplyDialog(msg.recipient)"><mat-icon>reply</mat-icon></button></mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="delete">
-                  <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                  <mat-cell *matCellDef="let msg"> <button mat-icon-button class="iconbtn" (click)="deleteMessage(msg)"><mat-icon>delete</mat-icon></button></mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="block">
-                  <mat-header-cell *matHeaderCellDef> </mat-header-cell>
-                  <mat-cell *matCellDef="let msg"> <button mat-icon-button class="iconbtn" (click)="block(msg)"><mat-icon>block</mat-icon></button></mat-cell>
-                </ng-container>
-
-              <mat-header-row *matHeaderRowDef="displayedColumns1"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns1;"></mat-row>
-            </mat-table>
-          </div>
+            <div style="max-width:800px; padding-left: 6%;" *ngFor="let msg of sent">
+                <mat-card>
+                    <mat-card-header>
+                      <div mat-card-avatar><mat-icon>face</mat-icon></div>
+                      <mat-card-title class="text"> {{msg.recipient}} </mat-card-title>
+                      <div style="text-align: right; margin-left: 75%;">
+                          <mat-card-subtitle> {{msg.sentAt|date}} </mat-card-subtitle>
+                      </div>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <p>
+                          {{msg.body}}
+                      </p>
+                    </mat-card-content>
+                    <mat-card-footer style="text-align: right;">
+                        <button mat-icon-button class="replybtn" (click)="openReplyDialog(msg.recipient)"><mat-icon>reply</mat-icon></button>
+                        <button mat-icon-button class="iconbtn" (click)="deleteMessage(msg)"><mat-icon>delete</mat-icon></button>
+                        <button mat-icon-button class="iconbtn" (click)="block(msg)"><mat-icon>block</mat-icon></button>
+                    </mat-card-footer>
+                </mat-card>
+                <br/>
+            </div>
       </mat-tab>
     </mat-tab-group>
     </div>
