@@ -32,24 +32,24 @@ var rate = function (model, message, oldRating, newRating, res, next) {
 module.exports.postRating = function (req, res, next) {
     UserRating.findOneAndUpdate(
         {
-            ratedId: req.body.userRating.ratedId,
-            type: req.body.userRating.type,
+            ratedId: req.body.ratedId,
+            type: req.body.type,
             username: req.user.username
         },
-        { $set: { rating: req.body.userRating.rating } },
+        { $set: { rating: req.body.rating } },
         { upsert: true },
         function (err, oldRating) {
             if (err) {
                 return next(err);
             }
 
-            switch (req.body.userRating.type) {
+            switch (req.body.type) {
                 case 'content':
                     return rate(
                         Content,
                         'Content',
                         oldRating,
-                        req.body.userRating,
+                        req.body,
                         res,
                         next
                     );
@@ -58,7 +58,7 @@ module.exports.postRating = function (req, res, next) {
                         Product,
                         'Product',
                         oldRating,
-                        req.body.userRating,
+                        req.body,
                         res,
                         next
                     );
