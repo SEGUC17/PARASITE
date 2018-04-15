@@ -60,15 +60,25 @@ export class ProfileComponent implements OnInit {
   vId: any;
   message: string;
   // ------------------------------------
-
+  changePass: Boolean;
+  childInfo: Boolean;
+  personalInfo: Boolean;
   // ----------- Other Lists ------------
   listOfUncommonChildren: any[];
   listOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
-    'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent'];
+    'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent'];
   vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
-    'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent'];
+    'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username'];
   // ------------------------------------
-
+  // ------------ edited values ---------
+  dFirstName: string;
+  dLastName: string;
+  dUsername: string;
+  dEmail: string;
+  dAddress: string;
+  dPhone: string;
+  dBirthday: Date;
+  // ------------------------------------
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute) { }
 
@@ -92,11 +102,21 @@ export class ProfileComponent implements OnInit {
       this.id = user.data._id;
       this.currIsChild = user.data.isChild;
       this.currIsParent = user.data.isParent;
+      this.birthday = user.data.birthdate;
+      this.dFirstName = this.firstName;
+      this.dLastName = this.lastName;
+      this.dAddress = this.address;
+      this.dPhone = this.phone[0];
+      this.dEmail = this.email;
+      this.dBirthday = this.birthday;
+      this.dUsername = this.username;
+
 
       if (!this.vUsername || this.vUsername === this.username) {
         this.currIsOwner = true;
         this.vUsername = this.username;
       }
+
 
       if (!this.currIsOwner) { // Fetching other user's info, if the logged in user is not the owner of the profile
         this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
@@ -106,7 +126,7 @@ export class ProfileComponent implements OnInit {
           this.vEmail = info.data.email;
           this.vAddress = info.data.address;
           this.vPhone = info.data.phone;
-          this.vBirthday = info.data.birthday;
+          this.vBirthday = info.data.birthdate;
           this.vListOfChildren = info.data.children;
           this.vVerified = info.data.verified;
           this.vId = info.data._id;
@@ -115,16 +135,19 @@ export class ProfileComponent implements OnInit {
           if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
             this.visitedIsMyChild = true;
           }
+          
+          this.dFirstName = info.data.firstName;
+          this.dLastName = info.data.lastName;
+          this.dAddress = info.data.address;
+          this.dPhone = info.data.phone[0];
+          this.dEmail = info.data.email;
+          this.dBirthday = info.data.birthdate;
+          this.dUsername = info.data.username;
           // Getting the list of uncommon children
           this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
-          console.log(this.username);
-          console.log(this.vUsername);
-          console.log(this.listOfChildren);
-          console.log(this.visitedIsMyChild);
+          
         }));
       }
-
-
     });
 
   }
@@ -192,4 +215,27 @@ export class ProfileComponent implements OnInit {
     // getting the visited profile username and passing it to service method to add it to the patch request
 
   }
+  changeChildInfo() {
+    const info = {
+      id: this.vId,
+      username: (<HTMLInputElement>document.getElementById('dUsername')).value,
+      firstName: (<HTMLInputElement>document.getElementById('dFirstName')).value,
+      lastName: (<HTMLInputElement>document.getElementById('dLastName')).value,
+      address: (<HTMLInputElement>document.getElementById('dAddress')).value,
+      phone: (<HTMLInputElement>document.getElementById('dPhone')).value,
+      birthdate: (<HTMLInputElement>document.getElementById('dBirthday')).value,
+      email: (<HTMLInputElement>document.getElementById('dEmail')).value
+    };
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(re.test(info.email)){
+    this._ProfileService.changeChildinfo(info).subscribe(function(res){
+      alert(res.msg);
+    });
+
+    }
+    else {
+      alert('Please enter a valid email address');
+    }
+  }
+
 }

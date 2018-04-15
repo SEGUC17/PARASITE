@@ -24,6 +24,7 @@ export class ProfileService {
   private continueUrl = 'getChildren';
   private pwURL = 'http://localhost:3000/api/profile/changePassword';
   private profileUrl = 'http://localhost:3000/api/profile';
+  private changeChildInfoUrl = 'http://localhost:3000/api/profile/changeChildInfo';
 
   // Author: Yomna
   linkAnotherParent(children, vId): Observable<any> {
@@ -67,6 +68,10 @@ export class ProfileService {
   EditChildIndependence(visitedChildUsername): any {
     // adding username of the visited child to the patch request
     return this.http.patch('http://localhost:3000/api/profile/' + visitedChildUsername + '/EditChildIndependence', null);
+  }
+
+  changeChildinfo(info): any {
+    return this.http.patch('http://localhost:3000/api/profile/changeChildInfo', info );
   }
 
 }
