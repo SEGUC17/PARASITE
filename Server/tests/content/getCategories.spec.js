@@ -4,7 +4,7 @@ var server = require('../../app');
 var Category = mongoose.model('Category');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-
+var should = require('chai').should();
 chai.use(chaiHttp);
 
 var config = require('../../api/config/config');
