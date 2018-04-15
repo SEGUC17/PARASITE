@@ -6,6 +6,29 @@ var mongoose = require('mongoose');
 var Request = mongoose.model('PsychologistRequest');
 var Psychologists = mongoose.model('Psychologist');
 
+
+module.exports.editPsychologists = function (req, res, next) {
+    if (req.user.username === req.params.username) {
+      Psychologists.findOne({ _id: req.body.idd }).exec(function (err, prodRequests) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: prodRequests,
+                err: null,
+                msg: 'Edited successfully.'
+            });
+        });
+    } else {
+        return res.status(403).json({
+            data: null,
+            err: 'not such Id Exists',
+            msg: null
+        });
+    }
+};
+
 module.exports.addRequest = function (req, res, next) {
   var valid =
     req.body.firstName &&
@@ -53,19 +76,78 @@ module.exports.addRequest = function (req, res, next) {
   }
 };
 
+module.exports.editRequest = function (req, res, next) {
+  var valid =
+    req.body.firstName &&
+    req.body.lastName &&
+    req.body.email;
+  if (!valid) {
+    return res.status(422).json({
+      data: null,
+      err: null,
+      msg: 'firstName(String) lastName(String) and email(String)' +
+        ' are required fields.'
+    });
+  }
+
+  var user = req.user;
+
+  var isAdmin = false;
+
+  if (typeof user !== 'undefined') {
+    isAdmin = user.isAdmin;
+  }
+
+  if (isAdmin) {
+    Psychologists.updateOne({ '_id': req.body.editID }, { $set: req.body }, function (err, request) {
+      if (err) {
+        return next(err);
+      }
+      res.status(201).json({
+        data: request,
+        err: null,
+        msg: 'Psychologist updated successfully.'
+      });
+    });
+  } else {
+    Request.create(req.body, function (err, request) {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({
+        data: request,
+        err: null,
+        msg: 'Request was created successfully.'
+      });
+    });
+  }
+};
+
 module.exports.getPsychologists = function (req, res, next) {
-  console.log('got psychs');
   Psychologists.find({}).exec(function (err, psychs) {
     if (err) {
       return next(err);
     }
-    console.log(psychs);
     res.status(200).json({
       data: psychs,
       err: null,
       msg: 'Psychologists retrieved successfully.'
     });
   });
+};
+
+module.exports.getPsychologistData = function (req, res, next) {
+    Psychologists.findOne({ _id: req.params.id }).exec(function (err, psych) {
+          if (err) {
+              return next(err);
+          }
+
+          return res.status(200).json({
+              data: psych,
+              err: null,
+              msg: 'psych retrieved successfully.'
+          });
+      });
 };
 
 module.exports.getRequests = function (req, res, next) {
@@ -168,24 +250,31 @@ module.exports.deletePsych = function (req, res, next) {
       if (err) {
         return next(err);
       }
-      if (!psych) {
-        return res.status(404).json({
-          data: null,
-          err: null,
-          msg: 'Psychologist not found.'
-        });
-      }
-    });
-    Psychologists.remove({ _id: req.params.id }, function (err, msg) {
-      if (err) {
-        return next(err);
-      }
+      if (psych) {
+        Psychologists.remove({ _id: req.params.id }, function (err1, msg) {
+          if (err1) {
+            return next(err1);
+          }
 
-      return res.status(200).json({
-        data: msg,
-        err: null,
-        msg: 'Psychologist deleted successfully.'
+          return res.status(200).json({
+            data: msg,
+            err: null,
+            msg: 'Psychologist deleted successfully.'
+          });
         });
+      } else {
+        return res.status(404).json({
+        data: null,
+        err: null,
+        msg: 'Psychologist not found.'
+        });
+    }
+  });
+  } else {
+    res.status(403).json({
+      data: null,
+      err: 'You are not an admin to do that OR You are not signed in',
+      msg: null
     });
   }
 };

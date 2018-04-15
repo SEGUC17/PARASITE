@@ -65,7 +65,7 @@ export class MarketComponent implements OnInit {
         let dialogRef = this.dialog.open(ProductDetailComponent, {
           width: '1000px',
           height: '400px',
-          data: { product: prod, curUser: this.user.username }
+          data: { product: prod, curUser: this.user.username, isAdmin: this.user.isAdmin }
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -75,7 +75,7 @@ export class MarketComponent implements OnInit {
         let dialogRef = this.dialog.open(RequestDetailComponent, {
           width: '1000px',
           height: '400px',
-          data: { product: prod, curUser: this.user.username }
+          data: { product: prod, curUser: this.user.username}
         });
 
         dialogRef.afterClosed().subscribe(result => {

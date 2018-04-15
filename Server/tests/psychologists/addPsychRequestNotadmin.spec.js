@@ -61,13 +61,14 @@ describe('send a request to add psychologist by a reular rgistered/unregistered 
                 res.body.msg.should.be.equal('Request was created successfully.');
             });
     });
-});
 
-/* Mockgoose Termination */
-after(function (done) {
-    mongoose.connection.close(function () {
-        done();
+    /* Mockgoose Termination */
+    after(function (done) {
+        mongoose.connection.close(function () {
+            done();
+        });
     });
-});
 
-/* End of "Mockgoose Termination" */
+    /* End of "Mockgoose Termination" */
+
+});
