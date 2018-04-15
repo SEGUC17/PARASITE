@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
-
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -15,7 +15,7 @@ const httpOptions = {
 @Injectable()
 export class MessageService {
 
-  url: String = 'http://localhost:3000/api/';
+  url: String = environment.apiUrl ;
 
   constructor(private http: HttpClient) { }
 
