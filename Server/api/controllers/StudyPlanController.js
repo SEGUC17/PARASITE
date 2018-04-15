@@ -30,7 +30,7 @@ module.exports.getPublishedStudyPlans = function (req, res, next) {
     );
 };
 
-module.exports.PublishStudyPlan = function (req, res, next) {
+module.exports.publishStudyPlan = function (req, res, next) {
 
     // @author: Ola
     //publishing a study plan is creating a new studyPlan in
@@ -39,15 +39,34 @@ module.exports.PublishStudyPlan = function (req, res, next) {
     //which is the studyPlan I want to publish and it returns an
     //error if there is an error else that studyPlan published successfully
 
-
-    StudyPlan.create(req.body, function (err) {
+    if (req.user.username !== req.params.username) {
+        return res.status(401).json({
+            data: null,
+            err: null,
+            msg: 'Unauthorized.'
+        });
+    }
+    User.findOne({ username: req.params.username }, function (err, user) {
         if (err) {
             return next(err);
         }
-        res.status(201).json({
-            data: null,
-            err: null,
-            msg: 'StudyPlan published successfully.'
+
+        if (!user) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'User not found.'
+            });
+        }
+        StudyPlan.create(req.body, function () {
+            if (err) {
+                return next(err);
+            }
+            res.status(201).json({
+                data: null,
+                err: null,
+                msg: 'StudyPlan published successfully.'
+            });
         });
     });
 };
@@ -145,17 +164,13 @@ module.exports.createStudyPlan = function (req, res, next) {
 
 
 module.exports.assignStudyPlan = function (req, res, next) {
-            
+
     User.findOneAndUpdate(
         {
             'studyPlans._id': req.params.studyPlanID,
             username: req.params.username
         },
-        {
-            $set: {
-                'studyPlans.$.assigned': true
-            }
-        },
+        { $set: { 'studyPlans.$.assigned': true } },
         function (err, user) {
             if (err) {
                 return next(err);
@@ -177,43 +192,39 @@ module.exports.assignStudyPlan = function (req, res, next) {
         }
     );
 
-        };
+};
 
-        module.exports.unAssignStudyPlan = function (req, res, next) {
-            
-            User.findOneAndUpdate(
-                {
-                    'studyPlans._id': req.params.studyPlanID,
-                    username: req.params.username
-                },
-                {
-                    $set: {
-                        'studyPlans.$.assigned': false
-                    }
-                },
-                function (err, user) {
-                    if (err) {
-                        return next(err);
-                    }
-        
-                    if (!user) {
-                        return res.status(404).json({
-                            data: null,
-                            err: 'User not found.',
-                            msg: null
-                        });
-                    }
-        
-                    return res.status(200).json({
-                        data: null,
-                        err: null,
-                        msg: 'StudyPlan Unassigned from me.'
-                    });
-                }
-            );
-        
-                };
-    
+module.exports.unAssignStudyPlan = function (req, res, next) {
+
+    User.findOneAndUpdate(
+        {
+            'studyPlans._id': req.params.studyPlanID,
+            username: req.params.username
+        },
+        { $set: { 'studyPlans.$.assigned': false } },
+        function (err, user) {
+            if (err) {
+                return next(err);
+            }
+
+            if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'User not found.',
+                    msg: null
+                });
+            }
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'StudyPlan Unassigned from me.'
+            });
+        }
+    );
+
+};
+
 
 module.exports.rateStudyPlan = function (req, res, next) {
     StudyPlan.findById(
@@ -256,6 +267,97 @@ module.exports.rateStudyPlan = function (req, res, next) {
     );
 };
 
+var findStudyPlan = function (studyPlans, studyPlanID) {
+    for (var index = 0; index < studyPlans.length; index += 1) {
+        if (studyPlans[index]._id &&
+            studyPlans[index]._id.equals(studyPlanID)) {
+            return studyPlans[index];
+        }
+    }
+
+    return null;
+};
+
+module.exports.deleteStudyPlan = function (req, res, next) {
+    if (req.user.username !== req.params.username) {
+        return res.status(401).json({
+            data: null,
+            err: null,
+            msg: 'Unauthorized.'
+        });
+    }
+    User.findOne({ username: req.params.username }, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!user) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'User not found.'
+            });
+        }
+
+        var target = findStudyPlan(user.studyPlans, req.params.studyPlanID);
+
+        if (!target) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'Study plan not found.'
+            });
+        }
+        user.studyPlans.remove({ studyPlan: target }, function (msg) {
+            if (err) {
+                console.log(err);
+            }
+
+            return res.status(202).json({
+                data: msg,
+                err: null,
+                msg: 'Study Plan deleted successfully.'
+            });
+        });
+
+    });
+
+};
+
+module.exports.deletePublishedStudyPlan = function (req, res, next) {
+    if (req.user.username !== req.params.username) {
+        return res.status(401).json({
+            data: null,
+            err: null,
+            msg: 'Unauthorized.'
+        });
+    }
+    User.findOne({ username: req.params.username }, function (err, user) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!user) {
+            return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'User not found.'
+            });
+        }
+
+        StudyPlan.remove({ _id: req.params.studyPlanID }, function (msg) {
+            if (err) {
+                console.log(err);
+            }
+
+            return res.status(202).json({
+                data: msg,
+                err: null,
+                msg: 'Study Plan deleted successfully.'
+            });
+        });
+    });
+};
 module.exports.editPersonalStudyPlan = function (req, res, next) {
     if (req.user.username !== req.params.username &&
         req.user.children.indexOf(req.params.username) < 0) {
@@ -292,7 +394,7 @@ module.exports.editPersonalStudyPlan = function (req, res, next) {
             }
 
             return res.status(200).json({
-                data: user,
+                data: null,
                 err: null,
                 msg: 'Study plan updated successfully.'
             });
