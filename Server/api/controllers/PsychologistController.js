@@ -148,7 +148,7 @@ var options = function (toFind) {
     }
     if (toFind.sort === 'a-z') {
       ret.sort.firstName = 1;
-      ret.sort.lastName = -1;
+      ret.sort.lastName = 1;
     }
   }
 

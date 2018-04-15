@@ -6,13 +6,14 @@
         <span id="header">
           <mat-icon id="header_icon">face</mat-icon>Verified Psychologists</span>
       </div>
-      <div align="right">
-        <button mat-fab color="primary" style="color:white" align="right" (click)="addRequest()">
-          <mat-icon>add</mat-icon>
-        </button>
-      </div>
-      <mat-card align="left" style="padding: 0px; width: 75%; float:left" class="mat-elevation-z0">
-        <div class="row" style="min-height:250px">
+    </div>
+    <div align="right">
+      <button mat-fab color="primary" style="color:white" align="right" (click)="addRequest()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+    <div class="row">
+        <div class="col row" style="min-height:250px">
           <mat-card class="psych" *ngFor="let psych of psychologists; let i = index;" style="top:20px">
             <mat-card-title class="info">{{psych.firstName}} {{psych.lastName}}</mat-card-title>
             <mat-card-content class="info">
@@ -47,7 +48,7 @@
                 <span id="contnt">{{psych.priceRange}}</span>
               </div>
             </mat-card-content>
-            <mat-card-footer id="footer" style="padding-bottom:5px">
+            <mat-card-footer id="footer">
               <button *ngIf="this.user.isAdmin" mat-icon-button id="delete" align="right" (click)="deletePsychologist(i)">
                 <mat-icon>delete</mat-icon>
               </button>
@@ -59,28 +60,27 @@
                 <mat-icon>edit</mat-icon>
               </button>
             </mat-card-footer>
-
-
-
-
-
-
           </mat-card>
         </div>
-      </mat-card>
-      <mat-card style="height:100%; float: right;width:24%; position: fixed; left:75%;">
+      <div class="col-3 search">
         <mat-card-content>
-          <button mat-button class="md-raised md-primary" style="position:relative; float:right; background:#3f51b5; color:white">Add a new item</button>
-          <h3>Search</h3>
-          <mat-form-field>
-            <input matInput placeholder="Value">
-          </mat-form-field>
-          <button mat-icon-button>
-            <mat-icon>search</mat-icon>
-          </button>
+            <h3>Search</h3>
+            <mat-form-field>
+              <input matInput placeholder="Value" [(ngModel)]="writtenSearch">
+            </mat-form-field>
+            <button mat-icon-button (click)="this.applySearch()">
+              <mat-icon>search</mat-icon>
+            </button>
+            <h3>Address</h3>
+            <mat-form-field>
+              <input matInput placeholder="Value" [(ngModel)]="writtenAddress">
+            </mat-form-field>
+            <button mat-icon-button (click)="this.applyAddress()">
+              <mat-icon>search</mat-icon>
+            </button>
           <h3>Sort By</h3>
-          <mat-radio-group>
-            <mat-radio-button  style="margin-right: 3px">s</mat-radio-button>
+          <mat-radio-group [(ngModel)]="sort">
+            <mat-radio-button *ngFor="let s of sorts" [value]="s" style="margin-right: 3px" (click)="applySort(s)">{{s}}</mat-radio-button>
           </mat-radio-group>
           <!--
           <mat-chip-list>
@@ -101,7 +101,7 @@
           </mat-chip-list>
         -->
         </mat-card-content>
-      </mat-card>
+      </div>
     </div>
   </mat-card>
 </div>

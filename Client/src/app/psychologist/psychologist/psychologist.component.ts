@@ -28,12 +28,20 @@ export class PsychologistComponent implements OnInit {
   psychologist: Psychologist;
   entriesPerPage = 25;
   pageNumber: number;
-
+  sorts = [
+    'cheapest',
+    'a-z'
+  ];
+  sort: string;
+  writtenSearch: string;
+  selectedSearch: string;
+  writtenAddress: string;
+  selectedAddress: string;
   constructor(private psychologistService: PsychologistService,
-              public snackBar: MatSnackBar,
-              private authService: AuthService,
-              private router: Router,
-              private dialog: MatDialog) { }
+    public snackBar: MatSnackBar,
+    private authService: AuthService,
+    private router: Router,
+    private dialog: MatDialog) { }
   formInput = <any>{};
 
 
@@ -47,7 +55,10 @@ export class PsychologistComponent implements OnInit {
     let self = this;
     let limiters = {
       entriesPerPage: self.entriesPerPage,
-      pageNumber: self.pageNumber
+      pageNumber: self.pageNumber,
+      sort: self.sort,
+      search: self.selectedSearch,
+      addres: self.selectedAddress
     };
     self.psychologistService.getPsychologists(JSON.stringify(limiters)).subscribe(function (psychs) {
       self.psychologists = self.psychologists.concat(psychs.data.docs);
@@ -124,18 +135,33 @@ export class PsychologistComponent implements OnInit {
       }
     });
   }
+  applySort(x: string): void {
+    let self = this;
+    self.sort = x;
+    self.getPsychologists();
+  }
+  applyAddress(): void {
+    let self = this;
+    self.selectedAddress = self.writtenAddress;
+    self.getPsychologists();
+  }
+  applySearch(): void {
+    let self = this;
+    self.selectedSearch = self.writtenSearch;
+    self.getPsychologists();
+  }
 
   goToEdit(i): void {
     const self = this;
-    if (! ( this.idInput.value === this.psychologists[i]._id)) {
+    if (!(this.idInput.value === this.psychologists[i]._id)) {
       let msg1 = 'The ID you Entered doesn\'t match the Information you selected,';
-        let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
-        self.snackBar.open(msg1 + msg2, '', {
-          duration: 3500
-        });
+      let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
+      self.snackBar.open(msg1 + msg2, '', {
+        duration: 3500
+      });
     } else {
       this.getPsychologistData(this.idInput.value);
-  }
+    }
 
   }
 }
