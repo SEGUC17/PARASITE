@@ -37,7 +37,8 @@ export class PsychologistComponent implements OnInit {
 
   getPsychologists(): void {
     let self = this;
-    self.psychologistService.getPsychologists().subscribe(function (psychs) {
+    let limiters = {};
+    self.psychologistService.getPsychologists(JSON.stringify(limiters)).subscribe(function (psychs) {
       self.psychologists = psychs.data;
     });
   }

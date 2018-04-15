@@ -11,8 +11,6 @@ const httpOptions = {
 @Injectable()
 export class MarketService {
 
-  host: String = apiUrl;
-
   constructor(private http: HttpClient) { }
 
   // gets the products in a page (pageNumber)
@@ -51,6 +49,6 @@ export class MarketService {
   }
 
   getUserRequests(username: String): Observable<any> {
-    return this.http.get<any>(this.host + 'productrequest/getUserRequests/' + username, httpOptions);
+    return this.http.get<any>(apiUrl + 'productrequest/getUserRequests/' + username, httpOptions);
   }
 }
