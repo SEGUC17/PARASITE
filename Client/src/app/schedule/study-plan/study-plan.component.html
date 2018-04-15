@@ -45,7 +45,7 @@
     </div>
   </mat-card>
   <mat-card label="Content Preview">
-    <div class="ql-editor preview" [innerHTML]="this.sanitizer.bypassSecurityTrustHtml(description)"></div>
+    <div class="ql-editor preview" [innerHTML]="editorContent"></div>
   </mat-card>
   <mat-card>
       <div class="button-row">
