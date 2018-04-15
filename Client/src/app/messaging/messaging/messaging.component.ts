@@ -26,8 +26,8 @@ export class MessagingComponent implements OnInit {
   blockedUser: any;
   sender: any;
   receipient: any;
-  displayedColumns = ['sender', 'body', 'sentAt', 'reply', 'delete', 'block'];
-  displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'delete', 'block'];
+  displayedColumns = ['sender', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
+  displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
   contacts: any[];
 
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
