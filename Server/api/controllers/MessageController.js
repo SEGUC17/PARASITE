@@ -48,26 +48,7 @@ module.exports.sendMessage = function(req, res, next) {
         msg: 'User exists.'
     });
 });*/
-// checking that the sender is not on the recipient's blocklist
-/*console.log('sender is: ', req.body.msg.sender);
-console.log('array is: ', req.body.list);
-console.log('object is: ', req.body);
-console.log('array length is: ', req.body.list.length);
 
-
-var list=req.body.list;
-  
-  for(let i = 0 ; i< list.length ; i++) {
-   if(req.body.msg.sender === list[i] ) {
-        console.log(list[i]);
-    return res.status(422).json({
-      data: null,
-      err: null,
-      msg: 'Sorry, you are can not message this user'
-    });
-   };
-  };
-*/
 
   // Security Check
   delete req.body.sentAt;
@@ -143,7 +124,7 @@ module.exports.deleteMessage = function(req, res, next) {
  module.exports.block = function(req, res, next) {
    var blocked = req.params.blocked;
    //  console.log('username of blocked: ', blocked);
-   // console.log('ID of user is: ', req.body._id);
+    console.log('CONT. ID of user is: ', req.body._id);
      User.findByIdAndUpdate(
        req.body._id, { $push: { 'blocked': blocked } },
       { new: true }, function (err, updatedob) {
@@ -157,9 +138,9 @@ module.exports.deleteMessage = function(req, res, next) {
           });
       }
       console.log('status is 200');
-    
+
       return res.status(200).json({
-       data: null,
+       data: updatedob,
        err: null,
        msg: 'Blocked user'
       });
