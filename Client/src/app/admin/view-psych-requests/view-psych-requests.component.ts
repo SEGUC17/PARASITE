@@ -3,6 +3,7 @@ import { PsychRequestsService } from './psych-requests.service';
 import { CurrencyPipe } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { PsychologistRequest } from '../../psychologist/PsychologistRequest';
 
 @Component({
   selector: 'app-view-psych-requests',
@@ -12,7 +13,9 @@ import { Router } from '@angular/router';
 export class ViewPsychRequestsComponent implements OnInit {
 
   // Variables for the component
-  requests: any[];
+  requests: PsychologistRequest[];
+  editRequests: PsychologistRequest[];
+  addRequests: PsychologistRequest[];
   currentUser: any;
 
   constructor(private service: PsychRequestsService,
@@ -34,7 +37,8 @@ export class ViewPsychRequestsComponent implements OnInit {
           // If yes, get the requests from the DB
           self.service.getPsychRequests().subscribe(function (psychReq) {
             if (psychReq.msg === 'Requests retrieved successfully.') {
-              self.requests = psychReq.data;
+              self.filter(psychReq.data);
+              self.requests = self.addRequests;
             }
           });
         } else {
@@ -43,6 +47,31 @@ export class ViewPsychRequestsComponent implements OnInit {
         }
       }
     });
+  }
+
+  filter(reqs: any[]): void {
+    this.addRequests = [];
+    this.editRequests = [];
+    for (let i = 0, j = 0, h = 0 ; i < reqs.length ; i++ ) {
+      if (reqs[i].type === 'add') {
+        this.addRequests[j++] = reqs[i];
+      } else if (reqs[i].type === 'edit') {
+        this.editRequests[h++] = reqs[i];
+      }
+    }
+    console.log(this.editRequests);
+    console.log(this.addRequests);
+  }
+
+  loadRequests(status: String): void {
+    let self = this;
+    if (status === 'add') {
+      let temp = self.addRequests;
+      self.requests = temp;
+    } else {
+      let temp = self.editRequests;
+      self.requests = temp;
+    }
   }
 
   ngOnInit() {
