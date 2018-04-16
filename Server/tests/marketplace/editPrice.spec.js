@@ -65,7 +65,7 @@ describe('EditPrice', function () {
           //  name: 'testcat1',
             //sections: [{ name: 'sec1.1' }]
         //});
-        var updatedProd2 = new Product {
+        var updatedProd2 = new Product ({
             acquiringType: 'rent',
             birthdate: '1/1/1980',
         //  createdAt: this.product.createdAt,
@@ -75,7 +75,7 @@ describe('EditPrice', function () {
             price: '20',
             rentPeriod: '2',
             seller: 'omar'
-        };
+        });
 //sign up
 chai.request(server).
                 post('/api/signUp').
@@ -118,7 +118,7 @@ chai.request(server).
           //  name: 'testcat1',
             //sections: [{ name: 'sec1.1' }]
 //});  
-         var updatedProd2 = new Product{
+         var updatedProd2 = new Product ({
             acquiringType: 'rent',
             birthdate: '1/1/1980',
         //  createdAt: this.product.createdAt,
@@ -128,7 +128,7 @@ chai.request(server).
             price: '20',
             rentPeriod: '2',
             seller: 'omar'
-        };
+        });
 //sign up
 chai.request(server).
                 post('/api/signUp').
