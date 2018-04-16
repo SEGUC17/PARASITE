@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
-import { apiUrl } from '../variables';
+import { environment } from '../../environments/environment';
 import { ActivityCreate } from './activity';
 import { Router } from '@angular/router';
 
@@ -18,8 +18,8 @@ export class ActivityService {
     @author: Wessam
   */
 
-  private activitiesUrl = apiUrl + 'activities';
-  private unverifiedActivitiesUrl = apiUrl + 'unverifiedActivities';
+  private activitiesUrl = environment.apiUrl + 'activities';
+  private unverifiedActivitiesUrl = environment.apiUrl + 'unverifiedActivities';
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -49,13 +49,14 @@ export class ActivityService {
       catchError(this.handleError('creatingActivity', []))
     );
   }
-  
+
   reviewActivity(activity: any): Observable<any> {
     /*
       Put request to update activity's status
     */
-    return this.http.put<any>(this.unverifiedActivitiesUrl,activity);
+    return this.http.put<any>( this.unverifiedActivitiesUrl, activity );
   }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {

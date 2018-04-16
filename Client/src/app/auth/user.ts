@@ -17,4 +17,5 @@ export interface User {
     studyPlans?: any;
     verified?: boolean;
     rememberMe?: boolean;
+    avatar?: String;
 }

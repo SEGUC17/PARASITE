@@ -1,3 +1,8 @@
+/* eslint-disable max-len */
+/* eslint-disable max-statements */
+/* eslint-disable object-shorthand */
+/* eslint-disable complexity */
+
 //TODO production URL to be added in deployment
 module.exports = {
     EMAIL_REGEX: /\S+@\S+\.\S+/,

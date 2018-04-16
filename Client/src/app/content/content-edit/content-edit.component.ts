@@ -28,6 +28,7 @@ export class ContentEditComponent implements OnInit {
   public content: Content = {
     body: `<h1>Nawwar :D<h1>`,
     category: '',
+    discussion: [],
     section: '',
     creator: '',
     creatorAvatarLink: 'https://i.pinimg.com/originals/81/8a/74/818a7421837fabbce3cac4726b217df6.jpg',
