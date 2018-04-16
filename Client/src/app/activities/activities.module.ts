@@ -7,7 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material';
 import { MatInputModule } from '@angular/material';
 import { MatButtonModule } from '@angular/material/button';
-import {MatListModule} from '@angular/material/list';
+import { MatListModule } from '@angular/material/list';
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { ActivityComponent } from './activity/activity.component';
 import { ActivitiesRoutingModule } from './activities-routing.module';

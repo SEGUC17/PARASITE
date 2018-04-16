@@ -33,5 +33,4 @@ export class ActivityCreate {
     toDateTime: Number;
     image: String;
     discussion: any[];
-
 }

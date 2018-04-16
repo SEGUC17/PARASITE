@@ -6,6 +6,7 @@ import { DiscussionService } from '../../discussion.service';
 import { Router } from '@angular/router';
 import {AuthService} from "../../auth/auth.service";
 
+
 @Component({
   selector: 'app-activity-detail',
   templateUrl: './activity-detail.component.html',
@@ -22,6 +23,7 @@ export class ActivityDetailComponent implements OnInit {
   isReplying: boolean = false;
   commentReplyingOn: any;
   signedIn: boolean = false;
+
 
 
   currentUser = {
@@ -59,6 +61,7 @@ export class ActivityDetailComponent implements OnInit {
     this.getCurrentUser();
     this.getActivity();
     this.refreshComments(true);
+
 
 
   }

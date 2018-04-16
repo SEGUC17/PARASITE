@@ -22,6 +22,7 @@ var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
 var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
+var DiscussionController = require('../controllers/DiscussionController');
 
 module.exports = function (passport) {
 
@@ -284,6 +285,20 @@ module.exports = function (passport) {
     contentController.validateSelectedCategory,
     contentController.updateContent
   );
+
+  // delete a category
+  router.delete(
+    '/category/:id',
+    isAuthenticated,
+    contentController.deleteCategory
+  );
+
+  // delete a section
+  router.delete(
+    '/category/:categoryId/section/:sectionId',
+    isAuthenticated,
+    contentController.deleteSection
+  );
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
@@ -297,6 +312,12 @@ module.exports = function (passport) {
 
   //Delete message
   router.delete('/message/:id', messageController.deleteMessage);
+
+  //Blocking users from messaging
+  router.patch('/message/block/:blocked', messageController.block);
+
+  //Get recently contacted users
+  router.get('/message/contacts/:user', messageController.getRecentlyContacted);
 
   //------------------- End of Messaging Module Endpoints-----------//
 
