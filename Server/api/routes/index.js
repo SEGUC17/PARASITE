@@ -161,13 +161,26 @@ module.exports = function (passport) {
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
   router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
-  router.post('/study-plan/PublishStudyPlan', studyPlanController.PublishStudyPlan);
+  router.post('/study-plan/PublishStudyPlan', isAuthenticated, studyPlanController.publishStudyPlan);
+  router.delete('/study-plan/deleteStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
+  router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deletePublishedStudyPlan);
+  router.patch('/study-plan/assignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.assignStudyPlan);
+  router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', studyPlanController.unAssignStudyPlan);
+  router.patch('/study-plan/editPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.editPersonalStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
-
   router.get('/admin/VerifiedContributerRequests/:FilterBy', isAuthenticated, adminController.getVCRs);
   router.patch('/admin/VerifiedContributerRequestRespond/:targetId', isAuthenticated, adminController.VCRResponde);
+  router.get('/admin/removePublishedStudyPlan/:studyPlanID', isAuthenticated, adminController.removePublishedStudyPlans);
+  router.get(
+    '/admin/PendingStudyPlanPublishRequests', isAuthenticated,
+    adminController.viewStudyPlanPublishReqs
+  );
+  router.patch(
+    '/admin/RespondStudyPlanPublishRequest/:studyPlanPublishRequestId/:studyPlanId', isAuthenticated,
+    adminController.respondStudyPlanPublishRequest
+  );
   router.get(
     '/admin/PendingContentRequests/:type', isAuthenticated,
     adminController.viewPendingContReqs
@@ -194,6 +207,7 @@ module.exports = function (passport) {
 
   // ---------------Schedule Controller Endpoints ---------------//
   router.patch('/schedule/SaveScheduleChanges/:username', isAuthenticated, scheduleController.updateSchedule);
+  router.put('/schedule/addEvent/:username', isAuthenticated, scheduleController.addEvent);
   router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
   // ------------End of Schedule Controller Endpoints -----------//
 
@@ -342,4 +356,3 @@ module.exports = function (passport) {
 
   return router;
 };
-
