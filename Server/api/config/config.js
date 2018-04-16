@@ -1,18 +1,17 @@
 /* eslint-disable max-len */
-/* eslint-disable max-statements */
-/* eslint-disable object-shorthand */
-/* eslint-disable complexity */
 
 //TODO production URL to be added in deployment
 module.exports = {
-    EMAIL_REGEX: /\S+@\S+\.\S+/,
-    //either dev or prod
     ENV: 'dev',
+    //either dev or prod
+    FACEBOOK_APP_ID: '258184358056648',
+    FACEBOOK_APP_SECRET: 'fd8073c4d68acb0cd4cd58f540dfa5fd',
     FRONTEND_URI: process.env.FRONTEND_URI || 'http://localhost:4200/',
+    //either dev or prod
     MAIL_ID: 'parasite.nawwar@gmail.com',
     MAIL_PW: 'ParaSiteNawwar',
     MONGO_URI: process.env.DATABASE_URL || 'mongodb://localhost:27017/nawwar',
-    PHONE_REGEX: /^\d+$/,
+//    MONGO_URI: this.env === 'prod' ? '' : 'mongodb://localhost:27017/nawwar',
     SECRET: process.env.API_KEY || ';iN.yVt,Tmu44cZkX#.|tS>s`4xb;-oRe66iMz0[L^e9;ltF_5"DUvPphj:f:&'
 };
 var mongoosePaginate = require('mongoose-paginate');

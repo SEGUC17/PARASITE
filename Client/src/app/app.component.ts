@@ -32,6 +32,11 @@ export class AppComponent implements OnDestroy {
       name: 'Signup'
     },
     {
+      url: '/auth/resetpassword',
+      name: 'Reset Password'
+
+    },
+    {
       url: '/profile',
       name: 'Profile'
     },
