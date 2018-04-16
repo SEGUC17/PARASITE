@@ -83,7 +83,7 @@ describe('user changes password', function () {
 
                         chai.request(server).
                             patch('/api/profile/changePassword/' +
-                             userData.body.data._id).
+                                userData.body.data._id).
                             set('Authorization', token).
                             send(info).
                             end(function (err2, resp) {
@@ -94,20 +94,22 @@ describe('user changes password', function () {
 
                                 console.log(resp.body.data.password);
 
-                              resp.body.data.password.should.be.a('string').not.
-                              equal(oldPassword);
+                                resp.body.data.password.should.be.a('string').not.
+                                    equal(oldPassword);
 
                                 done();
 
-                             });
+                            });
                     });
             });
     });
-});
 
 
-after(function (done) {
-    mongoose.connection.close(function (err) {
-        done(err);
+
+    after(function (done) {
+        mongoose.connection.close(function (err) {
+            done(err);
+        });
     });
+
 });
