@@ -5,6 +5,7 @@ var server = require('../../app');
 var Product = mongoose.model('Product');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
+var should = chai.should();
 
 chai.use(chaiHttp);
 
@@ -80,6 +81,7 @@ describe('EditPrice', function () {
 chai.request(server).
                 post('/api/signUp').
                 send(user).
+                set('Authorization', token).
                 end(function (err, response) {
                     if (err) {
                         return console.log(err);
@@ -94,6 +96,7 @@ chai.request(server).
 // write your actual test here, like this:
   chai.request(server).patch('/api/productrequest/editPrice/'+ savedReq._id + '/' + user.username).
             send(prod1).
+            set('Authorization', token).
             end(function (error, res) {
                 if (error) {
                     return console.log(error);
@@ -107,7 +110,7 @@ chai.request(server).
 
                     done();
                 });
-            	});
+            });
         });
     });
 
@@ -152,7 +155,7 @@ chai.request(server).
                     return console.log(error);
                 }
                 //200 = ProductRequest was created successfully.
-                expect(res).to.have.status(201);
+                expect(res).to.have.status(403);
                 res.body.should.be.a('object');
                 res.body.should.have.property('err').
                     eql('You can only edit your requests');
@@ -172,9 +175,3 @@ chai.request(server).
 
     // --- Mockgoose Termination --- //
    // --- End of "Mockgoose Termination" --- //
-
-// return res.status(403).json({
-//     data: null,
-//     err: 'You can only edit your product',
-//     msg: null
-// });
