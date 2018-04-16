@@ -11,7 +11,9 @@ const httpOptions = {
 
 @Injectable()
 export class MarketService {
+  
   host: String = environment.apiUrl;
+
   constructor(private http: HttpClient) { }
 
   // gets the products in a page (pageNumber)
