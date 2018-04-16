@@ -22,10 +22,10 @@ var user = {
     phone: '0112345677',
     username: 'omar'
 };
-var prod1 = new Product ({
+var prod1 = new Product({
     // _id: this.Product._id,
-    birthdate: '1/1/1980',
     acquiringType: 'rent',
+    birthdate: '1/1/1980',
 //  createdAt: this.product.createdAt,
     description: 'description',
     image: 'https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
@@ -33,13 +33,12 @@ var prod1 = new Product ({
     price: '500',
     rentPeriod: '2',
     seller: 'omar'
-  
 });
 // authenticated token
 var token = null;
 
 //write your test's name below in <write here>
-describe('<write here>', function () {
+describe('EditPrice', function () {
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -61,15 +60,14 @@ describe('<write here>', function () {
 
     it('it should PATCH Product from the server', function (done) {
         //here you need to call your schema to construct a document
-		//like this:
-		//var cat1 = new Category({
+//like this:
+//var cat1 = new Category({
           //  name: 'testcat1',
             //sections: [{ name: 'sec1.1' }]
         //});
-    
-        var updatedProd2 = {
-            birthdate: '1/1/1980',
+        var updatedProd2 = new Product {
             acquiringType: 'rent',
+            birthdate: '1/1/1980',
         //  createdAt: this.product.createdAt,
             description: 'description',
             image: 'https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
@@ -78,8 +76,8 @@ describe('<write here>', function () {
             rentPeriod: '2',
             seller: 'omar'
         };
-		//sign up
-		chai.request(server).
+//sign up
+chai.request(server).
                 post('/api/signUp').
                 send(user).
                 end(function (err, response) {
@@ -88,13 +86,13 @@ describe('<write here>', function () {
                     }
                     response.should.have.status(201);
                     token = response.body.token;
-		// save your document with a call to save, cat1 is just the variable name here
+// save your document with a call to save, cat1 is just the variable name here
         updatedProd2.save(function (err, savedReq) {
             if (err) {
                 return console.log(err);
             }
-			// write your actual test here, like this:
-            chai.request(server).patch('/api/productrequest/editPrice/'+ savedReq._id + '/' + user.username).
+// write your actual test here, like this:
+  chai.request(server).patch('/api/productrequest/editPrice/'+ savedReq._id + '/' + user.username).
             send(prod1).
             end(function (error, res) {
                 if (error) {
@@ -115,15 +113,14 @@ describe('<write here>', function () {
 
     it('it should give error ', function (done) {
         //here you need to call your schema to construct a document
-		//like this:
-		//var cat1 = new Category({
+//like this:
+//var cat1 = new Category({
           //  name: 'testcat1',
             //sections: [{ name: 'sec1.1' }]
-        //});
-    
-        var updatedProd2 = {
-            birthdate: '1/1/1980',
+//});  
+         var updatedProd2 = new Product{
             acquiringType: 'rent',
+            birthdate: '1/1/1980',
         //  createdAt: this.product.createdAt,
             description: 'description',
             image: 'https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
@@ -132,8 +129,8 @@ describe('<write here>', function () {
             rentPeriod: '2',
             seller: 'omar'
         };
-		//sign up
-		chai.request(server).
+//sign up
+chai.request(server).
                 post('/api/signUp').
                 send(user).
                 end(function (err, response) {
@@ -163,7 +160,7 @@ describe('<write here>', function () {
 
                     done();
                 });
-            	});
+            });
         });
     });
     after(function (done) {
@@ -174,8 +171,7 @@ describe('<write here>', function () {
  });
 
     // --- Mockgoose Termination --- //
-    
-    // --- End of "Mockgoose Termination" --- //
+   // --- End of "Mockgoose Termination" --- //
 
 // return res.status(403).json({
 //     data: null,
