@@ -61,11 +61,7 @@ describe('EditPrice', function () {
 
     it('it should PATCH Product from the server', function (done) {
         //here you need to call your schema to construct a document
-//like this:
-//var cat1 = new Category({
-          //  name: 'testcat1',
-            //sections: [{ name: 'sec1.1' }]
-        //});
+
         var updatedProd2 = new Product ({
             acquiringType: 'rent',
             birthdate: '1/1/1980',
