@@ -4,7 +4,7 @@ import { Product } from '../Product';
 import { MarketService } from '../market.service';
 
 @Component({
-  selector: 'app-product-detail',
+  selector: 'app-product-detail', 
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss']
 })
@@ -29,11 +29,23 @@ export class ProductDetailComponent {
 
   editPrice() {
     if (this.toggleEditForm) {
-      let newprice = this.formInput.price;
-      this.marketService.editPrice(newprice).subscribe(function (res) {
+      //let newprice = this.formInput.price;
 
-        console.log('hiiiiii');
-        console.log(this.oldData);
+      const req ={
+        editID: this.product._id,
+        acquiringType : this.product.acquiringType,
+        createdAt : this.product.createdAt,
+        description : this.product.description,
+        image : this.product.image,
+        name : this.product.name,
+        price : this.formInput.price,
+        rentPeriod : this.product.rentPeriod,
+        seller :  this.product.seller
+
+      }
+      this.marketService.editPrice(req).subscribe(function (res) {
+
+         console.log(this.req);
 
 
         this.toggleEditForm = false;
@@ -43,6 +55,8 @@ export class ProductDetailComponent {
         }
 
       });
+      this.dialogRef.close();
+      console.log(req);
     } else {
       this.toggleEditForm = true;
       this.formInput = this.oldData;

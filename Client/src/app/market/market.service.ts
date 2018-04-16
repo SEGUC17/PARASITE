@@ -56,7 +56,7 @@ export class MarketService {
   }
 
   editPrice(product: any): Observable<any> {
-    return this.http.patch<any>(apiUrl + 'productrequest/editPrice', product, httpOptions);
+    return this.http.post<any>(this.host + 'productrequest/editPrice', product, httpOptions);
   }
  
   // Send updated request to Database

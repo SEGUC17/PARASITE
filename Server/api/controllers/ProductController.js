@@ -323,7 +323,7 @@ module.exports.updateRequest = function (req, res, next) {
 
 module.exports.editPrice = function (req, res, next) {
     if (req.user.username === req.params.username) {
-        Product.findOne({ _id: req.body.idd }).exec(function (err, prodRequests) {
+        Product.findOne({ _id: req.body.id }).exec(function (err, prodRequests) {
               if (err) {
                   return next(err);
                        }
