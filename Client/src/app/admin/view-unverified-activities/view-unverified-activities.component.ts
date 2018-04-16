@@ -43,10 +43,10 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
 
 
   updateLayout(res) {
-    /*
-      Setting new values comming from 
-      the response
-    */
+
+      // Setting new values comming from
+      // the response
+
     document.querySelector('.mat-sidenav-content').scrollTop = 0;
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
@@ -59,12 +59,12 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
       }
     }
   }
-  acceptActivity(activity :Activity): void {
+  acceptActivity(activity: Activity): void {
     activity.status = 'Accepted';
     this.activityService.reviewActivity(activity).subscribe();
   }
 
-  rejectActivity(activity :Activity): void {
+  rejectActivity(activity: Activity): void {
     activity.status = 'Rejected';
     this.activityService.reviewActivity(activity).subscribe();
   }
