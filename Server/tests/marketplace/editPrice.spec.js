@@ -136,6 +136,7 @@ chai.request(server).
 chai.request(server).
                 post('/api/signUp').
                 send(user).
+                set('Authorization', token).
                 end(function (err, response) {
                     if (err) {
                         return console.log(err);
@@ -149,7 +150,7 @@ chai.request(server).
             }
 // write your actual test here, like this:
      chai.request(server).patch('/api/productrequest/editPrice/' + savedReq._id + '/' + user.username).
-            send(prod1).
+            send(updatedProd2).
             set('Authorization', token).
             end(function (error, res) {
                 if (error) {
