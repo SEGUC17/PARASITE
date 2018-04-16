@@ -8,12 +8,9 @@ var chaiHttp = require('chai-http');
 var mongoose = require('mongoose');
 var Mockgoose = require('mockgoose').Mockgoose;
 var path = '/api/userData';
-var User = require('../../api/models/User');
 // --- End of "Requirements" --- //
 
 // --- Dependancies --- //
-var expect = chai.expect;
-var should = chai.should();
 var mockgoose = new Mockgoose(mongoose);
 // --- End of "Dependancies" --- //
 
