@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint max-statements: ["error", 10, { "ignoreTopLevelFunctions": true }] */
 
 // --- Requirements --- //
 var app = require('../../app');
@@ -35,7 +35,7 @@ describe('isUserExist', function () {
 
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
-        var self = this;
+        var that = this;
         this.johnDoe = {
             address: 'John Address Sample',
             birthdate: '1/1/1980',
@@ -59,84 +59,146 @@ describe('isUserExist', function () {
             username: 'jane'
         };
         mockgoose.helper.reset().then(function () {
-            User.create(self.johnDoe, function(err) {
-                done();
+            User.create(that.johnDoe, function (err) {
+                if (err) {
+                    done(err);
+                } else {
+                    done();
+                }
             });
         });
     });
     // --- End of "Clearing Mockgoose" --- //
-    it('Requested "Username" Is Not In DB!', function(done) {
-        chai.request(app).
-            get(path + this.janeDoe.username).
-            end(function(err, res) {
-                res.should.have.status(404);
-                res.body.should.have.property('msg').eql('User Not Found!');
-                done();
-            });
-    });
-    it('Requested "Email" Is Not In DB!', function(done) {
-        chai.request(app).
-            get(path + this.janeDoe.email).
-            end(function(err, res) {
-                res.should.have.status(404);
-                res.body.should.have.property('msg').eql('User Not Found!');
-                done();
-            });
-    });
-    it('Requested "Email" Is In DB!', function(done) {
-        chai.request(app).
-            get(path + this.johnDoe.email).
-            end(function(err, res) {
-                res.should.have.status(409);
-                res.body.should.have.property('msg').eql('User Found!');
-                done();
-            });
-    });
-    it('Requested "Email" Is In DB (Email Has Upper Case)!', function(done) {
-        chai.request(app).
-            get(path + this.johnDoe.email.toUpperCase()).
-            end(function(err, res) {
-                res.should.have.status(409);
-                res.body.should.have.property('msg').eql('User Found!');
-                done();
-            });
-    });
-    it('Requested "Email" Is In DB (Email Has Space)!', function(done) {
-        chai.request(app).
-            get(path + '  ' + this.johnDoe.email + '  ').
-            end(function(err, res) {
-                res.should.have.status(409);
-                res.body.should.have.property('msg').eql('User Found!');
-                done();
-            });
-    });
-    it('Requested "Username" Is In DB!', function(done) {
-        chai.request(app).
-            get(path + this.johnDoe.username).
-            end(function(err, res) {
-                res.should.have.status(409);
-                res.body.should.have.property('msg').eql('User Found!');
-                done();
-            });
-    });
-    it('Requested "Username" Is In DB (Username Has Upper Case)!', function(done) {
-        chai.request(app).
-            get(path + this.johnDoe.username.toUpperCase()).
-            end(function(err, res) {
-                res.should.have.status(409);
-                res.body.should.have.property('msg').eql('User Found!');
-                done();
-            });
-    });
-    it('Requested "Username" Is In DB (Username Has Space)!', function(done) {
-        chai.request(app).
-            get(path + '  ' + this.johnDoe.username + '  ').
-            end(function(err, res) {
-                res.should.have.status(409);
-                res.body.should.have.property('msg').eql('User Found!');
-                done();
-            });
-    });
+    it(
+        'Requested "Username" Is Not In DB!',
+        function (done) {
+            chai.request(app).
+                get(path + this.janeDoe.username).
+                end(function (err, res) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        res.should.have.status(404);
+                        res.body.should.have.property('msg').
+                            eql('User Not Found!');
+                        done();
+                    }
+                });
+        }
+    );
+    it(
+        'Requested "Email" Is Not In DB!',
+        function (done) {
+            chai.request(app).
+                get(path + this.janeDoe.email).
+                end(function (err, res) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        res.should.have.status(404);
+                        res.body.should.have.property('msg').
+                            eql('User Not Found!');
+                        done();
+                    }
+                });
+        }
+    );
+    it(
+        'Requested "Email" Is In DB!',
+        function (done) {
+            chai.request(app).
+                get(path + this.johnDoe.email).
+                end(function (err, res) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        res.should.have.status(409);
+                        res.body.should.have.property('msg').eql('User Found!');
+                        done();
+                    }
+                });
+        }
+    );
+    it(
+        'Requested "Email" Is In DB (Email Has Upper Case)!',
+        function (done) {
+            chai.request(app).
+                get(path + this.johnDoe.email.toUpperCase()).
+                end(function (err, res) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        res.should.have.status(409);
+                        res.body.should.have.property('msg').eql('User Found!');
+                        done();
+                    }
+                });
+        }
+    );
+    it(
+        'Requested "Email" Is In DB (Email Has Space)!',
+        function (done) {
+            chai.request(app).
+                get(path + '  ' + this.johnDoe.email + '  ').
+                end(function (err, res) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        res.should.have.status(409);
+                        res.body.should.have.property('msg').eql('User Found!');
+                        done();
+                    }
+                });
+        }
+    );
+    it(
+        'Requested "Username" Is In DB!',
+        function (done) {
+            chai.request(app).
+                get(path + this.johnDoe.username).
+                end(function (err, res) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        res.should.have.status(409);
+                        res.body.should.have.property('msg').eql('User Found!');
+                        done();
+                    }
+                });
+        }
+    );
+    it(
+        'Requested "Username" Is In DB (Username Has Upper Case)!',
+        function (done) {
+            chai.request(app).
+                get(path + this.johnDoe.username.toUpperCase()).
+                end(function (err, res) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        res.should.have.status(409);
+                        res.body.should.have.property('msg').eql('User Found!');
+                        done();
+                    }
+                });
+        }
+    );
+    it(
+        'Requested "Username" Is In DB (Username Has Space)!',
+        function (done) {
+            chai.request(app).
+                get(path + '  ' + this.johnDoe.username + '  ').
+                end(function (err, res) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        res.should.have.status(409);
+                        res.body.should.have.property('msg').eql('User Found!');
+                        done();
+                    }
+                });
+        }
+    );
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //
