@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
-
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -15,9 +15,10 @@ const httpOptions = {
 @Injectable()
 export class MessageService {
 
-  url: String = 'http://localhost:3000/api/';
+  url: String = environment.apiUrl ;
 
   constructor(private http: HttpClient) { }
+
 
   // making a POST request to send a message
   send(message: any): Observable<any> {
@@ -39,6 +40,13 @@ export class MessageService {
     return this.http.delete<any>(this.url + `message/${message._id}`, httpOptions);
   }
 
+  block(blocked: any, user: any): Observable<any> {
+      const self = this;
+       return this.http.patch(this.url + `message/block/${blocked}`, user, httpOptions);
+   }
 
+   getContacts(user: any): Observable<any> {
+    return this.http.get<any>(this.url + 'message/contacts/' + user);
+  }
 
 }

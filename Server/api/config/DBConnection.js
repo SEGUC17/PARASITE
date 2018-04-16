@@ -15,6 +15,7 @@ mongoose.connect(config.MONGO_URI).
 //TODO: add models
 require('../models/Product');
 require('../models/ProductRequest');
+require('../models/Comment');
 require('../models/Activity');
 require('../models/Content');
 require('../models/User');
@@ -25,3 +26,4 @@ require('../models/VerifiedContributerRequest');
 require('../models/ContentRequest');
 require('../models/StudyPlan');
 require('../models/StudyPlanPublishRequest');
+require('../models/Message');

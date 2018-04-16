@@ -1,5 +1,5 @@
 /* eslint no-underscore-dangle: ["error", {"allow" : ["_id" , "_now"]}] */
-/* eslint-disable */
+/*eslint max-statements: ["error", 16]*/
 var moment = require('moment');
 var mongoose = require('mongoose');
 var ContentRequest = mongoose.model('ContentRequest');
@@ -101,6 +101,7 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
             }
             // if not admin return error
             if (!req.user.isAdmin) {
+
                 return res.status(403).json({
                     data: null,
                     err: 'Unauthorized action',
@@ -195,15 +196,18 @@ module.exports.removePublishedStudyPlans = function (req, res, next) {
 module.exports.respondContentRequest = function (req, res, next) {
     // find this request by id from the URL
     ContentRequest.findByIdAndUpdate(
-        req.params.ContentRequestId, {
-            $set: {
-                // update certain values (status/updatedOn)
-                // with an object sent from frontEnd
-                status: req.body.str,
-                updatedOn: moment().toDate()
-            }
-        }, { new: true },
-        function (err, updatedcontentrequest) {
+        req.params.ContentRequestId,
+        {
+            $set:
+                {
+                    // update certain values (status/updatedOn)
+                    // with an object sent from frontEnd
+                    status: req.body.str,
+                    updatedOn: moment().toDate()
+                }
+        },
+        { new: true },
+        function (errReq, updatedcontentrequest) {
             // if ContentRequestId is not valid return error
             if (!mongoose.Types.ObjectId.isValid(req.params.ContentRequestId)) {
                 return res.status(422).json({
@@ -212,11 +216,19 @@ module.exports.respondContentRequest = function (req, res, next) {
                     msg: null
                 });
             }
-            if (err) {
+            if (errReq) {
 
                 return 'cannot update request';
-
             }
+            if (!req.user.isAdmin) {
+                return res.status(403).json({
+                    data: null,
+                    err: 'Unauthorized action',
+                    msg: null
+
+                });
+            }
+
             // if the request is not  found return error
             if (!updatedcontentrequest) {
                 return res.status(404).json({
@@ -246,9 +258,9 @@ module.exports.respondContentRequest = function (req, res, next) {
                     }
                 },
                 { new: true },
-                function (err, content) {
-                    if (err) {
-                        console.log(err);
+                function (errCont, content) {
+                    if (errCont) {
+                        console.log(errCont);
                     }
                     if (!Content) {
                         return res.status(404).json({
@@ -260,16 +272,16 @@ module.exports.respondContentRequest = function (req, res, next) {
 
                 }
             );
-            if (req.body.approved == true) {
+            if (req.body.approved === true) {
                 //give the user extra 10 points
             User.findOneAndUpdate(
                 { 'username': req.body.userName },
                 { $set: { contributionScore: req.body.oldScore + 10 } },
                 { new: true },
-                function (err, User) {
+                function (errUsr, user) {
 
-                    if (err) {
-                            req.body.username;
+                    if (errUsr) {
+                            console.log(errUsr);
                     }
                     // if not found return error
                     if (!User) {

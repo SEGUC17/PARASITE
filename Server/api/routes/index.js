@@ -20,7 +20,9 @@ var adminController = require('../controllers/AdminController');
 var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
+var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
+var DiscussionController = require('../controllers/DiscussionController');
 
 module.exports = function (passport) {
 
@@ -82,11 +84,44 @@ module.exports = function (passport) {
   // --------------------- Activity Contoller -------------------- //
   router.get('/activities', optionalAuthentication, ActivityController.getActivities);
   router.get('/activities/:activityId', optionalAuthentication, ActivityController.getActivity);
+  router.get(
+    '/activities/:activityId/comments/:commentId',
+    optionalAuthentication,
+    ActivityController.prepareActivity,
+    DiscussionController.getComment
+  );
+  router.post(
+    '/activities/:activityId/comments',
+    isAuthenticated,
+    ActivityController.prepareActivity,
+    DiscussionController.postComment
+  );
+  router.post(
+    '/activities/:activityId/comments/:commentId/replies',
+    isAuthenticated,
+    ActivityController.prepareActivity,
+    DiscussionController.postCommentReply
+  );
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
+  router.delete(
+    '/activities/:activityId/comments/:commentId',
+    isAuthenticated,
+    ActivityController.prepareActivity,
+    DiscussionController.deleteComment
+  );
+  router.delete(
+    '/activities/:activityId/comments/:commentId/replies/:replyId',
+    isAuthenticated,
+    ActivityController.prepareActivity,
+    DiscussionController.deleteCommentReply
+  );
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
 
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist', psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
+  router.get('/psychologist/:id', psychCtrl.getPsychologistData);
+  router.delete('/psychologist/delete/:id', optionalAuthentication, psychCtrl.deletePsychologist);
+  router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
   router.post('/psychologist/request/add/addRequest', optionalAuthentication, psychCtrl.addRequest);
   router.get('/psychologist/request/getRequests', isAuthenticated, psychCtrl.getRequests);
   router.post('/psychologist/request/evalRequest', isAuthenticated, psychCtrl.evaluateRequest);
@@ -103,6 +138,11 @@ module.exports = function (passport) {
   router.get('/productrequest/getRequests', isAuthenticated, productCtrl.getRequests);
   router.post('/productrequest/createproduct', isAuthenticated, productCtrl.createProduct);
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
+  router.get('/productrequest/getUserRequests/:username', isAuthenticated, productCtrl.getUserRequests);
+  router.patch('/productrequest/getUserRequests/:id', isAuthenticated, productCtrl.updateRequest);
+  router.patch('/productrequest/editPrice/:id/:username', isAuthenticated, productCtrl.editPrice);
+
+  router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
 
   // --------------End Of Product Contoller ---------------------- //
 
@@ -159,6 +199,10 @@ module.exports = function (passport) {
   router.get('/profile/:username/getChildren', profileController.getChildren);
   router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
   router.patch('/profile/changePassword/:id', profileController.changePassword);
+  router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
+  router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
+
+
   // ------------------- End of Profile module Endpoints-----------//
 
   // ---------------Schedule Controller Endpoints ---------------//
@@ -223,6 +267,42 @@ module.exports = function (passport) {
     contentController.createContent
   );
 
+  // Getting comment details
+  router.get(
+    '/content/:contentId/comments/:commentId',
+    optionalAuthentication,
+    contentController.prepareContent,
+    DiscussionController.getComment
+  );
+  // Commenting on a content
+  router.post(
+    '/content/:contentId/comments',
+    isAuthenticated,
+    contentController.prepareContent,
+    DiscussionController.postComment
+  );
+  // deleting a comment
+  router.delete(
+    '/content/:contentId/comments/:commentId',
+    isAuthenticated,
+    contentController.prepareContent,
+    DiscussionController.deleteComment
+  );
+  // replying to a content
+  router.post(
+    '/content/:contentId/comments/:commentId/replies',
+    isAuthenticated,
+    contentController.prepareContent,
+    DiscussionController.postCommentReply
+  );
+  // deleting a reply
+  router.delete(
+    '/content/:contentId/comments/:commentId/replies/:replyId',
+    isAuthenticated,
+    contentController.prepareContent,
+    DiscussionController.deleteCommentReply
+  );
+
   // Edit content
   router.patch(
     '/content',
@@ -230,6 +310,20 @@ module.exports = function (passport) {
     contentController.validateContent,
     contentController.validateSelectedCategory,
     contentController.updateContent
+  );
+
+  // delete a category
+  router.delete(
+    '/category/:id',
+    isAuthenticated,
+    contentController.deleteCategory
+  );
+
+  // delete a section
+  router.delete(
+    '/category/:categoryId/section/:sectionId',
+    isAuthenticated,
+    contentController.deleteSection
   );
   //-------------------- Messaging Module Endpoints ------------------//
 
@@ -244,6 +338,12 @@ module.exports = function (passport) {
 
   //Delete message
   router.delete('/message/:id', messageController.deleteMessage);
+
+  //Blocking users from messaging
+  router.patch('/message/block/:blocked', messageController.block);
+
+  //Get recently contacted users
+  router.get('/message/contacts/:user', messageController.getRecentlyContacted);
 
   //------------------- End of Messaging Module Endpoints-----------//
 

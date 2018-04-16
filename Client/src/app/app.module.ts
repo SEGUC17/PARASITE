@@ -39,6 +39,8 @@ import { MatChipsModule } from '@angular/material';
 import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { MatNativeDateModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
 
@@ -86,6 +88,7 @@ import { SharedModule } from './shared/shared.module';
     MatSelectModule,
     MatFormFieldModule,
     CommonModule,
+    MatCheckboxModule,
     SharedModule,
     AuthModule
   ],
