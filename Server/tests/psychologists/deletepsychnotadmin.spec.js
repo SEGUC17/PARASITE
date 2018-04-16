@@ -6,6 +6,7 @@ var chaiHttp = require('chai-http');
 var mongoose = require('mongoose');
 var server = require('../../app');
 var users = mongoose.model('User');
+var Psychologist = mongoose.model('Psychologist');
 var expect = require('chai').expect;
 var should = chai.should();
 
@@ -39,7 +40,8 @@ var usr = {
 };
 var token = null;
 
-describe('add psychologist information directly by admin', function () {
+describe('user deletes his info from address book', function () {
+    var psycho = null;
 
     /* preparing Mockooge */
     before(function (done) {
@@ -60,8 +62,29 @@ describe('add psychologist information directly by admin', function () {
     });
 
     /* End of "Clearing Mockgoose" */
+
     /* sign up  to the system */
     beforeEach(function (done) {
+        mockgoose.helper.reset().then(function () {
+        Psychologist.create({
+            address: 'here',
+            daysOff:
+                [
+                    'sat',
+                    'sun'
+                ],
+            email: 'blah@blah.com',
+            firstName: 'mariam',
+            lastName: 'mahran',
+            phone: '010101',
+            priceRange: 1000
+        }, function (err, req) {
+            if (err) {
+                console.log(err);
+            }
+            psycho = req;
+        });
+        });
         chai.request(server).post('/api/signUp').
             send(usr).
             end(function (err, response) {
@@ -73,38 +96,19 @@ describe('add psychologist information directly by admin', function () {
                 /* changing user's type to be an admin */
 
                 response.should.have.status(201);
-                users.updateOne({ username: 'marioma' }, { $set: { isAdmin: true } }, function (err1) {
-                    if (err1) {
-                        console.log(err1);
-                    }
-                });
                 done();
             });
-    });
-    it('add information directly to address book', function (done) {
-        var req = {
-            address: 'here',
-            createdAt: '1/1/2018',
-            daysOff:
-                [
-                    'sat',
-                    'sun'
-                ],
-            email: 'blah@blah.com',
-            firstName: 'mariam',
-            lastName: 'mahran',
-            phone: '010101',
-            priceRange: 1000
-        };
-        chai.request(server).post('/api/psychologist/request/add/addRequest').
-            send(req).
+        });
+
+    it('information is deleted successfully from address book', function (done) {
+        chai.request(server).delete('/api/psychologist/delete/' + psycho._id).
             set('Authorization', token).
             end(function (err, res) {
                 if (err) {
                     return console.log(err);
                 }
-                res.should.have.status(201);
-                res.body.msg.should.be.equal('Psychologist added successfully.');
+                res.should.have.status(200);
+                res.body.msg.should.be.equal('Psychologist deleted successfully.');
                 done();
             });
     });
@@ -118,4 +122,5 @@ describe('add psychologist information directly by admin', function () {
 
     /* End of "Mockgoose Termination" */
 });
+
 

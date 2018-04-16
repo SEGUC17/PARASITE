@@ -118,7 +118,10 @@ module.exports = function (passport) {
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
 
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist', psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
+  router.get('/psychologist/:id', psychCtrl.getPsychologistData);
+  router.delete('/psychologist/delete/:id', optionalAuthentication, psychCtrl.deletePsychologist);
+  router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
   router.post('/psychologist/request/add/addRequest', optionalAuthentication, psychCtrl.addRequest);
   router.get('/psychologist/request/getRequests', isAuthenticated, psychCtrl.getRequests);
   router.post('/psychologist/request/evalRequest', isAuthenticated, psychCtrl.evaluateRequest);
@@ -135,6 +138,8 @@ module.exports = function (passport) {
   router.get('/productrequest/getRequests', isAuthenticated, productCtrl.getRequests);
   router.post('/productrequest/createproduct', isAuthenticated, productCtrl.createProduct);
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
+  router.get('/productrequest/getUserRequests/:username', isAuthenticated, productCtrl.getUserRequests);
+  router.patch('/productrequest/getUserRequests/:id', isAuthenticated, productCtrl.updateRequest);
 
   // --------------End Of Product Contoller ---------------------- //
 
