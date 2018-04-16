@@ -76,14 +76,16 @@ describe('user resets password', function () {
             resp.should.have.status(200);
             done();
 
+
             });
         });
  });
   });
-});
-after(function (done) {
+  after(function (done) {
     mongoose.connection.close(function (err) {
         done(err);
     });
+});
+
 });
 

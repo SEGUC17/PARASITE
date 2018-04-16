@@ -598,6 +598,7 @@ module.exports.isUserExist = function (req, res, next) {
 };
 
 module.exports.resetpassword = function (req, res, next) {
+    console.log('entered resetPassword backend method');
 // password gets trimmed of spaces
     req.params.email = req.params.email.toLowerCase().trim();
 // check if the user exits
@@ -634,10 +635,13 @@ module.exports.resetpassword = function (req, res, next) {
 };
 
 module.exports.changePassword = function (req, res, next) {
+    console.log('entered changePAssword backend method');
     req.params.email = req.params.email.toLowerCase().trim();
     // hash incoming password
                 Encryption.hashPassword(req.body.newpw, function (err3, hash) {
                     if (err3) {
+                        console.log('entered err3 in changePassword');
+
                       return next(err3);
                     }
                     // update user password with hash
@@ -645,9 +649,13 @@ module.exports.changePassword = function (req, res, next) {
                       { email: req.params.email },
                       { password: hash }, function (err, user2) {
                         if (err) {
+                            console.log('entered err in changePassword');
+
                           return next(err);
                         }
-                        res.status(200).json({
+                        console.log('returned res 200');
+
+                       return res.status(200).json({
                           data: user2,
                           err: null,
                           msg: 'User password was reset successfully.'
