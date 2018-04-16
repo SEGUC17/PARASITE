@@ -10,64 +10,6 @@ var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
 var moment = require('moment');
 
-// send a page of general content (resources and ideas) to the front end
-module.exports.getContentPage = function (req, res, next) {
-
-    // validations
-    var valid = req.params.category && req.params.section &&
-        req.params.numberOfEntriesPerPage && req.params.pageNumber &&
-        typeof req.params.category === 'string' &&
-        typeof req.params.section === 'string' &&
-        !isNaN(req.params.numberOfEntriesPerPage) &&
-        !isNaN(req.params.pageNumber);
-
-    // the request was not valid
-    if (!valid) {
-        return res.status(422).json({
-            data: null,
-            err: 'The required fields were missing or of wrong type.',
-            msg: null
-        });
-    }
-
-    // intitialize the retrieval conditions
-    var conditions = {
-        'approved': true,
-        'category': req.params.category,
-        'section': req.params.section
-    };
-
-    // category or section not of interest
-    if (req.params.category === 'NoCat') {
-        delete conditions.category;
-        delete conditions.section;
-    } else if (req.params.section === 'NoSec') {
-        delete conditions.section;
-    }
-
-    // retrieve page of content
-    Content.paginate(
-        conditions,
-        {
-            limit: Number(req.params.numberOfEntriesPerPage),
-            page: Number(req.params.pageNumber),
-            select: { discussion: 0 }
-        },
-        function (err, contents) {
-            if (err) {
-                return next(err);
-            }
-            // send a page of content
-
-            return res.status(200).json({
-                data: contents,
-                err: null,
-                msg: 'Page retrieved successfully'
-            });
-        }
-    );
-};
-
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
 
@@ -213,14 +155,41 @@ module.exports.getSearchPage = function (req, res, next) {
                 return next(err);
             }
 
-            // send the page of contents
+            // get a list of all the creators
+            var creators = [];
+            var counter = 0;
+            for (counter; counter < contents.docs.length; counter += 1) {
+                if (!creators.includes(contents.docs[counter].creator)) {
+                    creators.push(contents.docs[counter].creator);
+                }
+            }
 
-            return res.status(200).json({
-                data: contents,
-                err: null,
-                msg: 'The contents searched for by ' +
-                    'the user were retrieved successfully'
-            });
+            // find the creator's avatar links
+            User.find(
+                { username: { $in: creators } },
+                {
+                    _id: 0,
+                    avatar: 1,
+                    username: 1
+                },
+                function (error, userAvatars) {
+                    if (error) {
+                        return next(err);
+                    }
+                    console.log(userAvatars);
+                    // send the page of contents
+
+                    return res.status(200).json({
+                        data: {
+                            contents: contents,
+                            userAvatars: userAvatars
+                        },
+                        err: null,
+                        msg: 'The contents searched for by ' +
+                            'the user were retrieved successfully'
+                    });
+                }
+            );
         }
     );
 };
@@ -618,21 +587,6 @@ module.exports.createSection = function (req, res, next) {
     );
 
 };
-module.exports.getContent = function (req, res, next) {
-    Content.find({}).
-        exec(function (err, contents) {
-            if (err) {
-                return next(err);
-            }
-            console.log(contents);
-
-            return res.status(200).json({
-                data: contents,
-                err: null,
-                msg: 'Contents retrieved successfully.'
-            });
-        });
-};
 
 module.exports.prepareContent = function (req, res, next) {
 
@@ -661,4 +615,126 @@ module.exports.prepareContent = function (req, res, next) {
 
             return next();
         });
+};
+
+module.exports.deleteCategory = function (req, res, next) {
+
+    // verify that the issuer of the request is an admin
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'User does not have admin privileges and' +
+                'is not authorized to delete categories.',
+            msg: null
+        });
+    }
+
+    // validate category id
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category id provided was not valid',
+            msg: null
+        });
+    }
+
+    // find the category and delete it
+    Category.findByIdAndRemove(
+        req.params.id,
+        function (err, deletedCategory) {
+            if (err) {
+                return next(err);
+            }
+
+            // category was not found in the database
+            if (!deletedCategory) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'The category to be deleted could not be found.',
+                    msg: null
+                });
+            }
+
+            // category was deleted successfully; delete all associated content
+            Content.deleteMany(
+                { category: deletedCategory.name },
+                function (error) {
+                    if (error) {
+                        return next(error);
+                    }
+                    // return response all okay
+
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'Category and all associated content' +
+                            ' were deleted successfully.'
+                    });
+                }
+            );
+        }
+    );
+};
+
+module.exports.deleteSection = function (req, res, next) {
+
+    // verify that the issuer of the request is an admin
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'User does not have admin privileges and' +
+                'is not authorized to delete categories.',
+            msg: null
+        });
+    }
+
+    // validate category and section id
+    if (!mongoose.Types.ObjectId.isValid(req.params.categoryId) ||
+        !mongoose.Types.ObjectId.isValid(req.params.sectionId)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category or section id provided was not valid',
+            msg: null
+        });
+    }
+
+    // find the category and remove section
+    Category.findByIdAndUpdate(
+        req.params.categoryId,
+        { $pull: { sections: { _id: req.params.sectionId } } },
+        function (err, categoryBeforeDeletion) {
+            if (err) {
+                return next(err);
+            }
+
+            // determine the name of the section that was deleted
+            var sections = categoryBeforeDeletion.sections;
+            var deletedSection = '';
+            for (var counter = 0; counter < sections.length; counter += 1) {
+                if (sections[counter]._id === req.params.sectionId) {
+                    deletedSection = sections[counter].name;
+                }
+            }
+
+            // delete all the content associated with this section
+            Content.deleteMany(
+                {
+                    category: categoryBeforeDeletion.name,
+                    section: deletedSection
+                },
+                function (error) {
+                    if (error) {
+                        return next(error);
+                    }
+
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'Section and all associated content were ' +
+                            'deleted successfully'
+                    });
+                }
+            );
+        }
+    );
 };
