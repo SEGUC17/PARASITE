@@ -22,7 +22,7 @@ var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
 var UserRatingController = require('../controllers/UserRatingController');
 
-module.exports = function (passport) { 
+module.exports = function (passport) {
 
   // --------------------- Authentication Checkers --------------- //
   var optionalAuthentication = function (req, res, next) {
@@ -108,7 +108,7 @@ module.exports = function (passport) {
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
   router.get('/productrequest/getUserRequests/:username', isAuthenticated, productCtrl.getUserRequests);
   router.patch('/productrequest/getUserRequests/:id', isAuthenticated, productCtrl.updateRequest);
-  router.post('/productrequest/editPrice', isAuthenticated, productCtrl.editPrice);
+  router.patch('/productrequest/editPrice/:id/:username', isAuthenticated, productCtrl.editPrice);
 
   router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
 

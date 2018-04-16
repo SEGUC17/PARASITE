@@ -322,48 +322,23 @@ module.exports.updateRequest = function (req, res, next) {
 };
 
 module.exports.editPrice = function (req, res, next) {
-    if (req.user.username === req.params.username) {
-        Product.findOne({ _id: req.body.id }).exec(function (err, prodRequests) {
-              if (err) {
-                  return next(err);
-                       }
+    if (req.body.seller === req.params.username) {
+        Product.updateOne({ _id: req.params.id }, { $set: { price: req.body.price } }).exec(function (err, updateProd) {
+            if (err) {
+                return next(err);
+            }
 
-              return res.status(200).json({
-                  data: prodRequests,
-                  err: null,
-                  msg: 'Edited successfully.'
-              });
-          });
-      } else {
-          return res.status(403).json({
-              data: null,
-              err: 'not your product',
-              msg: null
-          });
-      }
-    // if (req.user.username === req.params.username) {
-
-    //     delete req.body.createdAt;
-    //     delete req.body.seller;
-    //     delete req.body.__v;
-    //     delete req.body._id;
-
-    //     ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err) {
-    //         if (err) {
-    //             return next(err);
-    //         }
-
-    //         return res.status(201).json({
-    //             data: null,
-    //             err: null,
-    //             msg: 'Price Edited Successfully'
-    //         });
-    //     });
-    // } else {
-    //     return res.status(403).json({
-    //         data: null,
-    //         err: 'You can only edit your products',
-    //         msg: null
-    //     });
-    // }
+            return res.status(201).json({
+                data: updateProd,
+                err: null,
+                msg: 'product price updated.'
+            });
+        });
+    } else {
+        return res.status(403).json({
+            data: null,
+            err: 'You can only edit your product',
+            msg: null
+        });
+    }
 };
