@@ -6,6 +6,7 @@
 // ---------------------- Requirements ---------------------- //
 var config = require('../config/config');
 var jwt = require('jsonwebtoken');
+var REGEX = require('../utils/validators/REGEX');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 // ---------------------- End of "Requirements" ---------------------- //
@@ -112,7 +113,7 @@ module.exports.signUp = function (req, res, next) {
     // --- End of "Check: birthdate" --- //
 
     // --- Check: Email Regex Match --- //
-    if (!newUser.email.match(config.EMAIL_REGEX)) {
+    if (!newUser.email.match(REGEX.MAIL_REGEX)) {
         return res.status(422).json({
             data: null,
             err: null,
@@ -133,7 +134,7 @@ module.exports.signUp = function (req, res, next) {
 
     // --- Check: Phone Regex Match ---//
     for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
-        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
+        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
             return res.status(422).json({
                 data: null,
                 err: null,
@@ -357,7 +358,7 @@ module.exports.signUpChild = function (req, res, next) {
     // --- End of "Trimming & Lowering Cases"--- //
     // --- Check: Phone Regex Match ---//
     for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
-        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
+        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
             return res.status(422).json({
                 data: null,
                 err5: null,
@@ -367,7 +368,7 @@ module.exports.signUpChild = function (req, res, next) {
     }
     // --- End of "Check: Phone Regex Match" ---//
     // --- Check: Email Regex Match --- //
-    if (!newUser.email.match(config.EMAIL_REGEX)) {
+    if (!newUser.email.match(REGEX.MAIL_REGEX)) {
         return res.status(422).json({
             data: null,
             err6: null,
