@@ -115,15 +115,13 @@ export class ProfileComponent implements OnInit {
           this.vId = info.data._id;
           this.visitedIsParent = info.data.isParent;
           this.visitedIsChild = info.data.isChild;
-          if ((this.listOfChildren.indexOf(this.vUsername) < 0)) {
+          if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
             this.visitedIsMyChild = true;
           }
           if (!(this.vListOfChildren.indexOf(this.username) < 0)) {
             this.visitedIsMyParent = true;
           }
 
-          // Used Math.floor instead of Math.ceil
-          // so 26 years and 140 days would be considered as 26, not 27.
 
 
 

@@ -242,7 +242,7 @@ module.exports = function (passport) {
   );
 
   // Getting comment details
-  router.get(
+ /* router.get(
     '/content/:contentId/comments/:commentId',
     optionalAuthentication,
     contentController.prepareContent,
@@ -275,8 +275,8 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.prepareContent,
     DiscussionController.deleteCommentReply
-  );
-
+   );
+*/
   // Edit content
   router.patch(
     '/content',

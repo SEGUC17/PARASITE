@@ -66,7 +66,7 @@ module.exports.EditChildIndependence = function (req, res, next) {
                 json({
         data: user.isChild,
         err: null,
-        msg: 'Child under 13.'
+        msg: 'You cannot make a child under 13 independent.'
         });
   }
   // checking that child is older than 13
@@ -77,7 +77,7 @@ module.exports.EditChildIndependence = function (req, res, next) {
    json({
   data: user.isChild,
   err: null,
-  msg: 'Child under 13.'
+  msg: 'You cannot make a child under 13 independent.'
   });
  }
 

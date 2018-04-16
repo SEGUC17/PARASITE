@@ -30,7 +30,7 @@
               </mat-menu>
           </span>
           <button mat-raised-button id="mkIndep" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsChild"(click)= "EditChildIndependence()">Make Independent</button>
-          <button mat-raised-button id="UnlinkMyself" *ngIf = "visitedIsMyParent&& !isChild" (click)="UnlinkMyself()">Unlink</button>
+          <button mat-raised-button id="UnlinkMyself" *ngIf = "visitedIsMyParent&& !currIsChild" (click)="UnlinkMyself()">Unlink</button>
           <button mat-raised-button id="createChildAccount" *ngIf = "currIsParent && currIsOwner">Create child account</button>
       </div>
     </div>
