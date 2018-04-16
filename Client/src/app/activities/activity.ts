@@ -18,6 +18,7 @@ export class Activity {
     updatedAt : Date;
     image : String;
     discussion: any[];
+    creator: String;
 }
 
 export class ActivityCreate {

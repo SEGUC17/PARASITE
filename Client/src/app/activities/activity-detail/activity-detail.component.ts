@@ -3,6 +3,9 @@ import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
 import { ActivatedRoute } from '@angular/router';
 import { DiscussionService } from '../../discussion.service';
+import { Router } from '@angular/router';
+import {AuthService} from "../../auth/auth.service";
+
 
 @Component({
   selector: 'app-activity-detail',
@@ -17,14 +20,16 @@ export class ActivityDetailComponent implements OnInit {
   changingComment: any = '';
   somePlaceholder: any = 'write a comment ...';
   viewedReplies: boolean[];
-  isReplying: boolean;
+  isReplying: boolean = false;
   commentReplyingOn: any;
+  signedIn: boolean = false;
+
 
 
   currentUser = {
     isAdmin: false,
     verified: false,
-    AvatarLink: null,
+    avatar: null,
     username: 'Mohamed Maher'
 
   };
@@ -34,6 +39,7 @@ export class ActivityDetailComponent implements OnInit {
     description: '',
     bookedBy: [''], // userIds
     price: 0,
+    creator: '',
     status: '',
     fromDateTime: null,
     toDateTime: null,
@@ -46,19 +52,55 @@ export class ActivityDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private activityService: ActivityService,
-    private discussionService: DiscussionService
+    private discussionService: DiscussionService,
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.getCurrentUser();
     this.getActivity();
     this.refreshComments(true);
+
+
+
+  }
+
+  getCurrentUser(){
+    let self = this;
+    this.authService.getUserData([
+      'username',
+      'isAdmin',
+      'firstName',
+      'lastName',
+      'avatar'
+    ]).subscribe(function(res) {
+        if (typeof res.data == 'undefined') {
+          self.signedIn = false;
+        } else {
+          self.currentUser = res.data;
+          self.signedIn = true;
+
+        }
+        console.log('signed in : ' + self.signedIn );
+        console.log(res);
+      }
+    )
+
+  }
+
+  redirectToProfile(username: String) {
+    console.log('directToProfile');
+    // this.router.navigate(['/Profile/' + username]);
+    // TODO: Redirect the Profile of the username.
+    // AUTHOR: Maher.
   }
 
   onReply(id: any): any {
     let self = this;
     let element = document.getElementById('target');
     element.scrollIntoView();
-    let input = document.getElementById('lala');
+    let input = document.getElementById('input');
     self.somePlaceholder = 'leave a reply';
     input.focus();
     this.isReplying = true;
@@ -120,6 +162,13 @@ export class ActivityDetailComponent implements OnInit {
     this.viewedReplies[i] = !this.viewedReplies[i];
   }
 
+  enterPressed(event){
+    if(event.keyCode == 13) {
+      alert('you just clicked enter');
+      // rest of your code
+    }
+  }
+
   addComment() {
 
     if (!this.changingComment || 0 === this.changingComment.length || !this.changingComment.trim()) {
@@ -153,6 +202,10 @@ export class ActivityDetailComponent implements OnInit {
       });
     }
 
+  }
+
+  cancelReplying() {
+    this.isReplying = false;
   }
 
 }

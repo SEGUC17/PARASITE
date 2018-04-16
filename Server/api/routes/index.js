@@ -20,6 +20,7 @@ var adminController = require('../controllers/AdminController');
 var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
+var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
 var DiscussionController = require('../controllers/DiscussionController');
 

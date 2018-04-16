@@ -3,8 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { environment } from '../environments/environment';
 
-import { apiUrl } from './variables';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -18,8 +18,8 @@ export class DiscussionService {
   // The Discussion.Service is the Service responsible for all the comments
   // controls in the Activity page and the content page.
 
-  private activitiesUrl = apiUrl + 'activities';
-  private contentUrl = apiUrl + 'content';
+  private activitiesUrl = environment.apiUrl + 'activities';
+  private contentUrl = environment.apiUrl + 'content';
 
   constructor(private http: HttpClient) {}
 
