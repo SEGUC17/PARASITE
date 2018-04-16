@@ -6,6 +6,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+var UserRating = require('../models/UserRating');
 
 var SearchController = require('../controllers/SearchController');
 
@@ -19,6 +20,7 @@ var adminController = require('../controllers/AdminController');
 var studyPlanController = require('../controllers/StudyPlanController');
 var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
+var UserRatingController = require('../controllers/UserRatingController');
 var DiscussionController = require('../controllers/DiscussionController');
 
 module.exports = function (passport) {
@@ -230,7 +232,7 @@ module.exports = function (passport) {
   //Content Production
 
   router.post(
-  // Create new Content
+    // Create new Content
     '/content',
     isAuthenticated,
     contentController.validateContent,
@@ -282,6 +284,20 @@ module.exports = function (passport) {
     contentController.validateSelectedCategory,
     contentController.updateContent
   );
+
+  // delete a category
+  router.delete(
+    '/category/:id',
+    isAuthenticated,
+    contentController.deleteCategory
+  );
+
+  // delete a section
+  router.delete(
+    '/category/:categoryId/section/:sectionId',
+    isAuthenticated,
+    contentController.deleteSection
+  );
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
@@ -298,6 +314,9 @@ module.exports = function (passport) {
 
   //------------------- End of Messaging Module Endpoints-----------//
 
+  //-------------------- Rating Endpoints ------------------//
+  router.put('/rating', isAuthenticated, UserRatingController.postRating);
+  //------------------- End of Rating Endpoints-----------//
 
   // -------------------------------------------------------------------- //
   module.exports = router;

@@ -1,4 +1,5 @@
 <div *ngIf="content">
+    <app-rating [type]="'content'" [ratedId]="content._id" [inputRating]="content.rating.value"></app-rating>
     <div *ngIf="currentUser" class="row">
         <div class="col" align="center">
             <div *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)">

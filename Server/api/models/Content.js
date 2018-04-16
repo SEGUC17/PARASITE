@@ -31,10 +31,16 @@ var contentSchema = mongoose.Schema({
         type: String
     },
     rating: {
-        default: 0,
-        required: false,
-        trim: true,
-        type: Number
+        default: {
+            number: 0,
+            sum: 0,
+            value: 0
+        },
+        type: {
+            number: Number,
+            sum: Number,
+            value: Number
+        }
     },
     section: {
         required: true,
@@ -82,7 +88,13 @@ contentSchema.index(
         }
     }
 );
-
+contentSchema.post('findOneAndUpdate', function (doc) {
+    var newRating = doc.rating.sum / doc.rating.number;
+    this.model.update(
+        { _id: doc._id },
+        { $set: { 'rating.value': newRating } }
+    ).exec();
+});
 // apply the mongoose paginate library to the schema
 contentSchema.plugin(mongoosePaginate);
 var Content = mongoose.model('Content', contentSchema, 'contents');
