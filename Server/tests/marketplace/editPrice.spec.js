@@ -160,7 +160,7 @@ chai.request(server).
                 expect(res).to.have.status(403);
                 res.body.should.be.a('object');
                 res.body.should.have.property('err').
-                    eql('You can only edit your requests');
+                    eql('You can only edit your product');
 
 
                     done();
