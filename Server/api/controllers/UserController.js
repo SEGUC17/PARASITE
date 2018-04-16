@@ -401,14 +401,14 @@ module.exports.signUpChild = function (req, res, next) {
                     return res.status(409).json({
                         data: null,
                         err8: null,
-                        msg: 'Email Is In Use!'
+                        msg: 'Email already exists!'
                     });
                 }
 
                 return res.status(409).json({
                     data: null,
                     err8: null,
-                    msg: 'Username Is In Use!'
+                    msg: 'Username already exists!'
                 });
             }
             //---end of duplicate checks--//

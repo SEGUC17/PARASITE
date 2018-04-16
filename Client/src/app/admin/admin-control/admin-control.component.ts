@@ -6,7 +6,7 @@ import { AdminService } from '../../admin.service';
 import { Router } from '@angular/router';
 import { ViewProductRequestsComponent } from '../view-product-requests/view-product-requests.component';
 import { ViewPsychRequestsComponent } from '../view-psych-requests/view-psych-requests.component';
-
+import { PublishRequestsComponent } from '../../schedule/study-plan/publish-requests/publish-requests.component';
 @Component({
   selector: 'app-admin-control',
   templateUrl: './admin-control.component.html',
@@ -23,10 +23,13 @@ export class AdminControlComponent implements OnInit {
 
   @ViewChild(ViewPsychRequestsComponent) PsychReqComponent;
 
+  @ViewChild(PublishRequestsComponent) PubReqComponent;
+
   hideVCRequest: any = 1;
   hideContentReqs: any = 1;
   hideProdReqs: any = 1;
   hidePsychReqs: any = 1;
+  hideStudyPlanPublishReqs: any = 1;
 
   constructor(private _adminService: AdminService,
     private router: Router) { }
@@ -49,6 +52,9 @@ export class AdminControlComponent implements OnInit {
     if (event.index === 1) {
       this._ResIReq.viewPendingContReqs();
     }
+    if (event.index === 5) {
+      this.PubReqComponent.viewStudyPlanPublishReqs();
+    }
   }
 
   // changing the visibility of the component
@@ -56,6 +62,10 @@ export class AdminControlComponent implements OnInit {
     this.hidePsychReqs = 1 - this.hidePsychReqs;
   }
 
+  goToPubReq() {
+    this.hideStudyPlanPublishReqs = 1 - this.hideStudyPlanPublishReqs;
+    this.PubReqComponent.viewStudyPlanPublishReqs();
+  }
   viewVCRequests() {
     console.log('gonna hide the component');
     this.hideVCRequest = 1 - this.hideVCRequest;  // changing the visibility of the component

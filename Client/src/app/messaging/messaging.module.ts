@@ -5,12 +5,16 @@ import { MessagingRoutingModule } from './messaging-routing.module';
 import { FormsModule } from '@angular/forms';
 import { MessageService } from './messaging.service';
 import { AuthService } from '../auth/auth.service';
-import { MatTableModule, MatTab, MatTabsModule, MatDialogModule, MatButtonModule, MatCardModule } from '@angular/material';
+import { MatTableModule, MatTab, MatTabsModule, MatDialogModule, MatButtonModule, MatCardModule, MatListModule } from '@angular/material';
 import { SendDialogComponent } from './send-dialog/send-dialog.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material';
+import { ReplyDialogComponent } from './reply-dialog/reply-dialog.component';
+import {MatChipsModule} from '@angular/material/chips';
+import { ForwardDialogComponent } from './forward-dialog/forward-dialog.component';
 
 @NgModule({
   providers: [MessageService, AuthService, MatDialog],
@@ -20,15 +24,18 @@ import { MatInputModule } from '@angular/material/input';
     CommonModule,
     MatTableModule,
     MatTabsModule,
+    MatIconModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatChipsModule,
+    MatListModule
   ],
-  declarations: [MessagingComponent, SendDialogComponent],
-  entryComponents: [SendDialogComponent]
+  declarations: [MessagingComponent, SendDialogComponent, ReplyDialogComponent, ForwardDialogComponent],
+  entryComponents: [SendDialogComponent, ReplyDialogComponent, ForwardDialogComponent]
 })
 export class MessagingModule { }
 

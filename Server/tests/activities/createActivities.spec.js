@@ -63,7 +63,7 @@ describe('Create Activities', function () {
             // Creating data for testing
             User.create({
                 birthdate: Date.now(),
-                email: 'test@email.com',
+                email: 'test0@email.com',
                 firstName: 'firstname',
                 verified: true,
                 lastName: 'lastname',
@@ -77,7 +77,7 @@ describe('Create Activities', function () {
                 verifiedUser = user;
                 User.create({
                     birthdate: Date.now(),
-                    email: 'test@email.com',
+                    email: 'test1@email.com',
                     firstName: 'firstname',
                     lastName: 'lastname',
                     password: 'password',
@@ -90,7 +90,7 @@ describe('Create Activities', function () {
                     normalUser = user2;
                     User.create({
                         birthdate: Date.now(),
-                        email: 'test@email.com',
+                        email: 'test2@email.com',
                         firstName: 'firstname',
                         isAdmin: true,
                         lastName: 'lastname',

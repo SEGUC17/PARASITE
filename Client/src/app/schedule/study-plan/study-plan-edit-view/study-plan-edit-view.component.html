@@ -133,7 +133,7 @@
     <div class="ql-editor preview" [innerHTML]="editorOut"></div>
   </mat-card>
   <mat-card>
-    <h2>
+    <h2 *ngIf="type === 'create'">
       Press the button on the right to finish creation.
       <button
         mat-raised-button
@@ -141,6 +141,16 @@
         style="float: right;"
         (click)="create()">
         Create
+      </button>
+    </h2>
+    <h2 *ngIf="type === 'edit'">
+      Press the button on the right to save your changes.
+      <button
+        mat-raised-button
+        color="primary"
+        style="float: right;"
+        (click)="saveChanges()">
+        Save Changes
       </button>
     </h2>
   </mat-card>

@@ -11,15 +11,22 @@ import { MatInputModule } from '@angular/material/input';
   templateUrl: './send-dialog.component.html',
   styleUrls: ['./send-dialog.component.scss']
 })
+
 export class SendDialogComponent implements OnInit {
 
   Body: String = '';
   Receiver: String = '';
+  user: any;
   div1: Boolean; // div for empty recipient error message
   div2: Boolean; // div for empty body error message
   div3: Boolean; // div for sent message success notification
+  div4: Boolean; // div for blocked user
+  div5: Boolean;
+  allisWell: Boolean = true;
   msg: any;
   currentUser: any; // currently logged in user
+  UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
+  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
 
   constructor(public dialogRef: MatDialogRef<SendDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService) { }
@@ -54,15 +61,38 @@ export class SendDialogComponent implements OnInit {
         // create a message object with the info the user entered
         this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.currentUser.username};
 
-        // make a POST request using messaging service
-        this.messageService.send(this.msg)
-         .subscribe(function() {
-          self.div3 = true;
-          self.div1 = false;
-          self.div2 = false;
-         });
-        }
-      }
+        // retrieveing the reciepient's info as an object
+        // console.log(this.Receiver.toString());
+        this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user)  => {
+          if (!user.data) {
+            self.div1 = false;
+            self.div2 = false;
+            self.div5 = true;
+          } else {
+            console.log('length of array is: ', user.data.blocked.length);
+            const list = user.data.blocked;
+            for ( let i = 0 ; i < user.data.blocked.length ; i++) {
+              if ( this.currentUser.username === list[i] ) {
+                console.log('blocked is:', list[i]);
+                this.div4 = true;
+                this.allisWell = false;
+              } // end if
+            }// end for
 
-    }
-}
+            if ( this.allisWell === true) {
+              this.messageService.send(this.msg)
+              .subscribe(function(res) {
+                self.div3 = true;
+                self.div1 = false;
+                self.div2 = false;
+                self.div4 = false;
+                self.div5 = false;
+              });
+            }// end if
+          }
+        });
+      }// end 2nd else
+
+    }// end else
+  }// end method
+}// end class

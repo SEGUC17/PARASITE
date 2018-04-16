@@ -37,6 +37,11 @@ var userSchema = mongoose.Schema({
         required: true,
         type: Date
     },
+    blocked: {
+        default: [],
+        required: false,
+        type: [String]
+    },
     children: {
         default: [],
         required: false,

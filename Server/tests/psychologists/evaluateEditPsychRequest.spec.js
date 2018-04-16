@@ -5,9 +5,11 @@ var chai = require('chai');
 var server = require('../../app');
 // import your schema here, like this:
 var psychRequests = mongoose.model('PsychologistRequest');
+var Psychologist = mongoose.model('Psychologist');
 var users = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
+var should = chai.should();
 
 chai.use(chaiHttp);
 
@@ -17,27 +19,43 @@ var mockgoose = new Mockgoose(mongoose);
 
 // user for authentication
 var user = {
-    birthdate: '1/1/1980',
-    email: 'omar@omar.omar',
-    firstName: 'Omar',
-    lastName: 'Elkilany',
-    password: '123456789',
-    phone: '0112345677',
-    username: 'omar'
+    birthdate: '1/1/1997',
+    email: 'mariam@m.com',
+    firstName: 'mariam',
+    lastName: 'mahran',
+    password: '12345678',
+    phone: '01035044431',
+    username: 'marioma'
 };
 
 // Test request
-var psychReqTest = new psychRequests({
+var editPsychReqTest = new psychRequests({
     address: 'Some address',
+    createdAt: new Date(),
     daysOff: [
         'Sat',
         'Sun'
     ],
-    email: 'ahmed@ahmed.com',
-    firstName: 'Ahmed',
-    lastName: 'Darwish',
+    email: 'mariam@mariam.com',
+    firstName: 'Mariam',
+    lastName: 'Mahran',
     phone: '012412414',
-    priceRange: 124
+    priceRange: 124,
+    type: 'edit'
+});
+
+var psychologist = new Psychologist({
+    address: 'here',
+    daysOff:
+        [
+            'sat',
+            'sun'
+        ],
+    email: 'blah@blah.com',
+    firstName: 'mariam',
+    lastName: 'mahran',
+    phone: '010101',
+    priceRange: 1000
 });
 
 
@@ -45,7 +63,7 @@ var psychReqTest = new psychRequests({
 var token = null;
 
 // Testing the cases of evaluating as an admin
-describe('EvaluatePsychRequestByAdmin', function () {
+describe('Evaluate Psychologists\' Edit Requests', function () {
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -75,11 +93,17 @@ describe('EvaluatePsychRequestByAdmin', function () {
                 }
                 response.should.have.status(201);
                 token = response.body.token;
-                users.updateOne({ username: 'omar' }, { $set: { isAdmin: true } }, function (err1) {
+                users.updateOne({ username: 'marioma' }, { $set: { isAdmin: true } }, function (err1) {
                     if (err1) {
                         console.log(err1);
                     }
-                    psychReqTest.save(function (error) {
+                    editPsychReqTest.save(function (error) {
+                        if (error) {
+                            return console.log(err);
+                        }
+                    });
+                    console.log(editPsychReqTest._id);
+                    psychologist.save(function (error) {
                         if (error) {
                             return console.log(err);
                         }
@@ -88,21 +112,23 @@ describe('EvaluatePsychRequestByAdmin', function () {
                 });
             });
     });
-
     it('Request should be accepted', function (done) {
         var acceptedReq = {
-            _id: psychReqTest._id,
+            _id: editPsychReqTest._id,
             address: 'Some address',
+            createdAt: new Date(),
             daysOff: [
                 'Sat',
                 'Sun'
             ],
-            email: 'ahmed@ahmed.com',
-            firstName: 'Ahmed',
-            lastName: 'Darwish',
+            editID: psychologist._id,
+            email: 'mariam@mariam.com',
+            firstName: 'Mariam',
+            lastName: 'Mahran',
             phone: '012412414',
             priceRange: 124,
-            result: true
+            result: true,
+            type: 'edit'
         };
 
         chai.request(server).
@@ -113,26 +139,28 @@ describe('EvaluatePsychRequestByAdmin', function () {
                 if (error) {
                     return console.log(error);
                 }
-                expect(res).to.have.status(201);
-                res.body.msg.should.be.equal('Request accepted and psychologist added to database.');
+                expect(res).to.have.status(200);
+                res.body.msg.should.be.equal('Request accepted and psychologist was updated successfully.');
                 done();
             });
     });
-
     it('Request should be rejected', function (done) {
         var rejectedReq = {
-            _id: psychReqTest._id,
+            _id: editPsychReqTest._id,
             address: 'Some address',
+            createdAt: new Date(),
             daysOff: [
                 'Sat',
                 'Sun'
             ],
-            email: 'ahmed@ahmed.com',
-            firstName: 'Ahmed',
-            lastName: 'Darwish',
+            editID: psychologist._id,
+            email: 'mariam@mariam.com',
+            firstName: 'Mariam',
+            lastName: 'Mahran',
             phone: '012412414',
             priceRange: 124,
-            result: false
+            result: false,
+            type: 'edit'
         };
 
         chai.request(server).
@@ -148,9 +176,8 @@ describe('EvaluatePsychRequestByAdmin', function () {
                 done();
             });
     });
-
     it('Request result was true but not found.(404)', function (done) {
-        psychReqTest.result = true;
+        editPsychReqTest.result = true;
 
         chai.request(server).
             post('/api/psychologist/request/evalRequest').
@@ -165,9 +192,8 @@ describe('EvaluatePsychRequestByAdmin', function () {
                 done();
             });
     });
-
     it('Request result was false but not found.(404)', function (done) {
-        psychReqTest.result = false;
+        editPsychReqTest.result = false;
 
         chai.request(server).
             post('/api/psychologist/request/evalRequest').
@@ -190,10 +216,11 @@ describe('EvaluatePsychRequestByAdmin', function () {
         });
     });
     // --- End of "Mockgoose Termination" --- //
+
 });
 
 // Testing for no-user and non-admin case
-describe('EvaluatePsychRequestByNonAdmin', function () {
+describe('Evaluate Edit Psychologist Request By Non Admin', function () {
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -227,16 +254,16 @@ describe('EvaluatePsychRequestByNonAdmin', function () {
                 token = response.body.token;
 
                 // save your document with a call to save
-                psychReqTest.save(function (err) {
-                    if (err) {
-                        return console.log(err);
+                editPsychReqTest.save(function (err1) {
+                    if (err1) {
+                        return console.log(err1);
                     }
 
-                    psychReqTest.result = true;
+                    editPsychReqTest.result = true;
 
                     chai.request(server).
                         post('/api/psychologist/request/evalRequest').
-                        send(psychReqTest).
+                        send(editPsychReqTest).
                         set('Authorization', token).
                         end(function (error, res) {
                             if (error) {
@@ -250,8 +277,8 @@ describe('EvaluatePsychRequestByNonAdmin', function () {
 
             });
     });
-    // --- Mockgoose Termination --- //
-    after(function (done) {
+     // --- Mockgoose Termination --- //
+     after(function (done) {
         mongoose.connection.close(function () {
             done();
         });

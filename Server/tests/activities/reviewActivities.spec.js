@@ -70,7 +70,7 @@ describe('Review Activities', function () {
             });
             User.create({
                 birthdate: Date.now(),
-                email: 'test@email.com',
+                email: 'test0@email.com',
                 firstName: 'firstname',
                 isAdmin: false,
                 lastName: 'lastname',
@@ -84,7 +84,7 @@ describe('Review Activities', function () {
                 normalUser = user;
                 User.create({
                     birthdate: Date.now(),
-                    email: 'test@email.com',
+                    email: 'test1@email.com',
                     firstName: 'firstname',
                     isAdmin: true,
                     lastName: 'lastname',
@@ -128,6 +128,26 @@ describe('Review Activities', function () {
                         expect(activity.status).to.equal('verified');
                         done();
                     });
+                });
+        });
+        it('it return 404 for wrong activity id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': adminUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).put(urlPath).
+                send({
+                    '_id': '5abcd64de097957f8d90c386',
+                    'status': 'verified'
+                }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(404);
+                    done();
                 });
         });
         it('it should return 403 for nonAdmins', function (done) {

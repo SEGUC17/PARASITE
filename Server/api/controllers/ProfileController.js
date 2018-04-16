@@ -1,6 +1,7 @@
 
 /* eslint-disable sort-keys */
 /* eslint-disable no-shadow */
+
 var mongoose = require('mongoose');
 var moment = require('moment');
 var Validations = require('../utils/validators');
@@ -35,7 +36,7 @@ module.exports.getChildren = function (req, res, next) {
       msg: 'Children retrieved successfully.'
     });
   });
-}
+};
 module.exports.EditChildIndependence = function (req, res, next) {
 
   // searching for username in the params and setting isChild to false
@@ -115,7 +116,9 @@ module.exports.requestUserValidation = function (req, res, next) {
 
   var reqObj = {
     status: 'pending',
-    bio: status + ', @' + req.user.username + ',\n' + req.user.email + ', Number of Children : ' + req.user.children.length,
+    bio: status + ', @' + req.user.username +
+      ',\n' + req.user.email + ', Number of Children : ' +
+      req.user.children.length,
     name: req.user.firstName + ' ' + req.user.lastName,
     AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
     ProfileLink: 'localhost:4200/profile/' + req.user.username,
@@ -132,37 +135,39 @@ module.exports.requestUserValidation = function (req, res, next) {
   //     image: 'imageMaher.com',
   //     creator: '5ac12591a813a63e419ebce5'
   // }
-  VCRSchema.create(reqObj, function (err, next) {   // insert the request to the database.
+  VCRSchema.create(reqObj, function (err, next) {
+    // insert the request to the database.
     if (err) {
       console.log('duplicate key');
-      if (err.message.startsWith('E11000 duplicate key error')) {    // if request already existed
+      if (err.message.startsWith('E11000 duplicate key error')) {
+        // if request already existed
         return res.status(400).json({
           err: null,
           msg: 'the request already submitted',
           data: null
         });
-      }
-      else {
+      } else {
         console.log('passing error to next');
         next(err);
       }
-      res.status(200).json({
-        err: null,
-        msg: 'the request is submitted',
-        data: null
-      })
     }
+    res.status(200).json({
+      err: null,
+      msg: 'the request is submitted',
+      data: null
+    });
   });
 };
 
 
 //--------------------------- Profile Info ------------------------- AUTHOR: H
 
-// method that finds a user by id, adds the passed child to the user's children list
+// method that finds a user by id,
+// adds the passed child to the user's children list
 // then ensure that isParent = true
 module.exports.linkAnotherParent = function (req, res, next) {
 
-  var id = req.params.parentId;
+  // var id = req.params.parentId;
   User.findByIdAndUpdate(
     req.params.parentId,
     {
@@ -190,7 +195,8 @@ module.exports.linkAnotherParent = function (req, res, next) {
   );
 };
 
-// method that finds a user by id, adds the passed child to the user's children list
+// method that finds a user by id,
+// adds the passed child to the user's children list
 // then ensure that isParent = true
 module.exports.addAsAParent = function (req, res, next) {
   User.findByIdAndUpdate(
@@ -303,6 +309,126 @@ module.exports.changePassword = function (req, res, next) {
             });
           }
         );
+      });
+    });
+  });
+};
+
+module.exports.changeChildInfo = function (req, res, next) {
+  User.findOne({
+  username: req.body.username,
+  _id: { $ne: req.body.id }
+}, function (err, user) {
+  if (err) {
+    return next(err);
+  }
+    if (user) {
+      console.log(user.username);
+
+      return res.status(403).json({
+        data: user,
+        err: null,
+        msg: 'Username already exists'
+      });
+    } else {
+      User.findOne({
+        email: req.body.email,
+        _id : { $ne: req.body.id }
+      }, function (err2, user2) {
+        if (user2) {
+          return res.status(403).json({
+            data: user2,
+            err: null,
+            msg: 'Email already exists'
+          });
+        } else {
+
+          User.findByIdAndUpdate(
+            req.body.id,
+            {
+              $set: {
+                username: req.body.username, firstName: req.body.firstName,
+                lastName: req.body.lastName, email: req.body.email, address: req.body.address,
+                birthdate: req.body.birthdate, phone: req.body.phone
+              }
+            }, { new: true },
+            function (err, user3) {
+              if (err) {
+                return next(err);
+              }
+              if (!user3) {
+                return res.status(404).json({
+                  data: null,
+                  err: null,
+                  msg: 'User not found.'
+                });
+              }
+
+              return res.status(200).json({
+                data: user3,
+                err: null,
+                msg: 'Info updated succesfully.'
+              });
+            }
+          );
+        }
+      });
+    }
+  });
+};
+
+module.exports.ChangeInfo = function (req, res, next) {
+
+  User.findOne({
+    username: req.body.username,
+    _id: { $ne: req.params.id }
+  }, function (err, user1) {
+    if (err) {
+      return next(err);
+    } else if (user1) {
+      
+      return res.status(403).json({
+        data: null,
+        err: null,
+        msg: 'Username already exists.'
+      });
+    }
+
+    User.findOne({
+      email: req.body.email,
+      _id: { $ne: req.params.id }
+    }, function (err, user2) {
+      if (err) {
+        return next(err);
+      } else if (user2) {
+
+        return res.status(403).json({
+          data: null,
+          err: null,
+          msg: 'Email already exists.'
+        });
+      }
+
+      User.findByIdAndUpdate(req.params.id, {
+        $set: {
+          address: req.body.address,
+          birthdate: new Date(req.body.birthdate),
+          email: req.body.email,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
+          phone: req.body.phone,
+          username: req.body.username
+        }
+      }, { new: true }, function (err, user) {
+        if (err) {
+          return next(err);
+        }
+
+        return res.status(200).json({
+          data: user,
+          err: null,
+          msg: 'User personal info updated successfully.'
+        });
       });
     });
   });

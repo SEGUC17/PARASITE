@@ -6,6 +6,8 @@ import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
+
 import {
   isSameMonth,
   isSameDay,
@@ -44,15 +46,23 @@ const colors: any = {
 export class StudyPlanComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
   // routing parameters
-  type: String;
+  type: string;
   _id: String;
   username: String;
+  listOfChildren: any[];
+
+  // Users
+  loggedInUser: any = {};
+  @Input() profileUser;
+
   // end of routing parameters
   rating = 0;
   starCount = 5;
   starColor = 'primary';
   studyPlan: StudyPlan;
-  description: String;
+  tempStudyPlan: StudyPlan;
+  description: string;
+  editorContent: SafeHtml;
   view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[];
@@ -79,7 +89,7 @@ export class StudyPlanComponent implements OnInit {
   ];
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
-    private router: Router) { }
+    private router: Router, private _AuthService: AuthService) { }
 
   ngOnInit() {
     this.studyPlan = {
@@ -88,7 +98,12 @@ export class StudyPlanComponent implements OnInit {
       events: [],
       title: ''
     };
+    this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
+      this.listOfChildren = user.data.children;
+      console.log(user.data.children);
+    });
     this.description = '';
+    this.editorContent = '';
     this.events = [];
     this.route.params.subscribe(params => {
       this.type = params.type;
@@ -102,6 +117,7 @@ export class StudyPlanComponent implements OnInit {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
           this.description = this.studyPlan.description;
+          this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);
@@ -113,6 +129,7 @@ export class StudyPlanComponent implements OnInit {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
           this.description = this.studyPlan.description;
+          this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
           if (this.studyPlan.rating) {
             this.rating = this.studyPlan.rating.value;
           }
@@ -183,15 +200,45 @@ export class StudyPlanComponent implements OnInit {
   }
 
   copy(): void {
-    alert('Implement Copy Study Plan!');
+    this.tempStudyPlan = this.studyPlan;
+    this.tempStudyPlan._id = undefined;
+    this.studyPlanService
+      .createStudyPlan(this.username, this.tempStudyPlan)
+      .subscribe(res => {
+        alert(res.msg);
+      });
   }
 
   assign(): void {
-    alert('Implement Assign Study Plan!');
+    // this.studyPlan.assigned = true;
+    if (this.loggedInUser.username === this.profileUser) {
+      this.studyPlanService.assignStudyPlan(this.username, this._id).subscribe(
+        res => {
+          if (res.msg === 'StudyPlan assigned successfully.') {
+            alert(res.msg);
+          } else {
+            alert('An error occured while assigning the study plan');
+          }
+        });
+    }
+
+  }
+
+  unAssign(): void {
+    // this.studyPlan.assigned = false;
+    if (this.loggedInUser.username === this.profileUser) {
+      this.studyPlanService.unAssignStudyPlan(this.username, this._id).subscribe(
+        res => {
+          if (res.msg === 'StudyPlan Unassigned from me.') {
+            alert(res.msg);
+          } else {
+            alert('An error occured while Unassigning the study plan from me');
+          }
+        });
+    }
   }
 
   edit(): void {
-    alert('Implement Edit Study Plan!');
+    this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.username]);
   }
-
 }

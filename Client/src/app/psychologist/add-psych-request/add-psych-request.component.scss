@@ -5,7 +5,8 @@
 }
 ::ng-deep .mat-card-header{
   background-color: #303F9F !important;
-  padding:30px !important;
+  padding:5% !important;
+  height: 100px;
   box-shadow: 0px 4px 5px grey;
 }
 ::ng-deep .mat-card-content{
@@ -14,6 +15,7 @@
 ::ng-deep .request-form {
   padding:0 !important;
   max-width: 750px;
+  max-height: 80%;
 }
 .mat-card-actions {
   margin-right: 51px;
@@ -26,56 +28,20 @@
   box-shadow: 0px -1px 5px grey;
 }
 #title {
-  margin-left: 100px;
-  font-size: 40px;
+  font-size: 30px;
   color: white;
 }
-#title1 {
-  margin-left: 100px;
-  font-size: 40px;
-  color: white;
-}
-#first-name-input {
+.mat-card-content .mat-form-field {
   max-width: 400;
   width: 80%;
   margin-left: 65px;
-  font-size: 20px;
-}
-#last-name-input {
-  max-width: 400;
-  width: 80%;
-  margin-left: 65px;
-  font-size: 20px;
-}
-#phone-input {
-  max-width: 400;
-  width: 80%;
-  margin-left: 65px;
-  font-size: 20px;
-}
-#address-input {
-  max-width: 400;
-  width: 80%;
-  margin-left: 65px;
-  font-size: 20px;
-}
-#email-input {
-  max-width: 400;
-  width: 80%;
-  margin-left: 65px;
-  font-size: 20px;
+  font-size: 17px;
 }
 #days-off-input {
-  max-width: 400;
   width: 30%;
-  margin-left: 65px;
-  font-size: 20px;
 }
 #price-input {
-  max-width: 400;
   width: 41%;
-  margin-left: 65px;
-  font-size: 20px;
 }
 #btn{
   box-shadow: 0px 4px 5px grey;
@@ -91,24 +57,21 @@
       max-width: 90%;
   }
   #title {
-    margin-left: 50px;
     font-size: 250%;
   }
-  #title1 {
-    margin-left: 50px;
-    font-size: 250%;
+  .mat-dialog-container{
+      height: 100%;
+      width: 100%;
   }
   }
 @media (max-width: 600px) {
   .wrapper {
       max-width: 90%;
   }
-  #title {
-    margin-left: 30px;
-    font-size: 180%;
+  .mat-card-header{
+    padding: 0.5%;
   }
-  #title1 {
-    margin-left: 30px;
+  #title {
     font-size: 180%;
   }
   #first-name-input {
