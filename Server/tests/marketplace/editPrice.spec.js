@@ -130,7 +130,7 @@ chai.request(server).
             name: 'productname',
             price: '20',
             rentPeriod: '2',
-            seller: 'omar'
+            seller: 'ahmed'
         });
 //sign up
 chai.request(server).
@@ -150,6 +150,7 @@ chai.request(server).
 // write your actual test here, like this:
      chai.request(server).patch('/api/productrequest/editPrice/' + savedReq._id + '/' + user.username).
             send(prod1).
+            set('Authorization', token).
             end(function (error, res) {
                 if (error) {
                     return console.log(error);
