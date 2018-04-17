@@ -478,7 +478,7 @@ module.exports.signUpChild = function (req, res, next) {
 
                 // --- Variable Assign --- //
                 return res.status(201).json({
-                    data: newUser,
+                    data: null,
                     error: null,
                     msg: 'Child Successfully Signed Up!'
                 });
