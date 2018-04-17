@@ -6,14 +6,14 @@
     <div class="row justify-content-between mr-1 ml-1">
       <mat-form-field>
         <input matInput name="firstName" [(ngModel)]="user.firstName" #firstName="ngModel" required/>
-        <button mat-button *ngIf="user.firstName" matSuffix mat-icon-button aria-label="Clear" (click)="user.firstName=''">
+        <button mat-button *ngIf="user.firstName" matSuffix mat-icon-button aria-label="Clear" (click)="user.firstName=''" tabindex="-1">
           <mat-icon>close</mat-icon>
         </button>
         <mat-placeholder>First Name</mat-placeholder>
       </mat-form-field>
       <mat-form-field>
         <input matInput name="lastName" [(ngModel)]="user.lastName" #lastName="ngModel" required/>
-        <button mat-button *ngIf="user.lastName" matSuffix mat-icon-button aria-label="Clear" (click)="user.lastName=''">
+        <button mat-button *ngIf="user.lastName" matSuffix mat-icon-button aria-label="Clear" (click)="user.lastName=''" tabindex="-1">
           <mat-icon>close</mat-icon>
         </button>
         <mat-placeholder>Last Name</mat-placeholder>
@@ -21,14 +21,14 @@
     </div>
     <mat-form-field class="register-input">
       <input matInput name="username" [(ngModel)]="user.username" #username="ngModel" required/>
-      <button mat-button *ngIf="user.username" matSuffix mat-icon-button aria-label="Clear" (click)="user.username=''">
+      <button mat-button *ngIf="user.username" matSuffix mat-icon-button aria-label="Clear" (click)="user.username=''" tabindex="-1">
         <mat-icon>close</mat-icon>
       </button>
       <mat-placeholder>Username</mat-placeholder>
     </mat-form-field>
     <mat-form-field class="register-input">
       <input matInput name="email" [(ngModel)]="user.email" #email="ngModel" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" required/>
-      <button mat-button *ngIf="user.email" matSuffix mat-icon-button aria-label="Clear" (click)="user.email=''">
+      <button mat-button *ngIf="user.email" matSuffix mat-icon-button aria-label="Clear" (click)="user.email=''" tabindex="-1">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="email.invalid">Invalid email</mat-error>
@@ -36,7 +36,7 @@
     </mat-form-field>
     <mat-form-field class="register-input">
       <input matInput name="password" type="password" [(ngModel)]="user.password" #password="ngModel" required minlength="8" />
-      <button mat-button *ngIf="user.password" matSuffix mat-icon-button aria-label="Clear" (click)="user.password=''">
+      <button mat-button *ngIf="user.password" matSuffix mat-icon-button aria-label="Clear" (click)="user.password=''" tabindex="-1">
         <mat-icon>close</mat-icon>
       </button>
       <mat-placeholder>Password</mat-placeholder>
@@ -44,7 +44,7 @@
     </mat-form-field>
     <mat-form-field class="register-input">
       <input matInput name="confirmPassword" type="password" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" required/>
-      <button mat-button *ngIf="user.confirmPassword" matSuffix mat-icon-button aria-label="Clear" (click)="user.confirmPassword=''">
+      <button mat-button *ngIf="user.confirmPassword" matSuffix mat-icon-button aria-label="Clear" (click)="user.confirmPassword=''" tabindex="-1">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">Passwords don't match</mat-error>
@@ -59,7 +59,7 @@
     </mat-form-field>
     <mat-form-field class="register-input">
       <input matInput name="phone" [(ngModel)]="user.phone" #phone="ngModel" pattern="^[0-9]+$" />
-      <button mat-button *ngIf="user.phone" matSuffix mat-icon-button aria-label="Clear" (click)="user.phone=''">
+      <button mat-button *ngIf="user.phone" matSuffix mat-icon-button aria-label="Clear" (click)="user.phone=''" tabindex="-1">
         <mat-icon>close</mat-icon>
       </button>
       <mat-error *ngIf="phone.invalid && (phone.dirty || phone.touched)">Phone must contain numbers only ex:0123456789</mat-error>
