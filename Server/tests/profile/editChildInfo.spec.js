@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 /* eslint-disable max-len */
-/* eslint-disable no-shadow */
+/* eslint-disable max-statements */
 
 var mongoose = require('mongoose');
 var chai = require('chai');
@@ -16,7 +16,6 @@ chai.use(chaiHttp);
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
-
 
 
 var user = {
@@ -68,8 +67,8 @@ var userIn = {
     username: 'fsociety',
     password: '123456789'
 };
-var token;
-var id;
+var token = null;
+var id = '';
 var authenticatedUser = request.agent(server);
 
 describe('/PATCH/ edit child info', function () {
@@ -95,7 +94,6 @@ describe('/PATCH/ edit child info', function () {
     // --- End of "Clearing Mockgoose" --- //
 
 
-
     beforeEach(function (done) {
         chai.request(server).
             post('/api/signUp').
@@ -112,35 +110,39 @@ describe('/PATCH/ edit child info', function () {
                 chai.request(server).
                     post('/api/signUp').
                     send(user).
-                    end(function (err, response1) {
+                    end(function (errr, response1) {
 
-                        if (err) {
-                            console.log(err);
+                        if (errr) {
+                            console.log(errr);
 
-                            return console.log(err);
+                            return console.log(errr);
                         }
                         response1.should.have.status(201);
                         token = response1.body.token;
                         authenticatedUser.
                             post('/api/signIn').
                             send(userIn).
-                            end(function (err, response) {
+                            end(function (err1, response2) {
                                 response.should.have.status(200);
-                                token = response.body.token;
+                                token = response2.body.token;
                                 var array = [
                                     '_id',
                                     'username'
                                 ];
-                                if (err) {
-                                    console.log(err);
+                                if (err1) {
+                                    console.log(err1);
+
+                                    return err1;
                                 }
                                 chai.request(server).
                                     post('/api/userData').
                                     send(['_id']).
                                     set('Authorization', token).
-                                    end(function (err, returned) {
-                                        if (err) {
-                                            console.log(err);
+                                    end(function (err2, returned) {
+                                        if (err2) {
+                                            console.log(err2);
+
+                                            return err2;
                                         }
                                         returned.should.have.status(200);
                                         id = returned.body.data._id;
@@ -162,6 +164,11 @@ describe('/PATCH/ edit child info', function () {
             end(function (err, res) {
                 res.should.have.status(403);
                 res.body.should.have.property('msg').eql('Username already exists');
+                if (err) {
+                    console.log(err);
+
+                    return err;
+                }
                 done();
             });
     });
@@ -172,6 +179,11 @@ describe('/PATCH/ edit child info', function () {
             end(function (err, res1) {
                 res1.should.have.status(403);
                 res1.body.should.have.property('msg').eql('Email already exists');
+                if (err) {
+                    console.log(err);
+
+                    return err;
+                }
                 done();
             });
     });
@@ -188,6 +200,11 @@ describe('/PATCH/ edit child info', function () {
                 res2.body.data.email.should.eql('fsociety@gmail.com');
                 res2.body.data.phone.should.eql(['01111225223']);
                 res2.body.data.birthdate.should.eql('1997-07-29T21:00:00.000Z');
+                if (err) {
+                    console.log(err);
+
+                    return err;
+                }
                 done();
             });
     });

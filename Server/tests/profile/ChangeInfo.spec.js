@@ -165,7 +165,7 @@ describe('Change my personal information', function () {
                 done();
             });
     });
-    // --------------------------------------------------------------------------
+   // --------------------------------------------------------------------------
     it('It should not allow duplicate username', function (done) {
         chai.request(server).
             patch('/api/profile/ChangeInfo/' +

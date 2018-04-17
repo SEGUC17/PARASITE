@@ -1,3 +1,4 @@
+/* tslint:disable-next-line:max-line-length */
 import { Component, OnInit } from '@angular/core';
 import { ProfileService } from '../profile.service';
 import { AuthService } from '../../auth/auth.service';
@@ -18,10 +19,14 @@ export class ProfileComponent implements OnInit {
   currIsOwner = false;
   currIsParent = false;
   currIsChild = false;
+  currIsOfAge = false;
 
   visitedIsParent = false;
   visitedIsChild = false;
   visitedIsMyChild = false;
+  visitedIsMyParent = false;
+  visitedIsOfAge = false;
+  visitedCanBeParent = false;
   // ------------------------------------
 
   // ---------- Current User Info ---------------
@@ -95,6 +100,7 @@ export class ProfileComponent implements OnInit {
       this.lastName = user.data.lastName;
       this.email = user.data.email;
       this.address = user.data.address;
+      this.age = this.calculateAge(user.data.birthdate);
       this.phone = user.data.phone;
       this.schedule = user.data.schedule;
       this.studyPlans = user.data.studyPlans;
@@ -111,6 +117,9 @@ export class ProfileComponent implements OnInit {
       this.dEmail = this.email;
       this.dBirthday = this.birthday;
       this.dUsername = this.username;
+      if (this.age > 13) {
+        this.currIsOfAge = true;
+      }
 
 
 
@@ -125,20 +134,29 @@ export class ProfileComponent implements OnInit {
         this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
           this.vFirstName = info.data.firstName;
           this.vLastName = info.data.lastName;
-          this.vAge = info.data.birthday;
           this.vEmail = info.data.email;
           this.vAddress = info.data.address;
           this.vPhone = info.data.phone;
           this.vBirthday = info.data.birthdate;
           this.vListOfChildren = info.data.children;
+          this.vAge = this.calculateAge(this.vBirthday);
           this.vVerified = info.data.verified;
           this.vId = info.data._id;
           this.visitedIsParent = info.data.isParent;
           this.visitedIsChild = info.data.isChild;
-          if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
+          if (!(this.listOfChildren.indexOf(this.vUsername.toLowerCase()) < 0)) {
             this.visitedIsMyChild = true;
           }
-          
+          if (!(this.vListOfChildren.indexOf(this.username.toLowerCase()) < 0)) {
+            this.visitedIsMyParent = true;
+          }
+          if (this.vAge > 13) {
+            this.visitedIsOfAge = true;
+          }
+          if (this.vAge >= 18) {
+            this.visitedCanBeParent = true;
+          }
+
           this.dFirstName = info.data.firstName;
           this.dLastName = info.data.lastName;
           this.dAddress = info.data.address;
@@ -148,7 +166,7 @@ export class ProfileComponent implements OnInit {
           this.dUsername = info.data.username;
           // Getting the list of uncommon children
           this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
-          
+
         }));
       }
     });
@@ -174,7 +192,9 @@ export class ProfileComponent implements OnInit {
     let object = {
       child: child
     };
-    this._ProfileService.linkAnotherParent(object, this.vId).subscribe();
+    this._ProfileService.linkAnotherParent(object, this.vId).subscribe(function (res) {
+      alert(res.msg);
+    });
 
   }
 
@@ -183,14 +203,18 @@ export class ProfileComponent implements OnInit {
     let object = {
       child: child
     };
-    this._ProfileService.Unlink(object, this.id).subscribe();
+    this._ProfileService.Unlink(object, this.id).subscribe(function (res) {
+      alert(res.msg);
+    });
   }
 
-  linkToParent(child): void { // adds the currently logged in child to the list of children of the selected user
+  linkToParent(): void { // adds the currently logged in child to the list of children of the selected user
     let object = {
-      child: child
+      child: this.username
     };
-    this._ProfileService.linkAsParent(object, this.vId).subscribe();
+    this._ProfileService.linkAsParent(object, this.vId).subscribe(function (res) {
+      alert(res.msg);
+    });
   }
 
 
@@ -232,11 +256,11 @@ export class ProfileComponent implements OnInit {
       birthdate: (<HTMLInputElement>document.getElementById('dBirthday')).value,
       email: (<HTMLInputElement>document.getElementById('dEmail')).value
     };
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (re.test(info.email)) {
-    this._ProfileService.changeChildinfo(info).subscribe(function(res){
-      alert(res.msg);
-    });
+      this._ProfileService.changeChildinfo(info).subscribe(function (res) {
+        alert(res.msg);
+      });
 
     } else {
       alert('Please enter a valid email address');
@@ -254,14 +278,22 @@ export class ProfileComponent implements OnInit {
       birthdate: (<HTMLInputElement>document.getElementById('dBirthday')).value,
       email: (<HTMLInputElement>document.getElementById('dEmail')).value
     };
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (re.test(info.email)) {
-      this._ProfileService.ChangeInfo( this.id, info).subscribe(function(res){
-      alert(res.msg);
-    });
+      this._ProfileService.ChangeInfo(this.id, info).subscribe(function (res) {
+        alert(res.msg);
+      });
 
     } else {
       alert('Please enter a valid email address');
     }
+  }
+
+  calculateAge(birthdate: Date): Number {
+    const birthday = new Date(birthdate);
+    const today = new Date();
+    const age = ((today.getTime() - birthday.getTime()) / (31557600000));
+    const result = Math.floor(age);
+    return result;
   }
 }

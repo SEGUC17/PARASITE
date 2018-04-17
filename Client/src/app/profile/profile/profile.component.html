@@ -12,7 +12,7 @@
 
       <div class = "RightSideBtns">
           <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "currIsOwner && !currIsChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>
-          <button mat-raised-button id="linkToParent" *ngIf = "!currIsOwner && isChild && visitedIsParent" (click)= "linkToParent()">Add as a parent</button>
+          <button mat-raised-button id="linkToParent" *ngIf = "!currIsOwner && !currIsParent && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent" (click)= "linkToParent()">Add as a parent</button>
           <span class="dropdown" *ngIf = "currIsParent && !currIsOwner && !visitedIsChild">
             <button mat-raised-button [matMenuTriggerFor]="menu" id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
             <mat-menu #menu="matMenu">
@@ -21,7 +21,7 @@
                 </button>
               </mat-menu>
           </span>
-          <span class="dropdown" *ngIf = "currIsParent && visitedIsParent">
+          <span class="dropdown" *ngIf = "currIsParent && currIsOwner">
             <button mat-raised-button [matMenuTriggerFor]="menu" id = "unlinkAnotherParent">Unlink my child</button>
             <mat-menu #menu="matMenu">
                 <button *ngFor="let child of listOfChildren" mat-menu-item (click) = "removeChild(child)" >
@@ -29,7 +29,7 @@
                 </button>
               </mat-menu>
           </span>
-          <button mat-raised-button id="mkIndep" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsChild">Make Independent</button>
+          <button mat-raised-button id="mkIndep" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsChild && visitedIsOfAge">Make Independent</button>
           <button mat-raised-button id="createChildAccount" *ngIf = "currIsParent && currIsOwner">Create child account</button>
       
 
@@ -42,11 +42,13 @@
           <div id = "personalinfo" class = "tabcontent">
             <h3 style="font-weight: bold">Personal Info:</h3>
 
-            <label>Username: {{currIsOwner? username : vUsername}}</label> <br>
+            <label>Username: {{currIsOwner? ("@" + username) : ("@" + vUsername)}}</label> <br>
             
             <label>Email: {{currIsOwner? email : vEmail}}</label> <br>
             <label>Address: {{currIsOwner? address : vAddress}}</label> <br>
             <label>Phone: {{currIsOwner? phone : vPhone}}</label> <br>
+            <label>Birthday: {{currIsOwner? (birthday | date:'MM/dd/yyyy') : (vBirthday | date:'MM/dd/yyyy')}}</label> <br>
+            <label>Age: {{currIsOwner? age : vAge}}</label>
 
           </div>
         </mat-tab>
@@ -55,9 +57,9 @@
             <app-schedule [profileUser]="vUsername"></app-schedule>
           </div>
         </mat-tab>
-        <mat-tab label="List of children" *ngIf = "currIsOwner? !currIsChild : !visitedIsChild">
+        <mat-tab label="List of children" *ngIf = "currIsOwner && currIsParent && !currIsChild">
           <div id = "children" class = "tabcontent">
-            <h3 style="font-weight: bold">Your Children:</h3>
+            <h3 style="font-weight: bold" *ngIf = "currIsOwner && currIsParent && !currIsChild">Your Children:</h3>
             <app-childern></app-childern>
           </div>
         </mat-tab>

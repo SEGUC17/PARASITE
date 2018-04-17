@@ -1,6 +1,7 @@
 
 /* eslint-disable sort-keys */
 /* eslint-disable no-shadow */
+/* eslint-disable no-else-return */
 
 var mongoose = require('mongoose');
 var moment = require('moment');
@@ -148,7 +149,8 @@ module.exports.requestUserValidation = function (req, res, next) {
         });
       } else {
         console.log('passing error to next');
-        next(err);
+
+        return next(err);
       }
     }
     res.status(200).json({
@@ -316,12 +318,12 @@ module.exports.changePassword = function (req, res, next) {
 
 module.exports.changeChildInfo = function (req, res, next) {
   User.findOne({
-  username: req.body.username,
-  _id: { $ne: req.body.id }
-}, function (err, user) {
-  if (err) {
-    return next(err);
-  }
+    username: req.body.username,
+    _id: { $ne: req.body.id }
+  }, function (err, user) {
+    if (err) {
+      return next(err);
+    }
     if (user) {
       console.log(user.username);
 
@@ -333,7 +335,7 @@ module.exports.changeChildInfo = function (req, res, next) {
     } else {
       User.findOne({
         email: req.body.email,
-        _id : { $ne: req.body.id }
+        _id: { $ne: req.body.id }
       }, function (err2, user2) {
         if (user2) {
           return res.status(403).json({
@@ -347,9 +349,13 @@ module.exports.changeChildInfo = function (req, res, next) {
             req.body.id,
             {
               $set: {
-                username: req.body.username, firstName: req.body.firstName,
-                lastName: req.body.lastName, email: req.body.email, address: req.body.address,
-                birthdate: req.body.birthdate, phone: req.body.phone
+                username: req.body.username,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                address: req.body.address,
+                birthdate: req.body.birthdate,
+                phone: req.body.phone
               }
             }, { new: true },
             function (err, user3) {
@@ -386,7 +392,7 @@ module.exports.ChangeInfo = function (req, res, next) {
     if (err) {
       return next(err);
     } else if (user1) {
-      
+
       return res.status(403).json({
         data: null,
         err: null,

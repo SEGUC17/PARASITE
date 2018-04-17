@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { AuthService } from '../auth/auth.service';
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
 import { apiUrl } from '../variables';
 
 
@@ -21,8 +21,8 @@ export class ProfileService {
   private apiUrl = environment.apiUrl;
   UserData = ['username'];
   private linkAnotherParentUrl = apiUrl + 'profile/LinkAnotherParent';
-  private UnlinkUrl = apiUrl + 'profile/UnLinkChild/';
-  private linkAsParentUrl = apiUrl + 'profile/AddAsAParent/';
+  private UnlinkUrl = apiUrl + 'profile/UnLinkChild';
+  private linkAsParentUrl = apiUrl + 'profile/AddAsAParent';
   private getChildrenUrl = apiUrl + 'profile/';
   private continueUrl = 'getChildren';
   private pwURL = apiUrl + 'profile/changePassword';
@@ -38,13 +38,13 @@ export class ProfileService {
 
 
   Unlink(childrenList, Id): Observable<any> {
-    return this.http.patch<any>(`${this.UnlinkUrl}/${Id}`, childrenList, httpOptions);
+    return this.http.put<any>(`${this.UnlinkUrl}/${Id}`, childrenList, httpOptions);
 
   }
 
 
   linkAsParent(child, vId): Observable<any> {
-    return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions);
+    return this.http.put<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions);
   }
   // ------------------------------------------------------------------------
 
