@@ -408,6 +408,7 @@ module.exports.createContent = function (req, res, next) {
 };
 
 var handleAdminUpdate = function (req, res, next) {
+    // No requests are made, and content is approved automatically
     req.body.approved = true;
     var id = req.body._id;
     delete req.body._id;
@@ -430,6 +431,7 @@ var handleAdminUpdate = function (req, res, next) {
 };
 
 var handleNonAdminUpdate = function (req, res, next) {
+    // create a content request, and set approval status to false
     req.body.approved = false;
     ContentRequest.create({
         contentID: req.body._id,
