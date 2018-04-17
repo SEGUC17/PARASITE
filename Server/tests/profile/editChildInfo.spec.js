@@ -123,7 +123,7 @@ describe('/PATCH/ edit child info', function () {
                             post('/api/signIn').
                             send(userIn).
                             end(function (err1, response2) {
-                                response.should.have.status(200);
+                                response2.should.have.status(200);
                                 token = response2.body.token;
                                 var array = [
                                     '_id',
