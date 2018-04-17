@@ -5,14 +5,14 @@
     </div>
     <mat-form-field class="meta-input" hintLabel="Please enter your username/email here">
       <input matInput #username [(ngModel)]="this.user.username" name="username" required/>
-      <button mat-button *ngIf="user.username" matSuffix mat-icon-button aria-label="Clear" (click)="user.username=''">
+      <button mat-button *ngIf="user.username" matSuffix mat-icon-button aria-label="Clear" (click)="user.username=''" tabindex="-1">
         <mat-icon>close</mat-icon>
       </button>
       <mat-placeholder><mat-icon>account_circle</mat-icon>Username</mat-placeholder>
     </mat-form-field>
     <mat-form-field class="meta-input" hintLabel="please enter your password here">
       <input matInput type="password" #password [(ngModel)]="this.user.password" name="password" required/>
-      <button mat-button *ngIf="user.password" matSuffix mat-icon-button aria-label="Clear" (click)="user.password=''">
+      <button mat-button *ngIf="user.password" matSuffix mat-icon-button aria-label="Clear" (click)="user.password=''"  tabindex="-1">
         <mat-icon>close</mat-icon>
       </button>
       <mat-placeholder><mat-icon>security</mat-icon>Password</mat-placeholder>
