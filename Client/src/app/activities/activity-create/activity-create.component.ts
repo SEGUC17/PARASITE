@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
 
@@ -22,7 +21,8 @@ export class ActivityCreateComponent implements OnInit {
     toDateN: null,
     fromDateTime: null,
     toDateTime: null,
-    image: null
+    image: null,
+    discussion: []
   };
 
   constructor(

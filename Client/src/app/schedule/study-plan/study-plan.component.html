@@ -4,9 +4,9 @@
       <mat-card-title>{{ studyPlan.title }}
         <app-star-rating
           *ngIf="type === 'published'"
-          [rating]="rating"  
-          [starCount]="starCount" 
-          [color]="starColor" 
+          [rating]="rating"
+          [starCount]="starCount"
+          [color]="starColor"
           (ratingUpdated)="onRatingChanged($event)"
           style="float: right;">
         </app-star-rating>
@@ -45,14 +45,26 @@
     </div>
   </mat-card>
   <mat-card label="Content Preview">
-    <div class="ql-editor preview" [innerHTML]="this.sanitizer.bypassSecurityTrustHtml(description)"></div>
+    <div class="ql-editor preview" [innerHTML]="editorContent"></div>
   </mat-card>
   <mat-card>
       <div class="button-row">
-          <button mat-raised-button (click)="publish()" color="primary" *ngIf="type === 'personal'">Publish</button>
-          <button mat-raised-button (click)="copy()" color="primary">Copy</button>
-          <button mat-raised-button (click)="assign()" color="primary" *ngIf="type === 'personal'">Assign</button>
-          <button mat-raised-button (click)="edit()" color="primary" *ngIf="type === 'personal'">Edit</button>
+          <button mat-raised-button (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
+          <button mat-raised-button (click)="copy()" color="primary"*ngIf="!currIsChild">Copy</button>
+          <button  mat-raised-button (click)="assign()" color="primary" *ngIf="type === 'personal' && !currIsChild">Assign</button>
+          <button mat-raised-button (click)="unAssign()" color="primary" *ngIf="type === 'personal' && !currIsChild">Unassign</button>
+          <button mat-raised-button (click)="edit()" color="primary" *ngIf="type === 'personal' && !currIsChild">Edit</button>
+
+          <!-- <button mat-raised-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+
+          <mat-menu #menu="matMenu"  >
+            <button mat-menu-item (click)="assign()" *ngFor="let child of listOfChildren">
+              {{child }}
+          </button>
+          </mat-menu> -->
+
         </div>
   </mat-card>
 </div>

@@ -32,6 +32,11 @@ export class AppComponent implements OnDestroy {
       name: 'Signup'
     },
     {
+      url: '/auth/resetpassword',
+      name: 'Reset Password'
+
+    },
+    {
       url: '/profile',
       name: 'Profile'
     },
@@ -71,10 +76,6 @@ export class AppComponent implements OnDestroy {
     {
       url: '/admin/category',
       name: 'Admin Category Control'
-    },
-    {
-      url: '/psychologist/request/add',
-      name: 'Add a Psychologist'
     }
   ];
   mobileQuery: MediaQueryList;

@@ -25,6 +25,7 @@ var contentSchema = mongoose.Schema({
         trim: true,
         type: String
     },
+    discussion: { type: [commentSchema] },
     image: {
         trim: false,
         type: String

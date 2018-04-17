@@ -6,17 +6,18 @@
 */
 
 export class Activity {
-    _id: String;
-    name: String;
-    description: String;
-    bookedBy: [String]; // userIds
-    price: Number;
-    status: String;
-    fromDateTime: Date;
-    toDateTime: Date;
-    createdAt: Date;
-    updatedAt: Date;
-    image: String;
+    _id : String;
+    name : String;
+    description : String;
+    bookedBy : [String]; // userIds
+    price : Number;
+    status : String;
+    fromDateTime : Date;
+    toDateTime : Date;
+    createdAt : Date;
+    updatedAt : Date;
+    image : String;
+    discussion: any[];
     creator: String;
 }
 
@@ -31,6 +32,7 @@ export class ActivityCreate {
     fromDateTime: Number;
     toDateTime: Number;
     image: String;
+    discussion: any[];
 
 }
 export class ActivityEdit {

@@ -6,29 +6,47 @@
     <div class="row justify-content-between mr-1 ml-1">
       <mat-form-field>
         <input matInput name="firstName" [(ngModel)]="user.firstName" #firstName="ngModel" required/>
+        <button mat-button *ngIf="user.firstName" matSuffix mat-icon-button aria-label="Clear" (click)="user.firstName=''">
+          <mat-icon>close</mat-icon>
+        </button>
         <mat-placeholder>First Name</mat-placeholder>
       </mat-form-field>
       <mat-form-field>
         <input matInput name="lastName" [(ngModel)]="user.lastName" #lastName="ngModel" required/>
+        <button mat-button *ngIf="user.lastName" matSuffix mat-icon-button aria-label="Clear" (click)="user.lastName=''">
+          <mat-icon>close</mat-icon>
+        </button>
         <mat-placeholder>Last Name</mat-placeholder>
       </mat-form-field>
     </div>
     <mat-form-field class="register-input">
       <input matInput name="username" [(ngModel)]="user.username" #username="ngModel" required/>
+      <button mat-button *ngIf="user.username" matSuffix mat-icon-button aria-label="Clear" (click)="user.username=''">
+        <mat-icon>close</mat-icon>
+      </button>
       <mat-placeholder>Username</mat-placeholder>
     </mat-form-field>
     <mat-form-field class="register-input">
       <input matInput name="email" [(ngModel)]="user.email" #email="ngModel" pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$" required/>
+      <button mat-button *ngIf="user.email" matSuffix mat-icon-button aria-label="Clear" (click)="user.email=''">
+        <mat-icon>close</mat-icon>
+      </button>
       <mat-error *ngIf="email.invalid">Invalid email</mat-error>
       <mat-placeholder>Email</mat-placeholder>
     </mat-form-field>
     <mat-form-field class="register-input">
       <input matInput name="password" type="password" [(ngModel)]="user.password" #password="ngModel" required minlength="8" />
+      <button mat-button *ngIf="user.password" matSuffix mat-icon-button aria-label="Clear" (click)="user.password=''">
+        <mat-icon>close</mat-icon>
+      </button>
       <mat-placeholder>Password</mat-placeholder>
       <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">Password should have at least 8 characters</mat-error>
     </mat-form-field>
     <mat-form-field class="register-input">
       <input matInput name="confirmPassword" type="password" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel" required/>
+      <button mat-button *ngIf="user.confirmPassword" matSuffix mat-icon-button aria-label="Clear" (click)="user.confirmPassword=''">
+        <mat-icon>close</mat-icon>
+      </button>
       <mat-error *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">Passwords don't match</mat-error>
       <mat-placeholder>Confirm Password</mat-placeholder>
     </mat-form-field>
@@ -41,13 +59,24 @@
     </mat-form-field>
     <mat-form-field class="register-input">
       <input matInput name="phone" [(ngModel)]="user.phone" #phone="ngModel" pattern="^[0-9]+$" />
+      <button mat-button *ngIf="user.phone" matSuffix mat-icon-button aria-label="Clear" (click)="user.phone=''">
+        <mat-icon>close</mat-icon>
+      </button>
       <mat-error *ngIf="phone.invalid && (phone.dirty || phone.touched)">Phone must contain numbers only ex:0123456789</mat-error>
       <mat-placeholder>Phone</mat-placeholder>
     </mat-form-field>
     <mat-form-field class="register-input">
-      <input matInput name="address" [(ngModel)]="user.address" #address="ngModel" />
-      <mat-placeholder>Address</mat-placeholder>
+      <mat-select matInput name="address" [(ngModel)]="user.address" #address="ngModel" required>
+        <mat-option *ngFor="let city of cities" [value]="city">
+          {{ city }}
+        </mat-option>
+        <mat-error *ngIf="address.touched">Select A City</mat-error>
+      </mat-select>
+      <mat-placeholder>City</mat-placeholder>
     </mat-form-field>
+    <mat-checkbox class="is-teacher" #isTeacher [(ngModel)]="user.isTeacher" name="isTeacher" color="primary">
+      Are You A Teacher?
+    </mat-checkbox>
     <div class="d-flex">
       <button mat-button class="center" color="primary" (click)="register()" [disabled]="!signUpForm.form.valid">submit</button>
     </div>

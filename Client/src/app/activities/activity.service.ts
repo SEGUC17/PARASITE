@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 
 import { apiUrl } from '../variables';
 import { ActivityCreate, ActivityEdit } from './activity';
+import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
 import { Activity } from './activity';
 const httpOptions = {
@@ -18,8 +19,8 @@ export class ActivityService {
     @author: Wessam
   */
 
-  private activitiesUrl = apiUrl + 'activities';
-  private unverifiedActivitiesUrl = apiUrl + 'unverifiedActivities';
+  private activitiesUrl = environment.apiUrl + 'activities';
+  private unverifiedActivitiesUrl = environment.apiUrl + 'unverifiedActivities';
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -57,44 +58,6 @@ export class ActivityService {
     return this.http.put<any>( this.unverifiedActivitiesUrl, activity );
   }
 
-  postCommentOnActivity(activityId: any, comment: any) {
-    return this.http.post<any>(this.activitiesUrl + '/'
-      + activityId + '/comments', {text: comment}).
-    pipe(
-      catchError(this.handleError('creatingActivity', []))
-    );
-  }
-  // '/activities/:activityId/comments/:commentId'
-  getCommentOnActivity(activityId: any, commentId: any) {
-    return this.http.get<any>(this.activitiesUrl + '/'
-      + activityId + '/comments/' + commentId).
-    pipe(
-      catchError(this.handleError('creatingActivity', []))
-    );
-  }
-
-  postReplyOnCommentOnActivity(activityId: any, commentId: any, Reply: any) {
-    return this.http.post<any>(this.activitiesUrl + '/'
-      + activityId + '/comments/' + commentId + '/replies', {text: Reply}).
-    pipe(
-      catchError(this.handleError('creatingActivity', []))
-    );
-  }
-  deleteCommentOnActivity(activityId: any, commentId: any) {
-    return this.http.delete(this.activitiesUrl + '/'
-    + activityId + '/comments/' + commentId).
-    pipe(
-      catchError(this.handleError('creatingActivity', []))
-    );
-  }
-
-  deleteReplyOnCommentOnActivity(activityId: any, commentId: any, replyId: any) {
-    return this.http.delete(this.activitiesUrl + '/'
-      + activityId + '/comments/' + commentId + '/replies/' + replyId).
-    pipe(
-      catchError(this.handleError('creatingActivity', []))
-    );
-  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {

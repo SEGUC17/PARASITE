@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -10,8 +11,8 @@ const httpOptions = {
 
 @Injectable()
 export class MarketService {
-
-  host: String = 'http://localhost:3000/api/';
+  
+  host: String = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -41,12 +42,26 @@ export class MarketService {
     };
   }
 
-  //Post a product
+  // Post a product
   createProduct(product: any): Observable<any> {
     return this.http.post<any>(this.host + 'productrequest/createproduct', product, httpOptions);
   }
-  //Post a product request
+  // Post a product request
   createProductRequest(request: any): Observable<any> {
     return this.http.post<any>(this.host + 'productrequest/createProductRequest', request, httpOptions);
+  }
+
+  // Get user unverified requests
+  getUserRequests(username: String): Observable<any> {
+    return this.http.get<any>(this.host + 'productrequest/getUserRequests/' + username, httpOptions);
+  }
+
+  editPrice(product: any, username: String): Observable<any> {
+    return this.http.patch<any>(this.host + 'productrequest/editPrice/' + product._id + '/' + username , product, httpOptions);
+  }
+
+  // Send updated request to Database
+  updateRequest(updatedReq: any, _id: String, username: String): Observable<any> {
+    return this.http.patch<any>(this.host + 'productrequest/updateProdRequest/' + _id + '/' + username, updatedReq, httpOptions);
   }
 }

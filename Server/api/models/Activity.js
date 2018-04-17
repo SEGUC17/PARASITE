@@ -79,7 +79,10 @@ var activitySchema = Schema({
        data: Buffer,
        type: String
    },
-   discussion: { type: [commentSchema] }
+   discussion: {
+        default: [],
+       type: [commentSchema]
+    }
 });
 
 // Adds CreatedAt, UpdatedAt fields in Unix format

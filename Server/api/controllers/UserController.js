@@ -6,6 +6,7 @@
 // ---------------------- Requirements ---------------------- //
 var config = require('../config/config');
 var jwt = require('jsonwebtoken');
+var REGEX = require('../utils/validators/REGEX');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 // ---------------------- End of "Requirements" ---------------------- //
@@ -18,12 +19,13 @@ var isDate = require('../utils/validators/is-date');
 var isString = require('../utils/validators/is-string');
 var isNotEmpty = require('../utils/validators/not-empty');
 var Encryption = require('../utils/encryption/encryption');
+var emails = require('../utils/emails/email-verification');
 // ---------------------- End of "Validators" ---------------------- //
 
 
 // ---------------------- JWT Token Generator ---------------------- //
-var generateJWTToken = function (id, callback) {
-    callback('JWT ' + jwt.sign({ 'id': id }, config.SECRET, { expiresIn: '12h' }));
+var generateJWTToken = function (id, time, callback) {
+    callback('JWT ' + jwt.sign({ 'id': id }, config.SECRET, { expiresIn: time }));
 };
 // ---------------------- End of "JWT Token Generator" ---------------------- //
 
@@ -111,7 +113,7 @@ module.exports.signUp = function (req, res, next) {
     // --- End of "Check: birthdate" --- //
 
     // --- Check: Email Regex Match --- //
-    if (!newUser.email.match(config.EMAIL_REGEX)) {
+    if (!newUser.email.match(REGEX.MAIL_REGEX)) {
         return res.status(422).json({
             data: null,
             err: null,
@@ -132,7 +134,7 @@ module.exports.signUp = function (req, res, next) {
 
     // --- Check: Phone Regex Match ---//
     for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
-        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
+        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
             return res.status(422).json({
                 data: null,
                 err: null,
@@ -174,7 +176,9 @@ module.exports.signUp = function (req, res, next) {
                     throw err2;
                 }
 
-                generateJWTToken(newUser._id, function (jwtToken) {
+                var time = '12h';
+
+                generateJWTToken(newUser._id, time, function (jwtToken) {
                     return res.status(201).json({
                         data: null,
                         err: null,
@@ -242,7 +246,9 @@ module.exports.signIn = function (req, res, next) {
                     });
                 }
 
-                generateJWTToken(user._id, function (jwtToken) {
+                var time = req.body.rememberMe ? '1w' : '12h';
+
+                generateJWTToken(user._id, time, function (jwtToken) {
                     return res.status(200).json({
                         data: null,
                         err: null,
@@ -259,7 +265,7 @@ module.exports.signIn = function (req, res, next) {
 
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
-    // console.log('entered the signUpChild method');
+     console.log('entered the signUpChild method');
     // console.log('userId is: ' + req.user._id);
     // console.log('username is: ' + req.user.username);
 
@@ -340,7 +346,7 @@ module.exports.signUpChild = function (req, res, next) {
         return res.status(401).json({
             data: null,
             err2: null,
-            msg: 'you are missing required data entry ' + field + '!' + err2.message
+            msg: 'you are missing required data entry '
         });
     }
     //---end of emptiness validations--////
@@ -352,7 +358,7 @@ module.exports.signUpChild = function (req, res, next) {
     // --- End of "Trimming & Lowering Cases"--- //
     // --- Check: Phone Regex Match ---//
     for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
-        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
+        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
             return res.status(422).json({
                 data: null,
                 err5: null,
@@ -362,7 +368,7 @@ module.exports.signUpChild = function (req, res, next) {
     }
     // --- End of "Check: Phone Regex Match" ---//
     // --- Check: Email Regex Match --- //
-    if (!newUser.email.match(config.EMAIL_REGEX)) {
+    if (!newUser.email.match(REGEX.MAIL_REGEX)) {
         return res.status(422).json({
             data: null,
             err6: null,
@@ -395,16 +401,18 @@ module.exports.signUpChild = function (req, res, next) {
                     return res.status(409).json({
                         data: null,
                         err8: null,
-                        msg: 'Email Is In Use!'
+                        msg: 'Email already exists!'
                     });
                 }
 
                 return res.status(409).json({
                     data: null,
                     err8: null,
-                    msg: 'Username Is In Use!'
+                    msg: 'Username already exists!'
                 });
-            } //---end of duplicate checks--///
+            }
+            //---end of duplicate checks--//
+
             //--hashing password--//
             User.create(newUser, function (error) {
                 if (error) {
@@ -589,3 +597,72 @@ module.exports.isUserExist = function (req, res, next) {
     );
 
 };
+
+module.exports.resetpassword = function (req, res, next) {
+    console.log('entered resetPassword backend method');
+// password gets trimmed of spaces
+    req.params.email = req.params.email.toLowerCase().trim();
+// check if the user exits
+    User.findOne(
+        { email: req.params.email },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (user) {
+                // generate random code to send to user
+                var code = Math.random().toString(36).
+                substring(7);
+
+                    emails.sendEmailVerification(user.email, code);
+
+                    return res.status(201).json({
+                        code: code,
+                        data: null,
+                        err: null,
+                        msg: 'User found!'
+                    });
+
+            } else if (!user) {
+                return res.status(404).json({
+                data: null,
+                err: null,
+                msg: 'User was not found!'
+            });
+         }
+
+        }
+    );
+
+};
+
+module.exports.changePassword = function (req, res, next) {
+    console.log('entered changePAssword backend method');
+    req.params.email = req.params.email.toLowerCase().trim();
+    // hash incoming password
+                Encryption.hashPassword(req.body.newpw, function (err3, hash) {
+                    if (err3) {
+                        console.log('entered err3 in changePassword');
+
+                      return next(err3);
+                    }
+                    // update user password with hash
+                    User.findOneAndUpdate(
+                      { email: req.params.email },
+                      { password: hash }, function (err, user2) {
+                        if (err) {
+                            console.log('entered err in changePassword');
+
+                          return next(err);
+                        }
+                        console.log('returned res 200');
+
+                       return res.status(200).json({
+                          data: user2,
+                          err: null,
+                          msg: 'User password was reset successfully.'
+                        });
+                      }
+                    );
+                });
+            };
+

@@ -1,7 +1,7 @@
 
 .mat-card {
   background-color: #f2f2f2;
-  margin: 1%;
+  margin: 0.5%;
 }
 
 .example-header-image {
@@ -10,4 +10,8 @@
 
 }
 
+.example-container {
+  display: flex;
+  flex-direction: column;
+}
 

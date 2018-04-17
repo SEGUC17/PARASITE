@@ -11,6 +11,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivityComponent } from './activity/activity.component';
 import { ActivitiesRoutingModule } from './activities-routing.module';
 import { ActivityService } from './activity.service';
@@ -18,6 +19,7 @@ import { AuthService } from '../auth/auth.service';
 import { ActivityCreateComponent } from './activity-create/activity-create.component';
 import { ActivityDetailComponent } from './activity-detail/activity-detail.component';
 import { ActivityEditComponent } from './activity-edit/activity-edit.component';
+import { DiscussionService } from '../discussion.service';
 
 @NgModule({
   imports: [
@@ -31,12 +33,12 @@ import { ActivityEditComponent } from './activity-edit/activity-edit.component';
     MatButtonModule,
     FormsModule,
     MatListModule,
-    MatDialogModule
-
+    MatDialogModule,
+    MatTooltipModule
   ],
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent],
   entryComponents: [ActivityEditComponent],
-  providers: [ActivityService, AuthService, { provide: MatDialogRef, useValue: {} },
+  providers: [ActivityService, AuthService, DiscussionService , { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }]
 })
 export class ActivitiesModule { }
