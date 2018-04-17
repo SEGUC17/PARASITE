@@ -624,6 +624,53 @@ module.exports.prepareContent = function (req, res, next) {
         });
 };
 
+module.exports.updateCategory = function (req, res, next) {
+    // check admin permissions
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'This user is not an admin user',
+            msg: null
+        });
+    }
+
+    // validate category id
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category id provided was not valid',
+            msg: null
+        });
+    }
+
+    //find category by ID and update its name
+    Category.findByIdAndUpdate(
+        req.params.id,
+        { name: req.body.name },
+        function (categoryUpdateError, updatedCategory) {
+            if (categoryUpdateError) {
+                return next(categoryUpdateError);
+            }
+            Content.updateMany(
+                { category: updatedCategory.name },
+                function (contentUpdateError) {
+                    if (contentUpdateError) {
+                        return next(contentUpdateError);
+                    }
+
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'updated category and' +
+                            'associated content successfully'
+                    });
+                }
+            );
+        }
+    );
+};
+
+
 module.exports.deleteCategory = function (req, res, next) {
 
     // verify that the issuer of the request is an admin
