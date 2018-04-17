@@ -2,6 +2,7 @@
 /* eslint-disable complexity */
 
 // ---------------------- Requirements ---------------------- //
+var emailVerification = require('../utils/emails/email-verification');
 var config = require('../config/config');
 var jwt = require('jsonwebtoken');
 var REGEX = require('../utils/validators/REGEX');
@@ -179,25 +180,52 @@ module.exports.signUp = function (req, res, next) {
                 });
             }
 
-            newUser.save(function (err2) {
+            newUser.save(function (err2, user2) {
                 if (err2) {
                     throw err2;
                 }
 
-                var time = '12h';
+                emailVerification.send(
+                    user2.email,
+                    'http://localhost:3000/api/verifyEmail/' + user2._id
+                );
 
-                generateJWTToken(newUser._id, time, function (jwtToken) {
-                    return res.status(201).json({
-                        data: null,
-                        err: null,
-                        msg: 'Sign Up Is Successful!',
-                        token: jwtToken
-                    });
+                return res.status(201).json({
+                    data: null,
+                    err: null,
+                    msg: 'Sign Up Is Successful!\n' +
+                        'Verification Mail Was Sent To Your Email!'
                 });
             });
         }
     );
     // --- End of "Check: Duplicate Username/Email" --- //
+};
+
+module.exports.verifyEmail = function (req, res, next) {
+
+    User.findByIdAndUpdate(
+        req.params.id,
+        { 'isEmailVerified': true },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User Not Found!'
+                });
+            }
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'Email Verification Is Successful!'
+            });
+        }
+    );
+
 };
 
 module.exports.signIn = function (req, res, next) {
@@ -242,6 +270,12 @@ module.exports.signIn = function (req, res, next) {
                     data: null,
                     err: null,
                     msg: 'Wrong Username/Email Or Password!'
+                });
+            } else if (!user.isEmailVerified) {
+                return res.status(422).json({
+                    data: null,
+                    err: null,
+                    msg: 'Email Is Not Verified'
                 });
             }
 
