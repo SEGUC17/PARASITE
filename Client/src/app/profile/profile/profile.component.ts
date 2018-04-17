@@ -22,6 +22,8 @@ export class ProfileComponent implements OnInit {
   visitedIsParent = false;
   visitedIsChild = false;
   visitedIsMyChild = false;
+  visitedIsMyParent = false;
+  visitedOld = true;
   // ------------------------------------
 
   // ---------- Current User Info ---------------
@@ -29,7 +31,7 @@ export class ProfileComponent implements OnInit {
   firstName: string;
   lastName: string;
   username: string;
-  age: Number;
+  // age: Number;
   email: string;
   address: string;
   phone: [string];
@@ -49,7 +51,7 @@ export class ProfileComponent implements OnInit {
   vFirstName: string;
   vLastName: string;
   vUsername: string;
-  vAge: Number;
+   vAge: Number;
   vEmail: string;
   vAddress: string;
   vPhone: [string];
@@ -60,6 +62,7 @@ export class ProfileComponent implements OnInit {
   vVerified: Boolean = false;
   vId: any;
   message: string;
+
   // ------------------------------------
   changePass: Boolean;
   childInfo: Boolean;
@@ -125,7 +128,7 @@ export class ProfileComponent implements OnInit {
         this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
           this.vFirstName = info.data.firstName;
           this.vLastName = info.data.lastName;
-          this.vAge = info.data.birthday;
+      //    this.vAge = info.data.birthday;
           this.vEmail = info.data.email;
           this.vAddress = info.data.address;
           this.vPhone = info.data.phone;
@@ -138,7 +141,11 @@ export class ProfileComponent implements OnInit {
           if (!(this.listOfChildren.indexOf(this.vUsername) < 0)) {
             this.visitedIsMyChild = true;
           }
-          
+          if (!(this.vListOfChildren.indexOf(this.username) < 0)) {
+            this.visitedIsMyParent = true;
+          }
+
+
           this.dFirstName = info.data.firstName;
           this.dLastName = info.data.lastName;
           this.dAddress = info.data.address;
@@ -148,7 +155,7 @@ export class ProfileComponent implements OnInit {
           this.dUsername = info.data.username;
           // Getting the list of uncommon children
           this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
-          
+
         }));
       }
     });
@@ -211,12 +218,25 @@ export class ProfileComponent implements OnInit {
       });
 
     }
-  }
+  } // Author: Heidi
   EditChildIndependence() {
 
-    this._ProfileService.EditChildIndependence(this.vUsername).subscribe();
+    this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
+
+      alert(res.msg);
+
+    }));
     // getting the visited profile username and passing it to service method to add it to the patch request
 
+  }  // Author :Heidi
+  UnlinkMyself() {
+// getting the visited profile username and passing it to service method to add it to the patch request
+    this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
+      console.log(res.msg);
+      alert(res.msg);
+
+  if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
+    }));
   }
 
 

@@ -5,6 +5,9 @@
   <p class="time">From: {{ activity.fromDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
   <p class="time">To: {{ activity.toDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
   <p class="price">{{ activity.price | currency: 'EGP'}}</p>
+  <mat-card-actions>
+      <!--button mat-raised-button *ngIf = "IsCreator" (click)="openDialog()">Edit</button-->
+</mat-card-actions>
 
 </mat-card>
 <div class="container">
