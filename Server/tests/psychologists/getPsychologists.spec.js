@@ -5,7 +5,7 @@ var server = require('../../app');
 var Psychologist = mongoose.model('Psychologist');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-
+var should = require('chai').should();
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
@@ -58,7 +58,9 @@ describe('/GET/ Psychologists Page', function () {
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
-            done();
+            Psychologist.ensureIndexes(function() {
+                done();
+            });
         });
     });
     // --- End of "Clearing Mockgoose" --- //
