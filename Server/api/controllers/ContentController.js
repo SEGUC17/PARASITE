@@ -1,7 +1,6 @@
-/* eslint-disable eqeqeq */
 /* eslint max-statements: ["error", 20] */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-/* eslint multiline-comment-style: ["error", "starred-block"] */
+
 
 var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
@@ -268,18 +267,24 @@ module.exports.validateSelectedCategory = function (req, res, next) {
                 msg: null
             });
         }
-        var sectionNames = category.sections.map(function (section) {
-            return section.name;
-        });
-        if (!sectionNames.includes(req.body.section)) {
-            return res.status(422).json({
-                data: null,
-                err: 'the section supplied is invalid',
-                msg: null
-            });
-        }
+        res.locals.category = category;
         next();
     });
+};
+
+module.exports.validateSelectedSection = function (req, res, next) {
+    var category = res.locals.category;
+    var sectionNames = category.sections.map(function (section) {
+        return section.name;
+    });
+    if (!sectionNames.includes(req.body.section)) {
+        return res.status(422).json({
+            data: null,
+            err: 'the section supplied is invalid',
+            msg: null
+        });
+    }
+    next();
 };
 
 module.exports.validateContent = function (req, res, next) {
@@ -676,6 +681,7 @@ module.exports.deleteCategory = function (req, res, next) {
     );
 };
 
+
 module.exports.deleteSection = function (req, res, next) {
 
     // verify that the issuer of the request is an admin
@@ -738,3 +744,5 @@ module.exports.deleteSection = function (req, res, next) {
         }
     );
 };
+
+

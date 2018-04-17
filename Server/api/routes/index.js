@@ -237,6 +237,7 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.validateContent,
     contentController.validateSelectedCategory,
+    contentController.validateSelectedSection,
     contentController.createContent
   );
 
@@ -282,6 +283,7 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.validateContent,
     contentController.validateSelectedCategory,
+    contentController.validateSelectedSection,
     contentController.updateContent
   );
 
