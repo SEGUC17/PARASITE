@@ -40,7 +40,7 @@ var usr = {
 };
 var token = null;
 
-describe('Admin deletes a psychologist from address book', function () {
+describe('user deletes his info from address book', function () {
     var psycho = null;
 
     /* preparing Mockooge */
@@ -100,7 +100,7 @@ describe('Admin deletes a psychologist from address book', function () {
             });
         });
 
-    it('delete information directly from address book', function (done) {
+    it('information is deleted successfully from address book', function (done) {
         chai.request(server).delete('/api/psychologist/delete/' + psycho._id).
             set('Authorization', token).
             end(function (err, res) {

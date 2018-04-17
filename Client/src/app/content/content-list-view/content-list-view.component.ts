@@ -5,6 +5,7 @@ import { Inject } from '@angular/core';
 import { Category } from '../category';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-content-list-view',
@@ -47,11 +48,12 @@ export class ContentListViewComponent implements OnInit {
   // signed in user
   currentUser: User;
 
-  constructor(private contentService: ContentService, private authService: AuthService) { }
+  constructor(private contentService: ContentService, private authService: AuthService,
+    private router: Router) { }
 
   ngOnInit() {
     const self = this;
-    this.authService.getUserData(['username']).
+    this.authService.getUserData(['username', 'avatar']).
       subscribe(function (user) {
         self.currentUser = user.data;
         if (self.currentUser) {
@@ -87,7 +89,7 @@ export class ContentListViewComponent implements OnInit {
     const self = this;
     this.contentService.
       getContentByCreator(self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber,
-      self.myContributionsSelectedCategory, self.myContributionsSelectedSection).
+        self.myContributionsSelectedCategory, self.myContributionsSelectedSection).
       subscribe(function (retrievedContents) {
         // append a new page to the myContributions array
         self.myContributions = self.myContributions.concat(retrievedContents.data.docs);
@@ -159,10 +161,23 @@ export class ContentListViewComponent implements OnInit {
       self.selectedCategory,
       self.selectedSection,
       self.sortResultsBy
-    ).subscribe(function (retrievedContents) {
+    ).subscribe(function (res) {
+      let retrievedContent = res.data.contents.docs;
+      let retrievedAvatars = res.data.userAvatars;
+      // match the retrieved content to their avatars
+      for (let counter = 0; counter < retrievedContent.length; counter += 1) {
+        retrievedContent[counter].creatorAvatarLink = retrievedAvatars.find(
+          function (element) {
+            return element.username === retrievedContent[counter].creator;
+          }
+        ).avatar;
+      }
       // update the contents array
-      self.contents = self.contents.concat(retrievedContents.data.docs);
-      console.log('Total Number of Pages Search: ' + retrievedContents.data.pages);
+      self.contents = self.contents.concat(retrievedContent);
     });
+  }
+
+  checkCreatorProfile(username: String) {
+    this.router.navigateByUrl('/profile/' + username);
   }
 }

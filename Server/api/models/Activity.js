@@ -3,6 +3,9 @@ var mongoosePaginate = require('mongoose-paginate');
 var isTimestamp = require('validate.io-timestamp');
 var timestamps = require('mongoose-timestamp-date-unix');
 
+var comment = mongoose.model('Comment');
+var commentSchema = comment.schema;
+
 /*eslint max-statements: ["error", 20]*/
 /* eslint multiline-comment-style: ["error", "starred-block"] */
 /* eslint-disable sort-keys */
@@ -75,7 +78,11 @@ var activitySchema = Schema({
    image: {
        data: Buffer,
        type: String
-   }
+   },
+   discussion: {
+        default: [],
+       type: [commentSchema]
+    }
 });
 
 // Adds CreatedAt, UpdatedAt fields in Unix format
