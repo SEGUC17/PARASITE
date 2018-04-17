@@ -80,7 +80,7 @@ describe('/GET/ parents one delimiter', function () {
     it(
         'it should GET page of parents without restrictions',
         function (done) {
-            // provide content document that will not be retrieved
+            // provide   document that will not be retrieved
             docArray.push(new User({
                 address: 'rehab',
                 birthdate: '01/01/1997',
@@ -127,7 +127,7 @@ describe('/GET/ parents one delimiter', function () {
         'it should GET page of parents with specified username',
         function (done) {
 
-            // provide content document that will not be retrieved
+            // provide   document that will not be retrieved
             docArray.push(new User({
                 address: 'cairo',
                 birthdate: '01/01/1997',
@@ -173,7 +173,7 @@ describe('/GET/ parents one delimiter', function () {
     it(
         'it should GET page of parents with specified address',
         function (done) {
-            // provide content document that will not be retrieved
+            // provide   document that will not be retrieved
             docArray.push(new User({
                 address: 'rehab',
                 birthdate: '01/01/1997',
@@ -220,7 +220,7 @@ describe('/GET/ parents one delimiter', function () {
     it(
         'it should GET page of parents with specified education level',
         function (done) {
-            // provide content document that will not be retrieved
+            // provide   document that will not be retrieved
             docArray.push(new User({
                 address: 'rehab',
                 birthdate: '01/01/1997',
@@ -280,7 +280,7 @@ describe('/GET/ parents one delimiter', function () {
     it(
         'it should GET page of parents with specified education System',
         function (done) {
-            // provide content document that will not be retrieved
+            // provide   document that will not be retrieved
             docArray.push(new User({
                 address: 'rehab',
                 birthdate: '01/01/1997',
@@ -365,7 +365,7 @@ describe('/GET/ parents two or more delimiters', function () {
     it(
         'it should GET page of parents with specified username and location',
         function (done) {
-            // provide content document that will be retrieved
+            // provide   document that will be retrieved
             docArray.push(new User({
                 address: 'rehab',
                 birthdate: '01/01/1997',
@@ -412,7 +412,7 @@ describe('/GET/ parents two or more delimiters', function () {
     it(
         'it should GET page of parents with specified edu level and location',
         function (done) {
-            // provide content document that will not be retrieved
+            // provide   document that will not be retrieved
             docArray.push(new User({
                 address: 'rehab',
                 birthdate: '01/01/1997',
@@ -471,7 +471,7 @@ describe('/GET/ parents two or more delimiters', function () {
     it(
         'it should GET page of parents with specified edu System and location',
         function (done) {
-            // provide content document that will not be retrieved
+            // provide   document that will not be retrieved
             docArray.push(new User({
                 address: 'rehab',
                 birthdate: '01/01/1997',
@@ -529,7 +529,7 @@ describe('/GET/ parents two or more delimiters', function () {
     it(
         'it should GET page of parents with specified edu System and level',
         function (done) {
-            // provide content document that will not be retrieved
+            // provide   document that will not be retrieved
             docArray.push(new User({
                 address: 'rehab',
                 birthdate: '01/01/1997',
@@ -589,7 +589,7 @@ describe('/GET/ parents two or more delimiters', function () {
     it(
         'it should GET page of parents with tags:location , edu System ,level',
         function (done) {
-            // provide content document that will not be retrieved
+            // provide   document that will not be retrieved
             docArray.push(new User({
                 address: 'rehab',
                 birthdate: '01/01/1997',

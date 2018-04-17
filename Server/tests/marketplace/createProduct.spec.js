@@ -113,11 +113,4 @@ describe('CreateProduct for admin', function () {
         });
     });
     // --- End of "Mockgoose Termination" --- //
-    // --- Mockgoose Termination --- //
-    after(function (done) {
-        mongoose.connection.close(function () {
-            done();
-        });
-    });
-    // --- End of "Mockgoose Termination" --- //
 });

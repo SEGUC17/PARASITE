@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AddPsychologistRequest } from './AddPsychologistRequest';
+import { PsychologistRequest } from '../PsychologistRequest';
 import { PsychologistService } from '../psychologist.service';
 import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -19,7 +20,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./add-psych-request.component.scss']
 })
 export class AddPsychRequestComponent implements OnInit {
-  request: AddPsychologistRequest;
+  request: PsychologistRequest;
 
   daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
 
@@ -46,7 +47,8 @@ export class AddPsychRequestComponent implements OnInit {
 
 
   constructor(private RequestService: PsychologistService,
-              public snackBar: MatSnackBar) {
+              public snackBar: MatSnackBar,
+              public dialogRef: MatDialogRef<AddPsychRequestComponent>) {
 
   }
 
@@ -71,7 +73,9 @@ export class AddPsychRequestComponent implements OnInit {
       });
     } else {
       let req = this.request;
-
+      if (this.daysOff.value === null) {
+        this.daysOff.setValue(['No days off']);
+      }
       /* create a request object with user's info */
       req = {
         firstName: this.firstNameFormControl.value,
@@ -80,6 +84,7 @@ export class AddPsychRequestComponent implements OnInit {
         address: this.addFormControl.value,
         email: this.emailFormControl.value,
         daysOff: this.daysOff.value,
+        type: 'add',
         priceRange: parseInt(this.priceFormControl.value, 10)
       };
 
@@ -96,16 +101,14 @@ export class AddPsychRequestComponent implements OnInit {
             duration: 2300
           });
 
-          /* clear the request form */
-          self.firstNameFormControl.setValue(null);
-          self.lastNameFormControl.setValue(null);
-          self.phoneFormControl.setValue(null);
-          self.addFormControl.setValue(null);
-          self.emailFormControl.setValue(null);
-          self.daysOff.setValue(null);
-          self.priceFormControl.setValue(null);
+          /* close dialog */
+          self.dialogRef.close();
         }
       });
     }
+  }
+  close(): void {
+    /* close dialog */
+    this.dialogRef.close();
   }
 }

@@ -87,9 +87,9 @@ import { SharedModule } from './shared/shared.module';
     MatSelectModule,
     MatFormFieldModule,
     CommonModule,
-    AuthModule,
     MatCheckboxModule,
-    SharedModule
+    SharedModule,
+    AuthModule
   ],
   providers: [
     {

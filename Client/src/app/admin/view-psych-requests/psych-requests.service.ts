@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { apiUrl } from '../../variables';
+import { catchError } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -23,7 +24,16 @@ export class PsychRequestsService {
 
   // Sending the POST requests for the evaluation of a request
   evalRequest(psychReq: any): Observable<any> {
-    return this.http.post<any>(this.evalUrl, psychReq, httpOptions);
+    return this.http.post<any>(this.evalUrl, psychReq, httpOptions).pipe(
+      catchError(this.handleError('evalRequest', '404 Not Found'))
+    );
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return function (error: any): Observable<T> {
+      console.error(error);
+      return of(result as T);
+    };
   }
 
 }
