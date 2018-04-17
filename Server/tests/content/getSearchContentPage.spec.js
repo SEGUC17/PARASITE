@@ -27,12 +27,12 @@ var valiateCategoryAndSection = function (
         // check category and section
         for (
             counter = 0;
-            counter < res.body.data.docs.length;
+            counter < res.body.data.contents.docs.length;
             counter += 1
         ) {
-            res.body.data.docs[counter].
+            res.body.data.contents.docs[counter].
                 should.have.property('category', expectedCategory);
-            res.body.data.docs[counter].
+            res.body.data.contents.docs[counter].
                 should.have.property('section', expectedSection);
         }
     }
@@ -47,42 +47,45 @@ var validateSearchQueryMatch = function (searchQuery, res) {
         // check that all the docs satisfy the query
         for (
             counter = 0;
-            counter < res.body.data.docs.length;
+            counter < res.body.data.contents.docs.length;
             counter += 1
         ) {
-            res.body.data.docs[counter].should.satisfy(function (content) {
-                var splitSearchQuery = searchQuery.split(' ');
-                var secondCounter = 0;
-                var splitTitle = content.title.split(' ');
+            res.body.data.
+                contents.docs[counter].should.satisfy(function (content) {
+                    var splitSearchQuery = searchQuery.split(' ');
+                    var secondCounter = 0;
+                    var splitTitle = content.title.split(' ');
 
-                // return true if the tags contain a part of the search query
-                for (secondCounter = 0;
-                    secondCounter < splitSearchQuery.length;
-                    secondCounter += 1) {
-                    if (
-                        content.tags.
-                            indexOf(splitSearchQuery[secondCounter]) > -1
-                    ) {
-                        return true;
+                    // return true if the tags
+                    // contain a part of the search query
+                    for (secondCounter = 0;
+                        secondCounter < splitSearchQuery.length;
+                        secondCounter += 1) {
+                        if (
+                            content.tags.
+                                indexOf(splitSearchQuery[secondCounter]) > -1
+                        ) {
+                            return true;
+                        }
                     }
-                }
 
-                // return true if the title contains a part of the search query
-                for (secondCounter = 0;
-                    secondCounter < splitSearchQuery.length;
-                    secondCounter += 1) {
-                    if (
-                        splitTitle.
-                            indexOf(splitSearchQuery[secondCounter]) > -1
-                    ) {
-                        return true;
+                    // return true if the title
+                    // contains a part of the search query
+                    for (secondCounter = 0;
+                        secondCounter < splitSearchQuery.length;
+                        secondCounter += 1) {
+                        if (
+                            splitTitle.
+                                indexOf(splitSearchQuery[secondCounter]) > -1
+                        ) {
+                            return true;
+                        }
                     }
-                }
 
-                // return false if neither the title nor
-                // the tags of the doc match the query
-                return false;
-            });
+                    // return false if neither the title nor
+                    // the tags of the doc match the query
+                    return false;
+                });
         }
     }
 };
@@ -90,7 +93,7 @@ var validateSearchQueryMatch = function (searchQuery, res) {
 // ensure the sort order
 var validateSortBy = function (sortBy, res) {
     if (sortBy !== '') {
-        res.body.data.docs.should.satisfy(function (docs) {
+        res.body.data.contents.docs.should.satisfy(function (docs) {
             var counter = 0;
             for (
                 counter = 0;
@@ -146,8 +149,9 @@ var saveAllAndTest = function (
                     // expect status 200, an array result,
                     // and a length matching the page length
                     expect(res).to.have.status(200);
-                    res.body.data.docs.should.be.a('array');
-                    res.body.data.docs.should.have.lengthOf(pageLength);
+                    res.body.data.contents.docs.should.be.a('array');
+                    res.body.data.
+                        contents.docs.should.have.lengthOf(pageLength);
                     valiateCategoryAndSection(
                         expectedCategory,
                         expectedSection,
