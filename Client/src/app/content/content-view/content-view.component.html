@@ -4,7 +4,9 @@
         <div class="col" align="center">
             <div *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)">
                 <button mat-raised-button color="primary" (click)="redirectToContentEdit()">Edit</button>
-                <button mat-raised-button color="primary">Delete</button>
+
+                <button mat-raised-button color="primary"(click)="deleteContentById(content._id)">Delete</button>
+
             </div>
             <div *ngIf="currentUser.isAdmin && !content.approved">
                 <button mat-raised-button color="primary" (click)="returnToContentRequests()">Go Back To Approve/Disapprove</button>

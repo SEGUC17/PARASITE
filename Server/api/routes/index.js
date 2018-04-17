@@ -286,6 +286,13 @@ module.exports = function (passport) {
     contentController.validateSelectedSection,
     contentController.updateContent
   );
+  
+   // delete content
+   router.delete(
+    '/content/:id',
+    isAuthenticated,
+    contentController.deleteContent
+  );
 
   // delete a category
   router.delete(

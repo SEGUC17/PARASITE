@@ -76,6 +76,13 @@ export class ContentViewComponent implements OnInit {
     this.router.navigate(['admin/ContentRequests']);
   }
 
+  // delete Content function
+  deleteContentById(id:any):void {
+    const self =this;
+    this.contentService.deleteContentById(id).subscribe(function(retrievedContent){
+    self.router.navigate(['/content-list-view']);
+    });
+  }
 
   addComment(inputtext: String) {
     let self = this;

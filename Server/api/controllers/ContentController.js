@@ -407,6 +407,56 @@ module.exports.createContent = function (req, res, next) {
     return handleNonAdminCreate(req, res, next);
 };
 
+//Delete Content
+module.exports.deleteContent = function (req, res, next) {
+    var valid = false;
+    var isOwner = false;
+    var isAdmin = false;
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The Content Id is not valid.',
+            msg: null
+        });
+    }
+
+    Content.findById(req.params.id, function (
+        err,
+        content
+    ) {
+        if (err) {
+            return next(err);
+        }
+        if (content.creator === req.user.username) {
+            isOwner = true;
+
+        }
+        if (req.user.isAdmin) {
+            isAdmin = true;
+        }
+        valid = isOwner || isAdmin;
+        if (!valid) {
+            return res.status(422).json({
+                data: null,
+                err: 'The Content Id is not valid.',
+                msg: null
+            });
+        }
+        Content.remove({ _id: req.params.id }).
+            exec(function (removeError) {
+                if (removeError) {
+                    return next(removeError);
+                }
+                res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'Content was deleted successfully'
+                });
+            });
+    });
+};
+
 var handleAdminUpdate = function (req, res, next) {
     // No requests are made, and content is approved automatically
     req.body.approved = true;
