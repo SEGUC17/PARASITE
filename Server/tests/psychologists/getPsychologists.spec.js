@@ -58,7 +58,7 @@ describe('/GET/ Psychologists Page', function () {
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
-            Psychologist.ensureIndexes(function() {
+            Psychologist.ensureIndexes(function () {
                 done();
             });
         });
@@ -236,7 +236,53 @@ describe('/GET/ Psychologists Page', function () {
                 5
             );
         });
-
+    it('it should fail because address is not a string', function (done) {
+        var limiters = {
+            address: 1,
+            entriesPerPage: 5,
+            pageNumber: 1
+        };
+        chai.request(server).
+            get('/api/psychologist/search/' + JSON.stringify(limiters)).
+            end(function (error, res) {
+                if (error) {
+                    return console.log(error);
+                }
+                expect(res).to.have.status(422);
+                done();
+            });
+    });
+    it('it should fail because number of entries' +
+    ' per page is not given', function (done) {
+        var limiters = {
+            address: 1,
+            pageNumber: 1
+        };
+        chai.request(server).
+            get('/api/psychologist/search/' + JSON.stringify(limiters)).
+            end(function (error, res) {
+                if (error) {
+                    return console.log(error);
+                }
+                expect(res).to.have.status(422);
+                done();
+            });
+    });
+    it('it should fail because page number is not given', function (done) {
+        var limiters = {
+            address: 1,
+            entriesPerPage: 5
+        };
+        chai.request(server).
+            get('/api/psychologist/search/' + JSON.stringify(limiters)).
+            end(function (error, res) {
+                if (error) {
+                    return console.log(error);
+                }
+                expect(res).to.have.status(422);
+                done();
+            });
+    });
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
