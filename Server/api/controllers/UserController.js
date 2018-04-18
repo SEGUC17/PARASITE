@@ -187,7 +187,7 @@ module.exports.signUp = function (req, res, next) {
 
                 emailVerification.send(
                     user2.email,
-                    config.FRONTEND_URI + 'api/verifyEmail/' + user2._id
+                    config.FRONTEND_URI + 'auth/verifyEmail/' + user2._id
                 );
 
                 return res.status(201).json({
@@ -218,8 +218,7 @@ module.exports.verifyEmail = function (req, res, next) {
                 });
             }
 
-            var time = req.body.rememberMe ? '1w' : '12h';
-
+            var time = '12h';
             generateJWTToken(user._id, time, function (jwtToken) {
                 return res.status(200).json({
                     data: null,
@@ -298,7 +297,6 @@ module.exports.signIn = function (req, res, next) {
                     }
 
                     var time = req.body.rememberMe ? '1w' : '12h';
-
                     generateJWTToken(user._id, time, function (jwtToken) {
                         return res.status(200).json({
                             data: null,

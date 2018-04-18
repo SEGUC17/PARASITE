@@ -34,6 +34,13 @@ export class AuthService {
     );
   }
 
+  verifyEmail(id: any): Observable<any> {
+    const self = this;
+    return this.http.get<any>(this.endPoint + 'verifyEmail/' + id).pipe(
+      catchError(self.handleError('verifyEmail', []))
+    );
+  }
+
   signIn(user: any): Observable<any> {
     const self = this;
     return this.http.post<any>(this.endPoint + 'signIn', user).pipe(
@@ -85,7 +92,7 @@ export class AuthService {
 
   ChangePassword(email, pws): Observable<any> {
     const self = this;
-    return this.http.patch<any> (this.endPoint + 'changepassword/' + email, pws, httpOptions).pipe(
+    return this.http.patch<any>(this.endPoint + 'changepassword/' + email, pws, httpOptions).pipe(
       catchError(self.handleError('changepassword', []))
     );
 
