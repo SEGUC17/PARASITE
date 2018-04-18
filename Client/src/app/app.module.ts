@@ -42,6 +42,7 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
+import { ImageUploaderModule } from './image-uploader/image-uploader.module';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { SharedModule } from './shared/shared.module';
     CommonModule,
     MatCheckboxModule,
     SharedModule,
-    AuthModule
+    AuthModule,
+    ImageUploaderModule
   ],
   providers: [
     {

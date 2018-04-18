@@ -17,7 +17,9 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
 
   Requests: any[];
 
-
+  imageUploaded(url: string ) {
+    console.log(url);
+  }
 
   filter: String = 'pending';
 
