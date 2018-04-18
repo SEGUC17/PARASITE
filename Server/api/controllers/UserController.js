@@ -187,7 +187,7 @@ module.exports.signUp = function (req, res, next) {
 
                 emailVerification.send(
                     user2.email,
-                    'http://localhost:3000/api/verifyEmail/' + user2._id
+                    config.FRONTEND_URI + 'api/verifyEmail/' + user2._id
                 );
 
                 return res.status(201).json({
@@ -218,10 +218,15 @@ module.exports.verifyEmail = function (req, res, next) {
                 });
             }
 
-            return res.status(200).json({
-                data: null,
-                err: null,
-                msg: 'Email Verification Is Successful!'
+            var time = req.body.rememberMe ? '1w' : '12h';
+
+            generateJWTToken(user._id, time, function (jwtToken) {
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'Email Verification Is Successful!',
+                    token: jwtToken
+                });
             });
         }
     );
