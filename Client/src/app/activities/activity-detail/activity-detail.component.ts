@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
-import { Activity } from '../activity';
+import { Activity, ActivityCreate, ActivityEdit } from '../activity';
 import { ActivatedRoute } from '@angular/router';
+import { Inject} from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {ActivityEditComponent} from '../activity-edit/activity-edit.component';
 import { DiscussionService } from '../../discussion.service';
+import { Router } from '@angular/router';
+import {AuthService} from '../../auth/auth.service';
+
 
 @Component({
   selector: 'app-activity-detail',
@@ -17,23 +23,43 @@ export class ActivityDetailComponent implements OnInit {
   changingComment: any = '';
   somePlaceholder: any = 'write a comment ...';
   viewedReplies: boolean[];
-  isReplying: boolean;
+  isReplying: boolean ;
   commentReplyingOn: any;
+  signedIn: boolean ;
+
 
 
   currentUser = {
     isAdmin: false,
     verified: false,
-    AvatarLink: null,
+    avatar: null,
     username: 'Mohamed Maher'
 
   };
+ // updatedActivity: ActivityCreate;
+isCreator = false ;
+isNotBooked = false;
+username = '';
+ public updatedActivity: ActivityEdit = {
+  name: '',
+  description: null,
+  bookedBy: null,
+  price: null,
+
+  fromDateTime: null,
+  toDateTime: null,
+
+  image: null,
+  creator: null,
+};
+
   activity: Activity = {
     _id: '',
     name: '',
     description: '',
     bookedBy: [''], // userIds
     price: 0,
+    creator: '',
     status: '',
     fromDateTime: null,
     toDateTime: null,
@@ -46,19 +72,62 @@ export class ActivityDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private activityService: ActivityService,
-    private discussionService: DiscussionService
+    public dialog: MatDialog,
+    private discussionService: DiscussionService,
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
+    this.getCurrentUser();
     this.getActivity();
     this.refreshComments(true);
+
+    this.authService.getUserData(['username']).subscribe(function (res) {
+      this.username = res.data.username;
+// if (this.updatedActivity.creator.equal(this.username)) { this.isCreator = true; }
+
+  });
+  // if ( this.updatedActivity.bookedBy.length < 1) {
+  // this.isNotBooked = true;
+ // }
+  }
+
+  getCurrentUser() {
+    let self = this;
+    this.authService.getUserData([
+      'username',
+      'isAdmin',
+      'firstName',
+      'lastName',
+      'avatar'
+    ]).subscribe(function(res) {
+        if (typeof res.data == 'undefined') {
+          self.signedIn = false;
+        } else {
+          self.currentUser = res.data;
+          self.signedIn = true;
+
+        }
+        console.log('signed in : ' + self.signedIn );
+        console.log(res);
+      }
+    )
+
+  }
+
+  redirectToProfile(username: String) {
+    console.log('directToProfile');
+    // this.router.navigate(['/Profile/' + username]);
+    // TODO: Redirect the Profile of the username.
+    // AUTHOR: Maher.
   }
 
   onReply(id: any): any {
     let self = this;
     let element = document.getElementById('target');
     element.scrollIntoView();
-    let input = document.getElementById('lala');
+    let input = document.getElementById('input');
     self.somePlaceholder = 'leave a reply';
     input.focus();
     this.isReplying = true;
@@ -97,6 +166,7 @@ export class ActivityDetailComponent implements OnInit {
     this.activityService.getActivity(id).subscribe(
       res => {
         this.activity = res.data;
+        this.updatedActivity = res.data;
         if (!this.activity.image) {
           this.activity.image = 'assets/images/activity-view/default-activity-image.jpg';
         }
@@ -119,6 +189,7 @@ export class ActivityDetailComponent implements OnInit {
   showReply(i: number) {
     this.viewedReplies[i] = !this.viewedReplies[i];
   }
+
 
   addComment() {
 
@@ -155,4 +226,45 @@ export class ActivityDetailComponent implements OnInit {
 
   }
 
-}
+  cancelReplying() {
+    this.isReplying = false;
+  }
+
+
+
+  openDialog(): void {
+    let from = new Date(this.activity.fromDateTime).toJSON();
+    let to   = new Date(this.activity.toDateTime).toJSON();
+  let   dialogRef = this.dialog.open(ActivityEditComponent, {
+      width: '350px',
+      height: '500px',
+      data: { name: this.activity.name, price : this.activity.price  ,
+         description: this.activity.description ,
+         fromDateTime: from.substr(0, from.length - 1)
+         , toDateTime : to.substr(0, to.length - 1)
+        }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.updatedActivity.name = result.name;
+      this.updatedActivity.price = result.price;
+      this.updatedActivity.description = result.description;
+      this.updatedActivity.fromDateTime = new Date(result.fromDateTime).getTime();
+      this.updatedActivity.toDateTime = new Date(result.toDateTime).getTime();
+      console.log('from' + this.updatedActivity.fromDateTime);
+      console.log('to' + this.updatedActivity.toDateTime);
+       this.EditActivity(this.updatedActivity);
+    });
+  }
+
+
+
+EditActivity(activity) {
+  let id = this.route.snapshot.paramMap.get('id');
+  this.activityService.EditActivity(this.updatedActivity, id).subscribe(
+    res => {
+        console.log(res);
+    }
+
+  );
+}}

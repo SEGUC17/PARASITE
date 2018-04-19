@@ -1,29 +1,80 @@
-<mat-tab-group dynamicHeight>
+<mat-tab-group>
   <mat-tab label="Market">
-    <mat-card>
-      <mat-card-content>
-        <mat-tab-group  style="width:500px">
-          <mat-tab label="price" >
-            <mat-slider class="margin10 widthFloat" [disabled]=false [invert]=false [max]=10000000 [min]=0 [step]=1 [thumb-label]=false
-              [tick-interval]=false [(ngModel)]="selectedPrice" [vertical]=false>
+    <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+      [scrollWindow]="false">
+      <mat-card style="height: fit-content ;width: 75%;float: left;">
+        <div class="row justify-content-md-center" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
+          <mat-card class="m-3 col-md-3 col-sm-5 col-xs-12" *ngFor="let product of products">
+            <div class="container" style="padding:0px" (click)="this.showProductDetails(product)">
+              <img mat-card-image class="image" src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
+                alt="Photo of product" style="height:200px">
+              <div class="middle">
+                <div class="text">View</div>
+              </div>
+            </div>
+            <mat-card-content class="mt-2">
+              <mat-card-title style="width:100%; color:#3f51b5">{{product.name}}</mat-card-title>
+              <mat-card-subtitle>{{product.price}} EGP</mat-card-subtitle>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </mat-card>
+      <mat-card style="width:25%;height:100%; float: right;position: fixed; left:74%">
+        <mat-card-content>
+          <button mat-button class="md-raised md-primary" style="position:relative; float:right; background:#3f51b5; color:white" (click)="this.goToCreate()">Add a new item</button>
+          <h3>Search</h3>
+          <mat-form-field>
+            <input matInput placeholder="Value" [(ngModel)]="writtenName">
+          </mat-form-field>
+          <button mat-icon-button (click)="this.applyName()">
+            <mat-icon>search</mat-icon>
+          </button>
+          <h3>Seller</h3>
+          <mat-radio-group [(ngModel)]="seller">
+            <mat-radio-button *ngFor="let s of sellers" [value]="s" style="margin-right: 3px" (click)="applySeller(s)">{{s}}</mat-radio-button>
+          </mat-radio-group>
+          <div class="row">
+            <h3 class="col-5">Price</h3>
+
+            <input matInput type="number" class="col-3" placeholder="Value" [(ngModel)]="writtenPrice" style="height:30px">
+          </div>
+          <div class="row">
+            <mat-slider class="col-8" [disabled]=false [invert]=false [max]=100000 [min]=0 [step]=1 [thumb-label]=false [tick-interval]=false
+              [(ngModel)]="writtenPrice" [vertical]=false>
             </mat-slider>
-            <section class="section">
-              <input matInput type="number" placeholder="Value" [(ngModel)]="selectedPrice">
-              <button mat-button class="md-raised md-primary button" (click)="this.firstPage()">Filter</button>
-            </section>
-          </mat-tab>
-          <mat-tab label="Name">
-            <mat-form-field class="margin10">
-              <input matInput placeholder="Value" [(ngModel)]="selectedName">
-            </mat-form-field>
-            <button mat-button class="md-raised md-primary button" (click)="this.firstPage()">Filter</button>
-          </mat-tab>
-        </mat-tab-group>
-      </mat-card-content>
+            <button mat-button class="md-raised md-primary button col-2" (click)="this.applyPrice()" style="height:40px;">Apply</button>
+          </div>
+          <h3>Sort By</h3>
+          <mat-radio-group [(ngModel)]="sort">
+            <mat-radio-button *ngFor="let s of sorts" [value]="s" style="margin-right: 3px" (click)="applySort(s)">{{s}}</mat-radio-button>
+          </mat-radio-group>
+          <mat-chip-list>
+            <mat-chip *ngIf="this.selectedSeller" [removable]=true (remove)="remove('seller')">{{this.selectedSeller}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <mat-chip *ngIf="!this.selectedSeller">All Sellers</mat-chip>
+            <mat-chip *ngIf="this.selectedPrice" [removable]=true (remove)="remove('price')">
+              <={{this.selectedPrice}}LE <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <mat-chip [removable]=true (remove)="remove('name')" *ngIf="this.selectedName">{{this.selectedName}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <mat-chip [removable]=true (remove)="remove('sort')" *ngIf="this.sort">{{this.sort}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+
+          </mat-chip-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </mat-tab>
+  <mat-tab label="My Requests" *ngIf="!user.isAdmin">
+    <mat-card style="height:80px">
+      <mat-card-title style="float:left">Pending Requests</mat-card-title>
     </mat-card>
-    <mat-card style="min-height: 300px; padding-left: 5px; padding-right:5px">
+    <mat-card style="min-height: 300px">
       <div class="row justify-content-md-center">
-        <mat-card *ngFor="let product of products" style="width:18%; margin:3px">
+        <mat-card *ngFor="let product of userRequests" style="width:19%">
           <img mat-card-image src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
             alt="Photo of product" style="height:200px">
           <mat-card-content class="mt-2">
@@ -36,36 +87,5 @@
         </mat-card>
       </div>
     </mat-card>
-
-    <div class="paginator">
-      <mat-paginator [length]="numberOfProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChangeMarket($event)">
-      </mat-paginator>
-    </div>
-  </mat-tab>
-  <mat-tab label="My items">
-    <mat-card style="height:80px">
-      <mat-card-title style="float:left">Items</mat-card-title>
-      <button mat-button class="md-raised md-primary" style="position:relative; float:right; background:#3f51b5; color:white" (click)="this.goToCreate()">Add a new item</button>
-    </mat-card>
-    <mat-card style="min-height: 300px">
-      <div class="row justify-content-md-center">
-        <mat-card *ngFor="let product of userItems" style="width:19%">
-          <img mat-card-image src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
-            alt="Photo of product" style="height:200px">
-          <mat-card-content class="mt-2">
-            <mat-card-title style="width:100%; color:#3f51b5">{{product.name}}</mat-card-title>
-            <mat-card-subtitle>{{product.price}} EGP</mat-card-subtitle>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white" (click)="this.openDialog(product)">View</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </mat-card>
-
-    <div class="paginator">
-      <mat-paginator [length]="numberOfUserProducts" [pageSize]="this.entriesPerPage" (page)="onPaginateChangeMyItems($event)">
-      </mat-paginator>
-    </div>
   </mat-tab>
 </mat-tab-group>

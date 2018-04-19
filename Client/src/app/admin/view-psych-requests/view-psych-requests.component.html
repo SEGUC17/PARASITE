@@ -1,19 +1,28 @@
-<mat-card *ngFor="let mockReq of requests; let i = index">
-  <mat-card-header>
-    <mat-card-title><h3>{{mockReq.firstName}} {{mockReq.lastName}}</h3></mat-card-title>
-    <mat-card-subtitle>{{mockReq.address}}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-chip-list>
-      <p>Days off:   </p>
-      <mat-chip *ngFor="let day of mockReq.daysOff">{{day}}</mat-chip>
-    </mat-chip-list>
-    <p>Email: {{mockReq.email}}</p>
-    <p>Phone Address: {{mockReq.phone}}</p>
-    <p>Consultations costs start from <b>{{mockReq.priceRange | currency}}</b></p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button (click)="acceptReq(i)">Accept the Request and Add to the Address Book</button>
-    <button mat-raised-button (click)="rejectReq(i)">Reject the Request and Notify the Applicant</button>
-  </mat-card-actions>
-</mat-card>
+<div class="background container">
+    <mat-radio-group class="row justify-content-center background">
+      <mat-radio-button value="add" (click)="loadRequests('add')" class="col-4"> Add Requests </mat-radio-button>
+      <mat-radio-button value="edit" (click)="loadRequests('edit')" class="col-4"> Edit Requests </mat-radio-button>
+    </mat-radio-group>
+  
+    <div class="row justify-content-center mt-5">
+        <mat-card class="m-2 col-lg-3 col-md-6 col-sm-12 col-xs-12" *ngFor="let mockReq of requests; let i = index">
+            <mat-card-header>
+              <mat-card-title><h3>{{mockReq.firstName}} {{mockReq.lastName}}</h3></mat-card-title>
+              <mat-card-subtitle>{{mockReq.address}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <mat-chip-list>
+                <p>Days off:   </p>
+                <mat-chip *ngFor="let day of mockReq.daysOff">{{day}}</mat-chip>
+              </mat-chip-list>
+              <p>Email: {{mockReq.email}}</p>
+              <p>Phone Address: {{mockReq.phone}}</p>
+              <p>Consultations costs start from <b>{{mockReq.priceRange | currency}}</b></p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button (click)="acceptReq(i)">Accept the Request and Add to the Address Book</button>
+              <button mat-raised-button (click)="rejectReq(i)">Reject the Request and Notify the Applicant</button>
+            </mat-card-actions>
+          </mat-card>
+    </div>
+  </div>

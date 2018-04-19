@@ -50,7 +50,6 @@ describe('CreateProduct for not an admin', function () {
 
     it('it should NOT POST product into product requests', function (done) {
         // Calling the schema to construct a document
-       
         var pro1 = {
             acquiringType: 'sell',
             description: 'description description description',
@@ -71,7 +70,7 @@ describe('CreateProduct for not an admin', function () {
                 response.should.have.status(201);
                 token = response.body.token;
 
-                
+
                 // Testing
                 chai.request(server).
                     post('/api/productrequest/createproduct').

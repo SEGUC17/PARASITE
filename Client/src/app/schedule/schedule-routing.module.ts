@@ -7,8 +7,10 @@ import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/st
 const routes = [
   { path: 'schedule/:id', component: ScheduleComponent },
   { path: 'study-plan/:type/:id/:username', component: StudyPlanComponent },
+  { path: 'study-plan/:type/:id', component: StudyPlanComponent },
   { path: 'published-study-plans', component: PublishedStudyPlansComponent },
-  { path: 'study-plan-edit/:type/:username/:id', component: StudyPlanEditViewComponent }
+  { path: 'study-plan-edit/:type/:id/:username', component: StudyPlanEditViewComponent },
+  { path: 'study-plan-edit/:type/:id', component: StudyPlanEditViewComponent }
 ];
 @NgModule({
   imports: [

@@ -140,6 +140,44 @@ describe('/GET/ Market Page', function () {
                 5
             );
         });
+        it('it should GET page of market from the server ' +
+        'with no specific name or price' +
+        ' sorted with ascending price', function (done) {
+            for (var counter = 0; counter < 5; counter += 1) {
+                docArray.push(new Product({
+                    acquiringType: 'sell',
+                    describtion: 'a product',
+                    name: 'The new Product' + counter,
+                    price: counter,
+                    seller: 'nesrin'
+                }));
+            }
+            var limiters = { sort: 'cheapest' };
+            saveAllAndTest(
+                done,
+                '/api/market/getMarketPage/5/1/' + JSON.stringify(limiters),
+                5
+            );
+        });
+        it('it should GET page of market from the server ' +
+        'with no specific name or price' +
+        ' sorted with descending date', function (done) {
+            for (var counter = 0; counter < 5; counter += 1) {
+                docArray.push(new Product({
+                    acquiringType: 'sell',
+                    describtion: 'a product',
+                    name: 'The new Product' + counter,
+                    price: counter,
+                    seller: 'nesrin'
+                }));
+            }
+            var limiters = { sort: 'latest' };
+            saveAllAndTest(
+                done,
+                '/api/market/getMarketPage/5/1/' + JSON.stringify(limiters),
+                5
+            );
+        });
     it('it should GET page of market from the server ' +
         'with a specific seller', function (done) {
             docArray.push(new Product({

@@ -1,0 +1,120 @@
+﻿$white: #ffffff;
+$blue-grey-900: #263238 !default;
+$grey-900: #212121 !default;
+$blush-400: #ffafbd !default;
+$blush-500: #fc93a6 !default;
+
+.theme-blush{
+    &.menu_sm{
+        .sidebar{
+            .list{
+                li{
+                    .ml-menu{
+                        a{
+                            color: $blue-grey-400;
+                            &::before{
+                                color: $blue-grey-400;
+                            }
+                            &:hover{
+                                background: $blush-500;                                
+                                color: $white;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .btn-primary{
+        background: $blush-500;
+        &:active,
+        &:hover,
+        &:focus{
+            background: $blush-400;
+        }
+        &.btn-simple{
+            border-color: $blush-500;
+            color: $blush-500;
+            background: transparent;
+        }
+    }
+    .page-loader-wrapper{
+        background:$blush-500;
+    }    
+    .sidebar{
+        .menu{
+            .list{
+                li.active.open {                   
+                    background:$blush-500;
+                }
+                a{
+                    &:hover{
+                        color:$blush-500;
+                    }
+                }
+            }
+        }
+    }
+    .checkbox input[type="checkbox"]:checked+label::after{
+        border-color:$blush-500;
+        background: $blush-500;
+        color: white;
+    }   
+    .nav-tabs{
+        .nav-link.active {
+            border: 1px solid $blush-500 !important;
+            background: $blush-500;
+            color: $white;
+        }
+    }
+    .card{
+        .header{
+            h2{
+                &:before{
+                    background: $blush-500;
+                }
+                strong{
+                    color: $blush-500;
+                }
+            }
+            .dropdown-menu{
+                li{
+                    a{
+                        &:hover{
+                            background-color: $blush-500;
+                            color: $white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .chat-widget{
+        li.left{
+            .message{
+                background: $blush-500;
+            }
+        }
+    }
+    .chat{
+        .chat-header{
+            background: $blush-500;
+        }
+    }
+    .authentication{
+        .navbar, .page-header{
+            background: $blush-500 !important;
+        }
+    }
+
+    .menu-container{       
+        ul > li > ul > li a:hover,
+        ul.normal-sub > li a:hover{
+            background: $blush-500;
+        }
+    }
+    .form-control:focus,
+    .form-control:focus+.input-group-addon, .form-control:focus ~ .input-group-addon{
+        border-color: $blush-500;
+    }
+}

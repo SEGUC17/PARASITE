@@ -18,6 +18,7 @@ export class Activity {
     updatedAt : Date;
     image : String;
     discussion: any[];
+    creator: String;
 }
 
 export class ActivityCreate {
@@ -32,4 +33,16 @@ export class ActivityCreate {
     toDateTime: Number;
     image: String;
     discussion: any[];
+
+}
+export class ActivityEdit {
+    name: String;
+    description: String;
+    price: Number;
+    fromDateTime: Number;
+    toDateTime: Number;
+    image: String;
+    creator: String;
+    bookedBy: [String];
+
 }

@@ -16,5 +16,6 @@ export interface User {
     schedule?: any;
     studyPlans?: any;
     verified?: boolean;
+    rememberMe?: boolean;
     avatar?: String;
 }

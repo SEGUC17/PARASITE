@@ -5,21 +5,21 @@
     <mat-form-field>
       <input matInput placeholder="Product's name" name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
     </mat-form-field>
-<!-- taking product's name as input from user -->
+    <!-- taking product's name as input from user -->
     <div>
       <mat-form-field>
         <textarea matInput placeholder="Products description" name="description" id="description" [(ngModel)]="formInput.description"></textarea>
       </mat-form-field>
     </div>
-<!-- taking product's description as input from user -->
+    <!-- taking product's description as input from user -->
 
     <div>
       <mat-form-field>
-        <input matInput placeholder="Price" type="number" name="price" id="price" [(ngModel)]="formInput.price"  class="example-right-align">       
+        <input matInput placeholder="Price" type="number" name="price" id="price" [(ngModel)]="formInput.price" class="example-right-align">
         <span matPrefix>$&nbsp;</span>
       </mat-form-field>
     </div>
-<!-- taking product's price as input from user, only takes numbers -->
+    <!-- taking product's price as input from user, only takes numbers -->
 
 
     <div>
@@ -34,16 +34,15 @@
         </mat-form-field>
       </div>
     </div>
-<!-- taking product's acquiringType as input from user, either sell, rent, or rent/sell -->
+    <!-- taking product's acquiringType as input from user, either sell, rent, or rent/sell -->
 
     <div>
-
       <mat-form-field>
         <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod" [(ngModel)]="formInput.rentPeriod"
           class="example-right-align">
       </mat-form-field>
     </div>
-<!-- taking product's rent period if exists" , <could be left empyty>  since the product could be up for sell-->
+    <!-- taking product's rent period if exists" , <could be left empyty>  since the product could be up for sell-->
 
     <div>
       <mat-form-field>
@@ -66,12 +65,3 @@
   <!-- taking product's Pic's URL as input from user, not necessarly required -->
 
 </form>
-
-
-
-
-
-
-
-
-

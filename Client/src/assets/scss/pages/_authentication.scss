@@ -1,0 +1,167 @@
+﻿
+.authentication{
+
+    .card-plain{
+        border-radius: $border-radius-large;
+        padding-bottom: $padding-base-horizontal;
+        max-width: 330px;
+        padding: 20px;
+        background: #191f28;
+        box-shadow: 0px 10px 25px 0px rgba(0,0,0,0.3);
+
+        .header{
+            @extend .p-b-20;
+            h5{
+                @extend .m-b-0;
+            }
+        }
+
+        .btn-wd{
+            min-width: 180px;
+        }
+
+        .logo-container{
+            width: 80px;
+            margin: 0 auto;
+            margin-bottom: 20px !important;
+            margin-top: -50px;
+            border-radius: $border-radius-large;
+            padding: 20px;
+            background: $white;
+
+            img{
+                width: 100%;
+            }
+        }
+
+        &.card-plain{
+            margin: 0 auto;
+            @include input-coloured-bg($opacity-5, $white-color, $white-color, $transparent-bg, $opacity-2, $opacity-2);            
+        }
+        .footer{
+            @extend .p-b-0;
+        }
+    }
+
+    .page-header{
+       
+        &::before{
+            display: none;
+        }
+    }
+
+    .n_logo{
+        @extend .inlineblock;
+    }
+
+    .navbar{
+        width: 100%;
+        background: transparent !important;
+        .navbar-brand{
+            font-size: 25px !important;
+            @extend .margin-0;
+            @extend .padding-0;
+            line-height: 65px;
+        }
+        .navbar-toggler{
+            margin-top: 16px;
+        }
+        a{
+            &:not(.btn){                
+                text-transform: none !important;
+            }
+        }
+    }
+
+    .navbar-nav{
+        li{
+            a{
+                @extend .m-r-15;
+                i{
+                    vertical-align: middle;
+                }
+            }
+            .btn{
+                line-height: 20px !important;
+                padding: 10px 20px;
+            }
+        }
+    }
+
+    .checkbox{
+        label{
+            font-size: 13px;
+        }
+    }
+
+    .footer{
+        color: $grey-900;        
+        @extend .align-center;
+
+        h5{
+            @extend .m-b-0;
+        }
+        .copyright{
+            a{                
+                color:$white;
+            }
+        }
+        ul{
+            li {
+                a{
+                    padding: 0 5px;
+                }
+            }
+        }
+    }
+
+    .link{
+        font-size: 14px;
+        color: $white-color;
+        text-decoration: none;
+    }
+    &.sidebar-collapse{
+        .navbar-collapse{
+            flex-grow: unset;
+            &:before{
+                background-color: $grey-900;
+            }
+        }
+    }
+}
+
+
+@media screen and (min-width: 992px) {
+    .authentication{
+    
+        .navbar-collapse{        
+            float: right;
+    
+            .navbar-nav{
+                display: inline-block;
+                li{
+                    display: inline-block;
+                }
+            }
+        }
+    }
+      
+}
+@media only screen and (max-width: 767px) {
+    .authentication {
+        .footer{
+            nav{
+                display: block;
+                float: none;
+            }
+        }
+        &.sidebar-collapse{
+            .navbar-collapse{               
+                a{
+                    line-height: normal;
+                    display: block;
+                }
+            }
+        }
+    }
+}
