@@ -115,7 +115,7 @@ module.exports = function (passport) {
     DiscussionController.deleteCommentReply
   );
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
-
+  router.patch('/activities/:activityId/EditActivity', isAuthenticated, ActivityController.editActivity);
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
@@ -201,6 +201,7 @@ module.exports = function (passport) {
   router.get('/profile/:username/getChildren', profileController.getChildren);
   router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
   router.patch('/profile/changePassword/:id', profileController.changePassword);
+  router.patch('/profile/:username/UnlinkMyself', isAuthenticated, profileController.UnlinkIndependent);
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
   router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
 
@@ -266,11 +267,12 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.validateContent,
     contentController.validateSelectedCategory,
+    contentController.validateSelectedSection,
     contentController.createContent
   );
 
   // Getting comment details
-  router.get(
+ router.get(
     '/content/:contentId/comments/:commentId',
     optionalAuthentication,
     contentController.prepareContent,
@@ -303,7 +305,7 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.prepareContent,
     DiscussionController.deleteCommentReply
-  );
+   );
 
   // Edit content
   router.patch(
@@ -311,6 +313,7 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.validateContent,
     contentController.validateSelectedCategory,
+    contentController.validateSelectedSection,
     contentController.updateContent
   );
 

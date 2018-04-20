@@ -84,7 +84,7 @@
         "max-lines": [
             "error",
             {
-                "max": 700
+                "max": 1500
             }
         ],
         "max-nested-callbacks": "error",
@@ -92,7 +92,7 @@
         "max-statements": "error",
         "max-statements-per-line": "error",
         "multiline-comment-style": [
-            "error",
+            "off",
             "separate-lines"
         ],
         "new-parens": "error",

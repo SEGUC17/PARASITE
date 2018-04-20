@@ -1,0 +1,123 @@
+﻿$white: #ffffff;
+$blue-grey-900: #263238 !default;
+$grey-900: #212121 !default;
+$green-300: #8de4af !default;
+$green-400: #5cdb94 !default;
+$green-500: #50d38a !default;
+$green-600: #43a047 !default;
+
+
+.theme-green{
+    &.menu_sm{
+        .sidebar{
+            .list{
+                li{
+                    .ml-menu{
+                        a{
+                            color: $blue-grey-400;
+                            &::before{
+                                color: $blue-grey-400;
+                            }
+                            &:hover{
+                                background: $green-500;                                
+                                color: $white;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .btn-primary{
+        background: $green-500;
+        &:active,
+        &:hover,
+        &:focus{
+            background: $green-400;
+        }
+        &.btn-simple{
+            border-color: $green-500;
+            color: $green-500;
+            background: transparent;
+        }
+    }
+    .page-loader-wrapper{
+        background:$green-500;
+    }    
+    .sidebar{
+        .menu{
+            .list{
+                li.active.open {                   
+                    background:$green-500;
+                }
+                a{
+                    &:hover{
+                        color:$green-500;
+                    }
+                }
+            }
+        }
+    }
+    .checkbox input[type="checkbox"]:checked+label::after{
+        border-color:$green-500;
+        background: $green-500;
+        color: white;
+    }   
+    .nav-tabs{
+        .nav-link.active {
+            border: 1px solid $green-500 !important;
+            background: $green-500;
+            color: $white;
+        }
+    }
+    .card{
+        .header{
+            h2{
+                &:before{
+                    background: $green-500;
+                }
+                strong{
+                    color: $green-500;
+                }
+            }
+            .dropdown-menu{
+                li{
+                    a{
+                        &:hover{
+                            background-color: $green-500;
+                            color: $white;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .chat-widget{
+        li.left{
+            .message{
+                background: $green-500;
+            }
+        }
+    }
+    .chat{
+        .chat-header{
+            background: $green-500;
+        }
+    }
+    .authentication{
+        .navbar, .page-header{
+            background: $green-500 !important;
+        }
+    }
+
+    .menu-container{       
+        ul > li > ul > li a:hover,
+        ul.normal-sub > li a:hover{
+            background: $green-500;
+        }
+    }
+    .form-control:focus,
+    .form-control:focus+.input-group-addon, .form-control:focus ~ .input-group-addon{
+        border-color: $green-500;
+    }
+}

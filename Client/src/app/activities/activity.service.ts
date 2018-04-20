@@ -4,10 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
+import { apiUrl } from '../variables';
+import { ActivityCreate, ActivityEdit } from './activity';
 import { environment } from '../../environments/environment';
-import { ActivityCreate } from './activity';
 import { Router } from '@angular/router';
-
+import { Activity } from './activity';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -65,4 +66,8 @@ export class ActivityService {
       return of(result as T);
     };
   }
+  EditActivity(activity: ActivityEdit, id: any) {
+    return this.http.patch( this.activitiesUrl + '/' + id + '/EditActivity', activity);
+  }
+
 }
