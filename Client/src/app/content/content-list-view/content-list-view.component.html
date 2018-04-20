@@ -44,8 +44,12 @@
             <div class="img-post m-b-15">
               <img [src]="content.image" width="100%" height="100%" alt="Awesome Image">
             </div>
-            <p>{{content.body}} ...</p>
-            <a routerLink="/content-view/{{content._id}}" title="read more" class="btn btn-round btn-info">Read More</a>
+            <div class="tags-holder">
+              <span *ngFor="let tag of getFirstTenTags(content.tags)" class="badge badge-info btn-round">{{tag}}</span>
+            </div>
+            <div>
+              <a routerLink="/content-view/{{content._id}}" title="Watch Now" class="btn btn-round btn-info">Watch Now</a>
+            </div>
           </div>
         </div>
         <ul class="pagination pagination-primary">
@@ -71,76 +75,43 @@
             </div>
           </div>
         </div>
+
         <div class="card">
           <div class="header">
             <h2>
-              <strong>Tag</strong> Clouds</h2>
-          </div>
-          <div class="body widget tag-clouds">
-            <ul class="list-unstyled m-b-0">
-              <li>
-                <a href="#" class="tag badge badge-default">Design</a>
-              </li>
-              <li>
-                <a href="#" class="tag badge badge-success">Project</a>
-              </li>
-              <li>
-                <a href="#" class="tag badge badge-info">Creative UX</a>
-              </li>
-              <li>
-                <a href="#" class="tag badge badge-success">Wordpress</a>
-              </li>
-              <li>
-                <a href="#" class="tag badge badge-warning">HTML5</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="header">
-            <h2> EXAMPLE
-              <small>Click the buttons below to show and hide another element via class changes. You can use a link with the
-                <code>href</code> attribute, or a button with the
-                <code>data-target</code> attribute. In both cases, the
-                <code>data-toggle="collapse"</code> is required.</small>
+              <strong>Categories</strong> Full Body
+              <small>If you want to also colorful body, you need to add
+                <code>.full-body</code> class to
+                <code>.panel-group</code>
+              </small>
             </h2>
-            <ul class="header-dropdown">
-              <li class="dropdown">
-                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                  <i class="zmdi zmdi-more"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right slideUp float-right">
-                  <li>
-                    <a href="javascript:void(0);">Edit</a>
-                  </li>
-                  <li>
-                    <a href="javascript:void(0);">Delete</a>
-                  </li>
-                  <li>
-                    <a href="javascript:void(0);">Report</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="remove">
-                <a role="button" class="boxs-close">
-                  <i class="zmdi zmdi-close"></i>
-                </a>
-              </li>
-            </ul>
           </div>
           <div class="body">
-            <a class="btn btn-default btn-round waves-effect" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
-              aria-controls="collapseExample"> LINK WITH HREF </a>
-            <button class="btn btn-raised btn-primary btn-round waves-effect" type="button" data-toggle="collapse" data-target="#collapseExample"
-              aria-expanded="false" aria-controls="collapseExample"> BUTTON WITH data-target </button>
-            <div class="collapse" id="collapseExample">
-              <div class="well"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim
-                keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. </div>
+            <div class="row clearfix">
+              <div class="col-md-12 col-lg-12">
+                <div class="panel-group full-body" id="accordion" role="tablist" aria-multiselectable="true">
+                  <div *ngFor="let category of categories" class="panel panel-primary">
+                    <div class="panel-heading" role="tab" id="{{ 'heading' + category.name}}">
+                      <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="{{'#collapse'+ category.name}}" aria-expanded="true"
+                          [attr.aria-controls]="'collapse' + category.name"> {{ category.name }} </a>
+                      </h4>
+                    </div>
+                    <div id="{{'collapse' + category.name}}" class="panel-collapse collapse in" role="tabpanel" [attr.aria-labelledby]="'heading' + category.name">
+                      <div class="panel-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
+                        moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
+                        Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
+                        shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
+                        ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
+                        denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
 
         <div class="card bg-dark">
           <div class="header">

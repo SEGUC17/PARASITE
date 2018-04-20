@@ -65,6 +65,11 @@ export class ContentListViewComponent implements OnInit {
     this.getCategories();
   }
 
+  // extract the first ten tags of a certain content
+  getFirstTenTags(tags: any): any {
+    return tags.slice(0, 10);
+  }
+
   // calculate the number of pages to display in pagination
   getPaginationRange(): any {
     let pageNumbers = [];
