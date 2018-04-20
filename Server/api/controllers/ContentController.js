@@ -697,13 +697,13 @@ module.exports.updateCategory = function (req, res, next) {
     Category.findByIdAndUpdate(
         req.params.id,
         { name: req.body.name },
-        function (categoryUpdateError, updatedCategory) {
+        function (categoryUpdateError, oldCategory) {
             if (categoryUpdateError) {
                 return next(categoryUpdateError);
             }
 
             Content.updateMany(
-                { category: updatedCategory.name },
+                { category: oldCategory.name },
                 function (contentUpdateError) {
                     if (contentUpdateError) {
                         return next(contentUpdateError);
