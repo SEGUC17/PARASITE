@@ -348,10 +348,11 @@ module.exports.isIndependent = function(req, res, next) {
     if (req.user.isChild) {
         return res.status(403).json({
             data: null,
-            err: 'You have to be independent to book an activity',
+            err: 'You have to be independent to complete this action',
             msg: null
         });
     }
 
     next();
 };
+
