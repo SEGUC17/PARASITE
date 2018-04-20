@@ -1,6 +1,7 @@
 /* eslint-disable sort-keys */
 /* eslint-disable guard-for-in */
 /*eslint max-statements: ["error", 20]*/
+/* eslint multiline-comment-style: ["error", "starred-block"] */
 
 // --- Requirements --- //
 var app = require('../../app');
@@ -16,7 +17,6 @@ var jwt = require('jsonwebtoken');
 
 // --- Dependancies --- //
 var expect = chai.expect;
-var should = chai.should();
 var mockgoose = new Mockgoose(mongoose);
 // --- End of 'Dependancies' --- //
 
@@ -24,13 +24,25 @@ var mockgoose = new Mockgoose(mongoose);
 chai.use(chaiHttp);
 // --- End of 'Middleware' --- //
 
+// Objects variables for testing
 var adminUser = null;
 var normalUser = null;
 var verifiedActivity = null;
 var pendingActivity = null;
 var rejectedActivity = null;
 
-describe('Activities', function () {
+describe('View Activities', function () {
+
+    /*
+     * Tests for GET Activity both list and detail
+     *
+     * All users can view a verified activity in list or in detail
+     * While pending and rejected activities can be viewed by admin
+     * in list and in detail and their creator in detail only.
+     *
+     * @author: Wessam
+     */
+
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
@@ -45,6 +57,7 @@ describe('Activities', function () {
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
+            // Creating data for testing
             Activity.create({
                 creator: 'normalusername',
                 name: 'activity1',
@@ -80,6 +93,18 @@ describe('Activities', function () {
                 fromDateTime: Date.now(),
                 toDateTime: Date.now() + 5,
                 status: 'verified',
+                discussion: [
+                    {
+                        creator: 'normalusername',
+                        text: 'comment text',
+                        replies: [
+                            {
+                                creator: 'normalusername',
+                                text: 'reply text'
+                            }
+                        ]
+                    }
+                ],
                 price: 50
             }, function (err, activity) {
                 if (err) {
@@ -89,7 +114,7 @@ describe('Activities', function () {
             });
             User.create({
                 birthdate: Date.now(),
-                email: 'test@email.com',
+                email: 'test0@email.com',
                 firstName: 'firstname',
                 isAdmin: false,
                 lastName: 'lastname',
@@ -101,28 +126,34 @@ describe('Activities', function () {
                     console.log(err);
                 }
                 normalUser = user;
-            });
-            User.create({
-                birthdate: Date.now(),
-                email: 'test@email.com',
-                firstName: 'firstname',
-                isAdmin: true,
-                lastName: 'lastname',
-                password: 'password',
-                phone: '0111111111',
-                username: 'adminusername'
-            }, function (err, user) {
-                if (err) {
-                    console.log(err);
-                }
-                adminUser = user;
-                done();
+                User.create({
+                    birthdate: Date.now(),
+                    email: 'test1@email.com',
+                    firstName: 'firstname',
+                    isAdmin: true,
+                    lastName: 'lastname',
+                    password: 'password',
+                    phone: '0111111111',
+                    username: 'adminusername'
+                }, function (err2, user2) {
+                    if (err) {
+                        console.log(err2);
+                    }
+                    adminUser = user2;
+                    done();
+                });
             });
         });
     });
     // --- End of 'Clearing Mockgoose' --- //
 
     describe('/GET activities list', function () {
+
+        /*
+         * Tests for GET activities list
+         *
+         * @author: Wessam
+         */
         it('it should GET verified activities', function (done) {
             chai.request(app).get('/api/activities').
                 end(function (err, res) {
@@ -138,6 +169,22 @@ describe('Activities', function () {
                     for (var activity in activities) {
                         activity = activities[activity];
                         expect(activity.status).to.equal('verified');
+                    }
+                    done();
+                });
+        });
+        it('it shouldn\'t include discussion in body', function (done) {
+            chai.request(app).get('/api/activities').
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(200);
+                    expect(res.body.data.docs.length).to.equal(1);
+                    var activities = res.body.data.docs;
+                    for (var activity in activities) {
+                        activity = activities[activity];
+                        expect(activity).to.not.have.ownProperty('discussion');
                     }
                     done();
                 });
@@ -191,6 +238,12 @@ describe('Activities', function () {
         });
     });
     describe('/GET activity detail', function () {
+
+        /*
+         * Tests for GET activities detail
+         *
+         * @author: Wessam
+         */
         it('it should GET verified activity', function (done) {
             chai.request(app).get('/api/activities/' + verifiedActivity._id).
                 end(function (err, res) {
@@ -202,8 +255,11 @@ describe('Activities', function () {
                     expect(res.body.data).to.have.ownProperty('description');
                     expect(res.body.data.description).to.
                         equal(verifiedActivity.description);
-                    done();
-                });
+                    expect(res.body.data).to.haveOwnProperty('discussion');
+                    expect(res.body.data.discussion[0].text).to.
+                        equal(verifiedActivity.discussion[0].text);
+                        done();
+                    });
         });
         it('it should GET return 403', function (done) {
             chai.request(app).get('/api/activities/' + pendingActivity._id).
@@ -256,7 +312,25 @@ describe('Activities', function () {
                     done();
                 });
         });
+        it('it should return 404', function (done) {
+            chai.request(app).get('/api/activities/5abcd64de097957f8d90c386').
+                end(function (err, res) {
+                    // testing get activities for unverified user
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(404);
+                    done();
+                });
+        });
     });
+    // --- Clearing Mockgoose --- //
+    after(function (done) {
+        mockgoose.helper.reset().then(function () {
+            done();
+        });
+    });
+    // --- End of "Clearing Mockgoose" --- //
 
     // --- Mockgoose Termination --- //
     after(function (done) {

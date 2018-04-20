@@ -4,7 +4,7 @@ var server = require('../../app');
 var Content = mongoose.model('Content');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-
+var should = require('chai').should();
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
@@ -28,8 +28,37 @@ var token = null;
 // an array for insertions of test data
 var docArray = [];
 
+var valiateCategoryAndSection = function (
+    expectedCategory,
+    expectedSection,
+    res
+) {
+    var counter = 0;
+    // validate category and section retrieval
+    if (expectedCategory !== '' &&
+        expectedSection !== '') {
+        // check category and section
+        for (
+            counter = 0;
+            counter < res.body.data.docs.length;
+            counter += 1
+        ) {
+            res.body.data.docs[counter].
+                should.have.property('category', expectedCategory);
+            res.body.data.docs[counter].
+                should.have.property('section', expectedSection);
+        }
+    }
+};
+
 // save the documents and test for first test
-var saveAllAndTest = function (done, requestUrl, pageLength) {
+var saveAllAndTest = function (
+    done,
+    requestUrl,
+    pageLength,
+    expectedCategory,
+    expectedSection
+) {
     var doc = docArray.pop();
     doc.save(function (err) {
         if (err) {
@@ -44,9 +73,13 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
                     if (error) {
                         return console.log(error);
                     }
+
+                    // expect success status, array result with page length
                     expect(res).to.have.status(200);
                     res.body.data.docs.should.be.a('array');
                     res.body.data.docs.should.have.lengthOf(pageLength);
+
+                    // check that all the content is by the same creator
                     for (
                         var counter = 0;
                         counter < res.body.data.docs.length;
@@ -54,12 +87,26 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
                     ) {
                         res.body.data.docs[counter].
                             should.have.property('creator', 'omar');
+                        res.body.data.docs[counter].
+                            should.not.have.property('discussion');
                     }
+                    // check category and section
+                    valiateCategoryAndSection(
+                        expectedCategory,
+                        expectedSection,
+                        res
+                    );
                     done();
                 });
         } else {
             // continue to save
-            saveAllAndTest(done, requestUrl, pageLength);
+            saveAllAndTest(
+                done,
+                requestUrl,
+                pageLength,
+                expectedCategory,
+                expectedSection
+            );
         }
     });
 };
@@ -85,6 +132,7 @@ describe('/GET/ Content Page by Creator', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
+    // test that the server gets a page of content by a creator
     it(
         'it should GET page of content with the specified creator',
         function (done) {
@@ -110,6 +158,7 @@ describe('/GET/ Content Page by Creator', function () {
                     title: 'Test Content' + counter
                 }));
             }
+
             // sign up and be authenticated
             chai.request(server).
                 post('/api/signUp').
@@ -123,14 +172,72 @@ describe('/GET/ Content Page by Creator', function () {
                     // perfrom the test
                     saveAllAndTest(
                         done,
-                        '/api/content/username/3/1',
-                        3
+                        '/api/content/username/3/1/' +
+                        'categorization?category=&section=',
+                        3,
+                        '',
+                        ''
                     );
 
                 });
         }
     );
 
+    // test that the server gets a page of content by a creator
+    // within a category or section
+    it(
+        'it should GET page of content with ' +
+        'the specified creator, category, and section',
+        function (done) {
+
+            // provide content document that will not be retrieved
+            docArray.push(new Content({
+                approved: true,
+                body: '<h1>Hello</h1>',
+                category: 'cat1',
+                creator: 'not omar',
+                section: 'sec1',
+                title: 'Test Content 3'
+            }));
+
+            // provide the documents that will be retrieved
+            for (var counter = 0; counter < 3; counter += 1) {
+                docArray.push(new Content({
+                    approved: true,
+                    body: '<h1>Hello</h1>',
+                    category: 'cat' + counter,
+                    creator: 'omar',
+                    section: 'sec' + counter,
+                    title: 'Test Content' + counter
+                }));
+            }
+
+            // sign up and be authenticated
+            chai.request(server).
+                post('/api/signUp').
+                send(user).
+                end(function (err, response) {
+                    if (err) {
+                        return console.log(err);
+                    }
+                    response.should.have.status(201);
+                    token = response.body.token;
+                    // perfrom the test
+                    saveAllAndTest(
+                        done,
+                        '/api/content/username/3/1/' +
+                        'categorization?category=cat1&section=sec1',
+                        1,
+                        'cat1',
+                        'sec1'
+                    );
+
+                });
+        }
+    );
+
+    // test that the server will send an error
+    // if the elements per page parameter is not valid
     it(
         'it should fail with an error if the elements per page is not valid.',
         function (done) {
@@ -146,12 +253,14 @@ describe('/GET/ Content Page by Creator', function () {
                     token = response.body.token;
                     // perfrom the test
                     chai.request(server).
-                        get('/api/content/username/FAIL/1').
+                        get('/api/content/username/FAIL/1/' +
+                            'categorization?category=&section=').
                         set('Authorization', token).
                         end(function (error, res) {
                             if (error) {
                                 return console.log(error);
                             }
+                            // expect 422 status due to error
                             expect(res).to.have.status(422);
                             done();
                         });
@@ -159,6 +268,8 @@ describe('/GET/ Content Page by Creator', function () {
         }
     );
 
+    // test that the server will send an error
+    // if the page number parameter is not valid
     it(
         'it should fail with an error if the page number is not valid.',
         function (done) {
@@ -174,12 +285,14 @@ describe('/GET/ Content Page by Creator', function () {
                     token = response.body.token;
                     // perfrom the test
                     chai.request(server).
-                        get('/api/content/username/3/FAIL').
+                        get('/api/content/username/3/FAIL/' +
+                            'categorization?category=&section=').
                         set('Authorization', token).
                         end(function (error, res) {
                             if (error) {
                                 return console.log(error);
                             }
+                            //expect error status
                             expect(res).to.have.status(422);
                             done();
                         });

@@ -29,7 +29,7 @@ var user = {
 // authenticated token
 var token = null;
 
-describe('GetProdRequests', function () {
+describe('GetProdRequestsAsAdmin', function () {
 
     // --- Mockgoose Initiation --- //
     before(function (done) {

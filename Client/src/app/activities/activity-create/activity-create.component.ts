@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
 
 @Component({
   selector: 'app-activity-create',
   templateUrl: './activity-create.component.html',
-  styleUrls: ['./activity-create.component.css']
+  styleUrls: ['./activity-create.component.scss']
 })
 export class ActivityCreateComponent implements OnInit {
   /*
@@ -22,10 +21,11 @@ export class ActivityCreateComponent implements OnInit {
     toDateN: null,
     fromDateTime: null,
     toDateTime: null,
-    image: null
+    image: null,
+    discussion: []
   };
 
-  constructor( 
+  constructor(
     private router: Router,
     private activityService: ActivityService
   ) { }
@@ -33,7 +33,7 @@ export class ActivityCreateComponent implements OnInit {
   ngOnInit() {
   }
 
-  createActivity(){
+  createActivity() {
     /*
       Creating a new activity after converting the dates to
       unix timestamp
@@ -47,7 +47,7 @@ export class ActivityCreateComponent implements OnInit {
           console.log(res);
           this.router.navigate([`activities/${res.data._id}`]);
       }
-    )
+    );
   }
 
 }

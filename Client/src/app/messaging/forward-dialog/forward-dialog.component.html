@@ -1,0 +1,42 @@
+<mat-form-field>
+    <input #receiver matInput [(ngModel)]="Receiver" placeholder="To">
+</mat-form-field>
+<br/>
+
+<mat-form-field class="example-container">
+    <textarea #body class="textarea" matInput [(ngModel)]="Body"></textarea>
+</mat-form-field>
+<br/>
+
+<button mat-raised-button color="primary" (click)="send(); receiver.value=''; body.value=''">Send</button>
+
+<button mat-raised-button color="warn" (click)="dialogRef.close()">
+  Cancel
+</button>
+
+
+<div id="div1" *ngIf="div1">
+<br/>
+<mat-card>Please specify a recipient.</mat-card>
+</div>
+
+<div id="div2" *ngIf="div2">
+<br/>
+<mat-card>You can't send an empty message.</mat-card>
+</div>
+
+<div id="div3" *ngIf="div3">
+<br/>
+<mat-card>Your message has been sent.</mat-card>
+</div>
+
+<div id="div4" *ngIf="div4">
+<br/>
+<br/>
+<mat-card>Sorry, you are blocked.</mat-card>
+</div>
+
+<div id="div5" *ngIf="div5">
+<br/>
+<mat-card>Please enter a valid username.</mat-card>
+</div>

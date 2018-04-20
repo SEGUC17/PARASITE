@@ -24,7 +24,15 @@ import { SafeHtmlPipe } from './safe-html.pipe';
 import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
 import { AdminModule } from '../admin/admin.module';
 import { MatSelectModule } from '@angular/material/select';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { SharedModule } from '../shared/shared.module';
+import {MatListModule} from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+
+
 
 @NgModule({
   imports: [
@@ -46,7 +54,12 @@ import {MatRadioModule} from '@angular/material/radio';
     MatExpansionModule,
     MatSelectModule,
     AdminModule,
-    MatRadioModule
+    MatRadioModule,
+    InfiniteScrollModule,
+    SharedModule,
+    MatListModule,
+    MatDividerModule,
+    MatTooltipModule
   ],
   providers: [ContentService],
   declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent, SafeResourceUrlPipe, SafeHtmlPipe]

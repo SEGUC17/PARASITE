@@ -1,4 +1,4 @@
-export class createProductRequest {
+export class CreateProductRequest { // Object
     name: String;
     price: Number;
     seller: String;

@@ -9,14 +9,15 @@ import { Section } from '../section';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from '../category';
 import { AuthService } from '../../auth/auth.service';
+import { AdminService } from '../../admin.service';
 @Component({
   selector: 'app-content-edit',
   templateUrl: './content-edit.component.html',
-  styleUrls: ['./content-edit.component.css']
+  styleUrls: ['./content-edit.component.scss']
 })
 export class ContentEditComponent implements OnInit {
   private editor;
-  private isUpdate;
+  private isUpdate = false;
   public videoInput: string;
   public categories: Category[];
   public requiredSections: Section[];
@@ -27,8 +28,9 @@ export class ContentEditComponent implements OnInit {
   public content: Content = {
     body: `<h1>Nawwar :D<h1>`,
     category: '',
+    discussion: [],
     section: '',
-    creator: this.authService.user.username,
+    creator: '',
     creatorAvatarLink: 'https://i.pinimg.com/originals/81/8a/74/818a7421837fabbce3cac4726b217df6.jpg',
     creatorProfileLink: 'https://www.facebook.com/Prog0X1',
     image: '',
@@ -41,7 +43,8 @@ export class ContentEditComponent implements OnInit {
     private contentService: ContentService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private adminService: AdminService) {
   }
 
   // Add a tag chip event handler
@@ -70,27 +73,56 @@ export class ContentEditComponent implements OnInit {
   }
 
 
-  // create content
-  createContent(content: Content): void {
+  // on content edit form submit
+  onSubmit(): void {
     const self = this;
-    if (!this.authService.getUser().username) {
+    if (this.authService.getToken() === '') {
+      // TODO: (Universal Error Handler/ Modal Errors)
       console.log('Please sign in first');
       return;
     }
-    this.contentService.createContent(content).subscribe(function (res) {
-      // TODO(Universal Error Handler/ Modal Errors)
-      console.log(res);
-      if (!res) {
+    // get username of the registered user
+    this.authService.getUserData(['username']).subscribe(function (authRes) {
+      self.content.creator = authRes.data.username;
+      // create content for for that registered user
+
+      if (self.isUpdate) {
+        self.updateContent();
+      } else {
+        self.createContent();
+      }
+    });
+  }
+  // create content
+  createContent(): void {
+    const self = this;
+    self.contentService.createContent(self.content).subscribe(function (contentRes) {
+      // TODO: (Universal Error Handler/ Modal Errors)
+      if (!contentRes) {
         return;
       }
-      if (res.data.content) {
-        self.router.navigateByUrl('/content-view/' + res.data.content._id);
+      if (contentRes.data.content) {
+        self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
         return;
       }
-      self.router.navigateByUrl('/content-view/' + res.data._id);
+      self.router.navigateByUrl('/content-view/' + contentRes.data._id);
     });
   }
 
+  // update content
+  updateContent(): void {
+    const self = this;
+    self.contentService.updateContent(self.content).subscribe(function (contentRes) {
+      // TODO: (Universal Error Handler/ Modal Errors)
+      if (!contentRes || !contentRes.data) {
+        return;
+      }
+      if (contentRes.data.content) {
+        self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
+      }
+      self.router.navigateByUrl('/content-view/' + contentRes.data._id);
+    });
+  }
   // retrieve all categories from server
   getCategories(): void {
     const self = this;
@@ -118,26 +150,32 @@ export class ContentEditComponent implements OnInit {
   }
 
 
-  initUpdateView() {
+  initUpdateView(contentID) {
     const self = this;
-    const contentID = this.route.snapshot.params.id;
-    if (!contentID) {
-      return;
-    }
-    this.contentService.getContentById(contentID).subscribe(function (res) {
-      if (!res) {
-        console.log('couldn\'t find the content');
-        self.isUpdate = false;
-        return;
+    self.contentService.getCategories().subscribe(function (res) {
+      if (!res || !res.data) {
+        return [];
       }
-      self.content = res.data;
-
+      self.categories = res.data;
+      self.contentService.getContentById(contentID).subscribe(function (contentResponse) {
+        if (!contentResponse) {
+          console.log('couldn\'t find the content');
+          return;
+        }
+        self.isUpdate = true;
+        self.content = contentResponse.data;
+        self.getSections();
+      });
     });
 
   }
 
   ngOnInit() {
+    const contentID = this.route.snapshot.params.id;
+    if (contentID) {
+      this.isUpdate = true;
+      this.initUpdateView(contentID);
+    }
     this.getCategories();
-    this.initUpdateView();
   }
 }

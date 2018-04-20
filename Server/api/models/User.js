@@ -37,10 +37,19 @@ var userSchema = mongoose.Schema({
         required: true,
         type: Date
     },
+    blocked: {
+        default: [],
+        required: false,
+        type: [String]
+    },
     children: {
         default: [],
         required: false,
         type: [String]
+    },
+    contributionScore: {
+        default: 0,
+        type: Number
     },
     educationLevel: {
       default: '',
@@ -87,6 +96,10 @@ var userSchema = mongoose.Schema({
         required: true,
         sparse: true,
         type: String
+    },
+    learningScore: {
+        default: 0,
+        type: Number
     },
     password: {
         required: true,

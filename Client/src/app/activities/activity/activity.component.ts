@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
-import { apiUrl } from '../../variables';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-activity',
   templateUrl: './activity.component.html',
-  styleUrls: ['./activity.component.css']
+  styleUrls: ['./activity.component.scss']
 })
 export class ActivityComponent implements OnInit {
   /*
@@ -21,7 +20,13 @@ export class ActivityComponent implements OnInit {
   canCreate: Boolean;
 
   private createUrl = '/create-activity';
-  user: any;
+  user = {
+    isAdmin: false,
+    verified: false,
+    AvatarLink: null,
+    username: 'Mohamed Maher'
+
+  };
 
   constructor(
     private activityService: ActivityService,
@@ -47,18 +52,21 @@ export class ActivityComponent implements OnInit {
     this.activityService.getActivities(page).subscribe(
       res => this.updateLayout(res)
     );
-    this.user = this.authService.getUser();
-    this.canCreate = this.user.isAdmin || this.user.verified;
+    this.authService.getUserData(['isAdmin']).subscribe((user) => {
+      this.user.isAdmin = user.data.isAdmin;
+      this.user.verified = user.data.verified;
+      this.canCreate = this.user.isAdmin || this.user.verified;
+    });
   }
 
 
   updateLayout(res) {
-    /*
-      Setting new values comming from 
-      the response
 
-      @author: Wessam
-    */
+    // Setting new values comming from
+    // the response
+    //
+    // @author: Wessam
+
     document.querySelector('.mat-sidenav-content').scrollTop = 0;
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
@@ -70,5 +78,6 @@ export class ActivityComponent implements OnInit {
       }
     }
   }
+
 
 }

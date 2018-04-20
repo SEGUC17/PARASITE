@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
-var auth = require('basic-auth');
 var Activity = mongoose.model('Activity');
-var User = mongoose.model('User');
 
-/*eslint max-statements: ["error", 20]*/
+/* eslint max-statements: ["error", 20] */
 /* eslint multiline-comment-style: ["error", "starred-block"] */
+/* eslint-disable eqeqeq */
 
 module.exports.getActivities = function (req, res, next) {
 
@@ -47,9 +46,11 @@ module.exports.getActivities = function (req, res, next) {
         filter.status = 'verified';
     }
     Activity.paginate(
-        filter, {
-        limit: 10,
-         page: pageN
+        filter,
+        {
+            limit: 10,
+            page: pageN,
+            select: { discussion: 0 }
         },
         function (err, activities) {
             if (err) {
@@ -89,9 +90,15 @@ module.exports.getActivity = function (req, res, next) {
         if (err) {
             return next(err);
         }
+        if (!activity) {
+            return res.status(404).json({
+                data: null,
+                err: 'Activity doesn\'t exist',
+                msg: null
+            });
+        }
         var creatorName = activity.creator;
 
-        console.log(activity.status);
         if (activity.status !== 'verified') {
 
             if (!isAdmin && creatorName !== user.username) {
@@ -112,7 +119,7 @@ module.exports.getActivity = function (req, res, next) {
 };
 
 
-module.exports.postActivity = function (req, res, next) {
+module.exports.postActivity = function (req, res) {
 
     /*
      *   Middleware for creating an activity
@@ -160,7 +167,11 @@ module.exports.postActivity = function (req, res, next) {
 
     Activity.create(req.body, function (err, activity) {
         if (err) {
-            return next(err);
+            return res.status(422).json({
+                data: null,
+                err: err,
+                message: null
+            });
         }
         res.status(201).json({
             data: activity,
@@ -170,7 +181,7 @@ module.exports.postActivity = function (req, res, next) {
     });
 };
 
-module.exports.reviewActivity = function (req, res, next) {
+module.exports.reviewActivity = function (req, res) {
 
     /*
      *  Middleware for reviewing an activity by admin
@@ -185,8 +196,8 @@ module.exports.reviewActivity = function (req, res, next) {
      */
 
     var user = req.user;
-    var activityId = req.body.get('_id');
-    var newStatus = req.body.get('status');
+    var activityId = req.body._id;
+    var newStatus = req.body.status;
 
     if (!activityId || !newStatus) {
         return res.status(422).json({
@@ -213,16 +224,59 @@ module.exports.reviewActivity = function (req, res, next) {
     Activity.findByIdAndUpdate(
         activityId,
         { status: newStatus },
-        function(err, activity) {
-
+        {
+            new: true,
+            runValidators: true
+        },
+        function (err, activity) {
             if (err) {
-                return next(err);
+                return res.status(422).json({
+                    data: null,
+                    err: err,
+                    msg: null
+                });
             }
-            res.status(204).json({
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
+                    msg: null
+                });
+            }
+            res.status(200).send({
                 data: activity,
                 err: null,
                 msg: 'Activity status is updated'
             });
         }
     );
+};
+
+module.exports.prepareActivity = function (req, res, next) {
+
+    /*
+     *  function to prepare activity for discussion
+     *
+     * @author: Wessam
+     */
+
+    var activityId = req.params.activityId;
+
+    Activity.findById(activityId).
+        exec(function (err, activity) {
+            if (err) {
+                return next(err);
+            }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
+                    msg: null
+                });
+            }
+            req.object = activity;
+            req.verified = activity.status === 'verified';
+
+            return next();
+        });
 };

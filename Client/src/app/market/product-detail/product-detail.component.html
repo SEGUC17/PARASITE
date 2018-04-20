@@ -1,12 +1,16 @@
 <h1 mat-dialog-title style="font-size: 35px; font-weight: bold">{{data.product.name}}</h1>
 <div class="container">
   <div class="row" style="height:300px">
-    <mat-card class="col-3 mat-elevation-z0">
-      <img mat-card-image src={{data.product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';" alt="Photo of product" style="height:300px ">
+    <mat-card class="col mat-elevation-z0">
+      <img mat-card-image src={{data.product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
+        alt="Photo of product" style="height:300px ">
     </mat-card>
     <mat-card class="col-6 mat-elevation-z0">
       <p style="font-size:20px; color: #3f51b5">{{data.product.price}}
         <span style="font-size: 15px; color: #3f51b5"> EGP</span>
+        <button mat-icon-button *ngIf="data.product.seller == data.curUser">
+            <mat-icon>edit</mat-icon>
+          </button>
       </p>
       <li>
         <span style="font-weight: bold">Product Information:</span>
@@ -28,11 +32,16 @@
         <a routerLink="market">{{data.product.seller}}</a>
       </li>
       <li>
-          <span style="font-weight: bold">Shipping to: </span>
-        </li>
-        <mat-card-actions>
-            <button mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">Acquire</button>   
-          </mat-card-actions>
+        <span style="font-weight: bold">Shipping to: </span>
+      </li>
+      <mat-card-actions>
+        <div>
+          <button *ngIf="data.product.seller !== data.curUser" mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">Acquire</button>
+        </div>
+        <div>
+          <button *ngIf="data.product.seller == data.curUser || data.isAdmin" mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white; margin:3px 0px">Delete</button>
+        </div>
+      </mat-card-actions>
 
     </mat-card>
   </div>

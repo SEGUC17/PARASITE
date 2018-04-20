@@ -4,7 +4,7 @@ var server = require('../../app');
 var Category = mongoose.model('Category');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-
+var should = require('chai').should();
 chai.use(chaiHttp);
 
 var config = require('../../api/config/config');
@@ -31,21 +31,27 @@ describe('/GET/ Category', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
+    // test that the server will retrieve categories
     it('it should GET categories from the server', function (done) {
+        // create a category for the test
         var cat1 = new Category({
             name: 'testcat1',
             sections: [{ name: 'sec1.1' }]
         });
 
+        // save the category to the database
         cat1.save(function (err) {
             if (err) {
                 return console.log(err);
             }
+            // send a get request to retrieve the category
             chai.request(server).get('/api/content/category/').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
                     }
+
+                    // expect the correct category to be retrieved
                     expect(res).to.have.status(200);
                     res.body.data.should.be.a('array');
                     res.body.data[0].should.have.
@@ -56,13 +62,17 @@ describe('/GET/ Category', function () {
         });
     });
 
+    // test that when there are no categories, an empty array is sent back
     it('it should get an empty array from ' +
         'the server when there are no categories', function (done) {
+            // request categories
             chai.request(server).get('/api/content/category/').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
                     }
+
+                    // expect an empty array
                     expect(res).to.have.status(200);
                     res.body.data.should.be.a('array');
                     res.body.data.should.have.lengthOf(0);

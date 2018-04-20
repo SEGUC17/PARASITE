@@ -35,7 +35,7 @@ var studyPlanSchema = mongoose.Schema({
         type: Boolean
     },
     rating: {
-        deafault: {
+        default: {
             number: 0,
             sum: 0,
             value: 0
@@ -58,6 +58,17 @@ var studyPlanSchema = mongoose.Schema({
 // ---------------------- Plugins ---------------------- //
 studyPlanSchema.plugin(mongoosePaginate);
 // ---------------------- End of Plugins ---------------------- //
+
+
+// ---------------------- Middlewares ---------------------- //
+studyPlanSchema.post('findOneAndUpdate', function (doc) {
+    var newRating = doc.rating.sum / doc.rating.number;
+    this.model.update(
+        { _id: doc._id },
+        { $set: { 'rating.value': newRating } }
+    ).exec();
+});
+// ---------------------- End of Middlewares ---------------------- //
 
 
 // ---------------------- Models ---------------------- //

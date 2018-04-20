@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0.scss/font-awesome.min.scss">
 
 
 
@@ -6,13 +6,12 @@
     <div id = "PPDiv">
       <img id = "PP" src= "../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
       <br>
-      <label id="ProfileName" >{{firstName + " " + lastName}}</label>
+      <label id="ProfileName" >{{(currIsOwner? firstName : vFirstName) + " " + (currIsOwner? lastName : vLastName)}}</label>
       <br>
       <label id="Badge">Badge goes here</label><br>
-      <button mat-raised-button style="margin-left: 40px">Direct Message</button>
 
       <div class = "RightSideBtns">
-          <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "!currIsChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>
+          <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "currIsOwner && !currIsChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>
           <button mat-raised-button id="linkToParent" *ngIf = "!currIsOwner && isChild && visitedIsParent" (click)= "linkToParent()">Add as a parent</button>
           <span class="dropdown" *ngIf = "currIsParent && !currIsOwner && !visitedIsChild">
             <button mat-raised-button [matMenuTriggerFor]="menu" id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
@@ -32,7 +31,9 @@
           </span>
           <button mat-raised-button id="mkIndep" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsChild">Make Independent</button>
           <button mat-raised-button id="createChildAccount" *ngIf = "currIsParent && currIsOwner">Create child account</button>
-      </div>
+      
+
+        </div>
     </div>
     <br>
     <div class="tab">
@@ -41,19 +42,20 @@
           <div id = "personalinfo" class = "tabcontent">
             <h3 style="font-weight: bold">Personal Info:</h3>
 
-            <label>Username: {{username}}</label> <br>
-            <label>Email: {{email}}</label> <br>
-            <label>Address: {{address}}</label> <br>
-            <label>Phone: {{phone}}</label> <br>
+            <label>Username: {{currIsOwner? username : vUsername}}</label> <br>
+            
+            <label>Email: {{currIsOwner? email : vEmail}}</label> <br>
+            <label>Address: {{currIsOwner? address : vAddress}}</label> <br>
+            <label>Phone: {{currIsOwner? phone : vPhone}}</label> <br>
 
           </div>
         </mat-tab>
-        <mat-tab label="Personal Schedule" *ngIf="iHaveAcess">
+        <mat-tab label="Personal Schedule" *ngIf="currIsOwner || visitedIsMyChild">
           <div id = "schedule" class = "tabcontent">
-            <app-schedule [profileUser]="vUsername" [loggedInUser]="user"></app-schedule>
+            <app-schedule [profileUser]="vUsername"></app-schedule>
           </div>
         </mat-tab>
-        <mat-tab label="List of children">
+        <mat-tab label="List of children" *ngIf = "currIsOwner? !currIsChild : !visitedIsChild">
           <div id = "children" class = "tabcontent">
             <h3 style="font-weight: bold">Your Children:</h3>
             <app-childern></app-childern>
@@ -63,31 +65,180 @@
           <div id = "studyplans" class = "tabcontent">
             <app-study-plan-list-view
               type="personal"
-              [(username)]="vUsername"
+              [username]="currIsOwner? username : vUsername"
               [(currIsChild)]="currIsChild"
               >
             </app-study-plan-list-view>
           </div>
         </mat-tab>
-        <mat-tab label="Settings">
+        <mat-tab label="Settings" *ngIf = "visitedIsMyChild || currIsOwner">
           <div id = "Settings" class = "tabcontent">
-            <h3>Settings</h3>
-            <h4>Change Password</h4>
-
-            Username <br>
-            <input #Uname type="text" name="name" [(ngModel)]=uname><br>
+            <mat-accordion *ngIf="false">
+                <mat-panel-title style = "font-size: 20px; font-weight: bold">
+                    Settings
+                  </mat-panel-title>
+            <mat-expansion-panel [expanded]="false">
+              <mat-expansion-panel-header style="font-weight: bold">Change Password</mat-expansion-panel-header>
             Current Password <br> 
             <input #Oldpw type="password" name="oldpw" [(ngModel)]=oldpw><br>
             New Password<br> <input #Newpw type="password" name="newpw" [(ngModel)]=newpw><br>
             Confirm New Password <br>
              <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
-            <button type="button"class="btn btn-primary"(click)="ChangePassword(Uname.value, {oldpw: Oldpw.value, newpw: Newpw.value})">Change Password</button>
+            <button type="button"class="btn btn-primary"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
+            <p [innerHTML]="message"></p>
+          </mat-expansion-panel>
+          <mat-expansion-panel [expanded]="false">
+            <mat-expansion-panel-header style="font-weight: bold">
+              Edit Child's Info
+            </mat-expansion-panel-header>
+        
+            <mat-form-field>
+                <label>First Name: </label>
+                <input id="dFirstName" matInput [ngModel]=dFirstName value= {{firstName}}>
+            </mat-form-field>
+          <br/>
+            <mat-form-field>
+                <label>Last Name: </label>
+                <input id="dLastName" matInput [ngModel]=dLastName value = {{lastName}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
+                <label>Username: </label>
+              <input id="dUsername" matInput [ngModel]=dUsername value = {{username}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
+                <label>Email: </label>
+                <input id = "dEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" matInput [ngModel]=dEmail value = {{email}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
+                <label>Address: </label>
+                <input id = "dAddress" matInput [ngModel]=dAddress value = {{address}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
+                <label>Phone: </label>
+                <input id="dPhone" matInput [ngModel]=dPhone value = {{phone}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
+                <label>Birthdate: </label>
+                <input id = "dBirthday" matInput [ngModel]=dBirthday value = {{birthday}} [matDatepicker]="birthdatePicker" disabled/>
+                <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #birthdatePicker disabled="false" startView="multi-year"></mat-datepicker>
+            </mat-form-field>
+            <br/>
+            <button mat-raised-button color="primary" (click)="changeChildInfo()">Save</button>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <button mat-raised-button style="font-weight:bold;" (click)="changePass = !changePass" >Change Password</button>
+        <div *ngIf = "changePass">
+            <h3 style="font-weight: bold;">Change Password</h3>
+          Current Password <br> 
+          <input #Oldpw type="password" name="oldpw" [(ngModel)]=oldpw><br>
+          New Password<br> <input #Newpw type="password" name="newpw" [(ngModel)]=newpw><br>
+          Confirm New Password <br>
+           <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
+          <button type="button"class="btn btn-primary"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
+          
+          <p [innerHTML]="message"></p>
+        </div>
+        <br/>
+        <br/>
+        <button mat-raised-button *ngIf="visitedIsMyChild" style="font-weight:bold;" (click)="childInfo = !childInfo" >Edit Child Info</button>
+        <div *ngIf = "childInfo">
+            <h3 style="font-weight: bold;">Edit Child Info</h3>
+            <mat-form-field>
+              <label>First Name: </label>
+              <input id="dFirstName" matInput [ngModel]=dFirstName value= {{firstName}}>
+          </mat-form-field>
+        <br/>
+          <mat-form-field>
+              <label>Last Name: </label>
+              <input id="dLastName" matInput [ngModel]=dLastName value = {{lastName}}>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+              <label>Username: </label>
+            <input id="dUsername" matInput [ngModel]=dUsername value = {{username}}>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+              <label>Email: </label>
+              <input id = "dEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" matInput [ngModel]=dEmail value = {{email}}>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+              <label>Address: </label>
+              <input id = "dAddress" matInput [ngModel]=dAddress value = {{address}}>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+              <label>Phone: </label>
+              <input id="dPhone" matInput [ngModel]=dPhone value = {{phone}}>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+              <label>Birthdate: </label>
+              <input id = "dBirthday" matInput [ngModel]=dBirthday value = {{birthday}} [matDatepicker]="birthdatePicker" disabled/>
+              <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #birthdatePicker disabled="false" startView="multi-year"></mat-datepicker>
+          </mat-form-field>
+          <br/>
+          <button mat-raised-button color="primary" (click)="changeChildInfo()">Save</button>
+        </div>
+        <button mat-raised-button *ngIf="currIsOwner && !isChild" style="font-weight:bold;" (click)="personalInfo = !personalInfo" >Edit Personal Info</button>
+        <div *ngIf = "personalInfo">
+            <h3 style="font-weight: bold;">Edit Personal Info</h3>
+            <mat-form-field>
+              <label>First Name: </label>
+              <input id="dFirstName" matInput [ngModel]=dFirstName value= {{firstName}}>
+          </mat-form-field>
+        <br/>
+          <mat-form-field>
+              <label>Last Name: </label>
+              <input id="dLastName" matInput [ngModel]=dLastName value = {{lastName}}>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+              <label>Username: </label>
+            <input id="dUsername" matInput [ngModel]=dUsername value = {{username}}>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+              <label>Email: </label>
+              <input id = "dEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" matInput [ngModel]=dEmail value = {{email}}>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+              <label>Address: </label>
+              <input id = "dAddress" matInput [ngModel]=dAddress value = {{address}}>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+              <label>Phone: </label>
+              <input id="dPhone" matInput [ngModel]=dPhone value = {{phone}}>
+          </mat-form-field>
+          <br/>
+          <mat-form-field>
+              <label>Birthdate: </label>
+              <input id = "dBirthday" matInput [ngModel]=dBirthday value = {{birthday}} [matDatepicker]="birthdatePicker" disabled/>
+              <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #birthdatePicker disabled="false" startView="multi-year"></mat-datepicker>
+          </mat-form-field>
+          <br/>
+          <button mat-raised-button color="primary" (click)="ChangeInfo()">Save</button>
+        </div>
 
           </div>
             </mat-tab>
       </mat-tab-group>
-      </div>
 
+
+
+      </div>
 
 
 
