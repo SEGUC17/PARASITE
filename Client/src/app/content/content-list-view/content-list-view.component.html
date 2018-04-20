@@ -1,115 +1,174 @@
-<div class="row no-gutters">
-  <div class="col-2 categories-sidebar">
-    <mat-accordion>
-      <mat-expansion-panel hideToggle (click)="changeCategoryAndSection('','')">
-        <mat-expansion-panel-header>
-          <mat-panel-title>All</mat-panel-title>
-        </mat-expansion-panel-header>
-      </mat-expansion-panel>
-      <mat-expansion-panel *ngFor="let category of categories">
-        <mat-expansion-panel-header>
-          <mat-panel-title>{{ category.name }}</mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-action-row *ngFor="let section of category.sections">
-          <button mat-button (click)="changeCategoryAndSection(category.name, section.name)">{{ section.name }}</button>
-        </mat-action-row>
-      </mat-expansion-panel>
-    </mat-accordion>
+<section class="content blog-page">
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-7 col-md-6 col-sm-12">
+        <h2>Our Content
+          <small>Nawwar</small>
+        </h2>
+      </div>
+      <div class="col-lg-5 col-md-6 col-sm-12">
+        <ul class="breadcrumb float-md-right">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">
+              <i class="zmdi zmdi-home"></i> dashboard </a>
+          </li>
+          <li class="breadcrumb-item active">Contents</li>
+        </ul>
+      </div>
+    </div>
   </div>
-  <mat-tab-group dynamicHeight [(selectedIndex)]="selectedTab" class="col-10">
-    <mat-tab label="Browse Resources and Ideas">
-      <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
-        [scrollWindow]="false">
-        <div class="row">
-          <!--biggest row-->
-          <div class="col-10">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-8 col-md-12 left-box">
+        <div *ngFor="let content of contents" class="card single_post">
+          <div class="body">
+            <h3 class="m-t-0 m-b-5">
+              <a routerLink="/content-view/{{content._id}}">{{ content.title }}</a>
+            </h3>
+            <ul class="meta">
+              <li>
+                <a routerLink="/profile/{{content.creator}}">
+                  <i class="zmdi zmdi-account col-blue"></i>Posted By: {{ content.creator }}</a>
+              </li>
+              <li>
+                <a>
+                  <i class="zmdi zmdi-label col-red"></i> {{ content.category }}, {{ content.section }}</a>
+              </li>
+              <li>
+                <a>
+                  <i class="zmdi zmdi-comment-text col-blue"></i>Comments: 3</a>
+              </li>
+            </ul>
+          </div>
+          <div class="body">
+            <div class="img-post m-b-15">
+              <img [src]="content.image" width="100%" height="100%" alt="Awesome Image">
+            </div>
+            <p>{{content.body}} ...</p>
+            <a routerLink="/content-view/{{content._id}}" title="read more" class="btn btn-round btn-info">Read More</a>
+          </div>
+        </div>
+        <ul class="pagination pagination-primary">
+          <li *ngIf="currentPageNumber>1" class="page-item">
+            <a class="page-link" (click)="pageChange(this.currentPageNumber - 1)">Previous</a>
+          </li>
+          <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
+            <a class="page-link" (click)="pageChange(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
+          </li>
+          <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
+            <a class="page-link" (click)="pageChange(this.currentPageNumber + 1)">Next</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-md-12 right-box">
+        <div class="card">
+          <div class="body search">
+            <div class="input-group m-b-0">
+              <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery">
+              <span class="input-group-addon" (click)="searchContent()">
+                <i class="zmdi zmdi-search"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="header">
+            <h2>
+              <strong>Tag</strong> Clouds</h2>
+          </div>
+          <div class="body widget tag-clouds">
+            <ul class="list-unstyled m-b-0">
+              <li>
+                <a href="#" class="tag badge badge-default">Design</a>
+              </li>
+              <li>
+                <a href="#" class="tag badge badge-success">Project</a>
+              </li>
+              <li>
+                <a href="#" class="tag badge badge-info">Creative UX</a>
+              </li>
+              <li>
+                <a href="#" class="tag badge badge-success">Wordpress</a>
+              </li>
+              <li>
+                <a href="#" class="tag badge badge-warning">HTML5</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="header">
+            <h2> EXAMPLE
+              <small>Click the buttons below to show and hide another element via class changes. You can use a link with the
+                <code>href</code> attribute, or a button with the
+                <code>data-target</code> attribute. In both cases, the
+                <code>data-toggle="collapse"</code> is required.</small>
+            </h2>
+            <ul class="header-dropdown">
+              <li class="dropdown">
+                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                  <i class="zmdi zmdi-more"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right slideUp float-right">
+                  <li>
+                    <a href="javascript:void(0);">Edit</a>
+                  </li>
+                  <li>
+                    <a href="javascript:void(0);">Delete</a>
+                  </li>
+                  <li>
+                    <a href="javascript:void(0);">Report</a>
+                  </li>
+                </ul>
+              </li>
+              <li class="remove">
+                <a role="button" class="boxs-close">
+                  <i class="zmdi zmdi-close"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="body">
+            <a class="btn btn-default btn-round waves-effect" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false"
+              aria-controls="collapseExample"> LINK WITH HREF </a>
+            <button class="btn btn-raised btn-primary btn-round waves-effect" type="button" data-toggle="collapse" data-target="#collapseExample"
+              aria-expanded="false" aria-controls="collapseExample"> BUTTON WITH data-target </button>
+            <div class="collapse" id="collapseExample">
+              <div class="well"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim
+                keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="card bg-dark">
+          <div class="header">
+            <h2>
+              <strong>Popular</strong> Content</h2>
+          </div>
+          <div class="body widget popular-post">
             <div class="row">
-              <div class="col">
-                <h2 align="center" *ngIf="selectedCategory !== ''"> Category: {{ selectedCategory }}</h2>
-                <h3 align="center" *ngIf="selectedSection !== ''"> Section: {{ selectedSection }}</h3>
+              <div class="col-xl-12 col-lg-12">
+                <div class="border single_post">
+                  <div class="img-post m-b-5">
+                    <img src="assets/images/blog/blog-page-2.jpg" alt="Awesome Image">
+                  </div>
+                  <p class="m-b-0 col-white">Apple Introduces Search Ads Basic</p>
+                  <small class="text-muted">Dec 22, 2017</small>
+                </div>
+                <div class="border single_post m-t-20">
+                  <div class="img-post m-b-5">
+                    <img src="assets/images/blog/blog-page-3.jpg" alt="Awesome Image">
+                  </div>
+                  <p class="m-b-0 col-white">new rules, more cars, more races</p>
+                  <small class="text-muted">Dec 20, 2017</small>
+                </div>
               </div>
             </div>
-            <div class="row" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
-              <mat-card *ngFor="let content of contents" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
-                <mat-card-header *ngIf="content.creator">
-                  <div mat-card-avatar [ngStyle]="{'background-image':'url(' + content.creatorAvatarLink + ')'}" class="creator-avatar link-to-profile"
-                    title="check creator profile" (click)="checkCreatorProfile(content.creator)"></div>
-                  <mat-card-title title="check creator profile" class="link-to-profile" (click)="checkCreatorProfile(content.creator)">
-                    {{content.creator}}
-                  </mat-card-title>
-                  <mat-card-subtitle class="small-title">Contributor</mat-card-subtitle>
-                </mat-card-header>
-                <a routerLink="/content-view/{{content._id}}">
-                  <mat-card-content class="mt-2">
-                    <img *ngIf="content.image" mat-card-image [src]="content.image" />
-                    <p *ngIf="content.title" class="mat-typography">{{content.title}}</p>
-                  </mat-card-content>
-                </a>
-                <mat-card-footer *ngIf="content.tags">
-                  <mat-chip-list>
-                    <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
-                      {{tag}}
-                    </mat-chip>
-                  </mat-chip-list>
-                </mat-card-footer>
-              </mat-card>
-            </div>
           </div>
-          <div class="col-2 search-sidebar">
-            <mat-form-field>
-              <input matInput [(ngModel)]="searchQuery" type="text" placeholder="Search" />
-            </mat-form-field>
-            <button mat-fab color="primary" (click)="searchContent()">
-              <mat-icon>search</mat-icon>
-            </button>
-            <h3>Sort By</h3>
-            <mat-radio-group class="sort-radio-group" [(ngModel)]="sortResultsBy">
-              <mat-radio-button class="sort-radio-button" *ngFor="let sortOption of sortOptions" [value]="sortOption">
-                {{ sortOption }}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-        </div>
-        <!-- biggest row ends-->
-      </div>
-    </mat-tab>
-    <mat-tab *ngIf="currentUser" label="My Contributions">
-      <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScrollMyContributions()"
-        [scrollWindow]="false">
-        <div class="row">
-          <div class="col">
-            <h2 align="center" *ngIf="myContributionsSelectedCategory !== ''"> Category: {{ myContributionsSelectedCategory }}</h2>
-            <h3 align="center" *ngIf="myContributionsSelectedSection !== ''"> Section: {{ myContributionsSelectedSection }}</h3>
-          </div>
-        </div>
-        <div class="row" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
-          <mat-card *ngFor="let content of myContributions" class="m-2 col-lg-2 col-md-3 col-sm-5 col-xs-12">
-            <mat-card-header *ngIf="content.creator">
-              <div mat-card-avatar [ngStyle]="{'background-image':'url(' + currentUser.avatar + ')'}" class="creator-avatar link-to-profile"
-                title="check creator profile" (click)="checkCreatorProfile(content.creator)"></div>
-              <mat-card-title title="check creator profile" class="link-to-profile" (click)="checkCreatorProfile(content.creator)">
-                {{content.creator}}
-              </mat-card-title>
-              <mat-card-subtitle class="small-title">
-                Contributor
-              </mat-card-subtitle>
-            </mat-card-header>
-            <a routerLink="/content-view/{{content._id}}">
-              <mat-card-content class="mt-2">
-                <img mat-card-image *ngIf="content.image" [src]="content.image" />
-                <p *ngIf="content.title" class="mat-typography">{{content.title}}</p>
-              </mat-card-content>
-            </a>
-            <mat-card-footer *ngIf="content.tags">
-              <mat-chip-list>
-                <mat-chip class="content-tag" *ngFor="let tag of content.tags" selected="true" color="primary">
-                  {{tag}}
-                </mat-chip>
-              </mat-chip-list>
-            </mat-card-footer>
-          </mat-card>
         </div>
       </div>
-    </mat-tab>
-  </mat-tab-group>
-</div>
+    </div>
+  </div>
+</section>

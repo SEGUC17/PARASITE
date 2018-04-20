@@ -32,6 +32,7 @@ export class ContentListViewComponent implements OnInit {
   selectedCategory: String = '';
   selectedSection: String = '';
   currentPageNumber = 1;
+  totalNumberOfPages = 0;
 
   // for my contributions pagination
   myContributionsSelectedCategory: String = '';
@@ -64,11 +65,35 @@ export class ContentListViewComponent implements OnInit {
     this.getCategories();
   }
 
+  // calculate the number of pages to display in pagination
+  getPaginationRange(): any {
+    let pageNumbers = [];
+    let counter = 1;
+    if (this.currentPageNumber < 3) {
+      while (counter < 6 && counter <= this.totalNumberOfPages) {
+        pageNumbers.push(counter);
+        counter += 1;
+      }
+    } else {
+      pageNumbers.push(this.currentPageNumber - 2);
+      pageNumbers.push(this.currentPageNumber - 1);
+      pageNumbers.push(this.currentPageNumber);
+      if (this.currentPageNumber + 1 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.currentPageNumber + 1);
+      }
+      if (this.currentPageNumber + 2 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.currentPageNumber + 2);
+      }
+    }
+    return pageNumbers;
+  }
+
   // respond to user scrolling to the end of the general content
-  onScroll(): void {
-    console.log('scrolled!!');
+  pageChange(pageNumber: number): void {
+    console.log('Changed Page');
     // increment the page number
-    this.currentPageNumber += 1;
+    this.currentPageNumber = pageNumber;
+    window.scrollTo(0, 0);
 
     // update the content array
     this.getContentPage();
@@ -173,7 +198,9 @@ export class ContentListViewComponent implements OnInit {
         ).avatar;
       }
       // update the contents array
-      self.contents = self.contents.concat(retrievedContent);
+      self.contents = retrievedContent;
+      self.totalNumberOfPages = res.data.contents.pages;
+      console.log(self.totalNumberOfPages);
     });
   }
 
