@@ -151,4 +151,60 @@ describe('/PATCH/category', function () {
                     done();
                 });
         });
+    it('should fail to update category ' +
+        'because name was not supplied', function (done) {
+            chai.request(server).
+                patch('/api/content/category/' + testCategory._id).
+                set('Authorization', adminToken).
+                send(failCategoryNameExists).
+                end(function (err, res) {
+                    res.should.have.status(422);
+                    should.not.exist(err);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('No category supplied');
+                    done();
+                });
+        });
+    it('should fail to update category ' +
+        'because the name supplied is invalid', function (done) {
+            chai.request(server).
+                patch('/api/content/category/' + testCategory._id).
+                set('Authorization', adminToken).
+                send(failCategoryNameValid).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('category type is invalid');
+                    done();
+                });
+        });
+    it('should fail to update category' +
+        'because the iconLink was not supplied', function (done) {
+            chai.request(server).
+                patch('/api/content/category/' + testCategory._id).
+                set('Authorization', adminToken).
+                send(failCategoryIconExists).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('No icon link supplied');
+                    done();
+                });
+        });
+    it('should fail to update category ' +
+        'because the iconLink was invalid', function (done) {
+            chai.request(server).
+                patch('/api/content/category/' + testCategory._id).
+                set('Authorization', adminToken).
+                send(failCategoryIconValid).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('icon link type is invalid');
+                    done();
+                });
+        });
 });
