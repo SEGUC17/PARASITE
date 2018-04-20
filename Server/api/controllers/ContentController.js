@@ -682,7 +682,7 @@ module.exports.createSection = function (req, res, next) {
 
 module.exports.updateCategory = function (req, res, next) {
     // validate category id
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.categoryId)) {
         return res.status(422).json({
             data: null,
             err: 'The category id provided was not valid',
@@ -692,10 +692,12 @@ module.exports.updateCategory = function (req, res, next) {
 
     //find category by ID and update it
     Category.findByIdAndUpdate(
-        req.params.id,
+        req.params.categoryId,
         {
-            iconLink: req.body.iconLink,
-            name: req.body.name
+            $set: {
+                iconLink: req.body.iconLink,
+                name: req.body.name.trim().toLowerCase()
+            }
         },
         function (categoryUpdateError, oldCategory) {
             if (categoryUpdateError) {
@@ -704,6 +706,10 @@ module.exports.updateCategory = function (req, res, next) {
 
             Content.updateMany(
                 { category: oldCategory.name },
+                {
+                    $set:
+                        { category: req.body.name.trim().toLowerCase() }
+                },
                 function (contentUpdateError) {
                     if (contentUpdateError) {
                         return next(contentUpdateError);
