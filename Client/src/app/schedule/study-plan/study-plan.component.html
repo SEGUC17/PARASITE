@@ -1,4 +1,4 @@
-<section class="content">
+<section class="content page-calendar">
 
   <div class="block-header">
     <div class="row">
@@ -16,11 +16,30 @@
   </div>
 
   <div class="container-fluid">
-    <div class="row clearfix">
-      <div class="col-lg-12">
 
-        <div class="card">
-        
+
+      <div class="card">
+        <div class="row">
+          <div class="col-md-12 col-lg-4 col-xl-4">
+            <div class="body">
+              <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#addevent">Add Events</button>
+              <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false" aria-controls="collapseExample"><i class="zmdi zmdi-chevron-down"></i></button>
+              <div class="collapse-xs collapse-sm collapse" id="open-events">
+                <hr>
+                <div class="event-name b-primary row" *ngFor="let event of events; let index = index">
+                  <div class="col-2 text-center">
+                    <h4>{{ event.start.getDay() }}<span>{{ event.start | date:'MMM' }}</span><span>{{ event.start.getFullYear() }}</span></h4>
+                  </div>
+                  <div class="col-10">
+                    <h6>{{ event.title }}</h6>
+                    <p>Will we add descriptions?</p>
+                    <address><i class="zmdi zmdi-pin"></i>Mars</address>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!--<mat-card>
 
               <mat-card-title>{{ studyPlan.title }}
@@ -33,7 +52,7 @@
                   style="float: right;">
                 </app-star-rating>
               </mat-card-title>-->
-
+        <div class="col-md-12 col-lg-8 col-xl-8">
           <div class="body">
             <app-calendar-header
               [(view)]="view"
@@ -65,6 +84,9 @@
                 [events]="events">
               </mwl-calendar-day-view>
             </div>
+          </div>
+        </div>
+      </div>
             <hr/>
           <!--</mat-card>
           <mat-card label="Content Preview">-->
@@ -90,11 +112,9 @@
 
                 </div>
           <!--</mat-card>-->
-          </div>
-        </div>
-
+          
+        
       </div>
-    </div>
   </div>
 
 </section>
