@@ -379,6 +379,13 @@ module.exports.bookActivity = function(req, res, next) {
                 msg: null
             });
         }
+        if (activity.status !== 'verified') {
+            return res.status(403).json({
+                data: null,
+                err: 'Activity isn\'t verified yet.',
+                msg: null
+            });
+        }
         if (activity.bookedBy.indexOf(bookingUser) > -1) {
             return res.status(400).json({
                 data: null,
