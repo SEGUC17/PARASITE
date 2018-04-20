@@ -668,7 +668,7 @@ module.exports.createSection = function (req, res, next) {
                 return next(updateError);
             }
 
-            return res.status(200).json({
+            return res.status(201).json({
                 data: updatedCategory,
                 err: null,
                 msg: 'Updated the category with the section ' +
