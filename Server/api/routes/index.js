@@ -103,7 +103,7 @@ module.exports = function (passport) {
   );
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
   router.post(
-    '/acitivites/:activityId/book',
+    '/activities/:activityId/book',
     isAuthenticated,
     ActivityController.isIndependent,
     ActivityController.bookActivity

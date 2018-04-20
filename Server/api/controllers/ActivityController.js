@@ -353,7 +353,7 @@ module.exports.isIndependent = function(req, res, next) {
         });
     }
 
-    next();
+    return next();
 };
 
 module.exports.bookActivity = function(req, res, next) {
@@ -369,10 +369,13 @@ module.exports.bookActivity = function(req, res, next) {
      */
 
     var reqUser = req.user;
-    var bookingUser = req.body.userId;
+    var bookingUser = req.body.username;
 
     Activity.findById(req.params.activityId, function(err, activity) {
         if (err) {
+            return next(err);
+        }
+        if (!activity) {
             return res.status(404).json({
                 data: null,
                 err: 'Activity doesn\'t exist',
@@ -397,8 +400,8 @@ module.exports.bookActivity = function(req, res, next) {
             bookingUser === reqUser.username ||
             reqUser.children.indexOf(bookingUser) > -1) {
             // TODO: Payment
-            Activity.updateById(
-                req.params.activityId,
+            Activity.findOneAndUpdate(
+                { _id: req.params.activityId },
                 { $push: { bookedBy: bookingUser } },
                 {
                     new: true,
