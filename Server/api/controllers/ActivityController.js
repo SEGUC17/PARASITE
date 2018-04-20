@@ -356,3 +356,43 @@ module.exports.isIndependent = function(req, res, next) {
     next();
 };
 
+module.exports.bookActivity = function(req, res, next) {
+
+    /*
+     * Middleware for booking activities for child or for self
+     *
+     * BODY
+     *  {
+     *      username: String
+     *  }
+     * @author: Wessam
+     */
+
+    var reqUser = req.user;
+    var bookingUser = req.body.userId;
+
+    if (
+        bookingUser === reqUser.username ||
+        reqUser.children.indexOF(bookingUser)) {
+        // TODO: Payment
+        Activity.updateById(
+            req.params.activityId,
+            { $push: { bookedBy: bookingUser } },
+            {
+                new: true,
+                runValidators: true
+            },
+            function(err, activity) {
+                if (err) {
+                    return next(err);
+                }
+
+                return res.status(201).json({
+                    data: activity.bookedBy,
+                    err: null,
+                    msg: 'Booked successfully'
+                });
+            }
+        );
+    }
+};
