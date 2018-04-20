@@ -18,8 +18,12 @@ var successCategory = {
     category: 'testCategory',
     iconLink: 'http://www.this-is-a-link.com'
 };
-var failCategoryName = {
+var failCategoryNameExists = {
     category: null,
+    iconLink: 'http://www.this-is-a-link.com'
+};
+var failCategoryNameValid = {
+    category: {},
     iconLink: 'http://www.this-is-a-link.com'
 };
 describe('/POST/category/', function () {
@@ -98,6 +102,34 @@ describe('/POST/category/', function () {
                 done();
             });
     });
+    it('should fail to create new category' +
+        'because name was not supplied', function (done) {
+            chai.request(server).
+                post('/api/content/category').
+                set('Authorization', adminToken).
+                send(failCategoryNameExists).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('No category supplied');
+                    done();
+                });
+        });
+    it('should fail to create new category' +
+        'because the name supplied is invalid', function (done) {
+            chai.request(server).
+                post('/api/content/category').
+                set('Authorization', adminToken).
+                send(failCategoryNameValid).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('category type is invalid');
+                    done();
+                });
+        });
     // --- Clearing Mockgoose --- //
     after(function (done) {
         mockgoose.helper.reset().then(function () {
