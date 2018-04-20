@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MarketService } from '../market.service';
 import { PageEvent } from '@angular/material';
@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 import { CreateProductComponent } from '../create-product/create-product.component';
 import { AuthService } from '../../auth/auth.service';
 import { RequestDetailComponent } from '../request-detail/request-detail.component';
-
+declare const $: any;
+declare const swal: any;
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
@@ -31,6 +32,7 @@ export class MarketComponent implements OnInit {
   userRequests: Product[];
   seller = 'all';
   sort: string;
+  filter = 'name';
   sorts = [
     'latest',
     'cheapest'
@@ -58,6 +60,27 @@ export class MarketComponent implements OnInit {
       }
     });
   }
+  showConfirmMessage(): void {
+    swal({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this imaginary file!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#DD6B55',
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, cancel plx!',
+      closeOnConfirm: false,
+      closeOnCancel: true
+    }, function (isConfirm) {
+      if (isConfirm) {
+        swal('Deleted!', 'Your imaginary file has been deleted.', 'success');
+      }
+    });
+  }
+  print() {
+    console.log('reached here');
+  }
+
   // opens the product details dialog
   showProductDetails(prod: any): void {
     if (prod) {
@@ -75,7 +98,7 @@ export class MarketComponent implements OnInit {
         let dialogRef = this.dialog.open(RequestDetailComponent, {
           width: '1000px',
           height: '400px',
-          data: { product: prod, curUser: this.user.username}
+          data: { product: prod, curUser: this.user.username }
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -84,7 +107,7 @@ export class MarketComponent implements OnInit {
       }
     }
   }
-// Opens the dialog form of creating a product
+  // Opens the dialog form of creating a product
   goToCreate() {
     const self = this;
     let dialogRef = self.dialog.open(CreateProductComponent, {

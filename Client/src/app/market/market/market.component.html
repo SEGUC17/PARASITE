@@ -1,4 +1,126 @@
-<mat-tab-group>
+<section class="content file_manager">
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-7 col-md-5 col-sm-12">
+        <h2>
+          <i class="zmdi zmdi-shopping-cart"></i>
+          Marketplace
+          <small>Buy, sell or rent unwanted stuff</small>
+        </h2>
+      </div>
+      <div class="col-lg-5 col-md-7 col-sm-12">
+        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" (click)="goToCreate()">
+          <i class="zmdi zmdi-plus"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row clearfix js-sweetalert">
+      <div class="col-lg-12">
+        <div class="card bg-dark">
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#products">Products</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#requests">My Pending Products</a>
+            </li>
+          </ul>
+        </div>
+        <div class="tab-content">
+          <div class="tab-pane active" id="products">
+            <div class="row clearfix">
+              <div class="col-lg-12">
+                <div class="card action_bar">
+                  <div class="body">
+                    <div class="row clearfix">
+                      <div class="col-lg-6 col-md-6 col-6">
+                        <div class="input-group search" *ngIf="filter=='name'">
+                          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="writtenName">
+                          <span class="input-group-addon">
+                            <i class="zmdi zmdi-search"></i>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="text-right">
+                        <div class="btn-group hidden-sm-down" role="group">
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="zmdi zmdi-label"></i>
+                              <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right pullDown">
+                              <li>
+                                Product Name
+                              </li>
+                              <li>
+                                <a href="javascript:void(0);">Price</a>
+                              </li>
+                              <li>
+                                <a href="javascript:void(0);">Seller</a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row clearfix">
+              <div class="col-lg-3 col-md-4 col-sm-6 col-6" *ngFor="let product of products">
+                <div class="card">
+                  <div class="file">
+                    <a (click)="showProductDetails(product)">
+                      <div class="hover" *ngIf="this.user && (this.user.isAdmin || this.user.username == product.seller)">
+                        <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger" (click)="this.showConfirmMessage()">
+                          <i class="zmdi zmdi-delete"></i>
+                        </button>
+                      </div>
+                      <div class="image">
+                        <img src={{product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
+                      </div>
+                      <div class="file-name">
+                        <p class="m-b-5 text-muted">{{product.name}}</p>
+                        <small>{{product.price}} EGP
+                          <span class="date text-muted">{{product.createdAt | date}}</span>
+                        </small>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="requests">
+            <div class="row clearfix">
+              <div class="col-lg-3 col-md-4 col-sm-6 col-6" *ngFor="let product of userRequests">
+                <div class="card">
+                  <div class="file">
+                    <a href="javascript:void(0);">
+                      <div class="image">
+                        <img src={{product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
+                      </div>
+                      <div class="file-name">
+                        <p class="m-b-5 text-muted">{{product.name}}</p>
+                        <small>{{product.price}} EGP
+                          <span class="date text-muted">{{product.createdAt | date}}</span>
+                        </small>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- <mat-tab-group>
   <mat-tab label="Market">
     <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
       [scrollWindow]="false">
@@ -88,4 +210,4 @@
       </div>
     </mat-card>
   </mat-tab>
-</mat-tab-group>
+</mat-tab-group> -->
