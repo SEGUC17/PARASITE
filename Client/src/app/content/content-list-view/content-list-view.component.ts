@@ -146,16 +146,8 @@ export class ContentListViewComponent implements OnInit {
     this.selectedCategory = category;
     this.selectedSection = section;
 
-    // start from page 1
-    this.currentPageNumber = 1;
-    this.contents = [];
-
-    // we are in the general content tab
-    if (this.selectedTabIndex === 0) {
-      this.getContentPage();
-    } else {
-      this.getMyContributionsPage();
-    }
+    // return to page 1
+    this.changePage(1);
   }
 
   // respond to the user clicking the search button
