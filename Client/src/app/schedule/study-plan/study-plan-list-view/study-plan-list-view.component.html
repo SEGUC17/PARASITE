@@ -1,10 +1,10 @@
 <div class="publishedPLans-container">
   <mat-card>
     <div *ngIf="type === 'personal' && !currIsChild">
-      <a mat-raised-button routerLink="/study-plan-edit/create/{{username}}/new" color="primary" style="float: right;">Create A New Study Plan</a>
+      <a mat-raised-button routerLink="/study-plan-edit/create/new/{{username}}" color="primary" style="float: right;">Create A New Study Plan</a>
       <br /><br /><br />
     </div>
-    <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements" 
+    <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
       (page)="getStudyPlans($event)"
@@ -13,8 +13,17 @@
       <mat-card *ngFor="let plan of studyPlans" class="col-3">
         <mat-card-title>{{plan.title}}</mat-card-title>
         <mat-card-subtitle>{{plan.creator}}</mat-card-subtitle>
+
+        <div *ngIf="plan.assigned === true && type==='personal'">
+        <mat-chip-list class="mat-chip-list-stacked">
+          <mat-chip *ngFor="let chip of availableColors" selected="true" [color]="chip.color">
+            {{chip.name}}
+          </mat-chip>
+        </mat-chip-list>
+        </div>
         <mat-card-actions>
           <a mat-raised-button routerLink="/study-plan/{{type}}/{{plan._id}}/{{username}}">View</a>
+          <button mat-raised-button (click)="delete(username,plan)" color="primary" *ngIf="!currIsChild">Delete</button>
         </mat-card-actions>
       </mat-card>
     </div>

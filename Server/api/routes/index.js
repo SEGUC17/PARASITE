@@ -116,7 +116,7 @@ module.exports = function (passport) {
     DiscussionController.deleteCommentReply
   );
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
-
+  router.patch('/activities/:activityId/EditActivity', isAuthenticated, ActivityController.editActivity);
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
@@ -140,6 +140,9 @@ module.exports = function (passport) {
   router.post('/productrequest/createProductRequest', productCtrl.createProductRequest);
   router.get('/productrequest/getUserRequests/:username', isAuthenticated, productCtrl.getUserRequests);
   router.patch('/productrequest/getUserRequests/:id', isAuthenticated, productCtrl.updateRequest);
+  router.patch('/productrequest/editPrice/:id/:username', isAuthenticated, productCtrl.editPrice);
+
+  router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
 
   // --------------End Of Product Contoller ---------------------- //
 
@@ -150,6 +153,8 @@ module.exports = function (passport) {
   router.post('/userData', isAuthenticated, userController.getUserData);
   router.post('/userData/:usernameOrEmail', isAuthenticated, userController.getAnotherUserData);
   router.get('/dupCheck/:usernameOrEmail', userController.isUserExist);
+  router.get('/resetpassword/:email', userController.resetpassword);
+  router.patch('/changepassword/:email', userController.changePassword);
   // ---------------------- End of User Controller --------------- //
 
   //-------------------- Study Plan Endpoints ------------------//
@@ -158,13 +163,26 @@ module.exports = function (passport) {
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
   router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
-  router.post('/study-plan/PublishStudyPlan', studyPlanController.PublishStudyPlan);
+  router.post('/study-plan/PublishStudyPlan', isAuthenticated, studyPlanController.publishStudyPlan);
+  router.delete('/study-plan/deleteStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
+  router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deletePublishedStudyPlan);
+  router.patch('/study-plan/assignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.assignStudyPlan);
+  router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', studyPlanController.unAssignStudyPlan);
+  router.patch('/study-plan/editPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.editPersonalStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
-
   router.get('/admin/VerifiedContributerRequests/:FilterBy', isAuthenticated, adminController.getVCRs);
   router.patch('/admin/VerifiedContributerRequestRespond/:targetId', isAuthenticated, adminController.VCRResponde);
+  router.get('/admin/removePublishedStudyPlan/:studyPlanID', isAuthenticated, adminController.removePublishedStudyPlans);
+  router.get(
+    '/admin/PendingStudyPlanPublishRequests', isAuthenticated,
+    adminController.viewStudyPlanPublishReqs
+  );
+  router.patch(
+    '/admin/RespondStudyPlanPublishRequest/:studyPlanPublishRequestId/:studyPlanId', isAuthenticated,
+    adminController.respondStudyPlanPublishRequest
+  );
   router.get(
     '/admin/PendingContentRequests/:type', isAuthenticated,
     adminController.viewPendingContReqs
@@ -183,6 +201,7 @@ module.exports = function (passport) {
   router.get('/profile/:username/getChildren', profileController.getChildren);
   router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
   router.patch('/profile/changePassword/:id', profileController.changePassword);
+  router.patch('/profile/:username/UnlinkMyself', isAuthenticated, profileController.UnlinkIndependent);
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
   router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
 
@@ -191,6 +210,7 @@ module.exports = function (passport) {
 
   // ---------------Schedule Controller Endpoints ---------------//
   router.patch('/schedule/SaveScheduleChanges/:username', isAuthenticated, scheduleController.updateSchedule);
+  router.put('/schedule/addEvent/:username', isAuthenticated, scheduleController.addEvent);
   router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
   // ------------End of Schedule Controller Endpoints -----------//
 
@@ -247,11 +267,12 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.validateContent,
     contentController.validateSelectedCategory,
+    contentController.validateSelectedSection,
     contentController.createContent
   );
 
   // Getting comment details
-  router.get(
+ router.get(
     '/content/:contentId/comments/:commentId',
     optionalAuthentication,
     contentController.prepareContent,
@@ -284,7 +305,7 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.prepareContent,
     DiscussionController.deleteCommentReply
-  );
+   );
 
   // Edit content
   router.patch(
@@ -292,6 +313,7 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.validateContent,
     contentController.validateSelectedCategory,
+    contentController.validateSelectedSection,
     contentController.updateContent
   );
 
@@ -339,4 +361,3 @@ module.exports = function (passport) {
 
   return router;
 };
-

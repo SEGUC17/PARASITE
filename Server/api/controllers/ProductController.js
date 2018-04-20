@@ -301,13 +301,13 @@ module.exports.updateRequest = function (req, res, next) {
         delete req.body.__v;
         delete req.body._id;
 
-        ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err) {
+        ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err, updateRes) {
             if (err) {
                 return next(err);
             }
 
             return res.status(201).json({
-                data: null,
+                data: updateRes,
                 err: null,
                 msg: 'Request updated.'
             });
@@ -316,6 +316,28 @@ module.exports.updateRequest = function (req, res, next) {
         return res.status(403).json({
             data: null,
             err: 'You can only edit your requests',
+            msg: null
+        });
+    }
+};
+
+module.exports.editPrice = function (req, res, next) {
+    if (req.body.seller === req.params.username) {
+        Product.updateOne({ _id: req.params.id }, { $set: { price: req.body.price } }).exec(function (err, updateProd) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(201).json({
+                data: updateProd,
+                err: null,
+                msg: 'product price updated.'
+            });
+        });
+    } else {
+        return res.status(403).json({
+            data: null,
+            err: 'You can only edit your product',
             msg: null
         });
     }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { AuthRoutingModule } from './auth-routing.module';
 import { SignupComponent } from './signup/signup.component';
+import { ResetPasswordComponent} from './resetpassword/resetpassword.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
 import {
@@ -31,6 +32,6 @@ import {
     MatCheckboxModule,
     MatSelectModule
   ],
-  declarations: [LoginComponent, SignupComponent]
+  declarations: [LoginComponent, SignupComponent, ResetPasswordComponent]
 })
 export class AuthModule { }

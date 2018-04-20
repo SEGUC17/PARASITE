@@ -3,6 +3,7 @@ import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
 import { AuthService } from '../../../auth/auth.service';
 import { PageEvent } from '@angular/material/paginator';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-study-plan-list-view',
@@ -14,11 +15,21 @@ export class StudyPlanListViewComponent implements OnInit {
   @Input() username: string;
   @Input() currIsChild: boolean;
   studyPlans: StudyPlan[];
+  tempPlan: StudyPlan;
   numberOfElements: Number;
   pageSize: Number;
   pageIndex: Number;
+  color: string;
+  availableColors = [
+    { name: 'assigned', color: '' }
+  ];
 
-  constructor(private studyPlanService: StudyPlanService, private authService: AuthService) { }
+  constructor(
+    private studyPlanService: StudyPlanService,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.getStudyPlans();
@@ -43,5 +54,33 @@ export class StudyPlanListViewComponent implements OnInit {
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
     this.pageIndex = res.data.pageIndex;
+  }
+
+  delete(username, plan): void {
+    if (plan.published) {
+      this.studyPlanService
+        .deletePublishedStudyPlan(plan._id)
+        .subscribe(res => {
+          if (res.msg === 'StudyPlan deleted successfully.') {
+            alert(res.msg);
+          } else {
+            alert(
+              'An error occured while deleting the study plan, please try again.'
+            );
+          }
+        });
+    } else {
+      this.studyPlanService
+        .deleteStudyPlan(username, plan._id)
+        .subscribe(res => {
+          if (res.msg === 'StudyPlan deleted successfully.') {
+            alert(res.msg);
+          } else {
+            alert(
+              'An error occured while deleting the study plan, please try again.'
+            );
+          }
+        });
+    }
   }
 }

@@ -280,3 +280,56 @@ module.exports.prepareActivity = function (req, res, next) {
             return next();
         });
 };
+
+// Author: Heidi
+module.exports.editActivity = function (req, res, next) {
+    var Status = 'pending';
+if (req.user.isAdmin) {
+    Status = 'verified';
+}
+// finding activity by id
+Activity.findById(req.params.activityId).exec(function (err, activity) {
+if (err) {
+return next(err);
+
+        }
+// only activity creator can edit his/her own activity
+if (!(activity.creator == req.user.username)) {
+    return res.status(403).send({
+        data: null,
+        err: null,
+        msg: 'Action not allowed'
+    });
+}
+// if status is booked already it cannot be edited
+if (activity.bookedBy.length == 0) {
+    return res.status(403).send({
+        data: null,
+        err: null,
+        msg: 'no edition allowed'
+    });
+}
+// updating activity
+Activity.findByIdAndUpdate(req.params.activityId, {
+ $set: {
+description: req.body.description,
+fromDateTime: req.body.fromDateTime,
+ name: req.body.name,
+price: req.body.price,
+status: Status,
+toDateTime: req.body.toDateTime
+
+}
+ }, { new: true }).exec(function(error, updatedActivity) {
+    if (err) {
+        return next(err);
+            }
+
+return res.status(200).send({
+    data: updatedActivity,
+    err: null,
+    msg: 'Activity is updated'
+});
+});
+});
+};

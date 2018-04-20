@@ -1,7 +1,6 @@
-/* eslint-disable eqeqeq */
 /* eslint max-statements: ["error", 20] */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
-/* eslint multiline-comment-style: ["error", "starred-block"] */
+
 
 var mongoose = require('mongoose');
 var Content = mongoose.model('Content');
@@ -268,18 +267,24 @@ module.exports.validateSelectedCategory = function (req, res, next) {
                 msg: null
             });
         }
-        var sectionNames = category.sections.map(function (section) {
-            return section.name;
-        });
-        if (!sectionNames.includes(req.body.section)) {
-            return res.status(422).json({
-                data: null,
-                err: 'the section supplied is invalid',
-                msg: null
-            });
-        }
+        res.locals.category = category;
         next();
     });
+};
+
+module.exports.validateSelectedSection = function (req, res, next) {
+    var category = res.locals.category;
+    var sectionNames = category.sections.map(function (section) {
+        return section.name;
+    });
+    if (!sectionNames.includes(req.body.section)) {
+        return res.status(422).json({
+            data: null,
+            err: 'the section supplied is invalid',
+            msg: null
+        });
+    }
+    next();
 };
 
 module.exports.validateContent = function (req, res, next) {
@@ -403,6 +408,7 @@ module.exports.createContent = function (req, res, next) {
 };
 
 var handleAdminUpdate = function (req, res, next) {
+    // No requests are made, and content is approved automatically
     req.body.approved = true;
     var id = req.body._id;
     delete req.body._id;
@@ -425,6 +431,7 @@ var handleAdminUpdate = function (req, res, next) {
 };
 
 var handleNonAdminUpdate = function (req, res, next) {
+    // create a content request, and set approval status to false
     req.body.approved = false;
     ContentRequest.create({
         contentID: req.body._id,
@@ -617,6 +624,53 @@ module.exports.prepareContent = function (req, res, next) {
         });
 };
 
+module.exports.updateCategory = function (req, res, next) {
+    // check admin permissions
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'This user is not an admin user',
+            msg: null
+        });
+    }
+
+    // validate category id
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category id provided was not valid',
+            msg: null
+        });
+    }
+
+    //find category by ID and update its name
+    Category.findByIdAndUpdate(
+        req.params.id,
+        { name: req.body.name },
+        function (categoryUpdateError, updatedCategory) {
+            if (categoryUpdateError) {
+                return next(categoryUpdateError);
+            }
+            Content.updateMany(
+                { category: updatedCategory.name },
+                function (contentUpdateError) {
+                    if (contentUpdateError) {
+                        return next(contentUpdateError);
+                    }
+
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'updated category and' +
+                            'associated content successfully'
+                    });
+                }
+            );
+        }
+    );
+};
+
+
 module.exports.deleteCategory = function (req, res, next) {
 
     // verify that the issuer of the request is an admin
@@ -675,6 +729,7 @@ module.exports.deleteCategory = function (req, res, next) {
         }
     );
 };
+
 
 module.exports.deleteSection = function (req, res, next) {
 
@@ -738,3 +793,5 @@ module.exports.deleteSection = function (req, res, next) {
         }
     );
 };
+
+
