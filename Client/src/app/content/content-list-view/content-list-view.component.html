@@ -22,15 +22,15 @@
       <div class="col-lg-8 col-md-12 left-box">
         <div *ngFor="let content of contents" class="card single_post">
           <div class="body">
-            <h3 class="m-t-0 m-b-5">
+            <h3 *ngIf="content.title" class="m-t-0 m-b-5">
               <a routerLink="/content-view/{{content._id}}">{{ content.title }}</a>
             </h3>
             <ul class="meta">
-              <li>
+              <li *ngIf="content.creator">
                 <a routerLink="/profile/{{content.creator}}">
                   <i class="zmdi zmdi-account col-blue"></i>Posted By: {{ content.creator }}</a>
               </li>
-              <li>
+              <li *ngIf="content.category && content.section">
                 <a>
                   <i class="zmdi zmdi-label col-red"></i> {{ content.category }}, {{ content.section }}</a>
               </li>
@@ -41,10 +41,10 @@
             </ul>
           </div>
           <div class="body">
-            <div class="img-post m-b-15">
+            <div class="img-post m-b-15" *ngIf="content.image">
               <img [src]="content.image" width="100%" height="100%" alt="Awesome Image">
             </div>
-            <div class="tags-holder">
+            <div *ngIf="content.tags" class="tags-holder">
               <span *ngFor="let tag of getFirstTenTags(content.tags)" class="badge badge-info btn-round">{{tag}}</span>
             </div>
             <div>
@@ -79,17 +79,13 @@
         <div class="card">
           <div class="header">
             <h2>
-              <strong>Categories</strong> Full Body
-              <small>If you want to also colorful body, you need to add
-                <code>.full-body</code> class to
-                <code>.panel-group</code>
-              </small>
+              <strong>Categories</strong>
             </h2>
           </div>
           <div class="body">
             <div class="row clearfix">
               <div class="col-md-12 col-lg-12">
-                <div class="panel-group full-body" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
                   <div *ngFor="let category of categories" class="panel panel-primary">
                     <div class="panel-heading" role="tab" id="{{ 'heading' + category.name}}">
                       <h4 class="panel-title">
@@ -98,12 +94,8 @@
                       </h4>
                     </div>
                     <div id="{{'collapse' + category.name}}" class="panel-collapse collapse in" role="tabpanel" [attr.aria-labelledby]="'heading' + category.name">
-                      <div class="panel-body"> Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-                        moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                        Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                        shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente
-                        ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw
-                        denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                      <div class="panel-body list-group">
+                        <button *ngFor="let section of category.sections" type="button" class="list-group-item section-button" (click)="changeCategoryAndSection(category.name,section.name)">{{ section.name }}</button>
                       </div>
                     </div>
                   </div>
@@ -112,7 +104,6 @@
             </div>
           </div>
         </div>
-
         <div class="card bg-dark">
           <div class="header">
             <h2>

@@ -67,7 +67,11 @@ export class ContentListViewComponent implements OnInit {
 
   // extract the first ten tags of a certain content
   getFirstTenTags(tags: any): any {
-    return tags.slice(0, 10);
+    if (tags) {
+      return tags.slice(0, 10);
+    } else {
+      return [];
+    }
   }
 
   // calculate the number of pages to display in pagination
