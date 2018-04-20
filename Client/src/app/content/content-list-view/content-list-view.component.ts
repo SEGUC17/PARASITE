@@ -36,7 +36,6 @@ export class ContentListViewComponent implements OnInit {
 
   // sorting variables
   sortResultsBy: String = 'relevance';
-  sortOptions = ['relevance', 'upload date', 'rating'];
 
   // signed in user
   currentUser: User;

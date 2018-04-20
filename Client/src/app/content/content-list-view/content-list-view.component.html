@@ -83,8 +83,8 @@
         <div *ngIf="selectedTabIndex === 0" class="card">
           <div class="body search">
             <div class="input-group m-b-0">
-              <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery">
-              <span class="input-group-addon" (click)="searchContent()">
+              <input type="text" class="form-control" (keydown.enter)="searchContent()" placeholder="Search..." [(ngModel)]="searchQuery">
+              <span class="input-group-addon search-icon" (click)="searchContent()">
                 <i class="zmdi zmdi-search"></i>
               </span>
             </div>
@@ -98,20 +98,30 @@
             </div>
             <!-- The radio buttons are still not working-->
             <div class="sort-by-div">
-              <div class="radio">
-                <input type="radio" name="radio1" id="radio1" value="relevance" checked="">
-                <label for="radio1">
-                  Relevance
-                </label>
-              </div>
-              <div class="radio">
-                <input type="radio" name="radio1" id="radio2" value="upload date">
-                <label for="radio2">
-                  Upload Date
-                </label>
-              </div>
+              <h6>
+                Sort By: {{ sortResultsBy }}
+              </h6>
+              <form #f="ngForm">
+                <div class="radio">
+                  <input type="radio" name="sortByRadioButtonGroup" id="radio1" value="relevance" [(ngModel)]="sortResultsBy">
+                  <label for="radio1">
+                    Relevance
+                  </label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="sortByRadioButtonGroup" id="radio2" value="upload date" [(ngModel)]="sortResultsBy">
+                  <label for="radio2">
+                    Upload Date
+                  </label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="sortByRadioButtonGroup" id="radio3" value="rating" [(ngModel)]="sortResultsBy">
+                  <label for="radio3">
+                    Rating
+                  </label>
+                </div>
+              </form>
             </div>
-
           </div>
         </div>
 
