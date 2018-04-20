@@ -371,28 +371,44 @@ module.exports.bookActivity = function(req, res, next) {
     var reqUser = req.user;
     var bookingUser = req.body.userId;
 
-    if (
-        bookingUser === reqUser.username ||
-        reqUser.children.indexOF(bookingUser)) {
-        // TODO: Payment
-        Activity.updateById(
-            req.params.activityId,
-            { $push: { bookedBy: bookingUser } },
-            {
-                new: true,
-                runValidators: true
-            },
-            function(err, activity) {
-                if (err) {
-                    return next(err);
-                }
+    Activity.findById(req.params.activityId, function(err, activity) {
+        if (err) {
+            return res.status(404).json({
+                data: null,
+                err: 'Activity doesn\'t exist',
+                msg: null
+            });
+        }
+        if (activity.bookedBy.indexOf(bookingUser) > -1) {
+            return res.status(400).json({
+                data: null,
+                err: 'User already booked the activity',
+                msg: null
+            });
+        }
+        if (
+            bookingUser === reqUser.username ||
+            reqUser.children.indexOf(bookingUser) > -1) {
+            // TODO: Payment
+            Activity.updateById(
+                req.params.activityId,
+                { $push: { bookedBy: bookingUser } },
+                {
+                    new: true,
+                    runValidators: true
+                },
+                function(err2, activity2) {
+                    if (err2) {
+                        return next(err2);
+                    }
 
-                return res.status(201).json({
-                    data: activity.bookedBy,
-                    err: null,
-                    msg: 'Booked successfully'
-                });
-            }
-        );
-    }
+                    return res.status(201).json({
+                        data: activity2.bookedBy,
+                        err: null,
+                        msg: 'Booked successfully'
+                    });
+                }
+            );
+        }
+    })
 };
