@@ -110,6 +110,29 @@ describe('/POST/category/', function () {
                 done();
             });
     });
+    it('should fail to create new category ' +
+        'because the user is unregistered', function (done) {
+            chai.request(server).
+                post('/api/content/category').
+                send(successCategory).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(401);
+                    done();
+                });
+        });
+    it('should fail to create new category ' +
+        'because the user is not an admin', function (done) {
+            chai.request(server).
+                post('/api/content/category').
+                set('Authorization', userToken).
+                send(successCategory).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(403);
+                    done();
+                });
+        });
     it('should fail to create new category' +
         'because name was not supplied', function (done) {
             chai.request(server).
