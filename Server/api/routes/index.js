@@ -219,14 +219,24 @@ module.exports = function (passport) {
   // Content Management
 
   // Create a category
-  router.post('/content/category', isAuthenticated, contentController.createCategory);
+  router.post(
+    '/content/category',
+    isAuthenticated,
+    contentController.checkAdmin,
+    contentController.validateIconLink,
+    contentController.createCategory
+  );
   // Create a section
 
-  router.patch(
+  router.post(
     '/content/category/:id/section',
     isAuthenticated,
+    contentController.checkAdmin,
+    contentController.validateIconLink,
     contentController.createSection
   );
+
+
 
   //Category retrieval
   router.get('/content/category', contentController.getCategories);
@@ -272,7 +282,7 @@ module.exports = function (passport) {
   );
 
   // Getting comment details
- router.get(
+  router.get(
     '/content/:contentId/comments/:commentId',
     optionalAuthentication,
     contentController.prepareContent,
@@ -305,7 +315,7 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.prepareContent,
     DiscussionController.deleteCommentReply
-   );
+  );
 
   // Edit content
   router.patch(
@@ -316,9 +326,9 @@ module.exports = function (passport) {
     contentController.validateSelectedSection,
     contentController.updateContent
   );
-  
-   // delete content
-   router.delete(
+
+  // delete content
+  router.delete(
     '/content/:id',
     isAuthenticated,
     contentController.deleteContent
