@@ -22,7 +22,6 @@ var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
 var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
-var DiscussionController = require('../controllers/DiscussionController');
 
 module.exports = function (passport) {
 
@@ -103,6 +102,12 @@ module.exports = function (passport) {
     DiscussionController.postCommentReply
   );
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
+  router.post(
+    '/acitivites/:activityId/book',
+    isAuthenticated,
+    ActivityController.isIndependent,
+    ActivityController.bookActivity
+  );
   router.delete(
     '/activities/:activityId/comments/:commentId',
     isAuthenticated,

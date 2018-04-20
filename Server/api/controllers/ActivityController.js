@@ -410,5 +410,5 @@ module.exports.bookActivity = function(req, res, next) {
                 }
             );
         }
-    })
+    });
 };
