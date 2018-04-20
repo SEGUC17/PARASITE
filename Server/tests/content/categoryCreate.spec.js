@@ -26,6 +26,14 @@ var failCategoryNameValid = {
     category: {},
     iconLink: 'http://www.this-is-a-link.com'
 };
+var failCategoryIconExists = {
+    category: 'testCategory',
+    iconLink: null
+};
+var failCategoryIconValid = {
+    category: 'testCategory',
+    iconLink: {}
+};
 describe('/POST/category/', function () {
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -127,6 +135,34 @@ describe('/POST/category/', function () {
                     res.should.have.status(422);
                     should.not.exist(res.body.data);
                     res.body.err.should.be.equal('category type is invalid');
+                    done();
+                });
+        });
+    it('should fail to create new category' +
+        'because the iconLink was not supplied', function (done) {
+            chai.request(server).
+                post('/api/content/category').
+                set('Authorization', adminToken).
+                send(failCategoryIconExists).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('No icon link supplied');
+                    done();
+                });
+        });
+    it('should fail to create new category ' +
+        'because the iconLink was invalid', function (done) {
+            chai.request(server).
+                post('/api/content/category').
+                set('Authorization', adminToken).
+                send(failCategoryIconValid).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('icon link type is invalid');
                     done();
                 });
         });
