@@ -689,6 +689,21 @@ module.exports.updateCategory = function (req, res, next) {
             msg: null
         });
     }
+    // category name validation check
+    if (!req.body.name) {
+        return res.status(422).json({
+            data: null,
+            err: 'No category supplied',
+            msg: null
+        });
+    }
+    if (typeof req.body.name !== 'string') {
+        return res.status(422).json({
+            data: null,
+            err: 'category type is invalid',
+            msg: null
+        });
+    }
 
     //find category by ID and update it
     Category.findByIdAndUpdate(
