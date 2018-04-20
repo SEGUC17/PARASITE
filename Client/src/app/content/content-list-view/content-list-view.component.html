@@ -12,12 +12,25 @@
             <a routerLink="/dashboard">
               <i class="zmdi zmdi-home"></i> dashboard </a>
           </li>
-          <li class="breadcrumb-item active">Contents</li>
+          <li class="breadcrumb-item all-contents-item">
+            <a (click)="changeCategoryAndSection('','')">
+              <i class="zmdi zmdi-folder"></i> all contents </a>
+          </li>
+          <li *ngIf="selectedCategory !== ''" class="breadcrumb-item active">{{ selectedCategory }}</li>
+          <li *ngIf="selectedSection !== ''" class="breadcrumb-item active">{{ selectedSection }}</li>
         </ul>
       </div>
     </div>
   </div>
   <div class="container-fluid">
+    <ul *ngIf="currentUser" class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active content-tab" data-toggle="tab" (click)="changeTab(0)">Browse Content</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link content-tab" data-toggle="tab" (click)="changeTab(1)">My Contributions</a>
+      </li>
+    </ul>
     <div class="row">
       <div class="col-lg-8 col-md-12 left-box">
         <div *ngFor="let content of contents" class="card single_post">
@@ -54,18 +67,20 @@
         </div>
         <ul class="pagination pagination-primary">
           <li *ngIf="currentPageNumber>1" class="page-item">
-            <a class="page-link" (click)="pageChange(this.currentPageNumber - 1)">Previous</a>
+            <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">Previous</a>
           </li>
           <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
-            <a class="page-link" (click)="pageChange(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
+            <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
           </li>
           <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
-            <a class="page-link" (click)="pageChange(this.currentPageNumber + 1)">Next</a>
+            <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">Next</a>
           </li>
         </ul>
       </div>
+
       <div class="col-lg-4 col-md-12 right-box">
-        <div class="card">
+
+        <div *ngIf="selectedTabIndex === 0" class="card">
           <div class="body search">
             <div class="input-group m-b-0">
               <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchQuery">
@@ -73,6 +88,30 @@
                 <i class="zmdi zmdi-search"></i>
               </span>
             </div>
+            <div class="current-category">
+              <h6>
+                Category: {{ selectedCategory? selectedCategory : 'All' }}
+              </h6>
+              <h6>
+                Section: {{ selectedSection? selectedSection : 'All' }}
+              </h6>
+            </div>
+            <!-- The radio buttons are still not working-->
+            <div class="sort-by-div">
+              <div class="radio">
+                <input type="radio" name="radio1" id="radio1" value="relevance" checked="">
+                <label for="radio1">
+                  Relevance
+                </label>
+              </div>
+              <div class="radio">
+                <input type="radio" name="radio1" id="radio2" value="upload date">
+                <label for="radio2">
+                  Upload Date
+                </label>
+              </div>
+            </div>
+
           </div>
         </div>
 
@@ -104,7 +143,8 @@
             </div>
           </div>
         </div>
-        <div class="card bg-dark">
+
+        <div *ngIf="selectedTabIndex === 0" class="card bg-dark">
           <div class="header">
             <h2>
               <strong>Popular</strong> Content</h2>
@@ -130,6 +170,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
