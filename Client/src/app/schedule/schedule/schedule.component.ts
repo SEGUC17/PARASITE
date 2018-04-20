@@ -71,6 +71,9 @@ export class ScheduleComponent implements OnInit {
       this.loggedInUser.username = user.data.username;
       this.loggedInUser.isChild = user.data.isChild;
       this.loggedInUser.children = user.data.children;
+      if (!this.profileUser) {
+        this.profileUser = this.loggedInUser.username;
+      }
       this.fetchAndDisplay();
     });
   }

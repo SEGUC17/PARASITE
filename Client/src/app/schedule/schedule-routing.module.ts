@@ -10,7 +10,11 @@ const routes = [
   { path: 'study-plan/:type/:id', component: StudyPlanComponent },
   { path: 'published-study-plans', component: PublishedStudyPlansComponent },
   { path: 'study-plan-edit/:type/:id/:username', component: StudyPlanEditViewComponent },
-  { path: 'study-plan-edit/:type/:id', component: StudyPlanEditViewComponent }
+  { path: 'study-plan-edit/:type/:id', component: StudyPlanEditViewComponent },
+  {
+    path: 'mySchedule',
+    component: ScheduleComponent
+  }
 ];
 @NgModule({
   imports: [
