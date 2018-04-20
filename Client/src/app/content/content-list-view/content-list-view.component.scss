@@ -11,7 +11,7 @@
 }
 
 .current-category {
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .all-contents-item {
@@ -19,5 +19,9 @@
 }
 
 .content-tab {
+  cursor: pointer;
+}
+
+.all-category-panel {
   cursor: pointer;
 }

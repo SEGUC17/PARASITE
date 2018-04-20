@@ -124,11 +124,18 @@
           <div class="body">
             <div class="row clearfix">
               <div class="col-md-12 col-lg-12">
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                <div class="panel-group" id="accordion" role="tablist" [attr.aria-multiselectable]="false">
+                  <div class="panel panel-primary all-category-panel">
+                    <div class="panel-heading" role="tab" (click)="changeCategoryAndSection('','')">
+                      <h4 class="panel-title">
+                        <a role="button"> All </a>
+                      </h4>
+                    </div>
+                  </div>
                   <div *ngFor="let category of categories" class="panel panel-primary">
                     <div class="panel-heading" role="tab" id="{{ 'heading' + category.name}}">
                       <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="{{'#collapse'+ category.name}}" aria-expanded="true"
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="{{'#collapse'+ category.name}}" [attr.aria-expanded]="false"
                           [attr.aria-controls]="'collapse' + category.name"> {{ category.name }} </a>
                       </h4>
                     </div>
