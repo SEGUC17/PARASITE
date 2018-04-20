@@ -23,6 +23,22 @@ var successUpdate = {
     iconLink: 'http://www.this-is-a-link.com',
     name: 'updatedCategory'
 };
+var failCategoryNameExists = {
+    iconLink: 'http://www.this-is-a-link.com',
+    name: null
+};
+var failCategoryNameValid = {
+    iconLink: 'http://www.this-is-a-link.com',
+    name: {}
+};
+var failCategoryIconExists = {
+    iconLink: null,
+    name: 'testCategory'
+};
+var failCategoryIconValid = {
+    iconLink: {},
+    name: 'testCategory'
+};
 
 describe('/PATCH/category', function () {
     // --- Mockgoose Initiation --- //
@@ -112,5 +128,27 @@ describe('/PATCH/category', function () {
                 done();
             });
     });
-
+    it('should fail to update category ' +
+        'because the user is unregistered', function (done) {
+            chai.request(server).
+                patch('/api/content/category/' + testCategory._id).
+                send(successUpdate).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(401);
+                    done();
+                });
+        });
+    it('should fail to update category ' +
+        'because the user is not an admin', function (done) {
+            chai.request(server).
+                patch('/api/content/category/' + testCategory._id).
+                set('Authorization', userToken).
+                send(successUpdate).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(403);
+                    done();
+                });
+        });
 });
