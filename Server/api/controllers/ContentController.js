@@ -1,4 +1,4 @@
-/* eslint max-statements: ["error", 20] */
+/* eslint max-statements: ["error", 12] */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 
 
@@ -548,7 +548,7 @@ module.exports.getCategories = function (req, res, next) {
 
 };
 
-module.exports.createCategory = function (req, res, next) {
+module.exports.checkAdmin = function (req, res, next) {
     // Admin permission check
 
     if (!req.user.isAdmin) {
@@ -558,6 +558,30 @@ module.exports.createCategory = function (req, res, next) {
             msg: null
         });
     }
+    next();
+};
+
+module.exports.validateIconLink = function (req, res, next) {
+    // category icon link validation
+    if (!req.body.iconLink) {
+        return res.status(422).json({
+            data: null,
+            err: 'No icon link supplied',
+            msg: null
+        });
+    }
+    if (typeof req.body.iconLink !== 'string') {
+        return res.status(422).json({
+            data: null,
+            err: 'icon link type is invalid',
+            msg: null
+        });
+    }
+    next();
+};
+
+
+module.exports.createCategory = function (req, res, next) {
 
     // category name validation check
     if (!req.body.category) {
@@ -567,7 +591,7 @@ module.exports.createCategory = function (req, res, next) {
             msg: null
         });
     }
-    if (typeof req.body.category === 'string') {
+    if (typeof req.body.category !== 'string') {
         return res.status(422).json({
             data: null,
             err: 'category type is invalid',
@@ -576,7 +600,10 @@ module.exports.createCategory = function (req, res, next) {
     }
 
     Category.create(
-        { name: req.body.category.trim().toLowerCase() },
+        {
+            iconLink: req.body.iconLink,
+            name: req.body.category.toLowerCase()
+        },
         function (err, category) {
             if (err) {
                 return next(err);
@@ -645,45 +672,8 @@ module.exports.createSection = function (req, res, next) {
 
 };
 
-module.exports.prepareContent = function (req, res, next) {
-
-    /*
-     *  function to prepare content for discussion
-     *
-     * @author: Wessam
-     */
-
-    var contentId = req.params.contentId;
-
-    Content.findById(contentId).
-        exec(function (err, content) {
-            if (err) {
-                return next(err);
-            }
-            if (!content) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'Content doesn\'t exist',
-                    msg: null
-                });
-            }
-            req.object = content;
-            req.verified = content.approved;
-
-            return next();
-        });
-};
 
 module.exports.updateCategory = function (req, res, next) {
-    // check admin permissions
-    if (!req.user.isAdmin) {
-        return res.status(403).json({
-            data: null,
-            err: 'This user is not an admin user',
-            msg: null
-        });
-    }
-
     // validate category id
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(422).json({
@@ -722,14 +712,6 @@ module.exports.updateCategory = function (req, res, next) {
 };
 
 module.exports.updateSection = function (req, res, next) {
-    // check admin permissions
-    if (!req.user.isAdmin) {
-        return res.status(403).json({
-            data: null,
-            err: 'This user is not an admin user',
-            msg: null
-        });
-    }
 
     // validate category id
     if (!mongoose.Types.ObjectId.isValid(req.params.categoryId)) {
@@ -783,16 +765,6 @@ module.exports.updateSection = function (req, res, next) {
 
 module.exports.deleteCategory = function (req, res, next) {
 
-    // verify that the issuer of the request is an admin
-    if (!req.user.isAdmin) {
-        return res.status(403).json({
-            data: null,
-            err: 'User does not have admin privileges and' +
-                'is not authorized to delete categories.',
-            msg: null
-        });
-    }
-
     // validate category id
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(422).json({
@@ -842,16 +814,6 @@ module.exports.deleteCategory = function (req, res, next) {
 
 
 module.exports.deleteSection = function (req, res, next) {
-
-    // verify that the issuer of the request is an admin
-    if (!req.user.isAdmin) {
-        return res.status(403).json({
-            data: null,
-            err: 'User does not have admin privileges and' +
-                'is not authorized to delete categories.',
-            msg: null
-        });
-    }
 
     // validate category and section id
     if (!mongoose.Types.ObjectId.isValid(req.params.categoryId) ||
@@ -904,4 +866,31 @@ module.exports.deleteSection = function (req, res, next) {
     );
 };
 
+module.exports.prepareContent = function (req, res, next) {
 
+    /*
+     *  function to prepare content for discussion
+     *
+     * @author: Wessam
+     */
+
+    var contentId = req.params.contentId;
+
+    Content.findById(contentId).
+        exec(function (err, content) {
+            if (err) {
+                return next(err);
+            }
+            if (!content) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Content doesn\'t exist',
+                    msg: null
+                });
+            }
+            req.object = content;
+            req.verified = content.approved;
+
+            return next();
+        });
+};
