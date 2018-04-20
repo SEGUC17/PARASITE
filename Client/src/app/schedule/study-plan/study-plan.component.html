@@ -1,70 +1,100 @@
-<div class="container">
-  <mat-card>
+<section class="content">
 
-      <mat-card-title>{{ studyPlan.title }}
-        <app-star-rating
-          *ngIf="type === 'published'"
-          [rating]="rating"
-          [starCount]="starCount"
-          [color]="starColor"
-          (ratingUpdated)="onRatingChanged($event)"
-          style="float: right;">
-        </app-star-rating>
-      </mat-card-title>
-
-    <br />
-    <app-calendar-header
-      [(view)]="view"
-      [(viewDate)]="viewDate"
-      (viewDateChange)="fetchEvents()"
-      (viewChange)="fetchEvents()">
-    </app-calendar-header>
-    <div [ngSwitch]="view">
-      <mwl-calendar-month-view
-        *ngSwitchCase="'month'"
-        [viewDate]="viewDate"
-        [events]="events"
-        [refresh]="refresh"
-        [activeDayIsOpen]="activeDayIsOpen"
-        (dayClicked)="dayClicked($event.day)"
-        (eventClicked)="handleEvent('Clicked', $event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)">
-      </mwl-calendar-month-view>
-
-      <mwl-calendar-week-view
-        *ngSwitchCase="'week'"
-        [viewDate]="viewDate"
-        [events]="events">
-      </mwl-calendar-week-view>
-
-      <mwl-calendar-day-view
-        *ngSwitchCase="'day'"
-        [viewDate]="viewDate"
-        [events]="events">
-      </mwl-calendar-day-view>
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <h2>{{ studyPlan.title }}</h2>
+        <ul class="breadcrumb p-l-0 p-b-0 ">
+          <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i>sQuare</a></li>
+          <li class="breadcrumb-item"><a routerLink="{{ type === 'personal' ? '/profile/' + username : '/published-study-plans' }}">
+            <i class="{{ type === 'personal' ? 'zmdi zmdi-account-circle' : 'zmdi zmdi-graduation-cap' }}">
+          </i>{{ type === 'personal' ? ' ' + username : ' Study Plans' }}</a></li>
+          <li class="breadcrumb-item active">{{ studyPlan.title }}</li>
+        </ul>
+      </div>
     </div>
-  </mat-card>
-  <mat-card label="Content Preview">
-    <div class="ql-editor preview" [innerHTML]="editorContent"></div>
-  </mat-card>
-  <mat-card>
-      <div class="button-row">
-          <button mat-raised-button (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
-          <button mat-raised-button (click)="copy()" color="primary"*ngIf="!currIsChild">Copy</button>
-          <button  mat-raised-button (click)="assign()" color="primary" *ngIf="type === 'personal' && !currIsChild">Assign</button>
-          <button mat-raised-button (click)="unAssign()" color="primary" *ngIf="type === 'personal' && !currIsChild">Unassign</button>
-          <button mat-raised-button (click)="edit()" color="primary" *ngIf="type === 'personal' && !currIsChild">Edit</button>
+  </div>
 
-          <!-- <button mat-raised-button [matMenuTriggerFor]="menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
+  <div class="container-fluid">
+    <div class="row clearfix">
+      <div class="col-lg-12">
 
-          <mat-menu #menu="matMenu"  >
-            <button mat-menu-item (click)="assign()" *ngFor="let child of listOfChildren">
-              {{child }}
-          </button>
-          </mat-menu> -->
+        <div class="card">
+        
+          <!--<mat-card>
 
+              <mat-card-title>{{ studyPlan.title }}
+                <app-star-rating
+                  *ngIf="type === 'published'"
+                  [rating]="rating"
+                  [starCount]="starCount"
+                  [color]="starColor"
+                  (ratingUpdated)="onRatingChanged($event)"
+                  style="float: right;">
+                </app-star-rating>
+              </mat-card-title>-->
+
+          <div class="body">
+            <app-calendar-header
+              [(view)]="view"
+              [(viewDate)]="viewDate"
+              (viewDateChange)="fetchEvents()"
+              (viewChange)="fetchEvents()">
+            </app-calendar-header>
+            <div [ngSwitch]="view">
+              <mwl-calendar-month-view
+                *ngSwitchCase="'month'"
+                [viewDate]="viewDate"
+                [events]="events"
+                [refresh]="refresh"
+                [activeDayIsOpen]="activeDayIsOpen"
+                (dayClicked)="dayClicked($event.day)"
+                (eventClicked)="handleEvent('Clicked', $event.event)"
+                (eventTimesChanged)="eventTimesChanged($event)">
+              </mwl-calendar-month-view>
+
+              <mwl-calendar-week-view
+                *ngSwitchCase="'week'"
+                [viewDate]="viewDate"
+                [events]="events">
+              </mwl-calendar-week-view>
+
+              <mwl-calendar-day-view
+                *ngSwitchCase="'day'"
+                [viewDate]="viewDate"
+                [events]="events">
+              </mwl-calendar-day-view>
+            </div>
+            <hr/>
+          <!--</mat-card>
+          <mat-card label="Content Preview">-->
+            <div class="ql-editor preview" [innerHTML]="editorContent"></div>
+          <!-- </mat-card>
+          <mat-card> -->
+            <hr/>
+              <div class="button-row">
+                <button class="btn btn-primary" (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
+                <button class="btn btn-primary" (click)="copy()" color="primary"*ngIf="!currIsChild">Copy</button>
+                <button class="btn btn-primary" (click)="assignFunction()" color="primary" *ngIf="type === 'personal' && !currIsChild">{{ assignText }}</button>
+                <button class="btn btn-primary" (click)="edit()" color="primary" *ngIf="type === 'personal' && !currIsChild">Edit</button>
+
+                  <!-- <button mat-raised-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+
+                  <mat-menu #menu="matMenu"  >
+                    <button mat-menu-item (click)="assign()" *ngFor="let child of listOfChildren">
+                      {{ child }}
+                  </button>
+                  </mat-menu> -->
+
+                </div>
+          <!--</mat-card>-->
+          </div>
         </div>
-  </mat-card>
-</div>
+
+      </div>
+    </div>
+  </div>
+
+</section>
