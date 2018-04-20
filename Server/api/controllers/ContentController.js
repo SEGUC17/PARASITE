@@ -701,6 +701,7 @@ module.exports.updateCategory = function (req, res, next) {
             if (categoryUpdateError) {
                 return next(categoryUpdateError);
             }
+
             Content.updateMany(
                 { category: updatedCategory.name },
                 function (contentUpdateError) {
@@ -718,6 +719,65 @@ module.exports.updateCategory = function (req, res, next) {
             );
         }
     );
+};
+
+module.exports.updateSection = function (req, res, next) {
+    // check admin permissions
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'This user is not an admin user',
+            msg: null
+        });
+    }
+
+    // validate category id
+    if (!mongoose.Types.ObjectId.isValid(req.params.categoryId)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category id provided was not valid',
+            msg: null
+        });
+    }
+    // validate section
+    if (!mongoose.Types.ObjectId.isValid(req.params.sectionId)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The section id provided is invalid',
+            msg: null
+        });
+    }
+
+    // validate section
+    if (!req.body.sectionName || typeof req.body.sectionName !== 'string') {
+        return res.status(422).json({
+            data: null,
+            err: 'The section name provided is invalid',
+            msg: null
+        });
+    }
+
+    //update the section
+
+    Category.update(
+        {
+            _id: req.params.categoryId,
+            'sections._id': req.params.sectionId
+        },
+        { $set: { 'sections.$.name': req.body.sectionName } },
+        function (err) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: null,
+                err: 'The section name was updated successfully',
+                msg: null
+            });
+        }
+    );
+
 };
 
 
