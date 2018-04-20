@@ -653,7 +653,14 @@ module.exports.createSection = function (req, res, next) {
 
     Category.findByIdAndUpdate(
         req.params.id,
-        { $push: { sections: { name: req.body.section } } },
+        {
+            $push: {
+                sections: {
+                    iconLink: req.body.iconLink,
+                    name: req.body.section
+                }
+            }
+        },
         { new: true },
         function (updateError, updatedCategory) {
             if (updateError) {
@@ -683,10 +690,13 @@ module.exports.updateCategory = function (req, res, next) {
         });
     }
 
-    //find category by ID and update its name
+    //find category by ID and update it
     Category.findByIdAndUpdate(
         req.params.id,
-        { name: req.body.name },
+        {
+            iconLink: req.body.iconLink,
+            name: req.body.name
+        },
         function (categoryUpdateError, oldCategory) {
             if (categoryUpdateError) {
                 return next(categoryUpdateError);
@@ -746,7 +756,12 @@ module.exports.updateSection = function (req, res, next) {
             _id: req.params.categoryId,
             'sections._id': req.params.sectionId
         },
-        { $set: { 'sections.$.name': req.body.sectionName } },
+        {
+            $set: {
+                'sections.$.iconLink': req.body.iconLink,
+                'sections.$.name': req.body.sectionName
+            }
+        },
         function (err) {
             if (err) {
                 return next(err);
