@@ -22,7 +22,6 @@ var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
 var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
-var DiscussionController = require('../controllers/DiscussionController');
 
 module.exports = function (passport) {
 
@@ -226,8 +225,8 @@ module.exports = function (passport) {
     contentController.validateIconLink,
     contentController.createCategory
   );
-  // Create a section
 
+  // Create a section
   router.post(
     '/content/category/:id/section',
     isAuthenticated,
@@ -236,10 +235,43 @@ module.exports = function (passport) {
     contentController.createSection
   );
 
+  // Update a category
+  router.patch(
+    '/content/category/:categoryId',
+    isAuthenticated,
+    contentController.checkAdmin,
+    contentController.validateIconLink,
+    contentController.updateCategory
+  );
 
+  // Update a section
+  router.patch(
+    '/content/category/:categoryId/section/:sectionId',
+    isAuthenticated,
+    contentController.checkAdmin,
+    contentController.validateIconLink,
+    contentController.updateSection
+  );
+
+  // delete a category
+  router.delete(
+    '/category/:id',
+    isAuthenticated,
+    contentController.deleteCategory
+  );
+
+  // delete a section
+  router.delete(
+    '/category/:categoryId/section/:sectionId',
+    isAuthenticated,
+    contentController.deleteSection
+  );
 
   //Category retrieval
-  router.get('/content/category', contentController.getCategories);
+  router.get(
+    '/content/category',
+    contentController.getCategories
+  );
 
 
   // Content Retrieval
@@ -334,19 +366,6 @@ module.exports = function (passport) {
     contentController.deleteContent
   );
 
-  // delete a category
-  router.delete(
-    '/category/:id',
-    isAuthenticated,
-    contentController.deleteCategory
-  );
-
-  // delete a section
-  router.delete(
-    '/category/:categoryId/section/:sectionId',
-    isAuthenticated,
-    contentController.deleteSection
-  );
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
