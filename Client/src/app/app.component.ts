@@ -79,20 +79,7 @@ export class AppComponent implements OnInit {
       name: 'Admin Category Control'
     }
   ];
-  constructor(private renderer: Renderer2, private router: Router) {
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationStart) {
-        if (this.previousUrl) {
-          this.renderer.removeClass(document.body, this.previousUrl);
-        }
-        const currentUrl = event.url.split('/');
-        const currentUrlSlug = currentUrl[currentUrl.length - 1];
-        if (currentUrlSlug) {
-          this.renderer.addClass(document.body, currentUrlSlug);
-        }
-        this.previousUrl = currentUrlSlug;
-      }
-    });
+  constructor(private router: Router) {
   }
   ngOnInit() {
     $(function() {
