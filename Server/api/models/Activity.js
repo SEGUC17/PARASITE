@@ -34,14 +34,7 @@ var activitySchema = Schema({
         type: String,
         maxlength: 300
     },
-    bookedBy: {
-        type: [
-            {
-                type: Schema.Types.ObjectId,
-                ref: 'User'
-            }
-        ]
-    },
+    bookedBy: [String],
     price: {
         type: Number,
         required: true
