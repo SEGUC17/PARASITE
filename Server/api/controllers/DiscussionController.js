@@ -228,7 +228,7 @@ module.exports.deleteCommentReply = function (req, res, next) {
         });
     }
 
-    var isCommentCreator = comment.creator === user.username;
+    var isCommentCreator = comment.creator == user.username;
 
     var reply = comment.replies.filter(function (rep) {
         return rep._id == replyId;
@@ -242,7 +242,7 @@ module.exports.deleteCommentReply = function (req, res, next) {
         });
     }
 
-    var isReplyCreator = reply.creator === user.username;
+    var isReplyCreator = reply.creator == user.username;
 
     if (
         !isAdmin &&
@@ -252,7 +252,7 @@ module.exports.deleteCommentReply = function (req, res, next) {
     ) {
         return res.status(403).json({
             data: null,
-            err: 'You can\'t delete this comment',
+            err: 'You can\'t delete this reply',
             msg: null
         });
     }
