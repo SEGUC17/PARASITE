@@ -22,7 +22,7 @@ var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
 var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
-var DiscussionController = require('../controllers/DiscussionController');
+var tagController = require('../controllers/TagController');
 
 module.exports = function (passport) {
 
@@ -272,7 +272,7 @@ module.exports = function (passport) {
   );
 
   // Getting comment details
- router.get(
+  router.get(
     '/content/:contentId/comments/:commentId',
     optionalAuthentication,
     contentController.prepareContent,
@@ -305,7 +305,7 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.prepareContent,
     DiscussionController.deleteCommentReply
-   );
+  );
 
   // Edit content
   router.patch(
@@ -355,6 +355,15 @@ module.exports = function (passport) {
   //-------------------- Rating Endpoints ------------------//
   router.put('/rating', isAuthenticated, UserRatingController.postRating);
   //------------------- End of Rating Endpoints-----------//
+
+  //-------------------- Tag Endpoints ------------------//
+  router.get('/tags/getTags', tagController.getTags);
+  router.get('/tags/getSubtags/:id', tagController.getSubtags);
+  router.delete('/tags/deleteTag/:id', isAuthenticated, tagController.deleteTag);
+  router.delete('/tags/deleteSubtag/:id', isAuthenticated, tagController.deleteSubtag);
+  router.post('/tags/addTag', isAuthenticated, tagController.addTag);
+  router.post('/tags/addSubtag/:id', isAuthenticated, tagController.addSubtag);
+  //------------------- End of Tag Endpoints-----------//
 
   // -------------------------------------------------------------------- //
   module.exports = router;

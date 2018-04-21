@@ -27,3 +27,4 @@ require('../models/ContentRequest');
 require('../models/StudyPlan');
 require('../models/StudyPlanPublishRequest');
 require('../models/Message');
+require('../models/Tag');
