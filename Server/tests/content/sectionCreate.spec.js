@@ -137,6 +137,31 @@ describe('/POST/section/', function () {
             });
 
     });
+    it('should fail to create new section ' +
+        'because the user is unregistered', function (done) {
+            chai.request(server).
+                post('/api/content/category/' +
+                    testCategory._id + '/section').
+                send(successSection).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(401);
+                    done();
+                });
+        });
+    it('should fail to create new section ' +
+        'because the user is not an admin', function (done) {
+            chai.request(server).
+                post('/api/content/category/' +
+                    testCategory._id + '/section').
+                set('Authorization', userToken).
+                send(successSection).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(403);
+                    done();
+                });
+        });
 
     it('should fail to create new section' +
         'because category id was not supplied', function (done) {
@@ -225,7 +250,7 @@ describe('/POST/section/', function () {
                     res.should.have.status(422);
                     should.not.exist(res.body.data);
                     res.body.err.should.be.
-                    equal('The section value is invalid');
+                        equal('The section value is invalid');
                     done();
                 });
         });
