@@ -25,7 +25,17 @@
             <div class="col-lg-8 col-md-12">
                 <div *ngIf="content" class="card single_post">
                     <div class="body">
-                        <h3 class="m-t-0 m-b-5">{{ content.title }}</h3>
+                        <h3 class="m-t-0 m-b-5 mr-auto">{{ content.title }} </h3>
+                        <div *ngIf="currentUser && content">
+                            <div *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" class="flex-row">
+                                <i title="delete forever" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="deleteContentById(content._id)"
+                                    class="material-icons clickable-icon">delete</i>
+                                <i title="edit" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="redirectToContentEdit()"
+                                    class="material-icons clickable-icon">edit</i>
+                                <i title="go back to content creation requests" *ngIf="currentUser.isAdmin && !content.approved" (click)="returnToContentRequests()"
+                                    class="material-icons clickable-icon">assignment_late</i>
+                            </div>
+                        </div>
                         <ul class="meta">
                             <li>
                                 <a href="/profile/{{ content.creator }}">
@@ -123,30 +133,6 @@
             </div>
             <div class="col-lg-4 col-md-12 right-box">
                 <div class="card">
-                    <div class="body search">
-                        <div class="input-group m-b-0">
-                            <input type="text" class="form-control" placeholder="Search...">
-                            <span class="input-group-addon">
-                                <i class="zmdi zmdi-search"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="content" class="card">
-                    <div class="header">
-                        <h2>
-                            <strong>Tags</strong>
-                        </h2>
-                    </div>
-                    <div class="body widget tag-clouds">
-                        <ul class="list-unstyled m-b-0">
-                            <li *ngFor="let tag of content.tags">
-                                <a href="#" class="tag badge badge-primary">{{ tag }}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card">
                     <div class="header">
                         <h2>
                             <strong>Recommended</strong> Content</h2>
@@ -208,6 +194,20 @@
                                     </small>
                                     <small class="date">Dec, 20 2017</small>
                                 </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div *ngIf="content" class="card">
+                    <div class="header">
+                        <h2>
+                            <strong>Tags</strong>
+                        </h2>
+                    </div>
+                    <div class="body widget tag-clouds">
+                        <ul class="list-unstyled m-b-0">
+                            <li *ngFor="let tag of content.tags">
+                                <a href="#" class="tag badge badge-primary">{{ tag }}</a>
                             </li>
                         </ul>
                     </div>
