@@ -133,7 +133,7 @@ describe('/POST/category/', function () {
                     done();
                 });
         });
-    it('should fail to create new category' +
+    it('should fail to create new category ' +
         'because name was not supplied', function (done) {
             chai.request(server).
                 post('/api/content/category').
@@ -147,7 +147,7 @@ describe('/POST/category/', function () {
                     done();
                 });
         });
-    it('should fail to create new category' +
+    it('should fail to create new category ' +
         'because the name supplied is invalid', function (done) {
             chai.request(server).
                 post('/api/content/category').
@@ -161,7 +161,7 @@ describe('/POST/category/', function () {
                     done();
                 });
         });
-    it('should fail to create new category' +
+    it('should fail to create new category ' +
         'because the iconLink was not supplied', function (done) {
             chai.request(server).
                 post('/api/content/category').
