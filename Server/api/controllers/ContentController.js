@@ -78,6 +78,11 @@ var prepareQueryOptionsForSearch = function (query, params) {
     var options = {
         limit: Number(params.pageSize),
         page: Number(params.pageNumber),
+        select:
+            {
+                body: 0,
+                discussion: 0
+            },
         sort: {}
     };
 
@@ -97,7 +102,7 @@ var prepareQueryOptionsForSearch = function (query, params) {
 
     // relevance is of importance to the query
     if (query.searchQuery !== '') {
-        options.select = { score: { $meta: 'textScore' } };
+        options.select.score = { $meta: 'textScore' };
         options.sort.score = { $meta: 'textScore' };
     }
 
@@ -134,12 +139,6 @@ module.exports.getSearchPage = function (req, res, next) {
     // prepare the conditions and options for the query
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
-
-    if (options.select) {
-        options.select.discussion = 0;
-    } else {
-        options.select = { discussion: 0 };
-    }
 
     // log the options and conditions for debugging
     console.log(options);
