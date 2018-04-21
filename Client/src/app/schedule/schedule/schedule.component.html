@@ -143,37 +143,37 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="title" id="defaultModalLabel">Add Event</h4>
+        <h4 class="title" id="defaultModalLabel">New Event</h4>
       </div>
       <div class="modal-body">
         <div class="form-group">
           <div class="form-line">
-            <input type="string" class="form-control" placeholder="Event Date" [(ngModel)]="title">
+            <input type="string" class="form-control" placeholder="Title" [(ngModel)]="title" required>
           </div>
         </div>
         <div class="form-group">
           <div class="form-line">
-            <input type="color" class="form-control" placeholder="Event Date" [(ngModel)]="color">
+            <input type="color" class="form-control" placeholder="Color" [(ngModel)]="color">
           </div>
         </div>
         <div class="form-group">
           <div class="form-line">
-            <input type="date" class="form-control" placeholder="Event Date" [(ngModel)]="start">
+            <input type="date" class="form-control" placeholder="Start Date" [(ngModel)]="start" required>
           </div>
         </div>
         <div class="form-group">
           <div class="form-line">
-            <input type="date" class="form-control" placeholder="Event Title" [(ngModel)]="end">
+            <input type="date" class="form-control" placeholder="End Date" [(ngModel)]="end">
           </div>
         </div>
         <div class="form-group">
           <div class="form-line">
-            <textarea class="form-control no-resize" placeholder="Event Description..." [(ngModel)]="description"></textarea>
+            <textarea class="form-control no-resize" placeholder="Description" [(ngModel)]="description"></textarea>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="addEventTemp(title, description, start, end, color); title = null; description = null; start = null; end = null; color = null;">Add</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="addEvent(title, description, start, end, color); title = null; description = null; start = null; end = null; color = null;">Add</button>
         <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
       </div>
     </div>

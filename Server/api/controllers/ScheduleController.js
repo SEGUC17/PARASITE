@@ -78,7 +78,7 @@ module.exports.addEvent = function (req, res, next) {
     var indexChild = req.user.children.indexOf(req.params.username);
     if (indexChild >= 0 ||
         (req.params.username === req.user.username && !req.user.isChild)) {
-        var valid = req.body.start && req.body.end && req.body.title;
+        var valid = req.body.start && req.body.title;
         if (!valid) {
             return res.status(422).json({
                 data: null,

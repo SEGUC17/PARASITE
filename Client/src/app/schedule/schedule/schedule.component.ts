@@ -136,7 +136,6 @@ export class ScheduleComponent implements OnInit {
     event.start = newStart;
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event);
-    const self = this;
     this.activeDayIsOpen = false;
     this.refreshDocument();
   }
@@ -145,9 +144,10 @@ export class ScheduleComponent implements OnInit {
     this.modalData = { event, action };
   }
 
-  addEvent(): void {
+
+  // NOTE: Legacy function, kept temporarily
+  addEventTemp(): void {
     // Add a new event
-    const self = this;
     this.events.push({
       title: 'New event',
       start: startOfDay(new Date()),
@@ -165,13 +165,12 @@ export class ScheduleComponent implements OnInit {
     this.refreshDocument();
   }
 
-  addEventTemp(title: string, description: string, start: Date, end: Date, color: any): void {
+  addEvent(title: string, description: string, start: Date, end: Date, color: any): void {
     // Add a new event
-    const self = this;
-    this.events.push({
+    const newEvent = {
       title: title,
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
+      start: new Date(start),
+      end: new Date(end),
       color: {
         primary: color,
         secondary: '#BEBEBE'
@@ -184,7 +183,9 @@ export class ScheduleComponent implements OnInit {
       meta: {
         description: description
       }
-    });
+    };
+    this.events.push(newEvent);
+    this.scheduleService.addEvent(this.profileUser, newEvent).subscribe();
     this.refreshDocument();
   }
 
@@ -203,14 +204,12 @@ export class ScheduleComponent implements OnInit {
       this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
     }
     this.editing = false;
-    const self = this;
     this.refreshDocument();
   }
 
   cancel() {
     // Cancel changes, refresh schedule from database
     this.editing = false;
-    const self = this;
     this.fetchAndDisplay();
     this.refreshDocument();
   }
