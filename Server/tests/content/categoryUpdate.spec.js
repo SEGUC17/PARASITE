@@ -20,7 +20,7 @@ var successCategory = {
 };
 var testCategory = null;
 var successUpdate = {
-    iconLink: 'http://www.this-is-a-link.com',
+    iconLink: 'http://www.this-is-a-link-update.com',
     name: 'updatedCategory'
 };
 var failCategoryNameExists = {
