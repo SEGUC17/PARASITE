@@ -32,13 +32,16 @@
                                     <i class="zmdi zmdi-account col-blue"></i> Posted By: {{ content.creator }}</a>
                             </li>
                             <li>
-                                <i class="zmdi zmdi-label col-red"></i>{{' ' + content.category }}, {{ content.section }}
+                                <a>
+                                    <i class="zmdi zmdi-label col-red"></i>{{' ' + content.category }}, {{ content.section }}</a>
                             </li>
                             <li>
-                                <i class="zmdi zmdi-comment-text col-blue"></i> Comments: {{ content.discussion.length }}
+                                <a>
+                                    <i class="zmdi zmdi-comment-text col-blue"></i> Comments: {{ content.discussion.length }}</a>
                             </li>
                             <li>
-                                <i class="zmdi zmdi-star"></i> Rating:
+                                <a>
+                                    <i class="zmdi zmdi-star"></i> Rating:</a>
                             </li>
                         </ul>
                     </div>
