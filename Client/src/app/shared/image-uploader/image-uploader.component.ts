@@ -59,7 +59,7 @@ export class ImageUploaderComponent implements OnInit {
       headers: any): any => {
       let res: any = JSON.parse(response);
       self.ImageUploaded.emit(res.url);
-    }
+    };
     this.uploader.onErrorItem =
       function(fileItem, response, status, headers) {
       // console.info('onErrorItem', fileItem, response, status, headers);
