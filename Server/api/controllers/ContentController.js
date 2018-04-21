@@ -621,7 +621,7 @@ module.exports.createCategory = function (req, res, next) {
 
 module.exports.createSection = function (req, res, next) {
 
-    if (!req.params.id) {
+    if (!req.params.id || req.params.id === 'null') {
         return res.status(422).json({
             data: null,
             err: 'The category is not supplied',
@@ -643,7 +643,7 @@ module.exports.createSection = function (req, res, next) {
         });
     }
 
-    if (typeof req.body.section === 'string') {
+    if (typeof req.body.section !== 'string') {
         return res.status(422).json({
             data: null,
             err: 'The section value is invalid',
