@@ -59,13 +59,13 @@ export class ContentViewComponent implements OnInit {
       self.comments = retrievedContent.data.discussion;
       let input = document.getElementById('input');
       input.addEventListener('keyup', function (event) {
-      event.preventDefault();
-      if (event.keyCode === 13) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
           document.getElementById('commentBtn').click();
         }
-     if (event.keyCode === 27) {
-        document.getElementById('cancelBtn').click();
-      }
+        if (event.keyCode === 27) {
+          document.getElementById('cancelBtn').click();
+        }
       });
       console.log('Retrieved: ' + retrievedContent.data);
     });
@@ -77,10 +77,10 @@ export class ContentViewComponent implements OnInit {
   }
 
   // delete Content function
-  deleteContentById(id:any):void {
-    const self =this;
-    this.contentService.deleteContentById(id).subscribe(function(retrievedContent){
-    self.router.navigate(['/content-list-view']);
+  deleteContentById(id: any): void {
+    const self = this;
+    this.contentService.deleteContentById(id).subscribe(function (retrievedContent) {
+      self.router.navigate(['/content-list-view']);
     });
   }
 

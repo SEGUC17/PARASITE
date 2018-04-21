@@ -47,10 +47,6 @@
                 <a>
                   <i class="zmdi zmdi-label col-red"></i> {{ content.category }}, {{ content.section }}</a>
               </li>
-              <li>
-                <a>
-                  <i class="zmdi zmdi-comment-text col-blue"></i>Comments: 3</a>
-              </li>
             </ul>
           </div>
           <div class="body">
@@ -95,11 +91,11 @@
               <h6>
                 Section: {{ selectedSection? selectedSection : 'All' }}
               </h6>
-            </div>
-            <div class="sort-by-div">
               <h6>
                 Sort By: {{ sortResultsBy }}
               </h6>
+            </div>
+            <div class="sort-by-div">
               <form #f="ngForm">
                 <div class="radio">
                   <input type="radio" name="sortByRadioButtonGroup" id="radio1" value="relevance" [(ngModel)]="sortResultsBy">
