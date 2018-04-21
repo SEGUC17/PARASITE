@@ -165,6 +165,29 @@ export class ScheduleComponent implements OnInit {
     this.refreshDocument();
   }
 
+  addEventTemp(title: string, description: string, start: Date, end: Date, color: any): void {
+    // Add a new event
+    const self = this;
+    this.events.push({
+      title: title,
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
+      color: {
+        primary: color,
+        secondary: '#BEBEBE'
+      },
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true
+      },
+      meta: {
+        description: description
+      }
+    });
+    this.refreshDocument();
+  }
+
   refreshDocument() {
     // Light refresh to show any changes
     const self = this;
