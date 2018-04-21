@@ -138,61 +138,19 @@
                             <strong>Recommended</strong> Content</h2>
                     </div>
                     <div class="body widget popular-post">
-                        <ul class="list-unstyled m-b-0">
-                            <li class="row">
+                        <ul *ngIf="recommendedContent" class="list-unstyled m-b-0">
+                            <li *ngFor="let contentItem of recommendedContent" class="row">
                                 <div class="icon-box col-4">
-                                    <img class="img-fluid img-thumbnail" src="assets/images/blog/1.jpg" alt="Awesome Image">
+                                    <img class="img-fluid img-thumbnail" [src]="contentItem.image" alt="{{ contentItem.title }}">
                                 </div>
                                 <div class="text-box col-8 p-l-0">
                                     <h5 class="m-b-0">
-                                        <a href="#">Web Design</a>
+                                        <a href="/content-view/{{ contentItem._id }}">{{ contentItem.title }}</a>
                                     </h5>
                                     <small class="author-name">By:
-                                        <a href="#">Michael Allenson</a>
+                                        <a href="/profile/{{ contentItem.creator }}">{{ contentItem.creator }}</a>
                                     </small>
-                                    <small class="date">Dec, 05 2017</small>
-                                </div>
-                            </li>
-                            <li class="row">
-                                <div class="icon-box col-4">
-                                    <img class="img-fluid img-thumbnail" src="assets/images/blog/2.jpg" alt="Awesome Image">
-                                </div>
-                                <div class="text-box col-8 p-l-0">
-                                    <h5 class="m-b-0">
-                                        <a href="#">UI UX Design</a>
-                                    </h5>
-                                    <small class="author-name">By:
-                                        <a href="#">Michael Allenson</a>
-                                    </small>
-                                    <small class="date">Dec, 15 2017</small>
-                                </div>
-                            </li>
-                            <li class="row">
-                                <div class="icon-box col-4">
-                                    <img class="img-fluid img-thumbnail" src="assets/images/blog/3.jpg" alt="Awesome Image">
-                                </div>
-                                <div class="text-box col-8 p-l-0">
-                                    <h5 class="m-b-0">
-                                        <a href="#">Photography</a>
-                                    </h5>
-                                    <small class="author-name">By:
-                                        <a href="#">Michael Allenson</a>
-                                    </small>
-                                    <small class="date">Dec, 15 2017</small>
-                                </div>
-                            </li>
-                            <li class="row">
-                                <div class="icon-box col-4">
-                                    <img class="img-fluid img-thumbnail" src="assets/images/blog/4.jpg" alt="Awesome Image">
-                                </div>
-                                <div class="text-box col-8 p-l-0">
-                                    <h5 class="m-b-0">
-                                        <a href="#">New Technology</a>
-                                    </h5>
-                                    <small class="author-name">By:
-                                        <a href="#">Michael Allenson</a>
-                                    </small>
-                                    <small class="date">Dec, 20 2017</small>
+                                    <small class="date"> {{ contentItem.touchDate | date }}</small>
                                 </div>
                             </li>
                         </ul>

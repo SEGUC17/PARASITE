@@ -17,6 +17,7 @@ import { DiscussionService } from '../../discussion.service';
 export class ContentViewComponent implements OnInit {
   // the content that the user is viewing
   content: Content;
+  recommendedContent: Content[];
 
   // the signed-in user if he/she exists
   currentUser: User;
@@ -56,6 +57,7 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
+      self.getRecommendedContent();
       self.comments = retrievedContent.data.discussion;
       let input = document.getElementById('input');
       input.addEventListener('keyup', function (event) {
@@ -175,5 +177,32 @@ export class ContentViewComponent implements OnInit {
   // admin or owner user of content wishes to edit the content
   redirectToContentEdit(): void {
     this.router.navigateByUrl('/content-edit/' + this.content._id);
+  }
+
+  // retrieve the recommended content related to the content the user is viewing
+  getRecommendedContent(): void {
+    const self = this;
+    // remove unnecessary spaces
+    let searchQuery =
+      this.content.category + ' ' +
+      this.content.section + ' ' +
+      this.content.tags.join(' ');
+
+    // print statements for debugging
+    console.log('Query Tags: ' + searchQuery);
+
+    // retrieve search page from the server
+    this.contentService.getSearchPage(
+      1,
+      8,
+      searchQuery,
+      '',
+      '',
+      'relevance'
+    ).subscribe(function (res) {
+      // update the recommended content array
+      self.recommendedContent = res.data.contents.docs.slice(1);
+    });
+
   }
 }
