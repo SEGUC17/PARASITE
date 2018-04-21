@@ -22,6 +22,23 @@ var successSection = {
     iconLink: 'http://www.this-is-a-link.com',
     section: 'testSection'
 };
+var failSectionNameExists = {
+    iconLink: 'http://www.this-is-a-link.com',
+    section: ''
+};
+var failSectionNameValid = {
+    iconLink: 'http://www.this-is-a-link.com',
+    section: {}
+};
+var failSectionIconExists = {
+    iconLink: '',
+    section: 'testSection'
+};
+
+var failSectionIconValid = {
+    iconLink: {},
+    section: 'testSection'
+};
 var testCategory = null;
 describe('/POST/section/', function () {
     // --- Mockgoose Initiation --- //
@@ -120,6 +137,98 @@ describe('/POST/section/', function () {
             });
 
     });
+
+    it('should fail to create new section' +
+        'because category id was not supplied', function (done) {
+            chai.request(server).
+                post('/api/content/category/' +
+                    null + '/section').
+                set('Authorization', adminToken).
+                send(successSection).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    res.body.err.should.be.
+                        equal('The category is not supplied');
+                    done();
+                });
+        });
+
+    it('should fail to create new section' +
+        'because category id supplied was invalid', function (done) {
+            chai.request(server).
+                post('/api/content/category/notId/section').
+                set('Authorization', adminToken).
+                send(successSection).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    res.body.err.should.be.
+                        equal('The category id supplied is invalid');
+                    done();
+                });
+        });
+    it('should fail to create new section ' +
+        'because the iconLink was not supplied', function (done) {
+            chai.request(server).
+                post('/api/content/category/' +
+                    testCategory._id + '/section').
+                set('Authorization', adminToken).
+                send(failSectionIconExists).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('No icon link supplied');
+                    done();
+                });
+        });
+    it('should fail to create new section ' +
+        'because the iconLink was invalid', function (done) {
+            chai.request(server).
+                post('/api/content/category/' +
+                    testCategory._id + '/section').
+                set('Authorization', adminToken).
+                send(failSectionIconValid).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('icon link type is invalid');
+                    done();
+                });
+        });
+    it('should fail to create new section ' +
+        'because name was not supplied', function (done) {
+            chai.request(server).
+                post('/api/content/category/' +
+                    testCategory._id + '/section').
+                set('Authorization', adminToken).
+                send(failSectionNameExists).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.equal('The section is not supplied');
+                    done();
+                });
+        });
+    it('should fail to create new category ' +
+        'because the name supplied is invalid', function (done) {
+            chai.request(server).
+                post('/api/content/category/' +
+                    testCategory._id + '/section').
+                set('Authorization', adminToken).
+                send(failSectionNameValid).
+                end(function (err, res) {
+                    should.not.exist(err);
+                    res.should.have.status(422);
+                    should.not.exist(res.body.data);
+                    res.body.err.should.be.
+                    equal('The section value is invalid');
+                    done();
+                });
+        });
 
     // --- Clearing Mockgoose --- //
     after(function (done) {
