@@ -752,7 +752,7 @@ module.exports.updateSection = function (req, res, next) {
             msg: null
         });
     }
-    // validate section
+    // validate section id
     if (!mongoose.Types.ObjectId.isValid(req.params.sectionId)) {
         return res.status(422).json({
             data: null,
@@ -761,18 +761,28 @@ module.exports.updateSection = function (req, res, next) {
         });
     }
 
-    // validate section
-    if (!req.body.sectionName || typeof req.body.sectionName !== 'string') {
+    // validate section name
+    if (!req.body.sectionName) {
         return res.status(422).json({
             data: null,
-            err: 'The section name provided is invalid',
+            err: 'The section name is not supplied',
             msg: null
         });
+
+    }
+
+    if (typeof req.body.sectionName !== 'string') {
+        return res.status(422).json({
+            data: null,
+            err: 'The section name is not supplied',
+            msg: null
+        });
+
     }
 
     //update the section
 
-    Category.update(
+    Category.findOneAndUpdate(
         {
             _id: req.params.categoryId,
             'sections._id': req.params.sectionId
@@ -783,15 +793,16 @@ module.exports.updateSection = function (req, res, next) {
                 'sections.$.name': req.body.sectionName
             }
         },
-        function (err) {
+        { new: true },
+        function (err, updatedCategory) {
             if (err) {
                 return next(err);
             }
 
             return res.status(200).json({
-                data: null,
-                err: 'The section name was updated successfully',
-                msg: null
+                data: updatedCategory,
+                err: null,
+                msg: 'The section was updated successfully'
             });
         }
     );
