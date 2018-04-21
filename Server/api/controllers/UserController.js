@@ -1,11 +1,10 @@
-/* eslint-disable max-len */
 /* eslint-disable max-statements */
-/* eslint-disable object-shorthand */
 /* eslint-disable complexity */
 
 // ---------------------- Requirements ---------------------- //
 var config = require('../config/config');
 var jwt = require('jsonwebtoken');
+var REGEX = require('../utils/validators/REGEX');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 // ---------------------- End of "Requirements" ---------------------- //
@@ -18,12 +17,17 @@ var isDate = require('../utils/validators/is-date');
 var isString = require('../utils/validators/is-string');
 var isNotEmpty = require('../utils/validators/not-empty');
 var Encryption = require('../utils/encryption/encryption');
+var emails = require('../utils/emails/email-verification');
 // ---------------------- End of "Validators" ---------------------- //
 
 
 // ---------------------- JWT Token Generator ---------------------- //
-var generateJWTToken = function (id, callback) {
-    callback('JWT ' + jwt.sign({ 'id': id }, config.SECRET, { expiresIn: '12h' }));
+var generateJWTToken = function (id, time, callback) {
+    callback('JWT ' + jwt.sign(
+        { 'id': id },
+        config.SECRET,
+        { expiresIn: time }
+    ));
 };
 // ---------------------- End of "JWT Token Generator" ---------------------- //
 
@@ -95,9 +99,15 @@ module.exports.signUp = function (req, res, next) {
     // --- End of "Check: Emptinesss & Type" --- //
 
     // --- Trimming & Lowering Cases--- //
-    newUser.address = newUser.address ? newUser.address.toLowerCase() : newUser.address;
-    newUser.email = newUser.email ? newUser.email.toLowerCase().trim() : newUser.email;
-    newUser.username = newUser.username ? newUser.username.toLowerCase().trim() : newUser.username;
+    newUser.address = newUser.address
+        ? newUser.address.toLowerCase()
+        : newUser.address;
+    newUser.email = newUser.email
+        ? newUser.email.toLowerCase().trim()
+        : newUser.email;
+    newUser.username = newUser.username
+        ? newUser.username.toLowerCase().trim()
+        : newUser.username;
     // --- End of "Trimming & Lowering Cases"--- //
 
     // --- Check: birthdate --- //
@@ -111,7 +121,7 @@ module.exports.signUp = function (req, res, next) {
     // --- End of "Check: birthdate" --- //
 
     // --- Check: Email Regex Match --- //
-    if (!newUser.email.match(config.EMAIL_REGEX)) {
+    if (!newUser.email.match(REGEX.MAIL_REGEX)) {
         return res.status(422).json({
             data: null,
             err: null,
@@ -132,7 +142,7 @@ module.exports.signUp = function (req, res, next) {
 
     // --- Check: Phone Regex Match ---//
     for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
-        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
+        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
             return res.status(422).json({
                 data: null,
                 err: null,
@@ -174,7 +184,9 @@ module.exports.signUp = function (req, res, next) {
                     throw err2;
                 }
 
-                generateJWTToken(newUser._id, function (jwtToken) {
+                var time = '12h';
+
+                generateJWTToken(newUser._id, time, function (jwtToken) {
                     return res.status(201).json({
                         data: null,
                         err: null,
@@ -211,7 +223,9 @@ module.exports.signIn = function (req, res, next) {
     }
     // --- End of "Check: Emptinesss & Type" --- //
 
-    req.body.username = req.body.username ? req.body.username.toLowerCase().trim() : '';
+    req.body.username = req.body.username
+        ? req.body.username.toLowerCase().trim()
+        : '';
 
     User.findOne(
         {
@@ -231,26 +245,31 @@ module.exports.signIn = function (req, res, next) {
                 });
             }
 
-            user.comparePasswords(req.body.password, function (err2, passwordMatches) {
-                if (err2) {
-                    throw err2;
-                } else if (!passwordMatches) {
-                    return res.status(422).json({
-                        data: null,
-                        err: null,
-                        msg: 'Wrong Username/Email Or Password!'
+            user.comparePasswords(
+                req.body.password,
+                function (err2, passwordMatches) {
+                    if (err2) {
+                        throw err2;
+                    } else if (!passwordMatches) {
+                        return res.status(422).json({
+                            data: null,
+                            err: null,
+                            msg: 'Wrong Username/Email Or Password!'
+                        });
+                    }
+
+                    var time = req.body.rememberMe ? '1w' : '12h';
+
+                    generateJWTToken(user._id, time, function (jwtToken) {
+                        return res.status(200).json({
+                            data: null,
+                            err: null,
+                            msg: 'Sign In Is Successful!',
+                            token: jwtToken
+                        });
                     });
                 }
-
-                generateJWTToken(user._id, function (jwtToken) {
-                    return res.status(200).json({
-                        data: null,
-                        err: null,
-                        msg: 'Sign In Is Successful!',
-                        token: jwtToken
-                    });
-                });
-            });
+            );
         }
     );
 
@@ -259,7 +278,7 @@ module.exports.signIn = function (req, res, next) {
 
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
-    // console.log('entered the signUpChild method');
+    console.log('entered the signUpChild method');
     // console.log('userId is: ' + req.user._id);
     // console.log('username is: ' + req.user.username);
 
@@ -312,7 +331,9 @@ module.exports.signUpChild = function (req, res, next) {
         return res.status(401).json({
             data: null,
             err1: null,
-            msg: field + ' does not match the required data entry!' + err1.message + '!!'
+            msg: field +
+                ' does not match the required data entry!' +
+                err1.message + '!!'
         });
     }
     //---end of types and formats validations--///
@@ -340,19 +361,25 @@ module.exports.signUpChild = function (req, res, next) {
         return res.status(401).json({
             data: null,
             err2: null,
-            msg: 'you are missing required data entry ' + field + '!' + err2.message
+            msg: 'you are missing required data entry '
         });
     }
     //---end of emptiness validations--////
 
     // --- Trimming & Lowering Cases--- //
-    newUser.address = newUser.address ? newUser.address.toLowerCase() : newUser.address;
-    newUser.email = newUser.email ? newUser.email.toLowerCase().trim() : newUser.email;
-    newUser.username = newUser.username ? newUser.username.toLowerCase().trim() : newUser.username;
-    // --- End of "Trimming & Lowering Cases"--- //  
+    newUser.address = newUser.address
+        ? newUser.address.toLowerCase()
+        : newUser.address;
+    newUser.email = newUser.email
+        ? newUser.email.toLowerCase().trim()
+        : newUser.email;
+    newUser.username = newUser.username
+        ? newUser.username.toLowerCase().trim()
+        : newUser.username;
+    // --- End of "Trimming & Lowering Cases"--- //
     // --- Check: Phone Regex Match ---//
     for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
-        if (!newUser.phone[index2].match(config.PHONE_REGEX)) {
+        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
             return res.status(422).json({
                 data: null,
                 err5: null,
@@ -362,7 +389,7 @@ module.exports.signUpChild = function (req, res, next) {
     }
     // --- End of "Check: Phone Regex Match" ---//
     // --- Check: Email Regex Match --- //
-    if (!newUser.email.match(config.EMAIL_REGEX)) {
+    if (!newUser.email.match(REGEX.MAIL_REGEX)) {
         return res.status(422).json({
             data: null,
             err6: null,
@@ -395,16 +422,18 @@ module.exports.signUpChild = function (req, res, next) {
                     return res.status(409).json({
                         data: null,
                         err8: null,
-                        msg: 'Email Is In Use!'
+                        msg: 'Email already exists!'
                     });
                 }
 
                 return res.status(409).json({
                     data: null,
                     err8: null,
-                    msg: 'Username Is In Use!'
+                    msg: 'Username already exists!'
                 });
-            }  //---end of duplicate checks--///
+            }
+            //---end of duplicate checks--//
+
             //--hashing password--//
             User.create(newUser, function (error) {
                 if (error) {
@@ -425,13 +454,9 @@ module.exports.signUpChild = function (req, res, next) {
     User.findByIdAndUpdate(
         req.user._id, {
             $push:
-                {
-                    'children': req.body.username
-                },
+                { 'children': req.body.username },
             $set:
-                {
-                    'isParent': true
-                }
+                { 'isParent': true }
         }
         , { new: true }, function (err, updatedob) {
             if (err) {
@@ -439,7 +464,9 @@ module.exports.signUpChild = function (req, res, next) {
 
                 return res.status(402).json({
                     data: null,
-                    msg: 'error occurred during updating parents attributes , parent is:' + req.user._id.isParent
+                    msg: 'error occurred during updating ' +
+                        'parents attributes, parent is: ' +
+                        req.user._id.isParent
                 });
             }
         }
@@ -491,7 +518,8 @@ module.exports.getUserData = function (req, res, next) {
 
 module.exports.getAnotherUserData = function (req, res, next) {
 
-    req.params.usernameOrEmail = req.params.usernameOrEmail.toLowerCase().trim();
+    req.params.usernameOrEmail = req.params.usernameOrEmail.
+        toLowerCase().trim();
 
     // --- Check: Emptiness & Type --- //
     var field = '';
@@ -564,7 +592,8 @@ module.exports.getAnotherUserData = function (req, res, next) {
 
 module.exports.isUserExist = function (req, res, next) {
 
-    req.params.usernameOrEmail = req.params.usernameOrEmail.toLowerCase().trim();
+    req.params.usernameOrEmail = req.params.usernameOrEmail.
+        toLowerCase().trim();
 
     User.findOne(
         {
@@ -593,3 +622,72 @@ module.exports.isUserExist = function (req, res, next) {
     );
 
 };
+
+module.exports.resetpassword = function (req, res, next) {
+    console.log('entered resetPassword backend method');
+    // password gets trimmed of spaces
+    req.params.email = req.params.email.toLowerCase().trim();
+    // check if the user exits
+    User.findOne(
+        { email: req.params.email },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (user) {
+                // generate random code to send to user
+                var code = Math.random().toString(36).
+                    substring(7);
+
+                emails.sendEmailVerification(user.email, code);
+
+                return res.status(201).json({
+                    code: code,
+                    data: null,
+                    err: null,
+                    msg: 'User found!'
+                });
+
+            } else if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User was not found!'
+                });
+            }
+
+        }
+    );
+
+};
+
+module.exports.changePassword = function (req, res, next) {
+    console.log('entered changePAssword backend method');
+    req.params.email = req.params.email.toLowerCase().trim();
+    // hash incoming password
+    Encryption.hashPassword(req.body.newpw, function (err3, hash) {
+        if (err3) {
+            console.log('entered err3 in changePassword');
+
+            return next(err3);
+        }
+        // update user password with hash
+        User.findOneAndUpdate(
+            { email: req.params.email },
+            { password: hash }, function (err, user2) {
+                if (err) {
+                    console.log('entered err in changePassword');
+
+                    return next(err);
+                }
+                console.log('returned res 200');
+
+                return res.status(200).json({
+                    data: user2,
+                    err: null,
+                    msg: 'User password was reset successfully.'
+                });
+            }
+        );
+    });
+};
+

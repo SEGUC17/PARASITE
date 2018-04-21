@@ -1,10 +1,9 @@
 var mongoose = require('mongoose');
-var auth = require('basic-auth');
 var Activity = mongoose.model('Activity');
-var User = mongoose.model('User');
 
-/*eslint max-statements: ["error", 20]*/
+/* eslint max-statements: ["error", 20] */
 /* eslint multiline-comment-style: ["error", "starred-block"] */
+/* eslint-disable eqeqeq */
 
 module.exports.getActivities = function (req, res, next) {
 
@@ -47,9 +46,11 @@ module.exports.getActivities = function (req, res, next) {
         filter.status = 'verified';
     }
     Activity.paginate(
-        filter, {
-        limit: 10,
-         page: pageN
+        filter,
+        {
+            limit: 10,
+            page: pageN,
+            select: { discussion: 0 }
         },
         function (err, activities) {
             if (err) {
@@ -89,9 +90,15 @@ module.exports.getActivity = function (req, res, next) {
         if (err) {
             return next(err);
         }
+        if (!activity) {
+            return res.status(404).json({
+                data: null,
+                err: 'Activity doesn\'t exist',
+                msg: null
+            });
+        }
         var creatorName = activity.creator;
 
-        console.log(activity.status);
         if (activity.status !== 'verified') {
 
             if (!isAdmin && creatorName !== user.username) {
@@ -112,7 +119,7 @@ module.exports.getActivity = function (req, res, next) {
 };
 
 
-module.exports.postActivity = function (req, res, next) {
+module.exports.postActivity = function (req, res) {
 
     /*
      *   Middleware for creating an activity
@@ -174,7 +181,7 @@ module.exports.postActivity = function (req, res, next) {
     });
 };
 
-module.exports.reviewActivity = function (req, res, next) {
+module.exports.reviewActivity = function (req, res) {
 
     /*
      *  Middleware for reviewing an activity by admin
@@ -221,11 +228,18 @@ module.exports.reviewActivity = function (req, res, next) {
             new: true,
             runValidators: true
         },
-        function(err, activity) {
+        function (err, activity) {
             if (err) {
                 return res.status(422).json({
                     data: null,
                     err: err,
+                    msg: null
+                });
+            }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
                     msg: null
                 });
             }
@@ -236,4 +250,86 @@ module.exports.reviewActivity = function (req, res, next) {
             });
         }
     );
+};
+
+module.exports.prepareActivity = function (req, res, next) {
+
+    /*
+     *  function to prepare activity for discussion
+     *
+     * @author: Wessam
+     */
+
+    var activityId = req.params.activityId;
+
+    Activity.findById(activityId).
+        exec(function (err, activity) {
+            if (err) {
+                return next(err);
+            }
+            if (!activity) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Activity doesn\'t exist',
+                    msg: null
+                });
+            }
+            req.object = activity;
+            req.verified = activity.status === 'verified';
+
+            return next();
+        });
+};
+
+// Author: Heidi
+module.exports.editActivity = function (req, res, next) {
+    var Status = 'pending';
+if (req.user.isAdmin) {
+    Status = 'verified';
+}
+// finding activity by id
+Activity.findById(req.params.activityId).exec(function (err, activity) {
+if (err) {
+return next(err);
+
+        }
+// only activity creator can edit his/her own activity
+if (!(activity.creator == req.user.username)) {
+    return res.status(403).send({
+        data: null,
+        err: null,
+        msg: 'Action not allowed'
+    });
+}
+// if status is booked already it cannot be edited
+if (activity.bookedBy.length == 0) {
+    return res.status(403).send({
+        data: null,
+        err: null,
+        msg: 'no edition allowed'
+    });
+}
+// updating activity
+Activity.findByIdAndUpdate(req.params.activityId, {
+ $set: {
+description: req.body.description,
+fromDateTime: req.body.fromDateTime,
+ name: req.body.name,
+price: req.body.price,
+status: Status,
+toDateTime: req.body.toDateTime
+
+}
+ }, { new: true }).exec(function(error, updatedActivity) {
+    if (err) {
+        return next(err);
+            }
+
+return res.status(200).send({
+    data: updatedActivity,
+    err: null,
+    msg: 'Activity is updated'
+});
+});
+});
 };

@@ -1,0 +1,241 @@
+﻿.overlay{
+    position: fixed;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    @extend .displaynone;
+    z-index: 12;
+}
+.right-sidebar{
+    width: 280px;
+    height: calc(100vh - 0px);
+    position: fixed;
+    right: -300px;
+    top: 0px;
+    background: $white;
+    z-index: 13 !important;
+    @include box-shadow(-2px 2px 5px rgba(0, 0, 0, 0.1));
+    overflow: hidden;
+    @include transition(.5s);
+
+    &.open {
+        right: 0;
+    }
+
+    .nav-tabs + .tab-content {
+        @extend .padding-0;
+        
+    }
+
+    .slim_scroll{
+        @extend .p-t-15;
+    }
+
+    .card{
+        padding:10px 20px;
+        @extend .m-b-0;
+        box-shadow: none;
+
+        h6{
+            border-bottom: 1px solid $grey-200;    
+            @extend .p-b-5;
+            @extend .m-b-15;
+            font-size: 12px;
+        }
+        ul{
+            @extend .m-b-0;
+        }
+    }
+    
+    .nav-tabs {
+        padding: 9px 20px;
+        border-bottom: 1px solid $grey-200;
+    }
+
+    .choose-skin {
+        li {
+
+            @extend .p-r-5;
+            position: relative;
+            cursor: pointer;
+            @extend .inlineblock;
+    
+            &.active {              
+    
+                &:after {
+                    font-family: 'Material Icons';
+                    position: absolute;
+                    top: 0px;
+                    left: 29px;
+                    content: '\E876';
+                    font-size: 18px;
+                    color: $white;                    
+                }
+            }
+    
+            div {
+                width: 72px;
+                height: 25px;
+                @extend .inlineblock;
+                @include border-radius(25px);
+            }
+    
+            span {
+                position: relative;
+                bottom: 7px;
+                left: 5px;
+            }
+        }
+    
+        @each $key, $val in $colors {
+            .#{$key} {
+                background-color: $val;
+            }
+        }
+    }
+
+    .theme-light-dark{
+        li{
+            @extend .inlineblock;
+        }
+    }
+
+}
+.right_chat{
+    li {
+        position: relative;
+        &.offline {
+            .status {
+                background: #FF9800;
+            }
+        }
+        &.online {
+            .status {
+                background: #8BC34A;
+            }
+        }
+        &.me {
+            .status {
+                background: #0498bd;
+            }
+        }
+    }
+    .media {
+        .media-object {
+            @extend .m-r-10;
+            width: 40px;
+            @include border-radius(50px);
+        }
+        .name {
+            font-weight: $font-weight-semi;
+            color: $grey-800;
+            margin: 0px;
+            @extend .displayblock;
+            font-size: 15px;
+        }
+        .message {
+            font-size: 13px;
+            color: $blue-grey-400;
+            @extend .inlineblock;
+            max-width:180px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .status {
+            position: absolute;
+            left: 30px;
+            top: 30px;
+            width: 11px;
+            height: 11px;
+            @extend .padding-0;
+            @extend .inlineblock;
+            min-width: inherit;
+            border: 2px solid $white;
+            @include border-radius(50px);
+        }
+    }
+}
+
+.right_chat{
+    height: 100vh;
+    position: fixed;
+    right: -320px;
+    top: 0;
+    z-index: 12;
+    width: 320px;
+    background: $white;
+    @include box-shadow(-2px 2px 5px rgba(0, 0, 0, 0.1));
+    overflow: hidden;
+    @include transition(.5s);
+
+    &.open {
+        right: 0;
+    }
+    .enter_msg{
+        width: calc(100% - 0px);
+        padding: 10px 0;
+    }
+    .chat_body{
+        position: relative;
+        padding: 15px 10px;
+        width: calc(100% - 55px);
+        float: left;
+        height: 100vh;
+    }
+    .chat_list{
+        float: left;
+        width: 55px;
+        padding: 0 10px;
+        height: 100vh;
+        background: $grey-200;
+        @extend .p-t-20;
+
+        li{
+            &.active, &:hover{
+                a{
+                    img{
+                        border-color: $primary-color;
+                    }
+                }
+            }
+            a{
+                @extend .inlineblock;
+                @extend .m-b-15;
+                img{
+                    border: 2px solid;
+                    border-color: $white; 
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1024px){
+    .right-sidebar{
+        .nav-tabs{
+            padding: 7px 15px;
+            li{
+                display: inline-block;
+                a{
+                    margin: 0px !important;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 992px){
+    
+}
+@media (max-width: 767px){
+    .right-sidebar{
+        .slim_scroll{
+            padding-bottom: 40px;
+        }
+    }
+    
+}
+

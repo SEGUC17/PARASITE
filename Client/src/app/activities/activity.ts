@@ -1,5 +1,5 @@
 /*
-    Activity classes to help with creating 
+    Activity classes to help with creating
     and retreiving activities
 
     @author: Wessam
@@ -17,6 +17,8 @@ export class Activity {
     createdAt : Date;
     updatedAt : Date;
     image : String;
+    discussion: any[];
+    creator: String;
 }
 
 export class ActivityCreate {
@@ -30,4 +32,17 @@ export class ActivityCreate {
     fromDateTime: Number;
     toDateTime: Number;
     image: String;
+    discussion: any[];
+
+}
+export class ActivityEdit {
+    name: String;
+    description: String;
+    price: Number;
+    fromDateTime: Number;
+    toDateTime: Number;
+    image: String;
+    creator: String;
+    bookedBy: [String];
+
 }

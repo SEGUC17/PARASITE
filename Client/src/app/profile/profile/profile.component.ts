@@ -27,6 +27,7 @@ export class ProfileComponent implements OnInit {
   visitedIsMyParent = false;
   visitedIsOfAge = false;
   visitedCanBeParent = false;
+  visitedOld = true;
   // ------------------------------------
 
   // ---------- Current User Info ---------------
@@ -54,7 +55,7 @@ export class ProfileComponent implements OnInit {
   vFirstName: string;
   vLastName: string;
   vUsername: string;
-  vAge: Number;
+   vAge: Number;
   vEmail: string;
   vAddress: string;
   vPhone: [string];
@@ -65,6 +66,7 @@ export class ProfileComponent implements OnInit {
   vVerified: Boolean = false;
   vId: any;
   message: string;
+
   // ------------------------------------
   changePass: Boolean;
   childInfo: Boolean;
@@ -235,12 +237,25 @@ export class ProfileComponent implements OnInit {
       });
 
     }
-  }
+  } // Author: Heidi
   EditChildIndependence() {
 
-    this._ProfileService.EditChildIndependence(this.vUsername).subscribe();
+    this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
+
+      alert(res.msg);
+
+    }));
     // getting the visited profile username and passing it to service method to add it to the patch request
 
+  }  // Author :Heidi
+  UnlinkMyself() {
+// getting the visited profile username and passing it to service method to add it to the patch request
+    this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
+      console.log(res.msg);
+      alert(res.msg);
+
+  if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
+    }));
   }
 
 

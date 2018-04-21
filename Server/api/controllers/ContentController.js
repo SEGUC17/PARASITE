@@ -1,3 +1,4 @@
+/* eslint max-statements: ["error", 20] */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 
 
@@ -81,6 +82,7 @@ var prepareQueryOptionsForSearch = function (query, params) {
     };
 
     // sort option was provided, default is relevance;
+
     // therefore, the string relevance is not checked
     if (query.sort) {
 
@@ -133,6 +135,12 @@ module.exports.getSearchPage = function (req, res, next) {
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
 
+    if (options.select) {
+        options.select.discussion = 0;
+    } else {
+        options.select = { discussion: 0 };
+    }
+
     // log the options and conditions for debugging
     console.log(options);
     console.log(conditions);
@@ -146,19 +154,47 @@ module.exports.getSearchPage = function (req, res, next) {
                 return next(err);
             }
 
-            // send the page of contents
+            // get a list of all the creators
+            var creators = [];
+            var counter = 0;
+            for (counter; counter < contents.docs.length; counter += 1) {
+                if (!creators.includes(contents.docs[counter].creator)) {
+                    creators.push(contents.docs[counter].creator);
+                }
+            }
 
-            return res.status(200).json({
-                data: contents,
-                err: null,
-                msg: 'The contents searched for by ' +
-                    'the user were retrieved successfully'
-            });
+            // find the creator's avatar links
+            User.find(
+                { username: { $in: creators } },
+                {
+                    _id: 0,
+                    avatar: 1,
+                    username: 1
+                },
+                function (error, userAvatars) {
+                    if (error) {
+                        return next(err);
+                    }
+                    console.log(userAvatars);
+                    // send the page of contents
+
+                    return res.status(200).json({
+                        data: {
+                            contents: contents,
+                            userAvatars: userAvatars
+                        },
+                        err: null,
+                        msg: 'The contents searched for by ' +
+                            'the user were retrieved successfully'
+                    });
+                }
+            );
         }
     );
 };
 
 // retrieve the content (resources and ideas) created by the specified user
+
 //must be authenticated
 module.exports.getContentByCreator = function (req, res, next) {
 
@@ -198,7 +234,8 @@ module.exports.getContentByCreator = function (req, res, next) {
         conditions,
         {
             limit: Number(req.params.pageSize),
-            page: Number(req.params.pageNumber)
+            page: Number(req.params.pageNumber),
+            select: { discussion: 0 }
         },
         function (err, contents) {
             if (err) {
@@ -230,18 +267,24 @@ module.exports.validateSelectedCategory = function (req, res, next) {
                 msg: null
             });
         }
-        var sectionNames = category.sections.map(function (section) {
-            return section.name;
-        });
-        if (!sectionNames.includes(req.body.section)) {
-            return res.status(422).json({
-                data: null,
-                err: 'the section supplied is invalid',
-                msg: null
-            });
-        }
+        res.locals.category = category;
         next();
     });
+};
+
+module.exports.validateSelectedSection = function (req, res, next) {
+    var category = res.locals.category;
+    var sectionNames = category.sections.map(function (section) {
+        return section.name;
+    });
+    if (!sectionNames.includes(req.body.section)) {
+        return res.status(422).json({
+            data: null,
+            err: 'the section supplied is invalid',
+            msg: null
+        });
+    }
+    next();
 };
 
 module.exports.validateContent = function (req, res, next) {
@@ -365,6 +408,7 @@ module.exports.createContent = function (req, res, next) {
 };
 
 var handleAdminUpdate = function (req, res, next) {
+    // No requests are made, and content is approved automatically
     req.body.approved = true;
     var id = req.body._id;
     delete req.body._id;
@@ -387,6 +431,7 @@ var handleAdminUpdate = function (req, res, next) {
 };
 
 var handleNonAdminUpdate = function (req, res, next) {
+    // create a content request, and set approval status to false
     req.body.approved = false;
     ContentRequest.create({
         contentID: req.body._id,
@@ -432,6 +477,7 @@ module.exports.updateContent = function (req, res, next) {
 };
 
 // retrieve the categories
+
 // by which the contents (ideas and resources) are classified
 module.exports.getCategories = function (req, res, next) {
 
@@ -548,3 +594,204 @@ module.exports.createSection = function (req, res, next) {
     );
 
 };
+
+module.exports.prepareContent = function (req, res, next) {
+
+    /*
+     *  function to prepare content for discussion
+     *
+     * @author: Wessam
+     */
+
+    var contentId = req.params.contentId;
+
+    Content.findById(contentId).
+        exec(function (err, content) {
+            if (err) {
+                return next(err);
+            }
+            if (!content) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Content doesn\'t exist',
+                    msg: null
+                });
+            }
+            req.object = content;
+            req.verified = content.approved;
+
+            return next();
+        });
+};
+
+module.exports.updateCategory = function (req, res, next) {
+    // check admin permissions
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'This user is not an admin user',
+            msg: null
+        });
+    }
+
+    // validate category id
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category id provided was not valid',
+            msg: null
+        });
+    }
+
+    //find category by ID and update its name
+    Category.findByIdAndUpdate(
+        req.params.id,
+        { name: req.body.name },
+        function (categoryUpdateError, updatedCategory) {
+            if (categoryUpdateError) {
+                return next(categoryUpdateError);
+            }
+            Content.updateMany(
+                { category: updatedCategory.name },
+                function (contentUpdateError) {
+                    if (contentUpdateError) {
+                        return next(contentUpdateError);
+                    }
+
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'updated category and' +
+                            'associated content successfully'
+                    });
+                }
+            );
+        }
+    );
+};
+
+
+module.exports.deleteCategory = function (req, res, next) {
+
+    // verify that the issuer of the request is an admin
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'User does not have admin privileges and' +
+                'is not authorized to delete categories.',
+            msg: null
+        });
+    }
+
+    // validate category id
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category id provided was not valid',
+            msg: null
+        });
+    }
+
+    // find the category and delete it
+    Category.findByIdAndRemove(
+        req.params.id,
+        function (err, deletedCategory) {
+            if (err) {
+                return next(err);
+            }
+
+            // category was not found in the database
+            if (!deletedCategory) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'The category to be deleted could not be found.',
+                    msg: null
+                });
+            }
+
+            // category was deleted successfully; delete all associated content
+            Content.deleteMany(
+                { category: deletedCategory.name },
+                function (error) {
+                    if (error) {
+                        return next(error);
+                    }
+                    // return response all okay
+
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'Category and all associated content' +
+                            ' were deleted successfully.'
+                    });
+                }
+            );
+        }
+    );
+};
+
+
+module.exports.deleteSection = function (req, res, next) {
+
+    // verify that the issuer of the request is an admin
+    if (!req.user.isAdmin) {
+        return res.status(403).json({
+            data: null,
+            err: 'User does not have admin privileges and' +
+                'is not authorized to delete categories.',
+            msg: null
+        });
+    }
+
+    // validate category and section id
+    if (!mongoose.Types.ObjectId.isValid(req.params.categoryId) ||
+        !mongoose.Types.ObjectId.isValid(req.params.sectionId)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The category or section id provided was not valid',
+            msg: null
+        });
+    }
+
+    // find the category and remove section
+    Category.findByIdAndUpdate(
+        req.params.categoryId,
+        { $pull: { sections: { _id: req.params.sectionId } } },
+        function (err, categoryBeforeDeletion) {
+            if (err) {
+                return next(err);
+            }
+
+            // determine the name of the section that was deleted
+            var sections = categoryBeforeDeletion.sections;
+            var deletedSection = '';
+            for (var counter = 0; counter < sections.length; counter += 1) {
+                if (sections[counter]._id === req.params.sectionId) {
+                    deletedSection = sections[counter].name;
+                }
+            }
+
+            // delete all the content associated with this section
+            Content.deleteMany(
+                {
+                    category: categoryBeforeDeletion.name,
+                    section: deletedSection
+                },
+                function (error) {
+                    if (error) {
+                        return next(error);
+                    }
+
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'Section and all associated content were ' +
+                            'deleted successfully'
+                    });
+                }
+            );
+        }
+    );
+};
+
+

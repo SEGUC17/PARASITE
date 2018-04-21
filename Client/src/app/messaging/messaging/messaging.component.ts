@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 import { Inject } from '@angular/core';
 import { SendDialogComponent } from '../send-dialog/send-dialog.component';
+import { ReplyDialogComponent } from '../reply-dialog/reply-dialog.component';
+import { ForwardDialogComponent } from '../forward-dialog/forward-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
 
@@ -21,8 +23,12 @@ export class MessagingComponent implements OnInit {
   div: Boolean; // controls appearance of a div notifying the user that they can't access messaging (in case the logged in user is a child)
   inbox: any[];
   sent: any[];
-  displayedColumns = ['sender', 'body', 'sentAt', 'delete'];
-  displayedColumns1 = ['recipient', 'body', 'sentAt', 'delete'];
+  blockedUser: any;
+  sender: any;
+  receipient: any;
+  displayedColumns = ['sender', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
+  displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
+  contacts: any[];
 
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
 
@@ -38,17 +44,47 @@ export class MessagingComponent implements OnInit {
     });
   }
 
+  openReplyDialog(user: any): void {
+    let replydialog = this.dialog.open(ReplyDialogComponent, {
+      width: '600px',
+      height: '500px',
+      data: {
+        replyTo: user
+      }
+    });
+
+    replydialog.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+  openForwardDialog(message): void {
+    let dialogRef = this.dialog.open(ForwardDialogComponent, {
+      width: '600px',
+      height: '500px',
+      data: {
+        body: message.body
+        }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['username', 'isChild'];
+    const userDataColumns = ['_id', 'username', 'isChild'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
+      console.log(self.currentUser.username);
+      console.log(self.currentUser._id);
       if (self.currentUser.isChild) {
         self.div = true; // logged in user is a child
       } else {
         self.div = false;
         self.getInbox();
         self.getSent();
+        self.getContacts();
       }
     });
   }
@@ -78,4 +114,30 @@ export class MessagingComponent implements OnInit {
     this.messageService.deleteMessage(message).subscribe(function (res) {
     });
   }
+
+// blocking the reciever of the message from messaging the current user again
+  block(message): void {
+    const self = this;
+    //  if the currentUser is the sender then the receipent is the person to block
+   if ( message.recipient !== this.currentUser.username ) {
+      console.log('receipient is:' + message.recipient);
+      this.blockedUser = message.recipient;
+      // else the recipient is the currentUser & the sender is the person to block
+    } else {
+      console.log(message.sender);
+        this.blockedUser = message.sender;
+  }
+    console.log('blocked user is:' + this.blockedUser);
+    this.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
+    alert(res.msg);
+  });
+ }// end method
+
+ getContacts(): void {
+  const self = this;
+  this.messageService.getContacts(this.currentUser.username).subscribe(function (contacts) {
+    self.contacts = contacts.data;
+  });
 }
+
+}// end class

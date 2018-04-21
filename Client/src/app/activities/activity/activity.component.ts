@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
-import { apiUrl } from '../../variables';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -23,8 +22,11 @@ export class ActivityComponent implements OnInit {
   private createUrl = '/create-activity';
   user = {
     isAdmin: false,
-    verified: false
-  }
+    verified: false,
+    AvatarLink: null,
+    username: 'Mohamed Maher'
+
+  };
 
   constructor(
     private activityService: ActivityService,
@@ -59,12 +61,12 @@ export class ActivityComponent implements OnInit {
 
 
   updateLayout(res) {
-    /*
-      Setting new values comming from 
-      the response
 
-      @author: Wessam
-    */
+    // Setting new values comming from
+    // the response
+    //
+    // @author: Wessam
+
     document.querySelector('.mat-sidenav-content').scrollTop = 0;
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
@@ -76,5 +78,6 @@ export class ActivityComponent implements OnInit {
       }
     }
   }
+
 
 }

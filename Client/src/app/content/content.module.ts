@@ -27,6 +27,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedModule } from '../shared/shared.module';
+import {MatListModule} from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
+
+
 
 @NgModule({
   imports: [
@@ -50,7 +56,10 @@ import { SharedModule } from '../shared/shared.module';
     AdminModule,
     MatRadioModule,
     InfiniteScrollModule,
-    SharedModule
+    SharedModule,
+    MatListModule,
+    MatDividerModule,
+    MatTooltipModule
   ],
   providers: [ContentService],
   declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent, SafeResourceUrlPipe, SafeHtmlPipe]

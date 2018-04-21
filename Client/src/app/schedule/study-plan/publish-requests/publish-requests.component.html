@@ -1,0 +1,40 @@
+<div class="background container">
+  <div class="row justify-content-center mt-5">
+    <mat-card class="m-2 col-lg-3 col-md-6 col-sm-12 col-xs-12" *ngFor="let req of reqs">
+      
+        <div class="text-center">
+        <span style="font-weight: bold ; font-size: 25px" >{{req.title}} </span>
+        </div>
+        <!--
+        <div class="text-center">
+          <span style="font-weight: bold; font-size: 25px" >{{req.contentType}}</span>
+        </div> -->
+
+      <mat-card-content style="margin-left: 5%">
+        
+        <div class="row">
+          <mat-icon style="font-size: 20px" >today</mat-icon>
+          <span style="font-size: 15px" > {{req.createdOn}} </span> 
+        </div>
+
+      </mat-card-content>
+      <mat-card-actions class="row" align="end" >
+        <button mat-icon-button class="col-auto" (click)="approveStudyPlanPublishReqs(req._id,req.studyPlanID)" 
+        matTooltip="Accept" >
+        <mat-icon>check_circle</mat-icon> 
+        </button>
+
+        <button mat-icon-button class="col-auto"  (click)="disapproveStudyPlanPublishReqs(req._id, req.studyPlanID)"
+        matTooltip = "Reject">
+        <mat-icon>cancel</mat-icon>
+        </button>
+        
+        <button mat-icon-button class="col-auto" (click)="viewStudyPlanPublishReqs(req.contentID)" 
+        matTooltip="View {{req.contentType}}"  >
+        <mat-icon>info</mat-icon>
+        </button>
+
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

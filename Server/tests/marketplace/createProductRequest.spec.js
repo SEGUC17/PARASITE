@@ -50,12 +50,12 @@ describe('createProductRequest', function () {
 
     it('it should POST productrequests', function (done) {
         // Calling the schema to construct a document
-        
+
         var pro1 = new ProductRequest({
             acquiringType: 'sell',
             description: 'description description description',
             image: 'https://vignette.wikia.nocookie.net/spongebob/images/' +
-            'a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
+                'a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
             name: 'product2',
             price: 11,
             seller: 'omar'
@@ -84,7 +84,7 @@ describe('createProductRequest', function () {
                         expect(res).to.have.status(200);
                         res.body.should.be.a('object');
                         res.body.should.have.property('msg').
-                        eql('ProductRequest was created successfully.');
+                            eql('ProductRequest was created successfully.');
                         res.body.data.should.have.property('acquiringType');
                         res.body.data.should.have.property('description');
                         res.body.data.should.have.property('image');
