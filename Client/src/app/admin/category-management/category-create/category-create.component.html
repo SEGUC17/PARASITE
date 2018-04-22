@@ -1,6 +1,6 @@
-<form #createCategory="ngForm">
+<form #createCategoryForm="ngForm">
   <div class="col-lg-12 col-md-12 col-sm-12">
-    <div class="card">
+    <div class="card category-card">
       <div class="header">
         <h2>
           <strong>Create Category</strong>
@@ -9,10 +9,10 @@
       </div>
       <div class="body">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Category Name" #name required (keyup)="0" />
+          <input type="text" class="form-control" placeholder="Category Name" #name name="category name" [(ngModel)]="category.category" required (keyup)="0" />
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Category Icon Link" #icon required (keyup)="0" />
+          <input type="text" class="form-control" placeholder="Category Icon Link" #icon name="category icon" [(ngModel)]="category.iconLink" required (keyup)="0" />
         </div>
         <div class="form-group">
           <div class="mt-2">
@@ -24,7 +24,7 @@
               </div>
             </div>
             <div class="form-group text-center">
-              <button class="btn btn-primary">Submit</button>
+              <button class="btn btn-primary" (click)="createCategory()">Submit</button>
             </div>
           </div>
         </div>
