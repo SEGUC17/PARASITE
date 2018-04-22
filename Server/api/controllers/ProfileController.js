@@ -10,7 +10,7 @@ var adminController = require('./AdminController');
 var User = mongoose.model('User');
 var VCRSchema = mongoose.model('VerifiedContributerRequest');
 
-
+// author: Heidi
 module.exports.getChildren = function (req, res, next) {
   // finding user by username from params
   User.findOne({ username: req.params.username }).exec(function (err, user) {
@@ -37,14 +37,12 @@ module.exports.getChildren = function (req, res, next) {
     });
   });
 };
+// author: Heidi
 module.exports.EditChildIndependence = function (req, res, next) {
 
-  // searching for username in the params and setting isChild to false
+  // searching for username in the params
 
-  User.findOneAndUpdate(
-    { username: req.params.username },
-    { $set: { isChild: false } }
-  ).exec(function (err, user) {
+  User.findOne({ username: req.params.username }).exec(function (err, user) {
     if (err) {
       return next(err);
     }
@@ -53,7 +51,7 @@ module.exports.EditChildIndependence = function (req, res, next) {
       return res.
         status(404).
         json({
-          data: null,
+          data: user.isChild,
           err: null,
           msg: 'user not found'
         });
@@ -65,37 +63,47 @@ module.exports.EditChildIndependence = function (req, res, next) {
     if (new Date().getFullYear() - user.birthdate.getFullYear() < 13) {
 
       return res.
-        status(403).
+        status(202).
         json({
-          data: null,
+          data: user.isChild,
           err: null,
-          msg: 'Child under 13.'
+          msg: 'You cannot make a child under 13 independent.'
         });
     }
     // checking that child is older than 13
     if (new Date().getFullYear() - user.birthdate.getFullYear() === 13 &&
       new Date().getMonth() < user.birthdate.getMonth()) {
       return res.
-        status(403).
+        status(202).
         json({
-          data: null,
+          data: user.isChild,
           err: null,
-          msg: 'Child under 13.'
+          msg: 'You cannot make a child under 13 independent.'
         });
     }
 
     // if the previous conditions are false then child is changed successefuly
-    res.status(200).json({
 
+    User.update(
+      user,
+      { $set: { isChild: false } }
+    ).
+      exec(function (error, updated) {
+        if (err) {
+          return err;
 
-      data: user.isChild,
-      err: null,
-      msg: 'Successefully changed from child to independent.'
-    });
+        }
+        res.status(200).json({
+          data: user.isChild,
+          err: null,
+          msg: 'Successefully changed from child to independent.'
+        });
+
+      });
+
 
   });
 };
-
 
 // @author: MAHER
 // requestUserValidation() take some of the
@@ -158,7 +166,6 @@ module.exports.requestUserValidation = function (req, res, next) {
     });
   });
 };
-
 
 //--------------------------- Profile Info ------------------------- AUTHOR: H
 
@@ -314,14 +321,75 @@ module.exports.changePassword = function (req, res, next) {
   });
 };
 
+//author:Haidy
+
+module.exports.UnlinkIndependent = function (req, res, next) {
+  // checking whether the signed-in user is independent
+  if (req.user.isChild) {
+    console.log(' is child');
+    console.log(req.user);
+
+    return res.
+      status(403).
+      json({
+        data: null,
+        err: null,
+        msg: 'user cannot take this action'
+      });
+  }
+
+  //}
+  // searching for username given in the parameter
+  User.findOne({ username: req.params.username }).exec(function (err, user) {
+
+    if (err) {
+      return err;
+    }
+    // checking if the username in the params is a parent to the logged in user
+
+    if (user.children.indexOf(req.user.username) < 0) {
+      console.log('not linked');
+      console.log(req.user);
+
+      return res.
+        status(403).
+        json({
+          data: null,
+          err: null,
+          msg: 'parent and child accounts are not linked'
+        });
+    }
+    // updating parent's children list
+
+    User.findOneAndUpdate(
+      { username: user.username },
+      { $pull: { children: { $in: [req.user.username] } } }, { new: true }
+    ).
+      exec(function (error, updated) {
+        if (error) {
+          return error;
+        }
+        console.log(updated.username);
+        console.log(updated.children);
+        console.log(req.user.username);
+        res.status(200).json({
+          data: updated.children,
+          err: null,
+          msg: 'Successefully removed child from parent\'s list of children'
+        });
+
+      });
+
+  });
+};
 module.exports.changeChildInfo = function (req, res, next) {
   User.findOne({
-  username: req.body.username,
-  _id: { $ne: req.body.id }
-}, function (err, user) {
-  if (err) {
-    return next(err);
-  }
+    username: req.body.username,
+    _id: { $ne: req.body.id }
+  }, function (err, user) {
+    if (err) {
+      return next(err);
+    }
     if (user) {
       console.log(user.username);
 
@@ -333,7 +401,7 @@ module.exports.changeChildInfo = function (req, res, next) {
     } else {
       User.findOne({
         email: req.body.email,
-        _id : { $ne: req.body.id }
+        _id: { $ne: req.body.id }
       }, function (err2, user2) {
         if (user2) {
           return res.status(403).json({
@@ -386,7 +454,7 @@ module.exports.ChangeInfo = function (req, res, next) {
     if (err) {
       return next(err);
     } else if (user1) {
-      
+
       return res.status(403).json({
         data: null,
         err: null,

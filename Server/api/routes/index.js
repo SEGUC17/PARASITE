@@ -115,7 +115,7 @@ module.exports = function (passport) {
     DiscussionController.deleteCommentReply
   );
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
-
+  router.patch('/activities/:activityId/EditActivity', isAuthenticated, ActivityController.editActivity);
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
@@ -201,6 +201,7 @@ module.exports = function (passport) {
   router.get('/profile/:username/getChildren', profileController.getChildren);
   router.patch('/profile/:username/EditChildIndependence', profileController.EditChildIndependence);
   router.patch('/profile/changePassword/:id', profileController.changePassword);
+  router.patch('/profile/:username/UnlinkMyself', isAuthenticated, profileController.UnlinkIndependent);
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
   router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
 
@@ -218,17 +219,60 @@ module.exports = function (passport) {
   // Content Management
 
   // Create a category
-  router.post('/content/category', isAuthenticated, contentController.createCategory);
-  // Create a section
+  router.post(
+    '/content/category',
+    isAuthenticated,
+    contentController.checkAdmin,
+    contentController.validateIconLink,
+    contentController.createCategory
+  );
 
-  router.patch(
+  // Create a section
+  router.post(
     '/content/category/:id/section',
     isAuthenticated,
+    contentController.checkAdmin,
+    contentController.validateIconLink,
     contentController.createSection
   );
 
+  // Update a category
+  router.patch(
+    '/content/category/:categoryId',
+    isAuthenticated,
+    contentController.checkAdmin,
+    contentController.validateIconLink,
+    contentController.updateCategory
+  );
+
+  // Update a section
+  router.patch(
+    '/content/category/:categoryId/section/:sectionId',
+    isAuthenticated,
+    contentController.checkAdmin,
+    contentController.validateIconLink,
+    contentController.updateSection
+  );
+
+  // delete a category
+  router.delete(
+    '/category/:id',
+    isAuthenticated,
+    contentController.deleteCategory
+  );
+
+  // delete a section
+  router.delete(
+    '/category/:categoryId/section/:sectionId',
+    isAuthenticated,
+    contentController.deleteSection
+  );
+
   //Category retrieval
-  router.get('/content/category', contentController.getCategories);
+  router.get(
+    '/content/category',
+    contentController.getCategories
+  );
 
 
   // Content Retrieval
@@ -266,6 +310,7 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.validateContent,
     contentController.validateSelectedCategory,
+    contentController.validateSelectedSection,
     contentController.createContent
   );
 
@@ -311,22 +356,17 @@ module.exports = function (passport) {
     isAuthenticated,
     contentController.validateContent,
     contentController.validateSelectedCategory,
+    contentController.validateSelectedSection,
     contentController.updateContent
   );
 
-  // delete a category
+  // delete content
   router.delete(
-    '/category/:id',
+    '/content/:id',
     isAuthenticated,
-    contentController.deleteCategory
+    contentController.deleteContent
   );
 
-  // delete a section
-  router.delete(
-    '/category/:categoryId/section/:sectionId',
-    isAuthenticated,
-    contentController.deleteSection
-  );
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
