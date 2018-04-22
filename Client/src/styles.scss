@@ -5,8 +5,7 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 @import '../node_modules/angular-calendar/css/angular-calendar.css';
 @import "~css-star-rating/scss/star-rating";
-
-
+@import "~ngx-toastr/toastr.css";
 .meta-input {
     margin-top: 3%;
     margin-bottom: 3%;
@@ -30,5 +29,15 @@ body {
 }
 
 .center {
-    margin: auto!important;
+    margin: auto !important;
+}
+
+.category-card {
+    height: 350px;
+    max-height: 350px;
+}
+
+.prev-icon {
+    max-width: 32px;
+    max-height: 32px;
 }
