@@ -128,9 +128,9 @@ module.exports.getRecentlyContacted = function(req, res, next) {
 };
 
 module.exports.unBlock = function(req, res, next) {
-    var blocked = req.params.blocked;
+    var blockedUser = req.params.blocked;
   //  console.log('username of blocked: ', blocked);
-   console.log('CONT. ID of user is: ', req.body._id);
+  // console.log('unBlock CONT. ID of user is: ', req.body._id);
     User.findById(
       req.body._id,
      { new: true }, function (err, updatedob) {
@@ -139,24 +139,26 @@ module.exports.unBlock = function(req, res, next) {
 
          return res.status(402).json({
              data: null,
-             msg: 'error occurred during unblocking the user';
+             msg: 'error occurred during unblocking the user'
          });
      }
     
     else {
-        if(updatedob)
-        { 
-          for(let i=0; i<updatedob.blocked.length; i++)
+       updatedob=req.body;
+       //   console.log('id of updatedob: ', updatedob._id);
+         // console.log('username of updatedob: ', updatedob.username);
+
+          for(let i=0; i<req.body.blocked.length; i++)
              {
-                 if(updatedob.blocked[i] == blocked)
+                 if(req.body.blocked[i] == blockedUser)
                  {
                    console.log('this user is no longer blocked');
-                   updatedob.blocked[i].remove();
+                   req.body.blocked[i].remove();
                  }//end if
              }// end for 
-        }// end if
+       
      return res.status(200).json({
-      data: null,
+      data: updatedob,
       err: null,
       msg: 'This user is no longer blocked'
      });

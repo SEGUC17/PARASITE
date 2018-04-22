@@ -31,7 +31,7 @@ var user = {
 // token for authentication
 var token = null;
 
-describe('blocking a user from messaging me', function () {
+describe('Unblocking a user so that they could message me back', function () {
     this.timeout(1200000);
 
     // --- Mockgoose Initiation --- //
@@ -84,9 +84,9 @@ describe('blocking a user from messaging me', function () {
                           };
                           // block patch request
 
-                        console.log('TEST. Id of the user is: ', result.body.data._id);
+                     //   console.log('TEST. Id of the user is: ', result.body.data._id);
                         chai.request(server).
-                            patch('/api/message/unblock/' + message.recipient).
+                            patch('/api/message/block/' + message.recipient).
                             send(result.body.data).
                             set('Authorization', token).
                             end(function (error, res) {
@@ -95,13 +95,33 @@ describe('blocking a user from messaging me', function () {
 
                                     return console.log(error);
                                 }
-                                console.log('blocklist after: ', res.body.data.blocked);
+                                console.log('blocklist after  blocking: ', res.body.data.blocked);
                                 res.should.have.status(200);
-                                res.body.data.should.not.be.a('Object');
+                                res.body.data.should.be.a('Object');
                                 res.body.data.should.have.property('blocked').eql(res.body.data.blocked);
+                                res.body.should.have.property('msg').eql('Blocked user');
+                                //done();
 
-                                done();
+
+                            //    console.log('ubBlock TEST. Id of the user is: ', result.body.data._id);
+                                chai.request(server).
+                                    patch('/api/message/unblock/' + message.recipient).
+                                    send(result.body.data).
+                                    set('Authorization', token).
+                                    end(function (error2, res2) {
+                                        if (error2) {
+                                            console.log('entered error stage');
+
+                                            return console.log(error2);
+                                        }
+                                        console.log('blocklist after unblocking: ', res2.body.data.blocked);
+                                        res2.should.have.status(200);
+                                        res2.body.data.should.be.a('Object');
+                                        res2.body.data.should.have.property('blocked').eql(res2.body.data.blocked);
+                                        res2.body.should.have.property('msg').eql('This user is no longer blocked');
+                                        done();
                             });
+                         });
                     });
             });
     });
@@ -112,5 +132,8 @@ describe('blocking a user from messaging me', function () {
         });
     });
     // --- End of "Mockgoose Termination" --- //
+
+
 });
+
 
