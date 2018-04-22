@@ -4,6 +4,6 @@ export interface Category {
     _id?: string;
     name: string;
     iconLink?: string;
-    sections: Section[];
+    sections?: Section[];
 
 }
