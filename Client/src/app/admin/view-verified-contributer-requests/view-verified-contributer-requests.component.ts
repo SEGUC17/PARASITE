@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../admin.service';
 import { Router } from '@angular/router';
+import { ImageUploaderComponent } from '../../shared/image-uploader/image-uploader.component';
 
 @Component({
   selector: 'app-view-verified-contributer-requests',
@@ -16,10 +17,12 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   ) { }
 
   Requests: any[];
-
-
-
   filter: String = 'pending';
+
+  imageUploaded(url: string ) {
+    console.log(url);
+  }
+
 
   ngOnInit() {
     this.viewVCRs('pending');
@@ -40,6 +43,7 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
     this.viewVCRs(this.filter);
 
   }
+
 
   viewVCRs(FilteredBy) {  // request the Verified Contributer Requests from the server to this.Requests.
     let self = this;

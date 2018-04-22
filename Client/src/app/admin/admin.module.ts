@@ -28,6 +28,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
 import { AuthService } from '../auth/auth.service';
 import { MatIconModule } from '@angular/material/icon';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -49,7 +50,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatPaginatorModule,
     MatExpansionModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    SharedModule
   ],
   declarations: [
     AdminControlComponent,
