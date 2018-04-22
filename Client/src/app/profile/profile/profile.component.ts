@@ -1,19 +1,24 @@
 /* tslint:disable-next-line:max-line-length */
-import { Component, OnInit } from '@angular/core';
+/* tslint:disable */
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ProfileService } from '../profile.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 
+declare const swal: any;
+declare const $: any;
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class ProfileComponent implements OnInit {
 
-
-
+  reportReason: string;
+  _this;
+  
   // ---------- FLAGS --------------------
   // User Flags
   currIsOwner = false;
@@ -91,6 +96,7 @@ export class ProfileComponent implements OnInit {
     private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+    this._this = this;
     this._AuthService.getUserData(this.listOfWantedVariables).subscribe((user) => {
       this.activatedRoute.params.subscribe((params: Params) => { // getting the visited username
         this.vUsername = params.username;
@@ -311,4 +317,36 @@ export class ProfileComponent implements OnInit {
     const result = Math.floor(age);
     return result;
   }
+
+  reportPopUp() {
+    swal({
+        title: 'Report',
+        text: 'Write a reason for your report:',
+        type: 'input',
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: 'slide-from-top',
+        inputPlaceholder: 'Please provide a reason'
+    }, (inputValue) => {
+        if (inputValue === false) { return false; }
+        if (inputValue === '') {
+            swal.showInputError('Sorry, you must enter a reason'); return false;
+        }
+        this.reportReason = inputValue;
+        const report = {
+          reportedPerson: this.vUsername,
+          reporter: this.username,
+          reason: inputValue
+        };
+        console.log(report.reporter + ' ' + report.reason + ' ' + report.reportedPerson);
+        this.sendReport(report);
+        swal('Report sent!', 'reason: ' + inputValue, 'success');
+    });
+
+}
+  sendReport(report) {
+    console.log('wasalt el sendReport');
+    this._ProfileService.reportUser(report, this.vId).subscribe();
+  }
+
 }

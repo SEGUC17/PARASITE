@@ -29,6 +29,7 @@ export class ProfileService {
   private profileUrl = apiUrl + 'profile';
   private changeChildInfoUrl = apiUrl + 'profile/changeChildInfo';
   private changeInfoUrl = apiUrl + 'profile/ChangeInfo';
+  private reportUserUrl = apiUrl + 'profile/ReportUser';
   // private editeInfoUrl = 'http://localhost:3000/api/profile/editInfo';
 
   // Author: Yomna
@@ -86,6 +87,10 @@ export class ProfileService {
   UnlinkMyself(visitedParentUsername): any {
     // adding username of the visited parent to the patch request
     return this.http.patch('http://localhost:3000/api/profile/' + visitedParentUsername + '/UnlinkMyself', null);
+  }
+
+  reportUser(report, Id): any {
+    return this.http.post(`${this.reportUserUrl}/${Id}`, report, httpOptions);
   }
 
 }
