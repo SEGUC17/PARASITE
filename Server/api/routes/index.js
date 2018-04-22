@@ -6,6 +6,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+var Report = require('../models/Report');
 var UserRating = require('../models/UserRating');
 
 var SearchController = require('../controllers/SearchController');
@@ -22,7 +23,7 @@ var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
 var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
-var DiscussionController = require('../controllers/DiscussionController');
+
 
 module.exports = function (passport) {
 
@@ -204,6 +205,7 @@ module.exports = function (passport) {
   router.patch('/profile/:username/UnlinkMyself', isAuthenticated, profileController.UnlinkIndependent);
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
   router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
+  router.post('/profile/reportUser/:userId', isAuthenticated, profileController.reportUser);
 
 
   // ------------------- End of Profile module Endpoints-----------//

@@ -10,6 +10,7 @@ var Encryption = require('../utils/encryption/encryption');
 var adminController = require('./AdminController');
 var User = mongoose.model('User');
 var VCRSchema = mongoose.model('VerifiedContributerRequest');
+var Report = mongoose.model('Report');
 
 // author: Heidi
 module.exports.getChildren = function (req, res, next) {
@@ -441,7 +442,7 @@ module.exports.changeChildInfo = function (req, res, next) {
               return res.status(200).json({
                 data: user3,
                 err: null,
-                msg: 'Info updated succesfully.'
+                msg: 'Info updated successfully.'
               });
             }
           );
@@ -508,3 +509,41 @@ module.exports.ChangeInfo = function (req, res, next) {
   });
 };
 
+module.exports.reportUser = function(req, res, next) {
+  Report.create(req.body, function (error) {
+    if (error) {
+        return next(error);
+    }
+
+    return res.status(201).json({
+        data: req.body,
+        error: null,
+        msg: 'Report sent successfully'
+    });
+});
+};
+
+module.exports.banUser = function(req, res, next) {
+  User.findByIdAndUpdate(
+    req.params.userId,
+    { $set: { isBanned: true } }, { new: true },
+    function (err, user) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(404).json({
+          data: null,
+          err: null,
+          msg: 'User not found.'
+        });
+      }
+
+      return res.status(200).json({
+        data: user,
+        err: null,
+        msg: 'Info updated successfully.'
+      });
+    }
+  );
+};
