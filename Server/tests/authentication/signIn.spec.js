@@ -26,7 +26,7 @@ describe('signIn', function () {
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
-                done();
+                return done();
             });
         });
     });
@@ -58,392 +58,372 @@ describe('signIn', function () {
             username: 'jane'
         };
         mockgoose.helper.reset().then(function () {
-            done();
+            return done();
         });
     });
     // --- End of "Clearing Mockgoose" --- //
 
     // --- Tests --- //
-    it(
-        'User Is Already Signed In!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
+    it('User Is Already Signed In!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': that.johnDoe.username
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
                     chai.request(app).
                         post(path).
                         send({
-                            'password': that.johnDoe.password,
-                            'username': that.johnDoe.username
+                            'password': that.janeDoe.password,
+                            'username': that.janeDoe.username
                         }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err2);
-                            } else {
-                                chai.request(app).
-                                    post(path).
-                                    send({
-                                        'password': that.janeDoe.password,
-                                        'username': that.janeDoe.username
-                                    }).
-                                    set('Authorization', res.body.token).
-                                    end(function (err3, res2) {
-                                        if (err3) {
-                                            done(err3);
-                                        } else {
-                                            res2.should.have.status(403);
-                                            res2.body.should.have.
-                                                property('msg').
-                                                eql('User Is Already ' +
-                                                    'Signed In!');
-                                            done();
-                                        }
-                                    });
+                        set('Authorization', res.body.token).
+                        end(function (err3, res2) {
+                            if (err3) {
+                                return done(err3);
                             }
 
+                            res2.should.have.status(403);
+                            res2.body.should.have.property('msg').
+                                eql('User Is Already Signed In!');
+
+                            return done();
                         });
-                }
-            });
-        }
-    );
+
+                });
+        });
+    });
     it('Token Expires In More Than 12 Hours!');
-    it(
-        '"password" Attribute Is Empty!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': null,
-                            'username': that.johnDoe.username
-                        }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err2);
-                            } else {
-                                res.should.have.status(422);
-                                res.body.should.have.property('msg').
-                                    eql('Password: Expected non-empty value!');
-                                done();
-                            }
-                        });
-                }
-            });
-        }
-    );
+    it('"password" Attribute Is Empty!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': null,
+                    'username': that.johnDoe.username
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').
+                        eql('Password: Expected non-empty value!');
+
+                    return done();
+                });
+        });
+    });
     it('"password" Attribute Is Not Valid!');
-    it(
-        '"username" Attribute Is Empty!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password,
-                            'username': null
-                        }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err);
-                            } else {
-                                res.should.have.status(422);
-                                res.body.should.have.property('msg').
-                                    eql('Username: Expected non-empty value!');
-                                done();
-                            }
-                        });
-                }
-            });
-        }
-    );
+    it('"username" Attribute Is Empty!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': null
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').
+                        eql('Username: Expected non-empty value!');
+
+                    return done();
+                });
+        });
+    });
     it('"username" Attribute Is Not Valid!');
-    it(
-        '"Username" Is Wrong!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password,
-                            'username': that.johnDoe.username + ' Is Wrong!'
-                        }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err2);
-                            } else {
-                                res.should.have.status(422);
-                                res.body.should.have.property('msg').
-                                    eql('Wrong Username/Email Or Password!');
-                                done();
-                            }
-                        });
-                }
-            });
-        }
-    );
-    it(
-        '"Email" Is Wrong!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password,
-                            'username': that.johnDoe.email + ' Is Wrong!'
-                        }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err2);
-                            } else {
-                                res.should.have.status(422);
-                                res.body.should.have.property('msg').
-                                    eql('Wrong Username/Email Or Password!');
-                                done();
-                            }
-                        });
-                }
-            });
-        }
-    );
-    it(
-        '"Password" Is Wrong!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password + ' Is Wrong!',
-                            'username': that.johnDoe.username
-                        }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err2);
-                            } else {
-                                res.should.have.status(422);
-                                res.body.should.have.property('msg').
-                                    eql('Wrong Username/Email Or Password!');
-                                done();
-                            }
-                        });
-                }
-            });
-        }
-    );
-    it(
-        'User Entered Valid Data (Email)!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password,
-                            'username': that.johnDoe.email
-                        }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err2);
-                            } else {
-                                res.should.have.status(200);
-                                res.body.should.have.property('msg').
-                                    eql('Sign In Is Successful!');
-                                done();
-                            }
-                        });
-                }
-            });
-        }
-    );
-    it(
-        'User Entered Valid Data (Email Has Upper Case)!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password,
-                            'username': that.johnDoe.email.toUpperCase()
-                        }).
-                        end(function (err2, res) {
-                            res.should.have.status(200);
-                            res.body.should.have.property('msg').
-                                eql('Sign In Is Successful!');
-                            done();
-                        });
-                }
-            });
-        }
-    );
-    it(
-        'User Entered Valid Data (Email Has Space)!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password,
-                            'username': '  ' + that.johnDoe.email + '  '
-                        }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err2);
-                            } else {
-                                res.should.have.status(200);
-                                res.body.should.have.property('msg').
-                                    eql('Sign In Is Successful!');
-                                done();
-                            }
-                        });
-                }
-            });
-        }
-    );
-    it(
-        'User Entered Valid Data (Username)!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password,
-                            'username': that.johnDoe.username
-                        }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err2);
-                            } else {
-                                res.should.have.status(200);
-                                res.body.should.have.property('msg').
-                                    eql('Sign In Is Successful!');
-                                done();
-                            }
-                        });
-                }
-            });
-        }
-    );
-    it(
-        'User Entered Valid Data (Username Has Upper Case)!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password,
-                            'username': that.johnDoe.username.toUpperCase()
-                        }).
-                        end(function (err2, res) {
-                            res.should.have.status(200);
-                            res.body.should.have.property('msg').
-                                eql('Sign In Is Successful!');
-                            done();
-                        });
-                }
-            });
-        }
-    );
-    it(
-        'User Entered Valid Data (Username Has Space)!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password,
-                            'username': '  ' + that.johnDoe.username + '  '
-                        }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err2);
-                            } else {
-                                res.should.have.status(200);
-                                res.body.should.have.property('msg').
-                                    eql('Sign In Is Successful!');
-                                done();
-                            }
-                        });
-                }
-            });
-        }
-    );
-    it(
-        'Token Is Sent After Signning In!',
-        function (done) {
-            var that = this;
-            User.create(this.johnDoe, function (err) {
-                if (err) {
-                    done(err);
-                } else {
-                    chai.request(app).
-                        post(path).
-                        send({
-                            'password': that.johnDoe.password,
-                            'username': that.johnDoe.username
-                        }).
-                        end(function (err2, res) {
-                            if (err2) {
-                                done(err2);
-                            } else {
-                                res.body.should.have.property('token');
-                                done();
-                            }
-                        });
-                }
-            });
-        }
-    );
+    it('"Username" Is Wrong!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': that.johnDoe.username + ' Is Wrong!'
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').
+                        eql('Wrong Username/Email Or Password!');
+
+                    return done();
+                });
+        });
+    });
+    it('"Email" Is Wrong!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': that.johnDoe.email + ' Is Wrong!'
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').
+                        eql('Wrong Username/Email Or Password!');
+
+                    return done();
+                });
+        });
+    });
+    it('"Password" Is Wrong!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password + ' Is Wrong!',
+                    'username': that.johnDoe.username
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(422);
+                    res.body.should.have.property('msg').
+                        eql('Wrong Username/Email Or Password!');
+
+                    return done();
+                });
+        });
+    });
+    it('User Entered Valid Data (Email)!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': that.johnDoe.email
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(200);
+                    res.body.should.have.property('msg').
+                        eql('Sign In Is Successful!');
+
+                    return done();
+                });
+        });
+    });
+    it('User Entered Valid Data (Email Has Upper Case)!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': that.johnDoe.email.toUpperCase()
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(200);
+                    res.body.should.have.property('msg').
+                        eql('Sign In Is Successful!');
+
+                    return done();
+                });
+        });
+    });
+    it('User Entered Valid Data (Email Has Space)!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': '  ' + that.johnDoe.email + '  '
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(200);
+                    res.body.should.have.property('msg').
+                        eql('Sign In Is Successful!');
+
+                    return done();
+                });
+        });
+    });
+    it('User Entered Valid Data (Username)!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': that.johnDoe.username
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(200);
+                    res.body.should.have.property('msg').
+                        eql('Sign In Is Successful!');
+
+                    return done();
+                });
+        });
+    });
+    it('User Entered Valid Data (Username Has Upper Case)!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': that.johnDoe.username.toUpperCase()
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(200);
+                    res.body.should.have.property('msg').
+                        eql('Sign In Is Successful!');
+
+                    return done();
+                });
+        });
+    });
+    it('User Entered Valid Data (Username Has Space)!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': '  ' + that.johnDoe.username + '  '
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.should.have.status(200);
+                    res.body.should.have.property('msg').
+                        eql('Sign In Is Successful!');
+
+                    return done();
+                });
+        });
+    });
+    it('Token Is Sent After Signning In!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': that.johnDoe.username
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    res.body.should.have.property('token');
+
+                    return done();
+                });
+        });
+    });
     it('Token Expires In 12 Hours!');
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //
     after(function (done) {
         mongoose.connection.close(function () {
-            done();
+            return done();
         });
     });
     // --- End of "Mockgoose Termination" --- //
