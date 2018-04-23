@@ -15,6 +15,7 @@ var User = require('../../api/models/User');
 
 // --- Dependancies --- //
 var mockgoose = new Mockgoose(mongoose);
+var should = chai.should();
 // --- End of "Dependancies" --- //
 
 // --- Middleware --- //
@@ -40,6 +41,7 @@ describe('signUp', function () {
             birthdate: '1/1/1980',
             email: 'johndoe@gmail.com',
             firstName: 'John',
+            isEmailVerified: true,
             isTeacher: true,
             lastName: 'Doe',
             password: 'JohnPasSWorD',
@@ -67,25 +69,36 @@ describe('signUp', function () {
     it(
         'User Is Already Signed In!',
         function (done) {
-            chai.request(app).
-                post('/api/signUp').
-                send(this.johnDoe).
-                end(function (err, res) {
-                    if (err) {
-                        done(err);
-                    } else {
-                        chai.request(app).
-                            post(path).
-                            send(this.janeDoe).
-                            set('Authorization', res.body.token).
-                            end(function (err2, res2) {
-                                res2.should.have.status(403);
-                                res2.body.should.have.property('msg').
-                                    eql('User Is Already Signed In!');
-                                done();
-                            });
-                    }
-                });
+            var that = this;
+            User.create(this.johnDoe, function (err) {
+                if (err) {
+                    done(err);
+                } else {
+                    chai.request(app).
+                        post('/api/signIn').
+                        send({
+                            'password': that.johnDoe.password,
+                            'username': that.johnDoe.username
+                        }).
+                        end(function (err2, res) {
+                            if (err2) {
+                                done(err2);
+                            } else {
+                                chai.request(app).
+                                    post(path).
+                                    send(this.janeDoe).
+                                    set('Authorization', res.body.token).
+                                    end(function (err3, res2) {
+                                        res2.should.have.status(403);
+                                        res2.body.should.have.property('msg').
+                                            eql('User Is Already Signed In!');
+                                        done();
+                                    });
+                            }
+                        });
+                }
+            });
+
         }
     );
     it('Token Expires In More Than 12 Hours!');
@@ -385,7 +398,9 @@ describe('signUp', function () {
                                 } else if (user) {
                                     res.should.have.status(201);
                                     res.body.should.have.property('msg').
-                                        eql('Sign Up Is Successful!');
+                                        eql('Sign Up Is Successful!\n' +
+                                            'Verification Mail Was ' +
+                                            'Sent To Your Email!');
                                     done();
                                 } else {
                                     done(new Error('User Was Not ' +
@@ -417,7 +432,9 @@ describe('signUp', function () {
                                 } else if (user) {
                                     res.should.have.status(201);
                                     res.body.should.have.property('msg').
-                                        eql('Sign Up Is Successful!');
+                                        eql('Sign Up Is Successful!\n' +
+                                            'Verification Mail Was ' +
+                                            'Sent To Your Email!');
                                     user.address.should.be.
                                         eql(that.johnDoe.address.toLowerCase());
                                     done();
@@ -451,7 +468,9 @@ describe('signUp', function () {
                                 } else if (user) {
                                     res.should.have.status(201);
                                     res.body.should.have.property('msg').
-                                        eql('Sign Up Is Successful!');
+                                        eql('Sign Up Is Successful!\n' +
+                                            'Verification Mail Was ' +
+                                            'Sent To Your Email!');
                                     user.email.should.be.
                                         eql(that.johnDoe.email.toLowerCase());
                                     done();
@@ -485,7 +504,9 @@ describe('signUp', function () {
                                 } else if (user) {
                                     res.should.have.status(201);
                                     res.body.should.have.property('msg').
-                                        eql('Sign Up Is Successful!');
+                                        eql('Sign Up Is Successful!\n' +
+                                            'Verification Mail Was ' +
+                                            'Sent To Your Email!');
                                     user.email.should.be.
                                         eql(that.johnDoe.email.trim());
                                     done();
@@ -519,7 +540,9 @@ describe('signUp', function () {
                                 } else if (user) {
                                     res.should.have.status(201);
                                     res.body.should.have.property('msg').
-                                        eql('Sign Up Is Successful!');
+                                        eql('Sign Up Is Successful!\n' +
+                                            'Verification Mail Was ' +
+                                            'Sent To Your Email!');
                                     user.username.should.be.
                                         eql(that.johnDoe.username.
                                             toLowerCase());
@@ -534,40 +557,11 @@ describe('signUp', function () {
                 });
         }
     );
-    it('"Username" Is Trimmed!', function (done) {
-        var that = this;
-        this.johnDoe.username = '  ' + this.johnDoe.username + '  ';
-        chai.request(app).
-            post(path).
-            send(this.johnDoe).
-            end(function (err, res) {
-                if (err) {
-                    done(err);
-                } else {
-                    User.findOne(
-                        { 'username': that.johnDoe.username.trim() },
-                        function (err2, user) {
-                            if (err2) {
-                                done(err2);
-                            } else if (user) {
-                                res.should.have.status(201);
-                                res.body.should.have.property('msg').
-                                    eql('Sign Up Is Successful!');
-                                user.username.should.be.
-                                    eql(that.johnDoe.username.trim());
-                                done();
-                            } else {
-                                done(new Error('User Was Not Added To DB!'));
-                            }
-                        }
-                    );
-                }
-            });
-    });
-    it('Password Is Hashed!');
     it(
-        'Token Is Sent After Signning Up!',
+        '"Username" Is Trimmed!',
         function (done) {
+            var that = this;
+            this.johnDoe.username = '  ' + this.johnDoe.username + '  ';
             chai.request(app).
                 post(path).
                 send(this.johnDoe).
@@ -575,12 +569,31 @@ describe('signUp', function () {
                     if (err) {
                         done(err);
                     } else {
-                        res.body.should.have.property('token');
-                        done();
+                        User.findOne(
+                            { 'username': that.johnDoe.username.trim() },
+                            function (err2, user) {
+                                if (err2) {
+                                    done(err2);
+                                } else if (user) {
+                                    res.should.have.status(201);
+                                    res.body.should.have.property('msg').
+                                        eql('Sign Up Is Successful!\n' +
+                                            'Verification Mail Was ' +
+                                            'Sent To Your Email!');
+                                    user.username.should.be.
+                                        eql(that.johnDoe.username.trim());
+                                    done();
+                                } else {
+                                    done(new Error('User Was Not ' +
+                                        'Added To DB!'));
+                                }
+                            }
+                        );
                     }
                 });
         }
     );
+    it('Password Is Hashed!');
     it('Token Expires In 12 Hours!');
     // --- End of "Tests" --- //
 

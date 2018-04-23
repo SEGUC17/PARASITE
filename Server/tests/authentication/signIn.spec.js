@@ -9,11 +9,11 @@ var mongoose = require('mongoose');
 var Mockgoose = require('mockgoose').Mockgoose;
 var path = '/api/signIn';
 var User = require('../../api/models/User');
-var should = chai.should();
 // --- End of "Requirements" --- //
 
 // --- Dependancies --- //
 var mockgoose = new Mockgoose(mongoose);
+var should = chai.should();
 // --- End of "Dependancies" --- //
 
 // --- Middleware --- //
