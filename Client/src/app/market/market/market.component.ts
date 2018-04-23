@@ -13,6 +13,8 @@ import { AuthService } from '../../auth/auth.service';
 import { RequestDetailComponent } from '../request-detail/request-detail.component';
 declare const $: any;
 declare const swal: any;
+declare const ionRangeSlider: any;
+
 @Component({
   selector: 'app-market',
   templateUrl: './market.component.html',
@@ -47,6 +49,13 @@ export class MarketComponent implements OnInit {
   // initializes the current pages in the market and user item
   // gets the products in the market and the products owned by the user)
   ngOnInit() {
+
+    $('#range_02').ionRangeSlider({
+      min: 100,
+      max: 1000,
+      from: 550
+  });
+
     const self = this;
     const userDataColumns = ['username', 'isAdmin'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
@@ -77,8 +86,8 @@ export class MarketComponent implements OnInit {
       }
     });
   }
-  print() {
-    console.log('reached here');
+  showFilter(option: string) {
+    this.filter = option;
   }
 
   // opens the product details dialog
