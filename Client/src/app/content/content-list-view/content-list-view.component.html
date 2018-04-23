@@ -120,7 +120,7 @@
           </div>
         </div>
 
-        <div class="card">
+        <div *ngIf="categories" class="card">
           <div class="header">
             <h2>
               <strong>Categories</strong>
@@ -141,7 +141,8 @@
                     <div class="panel-heading" role="tab" id="{{ 'heading' + category.name}}">
                       <h4 class="panel-title">
                         <a role="button" data-toggle="collapse" data-parent="#accordion" href="{{'#collapse'+ category.name}}" [attr.aria-expanded]="false"
-                          [attr.aria-controls]="'collapse' + category.name"> {{ category.name }} </a>
+                          [attr.aria-controls]="'collapse' + category.name">
+                          <img [src]="category.iconLink" width="32px" height="32px"> {{ category.name }} </a>
                       </h4>
                     </div>
                     <div id="{{'collapse' + category.name}}" class="panel-collapse collapse in" role="tabpanel" [attr.aria-labelledby]="'heading' + category.name">
