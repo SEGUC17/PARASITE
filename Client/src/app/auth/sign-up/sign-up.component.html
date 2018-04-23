@@ -58,29 +58,44 @@
             </div>
             <div class="content">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Enter User Name">
+                <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="user.firstName" name="firstName">
+                <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName">
+              </div>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="user.username" name="username">
                 <span class="input-group-addon">
                   <i class="zmdi zmdi-account-circle"></i>
                 </span>
               </div>
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Enter Email">
+                <input type="text" class="form-control" placeholder="Email" [(ngModel)]="user.email" name="email">
                 <span class="input-group-addon">
                   <i class="zmdi zmdi-email"></i>
                 </span>
               </div>
               <div class="input-group">
-                <input type="password" placeholder="Password" class="form-control" />
+                <input type="password" placeholder="Password" class="form-control" [(ngModel)]="user.password" name="password" />
                 <span class="input-group-addon">
                   <i class="zmdi zmdi-lock"></i>
                 </span>
               </div>
               <div class="input-group">
-                <input type="password" placeholder="Confirm Password" class="form-control" />
+                <input type="password" placeholder="Confirm Password" class="form-control" [(ngModel)]="user.confirmPassword" name="confirmPassword"
+                />
                 <span class="input-group-addon">
                   <i class="zmdi zmdi-lock"></i>
                 </span>
               </div>
+            </div>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Phone" [(ngModel)]="user.phone" name="phone">
+              <span class="input-group-addon">
+                <i class="zmdi zmdi-smartphone"></i>
+              </span>
+            </div>
+            <div class="checkbox">
+              <input id="isTeacher" type="checkbox" [(ngModel)]="user.isTeacher" name="isTeacher">
+              <label for="isTeacher">Are you a teacher?</label>
             </div>
             <div class="checkbox">
               <input id="terms" type="checkbox">
@@ -90,7 +105,7 @@
               </label>
             </div>
             <div class="footer">
-              <a routerLink="/dashboard" class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light">SIGN UP</a>
+              <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">SIGN UP</a>
               <h5>
                 <a class="link" routerLink="/auth/sign-in">You already have a membership?</a>
               </h5>
