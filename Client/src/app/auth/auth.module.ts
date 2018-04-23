@@ -17,6 +17,9 @@ import {
   MatSelectModule
 } from '@angular/material';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { SignOutComponent } from './sign-out/sign-out.component';
 
 @NgModule({
   providers: [AuthService],
@@ -33,6 +36,6 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     MatCheckboxModule,
     MatSelectModule
   ],
-  declarations: [LoginComponent, SignupComponent, ResetPasswordComponent, VerifyEmailComponent]
+  declarations: [LoginComponent, SignupComponent, ResetPasswordComponent, VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent]
 })
 export class AuthModule { }
