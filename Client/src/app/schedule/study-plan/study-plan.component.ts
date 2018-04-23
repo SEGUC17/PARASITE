@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
+import { CalendarComponent } from '../calendar/calendar.component';
 import { StudyPlan } from './study-plan';
 import { Rating } from './star-rating/rating';
 import { StudyPlanService } from './study-plan.service';
@@ -63,30 +64,8 @@ export class StudyPlanComponent implements OnInit {
   tempStudyPlan: StudyPlan;
   description: string;
   editorContent: SafeHtml;
-  view = 'month';
-  viewDate: Date = new Date();
   events: CalendarEvent[];
-  activeDayIsOpen: Boolean = false;
-  refresh: Subject<any> = new Subject();
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
+
   // assign button binding
   assignFunction;
   assignText;
@@ -144,45 +123,6 @@ export class StudyPlanComponent implements OnInit {
           }
         });
     }
-  }
-
-  fetchEvents(): void {
-    const getStart: any = {
-      month: startOfMonth,
-      week: startOfWeek,
-      day: startOfDay
-    }[this.view];
-
-    const getEnd: any = {
-      month: endOfMonth,
-      week: endOfWeek,
-      day: endOfDay
-    }[this.view];
-
-    this.activeDayIsOpen = false;
-  }
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-        this.viewDate = date;
-      }
-    }
-  }
-
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-  }
-
-  onRatingChanged(rating) {
-    this.rating = rating;
-    this.studyPlanService.rateStudyPlan(this._id, rating).subscribe();
   }
 
   publish(): void {
