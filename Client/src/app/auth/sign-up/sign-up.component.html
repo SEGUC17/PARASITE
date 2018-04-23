@@ -62,6 +62,28 @@
                 <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName">
               </div>
               <div class="input-group">
+                <input type="text" class="form-control" placeholder="Phone" [(ngModel)]="user.phone" name="phone">
+                <span class="input-group-addon">
+                  <i class="zmdi zmdi-smartphone"></i>
+                </span>
+              </div>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Address" [(ngModel)]="user.address" name="address">
+                <span class="input-group-addon">
+                  <i class="zmdi zmdi-gps-dot"></i>
+                </span>
+              </div>
+              <div class="input-group">
+                <input type="date" class="form-control" placeholder="Birthdate" [(ngModel)]="user.birthdate" name="birthdate">
+                <span class="input-group-addon">
+                  <i class="zmdi zmdi-calendar"></i>
+                </span>
+              </div>
+              <div class="checkbox">
+                <input id="isTeacher" type="checkbox" [(ngModel)]="user.isTeacher" name="isTeacher">
+                <label for="isTeacher">Are you a teacher?</label>
+              </div>
+              <div class="input-group">
                 <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="user.username" name="username">
                 <span class="input-group-addon">
                   <i class="zmdi zmdi-account-circle"></i>
@@ -87,16 +109,6 @@
                 </span>
               </div>
             </div>
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Phone" [(ngModel)]="user.phone" name="phone">
-              <span class="input-group-addon">
-                <i class="zmdi zmdi-smartphone"></i>
-              </span>
-            </div>
-            <div class="checkbox">
-              <input id="isTeacher" type="checkbox" [(ngModel)]="user.isTeacher" name="isTeacher">
-              <label for="isTeacher">Are you a teacher?</label>
-            </div>
             <div class="checkbox">
               <input id="terms" type="checkbox">
               <label for="terms">
@@ -119,22 +131,16 @@
         <nav>
           <ul>
             <li>
-              <a href="http://thememakker.com/contact/" target="_blank">Contact Us</a>
+              <a href="javascript:void(0);" target="_blank">Contact Us</a>
             </li>
             <li>
-              <a href="http://thememakker.com/about/" target="_blank">About Us</a>
+              <a href="javascript:void(0);" target="_blank">About Us</a>
             </li>
             <li>
               <a href="javascript:void(0);">FAQ</a>
             </li>
           </ul>
         </nav>
-        <div class="copyright">
-          &copy; {{year}},
-          <span>Designed by
-            <a href="http://thememakker.com/" target="_blank">ThemeMakker</a>
-          </span>
-        </div>
       </div>
     </footer>
   </div>
