@@ -13,6 +13,7 @@ var User = require('../../api/models/User');
 
 // --- Dependancies --- //
 var mockgoose = new Mockgoose(mongoose);
+var should = chai.should();
 // --- End of "Dependancies" --- //
 
 // --- Middleware --- //
