@@ -44,6 +44,8 @@
                   <p>{{ event.meta && event.meta.description ? event.meta.description : 'No description' }}</p>
                   <address *ngIf="event.meta && event.meta.location">
                     <i class="zmdi zmdi-pin"></i>Mars</address>
+                    <button type="button" class="btn btn-round btn-primary waves-effect" (click)="selectedEvent = event" data-toggle="modal" data-target="#edit">E</button>
+                    <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#delete">X</button>
                 </div>
               </div>
             </div>
@@ -68,7 +70,7 @@
           </div>
         </div>
       </div>
-      <hr>
+      <!-- <hr>
       <div *ngIf="!loggedInUser.isChild">
         <div class="card">
           <h3>
@@ -133,7 +135,7 @@
             <button button (click)="cancel()" mat-raised-button color="primary" style="width:150px">Cancel</button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
   </div>
@@ -174,7 +176,63 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="addEvent(title, description, start, end, color); title = null; description = null; start = null; end = null; color = null;">Add</button>
-        <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
+        <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="edit" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="title" id="defaultModalLabel">Edit Event</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div class="form-line">
+            <input type="string" class="form-control" placeholder="Title" [(ngModel)]="title" value="{{selectedEvent.title}}" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-line">
+            <input type="color" class="form-control" placeholder="Color" [(ngModel)]="color" value="{{selectedEvent.color.primary}}">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-line">
+            <input type="date" class="form-control" placeholder="Start Date" [(ngModel)]="start" value="{{selectedEvent.start}}" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-line">
+            <input type="date" class="form-control" placeholder="End Date" [(ngModel)]="end" value="{{selectedEvent.end}}">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-line">
+            <textarea class="form-control no-resize" placeholder="Description" [(ngModel)]="description" value="{{selectedEvent.meta.description}}"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="events.splice(index, 1); addEvent(title, description, start, end, color); title = null; description = null; start = null; end = null; color = null;">Edit</button>
+        <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="delete" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="title" id="defaultModalLabel">Delete Event</h4>
+      </div>
+      <div class="modal-body">
+        <li>Are you sure you want to delete this event?</li>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="events.splice(index, 1)">Delete</button>
+        <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
       </div>
     </div>
   </div>
