@@ -35,8 +35,14 @@ describe('/GET/ Category', function () {
     it('it should GET categories from the server', function (done) {
         // create a category for the test
         var cat1 = new Category({
+            iconLink: 'link.com',
             name: 'testcat1',
-            sections: [{ name: 'sec1.1' }]
+            sections: [
+                {
+                    iconLink: 'link.org',
+                    name: 'sec1.1'
+                }
+            ]
         });
 
         // save the category to the database
