@@ -13,6 +13,7 @@ var User = require('../../api/models/User');
 
 // --- Dependancies --- //
 var mockgoose = new Mockgoose(mongoose);
+var should = chai.should();
 // --- End of "Dependancies" --- //
 
 // --- Middleware --- //
@@ -39,6 +40,7 @@ describe('getAnotherUserData', function () {
             birthdate: '1/1/1980',
             email: 'johndoe@gmail.com',
             firstName: 'John',
+            isEmailVerified: true,
             isTeacher: true,
             lastName: 'Doe',
             password: 'JohnPasSWorD',
@@ -68,19 +70,32 @@ describe('getAnotherUserData', function () {
             'username'
         ];
         mockgoose.helper.reset().then(function () {
-            chai.request(app).
-                post('/api/signUp').
-                send(that.johnDoe).
-                end(function (err, res) {
-                    if (err) {
-                        done(err);
-                    } else {
-                        that.token = res.body.token;
-                        User.create(that.janeDoe, function (err2) {
-                            done();
+            User.create(that.johnDoe, function (err) {
+                if (err) {
+                    done(err);
+                } else {
+                    chai.request(app).
+                        post('/api/signIn').
+                        send({
+                            'password': that.johnDoe.password,
+                            'username': that.johnDoe.username
+                        }).
+                        end(function (err2, res) {
+                            if (err2) {
+                                done(err2);
+                            } else {
+                                that.token = res.body.token;
+                                User.create(that.janeDoe, function (err3) {
+                                    if (err3) {
+                                        done(err3);
+                                    } else {
+                                        done();
+                                    }
+                                });
+                            }
                         });
-                    }
-                });
+                }
+            });
         });
     });
     // --- End of "Clearing Mockgoose" --- //
@@ -714,7 +729,8 @@ describe('getAnotherUserData', function () {
                                                 index += 1
                                             ) {
                                                 res.body.data.should.have.
-                                                    property(that.userDataColumns[index]).
+                                                    property(that.
+                                                        userDataColumns[index]).
                                                     eql(that.janeDoe[
                                                         that.userDataColumns[
                                                         index
@@ -767,15 +783,21 @@ describe('getAnotherUserData', function () {
                                                 property('studyPlans');
                                             for (
                                                 var index = 0;
-                                                index < that.userDataColumns.length;
+                                                index < that.userDataColumns.
+                                                    length;
                                                 index += 1
                                             ) {
                                                 res.body.data.should.have.
-                                                    property(that.userDataColumns[
+                                                    property(that.
+                                                        userDataColumns[
                                                         index
                                                     ]).
-                                                    eql(that.janeDoe[
-                                                        that.userDataColumns[index]
+                                                    eql(that.
+                                                        janeDoe[
+                                                        that.
+                                                            userDataColumns[
+                                                        index
+                                                        ]
                                                     ]);
                                             }
                                             done();
