@@ -419,6 +419,12 @@ module.exports.bookActivity = function(req, res, next) {
                     });
                 }
             );
+        } else {
+            return res.status(403).json({
+                data: null,
+                err: 'You can\'t book for this user',
+                msg: null
+            });
         }
     });
 };
