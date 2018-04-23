@@ -5,6 +5,7 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { Category } from './content/category';
 import { ToastrService } from 'ngx-toastr';
+import { Section } from './content/section';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -153,7 +154,19 @@ export class AdminService {
       );
   }
 
-  // delete section
+  // Update section
+  updateSection(categoryId: any, section: Section): Observable<any> {
+    const self = this;
+    return this.http.patch(
+      self.baseURL + 'content/category/' + categoryId +
+      '/section/' + section._id,
+      { iconLink: section.iconLink, sectionName: section.name})
+      . pipe(
+        catchError(self.handleError('Update Section'))
+      );
+  }
+
+  // Delete section
   deleteSection(categoryId: any, section: any): Observable<any> {
     const self = this;
     return this.http.post(self.baseURL + 'content/category/' + categoryId + '/section', section)
