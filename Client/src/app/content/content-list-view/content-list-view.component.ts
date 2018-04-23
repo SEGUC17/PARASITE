@@ -180,7 +180,8 @@ export class ContentListViewComponent implements OnInit {
       self.searchQuery,
       self.selectedCategory,
       self.selectedSection,
-      self.sortResultsBy
+      self.sortResultsBy,
+      self.contentLanguage
     ).subscribe(function (res) {
       let retrievedContent = res.data.contents.docs;
       let retrievedAvatars = res.data.userAvatars;

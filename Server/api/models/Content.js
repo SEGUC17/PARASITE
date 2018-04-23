@@ -30,6 +30,10 @@ var contentSchema = mongoose.Schema({
         trim: false,
         type: String
     },
+    language: {
+        trim: true,
+        type: String
+    },
     rating: {
         default: {
             number: 0,
@@ -81,6 +85,7 @@ contentSchema.index(
         title: 'text'
     },
     {
+        'language_override': 'lang',
         name: 'ContentTextIndex',
         weights: {
             tags: 10,

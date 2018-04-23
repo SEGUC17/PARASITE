@@ -55,6 +55,7 @@ var prepareQueryConditionsForSearch = function (query) {
         '$text': { '$search': query.searchQuery },
         'approved': true,
         'category': query.category,
+        'language': query.language,
         'section': query.section
     };
 
@@ -119,6 +120,7 @@ var checkRequestValidityForSearch = function (req) {
         typeof req.query.section === 'string' &&
         typeof req.query.searchQuery === 'string' &&
         typeof req.query.sort === 'string' &&
+        typeof req.query.language === 'string' &&
         !isNaN(req.params.pageSize) &&
         !isNaN(req.params.pageNumber);
 };

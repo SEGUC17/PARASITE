@@ -61,7 +61,7 @@
             </div>
           </div>
         </div>
-        <ul class="pagination pagination-primary">
+        <ul *ngIf="totalNumberOfPages>1" class="pagination pagination-primary">
           <li *ngIf="currentPageNumber>1" class="page-item">
             <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">Previous</a>
           </li>
