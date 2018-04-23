@@ -1,98 +1,176 @@
-<div *ngIf="content">
-    <app-rating [type]="'content'" [ratedId]="content._id" [inputRating]="content.rating.value"></app-rating>
-    <div *ngIf="currentUser" class="row">
-        <div class="col" align="center">
-            <div *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)">
-                <button mat-raised-button color="primary" (click)="redirectToContentEdit()">Edit</button>
-                <button mat-raised-button color="primary">Delete</button>
+<section class="content blog-page">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+                <h2>Our Content
+                    <small>Nawwar</small>
+                </h2>
             </div>
-            <div *ngIf="currentUser.isAdmin && !content.approved">
-                <button mat-raised-button color="primary" (click)="returnToContentRequests()">Go Back To Approve/Disapprove</button>
+            <div class="col-lg-5 col-md-6 col-sm-12">
+                <ul class="breadcrumb float-md-right">
+                    <li class="breadcrumb-item">
+                        <a routerLink="/dashboard">
+                            <i class="zmdi zmdi-home"></i> dashboard</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a routerLink="/content-list-view">all contents</a>
+                    </li>
+                    <li *ngIf="content" class="breadcrumb-item active">{{ content.title.length > 10 ? content.title.slice(0,10) +'...' : content.title }}</li>
+                </ul>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="video-container">
-            <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
-                <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>
-            </div>
-        </div>
-        <h1 class="title">{{content.title}}</h1>
-        <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
-    </div>
-</div>
-<div class="container">
-    <div class="comment-container">
-        <h1> Comments :</h1>
-        <mat-list-item role="list" id="target">
-            <mat-card *ngIf="currentUser">
-                <mat-card-header>
-                    <div mat-card-avatar class="example-header-image"></div>
-                    <mat-card-title style="font-weight: bold"> {{currentUser.username}} </mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <mat-form-field class="example-container">
-                        <textarea matInput id="input" placeholder={{somePlaceholder}} #commentInput [(ngModel)]="changingComment"></textarea>
-                    </mat-form-field>
-                </mat-card-content>
-
-                <mat-card-actions class="row" align="end">
-
-                    <button mat-icon-button id = "commentBtn" (click)="addComment(commentInput.value)" [disabled]="changingComment == ''"
-                        matTooltip={{(isReplying)?Reply:Comment}}>
-                        <mat-icon>{{(isReplying)?"reply":"comment"}}</mat-icon>
-                    </button>
-                    <button mat-icon-button id= "cancelBtn" style="margin-right:0.5%" (click)="cancel()" matTooltip=Cancel>
-                        <mat-icon>close</mat-icon>
-                    </button>
-
-                </mat-card-actions>
-
-            </mat-card>
-        </mat-list-item>
-
-        <mat-list-item role="list" *ngFor="let comment of comments; let i = index">
-            <mat-card>
-                <div class="row">
-                    <div style="width:48%">
-                        <mat-card-header class="row">
-                            <div mat-card-avatar class="example-header-image"></div>
-                            <mat-card-title style="font-weight: bold">{{comment.creator}}</mat-card-title>
-                            <mat-card-subtitle style="font-weight: bold">{{comment.text}}</mat-card-subtitle>
-                        </mat-card-header>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-md-12">
+                <div *ngIf="content" class="card single_post">
+                    <div class="body">
+                        <h3 class="m-t-0 m-b-5 mr-auto">{{ content.title }} </h3>
+                        <div *ngIf="currentUser && content">
+                            <div *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" class="flex-row">
+                                <i title="delete forever" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="deleteContentById(content._id)"
+                                    class="material-icons clickable-icon">delete</i>
+                                <i title="edit" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="redirectToContentEdit()"
+                                    class="material-icons clickable-icon">edit</i>
+                                <i title="go back to content creation requests" *ngIf="currentUser.isAdmin && !content.approved" (click)="returnToContentRequests()"
+                                    class="material-icons clickable-icon">assignment_late</i>
+                            </div>
+                        </div>
+                        <ul class="meta">
+                            <li>
+                                <a href="/profile/{{ content.creator }}">
+                                    <i class="zmdi zmdi-account col-blue"></i> Posted By: {{ content.creator }}</a>
+                            </li>
+                            <li>
+                                <a>
+                                    <i class="zmdi zmdi-label col-red"></i>{{' ' + content.category }}, {{ content.section }}</a>
+                            </li>
+                            <li>
+                                <a>
+                                    <i class="zmdi zmdi-comment-text col-blue"></i> Comments: {{ content.discussion.length }}</a>
+                            </li>
+                            <li>
+                                <a>
+                                    <i class="zmdi zmdi-star"></i> Rating:</a>
+                            </li>
+                        </ul>
                     </div>
-                    <div style="width:52%" align="end">
-                        <mat-card-actions class="row">
-                            <button mat-icon-button class="col-auto" (click)="onDelete(comment._id)" matTooltip="delete">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                            <button mat-icon-button class="col-auto" *ngIf="comment.replies.length > 0" (click)="showReply(i)" matTooltip={{(viewedReplies[i])?hideReplies:showreplies}}>
-                                <mat-icon>{{(viewedReplies[i])?"arrow_drop_up":"arrow_drop_down"}}</mat-icon>
-                            </button>
-                            <button mat-icon-button class="col-auto" (click)="onReply(comment._id)" matTooltip="Reply">
-                                <mat-icon>reply</mat-icon>
-                            </button>
-                        </mat-card-actions>
+                    <div class="body">
+                        <div class="container">
+                            <div class="video-container">
+                                <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
+                                    <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                            <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
+                        </div>
                     </div>
                 </div>
-
-
-                <mat-list *ngIf="viewedReplies[i]" style="margin-left: 7%">
-                    <mat-list-item *ngFor="let reply of comment.replies; let j = index">
-                        <div style="width:44px;">
-                            <mat-icon mat-card-avatar class="example-header-image"></mat-icon>
-                        </div>
-                        <div align="start" style="width:100%">
-                            <h3 mat-line >{{reply.creator}}</h3>
-                            <p mat-line style=" color: rgb(129, 129, 129)">{{reply.text}}</p>
-                        </div>
-                        <button mat-icon-button (click)="onDeleteReply(comment._id,reply._id)" matTooltip="delete">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                        <mat-divider *ngIf="j!=comment.replies.length-1"></mat-divider>
-                    </mat-list-item>
-                </mat-list>
-            </mat-card>
-        </mat-list-item>
+                <div *ngIf="content" class="card">
+                    <div class="header">
+                        <h2>
+                            <strong>Comments</strong> {{ content.discussion.length }}</h2>
+                    </div>
+                    <div class="body">
+                        <ul class="comment-reply list-unstyled">
+                            <li class="row">
+                                <div class="icon-box col-md-2 col-4">
+                                    <img class="img-fluid img-thumbnail" src="assets/images/sm/avatar2.jpg" alt="Awesome Image">
+                                </div>
+                                <div class="text-box col-md-10 col-8 p-l-0 p-r0">
+                                    <h5 class="m-b-0">Gigi Hadid </h5>
+                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                                        has been the industry's standard dummy text</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a href="#">Dec 09 2017</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Reply</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="row">
+                                <div class="icon-box col-md-2 col-4">
+                                    <img class="img-fluid img-thumbnail" src="assets/images/sm/avatar3.jpg" alt="Awesome Image">
+                                </div>
+                                <div class="text-box col-md-10 col-8 p-l-0 p-r0">
+                                    <h5 class="m-b-0">Christian Louboutin</h5>
+                                    <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+                                        unknown printer took a galley of type and scramble</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a href="#">Dec 12 2017</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Reply</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="row">
+                                <div class="icon-box col-md-2 col-4">
+                                    <img class="img-fluid img-thumbnail" src="assets/images/sm/avatar4.jpg" alt="Awesome Image">
+                                </div>
+                                <div class="text-box col-md-10 col-8 p-l-0 p-r0">
+                                    <h5 class="m-b-0">Kendall Jenner</h5>
+                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have
+                                        suffered alteration in some form, by injected humour</p>
+                                    <ul class="list-inline">
+                                        <li>
+                                            <a href="#">Dec 20 2017</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Reply</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 right-box">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            <strong>Recommended</strong> Content</h2>
+                    </div>
+                    <div class="body widget popular-post">
+                        <ul *ngIf="recommendedContent" class="list-unstyled m-b-0">
+                            <li *ngFor="let contentItem of recommendedContent" class="row">
+                                <div class="icon-box col-4">
+                                    <img class="img-fluid img-thumbnail" [src]="contentItem.image" alt="{{ contentItem.title }}">
+                                </div>
+                                <div class="text-box col-8 p-l-0">
+                                    <h5 class="m-b-0">
+                                        <a href="/content-view/{{ contentItem._id }}">{{ contentItem.title }}</a>
+                                    </h5>
+                                    <small class="author-name">By:
+                                        <a href="/profile/{{ contentItem.creator }}">{{ contentItem.creator }}</a>
+                                    </small>
+                                    <small class="date"> {{ contentItem.touchDate | date }}</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div *ngIf="content" class="card">
+                    <div class="header">
+                        <h2>
+                            <strong>Tags</strong>
+                        </h2>
+                    </div>
+                    <div class="body widget tag-clouds">
+                        <ul class="list-unstyled m-b-0">
+                            <li *ngFor="let tag of content.tags">
+                                <a href="#" class="tag badge badge-primary">{{ tag }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
