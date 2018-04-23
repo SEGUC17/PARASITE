@@ -27,18 +27,6 @@ export class AppComponent implements OnInit {
       name: 'Content List'
     },
     {
-      url: '/auth/login',
-      name: 'Login'
-    },
-    {
-      url: '/auth/signup',
-      name: 'Signup'
-    },
-    {
-      url: '/auth/resetpassword',
-      name: 'Reset Password'
-    },
-    {
       url: '/profile',
       name: 'Profile'
     },
