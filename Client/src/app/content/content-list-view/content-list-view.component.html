@@ -94,9 +94,13 @@
               <h6>
                 Sort By: {{ sortResultsBy }}
               </h6>
+              <h6>
+                Language: {{ contentLanguage }}
+              </h6>
             </div>
             <div class="sort-by-div">
               <form #f="ngForm">
+                <h5>Sort By</h5>
                 <div class="radio">
                   <input type="radio" name="sortByRadioButtonGroup" id="radio1" value="relevance" [(ngModel)]="sortResultsBy">
                   <label for="radio1">
@@ -113,6 +117,19 @@
                   <input type="radio" name="sortByRadioButtonGroup" id="radio3" value="rating" [(ngModel)]="sortResultsBy">
                   <label for="radio3">
                     Rating
+                  </label>
+                </div>
+                <h5>Language</h5>
+                <div class="radio">
+                  <input type="radio" name="languageButtonGroup" id="radio4" value="english" [(ngModel)]="contentLanguage">
+                  <label for="radio4">
+                    English
+                  </label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="languageButtonGroup" id="radio5" value="arabic" [(ngModel)]="contentLanguage">
+                  <label for="radio5">
+                    Arabic
                   </label>
                 </div>
               </form>

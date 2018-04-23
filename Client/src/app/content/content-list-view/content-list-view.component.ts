@@ -37,6 +37,9 @@ export class ContentListViewComponent implements OnInit {
   // sorting variables
   sortResultsBy: String = 'relevance';
 
+  // content language to filter in search
+  contentLanguage: String = 'english';
+
   // signed in user
   currentUser: User;
 
