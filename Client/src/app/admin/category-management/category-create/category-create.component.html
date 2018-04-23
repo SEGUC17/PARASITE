@@ -9,24 +9,28 @@
       </div>
       <div class="body">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Category Name" #name name="category name" [(ngModel)]="category.category" required (keyup)="0" />
+          <input type="text" class="form-control" placeholder="Category Name" #name name="category name" [(ngModel)]="category.category"
+            required (keyup)="0" />
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Category Icon Link" #icon name="category icon" [(ngModel)]="category.iconLink" required (keyup)="0" />
+          <input type="text" class="form-control" placeholder="Category Icon Link" #icon name="category icon" [(ngModel)]="category.iconLink"
+            required (keyup)="0" />
         </div>
         <div class="form-group">
           <div class="mt-2">
-            <small>How it should look like</small>
+            <small class="text-muted">How it should look like</small>
             <div class="row">
               <div class="mr-2">{{name.value}}</div>
               <div class="prev-icon">
-                <img class="img-responsive"[src]="icon.value"/>
+                <img class="img-responsive" [src]="icon.value" />
               </div>
             </div>
-            <div class="form-group text-center">
-              <button class="btn btn-primary" (click)="createCategory()">Submit</button>
-            </div>
           </div>
+        </div>
+      </div>
+      <div class="card-footer bg-transparent border-0">
+        <div class="form-group text-center">
+          <button class="btn btn-primary" (click)="createCategory()">Submit</button>
         </div>
       </div>
     </div>

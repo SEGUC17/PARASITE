@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AdminService } from '../../../admin.service';
 import { Category } from '../../../content/category';
 import { ToastrService } from 'ngx-toastr';
@@ -12,9 +12,12 @@ export class CategoryCreateComponent implements OnInit {
     category: '',
     iconLink: ''
   };
+  @Input() inputCategories: Category[];
+  categories: Category[];
   constructor(private adminService: AdminService, private toasterService: ToastrService) { }
 
   ngOnInit() {
+    this.categories = this.inputCategories;
   }
 
   createCategory() {
@@ -23,6 +26,7 @@ export class CategoryCreateComponent implements OnInit {
       if (!res) {
         return;
       }
+      self.categories.push(res.data);
       self.toasterService.success('The category ' + res.data.name +
         ' was created successfully', 'success');
     });
