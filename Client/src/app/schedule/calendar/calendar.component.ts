@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs/Subject';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import {
   isSameMonth,
@@ -36,16 +36,18 @@ const colors: any = {
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent {
+  // events CRUD inputs
   @Input() events: CalendarEvent[];
+  @Input() onCreate;
+  @Input() onEdit;
+  @Input() onDelete;
+  // Calendar API view control
   view = 'month';
   viewDate: Date = new Date();
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
+  // actions for events
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
@@ -64,10 +66,8 @@ export class CalendarComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
-
-  fetchEvents(): void {
+  // calendar header change handler
+  headerChange(): void {
     const getStart: any = {
       month: startOfMonth,
       week: startOfWeek,
@@ -83,6 +83,7 @@ export class CalendarComponent implements OnInit {
     this.activeDayIsOpen = false;
   }
 
+  // day click handler
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
@@ -97,8 +98,9 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  // event change handler
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
+    // this.modalData = { event, action };
   }
 
 }
