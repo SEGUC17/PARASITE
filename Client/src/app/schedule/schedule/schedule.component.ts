@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, Output, ChangeDetectionStrategy,
+   EventEmitter, ViewChild, TemplateRef, HostListener } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
@@ -30,6 +31,21 @@ export class ScheduleComponent implements OnInit {
   view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
+  selectedEvent = {
+    title: 'New event',
+    start: startOfDay(new Date()),
+    end: endOfDay(new Date()),
+    color: {
+      primary: '#ad2121',
+      secondary: '#FAE3E3'
+    },
+    draggable: true,
+    resizable: {
+      beforeStart: true,
+      afterEnd: true
+    },
+    meta: {}
+  };
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
   editing = false;
@@ -76,6 +92,14 @@ export class ScheduleComponent implements OnInit {
       }
       this.fetchAndDisplay();
     });
+
+  }
+
+
+  // Automatically save changes of page close/change
+  @HostListener('window:beforeunload', [ '$event' ])
+  unloadHandler(event) {
+    this.saveScheduleChanges();
   }
 
   fetchAndDisplay() {
@@ -165,8 +189,12 @@ export class ScheduleComponent implements OnInit {
     this.refreshDocument();
   }
 
+  // Add single new event
   addEvent(title: string, description: string, start: Date, end: Date, color: any): void {
-    // Add a new event
+    // Default value for color (Transparent)
+    if (!color) {
+      color = '#FFFFFF00';
+    }
     const newEvent = {
       title: title,
       start: new Date(start),
@@ -185,7 +213,7 @@ export class ScheduleComponent implements OnInit {
       }
     };
     this.events.push(newEvent);
-    this.scheduleService.addEvent(this.profileUser, newEvent).subscribe();
+    // this.scheduleService.addEvent(this.profileUser, newEvent).subscribe();
     this.refreshDocument();
   }
 
