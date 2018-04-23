@@ -1,10 +1,12 @@
 /* eslint max-statements: ["error", 10, { "ignoreTopLevelFunctions": true }] */
+/* eslint max-len: ["error", 100] */
 
 // --- Requirements --- //
 var app = require('../../app');
 var chai = require('chai');
 var config = require('../../api/config/config');
 var chaiHttp = require('chai-http');
+var jwt = require('jsonwebtoken');
 var mongoose = require('mongoose');
 var Mockgoose = require('mockgoose').Mockgoose;
 var path = '/api/signIn';
@@ -417,7 +419,41 @@ describe('signIn', function () {
                 });
         });
     });
-    it('Token Expires In 12 Hours!');
+    it('Token Expires In 12 Hours (No Remember Me)!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'username': that.johnDoe.username
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    jwt.verify(
+                        res.body.token.substring(4),
+                        config.SECRET,
+                        function (err3, decoded) {
+                            if (err3) {
+                                return done(err3);
+                            }
+
+                            (new Date(decoded.exp) - new Date(decoded.iat)).should.be.
+                                eql(12 * 3600);
+
+                            return done();
+                        }
+                    );
+                });
+        });
+    });
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //

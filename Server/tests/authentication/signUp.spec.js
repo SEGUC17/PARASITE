@@ -545,7 +545,6 @@ describe('signUp', function () {
             });
     });
     it('Password Is Hashed!');
-    it('Token Expires In 12 Hours!');
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //

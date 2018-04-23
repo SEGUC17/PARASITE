@@ -1,4 +1,4 @@
-/* eslint max-statements: ["error", 10, { "ignoreTopLevelFunctions": true }] */
+/* eslint max-len: ["error", 100] */
 
 // --- Requirements --- //
 var app = require('../../app');
