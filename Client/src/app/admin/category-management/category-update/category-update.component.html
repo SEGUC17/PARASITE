@@ -31,7 +31,7 @@
               </div>
             </div>
             <div class="form-group text-center">
-                <button class="btn btn-primary" (click)="updateCategory()">Submit</button>
+                <button class="btn btn-primary" (click)="updateCategory()" [disabled]="!updateCategoryForm.valid">Submit</button>
               </div>
           </div>
         </div>

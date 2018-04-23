@@ -27,18 +27,9 @@ export class SectionDeleteComponent implements OnInit {
   deleteSection() {
     const self = this;
     this.adminService.deleteSection(this.selectedCategory._id, this.selectedSection._id).subscribe(function (res) {
-      console.log(res);
       if (!res || Array.isArray(res)) {
         return;
       }
-      const updatedCategoryIndex = self.categories.findIndex(function (category) {
-        return self.selectedCategory._id === category._id;
-      });
-      const updateSectionIndex = self.categories[updatedCategoryIndex].sections.
-        findIndex(function (section) {
-          return section._id === self.selectedSection._id;
-        });
-      self.categories[updatedCategoryIndex].sections = self.categories[updatedCategoryIndex].sections.splice(updateSectionIndex, 1);
       self.toasterService.success(res.msg, 'success');
     });
   }

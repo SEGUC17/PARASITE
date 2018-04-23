@@ -30,7 +30,7 @@
       </div>
       <div class="card-footer bg-transparent border-0">
         <div class="form-group text-center">
-          <button class="btn btn-primary" (click)="createCategory()">Submit</button>
+          <button class="btn btn-primary" (click)="createCategory()" [disabled]="!createCategoryForm.valid">Submit</button>
         </div>
       </div>
     </div>

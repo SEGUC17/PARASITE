@@ -29,7 +29,7 @@
             </div>
             <div class="card-footer bg-transparent border-0">
               <div class="form-group text-center">
-                <button class="btn btn-primary" (click)="deleteSection()">Submit</button>
+                <button class="btn btn-primary" (click)="deleteSection()" [disabled]="!deleteSectionForm.valid || selectedSection._id === ''">Submit</button>
               </div>
               <small class="text-danger">This will delete all the content in the section</small>
             </div>

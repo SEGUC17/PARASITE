@@ -27,7 +27,7 @@
       </div>
       <div class="card-footer bg-transparent border-0">
         <div class="form-group text-center">
-          <button class="btn btn-primary" (click)="deleteCategory()">Submit</button>
+          <button class="btn btn-primary" (click)="deleteCategory()" [disabled]="!deleteCategoryForm.valid || selectedCategory._id === ''">Submit</button>
         </div>
         <small class="text-danger">This will delete all the content in the category</small>
       </div>

@@ -27,7 +27,6 @@ export class SectionCreateComponent implements OnInit {
       if (!res) {
         return;
       }
-      console.log(res);
       if (!res.msg) {
         self.toasterService.error(res.err, 'failure');
         return;
