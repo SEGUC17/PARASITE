@@ -255,14 +255,14 @@ module.exports = function (passport) {
 
   // delete a category
   router.delete(
-    '/category/:id',
+    '/content/category/:id',
     isAuthenticated,
     contentController.deleteCategory
   );
 
   // delete a section
   router.delete(
-    '/category/:categoryId/section/:sectionId',
+    '/content/category/:categoryId/section/:sectionId',
     isAuthenticated,
     contentController.deleteSection
   );
