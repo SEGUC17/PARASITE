@@ -33,7 +33,7 @@ export class SignupComponent implements OnInit {
     const self = this;
     self.authService.signUp(this.user).subscribe(function (res) {
       self.authService.setToken(res.token);
-      if (res.token) {
+      if (res.msg) {
         alert(res.msg);
       }
     });
