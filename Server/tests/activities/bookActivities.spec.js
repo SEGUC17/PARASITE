@@ -25,13 +25,12 @@ chai.use(chaiHttp);
 // --- End of 'Middleware' --- //
 
 // Objects variables for testing
+var childUser = null;
+var parentUser = null;
 var normalUser = null;
-var adminUser = null;
-var creatorUser = null;
+var bookingUser = null;
 var pendingActivity = null;
 var verifiedActivity = null;
-
-var commentBody = null;
 
 describe('Activities Comments/replies creation', function () {
 
@@ -56,7 +55,6 @@ describe('Activities Comments/replies creation', function () {
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
             // Creating data for testing
-            commentBody = { text: 'comment test text' };
             Activity.create({
                 creator: 'username',
                 name: 'activity1',
@@ -78,6 +76,7 @@ describe('Activities Comments/replies creation', function () {
                 fromDateTime: Date.now(),
                 toDateTime: Date.now() + 5,
                 status: 'verified',
+                bookedBy: ['bookingusername'],
                 price: 50
             }, function (err, activity) {
                 if (err) {
@@ -92,12 +91,13 @@ describe('Activities Comments/replies creation', function () {
                 lastName: 'lastname',
                 password: 'password',
                 phone: '0111111111',
-                username: 'normalusername'
+                isChild: true,
+                username: 'childUsername'
             }, function (err, user) {
                 if (err) {
                     console.log(err);
                 }
-                normalUser = user;
+                childUser = user;
                 User.create({
                     birthdate: Date.now(),
                     email: 'test1@email.com',
@@ -105,12 +105,14 @@ describe('Activities Comments/replies creation', function () {
                     lastName: 'lastname',
                     password: 'password',
                     phone: '0111111111',
-                    username: 'adminusername'
+                    isParent: true,
+                    children: ['childusername'],
+                    username: 'parentUsername'
                 }, function (err2, user2) {
                     if (err) {
                         console.log(err2);
                     }
-                    adminUser = user2;
+                    parentUser = user2;
                     User.create({
                         birthdate: Date.now(),
                         email: 'test1@email.com',
@@ -118,13 +120,27 @@ describe('Activities Comments/replies creation', function () {
                         lastName: 'lastname',
                         password: 'password',
                         phone: '0111111111',
-                        username: 'username'
-                    }, function (err3, user3) {
-                        if (err) {
+                        username: 'normalUsername'
+                    }, function(err3, user3) {
+                        if (err3) {
                             console.log(err3);
                         }
-                        creatorUser = user3;
-                        done();
+                        normalUser = user3;
+                        User.create({
+                            birthdate: Date.now(),
+                            email: 'test1@email.com',
+                            firstName: 'firstname',
+                            lastName: 'lastname',
+                            password: 'password',
+                            phone: '0111111111',
+                            username: 'bookingUsername'
+                        }, function (err4, user4) {
+                            if (err4) {
+                                console.log(err4);
+                            }
+                            bookingUser = user4;
+                            done();
+                        });
                     });
                 });
             });
@@ -141,13 +157,13 @@ describe('Activities Comments/replies creation', function () {
          */
         it('it should book activity for self', function (done) {
             var token = 'JWT ' + jwt.sign(
-                { 'id': normalUser._id },
+                { 'id': parentUser._id },
                 config.SECRET,
                 { expiresIn: '12h' }
             );
             chai.request(app).post('/api/activities/' +
                 verifiedActivity._id + '/book/').
-                send({ username: normalUser.username }).
+                send({ username: parentUser.username }).
                 set('Authorization', token).
                 end(function (err, res) {
                     if (err) {
@@ -161,11 +177,115 @@ describe('Activities Comments/replies creation', function () {
                                 console.log(err2);
                             }
                             expect(activity.bookedBy.
-                                indexOf(normalUser.username)).
+                                indexOf(parentUser.username)).
                                 to.not.equal(-1);
                             done();
                         }
                     );
+                });
+        });
+        it('it should book activity for child', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': parentUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).post('/api/activities/' +
+                verifiedActivity._id + '/book/').
+                send({ username: childUser.username }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(201);
+                    Activity.findOne(
+                        { _id: verifiedActivity._id },
+                        function (err2, activity) {
+                            if (err2) {
+                                console.log(err2);
+                            }
+                            expect(activity.bookedBy.
+                                indexOf(childUser.username)).
+                                to.not.equal(-1);
+                            done();
+                        }
+                    );
+                });
+        });
+        it(
+            'it should return 403 for booking a pending activity',
+            function (done) {
+                var token = 'JWT ' + jwt.sign(
+                    { 'id': parentUser._id },
+                    config.SECRET,
+                    { expiresIn: '12h' }
+                );
+                chai.request(app).post('/api/activities/' +
+                    pendingActivity._id + '/book/').
+                    send({ username: parentUser.username }).
+                    set('Authorization', token).
+                    end(function (err, res) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        res.should.have.status(403);
+                        done();
+                    });
+            }
+        );
+        it('it should return 404 for wrong activity id', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': parentUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).post('/api/activities/' +
+                childUser._id + '/book/').
+                send({ username: childUser.username }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(404);
+                    done();
+                });
+        });
+        it('it should return 403 for booking for non Child', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': parentUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).post('/api/activities/' +
+                verifiedActivity._id + '/book/').
+                send({ username: normalUser.username }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(403);
+                    done();
+                });
+        });
+        it('it should return 400 for already booked', function (done) {
+            var token = 'JWT ' + jwt.sign(
+                { 'id': bookingUser._id },
+                config.SECRET,
+                { expiresIn: '12h' }
+            );
+            chai.request(app).post('/api/activities/' +
+                verifiedActivity._id + '/book/').
+                send({ username: bookingUser.username }).
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.should.have.status(400);
+                    done();
                 });
         });
     });
