@@ -1,0 +1,36 @@
+<form #deleteCategoryForm="ngForm">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="card category-card">
+      <div class="header">
+        <h2>
+          <strong>Delete Category</strong>
+          <small>Your changes will be viewed in the content list</small>
+        </h2>
+      </div>
+      <div class="body">
+        <div class="form-group">
+          <select class="form-control" name="category select" [(ngModel)]="selectedCategory" required>
+            <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="mt-2">
+            <small>How it should look like</small>
+            <div class="row">
+              <div class="mr-2">{{selectedCategory.name}}</div>
+              <div class="prev-icon">
+                <img class="img-responsive" [src]="selectedCategory.iconLink" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer bg-transparent border-0">
+        <div class="form-group text-center">
+          <button class="btn btn-primary" (click)="deleteCategory()">Submit</button>
+        </div>
+        <small class="text-danger">This will delete all the content in the category</small>
+      </div>
+    </div>
+  </div>
+</form>
