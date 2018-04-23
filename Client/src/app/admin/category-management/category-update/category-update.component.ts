@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ContentService } from '../../../content/content.service';
 import { Category } from '../../../content/category';
 import { AdminService } from '../../../admin.service';
@@ -11,26 +11,21 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CategoryUpdateComponent implements OnInit {
   categories: Category[];
+  @Input() inputCategories: Category[];
   selectedCategory: Category = {
     _id: '',
     name: '',
     iconLink: '',
     sections: []
   };
-  constructor(private contentService: ContentService, private adminService: AdminService, private toasterService: ToastrService) { }
+  constructor(
+    private contentService: ContentService,
+    private adminService: AdminService,
+    private toasterService: ToastrService
+  ) { }
 
   ngOnInit() {
-    this.getCategories();
-  }
-  // retrieve all categories from server
-  getCategories(): void {
-    const self = this;
-    this.contentService.getCategories().subscribe(function (res) {
-      if (!res || !res.data) {
-        return [];
-      }
-      self.categories = res.data;
-    });
+    this.categories = this.inputCategories;
   }
   updateCategory() {
     const self = this;
@@ -38,7 +33,11 @@ export class CategoryUpdateComponent implements OnInit {
       if (!res) {
         return;
       }
-      self.toasterService.success('update category successfully', 'success');
+      const updateIndex = self.categories.findIndex(function (category) {
+        return category._id === self.selectedCategory._id;
+      });
+      self.categories[updateIndex] = self.selectedCategory;
+      self.toasterService.success(res.msg, 'success');
     });
   }
 
