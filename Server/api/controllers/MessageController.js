@@ -112,13 +112,18 @@ module.exports.deleteMessage = function(req, res, next) {
 
 module.exports.getRecentlyContacted = function(req, res, next) {
 
-  Message.find({ sender: req.params.user }).sort({ sentAt: -1 }).
-  limit(10).
-  exec(function(err, users) {
+  Message.aggregate([
+    { $match: { sender: req.params.user } },
+    { $group: { _id: '$recipient', sentAt: {$max: '$sentAt'} } },
+    { $sort: { sentAt: -1 } },
+    { $limit: 10 }
+   ]).
+   exec(function(err, users) {
     if (err) {
       return next(err);
     }
 
+    console.log(users);
     return res.status(200).json({
       data: users,
       err: null,
