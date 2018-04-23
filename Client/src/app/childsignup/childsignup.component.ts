@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
+declare const swal: any;
 @Component({
   selector: 'app-childsignup',
   templateUrl: './childsignup.component.html',
-  styleUrls: ['./childsignup.component.scss']
+  styleUrls: ['./childsignup.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ChildsignupComponent implements OnInit {
 
@@ -20,12 +22,16 @@ export class ChildsignupComponent implements OnInit {
   Phone: [String] = [''];
   Div1 = false;
   Div2 = false;
+  Div3 = false;
   AllisWell: Boolean = true;
   User: any;
 
 
 
   ngOnInit() {
+    function showSuccessMessage() {
+      swal('Good job!', 'You clicked the button!', 'success');
+  }
   }
 
   register(): void {
@@ -44,9 +50,11 @@ export class ChildsignupComponent implements OnInit {
       'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone, 'address': this.Address};
       const self = this;
       self.authService.childSignUp(this.User).subscribe(function (res) {
-      if ( res.data ) {
+         this.Div3 = true;
+         this.showSuccessMessage();
+        // if ( res.data ) {
         alert(res.msg);
-      }
+     // }
        });
     }// end if
      this.location.back();

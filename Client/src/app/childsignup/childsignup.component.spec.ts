@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ViewEncapsulation } from '@angular/core';
 
 import { ChildsignupComponent } from './childsignup.component';
 
@@ -23,3 +24,8 @@ describe('ChildsignupComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+
+function showSuccessMessage() {
+  swal('Good job!', 'You clicked the button!', 'success');
+}

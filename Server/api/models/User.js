@@ -69,6 +69,11 @@ var userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
+    emailVerified: {
+        default: false,
+        required: true,
+        type: Boolean
+    },
     firstName: {
         index: true,
         required: true,
@@ -81,11 +86,6 @@ var userSchema = mongoose.Schema({
     },
     isChild: {
         default: false,
-        type: Boolean
-    },
-    isEmailVerified: {
-        default: false,
-        required: true,
         type: Boolean
     },
     isParent: {
