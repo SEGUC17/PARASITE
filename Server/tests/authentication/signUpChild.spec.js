@@ -23,16 +23,18 @@ var Token = null;
 // user for authentication
 var user = {
     birthdate: '1/1/1980',
-    email: 'mayasameh@gmail.com',
-    firstName: 'mayar',
-    lastName: 'sameh',
+    email: 'lamaahmed166@gmail.com',
+    isEmailVerified:true,
+    firstName: 'lama',
+    lastName: 'ahmed',
     password: '123456789',
     phone: '0112892201',
-    username: 'mayar.sameh'
+    username: 'lama.ahmed'
 };
 var child = { 
     username: 'nayeraa.zaghloul',
     password: 'nayeranayera1234',
+    isEmailVerified:'true',
     firstName: 'nayera',
     lastName: 'zaghloul',
     birthdate: '11/11/2016', 
@@ -64,13 +66,20 @@ describe('signUpChild', function () {
     // --- End of "Clearing Mockgoose" --- //
 
     it('Child Sign Up returns a 201 response', function (done) {
-        chai.request(server)
-            .post('/api/signUp').send(user)
-            .end((err, res) => {
-                res.should.have.status(201);
-                res.body.should.be.a('object');
-                res.body.should.have.property('token');
-                Token = res.body.token;
+  
+                User.create(user, function (err) {
+                    if (err) {
+                        return done(err);
+                    }
+                chai.request(server)
+                .post('/api/signIn')
+                .send({'password' : user.password, 
+                 'username': user.username })
+                .end((err6, res6) => {
+                    res6.should.have.status(200);
+                    res6.body.should.be.a('object');
+                  res6.body.should.have.property('token');
+                  Token = res6.body.token;
               //  console.log('token is :' + Token);
 
                 //my tests//
@@ -80,22 +89,23 @@ describe('signUpChild', function () {
                         if (error) done(error);
                         // Now let's check our response
                         expect(response).to.have.status(201);
-                        response.body.data.should.be.a('Object');
+                        response.body.should.be.a('Object');
                         response.body.should.have.property('msg').eql('Child Successfully Signed Up!');
-                        response.body.data.should.have.property('username').eql(response.body.data.username);
+                     /*   response.body.should.have.property('username').eql(response.body.username);
                         response.body.data.should.have.property('password').eql(response.body.data.password);
                         response.body.data.should.have.property('birthdate').eql(response.body.data.birthdate);
                         response.body.data.should.have.property('email').eql(response.body.data.email);
                         response.body.data.should.have.property('firstName').eql(response.body.data.firstName);
                         response.body.data.should.have.property('lastName').eql(response.body.data.lastName);
                         response.body.data.should.have.property('phone').eql(response.body.data.phone);
-                        response.body.data.should.have.property('address').eql(response.body.data.address);
+                        response.body.data.should.have.property('address').eql(response.body.data.address); */
 
 
                         done();
                     });
                 //   done();   
             });
+         });
     });
 
     // empty birthdate case
