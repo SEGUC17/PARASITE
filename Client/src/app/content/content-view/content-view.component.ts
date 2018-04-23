@@ -40,6 +40,7 @@ export class ContentViewComponent implements OnInit {
     private discussionService: DiscussionService, private router: Router) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
     // retrieve the user data
     this.authService.getUserData(['username', 'isAdmin']).
@@ -186,6 +187,7 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     // remove unnecessary spaces
     let searchQuery =
+      this.content.title + ' ' +
       this.content.category + ' ' +
       this.content.section + ' ' +
       this.content.tags.join(' ');
@@ -200,7 +202,8 @@ export class ContentViewComponent implements OnInit {
       searchQuery,
       '',
       '',
-      'relevance'
+      'relevance',
+      this.content.language
     ).subscribe(function (res) {
       // update the recommended content array
       self.recommendedContent = res.data.contents.docs.slice(1);

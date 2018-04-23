@@ -7,6 +7,7 @@ export interface Content {
     creatorAvatarLink: string;
     creatorProfileLink: string;
     image?: string;
+    language?: string;
     section: string;
     tags?: string[];
     title: string;
