@@ -36,6 +36,6 @@ import { SignOutComponent } from './sign-out/sign-out.component';
     MatCheckboxModule,
     MatSelectModule
   ],
-  declarations: [LoginComponent, SignupComponent, ResetPasswordComponent, VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent]
+  declarations: [ResetPasswordComponent, VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent]
 })
 export class AuthModule { }

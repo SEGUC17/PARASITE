@@ -6,9 +6,9 @@ import { ResetPasswordComponent } from './resetpassword/resetpassword.component'
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 const routes = [
-  { path: 'auth/signIn', component: SignInComponent },
+  { path: 'auth/sign-in', component: SignInComponent },
 
-  { path: 'auth/signUp', component: SignUpComponent },
+  { path: 'auth/sign-up', component: SignUpComponent },
 
   { path: 'auth/resetpassword', component: ResetPasswordComponent },
 

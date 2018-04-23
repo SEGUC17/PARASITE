@@ -7,7 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignUpComponent implements OnInit {
 
-    year = (new Date()).getFullYear();
+  year = (new Date()).getFullYear();
+
   constructor() { }
 
   ngOnInit() {
