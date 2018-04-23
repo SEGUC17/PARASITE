@@ -172,7 +172,7 @@
                     </div>
                     <div id="{{'collapse' + category.name}}" class="panel-collapse collapse in" role="tabpanel" [attr.aria-labelledby]="'heading' + category.name">
                       <div class="panel-body list-group">
-                        <button *ngFor="let section of category.sections" type="button" class="list-group-item section-button" (click)="changeCategoryAndSection(category.name,section.name)">{{ section.name }}</button>
+                        <button *ngFor="let section of category.sections" type="button" class="list-group-item section-button" (click)="changeCategoryAndSection(category.name,section.name)">{{ section.name }}<img [src]="section.iconLink" width="32px" height="32px" style="float: right;"></button>
                       </div>
                     </div>
                   </div>
