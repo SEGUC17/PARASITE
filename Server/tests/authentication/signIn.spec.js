@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 var Mockgoose = require('mockgoose').Mockgoose;
 var path = '/api/signIn';
 var User = require('../../api/models/User');
+var should = chai.should();
 // --- End of "Requirements" --- //
 
 // --- Dependancies --- //
@@ -38,6 +39,7 @@ describe('signIn', function () {
             birthdate: '1/1/1980',
             email: 'johndoe@gmail.com',
             firstName: 'John',
+            isEmailVerified: true,
             isTeacher: true,
             lastName: 'Doe',
             password: 'JohnPasSWorD',
