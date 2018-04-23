@@ -78,16 +78,7 @@ export class AdminService {
       );
   }
 
-  // create a section for content (resources and ideas) to be classified into
-  createSection(categoryId: any, section: any): Observable<any> {
-    const self = this;
-    return this.http.post(self.baseURL + 'content/category/' + categoryId + '/section', section)
-      .pipe(
-        catchError(
-          self.handleError('createSection', [])
-        )
-      );
-  }
+
   removePublishedStudyPlans(studyPlanId: any): Observable<any> {
     const self = this;
     return this.http.get(self.baseURL + self.removePublishedStudyPlansURL + studyPlanId)
@@ -143,10 +134,21 @@ export class AdminService {
 
   deleteCategory(category: any): Observable<any> {
     const self = this;
-    return this.http.post(self.baseURL + 'content/category', category)
+    return this.http.delete(self.baseURL + 'content/category/' + category._id)
       .pipe(
         catchError(
-          self.handleError('deleteCategory', [])
+          self.handleError('Delete Category')
+        )
+      );
+  }
+
+  // create a section for content (resources and ideas) to be classified into
+  createSection(categoryId: any, section: any): Observable<any> {
+    const self = this;
+    return this.http.post(self.baseURL + 'content/category/' + categoryId + '/section', section)
+      .pipe(
+        catchError(
+          self.handleError('createSection', [])
         )
       );
   }
@@ -177,9 +179,9 @@ export class AdminService {
   private handleError<T>(operation = 'operation', result?: T) {
     const self = this;
     return function (error: any): Observable<T> {
-
-      self.toasterService.error(error.error.msg, operation + ' failed');
-
+      if (error.error.msg) {
+        self.toasterService.error(error.error.msg, operation + ' failed');
+      }
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
