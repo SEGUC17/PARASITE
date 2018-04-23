@@ -454,6 +454,42 @@ describe('signIn', function () {
                 });
         });
     });
+    it('Token Expires In 1 Week (With Remember Me)!', function (done) {
+        var that = this;
+        User.create(this.johnDoe, function (err) {
+            if (err) {
+                return done(err);
+            }
+
+            chai.request(app).
+                post(path).
+                send({
+                    'password': that.johnDoe.password,
+                    'rememberMe': true,
+                    'username': that.johnDoe.username
+                }).
+                end(function (err2, res) {
+                    if (err2) {
+                        return done(err2);
+                    }
+
+                    jwt.verify(
+                        res.body.token.substring(4),
+                        config.SECRET,
+                        function (err3, decoded) {
+                            if (err3) {
+                                return done(err3);
+                            }
+
+                            (new Date(decoded.exp) - new Date(decoded.iat)).should.be.
+                                eql(7 * 24 * 3600);
+
+                            return done();
+                        }
+                    );
+                });
+        });
+    });
     // --- End of "Tests" --- //
 
     // --- Mockgoose Termination --- //
