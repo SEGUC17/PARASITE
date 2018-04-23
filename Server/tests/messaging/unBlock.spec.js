@@ -19,9 +19,10 @@ chai.use(chaiHttp);
 
 var user = {
     birthdate: '3/29/1997',
-    blocked: [''],
+    blocked: [],
     email: 'lama@gmail.com',
     firstName: 'lama',
+    isEmailVerified: true,
     lastName: 'ahmed',
     password: '123456789',
     phone: '0174536975',
@@ -54,15 +55,19 @@ describe('Unblocking a user so that they could message me back', function () {
     it('it should unblock a user to enable him to message me back once again', function (done) {
         console.log('reached it!');
         // sign up and be authenticated
-        chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                response.should.have.status(201);
-                token = response.body.token;
+        User.create(user, function (err) {
+            if (err) {
+                return done(err);
+            }
+        chai.request(server)
+        .post('/api/signIn')
+        .send({'password' : user.password, 
+         'username': user.username })
+        .end((err6, res6) => {
+            res6.should.have.status(200);
+            res6.body.should.be.a('object');
+          res6.body.should.have.property('token');
+           token = res6.body.token;
               //  console.log('id is: ', response.body._id);
                 // get username of logged in user
                chai.request(server).post('/api/userData').
@@ -124,6 +129,7 @@ describe('Unblocking a user so that they could message me back', function () {
                          });
                     });
             });
+        });
     });
     // --- Mockgoose Termination --- //
     after(function (done) {
