@@ -160,19 +160,19 @@ export class AdminService {
     return this.http.patch(
       self.baseURL + 'content/category/' + categoryId +
       '/section/' + section._id,
-      { iconLink: section.iconLink, sectionName: section.name})
-      . pipe(
+      { iconLink: section.iconLink, sectionName: section.name })
+      .pipe(
         catchError(self.handleError('Update Section'))
       );
   }
 
   // Delete section
-  deleteSection(categoryId: any, section: any): Observable<any> {
+  deleteSection(categoryId: any, sectionId: any): Observable<any> {
     const self = this;
-    return this.http.post(self.baseURL + 'content/category/' + categoryId + '/section', section)
+    return this.http.delete(self.baseURL + 'content/category/' + categoryId + '/section/' + sectionId)
       .pipe(
         catchError(
-          self.handleError('deleteSection', [])
+          self.handleError('Delete Section', [])
         )
       );
   }
