@@ -120,8 +120,8 @@ export class MarketComponent implements OnInit {
   goToCreate() {
     const self = this;
     let dialogRef = self.dialog.open(CreateProductComponent, {
-      width: '850px',
-      height: '550px',
+    //  width: '75%',
+    //  height: '60%',
       data: { market: self }
     });
     dialogRef.afterClosed().subscribe(result => {
