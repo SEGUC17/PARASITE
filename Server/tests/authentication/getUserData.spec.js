@@ -8,10 +8,12 @@ var chaiHttp = require('chai-http');
 var mongoose = require('mongoose');
 var Mockgoose = require('mockgoose').Mockgoose;
 var path = '/api/userData';
+var User = require('../../api/models/User');
 // --- End of "Requirements" --- //
 
 // --- Dependancies --- //
 var mockgoose = new Mockgoose(mongoose);
+var should = chai.should();
 // --- End of "Dependancies" --- //
 
 // --- Middleware --- //
@@ -38,6 +40,7 @@ describe('getUserData', function () {
             birthdate: '1/1/1980',
             email: 'johndoe@gmail.com',
             firstName: 'John',
+            isEmailVerified: true,
             isTeacher: true,
             lastName: 'Doe',
             password: 'JohnPasSWorD',
@@ -52,17 +55,26 @@ describe('getUserData', function () {
             'username'
         ];
         mockgoose.helper.reset().then(function () {
-            chai.request(app).
-                post('/api/signUp').
-                send(that.johnDoe).
-                end(function (err, res) {
-                    if (err) {
-                        done(err);
-                    } else {
-                        that.token = res.body.token;
-                        done();
-                    }
-                });
+            User.create(that.johnDoe, function (err) {
+                if (err) {
+                    done(err);
+                } else {
+                    chai.request(app).
+                        post('/api/signIn').
+                        send({
+                            'password': that.johnDoe.password,
+                            'username': that.johnDoe.username
+                        }).
+                        end(function (err2, res) {
+                            if (err2) {
+                                done(err2);
+                            } else {
+                                that.token = res.body.token;
+                                done();
+                            }
+                        });
+                }
+            });
         });
     });
     // --- End of "Clearing Mockgoose" --- //
