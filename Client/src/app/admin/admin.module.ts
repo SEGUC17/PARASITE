@@ -34,6 +34,7 @@ import { CategoryUpdateComponent } from './category-management/category-update/c
 import { CategoryDeleteComponent } from './category-management/category-delete/category-delete.component';
 import { SectionCreateComponent } from './category-management/section-create/section-create.component';
 import { SectionUpdateComponent } from './category-management/section-update/section-update.component';
+import { SectionDeleteComponent } from './category-management/section-delete/section-delete.component';
 
 @NgModule({
   imports: [
@@ -72,7 +73,8 @@ import { SectionUpdateComponent } from './category-management/section-update/sec
     CategoryUpdateComponent,
     CategoryDeleteComponent,
     SectionCreateComponent,
-    SectionUpdateComponent],
+    SectionUpdateComponent,
+    SectionDeleteComponent],
   exports: [
     MatButtonModule,
     MatButtonToggleModule,
