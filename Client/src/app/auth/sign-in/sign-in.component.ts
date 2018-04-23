@@ -15,8 +15,6 @@ export class SignInComponent implements OnInit {
     rememberMe: false
   };
 
-  year = (new Date()).getFullYear();
-
   constructor(private authService: AuthService) { }
 
   ngOnInit() {

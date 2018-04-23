@@ -22,7 +22,6 @@ export class SignUpComponent implements OnInit {
     address: '',
     isTeacher: false,
   };
-  year = (new Date()).getFullYear();
 
   constructor(private authService: AuthService) { }
 
