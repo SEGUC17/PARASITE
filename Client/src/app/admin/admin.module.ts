@@ -31,6 +31,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '../shared/shared.module';
 import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
 import { CategoryUpdateComponent } from './category-management/category-update/category-update.component';
+import { CategoryDeleteComponent } from './category-management/category-delete/category-delete.component';
+import { SectionCreateComponent } from './category-management/section-create/section-create.component';
+import { SectionUpdateComponent } from './category-management/section-update/section-update.component';
 
 @NgModule({
   imports: [
@@ -66,7 +69,10 @@ import { CategoryUpdateComponent } from './category-management/category-update/c
     ViewPsychRequestsComponent,
     PublishRequestsComponent,
     CategoryCreateComponent,
-    CategoryUpdateComponent],
+    CategoryUpdateComponent,
+    CategoryDeleteComponent,
+    SectionCreateComponent,
+    SectionUpdateComponent],
   exports: [
     MatButtonModule,
     MatButtonToggleModule,
