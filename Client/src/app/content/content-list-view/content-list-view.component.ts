@@ -156,9 +156,6 @@ export class ContentListViewComponent implements OnInit {
 
   // respond to the user changing the current category and section
   changeCategoryAndSection(category: any, section: any): void {
-    // user changed the category or section, nullifying the validity of his search query
-    this.searchQuery = '';
-
     // intialize category/section browsing
     this.selectedCategory = category;
     this.selectedSection = section;
