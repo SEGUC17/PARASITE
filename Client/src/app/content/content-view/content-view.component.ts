@@ -49,7 +49,6 @@ export class ContentViewComponent implements OnInit {
       });
     // retrieve the id of the content from the current path and request content
     this.route.params.subscribe(function (params) {
-      console.log('Object Requested with Id: ' + params.id);
       self.getContentById(params.id);
     });
   }
@@ -72,7 +71,6 @@ export class ContentViewComponent implements OnInit {
           document.getElementById('cancelBtn').click();
         }
       });
-      console.log('Retrieved: ' + retrievedContent.data);
     });
   }
 
@@ -191,9 +189,6 @@ export class ContentViewComponent implements OnInit {
       this.content.category + ' ' +
       this.content.section + ' ' +
       this.content.tags.join(' ');
-
-    // print statements for debugging
-    console.log('Query Tags: ' + searchQuery);
 
     // retrieve search page from the server
     this.contentService.getSearchPage(

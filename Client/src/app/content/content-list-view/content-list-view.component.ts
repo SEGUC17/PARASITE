@@ -142,7 +142,6 @@ export class ContentListViewComponent implements OnInit {
         // assign the retrieved contents to the contents array
         self.contents = retrievedContents.data.docs;
         self.totalNumberOfPages = retrievedContents.data.pages;
-        console.log('Get Contributions');
       });
   }
 
@@ -183,10 +182,6 @@ export class ContentListViewComponent implements OnInit {
     const self = this;
     // remove unnecessary spaces
     this.searchQuery = this.searchQuery.trim();
-
-    // print statements for debugging
-    console.log('Query Tags: ' + this.searchQuery);
-    console.log('Retrieving Page: ' + this.currentPageNumber);
 
     // retrieve search page from the server
     this.contentService.getSearchPage(
