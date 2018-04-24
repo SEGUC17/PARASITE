@@ -35,8 +35,10 @@ describe('Report user', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-    it('it should create a report with the correct reason, reporter, and reported person.' +
-        ' and make this user a parent', function (done) {
+   it(
+       'it should create a report with the correct reason, reporter,' +
+        ' and reported person.'
+        , function (done) {
             var user = {
                 birthdate: '1/1/1997',
                 email: 'Magicx@gmail.com',
@@ -73,13 +75,12 @@ describe('Report user', function () {
                                     Res.should.have.status(200);
                                     var report = {
                                                 reason: '8atata',
-                                                reportedPerson: '',
+                                                reportedPerson: 'bora3i',
                                                 reporter: 'snickers123'
                                                 };
                                     // the test
                                     chai.request(server).
-                                        put('/api/profile/LinkAnotherParent/' +
-                                            Res.body.data._id).
+                                        post('/api/profile/ReportUser').
                                         send(report).
                                         set('Authorization', token).
                                         end(function (Error, Response) {
@@ -87,18 +88,17 @@ describe('Report user', function () {
                                                 return console.log(Error);
                                             }
                                             expect(Response).to.have.
-                                                status(200);
+                                                status(201);
                                             Response.body.data.should.
                                                 be.a('Object');
                                             Response.body.data.should.have.
-                                                property('children').
-                                                eql(['Mohamed']);
+                                                property('reason').
+                                                eql('8atata');
                                             Response.body.data.should.have.
-                                                property('isParent').eql(true);
+                                                property('reportedPerson').eql('bora3i');
                                             Response.body.data.should.have.
-                                                property('_id').
-                                                eql(String(Response.body.
-                                                    data._id));
+                                                property('reporter').
+                                                eql('snickers123');
                                             done();
                                         });
 
@@ -106,7 +106,8 @@ describe('Report user', function () {
                         });
 
                 });
-        });
+        }
+    );
 
     // --- Mockgoose Termination --- //
     after(function (done) {
