@@ -124,6 +124,7 @@ module.exports.editRequest = function (req, res, next) {
   }
 };
 
+// extract the limits out of the json object passed in the parameters of the get psych request
 var limits = function (toFind) {
   var limiters = { '$text': { '$search': toFind.search } };
   if (toFind.address) {
@@ -135,6 +136,8 @@ var limits = function (toFind) {
 
   return limiters;
 };
+// extract the search option (sort, entries per page and page number)
+// out of the json object passed in the parameters of the get psych request
 var options = function (toFind) {
 
   var ret = {
