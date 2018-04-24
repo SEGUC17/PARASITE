@@ -173,11 +173,9 @@ export class MarketComponent implements OnInit {
   }
 
   // apply delimiter based on seller
-  applySeller(x: string): void {
+  applySeller(): void {
     let self = this;
-    if (x === 'all') {
-      self.selectedSeller = null;
-    } else {
+    if (self.selectedSeller) { self.selectedSeller = null; } else {
       self.selectedSeller = this.user.username;
     }
     self.firstPage();
