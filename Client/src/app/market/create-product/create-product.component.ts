@@ -32,7 +32,6 @@ export class CreateProductComponent {
   user: any = {};
 
   createProduct(product: any) {
- 
     // this.user = this.authService.getUser(); // here i get the currently logged in user
 
     let pro = { // here i put the inputs i take and place them in pro
