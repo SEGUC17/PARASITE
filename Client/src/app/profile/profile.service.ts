@@ -90,7 +90,7 @@ export class ProfileService {
   }
 
   reportUser(report, Id): any {
-    return this.http.post(`${this.reportUserUrl}/${Id}`, report, httpOptions);
+    return this.http.post(this.reportUserUrl, report, httpOptions);
   }
 
 }

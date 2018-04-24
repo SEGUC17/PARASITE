@@ -14,7 +14,7 @@ var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
 var token = null;
-describe('Add user as a parent to my child', function () {
+describe('Report user', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
@@ -35,7 +35,7 @@ describe('Add user as a parent to my child', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-    it('it should add the current child to the chosen user,' +
+    it('it should create a report with the correct reason, reporter, and reported person.' +
         ' and make this user a parent', function (done) {
             var user = {
                 birthdate: '1/1/1997',
@@ -71,12 +71,16 @@ describe('Add user as a parent to my child', function () {
                                 set('Authorization', token).
                                 end(function (Err, Res) {
                                     Res.should.have.status(200);
-                                    var child = { child: 'Mohamed' };
+                                    var report = {
+                                                reason: '8atata',
+                                                reportedPerson: '',
+                                                reporter: 'snickers123'
+                                                };
                                     // the test
                                     chai.request(server).
                                         put('/api/profile/LinkAnotherParent/' +
                                             Res.body.data._id).
-                                        send(child).
+                                        send(report).
                                         set('Authorization', token).
                                         end(function (Error, Response) {
                                             if (Error) {

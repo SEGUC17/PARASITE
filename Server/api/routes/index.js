@@ -205,7 +205,7 @@ module.exports = function (passport) {
   router.patch('/profile/:username/UnlinkMyself', isAuthenticated, profileController.UnlinkIndependent);
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
   router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
-  router.post('/profile/reportUser/:userId', isAuthenticated, profileController.reportUser);
+  router.post('/profile/ReportUser', isAuthenticated, profileController.reportUser);
 
 
   // ------------------- End of Profile module Endpoints-----------//
