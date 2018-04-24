@@ -13,16 +13,17 @@ var mockgoose = new Mockgoose(mongoose);
 chai.use(chaiHttp);
 var token = null;
 
-var admin = {
+var admin = new users({
     birthdate: '06/16/1997',
     email: 'bla@bla.bla',
     firstName: 'bla',
     isAdmin: true,
+    isEmailVerified: true,
     lastName: 'bla',
     password: '123bla456bla',
     phone: 1222357686,
     username: 'blabla'
-};
+});
 
 // save the documents and test
 describe('Admin responding to study plan publish requests', function () {
@@ -31,45 +32,40 @@ describe('Admin responding to study plan publish requests', function () {
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
-                done();
-            });
-        });
-    });
-
-    // --- Clearing Mockgoose --- //
-    beforeEach(function (done) {
-        mockgoose.helper.reset().then(function () {
-            done();
-        });
-    });
-
-    beforeEach(function (done) {
-        // sign up and be authenticated
-        chai.request(server).
-        post('/api/signUp').
-        send(admin).
-        end(function (err, res) {
-            if (err) {
-                return console.log(err);
-            }
-            res.should.have.status(201);
-            token = res.body.token;
-            users.updateOne(
-                { username: 'blabla' }, { $set: { isAdmin: true } },
-                function (err1) {
-                    if (err1) {
-                        console.log(err1);
+                // save user
+                admin.save(function (err) {
+                    if (err) {
+                        throw err;
                     }
-                }
-            );
-            done();
-        });
+
+                    //login to be authenticated
+                    chai.request(server).
+                        post('/api/signIn').
+                        send({
+                            'password': '123bla456bla',
+                            'username': 'blabla'
+                        }).
+                        end(function (err2, res) {
+                            if (err2) {
+                                done(err2);
+                            } else {
+                                res.should.have.status(200);
+                                token = res.body.token;
+                                done();
+                            }
+                        });
+                });
+
+            });
+});
     });
+
+
     it(
         'Publish requests should be approved when admin approves',
         function (done) {
             var sppr1 = new sppr({
-                _id: '5ad2b1726512f807d6ef25ca',
+                _id: '5ad2b1726512f807d6ef26ca',
                 createdOn: '9/9/9500',
                 creator: 'bla',
                 requestType: 'create'
@@ -80,7 +76,7 @@ describe('Admin responding to study plan publish requests', function () {
                 }
             });
             var sp = new StudyPlan({
-                _id: '5ad2b5296512f807d6ef25cb',
+                _id: '5ad2b5296512f807d6ef15cb',
                 creator: 'bla',
                 description: 'bkablabla',
                 title: 'blaaah'
@@ -92,7 +88,7 @@ describe('Admin responding to study plan publish requests', function () {
             });
             chai.request(server).
             patch('/api/admin/RespondStudyPlanPublishRequest/' +
-                '5ad2b1726512f807d6ef25ca/5ad2b5296512f807d6ef25cb').
+                '5ad2b1726512f807d6ef26ca/5ad2b5296512f807d6ef15cb').
             send({ respo: 'approved' }).
             set('Authorization', token).
             end(function (err, res) {

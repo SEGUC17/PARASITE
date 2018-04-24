@@ -16,13 +16,14 @@ var user = new User({
     birthdate: '01/01/1997',
     email: 'bla@bla.a',
     firstName: 'bla',
-    isParent: true,
+    isChild: false,
+    isEmailVerified: true,
     lastName: 'mo',
     password: '123bla456bla',
     username: 'ol'
 });
 // authenticated token
-var token = null;
+var token = user;
 // an array for insertions of test data
 var docArray = [];
 // save the documents and test
@@ -45,12 +46,6 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
                 res.body.data.docs.should.be.a('array');
                 res.body.data.docs.should.have.lengthOf(pageLength);
 
-                for (
-                    var counter = 0; counter < res.body.data.docs.length;
-                     counter += 1
-                ) {
-                    console.log(res.body.data.docs[counter].username);
-                }
                 done();
             });
         } else {
@@ -66,17 +61,34 @@ describe('/GET/ parents one delimiter', function () {
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
-                done();
+                // save user
+                user.save(function (err) {
+                    if (err) {
+                        throw err;
+                    }
+
+                    //login to be authenticated
+                    chai.request(server).
+                        post('/api/signIn').
+                        send({
+                            'password': '123bla456bla',
+                            'username': 'ol'
+                        }).
+                        end(function (err2, res) {
+                            if (err2) {
+                                done(err2);
+                            } else {
+                                res.should.have.status(200);
+                                token = res.body.token;
+                                done();
+                            }
+                        });
+                });
+
             });
-        });
+});
     });
     // --- End of "Mockgoose Initiation" --- //
-    // --- Clearing Mockgoose --- //
-    beforeEach(function (done) {
-        mockgoose.helper.reset().then(function () {
-            done();
-        });
-    });
     it(
         'it should GET page of parents without restrictions',
         function (done) {
@@ -86,6 +98,8 @@ describe('/GET/ parents one delimiter', function () {
                 birthdate: '01/01/1997',
                 email: 'blab@bla.bla',
                 firstName: 'bla',
+                isEmailVerified: true,
+                isParent: false,
                 lastName: 'blab',
                 password: '123bla456bla',
                 username: 'blab'
@@ -97,30 +111,19 @@ describe('/GET/ parents one delimiter', function () {
                     birthdate: '01/01/1997',
                     email: 'bla@bla.bla' + counter,
                     firstName: 'bla',
+                    isEmailVerified: true,
                     isParent: true,
                     lastName: 'bla' + counter,
                     password: '123bla456bla',
                     username: 'blabla' + counter
                 }));
             }
-            // sign up and be authenticated
-            chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log('Signed up!');
-                response.should.have.status(201);
-                token = response.body.token;
                 saveAllAndTest(
                     done,
                     '/api/User/Search/NA/NA/NA/NA/1/10',
                     3
                 );
 
-            });
         }
     );
     it(
@@ -133,6 +136,7 @@ describe('/GET/ parents one delimiter', function () {
                 birthdate: '01/01/1997',
                 email: 'blab@bla.bla',
                 firstName: 'bla',
+                isEmailVerified: true,
                 isParent: true,
                 lastName: 'blab',
                 password: '123bla456bla',
@@ -145,29 +149,18 @@ describe('/GET/ parents one delimiter', function () {
                     birthdate: '01/01/1997',
                     email: 'bla@bla.bla' + counter,
                     firstName: 'bla',
+                    isEmailVerified: true,
                     isParent: true,
                     lastName: 'bla' + counter,
                     password: '123bla456bla',
-                    username: 'blabla' + counter
+                    username: 'blablaa' + counter
                 }));
             }
-            // sign up and be authenticated
-            chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log('Signed up!');
-                response.should.have.status(201);
-                token = response.body.token;
                 saveAllAndTest(
                     done,
-                    '/api/User/Search/blabla0/NA/NA/NA/1/10',
+                    '/api/User/Search/blablaa0/NA/NA/NA/1/10',
                     1
                 );
-            });
         }
     );
     it(
@@ -179,6 +172,7 @@ describe('/GET/ parents one delimiter', function () {
                 birthdate: '01/01/1997',
                 email: 'blab@bla.bla',
                 firstName: 'bla',
+                isEmailVerified: true,
                 isParent: true,
                 lastName: 'blab',
                 password: '123bla456bla',
@@ -191,30 +185,18 @@ describe('/GET/ parents one delimiter', function () {
                     birthdate: '01/01/1997',
                     email: 'bla@bla.bla' + counter,
                     firstName: 'bla',
+                    isEmailVerified: true,
                     isParent: true,
                     lastName: 'bla' + counter,
                     password: '123bla456bla',
-                    username: 'blabla' + counter
+                    username: 'blabb' + counter
                 }));
             }
-            // sign up and be authenticated
-            chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log('Signed up!');
-                response.should.have.status(201);
-                token = response.body.token;
                 saveAllAndTest(
                     done,
                     '/api/User/Search/NA/NA/NA/cairo/1/10',
-                    3
+                    10
                 );
-
-            });
         }
     );
     it(
@@ -226,6 +208,7 @@ describe('/GET/ parents one delimiter', function () {
                 birthdate: '01/01/1997',
                 email: 'blab@bla.bla',
                 firstName: 'bla',
+                isEmailVerified: true,
                 isParent: true,
                 lastName: 'blab',
                 password: '123bla456bla',
@@ -240,6 +223,7 @@ describe('/GET/ parents one delimiter', function () {
                     email: 'lo@lo.lo' + counter,
                     firstName: 'lo',
                     isChild: true,
+                    isEmailVerified: true,
                     lastName: 'lo' + counter,
                     password: '123bla456bla',
                     username: 'lolo' + counter
@@ -250,6 +234,7 @@ describe('/GET/ parents one delimiter', function () {
                     children: ['lolo' + counter],
                     email: 'bla@bla.bla' + counter,
                     firstName: 'bla',
+                    isEmailVerified: true,
                     isParent: true,
                     lastName: 'bla' + counter,
                     password: '123bla456bla',
@@ -257,24 +242,11 @@ describe('/GET/ parents one delimiter', function () {
                 }));
 
             }
-            // sign up and be authenticated
-            chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log('Signed up!');
-                response.should.have.status(201);
-                token = response.body.token;
                 saveAllAndTest(
                     done,
                     '/api/User/Search/NA/first/NA/NA/1/10',
-                    2
+                    5
                 );
-
-            });
         }
     );
     it(
@@ -286,6 +258,7 @@ describe('/GET/ parents one delimiter', function () {
                 birthdate: '01/01/1997',
                 email: 'blab@bla.bla',
                 firstName: 'bla',
+                isEmailVerified: true,
                 isParent: true,
                 lastName: 'blab',
                 password: '123bla456bla',
@@ -300,9 +273,10 @@ describe('/GET/ parents one delimiter', function () {
                     email: 'lo@lo.lo' + counter,
                     firstName: 'lo',
                     isChild: true,
+                    isEmailVerified: true,
                     lastName: 'lo' + counter,
                     password: '123bla456bla',
-                    username: 'lolo' + counter
+                    username: 'lolob' + counter
                 }));
                 docArray.push(new User({
                     address: 'cairo',
@@ -310,30 +284,18 @@ describe('/GET/ parents one delimiter', function () {
                     children: ['lolo' + counter],
                     email: 'bla@bla.bla' + counter,
                     firstName: 'bla',
+                    isEmailVerified: true,
                     isParent: true,
                     lastName: 'bla' + counter,
                     password: '123bla456bla',
                     username: 'blabla' + counter
                 }));
             }
-            // sign up and be authenticated
-            chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log('Signed up!');
-                response.should.have.status(201);
-                token = response.body.token;
                 saveAllAndTest(
                     done,
                     '/api/User/Search/NA/NA/IG/NA/1/10',
-                    2
+                    5
                 );
-
-            });
         }
     );
     // --- Mockgoose Termination --- //
@@ -348,19 +310,40 @@ describe('/GET/ parents two or more delimiters', function () {
     this.timeout(120000);
     // --- Mockgoose Initiation --- //
     before(function (done) {
-        mockgoose.prepareStorage().then(function () {
-            mongoose.connect(config.MONGO_URI, function () {
-                done();
-            });
-        });
-    });
-    // --- End of "Mockgoose Initiation" --- //
-    // --- Clearing Mockgoose --- //
-    beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
             done();
         });
+        mockgoose.prepareStorage().then(function () {
+            mongoose.connect(config.MONGO_URI, function () {
+                // save user
+                user.save(function (err) {
+                    if (err) {
+                        throw err;
+                    }
+
+                    //login to be authenticated
+                    chai.request(server).
+                        post('/api/signIn').
+                        send({
+                            'password': '123bla456bla',
+                            'username': 'ol'
+                        }).
+                        end(function (err2, res) {
+                            if (err2) {
+                                done(err2);
+                            } else {
+                                res.should.have.status(200);
+                                token = res.body.token;
+                                done();
+                            }
+                        });
+                });
+
+            });
+});
     });
+    // --- End of "Mockgoose Initiation" --- //
+    // --- Clearing Mockgoose --- //
     // --- End of "Clearing Mockgoose" --- //
     it(
         'it should GET page of parents with specified username and location',
@@ -371,10 +354,11 @@ describe('/GET/ parents two or more delimiters', function () {
                 birthdate: '01/01/1997',
                 email: 'blab@bla.bla',
                 firstName: 'bla',
+                isEmailVerified: true,
                 isParent: true,
                 lastName: 'blab',
                 password: '123bla456bla',
-                username: 'blab'
+                username: 'bclab'
             }));
             // provide the documents that will not be retrieved
             for (var counter = 0; counter < 3; counter += 1) {
@@ -383,30 +367,18 @@ describe('/GET/ parents two or more delimiters', function () {
                     birthdate: '01/01/1997',
                     email: 'bla@bla.bla' + counter,
                     firstName: 'bla',
+                    isEmailVerified: true,
                     isParent: true,
                     lastName: 'bla' + counter,
                     password: '123bla456bla',
-                    username: 'blabla' + counter
+                    username: 'bclabla' + counter
                 }));
             }
-            // sign up and be authenticated
-            chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log('Signed up!');
-                response.should.have.status(201);
-                token = response.body.token;
                 saveAllAndTest(
                     done,
                     '/api/User/Search/blab/NA/NA/rehab/1/10',
-                    1
+                    3
                 );
-
-            });
         }
     );
     it(
@@ -418,10 +390,11 @@ describe('/GET/ parents two or more delimiters', function () {
                 birthdate: '01/01/1997',
                 email: 'blab@bla.bla',
                 firstName: 'bla',
+                isEmailVerified: true,
                 isParent: true,
                 lastName: 'blab',
                 password: '123bla456bla',
-                username: 'blab'
+                username: 'blaOb'
             }));
             // provide the documents that will be retrieved
             for (var counter = 0; counter < 3; counter += 1) {
@@ -432,9 +405,10 @@ describe('/GET/ parents two or more delimiters', function () {
                     email: 'lo@lo.lo' + counter,
                     firstName: 'lo',
                     isChild: true,
+                    isEmailVerified: true,
                     lastName: 'lo' + counter,
                     password: '123bla456bla',
-                    username: 'lolo' + counter
+                    username: 'loloO' + counter
                 }));
                 docArray.push(new User({
                     address: 'cairo',
@@ -442,30 +416,18 @@ describe('/GET/ parents two or more delimiters', function () {
                     children: ['lolo' + counter],
                     email: 'bla@bla.bla' + counter,
                     firstName: 'bla',
+                    isEmailVerified: true,
                     isParent: true,
                     lastName: 'bla' + counter,
                     password: '123bla456bla',
-                    username: 'blabla' + counter
+                    username: 'blablOa' + counter
                 }));
             }
-            // sign up and be authenticated
-            chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log('Signed up!');
-                response.should.have.status(201);
-                token = response.body.token;
                 saveAllAndTest(
                     done,
                     '/api/User/Search/NA/first/NA/cairo/1/10',
-                    1
+                    5
                 );
-
-            });
         }
     );
     it(
@@ -477,10 +439,11 @@ describe('/GET/ parents two or more delimiters', function () {
                 birthdate: '01/01/1997',
                 email: 'blab@bla.bla',
                 firstName: 'bla',
+                isEmailVerified: true,
                 isParent: true,
                 lastName: 'blab',
                 password: '123bla456bla',
-                username: 'blab'
+                username: 'blaab'
             }));
             // provide the documents that will be retrieved
             for (var counter = 0; counter < 3; counter += 1) {
@@ -491,9 +454,10 @@ describe('/GET/ parents two or more delimiters', function () {
                     email: 'lo@lo.lo' + counter,
                     firstName: 'lo',
                     isChild: true,
+                    isEmailVerified: true,
                     lastName: 'lo' + counter,
                     password: '123bla456bla',
-                    username: 'lolo' + counter
+                    username: 'laaolo' + counter
                 }));
                 docArray.push(new User({
                     address: 'cairo',
@@ -501,29 +465,18 @@ describe('/GET/ parents two or more delimiters', function () {
                     children: ['lolo' + counter],
                     email: 'bla@bla.bla' + counter,
                     firstName: 'bla',
+                    isEmailVerified: true,
                     isParent: true,
                     lastName: 'bla' + counter,
                     password: '123bla456bla',
-                    username: 'blabla' + counter
+                    username: 'blaabla' + counter
                 }));
             }
-            // sign up and be authenticated
-            chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log('Signed up!');
-                response.should.have.status(201);
-                token = response.body.token;
                 saveAllAndTest(
                     done,
                     '/api/User/Search/NA/NA/IG/cairo/1/10',
-                    1
+                    5
                 );
-            });
         }
     );
     it(
@@ -535,10 +488,11 @@ describe('/GET/ parents two or more delimiters', function () {
                 birthdate: '01/01/1997',
                 email: 'blab@bla.bla',
                 firstName: 'bla',
+                isEmailVerified: true,
                 isParent: true,
                 lastName: 'blab',
                 password: '123bla456bla',
-                username: 'blab'
+                username: 'balab'
             }));
             // provide the documents that will be retrieved
             for (var counter = 0; counter < 3; counter += 1) {
@@ -550,9 +504,10 @@ describe('/GET/ parents two or more delimiters', function () {
                     email: 'lo@lo.lo' + counter,
                     firstName: 'lo',
                     isChild: true,
+                    isEmailVerified: true,
                     lastName: 'lo' + counter,
                     password: '123bla456bla',
-                    username: 'lolo' + counter
+                    username: 'lolao' + counter
                 }));
                 docArray.push(new User({
                     address: 'cairo',
@@ -560,30 +515,18 @@ describe('/GET/ parents two or more delimiters', function () {
                     children: ['lolo' + counter],
                     email: 'bla@bla.bla' + counter,
                     firstName: 'bla',
+                    isEmailVerified: true,
                     isParent: true,
                     lastName: 'bla' + counter,
                     password: '123bla456bla',
-                    username: 'blabla' + counter
+                    username: 'blablaaaa' + counter
                 }));
             }
-            // sign up and be authenticated
-            chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log('Signed up!');
-                response.should.have.status(201);
-                token = response.body.token;
                 saveAllAndTest(
                     done,
                     '/api/User/Search/NA/first/IG/NA/1/10',
-                    2
+                    5
                 );
-
-            });
         }
     );
     it(
@@ -595,10 +538,11 @@ describe('/GET/ parents two or more delimiters', function () {
                 birthdate: '01/01/1997',
                 email: 'blab@bla.bla',
                 firstName: 'bla',
+                isEmailVerified: true,
                 isParent: true,
                 lastName: 'blab',
                 password: '123bla456bla',
-                username: 'blab'
+                username: 'blabaaa'
             }));
             // provide the documents that will be retrieved
             for (var counter = 0; counter < 3; counter += 1) {
@@ -610,9 +554,10 @@ describe('/GET/ parents two or more delimiters', function () {
                     email: 'lo@lo.lo' + counter,
                     firstName: 'lo',
                     isChild: true,
+                    isEmailVerified: true,
                     lastName: 'lo' + counter,
                     password: '123bla456bla',
-                    username: 'lolo' + counter
+                    username: 'loloa' + counter
                 }));
                 docArray.push(new User({
                     address: 'cairo',
@@ -620,30 +565,18 @@ describe('/GET/ parents two or more delimiters', function () {
                     children: ['lolo' + counter],
                     email: 'bla@bla.bla' + counter,
                     firstName: 'bla',
+                    isEmailVerified: true,
                     isParent: true,
                     lastName: 'bla' + counter,
                     password: '123bla456bla',
-                    username: 'blabla' + counter
+                    username: 'blablaaa' + counter
                 }));
             }
-            // sign up and be authenticated
-            chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                console.log('Signed up!');
-                response.should.have.status(201);
-                token = response.body.token;
                 saveAllAndTest(
                     done,
                     '/api/User/Search/NA/first/IG/cairo/1/10',
-                    1
+                    5
                 );
-
-            });
         }
     );
     // --- Mockgoose Termination --- //
