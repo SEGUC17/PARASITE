@@ -7,7 +7,6 @@ import { QuillEditorModule } from 'ngx-quill-editor';
 import { MatCardModule } from '@angular/material/card';
 import { ContentListViewComponent } from './content-list-view/content-list-view.component';
 import { MatChipsModule } from '@angular/material/chips';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material';
@@ -38,7 +37,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
   imports: [
     CommonModule,
     ContentRoutingModule,
-    FlexLayoutModule,
     FormsModule,
     MatStepperModule,
     MatFormFieldModule,
