@@ -60,9 +60,6 @@ export class StudyPlanComponent implements OnInit {
   @Input() profileUser;
 
   // end of routing parameters
-  rating = 0;
-  starCount = 5;
-  starColor = 'primary';
   studyPlan: StudyPlan;
   tempStudyPlan: StudyPlan;
   description: string;
@@ -81,7 +78,12 @@ export class StudyPlanComponent implements OnInit {
       creator: '',
       description: '',
       events: [],
-      title: ''
+      title: '',
+      rating: {
+        ratedId: '',
+        rating: 0,
+        type: 'studyPlan'
+      }
     };
     this.description = '';
     this.editorContent = '';
@@ -90,9 +92,6 @@ export class StudyPlanComponent implements OnInit {
       this.currIsChild = res.data.isChild;
       this.currIsAdmin = res.data.isAdmin;
       this.listOfChildren = res.data.children;
-      console.log(res.data.isChild);
-      console.log(res.data.isAdmin);
-      console.log(res.data.children);
     });
     this.route.params.subscribe(params => {
       this.type = params.type;
@@ -121,9 +120,6 @@ export class StudyPlanComponent implements OnInit {
           this.events = this.studyPlan.events;
           this.description = this.studyPlan.description;
           this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
-          if (this.studyPlan.rating) {
-            this.rating = this.studyPlan.rating.value;
-          }
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);
