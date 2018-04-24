@@ -1,5 +1,5 @@
 <div *ngIf="userRating" class="row">
-  <star-rating-comp class="col-sm-3 col-1" [starType]="'svg'" [rating]="objectRating" [labelText]="objectRating"
+  <star-rating class="col-sm-3 col-1" [starType]="'svg'" [rating]="objectRating" [labelText]="objectRating"
     [labelPosition]="'right'" [staticColor]="'ok'" [size]="'medium'" [showHalfStars]="true" [hoverEnabled]="true" [disabled]="disabled"
-    (starClickChange)="onClick($event)"></star-rating-comp>
+    (starClickChange)="onClick($event)"></star-rating>
 </div>
