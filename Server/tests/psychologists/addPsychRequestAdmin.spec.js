@@ -55,7 +55,7 @@ describe('add psychologist information directly by admin', function () {
 
     /* End of "Clearing Mockgoose" */
 
-    /* sign up  to the system */
+    /* sign in to the system */
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
             user.save(function (err) {
@@ -80,6 +80,7 @@ describe('add psychologist information directly by admin', function () {
         });
     });
     it('add information directly to address book', function (done) {
+        // The Request to be tested:
         var req = {
             address: 'here',
             createdAt: '1/1/2018',

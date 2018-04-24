@@ -50,6 +50,7 @@ describe('psychologist sends a request to edit his/her info', function () {
     /* Clearing Mockgoose, adding psych and signing */
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
+            // Psychologist
             Psychologist.create({
                 address: 'here',
                 daysOff:
@@ -67,6 +68,7 @@ describe('psychologist sends a request to edit his/her info', function () {
                     console.log(err);
                 }
                 psycho = req;
+                // Request to edit phone and Price Range
                 request = {
                     address: 'here',
                     daysOff:

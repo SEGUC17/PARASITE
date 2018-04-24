@@ -36,7 +36,7 @@ var token = null;
 describe('user deletes his info from address book', function () {
     var psycho = null;
 
-    /* preparing Mockooge */
+    // --- Mockgoose Initiation --- //
     before(function (done) {
     mockgoose.prepareStorage().then(function () {
         mongoose.connect(config.MONGO_URI, function () {
@@ -45,15 +45,18 @@ describe('user deletes his info from address book', function () {
     });
     });
 
-    /* Mockgoose is ready */
+    // --- End of "Mockgoose Initiation" --- //
 
-    /* sign in to the system */
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
+
+            // --- saving the user to the database --- //
             user.save(function (err) {
                 if (err) {
                     throw err;
                 }
+
+                // --- signing in --- //
                 chai.request(server).
                     post('/api/signIn').
                     send({
@@ -68,6 +71,8 @@ describe('user deletes his info from address book', function () {
                         token = response.body.token;
                     });
             });
+
+            // --- adding a psychologist to the db --- //
             Psychologist.create({
                 address: 'here',
                 daysOff:
@@ -85,6 +90,7 @@ describe('user deletes his info from address book', function () {
                     console.log(err);
                 }
                 psycho = req;
+                // save the document with a call to save
                 done();
             });
         });
