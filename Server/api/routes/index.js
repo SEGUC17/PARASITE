@@ -192,6 +192,8 @@ module.exports = function (passport) {
     '/admin/RespondContentRequest/:ContentRequestId/:ContentId', isAuthenticated,
     adminController.respondContentRequest
   );
+  router.get('/admin/getReports', isAuthenticated, adminController.getReports);
+
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
