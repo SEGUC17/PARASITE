@@ -8,6 +8,7 @@ var server = require('../../app');
 var users = mongoose.model('User');
 var expect = require('chai').expect;
 var should = chai.should();
+var User = mongoose.model('User');
 
 chai.use(chaiHttp);
 
@@ -16,27 +17,20 @@ var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
 /* a user for signing in as an admin */
-var usr = {
+var user = new User({
     address: 'somewhere',
-    avatar: '',
     birthdate: '1/1/1997',
-    children: [],
-    educationLevel: '',
-    educationSystem: '',
     email: 'mariam@m.com',
     firstName: 'mariam',
     isAdmin: true,
-    isChild: false,
-    isParent: false,
-    isTeacher: false,
+    isEmailVerified: true,
     lastName: 'mahran',
     password: '12345678',
-    phone: ['01035044431'],
-    schedule: [],
-    studyPlans: [],
-    username: 'marioma',
-    verified: true
-};
+    phone: '01035044431',
+    username: 'marioma'
+});
+
+/* user's token */
 var token = null;
 
 describe('add psychologist information directly by admin', function () {
@@ -60,28 +54,33 @@ describe('add psychologist information directly by admin', function () {
     });
 
     /* End of "Clearing Mockgoose" */
-    /* sign up  to the system */
+
+    /* sign in to the system */
     beforeEach(function (done) {
-        chai.request(server).post('/api/signUp').
-            send(usr).
-            end(function (err, response) {
+        mockgoose.helper.reset().then(function () {
+            user.save(function (err) {
                 if (err) {
-                    console.log(err);
+                    throw err;
                 }
-                token = response.body.token;
-
-                /* changing user's type to be an admin */
-
-                response.should.have.status(201);
-                users.updateOne({ username: 'marioma' }, { $set: { isAdmin: true } }, function (err1) {
-                    if (err1) {
-                        console.log(err1);
-                    }
-                });
-                done();
+                chai.request(server).
+                    post('/api/signIn').
+                    send({
+                        'password': '12345678',
+                        'username': 'marioma'
+                    }).
+                    end(function (err2, response) {
+                        if (err2) {
+                            return console.log(err2);
+                        }
+                        response.should.have.status(200);
+                        token = response.body.token;
+                        done();
+                    });
             });
+        });
     });
     it('add information directly to address book', function (done) {
+        // The Request to be tested:
         var req = {
             address: 'here',
             createdAt: '1/1/2018',

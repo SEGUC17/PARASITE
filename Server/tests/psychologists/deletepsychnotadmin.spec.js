@@ -9,6 +9,7 @@ var users = mongoose.model('User');
 var Psychologist = mongoose.model('Psychologist');
 var expect = require('chai').expect;
 var should = chai.should();
+var User = mongoose.model('User');
 
 chai.use(chaiHttp);
 
@@ -16,34 +17,26 @@ var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
-/* a user for signing in as an admin */
-var usr = {
+
+/* a user for signing in*/
+var user = new User({
     address: 'somewhere',
-    avatar: '',
     birthdate: '1/1/1997',
-    children: [],
-    educationLevel: '',
-    educationSystem: '',
     email: 'mariam@m.com',
     firstName: 'mariam',
-    isAdmin: true,
-    isChild: false,
-    isParent: false,
-    isTeacher: false,
+    isAdmin: false,
+    isEmailVerified: true,
     lastName: 'mahran',
     password: '12345678',
-    phone: ['01035044431'],
-    schedule: [],
-    studyPlans: [],
-    username: 'marioma',
-    verified: true
-};
+    phone: '01035044431',
+    username: 'marioma'
+});
 var token = null;
 
 describe('user deletes his info from address book', function () {
     var psycho = null;
 
-    /* preparing Mockooge */
+    // --- Mockgoose Initiation --- //
     before(function (done) {
     mockgoose.prepareStorage().then(function () {
         mongoose.connect(config.MONGO_URI, function () {
@@ -52,53 +45,56 @@ describe('user deletes his info from address book', function () {
     });
     });
 
-    /* Mockgoose is ready */
+    // --- End of "Mockgoose Initiation" --- //
 
-    /* Clearing Mockgoose */
-    beforeEach(function (done) {
-    mockgoose.helper.reset().then(function () {
-        done();
-    });
-    });
-
-    /* End of "Clearing Mockgoose" */
-
-    /* sign up  to the system */
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
-        Psychologist.create({
-            address: 'here',
-            daysOff:
-                [
-                    'sat',
-                    'sun'
-                ],
-            email: 'blah@blah.com',
-            firstName: 'mariam',
-            lastName: 'mahran',
-            phone: '010101',
-            priceRange: 1000
-        }, function (err, req) {
-            if (err) {
-                console.log(err);
-            }
-            psycho = req;
-        });
-        });
-        chai.request(server).post('/api/signUp').
-            send(usr).
-            end(function (err, response) {
+
+            // --- saving the user to the database --- //
+            user.save(function (err) {
+                if (err) {
+                    throw err;
+                }
+
+                // --- signing in --- //
+                chai.request(server).
+                    post('/api/signIn').
+                    send({
+                        'password': '12345678',
+                        'username': 'marioma'
+                    }).
+                    end(function (err2, response) {
+                        if (err2) {
+                            return console.log(err2);
+                        }
+                        response.should.have.status(200);
+                        token = response.body.token;
+                    });
+            });
+
+            // --- adding a psychologist to the db --- //
+            Psychologist.create({
+                address: 'here',
+                daysOff:
+                    [
+                        'sat',
+                        'sun'
+                    ],
+                email: 'blah@blah.com',
+                firstName: 'mariam',
+                lastName: 'mahran',
+                phone: '010101',
+                priceRange: 1000
+            }, function (err, req) {
                 if (err) {
                     console.log(err);
                 }
-                token = response.body.token;
-
-                /* changing user's type to be an admin */
-
-                response.should.have.status(201);
+                psycho = req;
+                // save the document with a call to save
                 done();
             });
         });
+    });
 
     it('information is deleted successfully from address book', function (done) {
         chai.request(server).delete('/api/psychologist/delete/' + psycho._id).
