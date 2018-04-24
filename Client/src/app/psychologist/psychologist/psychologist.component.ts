@@ -2,7 +2,7 @@
 /* tslint-disable max-len */
 /* tslint-disable max-statements */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef  } from '@angular/core';
 import { PsychologistService } from '../psychologist.service';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../../auth/auth.service';
@@ -12,12 +12,13 @@ import { EditPsychComponent } from '../edit-psych/edit-psych.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { Psychologist } from '../psychologist/psychologist';
-
+declare const swal: any;
 
 @Component({
   selector: 'app-psychologist',
   templateUrl: './psychologist.component.html',
-  styleUrls: ['./psychologist.component.scss']
+  styleUrls: ['./psychologist.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PsychologistComponent implements OnInit {
 
@@ -44,6 +45,59 @@ export class PsychologistComponent implements OnInit {
     private dialog: MatDialog) { }
   formInput = <any>{};
 
+  showEditPrompt(i): void {
+    const self = this;
+    if (this.admin) {
+      self.getPsychologistData(self.psychologists[i]._id);
+    } else {
+      swal({
+          title: 'Are you sure this is you!',
+          text: 'If you want to edit this information please enter your ID here',
+          type: 'input',
+          showCancelButton: true,
+          closeOnConfirm: false,
+          animation: 'slide-from-top',
+          inputPlaceholder: 'Request ID..'
+      }, function (inputValue) {
+          if (inputValue === false) { return false; }
+          if (!(inputValue === self.psychologists[i]._id)) {
+              swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
+          }
+          swal.close();
+          self.getPsychologistData(inputValue);
+      });
+    }
+  }
+  showDeletePrompt(i): void {
+    const self = this;
+    if (this.admin) {
+      self.deletePsychologist(self.psychologists[i]._id);
+    } else {
+      swal({
+          title: 'Are you sure this is you!',
+          text: 'If you want to delete this information please enter your ID here',
+          type: 'input',
+          showCancelButton: true,
+          closeOnConfirm: false,
+          animation: 'slide-from-top',
+          inputPlaceholder: 'Request ID..'
+        }, function (inputValue) {
+            if (inputValue === false) { return false; }
+            if (!(inputValue === self.psychologists[i]._id)) {
+                swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
+            } else {
+              swal({
+                type: 'warning',
+                title: 'Are you sure you want to delete your information?',
+                showCancelButton: true,
+              }, function () {
+                self.deletePsychologist(i);
+                // swal('Deleted!', 'Your imaginary file has been deleted.', 'success');
+              });
+            }
+        });
+    }
+  }
 
   getPsychologists(): void {
     let self = this;
@@ -64,7 +118,7 @@ export class PsychologistComponent implements OnInit {
       self.psychologists = self.psychologists.concat(psychs.data.docs);
     });
   }
-  addRequest(): void {
+  addRequestForm(): void {
     const self = this;
     let dialogOpener = this.dialog.open(AddPsychRequestComponent, {
       width: '60%',
@@ -77,50 +131,17 @@ export class PsychologistComponent implements OnInit {
   }
   deletePsychologist(index: any): void {
     const self = this;
-    if (this.admin) {
-      this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
-        if (res.err != null) {
-          /* if an error returned notify the user to try again */
-          self.snackBar.open('Something went wrong, please try again.', '', {
-            duration: 2500
-          });
-        } else {
-          /* everything went great!! notify the user it was a success then reload. */
-          self.snackBar.open(res.msg, '', {
-            duration: 2300
-          });
-          self.getPsychologists();
-        }
-      });
-    } else {
-
-      // if not admin, check if the input ID is same as the card ID
-      if (this.idInput.value === self.psychologists[index]._id) {
-        this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
-          if (res.err != null) {
-            /* if an error returned notify the user to try again */
-            self.snackBar.open('Something went wrong, please try again.', '', {
-              duration: 2500
-            });
-            self.getPsychologists();
-          } else {
-            /* everything went great!! notify the user it was a success then reload. */
-            self.snackBar.open(res.msg, '', {
-              duration: 2300
-            });
-            self.idInput.setValue(null);
-            self.getPsychologists();
-          }
+    this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
+      if (res.err != null) {
+        /* if an error returned notify the user to try again */
+        self.snackBar.open('Something went wrong, please try again.', '', {
+          duration: 2500
         });
       } else {
-        // user entered th wrong ID
-        let msg1 = 'The ID you Entered doesn\'t match the Information you selected,';
-        let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
-        self.snackBar.open(msg1 + msg2, '', {
-          duration: 3500
-        });
+        /* everything went great!! notify the user it was a success then reload. */
+        self.getPsychologists();
       }
-    }
+    });
   }
 
   ngOnInit() {
@@ -191,17 +212,21 @@ export class PsychologistComponent implements OnInit {
   }
 
 
-  goToEdit(i): void {
-    const self = this;
-    if (!(this.idInput.value === this.psychologists[i]._id)) {
-      let msg1 = 'The ID you Entered doesn\'t match the Information you selected,';
-      let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
-      self.snackBar.open(msg1 + msg2, '', {
-        duration: 3500
-      });
-    } else {
-      this.getPsychologistData(this.idInput.value);
-    }
+  // goToEdit(i, givenId): void {
+  //   if (this.admin) {
+  //     this.getPsychologistData(this.idInput.value);
+  //   } else {
+  //     const self = this;
+  //     if (!(givenId === this.psychologists[i]._id)) {
+  //       let msg1 = 'The ID you Entered doesn\'t match the Information you selected,';
+  //       let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
+  //       self.snackBar.open(msg1 + msg2, '', {
+  //         duration: 3500
+  //       });
+  //     } else {
+  //       this.getPsychologistData(this.idInput.value);
+  //     }
+  //   }
 
-  }
+  // }
 }

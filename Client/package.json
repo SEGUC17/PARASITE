@@ -27,14 +27,16 @@
     "amazing-time-picker": "^1.5.3",
     "angular-calendar": "^0.23.7",
     "angular-star-rating": "^4.0.0-beta.2",
+    "angular-sweetalert-service": "^2.0.2",
     "core-js": "^2.4.1",
     "css-star-rating": "^1.2.4",
     "hammerjs": "^2.0.8",
     "install": "^0.11.0",
+    "ngx-dropzone-wrapper": "^5.3.2",
     "ngx-infinite-scroll": "^0.8.4",
     "ngx-quill-editor": "^2.2.2",
-    "ngx-dropzone-wrapper": "^5.3.2",
     "rxjs": "^5.5.6",
+    "sweetalert": "^2.1.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {

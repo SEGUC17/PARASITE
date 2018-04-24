@@ -1,16 +1,31 @@
-<section class="content">
-<form>
-	<div align="center" class="wrapper">
-		<mat-card class="request-form">
-				<br>
-				<mat-card-header style="width:100%">
-					<mat-card-title id="title">
-							Add your information to our address book:
-					</mat-card-title>
-				</mat-card-header>
-			<br><br>
+<div class="container-fluid">
+		<div class="col-lg-12">
+			<div class="card" style="height:max-content; width:100%">
+		
+			<div class="header">
+					<h2><strong>Add your information to our address book</strong></h2>
+					<ul class="header-dropdown">
+						<li class="remove">
+							<a role="button" class="boxs-close" (click)="close()" ><i class="zmdi zmdi-close"></i></a>
+						</li>
+					</ul>
+				</div>
 			<div align="left">
-				<mat-card-content class="mat-card-content">
+					<div class="body">
+								<h3>Account Information</h3>
+								<fieldset>
+									<div class="form-group form-float">
+										<input type="text" class="form-control" placeholder="First Name *" name="firstName" id="psychFirstName" 
+										[formControl]="firstNameFormControl" [(ngModel)]="value" required>
+									</div>
+									<div class="form-group form-float">
+											<input type="text" class="form-control" placeholder="Last Name *" name="lastName" id="psychLastName" 
+											[formControl]="lastNameFormControl" [(ngModel)]="value1" required>
+									</div>
+									<div class="form-group form-float">
+										<input type="password" class="form-control" placeholder="Confirm Password *" name="confirm" required>
+									</div>
+								</fieldset>
 					 <mat-form-field id="first-name-input">
 						    <input matInput placeholder="First Name:" id="psychFirstName" [formControl]="firstNameFormControl"
 						           [errorStateMatcher]="matcher" [(ngModel)]="value" required>
@@ -80,11 +95,10 @@
 								</button>
 					</mat-form-field>
 
-				</mat-card-content>
+				</div>
 
 			<div align="right">
 				<mat-card-actions class="mat-card-actions">
-						<button mat-raised-button color="primary" id="btn" (click)="close()" >Cancel</button>
 						<button mat-raised-button color="primary" id="btn" (click)="submitReq()" >Submit</button>
 			 	</mat-card-actions>
 			 </div>
@@ -96,10 +110,9 @@
 		 	</mat-card-footer>
 
 			</div>
-
-	</mat-card>
+		</div>
+		</div>
 	</div>
-</form>
-</section>
+
 
 
