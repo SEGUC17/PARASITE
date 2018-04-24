@@ -22,7 +22,6 @@ declare const swal: any;
 })
 export class PsychologistComponent implements OnInit {
 
-  user: any;
   psychologists: any[];
   admin: boolean;
   idInput = new FormControl();
@@ -45,61 +44,7 @@ export class PsychologistComponent implements OnInit {
     private dialog: MatDialog) { }
   formInput = <any>{};
 
-  showEditPrompt(i): void {
-    const self = this;
-    console.log(this.admin);
-    if (this.admin) {
-      self.getPsychologistData(self.psychologists[i]._id);
-    } else {
-      swal({
-          title: 'Are you sure this is you!',
-          text: 'If you want to edit this information please enter your ID here',
-          type: 'input',
-          showCancelButton: true,
-          closeOnConfirm: false,
-          animation: 'slide-from-top',
-          inputPlaceholder: 'Request ID..'
-      }, function (inputValue) {
-          if (inputValue === false) { return false; }
-          if (!(inputValue === self.psychologists[i]._id)) {
-              swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
-          }
-          swal.close();
-          self.getPsychologistData(inputValue);
-      });
-    }
-  }
-  showDeletePrompt(i): void {
-    const self = this;
-    if (this.admin) {
-      self.deletePsychologist(self.psychologists[i]._id);
-    } else {
-      swal({
-          title: 'Are you sure this is you!',
-          text: 'If you want to delete this information please enter your ID here',
-          type: 'input',
-          showCancelButton: true,
-          closeOnConfirm: false,
-          animation: 'slide-from-top',
-          inputPlaceholder: 'Request ID..'
-        }, function (inputValue) {
-            if (inputValue === false) { return false; }
-            if (!(inputValue === self.psychologists[i]._id)) {
-                swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
-            } else {
-              swal({
-                type: 'warning',
-                title: 'Are you sure you want to delete your information?',
-                showCancelButton: true,
-              }, function () {
-                self.deletePsychologist(i);
-                // swal('Deleted!', 'Your imaginary file has been deleted.', 'success');
-              });
-            }
-        });
-    }
-  }
-
+  // load psychologists from the db
   getPsychologists(): void {
     let self = this;
     self.psychologists = [];
@@ -119,6 +64,8 @@ export class PsychologistComponent implements OnInit {
       self.psychologists = self.psychologists.concat(psychs.data.docs);
     });
   }
+
+  // open the request form for adding a new psychologist
   addRequestForm(): void {
     const self = this;
     let dialogOpener = this.dialog.open(AddPsychRequestComponent, {
@@ -130,6 +77,75 @@ export class PsychologistComponent implements OnInit {
       self.getPsychologists();
     });
   }
+
+
+  // show a pop-up for non-Admin users to enter his ID when attempting to edit some information
+  showEditPrompt(i): void {
+    const self = this;
+
+    if (this.admin) {
+      // in case of an admin editing..edit directly without request the ID
+      self.getPsychologistData(self.psychologists[i]._id);
+    } else {
+      // for normal users show swal with input field to enter ID
+      swal({
+          title: 'Are you sure this is you!',
+          text: 'If you want to edit this information please enter your ID here',
+          type: 'input',
+          showCancelButton: true,
+          closeOnConfirm: false,
+          animation: 'slide-from-top',
+          inputPlaceholder: 'Request ID..'
+      }, function (inputValue) {
+          if (inputValue === false) { return false; }
+          if (!(inputValue === self.psychologists[i]._id)) {
+            // user entered incorrect ID
+              swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
+          }
+          // ID is correct close alert and retrive the data he's requesting to edit
+          swal.close();
+          self.getPsychologistData(inputValue);
+      });
+    }
+  }
+
+  // show a pop-up for non-Admin users to enter his ID when attempting to delete some information
+  showDeletePrompt(i): void {
+    const self = this;
+    if (this.admin) {
+      // in case of an admin editing..delete directly without request the ID
+      self.deletePsychologist(i);
+    } else {
+      // for normal users show swal with input field to enter ID
+      swal({
+          title: 'Are you sure this is you!',
+          text: 'If you want to delete this information please enter your ID here',
+          type: 'input',
+          showCancelButton: true,
+          closeOnConfirm: false,
+          animation: 'slide-from-top',
+          inputPlaceholder: 'Request ID..'
+        }, function (inputValue) {
+            if (inputValue === false) { return false; }
+            if (!(inputValue === self.psychologists[i]._id)) {
+                // user entered incorrect ID
+                swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
+            } else {
+              // ID is correct confirm deletion
+              swal({
+                type: 'warning',
+                title: 'Are you sure you want to delete your information?',
+                showCancelButton: true,
+              }, function () {
+                // close alert and delete the data he's deleting
+                self.deletePsychologist(i);
+              });
+            }
+        });
+    }
+  }
+
+  // delte psych's information
   deletePsychologist(index: any): void {
     const self = this;
     this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
@@ -148,16 +164,16 @@ export class PsychologistComponent implements OnInit {
   ngOnInit() {
     const self = this;
     const userDataColumns = ['isAdmin'];
+    // set 'admin' flag to true if the signed in user is an admin
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
-      if (res.user) {
-        console.log(self.user.isAdmin);
-        self.user = res.data;
-        self.admin = self.user.isAdmin;
+      if (res.data) {
+        self.admin = res.data.isAdmin;
       }
       self.getPsychologists();
     });
   }
 
+  // get a certain psychologist's data for editing
   getPsychologistData(idIn: String): void {
     let self = this;
     self.psychologistService.getPsychologistData(idIn).subscribe(function (psych) {
@@ -169,6 +185,7 @@ export class PsychologistComponent implements OnInit {
           height: '90%',
           data: { psych: self.psychologist }
         });
+        // open a popup for the editing form
         dialogRef.afterClosed().subscribe(result => {
           self.getPsychologists();
         });
@@ -181,21 +198,28 @@ export class PsychologistComponent implements OnInit {
       }
     });
   }
+  // apply sorting criteria
   applySort(x: string): void {
     let self = this;
     self.sort = x;
     self.getPsychologists();
   }
+
+  // apply search by address criteria
   applyAddress(): void {
     let self = this;
     self.selectedAddress = self.writtenAddress;
     self.getPsychologists();
   }
+
+  // apply search criteria
   applySearch(): void {
     let self = this;
     self.selectedSearch = self.writtenSearch;
     self.getPsychologists();
   }
+
+  // remove search criteria
   remove(toRemove: string): void {
     if (toRemove === 'search') {
       this.selectedSearch = null;
@@ -212,23 +236,4 @@ export class PsychologistComponent implements OnInit {
     this.pageNumber += 1;
     this.getPage();
   }
-
-
-  // goToEdit(i, givenId): void {
-  //   if (this.admin) {
-  //     this.getPsychologistData(this.idInput.value);
-  //   } else {
-  //     const self = this;
-  //     if (!(givenId === this.psychologists[i]._id)) {
-  //       let msg1 = 'The ID you Entered doesn\'t match the Information you selected,';
-  //       let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
-  //       self.snackBar.open(msg1 + msg2, '', {
-  //         duration: 3500
-  //       });
-  //     } else {
-  //       this.getPsychologistData(this.idInput.value);
-  //     }
-  //   }
-
-  // }
 }
