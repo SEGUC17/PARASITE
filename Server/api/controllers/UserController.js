@@ -270,20 +270,22 @@ module.exports.signIn = function (req, res, next) {
             if (err) {
                 throw err;
             } else if (!user) {
-                console.log('no user found');
-
                 return res.status(422).json({
                     data: null,
                     err: null,
                     msg: 'Wrong Username/Email Or Password!'
                 });
             } else if (!user.isEmailVerified) {
-                console.log('email is not verified');
-
                 return res.status(422).json({
                     data: null,
                     err: null,
-                    msg: 'Email Is Not Verified'
+                    msg: 'Email Is Not Verified!'
+                });
+            } else if (user.isBanned) {
+                return res.status(422).json({
+                    data: null,
+                    err: null,
+                    msg: 'User Is Banned!'
                 });
             }
 
