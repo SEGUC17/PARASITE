@@ -98,7 +98,12 @@ export class ContentService {
 
   // Add learning score
   addLearningScore(contentId: any): Observable<any> {
-    return this.http.post(this.endpoint + 'content/' + contentId + '/score', {});
+    const self = this;
+    return this.http.
+      post(this.endpoint + 'content/' + contentId + '/score', {})
+      .pipe(
+        catchError(self.handleError('Sign in to get learning points', []))
+      );
   }
 
   // general error handler

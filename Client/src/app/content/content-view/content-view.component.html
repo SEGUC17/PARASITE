@@ -49,8 +49,8 @@
                                 <a>
                                     <i class="zmdi zmdi-comment-text col-blue"></i> Comments: {{ content.discussion.length }}</a>
                             </li>
-                            <li>
-                                <div class="d-flex">
+                            <li *ngIf="currentUser">
+                                <div *ngIf="currentUser.username" class="d-flex">
                                     <i class="zmdi zmdi-star"></i>
                                     <div class="rating-meta">Rating:</div>
                                     <app-rating class="rating-meta" [type]="'content'" [ratedId]="content._id" [inputRating]="content.rating.value"></app-rating>
