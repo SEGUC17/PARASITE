@@ -68,7 +68,7 @@ export class StudyPlanListViewComponent implements OnInit {
     }, 0);
   }
 
-  delete(username, plan): void {
+  delete(plan): void {
     if (plan.published) {
       this.studyPlanService
         .deletePublishedStudyPlan(plan._id)
