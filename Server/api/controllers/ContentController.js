@@ -142,10 +142,6 @@ module.exports.getSearchPage = function (req, res, next) {
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
 
-    // log the options and conditions for debugging
-    console.log(options);
-    console.log(conditions);
-
     // execute the database query
     Content.paginate(
         conditions,
@@ -176,7 +172,7 @@ module.exports.getSearchPage = function (req, res, next) {
                     if (error) {
                         return next(err);
                     }
-                    console.log(userAvatars);
+
                     // send the page of contents
 
                     return res.status(200).json({
