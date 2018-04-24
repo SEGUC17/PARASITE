@@ -118,7 +118,7 @@ module.exports = function (passport) {
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
   router.patch('/activities/:activityId/EditActivity', isAuthenticated, ActivityController.editActivity);
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', isAuthenticated, psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
   router.delete('/psychologist/delete/:id', optionalAuthentication, psychCtrl.deletePsychologist);
   router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
@@ -129,11 +129,8 @@ module.exports = function (passport) {
 
   // --------------Product Controller---------------------- //
   router.get('/market/getMarketPage/:entriesPerPage/:' +
-    'pageNumber/:limiters', productCtrl.getMarketPage);
-  router.get(
-    '/market/getNumberOfProducts/:limiters',
-    productCtrl.getNumberOfProducts
-  );
+    'pageNumber/:limiters', isAuthenticated, productCtrl.getMarketPage);
+
   router.post('/productrequest/evaluateRequest', isAuthenticated, productCtrl.evaluateRequest);
   router.get('/productrequest/getRequests', isAuthenticated, productCtrl.getRequests);
   router.post('/productrequest/createproduct', isAuthenticated, productCtrl.createProduct);
