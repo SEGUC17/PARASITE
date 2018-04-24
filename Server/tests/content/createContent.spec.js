@@ -15,8 +15,14 @@ var mockgoose = new Mockgoose(mongoose);
 var userToken = null;
 var adminToken = null;
 var cat1 = new Category({
+    iconLink: 'this-is-a-link.com',
     name: 'testcat1',
-    sections: [{ name: 'sec1.1' }]
+    sections: [
+        {
+            iconLink: 'this-is-a-link.com',
+            name: 'sec1.1'
+        }
+    ]
 });
 var testContent = {
     body: 'hello there',
@@ -64,22 +70,36 @@ describe('/POST/content/', function () {
                 password: 'testing123',
                 username: 'Hellothere'
             }).
-            end(function (err, res) {
+            end(function (err) {
                 if (err) {
                     done();
                 }
-                // get the first test user token
-                userToken = res.body.token;
-                done();
+                User.findOneAndUpdate(
+                    { username: 'Hellothere' },
+                    { $set: { isEmailVerified: true } },
+                    function (updateError, user) {
+                        if (updateError) {
+                            done();
+                        }
+                        chai.request(server).
+                            post('/api/signin').
+                            send({
+                                password: 'testing123',
+                                username: user.username
+                            }).
+                            end(function (loginError, loginRes) {
+                                if (loginError) {
+                                    done(loginError);
+                                }
+                                // get the first test user token
+                                userToken = loginRes.body.token;
+                                done();
+                            });
+                    }
+                );
+
+
             });
-    });
-    before(function (done) {
-        cat1.save(function (catError) {
-            if (catError) {
-                done();
-            }
-            done();
-        });
     });
     before(function (done) {
         //create the second test user(admin permissions)
@@ -92,24 +112,49 @@ describe('/POST/content/', function () {
                 password: 'admin123',
                 username: 'admin'
             }).
-            end(function (err, res) {
+            end(function (err) {
                 if (err) {
                     done();
                 }
                 // update user permissions
-                User.updateOne(
+                User.findOneAndUpdate(
                     { username: 'admin' },
-                    { $set: { isAdmin: true } },
-                    function (updateErr) {
+                    {
+                        $set:
+                            {
+                                isAdmin: true,
+                                isEmailVerified: true
+                            }
+                    },
+                    function (updateErr, user) {
                         if (updateErr) {
                             done();
                         }
-                        // get the token for the second test user
-                        adminToken = res.body.token;
-                        done();
+                        chai.request(server).
+                            post('/api/signin').
+                            send({
+                                password: 'admin123',
+                                username: user.username
+                            }).
+                            end(function (loginError, loginRes) {
+                                if (loginError) {
+                                    done(loginError);
+                                }
+                                // get the first test user token
+                                adminToken = loginRes.body.token;
+                                done();
+                            });
                     }
                 );
             });
+    });
+    before(function (done) {
+        cat1.save(function (catError) {
+            if (catError) {
+                done();
+            }
+            done();
+        });
     });
     it('should create new content successfully,with false ' +
         'approval status, and a new content request', function (done) {
