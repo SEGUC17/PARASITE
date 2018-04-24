@@ -1,0 +1,46 @@
+<form #updateSectionForm="ngForm">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="card category-card">
+      <div class="header">
+        <h2>
+          <strong>Update Section</strong>
+          <small>Your changes will be viewed in the content list</small>
+        </h2>
+      </div>
+      <div class="body">
+        <div class="form-group">
+          <select class="form-control" name="category select" [(ngModel)]="selectedCategory" required>
+            <option *ngFor="let category of categories" [ngValue]="category">{{category.name}}</option>
+          </select>
+        </div>
+        <div *ngIf="selectedCategory" class="form-group">
+          <select class="form-control" name="section select" [(ngModel)]="selectedSection" required>
+            <option *ngFor="let section of selectedCategory.sections" [ngValue]="section">{{section.name}}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" name="section name" placeholder="Section Name" #name [(ngModel)]="selectedSection.name"
+            required />
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" name="section icon" placeholder="Section icon Link" #name [(ngModel)]="selectedSection.iconLink"
+            required />
+        </div>
+        <div class="form-group">
+          <div class="mt-2">
+            <small class="text-muted">How it should look like</small>
+            <div class="row">
+              <div class="mr-2">{{selectedSection.name}}</div>
+              <div class="prev-icon">
+                <img class="img-responsive" [src]="selectedSection.iconLink" />
+              </div>
+            </div>
+            <div class="form-group text-center">
+              <button class="btn btn-primary" (click)="updateSection()" [disabled]="!updateSectionForm.valid">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
