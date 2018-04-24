@@ -44,7 +44,6 @@ export class ChildsignupComponent implements OnInit {
       'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone, 'address': this.Address};
       const self = this;
       self.authService.childSignUp(this.User).subscribe(function (res) {
-      self.authService.setUser(res.data);
       if ( res.data ) {
         alert(res.msg);
       }

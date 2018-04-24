@@ -60,15 +60,14 @@ export class ContentService {
       );
   }
 
-  // delete content (ideas or categories) by id
-  deleteContent(contentId: any): Observable<any> {
-    const self = this;
-    return this.http.delete(self.endpoint + 'content/' + contentId)
-      .pipe(
-        catchError(self.handleError('deleteContent', []))
-      );
-  }
-
+ // delete content (ideas or categories) by id
+ deleteContentById(contentId: any): Observable<any> {
+  const self = this;
+  return this.http.delete(self.endpoint + 'content/' + contentId)
+  .pipe(
+    catchError(self.handleError('deleteContent', []))
+  );
+}
   // get search page from server
   getSearchPage(currentPageNumber: number,
     numberOfEntriesPerPage: number,
