@@ -1,8 +1,8 @@
-<section class="content">
+  <section class="content">
   <div class="block-header">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
-          <app-rating class="float-right" [type]="'studyPlan'" [ratedId]="studyPlan._id" [inputRating]="studyPlan.rating.value"></app-rating>
+          <app-rating class="float-right" [type]="'studyPlan'" [ratedId]="studyPlan._id" [inputRating]="studyPlan.rating.value" *ngIf="type === 'published'"></app-rating>
         <h2>{{ studyPlan.title }}</h2>
         <ul class="breadcrumb p-l-0 p-b-0 ">
           <li class="breadcrumb-item">
@@ -30,8 +30,7 @@
         <button class="btn btn-primary" (click)="copy()" color="primary" *ngIf="!currIsChild">Copy</button>
         <button class="btn btn-primary" (click)="unAssign()" color="primary" *ngIf="studyPlan.assigned">Unassign</button>
         <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="!currIsChild">Assign</button>
-
-        <button class="btn btn-primary" (click)="edit()" color="primary" *ngIf="(type === 'personal' && !currIsChild) || (type === 'published' && currIsAdmin)">Edit</button>
+        <button class="btn btn-primary" (click)="edit()" color="primary" *ngIf="(type === 'personal' && !currIsChild) || (type === 'published' && !currIsAdmin)">Edit</button>
       </div>
     </div>
   </div>

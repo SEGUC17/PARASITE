@@ -29,12 +29,12 @@
           <div class="card col-3" *ngFor="let plan of studyPlans">
             <div class="header">
               <h2>
+                <span class="badge badge-info float-right" *ngIf="plan.assigned === true && type==='personal'">Assigned</span>
                 <strong>{{plan.title}}</strong>
                 <br/> {{plan.creator}}
               </h2>
             </div>
             <div class="body">
-              <span class="badge badge-primary float-right" *ngIf="plan.assigned === true && type==='personal'">Assigned</span>
               <p>
                 <a class="btn btn-primary" routerLink="/study-plan/{{type}}/{{plan._id}}/{{username}}">View</a>
                 <button class="btn btn-primary" (click)="delete(username,plan)" color="primary" *ngIf="!currIsChild">Delete</button>
