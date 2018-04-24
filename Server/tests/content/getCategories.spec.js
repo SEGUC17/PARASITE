@@ -23,14 +23,6 @@ describe('/GET/ Category', function () {
     });
     // --- End of "Mockgoose Initiation" --- //
 
-    // --- Clearing Mockgoose --- //
-    beforeEach(function (done) {
-        mockgoose.helper.reset().then(function () {
-            done();
-        });
-    });
-    // --- End of "Clearing Mockgoose" --- //
-
     // test that the server will retrieve categories
     it('it should GET categories from the server', function (done) {
         // create a category for the test
@@ -85,6 +77,15 @@ describe('/GET/ Category', function () {
                     done();
                 });
         });
+
+    // --- Clearing Mockgoose --- //
+    beforeEach(function (done) {
+        mockgoose.helper.reset().then(function () {
+            done();
+        });
+    });
+    // --- End of "Clearing Mockgoose" --- //
+
 
     // --- Mockgoose Termination --- //
     after(function (done) {
