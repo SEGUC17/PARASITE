@@ -60,14 +60,14 @@ export class ContentService {
       );
   }
 
- // delete content (ideas or categories) by id
- deleteContentById(contentId: any): Observable<any> {
-  const self = this;
-  return this.http.delete(self.endpoint + 'content/' + contentId)
-  .pipe(
-    catchError(self.handleError('deleteContent', []))
-  );
-}
+  // delete content (ideas or categories) by id
+  deleteContentById(contentId: any): Observable<any> {
+    const self = this;
+    return this.http.delete(self.endpoint + 'content/' + contentId)
+      .pipe(
+        catchError(self.handleError('deleteContent', []))
+      );
+  }
   // get search page from server
   getSearchPage(currentPageNumber: number,
     numberOfEntriesPerPage: number,
@@ -92,6 +92,11 @@ export class ContentService {
       .pipe(
         catchError(self.handleError('getSearchPage', []))
       );
+  }
+
+  // Add learning score
+  addLearningScore(contentId: any): Observable<any> {
+    return this.http.post(this.endpoint + 'content/' + contentId + '/score', {});
   }
 
   // general error handler
