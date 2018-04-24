@@ -1,4 +1,4 @@
-<section class="content">
+  <section class="content">
   <div class="block-header">
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-12">
@@ -28,9 +28,33 @@
       <div class="button-row">
         <button class="btn btn-primary" (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
         <button class="btn btn-primary" (click)="copy()" color="primary" *ngIf="!currIsChild">Copy</button>
-        <button class="btn btn-primary" (click)="assignFunction()" color="primary" *ngIf="type === 'personal' && !currIsChild">{{ assignText }}</button>
+        <button class="btn btn-primary" (click)="unAssign()" color="primary" *ngIf="studyPlan.assigned">Unassign</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="!currIsChild">Assign</button>
         <button class="btn btn-primary" (click)="edit()" color="primary" *ngIf="(type === 'personal' && !currIsChild) || (type === 'published' && !currIsAdmin)">Edit</button>
       </div>
     </div>
   </div>
 </section>
+<div class="modal fade" id="assignFunction" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="title" id="defaultModalLabel">Assign</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div class="form-line">
+            <select [(ngModel)]="selectedUser" name="assignFunctionTarget">
+              <option>{{ username }}</option>
+              <option  *ngFor="let child of listOfChildren" >{{child.username}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-round waves-effect" (click)="assign()" data-dismiss="modal">Assign</button>
+        <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
+      </div>
+    </div>
+  </div>
+</div>

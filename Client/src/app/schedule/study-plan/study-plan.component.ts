@@ -50,6 +50,9 @@ export class StudyPlanComponent implements OnInit {
   _id: String;
   profileUsername: string;
 
+  // assign modal
+  selectedUser: String;
+
   // user info
   currUsername: string;
   currIsChild: boolean;
@@ -66,6 +69,9 @@ export class StudyPlanComponent implements OnInit {
   // assign button binding
   assignFunction;
   assignText;
+
+  // Utility
+  refresh: Subject<any> = new Subject();
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
     private router: Router, private _AuthService: AuthService) { }
@@ -149,7 +155,7 @@ export class StudyPlanComponent implements OnInit {
     this.tempStudyPlan = this.studyPlan;
     this.tempStudyPlan._id = undefined;
     this.studyPlanService
-      .createStudyPlan(this.currUsername, this.tempStudyPlan)
+      .createStudyPlan(this.tempStudyPlan)
       .subscribe(res => {
         alert(res.msg);
       });
@@ -157,35 +163,29 @@ export class StudyPlanComponent implements OnInit {
 
   assign = function () {
     // this.studyPlan.assigned = true;
-    if (this.loggedInUser.username === this.profileUser) {
-      this.studyPlanService.assignStudyPlan(this.username, this._id).subscribe(
+      this.studyPlanService.assignStudyPlan(this.selectedUser, this._id).subscribe(
         res => {
-          if (res.msg === 'StudyPlan assigned successfully.') {
+          if (res.msg === 'Study plan assigned successfully') {
             alert(res.msg);
-            this.assignFunction = this.unAssign;
-            this.assignText = 'Unassign';
+            this.refreshDocument();
           } else {
             alert('An error occured while assigning the study plan');
           }
         });
-    }
 
   };
 
   unAssign = function () {
     // this.studyPlan.assigned = false;
-    if (this.loggedInUser.username === this.profileUser) {
       this.studyPlanService.unAssignStudyPlan(this.username, this._id).subscribe(
         res => {
-          if (res.msg === 'StudyPlan Unassigned from me.') {
+          if (res.msg === 'Study plan unassigned successfully') {
             alert(res.msg);
-            this.assignFunction = this.assign;
-            this.assignText = 'Assign';
+            this.refreshDocument();
           } else {
             alert('An error occured while Unassigning the study plan from me');
           }
         });
-    }
   };
 
   edit(): void {
@@ -209,5 +209,12 @@ export class StudyPlanComponent implements OnInit {
 
     console.log(start);
     console.log(end);
+  }
+  refreshDocument() {
+    // Light refresh to show any changes
+    const self = this;
+    setTimeout(function () {
+      return self.refresh.next();
+    }, 0);
   }
 }

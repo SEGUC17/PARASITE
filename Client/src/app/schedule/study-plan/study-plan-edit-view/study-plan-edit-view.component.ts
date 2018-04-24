@@ -113,7 +113,7 @@ export class StudyPlanEditViewComponent implements OnInit {
     this.studyPlan.description = this.description;
     this.studyPlan.events = this.events;
     this.studyPlan.creator = this.username;
-    this.studyPlanService.createStudyPlan(this.username, this.studyPlan).subscribe(
+    this.studyPlanService.createStudyPlan(this.studyPlan).subscribe(
       res => {
         if (res.err) {
           alert(res.err);
