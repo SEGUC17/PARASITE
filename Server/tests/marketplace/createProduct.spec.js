@@ -87,7 +87,7 @@ describe('CreateProduct for admin', function () {
         //sign up
         var that = this;
         users.updateOne(
-            { username: 'omar' },
+            { username: 'john' },
             { $set: { isAdmin: true } }, function (err1) {
                 if (err1) {
                     return console.log(err1);

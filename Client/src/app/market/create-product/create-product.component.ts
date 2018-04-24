@@ -29,7 +29,7 @@ export class CreateProductComponent {
   }
 
   productrequest: CreateProductRequest;
-  formInput = <any>{};
+  formInput = <any>{}; 
   user: any = {};
   img = <any>String;
 
@@ -47,10 +47,7 @@ export class CreateProductComponent {
   }
 
   createProduct(product: any) {
-<<<<<<< HEAD
 
-=======
->>>>>>> 08c44538b247d4f891a667ab5f0542cfa8e4699b
     // this.user = this.authService.getUser(); // here i get the currently logged in user
 
     let pro = { // here i put the inputs i take and place them in pro
