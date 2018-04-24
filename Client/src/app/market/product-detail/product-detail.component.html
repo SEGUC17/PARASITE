@@ -2,16 +2,19 @@
   <div class="modal-body">
     <h2 class="title" id="largeModalLabel" style="word-break: break-all;">{{data.product.name}}</h2>
     <div class="row" width="100%">
-      <div class="col" height="100%">
+      <div class="image col-lg-4 col-md-5 col-12" style="width: 100%; height: 100%;">
+        <img src={{data.product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
+      </div>
+      <div class="col-lg-8 col-md-7 col-12" height="100%">
         <p *ngSwitchCase="false" style="font-size:20px; color: #3f51b5">{{data.product.price}}
           <span style="font-size: 15px; color: #3f51b5"> EGP</span>
         </p>
         <!-- Edit Data -->
         <div *ngSwitchCase="true" class="input-group" style="width: 40%">
-            <span class="input-group-addon">
-              <i class="zmdi zmdi-money"></i>
-            </span>
-            <input type="number" name="price" id="price" [(ngModel)]="formInput.price" class="form-control money-dollar">
+          <span class="input-group-addon">
+            <i class="zmdi zmdi-money"></i>
+          </span>
+          <input type="number" name="price" id="price" [(ngModel)]="formInput.price" class="form-control money-dollar">
         </div>
         <button mat-icon-button *ngIf="data.product.seller == data.curUser" (click)="this.editPrice()">
           <mat-icon>edit</mat-icon>
@@ -35,10 +38,9 @@
           <span style="font-weight: bold">Shipping to: </span>
         </li>
       </div>
-      <div class="col" style="min-width: 50%;">
-        <img class="img-fluid img-thumbnail" src={{data.product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
-          alt="Photo of product" />
-      </div>
+
+
+
     </div>
   </div>
   <div class="modal-footer">

@@ -33,9 +33,9 @@ export class MarketComponent implements OnInit {
   writtenPrice;
   writtenName;
   userRequests: Product[];
-
   sort: string;
   filter = 'Name';
+  isChecked = false;
   constructor(public dialog: MatDialog, public router: Router,
     private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) { }
 
@@ -126,7 +126,8 @@ export class MarketComponent implements OnInit {
       if (this.products.indexOf(prod) !== -1) {
         let dialogRef = this.dialog.open(ProductDetailComponent, {
           width: '80%',
-          maxHeight: '80%',
+          height: '80%',
+          panelClass: 'product-dialog',
           data: { product: prod, curUser: this.user.username, isAdmin: this.user.isAdmin }
         });
 
@@ -134,9 +135,9 @@ export class MarketComponent implements OnInit {
           console.log('The dialog was closed');
         });
       } else if (this.userRequests.indexOf(prod) !== -1) {
+        console.log('here1');
         let dialogRef = this.dialog.open(RequestDetailComponent, {
-          width: '1000px',
-          height: '400px',
+          width: '80%',
           data: { product: prod, curUser: this.user.username }
         });
 
@@ -175,7 +176,11 @@ export class MarketComponent implements OnInit {
   // apply delimiter based on seller
   applySeller(): void {
     let self = this;
-    if (self.selectedSeller) { self.selectedSeller = null; } else {
+    if (self.selectedSeller) {
+      self.isChecked = false;
+      self.selectedSeller = null;
+    } else {
+      self.isChecked = true;
       self.selectedSeller = this.user.username;
     }
     self.firstPage();
@@ -206,6 +211,7 @@ export class MarketComponent implements OnInit {
   remove(toRemove: string): void {
     let self = this;
     if (toRemove === 'seller') {
+      self.isChecked = false;
       self.selectedSeller = null;
     } else if (toRemove === 'price') {
       self.selectedPrice = undefined;

@@ -24,11 +24,11 @@ export class CreateProductComponent {
         self.user = res.data;
       }
     });
- 
+
   }
 
   productrequest: CreateProductRequest;
-  formInput = <any>{}; 
+  formInput = <any>{};
   user: any = {};
   img = <any>String;
 
@@ -36,11 +36,11 @@ export class CreateProductComponent {
     if (url === 'imageFailedToUpload') {
       console.log('image upload failed');
       // TODO: handle image uploading failure
-      alert("image upload failed");
+      alert('image upload failed');
     } else {
       console.log('in vcC and its uploaded with url = ' + url);
-     
-    this.img =url;
+
+      this.img = url;
     }
   }
 

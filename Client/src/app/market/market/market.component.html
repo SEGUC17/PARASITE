@@ -38,18 +38,21 @@
                     <div class="row clearfix">
                       <div class="col-lg-8 col-md-6 col-12">
                         <div class="input-group search" *ngIf="filter=='Name'">
-                          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="writtenName">
-
-                          <button class="btn btn-primary btn-round hidden-sm-down m-l-10" type="button" (click)="applyName()">
+                          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="writtenName" >
+                          <span class="input-group-addon">
+                          <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyName()">
                             <i class="zmdi zmdi-search"></i> Product
                           </button>
+                          </span>
                         </div>
                         <div div class="input-group search" *ngIf="filter=='Price'">
                           <input type="number" class="form-control" placeholder="Search..." [(ngModel)]="writtenPrice">
 
-                          <button class="btn btn-primary btn-round hidden-sm-down m-l-10" type="button" (click)="applyPrice()">
-                            <i class="zmdi zmdi-search"></i> Price
-                          </button>
+                          <span class="input-group-addon">
+                              <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyPrice()">
+                                <i class="zmdi zmdi-search"></i> Price
+                              </button>
+                              </span>
                         </div>
                         <div *ngIf="filter=='Sort'">
                           <div class="radio">
@@ -66,13 +69,13 @@
                       </div>
                       <div class="col-lg-2 col-md-2 col-8">
                         <div class="checkbox inlineblock">
-                          <input id="myProducts" type="checkbox" (click)="applySeller()">
+                          <input id="myProducts" type="checkbox" [(ngModel)]="isChecked" (click)="applySeller()">
                           <label for="myProducts">
                             My Products
                           </label>
                         </div>
                       </div>
-                      <div class="col-lg-2 col-md-3 col-4 text-right">
+                      <div class="col-lg-1 col-md-1 col-1 text-right">
                         <div class="btn-group hidden-sm-down" role="group">
                           <div class="btn-group">
                             <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -99,11 +102,11 @@
 
                 </div>
                 <div>
-                  <button class="btn btn-primary btn-round btn-sm" *ngIf="this.selectedSeller" (click)="remove('seller')">seller: {{this.selectedSeller}} </button>
-                  <button class="btn btn-primary btn-round btn-sm" *ngIf="this.selectedPrice" (click)="remove('price')">
+                  <button class="btn btn-default btn-round btn-sm" *ngIf="this.selectedSeller" (click)="remove('seller')">seller: {{this.selectedSeller}} </button>
+                  <button class="btn btn-default btn-round btn-sm" *ngIf="this.selectedPrice" (click)="remove('price')">
                     <={{this.selectedPrice}}LE</button>
-                      <button class="btn btn-primary btn-round btn-sm" *ngIf="this.sort" (click)="remove('sort')">sort by: {{this.sort}}</button>
-                      <button class="btn btn-primary btn-round btn-sm" *ngIf="this.selectedName" (click)="remove('name')">{{this.selectedName}}</button>
+                      <button class="btn btn-default btn-round btn-sm" *ngIf="this.sort" (click)="remove('sort')">sort by: {{this.sort}}</button>
+                      <button class="btn btn-default btn-round btn-sm" *ngIf="this.selectedName" (click)="remove('name')">{{this.selectedName}}</button>
                 </div>
               </div>
             </div>
@@ -149,7 +152,7 @@
               <div class="col-lg-3 col-md-4 col-sm-6 col-6" *ngFor="let product of userRequests">
                 <div class="card">
                   <div class="file">
-                    <a href="javascript:void(0);">
+                    <a (click)="showProductDetails(product)">
                       <div class="image">
                         <img src={{product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
                       </div>
