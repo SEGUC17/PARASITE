@@ -99,10 +99,7 @@ export class AuthService {
   private handleError<T>(operation = 'operation', result?: T) {
     const self = this;
     return function (error: any): Observable<T> {
-      if (error) {
-        self.toastService.error(error.error.msg);
-      }
-
+      self.toastService.error(error.error.msg);
       return of(result as T);
     };
   }

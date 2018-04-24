@@ -21,8 +21,10 @@ export class VerifyEmailComponent implements OnInit {
     const self = this;
     this.activatedRoute.params.subscribe(function (params) {
       self.authService.verifyEmail(params['id']).subscribe(function (res) {
-        self.authService.setToken(res.token);
-        self.toastrService.success(res.msg);
+        if (res.msg) {
+          self.authService.setToken(res.token);
+          self.toastrService.success(res.msg);
+        }
         self.router.navigate(['/dashboard']);
       });
     });
