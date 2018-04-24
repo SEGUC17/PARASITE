@@ -57,7 +57,7 @@ describe('Verified Contributer Requests', function() {
             token = response.body.token;
             users.updateOne(
                 { username: 'maher' },
-                { $set: { isAdmin: true } },
+                { $set: { isAdmin: true, isEmailVerified: true } },
                 function (err1) {
                     if (err1) {
                         throw err1;
