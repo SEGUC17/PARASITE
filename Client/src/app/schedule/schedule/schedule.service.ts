@@ -20,11 +20,22 @@ export class ScheduleService {
   }
 
   scheduleActivity(username: String, activity: any): Observable<any> {
+    // TODO: Add url to activity in event.meta.description or give it its own field AND ¿take color as input?
     const newEvent = {
       start: activity.fromDateTime,
       end: activity.toDateTime,
-      title: activity.name
+      title: activity.name,
+      draggable: false,
+      resizable: {
+        beforeStart: false,
+        afterEnd: false
+      }
     };
+    return this.http.put(environment.apiUrl + 'schedule/addEvent/' + username, newEvent);
+
+  }
+
+  addEvent(username: String, newEvent: CalendarEvent): Observable<any> {
     return this.http.put(environment.apiUrl + 'schedule/addEvent/' + username, newEvent);
 
   }

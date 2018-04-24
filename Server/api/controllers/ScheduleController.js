@@ -5,24 +5,34 @@ var CalendarEvent = mongoose.model('CalendarEvent'),
     User = mongoose.model('User');
 
 module.exports.getPersonalSchedule = function (req, res, next) {
-    User.findOne({ username: req.params.username }, function (err, user) {
-        if (err) {
-            return next(err);
-        }
-        if (!user) {
-            return res.status(404).json({
-                data: null,
-                err: 'User not found.',
-                msg: null
-            });
-        }
+    var indexChild = req.user.children.indexOf(req.params.username);
+    if (indexChild >= 0 ||
+        (req.params.username === req.user.username && !req.user.isChild)) {
+        User.findOne({ username: req.params.username }, function (err, user) {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'User not found',
+                    msg: null
+                });
+            }
 
-        return res.status(200).json({
-            data: user.schedule,
-            err: null,
-            msg: 'Schedule retrieved successfully.'
+            return res.status(200).json({
+                data: user.schedule,
+                err: null,
+                msg: 'Schedule retrieved succesfully'
+            });
         });
-    });
+    } else {
+        return res.status(401).json({
+            data: null,
+            err: 'Not authorized to view user\'s Schedule',
+            msg: null
+        });
+    }
 };
 
 module.exports.updateSchedule = function (req, res, next) {
@@ -52,7 +62,7 @@ module.exports.updateSchedule = function (req, res, next) {
                 if (!user) {
                     return res.status(404).json({
                         data: null,
-                        err: 'User not found.',
+                        err: 'User not found',
                         msg: null
                     });
                 }
@@ -61,7 +71,7 @@ module.exports.updateSchedule = function (req, res, next) {
                 return res.status(200).json({
                     data: null,
                     err: null,
-                    msg: 'Schedule updated succesfully.'
+                    msg: 'Schedule updated succesfully'
                 });
             }
         );
@@ -78,7 +88,7 @@ module.exports.addEvent = function (req, res, next) {
     var indexChild = req.user.children.indexOf(req.params.username);
     if (indexChild >= 0 ||
         (req.params.username === req.user.username && !req.user.isChild)) {
-        var valid = req.body.start && req.body.end && req.body.title;
+        var valid = req.body.start && req.body.title;
         if (!valid) {
             return res.status(422).json({
                 data: null,
@@ -96,7 +106,7 @@ module.exports.addEvent = function (req, res, next) {
                 if (!user) {
                     return res.status(404).json({
                         data: null,
-                        err: 'User not found.',
+                        err: 'User not found',
                         msg: null
                     });
                 }
@@ -105,7 +115,7 @@ module.exports.addEvent = function (req, res, next) {
                 return res.status(200).json({
                     data: null,
                     err: null,
-                    msg: 'Schedule updated succesfully.'
+                    msg: 'Schedule updated succesfully'
                 });
             }
         );

@@ -161,13 +161,13 @@ module.exports = function (passport) {
   router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);
   router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.getPersonalStudyPlan);
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
-  router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
+  router.patch('/study-plan/createStudyPlan', isAuthenticated, studyPlanController.createStudyPlan);
   router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
   router.post('/study-plan/PublishStudyPlan', isAuthenticated, studyPlanController.publishStudyPlan);
-  router.delete('/study-plan/deleteStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
+  router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
   router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deletePublishedStudyPlan);
   router.patch('/study-plan/assignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.assignStudyPlan);
-  router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', studyPlanController.unAssignStudyPlan);
+  router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.unAssignStudyPlan);
   router.patch('/study-plan/editPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.editPersonalStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
@@ -211,7 +211,7 @@ module.exports = function (passport) {
   // ---------------Schedule Controller Endpoints ---------------//
   router.patch('/schedule/SaveScheduleChanges/:username', isAuthenticated, scheduleController.updateSchedule);
   router.put('/schedule/addEvent/:username', isAuthenticated, scheduleController.addEvent);
-  router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
+  router.get('/schedule/getPersonalSchedule/:username', isAuthenticated, scheduleController.getPersonalSchedule);
   // ------------End of Schedule Controller Endpoints -----------//
 
   // --------------Content Module Endpoints---------------------- //
