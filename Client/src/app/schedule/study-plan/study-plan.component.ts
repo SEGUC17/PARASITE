@@ -45,12 +45,15 @@ const colors: any = {
   styleUrls: ['./study-plan.component.scss']
 })
 export class StudyPlanComponent implements OnInit {
-  @ViewChild('modalContent') modalContent: TemplateRef<any>;
   // routing parameters
   type: string;
   _id: String;
   username: String;
   listOfChildren: any[];
+
+  // user info
+  currIsChild: boolean;
+  currIsAdmin: boolean;
 
   // Users
   loggedInUser: any = {};
@@ -83,9 +86,13 @@ export class StudyPlanComponent implements OnInit {
     this.description = '';
     this.editorContent = '';
     this.events = [];
-    this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
-      this.listOfChildren = user.data.children;
-      console.log(user.data.children);
+    this._AuthService.getUserData(['isChild', 'isAdmin', 'children']).subscribe((res) => {
+      this.currIsChild = res.data.isChild;
+      this.currIsAdmin = res.data.isAdmin;
+      this.listOfChildren = res.data.children;
+      console.log(res.data.isChild);
+      console.log(res.data.isAdmin);
+      console.log(res.data.children);
     });
     this.route.params.subscribe(params => {
       this.type = params.type;

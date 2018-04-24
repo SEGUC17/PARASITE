@@ -1,31 +1,48 @@
-<div class="publishedPLans-container">
-  <mat-card>
-    <div *ngIf="type === 'personal' && !currIsChild">
-      <a mat-raised-button routerLink="/study-plan-edit/create/new/{{username}}" color="primary" style="float: right;">Create A New Study Plan</a>
-      <br /><br /><br />
-    </div>
-    <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      (page)="getStudyPlans($event)"
-      ></mat-paginator>
+<section class="content">
+  <div class="block-header">
     <div class="row">
-      <mat-card *ngFor="let plan of studyPlans" class="col-3">
-        <mat-card-title>{{plan.title}}</mat-card-title>
-        <mat-card-subtitle>{{plan.creator}}</mat-card-subtitle>
-
-        <div *ngIf="plan.assigned === true && type==='personal'">
-        <mat-chip-list class="mat-chip-list-stacked">
-          <mat-chip *ngFor="let chip of availableColors" selected="true" [color]="chip.color">
-            {{chip.name}}
-          </mat-chip>
-        </mat-chip-list>
-        </div>
-        <mat-card-actions>
-          <a mat-raised-button routerLink="/study-plan/{{type}}/{{plan._id}}/{{username}}">View</a>
-          <button mat-raised-button (click)="delete(username,plan)" color="primary" *ngIf="!currIsChild">Delete</button>
-        </mat-card-actions>
-      </mat-card>
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <h2>Study Plans</h2>
+        <ul class="breadcrumb p-l-0 p-b-0 ">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">
+              <i class="zmdi zmdi-home"></i>sQuare</a>
+          </li>
+          <li class="breadcrumb-item">
+            <i class="zmdi zmdi-graduation-cap">
+            </i> Study Plans</li>
+        </ul>
+      </div>
     </div>
-  </mat-card>
-</div>
+  </div>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="body">
+        <div *ngIf="type === 'personal' && !currIsChild">
+          <a class="btn btn-primary" routerLink="/study-plan-edit/create/new/{{username}}" color="primary" style="float: right;">Create A New Study Plan</a>
+          <br />
+          <br />
+          <br />
+        </div>
+        <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="getStudyPlans($event)"></mat-paginator>
+        <div class="row">
+          <div class="card col-3" *ngFor="let plan of studyPlans">
+            <div class="header">
+              <h2>
+                <strong>{{plan.title}}</strong>
+                <br/> {{plan.creator}}
+              </h2>
+            </div>
+            <div class="body">
+              <span class="badge badge-primary float-right" *ngIf="plan.assigned === true && type==='personal'">Assigned</span>
+              <p>
+                <a class="btn btn-primary" routerLink="/study-plan/{{type}}/{{plan._id}}/{{username}}">View</a>
+                <button class="btn btn-primary" (click)="delete(username,plan)" color="primary" *ngIf="!currIsChild">Delete</button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
