@@ -55,6 +55,7 @@ var prepareQueryConditionsForSearch = function (query) {
         '$text': { '$search': query.searchQuery },
         'approved': true,
         'category': query.category,
+        'language': query.language,
         'section': query.section
     };
 
@@ -119,6 +120,7 @@ var checkRequestValidityForSearch = function (req) {
         typeof req.query.section === 'string' &&
         typeof req.query.searchQuery === 'string' &&
         typeof req.query.sort === 'string' &&
+        typeof req.query.language === 'string' &&
         !isNaN(req.params.pageSize) &&
         !isNaN(req.params.pageNumber);
 };
@@ -139,10 +141,6 @@ module.exports.getSearchPage = function (req, res, next) {
     // prepare the conditions and options for the query
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
-
-    // log the options and conditions for debugging
-    console.log(options);
-    console.log(conditions);
 
     // execute the database query
     Content.paginate(
@@ -174,7 +172,7 @@ module.exports.getSearchPage = function (req, res, next) {
                     if (error) {
                         return next(err);
                     }
-                    console.log(userAvatars);
+
                     // send the page of contents
 
                     return res.status(200).json({

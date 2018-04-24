@@ -52,6 +52,7 @@ export class ContentViewComponent implements OnInit {
 
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
     // retrieve the user data
     this.authService.getUserData(['username', 'isAdmin']).
@@ -60,7 +61,6 @@ export class ContentViewComponent implements OnInit {
       });
     // retrieve the id of the content from the current path and request content
     this.route.params.subscribe(function (params) {
-      console.log('Object Requested with Id: ' + params.id);
       self.getContentById(params.id);
     });
   }
@@ -87,13 +87,12 @@ export class ContentViewComponent implements OnInit {
           document.getElementById('cancelBtn').click();
         }
       });
-      console.log('Retrieved: ' + retrievedContent.data);
     });
   }
 
   // admin is done with reviewing the content, send him back to his page
   returnToContentRequests(): void {
-    this.router.navigate(['admin/ContentRequests']);
+    this.router.navigate(['admin']);
   }
 
   // delete Content function
@@ -202,12 +201,10 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     // remove unnecessary spaces
     let searchQuery =
+      this.content.title + ' ' +
       this.content.category + ' ' +
       this.content.section + ' ' +
       this.content.tags.join(' ');
-
-    // print statements for debugging
-    console.log('Query Tags: ' + searchQuery);
 
     // retrieve search page from the server
     this.contentService.getSearchPage(
@@ -216,7 +213,8 @@ export class ContentViewComponent implements OnInit {
       searchQuery,
       '',
       '',
-      'relevance'
+      'relevance',
+      this.content.language
     ).subscribe(function (res) {
       // update the recommended content array
       self.recommendedContent = res.data.contents.docs.slice(1);
