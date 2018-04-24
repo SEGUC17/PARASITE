@@ -270,12 +270,16 @@ module.exports.signIn = function (req, res, next) {
             if (err) {
                 throw err;
             } else if (!user) {
+                console.log('no user found');
+
                 return res.status(422).json({
                     data: null,
                     err: null,
                     msg: 'Wrong Username/Email Or Password!'
                 });
             } else if (!user.isEmailVerified) {
+                console.log('email is not verified');
+
                 return res.status(422).json({
                     data: null,
                     err: null,
@@ -369,8 +373,7 @@ module.exports.signUpChild = function (req, res, next) {
             data: null,
             err1: null,
             msg: field +
-                ' does not match the required data entry!' +
-                err1.message + '!!'
+                ' does not match the required data entry!'
         });
     }
     //---end of types and formats validations--///
@@ -398,7 +401,7 @@ module.exports.signUpChild = function (req, res, next) {
         return res.status(401).json({
             data: null,
             err2: null,
-            msg: 'you are missing required data entry '
+            msg: 'you are missing required data entry'
         });
     }
     //---end of emptiness validations--////

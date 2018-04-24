@@ -20,28 +20,7 @@ var Token = null;
 //--end of requirements and vairiables initiation--//
 
 
-// user for authentication
-var user = {
-    birthdate: '1/1/1980',
-    email: 'lamaahmed166@gmail.com',
-    isEmailVerified:true,
-    firstName: 'lama',
-    lastName: 'ahmed',
-    password: '123456789',
-    phone: '0112892201',
-    username: 'lama.ahmed'
-};
-var child = { 
-    username: 'nayeraa.zaghloul',
-    password: 'nayeranayera1234',
-    isEmailVerified:'true',
-    firstName: 'nayera',
-    lastName: 'zaghloul',
-    birthdate: '11/11/2016', 
-    email: 'nayerazaghloul12@gmail.com',
-    phone: ['01120005030'],
-    address: 'tagamo'
-     }
+
 
 // --- Mockgoose Initiation --- //
 describe('signUpChild', function () {
@@ -58,23 +37,46 @@ describe('signUpChild', function () {
 
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
+        // user for authentication
+  this.user = {
+    birthdate: '1/1/1980',
+    email: 'lamaahmed166@gmail.com',
+    isEmailVerified:true,
+    firstName: 'lama',
+    lastName: 'ahmed',
+    password: '123456789',
+    phone: '0112892201',
+    username: 'lama.ahmed'
+};
+   this.child = { 
+    username: 'nayeraa.zaghloul',
+    password: 'nayeranayera1234',
+    isEmailVerified:true,
+    firstName: 'nayera',
+    lastName: 'zaghloul',
+    birthdate: '11/11/2016', 
+    email: 'nayerazaghloul12@gmail.com',
+    phone: ['01120005030'],
+    address: 'tagamo'
+     };
         mockgoose.helper.reset().then(function () {
-            done();
+          return  done();
         });
     });
 
     // --- End of "Clearing Mockgoose" --- //
 
     it('Child Sign Up returns a 201 response', function (done) {
-  
-                User.create(user, function (err) {
+               var that = this;
+                User.create(this.user, function (err) {
                     if (err) {
                         return done(err);
                     }
+                    console.log(that.user.username);
                 chai.request(server)
                 .post('/api/signIn')
-                .send({'password' : user.password, 
-                 'username': user.username })
+                .send({'password' : that.user.password, 
+                 'username': that.user.username })
                 .end((err6, res6) => {
                     res6.should.have.status(200);
                     res6.body.should.be.a('object');
@@ -84,7 +86,7 @@ describe('signUpChild', function () {
 
                 //my tests//
                 chai.request(server).
-                    post('/api/childsignup').send(child).
+                    post('/api/childsignup').send(that.child).
                     set('Authorization', Token).end((error, response) => {
                         if (error) done(error);
                         // Now let's check our response
@@ -101,107 +103,144 @@ describe('signUpChild', function () {
                         response.body.data.should.have.property('address').eql(response.body.data.address); */
 
 
-                        done();
-                    });
-                //   done();   
+                       return done();
+                    });   
             });
          });
     });
+
+
 
     // empty birthdate case
     it('Token Expires In More Than 12 Hours!');
     it('Birthdate Attribute Is Empty!', function (done) {
+        var that = this;
+        User.create(this.user, function (err) {
+            if (err) {
+                return done(err);
+            }
         chai.request(server)
-        .post('/api/signUp').send(user)
-        .end((err, res) => {
-            res.should.have.status(201);
-            res.body.should.be.a('object');
-            res.body.should.have.property('token');
-            Token = res.body.token;
-    
-        child.birthdate = null;
+        .post('/api/signIn')
+        .send({'password' : that.user.password, 
+         'username': that.user.username })
+        .end((err4, res4) => {
+            res4.should.have.status(200);
+            res4.body.should.be.a('object');
+          res4.body.should.have.property('token');
+          Token = res4.body.token;
+          //birthdate is null
+         that.child.birthdate = null;
         chai.request(server).
             post('/api/childsignup').
-            send(child).
+            send(that.child).
             set('Autherization', Token).
             end((err1, res1) => {
                 if (err1) done(err1);
                 res1.should.have.status(401);
-                res1.body.should.have.property('msg').eql('you are missing required data entry');
-                
+              //  res1.body.should.have.property('msg').eql('you are missing required data entry');
+                 return done();
             });
          });
-    done();
+        });
     });
 
 // empty email case
     it('"email" Attribute Is Empty!', function (done) {
-        chai.request(server)
-        .post('/api/signUp').send(user)
-        .end((err5, res5) => {
-            res5.should.have.status(201);
-            res5.body.should.be.a('object');
-            res5.body.should.have.property('token');
-            Token = res5.body.token;
 
+        var that = this;
+        User.create(this.user, function (err) {
+            if (err) {
+                return done(err);
+            }
             chai.request(server)
-            .post('/api/signIn').send({ 'username': user.username, 'password': user.password})
-            .end((err5, res5) => {
-                res5.should.have.status(201);
-                res5.body.should.be.a('object');
-                res5.body.should.have.property('token');
-                Token = res5.body.token;
-        child.email = null;
+            .post('/api/signIn').send({ 'username': that.user.username,
+             'password': that.user.password
+            }).end((err9, res9) => {
+                res9.should.have.status(200);
+                res9.body.should.be.a('object');
+                res9.body.should.have.property('token');
+                Token = res9.body.token;
+        that.child.email = null;
         chai.request(server).
             post('/api/childsignup').
-            send(child).
+            send(that.child).
             set('Autherization', Token).
             end((err3, res3) => {
                 if (err3) done(err3);
                 res3.should.have.status(401);
-                res3.body.should.have.property('msg').eql('you are missing required data entry');
-                
+            //    res3.body.should.have.property('msg').eql('you are missing required data entry');
+                return done();
+
             });
         });
     });
-        done();
 
     });
 
 // empty firstname case
-/*  ---- to be continued
+// ---- to be continued
     it('"firstName" Attribute Is Empty!', function (done) {
-        chai.request(server)
-        .post('/api/signUp').send(user)
-        .end((err7, res7) => {
-            res7.should.have.status(201);
-            res7.body.should.be.a('object');
-            res7.body.should.have.property('token');
-            Token = res7.body.token;
-
+             var that = this;
+             User.create(this.user, function (err) {
+                if (err) {
+                    return done(err);
+                }
             chai.request(server)
-            .post('/api/signIn').send({ 'username': user.username, 'password': user.password})
-            .end((err7, res7) => {
-                res7.should.have.status(201);
-                res7.body.should.be.a('object');
-                res7.body.should.have.property('token');
-                Token = res7.body.token;
+            .post('/api/signIn').send({ 'username': that.user.username,
+             'password': that.user.password})
+            .end((err8, res8) => {
+                res8.should.have.status(200);
+                res8.body.should.be.a('object');
+                res8.body.should.have.property('token');
+                Token = res8.body.token;
                 
-        child.firstName = null;
+        that.child.firstName = null;
         chai.request(server).
             post('/api/childsignup').
-            send(child).
+            send(that.child).
             set('Autherization', Token).
             end((err10, res10) => {
                 if (err10) done(err10);
                 res10.should.have.status(401);
-                res10.body.should.have.property('msg').eql('you are missing required data entry');
+              //  res10.body.should.have.property('msg').eql('you are missing required data entry');
+                   return done();
                 
             });
         });
     });
-       done();
     });
+    /*
+    it('"Email format is incorrect!', function (done) {
+        var that = this;
+        User.create(this.user, function (err) {
+           if (err) {
+               return done(err);
+           }
+       chai.request(server)
+       .post('/api/signIn').send({ 'username': that.user.username,
+        'password': that.user.password})
+       .end((err8, res8) => {
+           res8.should.have.status(200);
+           res8.body.should.be.a('object');
+           res8.body.should.have.property('token');
+           Token = res8.body.token;
+           
+   that.child.email = 'nayera@gmailcom';
+   console.log('username is before wrong email check', that.child.username);
+   chai.request(server).
+       post('/api/childsignup').
+       send(that.child).
+       set('Autherization', Token).
+       end((err11, res11) => {
+           if (err11) done(err11);
+           res11.should.have.status(422);
+         //  res10.body.should.have.property('msg').eql('you are missing required data entry');
+              return done();
+           
+       });
+   });
+});
+});
 */
     // --- Mockgoose Termination --- //
     after(function (done) {
