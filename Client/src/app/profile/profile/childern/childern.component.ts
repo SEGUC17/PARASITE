@@ -18,12 +18,12 @@ export class ChildernComponent implements OnInit {
   avatars: string[];
   username: string;
 
-  singleArray: [{username: string, educationLevel: string, educationSystem: string, avatar: string}];
+  singleArray: [{username: string, firstName: string, lastName: string, avatar: string}];
   constructor (private profileService: ProfileService, private authService: AuthService) { }
 
   ngOnInit() {
     this.avatars = [''];
-    this.singleArray = [{username: '', educationLevel: '' , educationSystem: '' , avatar: ''}];
+    this.singleArray = [{username: '', educationLevel: '' , education: '' , avatar: ''}];
 
     this.getChildern();
 
