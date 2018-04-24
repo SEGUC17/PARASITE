@@ -1,15 +1,84 @@
-<mat-card class="activity-card">
-  <h3 id="activities-header">{{ activity.name }}</h3>
-  <img mat-card-lg-image [src]="activity.image" />
-  <p class="description">{{ activity.description }}</p>
-  <p class="time">From: {{ activity.fromDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
-  <p class="time">To: {{ activity.toDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>
-  <p class="price">{{ activity.price | currency: 'EGP'}}</p>
-  <mat-card-actions>
-      <!--button mat-raised-button *ngIf = "IsCreator" (click)="openDialog()">Edit</button-->
-</mat-card-actions>
+<section class="content profile-page">
+<div class="block-header">
+  <div class="row">
+    <div class="col-lg-7 col-md-6 col-sm-12">
+      <h2>Activity
+        <small>Welcome to Activity</small>
+      </h2>
+    </div>
+    <div class="col-lg-5 col-md-6 col-sm-12">
+      <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
+        <i class="zmdi zmdi-plus"></i>
+      </button>
+      <ul class="breadcrumb float-md-right">
+        <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> Dasboard</a></li>
+        <li class="breadcrumb-item active">{{activity.name}}</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="row clearfix">
+    <div class="col-lg-12 col-md-12">
+      <div class="card profile-header bg-dark">
+        <div class="body col-white">
+          <div class="row">
+            <div class="col-lg-3 col-md-4 col-12">
+              <div class="profile-image float-md-right"> <img [src]="activity.image" alt=""> </div>
+            </div>
+            <div class="col-lg-9 col-md-8 col-12">
+              <h4 class="m-t-0 m-b-0">{{activity.name}}</h4>
+              <span class="job_post">Activity</span>
+              <p>from : {{activity.fromDateTime  | date:'yyyy-MM-dd HH:mm': 'locale'}} to : {{activity.toDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}</p>
+              <div>
+                <span style="color: #ff5722; margin-right: 4px">{{ activity.price | currency: 'EGP'}}</span>
+                <button class="btn btn-primary btn-round">Book</button>
+                <button class="btn btn-primary btn-round btn-simple">Comment</button>
+              </div>
+              <p class="social-icon m-t-5 m-b-0"></p>
+            </div>
 
-</mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="col-lg-12 col-md-12">
+    <div class="card">
+      <div class="body">
+        <h4>Description :</h4>
+        {{activity.description}}
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid" *ngIf="signedIn">
+    <div class="row clearfix">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="body">
+            <ul class="cbp_tmtimeline">
+              <li>
+                <time class="cbp_tmtime" datetime="2017-11-04T18:30"><span class="hidden">25/12/2017</span> <span class="large">Now</span></time>
+                <div class="cbp_tmicon"><img class="media-object " src="assets/images/xs/avatar4.jpg" alt=""></div>
+                <div class="cbp_tmlabel empty"> <span>No Activity</span> </div>
+              </li>
+              <li>
+                <time class="cbp_tmtime" datetime="2017-11-04T03:45"><span>03:45 AM</span> <span>Today</span></time>
+                <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div>
+                <div class="cbp_tmlabel">
+                  <h2><a href="javascript:void(0);">Art Ramadani</a> <span>posted a status update</span></h2>
+                  <p>Tolerably earnestly middleton extremely distrusts she boy now not. Add and offered prepare how cordial two promise. Greatly who affixed suppose but enquire compact prepare all put. Added forth chief trees but rooms think may.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 <div class="container">
   <div class="comment-container">
     <h1> Comments :</h1>
@@ -84,7 +153,7 @@
   </div>
 </div>
 
-
+</section>
 
 
 <!--</mat-card>-->
