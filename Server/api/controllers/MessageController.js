@@ -123,7 +123,7 @@ module.exports.getRecentlyContacted = function(req, res, next) {
       return next(err);
     }
 
-    console.log(users);
+    // console.log(users);
     return res.status(200).json({
       data: users,
       err: null,

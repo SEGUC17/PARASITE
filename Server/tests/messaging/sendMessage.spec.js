@@ -17,6 +17,7 @@ var user = {
     birthdate: '2/6/1997',
     email: 'sarah@gmail.com',
     firstName: 'sarah',
+    isEmailVerified: true,
     lastName: 'ayman',
     password: '123456789',
     phone: '0174536975',
