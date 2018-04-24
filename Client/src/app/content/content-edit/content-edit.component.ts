@@ -37,7 +37,8 @@ export class ContentEditComponent implements OnInit {
     tags: [],
     title: '',
     touchDate: new Date(),
-    type: 'resource'
+    type: 'resource',
+    language: ''
   };
   constructor(private sanitizer: DomSanitizer,
     private contentService: ContentService,
