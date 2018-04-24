@@ -22,6 +22,7 @@ var user = {
     birthdate: '7/7/1997',
     email: 'fsociety@gmail.com',
     firstName: 'Mr',
+    isEmailVerified: true,
     lastName: 'Robot',
     password: '123456789',
     phone: '01111225223',
@@ -31,6 +32,7 @@ var user2 = {
     birthdate: '7/7/1997',
     email: 'fsociety1@gmail.com',
     firstName: 'Mr',
+    isEmailVerified: true,
     lastName: 'Robot',
     password: '123456789',
     phone: '01111225223',
@@ -95,30 +97,14 @@ describe('/PATCH/ edit child info', function () {
 
 
     beforeEach(function (done) {
-        chai.request(server).
-            post('/api/signUp').
-            send(user2).
-            end(function (err, response) {
-
-                if (err) {
-                    console.log(err);
-
-                    return console.log(err);
+        User.create(user2, function (err) {
+            if (err) {
+                done(err);
+            }
+            User.create(user, function (err3) {
+                if (err3) {
+                    done(err3);
                 }
-                response.should.have.status(201);
-                token = response.body.token;
-                chai.request(server).
-                    post('/api/signUp').
-                    send(user).
-                    end(function (errr, response1) {
-
-                        if (errr) {
-                            console.log(errr);
-
-                            return console.log(errr);
-                        }
-                        response1.should.have.status(201);
-                        token = response1.body.token;
                         authenticatedUser.
                             post('/api/signIn').
                             send(userIn).
@@ -193,7 +179,7 @@ describe('/PATCH/ edit child info', function () {
             send(newInfo3).
             end(function (err, res2) {
                 res2.should.have.status(200);
-                res2.body.should.have.property('msg').eql('Info updated succesfully.');
+                res2.body.should.have.property('msg').eql('Info updated successfully.');
                 res2.body.data.username.should.eql('hulk');
                 res2.body.data.firstName.should.eql('H');
                 res2.body.data.lastName.should.eql('Rihan');

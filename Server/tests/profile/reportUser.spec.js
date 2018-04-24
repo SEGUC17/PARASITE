@@ -14,7 +14,7 @@ var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
 var token = null;
-describe('Add user as a parent', function () {
+describe('Report user', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
@@ -35,7 +35,7 @@ describe('Add user as a parent', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
 
-    it('it should add the current child to the selected user,' +
+    it('it should create a report with the correct reason, reporter, and reported person.' +
         ' and make this user a parent', function (done) {
             var user = {
                 birthdate: '1/1/1997',
@@ -51,8 +51,6 @@ describe('Add user as a parent', function () {
                 password: '123456789',
                 username: 'snickers123'
             };
-            // sign up and be authenticated
-
             User.create(user, function (err) {
                 if (err) {
                     done(err);
@@ -65,23 +63,24 @@ describe('Add user as a parent', function () {
                         end(function (error, res) {
                             res.should.have.status(200);
                             token = res.body.token;
-                            var array = [
-                                '_id',
-                                'username'
-                            ];
-                            //gitting the user info
+                            var array = ['_id'];
+                            //get the user info
                             chai.request(server).
                                 post('/api/userData').
                                 send(array).
                                 set('Authorization', token).
                                 end(function (Err, Res) {
                                     Res.should.have.status(200);
-                                    var child = { child: 'Lara' };
-                                    //The test
+                                    var report = {
+                                                reason: '8atata',
+                                                reportedPerson: '',
+                                                reporter: 'snickers123'
+                                                };
+                                    // the test
                                     chai.request(server).
-                                        put('/api/profile/AddAsAParent/' +
+                                        put('/api/profile/LinkAnotherParent/' +
                                             Res.body.data._id).
-                                        send(child).
+                                        send(report).
                                         set('Authorization', token).
                                         end(function (Error, Response) {
                                             if (Error) {
@@ -93,13 +92,13 @@ describe('Add user as a parent', function () {
                                                 be.a('Object');
                                             Response.body.data.should.have.
                                                 property('children').
-                                                eql(['Lara']);
+                                                eql(['Mohamed']);
                                             Response.body.data.should.have.
                                                 property('isParent').eql(true);
                                             Response.body.data.should.have.
                                                 property('_id').
-                                                eql(String(Response.body.data.
-                                                    _id));
+                                                eql(String(Response.body.
+                                                    data._id));
                                             done();
                                         });
 
