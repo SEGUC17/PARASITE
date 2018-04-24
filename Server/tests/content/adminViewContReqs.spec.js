@@ -20,6 +20,7 @@ var adminUser = {
     email: 'salma@salmaa.admin',
     firstName: 'adminsalma',
     isAdmin: true,
+    isEmailVerified: true,
     lastName: 'adminsalma',
     password: 'adminsalma',
     phone: 23456,
@@ -36,14 +37,14 @@ describe('Admin viewing ContentRequests', function () {
         });
     });
     // --- Clearing Mockgoose --- //
-    beforeEach(function (done) {
+    before(function (done) {
         mockgoose.helper.reset().then(function () {
             console.log('mockgoose is clear');
             done();
         });
     });
 
-    beforeEach(function (done) {
+    before(function (done) {
         chai.request(server).
             post('/api/signUp').
             send(adminUser).
@@ -58,7 +59,13 @@ describe('Admin viewing ContentRequests', function () {
                 adminToken = response.body.token;
                 users.updateOne(
                     { username: 'adminsalma' },
-                    { $set: { isAdmin: true } },
+                    {
+                        $set:
+                            {
+                                isAdmin: true,
+                                isEmailVerified: true
+                            }
+                    },
                     function (err1) {
                         if (err1) {
                             console.log(err1);
@@ -69,10 +76,36 @@ describe('Admin viewing ContentRequests', function () {
 
             });
     });
+    before(function (done) {
+        chai.request(server).
+            post('/api/signIn').
+            send({
+                'password': 'adminsalma',
+                'username': 'adminsalma'
+            }).
+            end(function (errr, responsse) {
+                if (errr) {
+                    return console.log(errr);
+                }
+                adminToken = responsse.body.token;
+            });
+        done();
+    });
+
     describe('View ContentRequest tests', function () {
 
         it('should get all pending idea contentRequests', function (done) {
-            console.log('in first it: ' + adminToken);
+                chai.request(server).
+                post('/api/signIn').
+                send({
+                    'password': 'adminsalma',
+                    'username': 'adminsalma'
+                }).
+                end(function (errr, responsse) {
+                    if (errr) {
+                        return console.log(errr);
+                    }
+                    adminToken = responsse.body.token;
             var ContReqI1 = new contReq({
                 contentType: 'idea',
                 createdOn: '1/1/1111',
@@ -86,8 +119,8 @@ describe('Admin viewing ContentRequests', function () {
             });
 
             chai.request(server).
-                get('/api/admin/PendingContentRequests/idea').
-                set('Authorization', adminToken).
+                get('/api/admin/PendingContentRequests/false/true/false/false').
+                set('Authorization', responsse.body.token).
                 end(function (err, res) {
                     if (!err === null) {
                         console.log('get Pending Idea Requests err msg is: ' +
@@ -112,7 +145,20 @@ describe('Admin viewing ContentRequests', function () {
                     done();
                 });
         });
+    });
         it('should get all pending resource contentRequests', function (done) {
+            chai.request(server).
+            post('/api/signIn').
+            send({
+                'password': 'adminsalma',
+                'username': 'adminsalma'
+            }).
+            end(function (errr, responsse) {
+                if (errr) {
+                    return console.log(errr);
+                }
+                adminToken = responsse.body.token;
+
             var ContReqR1 = new contReq({
                 contentType: 'resource',
                 createdOn: '1/1/1111',
@@ -126,7 +172,7 @@ describe('Admin viewing ContentRequests', function () {
             });
 
             chai.request(server).
-                get('/api/admin/PendingContentRequests/resource').
+                get('/api/admin/PendingContentRequests/true/false/false/false').
                 set('Authorization', adminToken).
                 end(function (err, res) {
                     if (!err === null) {
@@ -153,6 +199,7 @@ describe('Admin viewing ContentRequests', function () {
                 });
         });
     });
+});
 
     // --- Clearing Mockgoose --- //
     after(function (done) {
