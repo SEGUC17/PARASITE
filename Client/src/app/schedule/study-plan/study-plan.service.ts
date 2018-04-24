@@ -49,8 +49,8 @@ export class StudyPlanService {
     return this.http.patch(environment.apiUrl + 'study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
   }
 
-  deleteStudyPlan(username: String, studyPlanID: String): Observable<any> {
-    return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + username + '/' + studyPlanID);
+  deleteStudyPlan(studyPlanID: String): Observable<any> {
+    return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + studyPlanID);
 
   }
 

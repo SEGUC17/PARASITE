@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
 import { AuthService } from '../../../auth/auth.service';
+import { Subject } from 'rxjs/Subject';
 import { PageEvent } from '@angular/material/paginator';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -23,6 +24,9 @@ export class StudyPlanListViewComponent implements OnInit {
   availableColors = [
     { name: 'assigned', color: '' }
   ];
+
+  // Utility
+  refresh: Subject<any> = new Subject();
 
   constructor(
     private studyPlanService: StudyPlanService,
@@ -56,12 +60,20 @@ export class StudyPlanListViewComponent implements OnInit {
     this.pageIndex = res.data.pageIndex;
   }
 
+  refreshDocument() {
+    // Light refresh to show any changes
+    const self = this;
+    setTimeout(function () {
+      return self.refresh.next();
+    }, 0);
+  }
+
   delete(username, plan): void {
     if (plan.published) {
       this.studyPlanService
         .deletePublishedStudyPlan(plan._id)
         .subscribe(res => {
-          if (res.msg === 'StudyPlan deleted successfully.') {
+          if (res.msg === 'Study plan deleted successfully') {
             alert(res.msg);
           } else {
             alert(
@@ -71,9 +83,9 @@ export class StudyPlanListViewComponent implements OnInit {
         });
     } else {
       this.studyPlanService
-        .deleteStudyPlan(username, plan._id)
+        .deleteStudyPlan(plan._id)
         .subscribe(res => {
-          if (res.msg === 'StudyPlan deleted successfully.') {
+          if (res.msg === 'Study plan deleted successfully') {
             alert(res.msg);
           } else {
             alert(
@@ -82,5 +94,6 @@ export class StudyPlanListViewComponent implements OnInit {
           }
         });
     }
+    this.refreshDocument();
   }
 }
