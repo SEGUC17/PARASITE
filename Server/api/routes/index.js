@@ -184,7 +184,7 @@ module.exports = function (passport) {
     adminController.respondStudyPlanPublishRequest
   );
   router.get(
-    '/admin/PendingContentRequests/:type', isAuthenticated,
+    '/admin/PendingContentRequests/:res/:idea/:create/:edit', isAuthenticated,
     adminController.viewPendingContReqs
   );
   router.patch(
@@ -256,14 +256,14 @@ module.exports = function (passport) {
 
   // delete a category
   router.delete(
-    '/category/:id',
+    '/content/category/:id',
     isAuthenticated,
     contentController.deleteCategory
   );
 
   // delete a section
   router.delete(
-    '/category/:categoryId/section/:sectionId',
+    '/content/category/:categoryId/section/:sectionId',
     isAuthenticated,
     contentController.deleteSection
   );
@@ -365,6 +365,13 @@ module.exports = function (passport) {
     '/content/:id',
     isAuthenticated,
     contentController.deleteContent
+  );
+
+  // Add gamification score
+  router.post(
+    '/content/:contentId/score',
+    isAuthenticated,
+    contentController.addScore
   );
 
   //-------------------- Messaging Module Endpoints ------------------//

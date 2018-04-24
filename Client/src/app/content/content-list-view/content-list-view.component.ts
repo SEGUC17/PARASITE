@@ -6,6 +6,7 @@ import { Category } from '../category';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/user';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-content-list-view',
@@ -37,20 +38,37 @@ export class ContentListViewComponent implements OnInit {
   // sorting variables
   sortResultsBy: String = 'relevance';
 
+  // content language to filter in search
+  contentLanguage: String = 'english';
+
   // signed in user
   currentUser: User;
 
   constructor(private contentService: ContentService, private authService: AuthService,
-    private router: Router) { }
+    private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    // scroll to the top
+    window.scrollTo(0, 0);
+
+    // get the user data
     const self = this;
     this.authService.getUserData(['username', 'avatar']).
       subscribe(function (user) {
         self.currentUser = user.data;
       });
-    this.getContentPage();
+
+    // get the categories from the server
     this.getCategories();
+
+    // check the route parameter to modify search query
+    this.route.params.subscribe(function (params) {
+      if (params.tag) {
+        self.searchQuery = params.tag;
+      }
+      // retrieve content page
+      self.getContentPage();
+    });
   }
 
   // extract the first ten tags of a certain content
@@ -124,7 +142,6 @@ export class ContentListViewComponent implements OnInit {
         // assign the retrieved contents to the contents array
         self.contents = retrievedContents.data.docs;
         self.totalNumberOfPages = retrievedContents.data.pages;
-        console.log('Get Contributions');
       });
   }
 
@@ -139,9 +156,6 @@ export class ContentListViewComponent implements OnInit {
 
   // respond to the user changing the current category and section
   changeCategoryAndSection(category: any, section: any): void {
-    // user changed the category or section, nullifying the validity of his search query
-    this.searchQuery = '';
-
     // intialize category/section browsing
     this.selectedCategory = category;
     this.selectedSection = section;
@@ -166,10 +180,6 @@ export class ContentListViewComponent implements OnInit {
     // remove unnecessary spaces
     this.searchQuery = this.searchQuery.trim();
 
-    // print statements for debugging
-    console.log('Query Tags: ' + this.searchQuery);
-    console.log('Retrieving Page: ' + this.currentPageNumber);
-
     // retrieve search page from the server
     this.contentService.getSearchPage(
       self.currentPageNumber,
@@ -177,7 +187,8 @@ export class ContentListViewComponent implements OnInit {
       self.searchQuery,
       self.selectedCategory,
       self.selectedSection,
-      self.sortResultsBy
+      self.sortResultsBy,
+      self.contentLanguage
     ).subscribe(function (res) {
       let retrievedContent = res.data.contents.docs;
       let retrievedAvatars = res.data.userAvatars;
