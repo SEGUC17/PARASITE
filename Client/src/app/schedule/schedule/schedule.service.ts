@@ -29,7 +29,7 @@ export class ScheduleService {
       end: activity.toDateTime,
       title: activity.name,
       draggable: false,
-      meta: { description: 'URL to activity here' },
+      meta: { activityId: activity._id, description: 'URL to activity here' },
       resizable: {
         beforeStart: false,
         afterEnd: false
