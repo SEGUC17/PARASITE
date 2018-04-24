@@ -61,8 +61,16 @@
             <ul class="cbp_tmtimeline">
               <li>
                 <time class="cbp_tmtime" datetime="2017-11-04T18:30"><span class="hidden">25/12/2017</span> <span class="large">Now</span></time>
-                <div class="cbp_tmicon"><img class="media-object " src="assets/images/xs/avatar4.jpg" alt=""></div>
-                <div class="cbp_tmlabel empty"> <span>No Activity</span> </div>
+                <div class="cbp_tmicon"><img class="media-object circ " [src]="currentUser.avatar" alt=""></div>
+                <div class="cbp_tmlabel empty">
+                  <span>
+                    <textarea matInput style="width: 80%;color:currentColor;" id="input" placeholder={{somePlaceholder}} onkeydown="enterPressed()" #commentInput [(ngModel)]="changingComment"></textarea>
+                  </span>
+                  <span>
+                    <button mat-button id="commentBtn" (click)="addComment(commentInput.value)" [disabled]="changingComment == ''"> {{( !isReplying)?"Comment":"reply"}}</button>
+                    <button mat-button *ngIf="isReplying" id="cancelBtn" (click)="cancelReplying()"> Cancel</button>
+                  </span>
+                </div>
               </li>
               <li>
                 <time class="cbp_tmtime" datetime="2017-11-04T03:45"><span>03:45 AM</span> <span>Today</span></time>
@@ -82,24 +90,24 @@
 <div class="container">
   <div class="comment-container">
     <h1> Comments :</h1>
-    <mat-list-item *ngIf="signedIn" role="list" id="target">
-      <mat-card >
-        <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title style="font-weight: bold"> {{currentUser.username}} </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-form-field class="example-container">
-            <textarea matInput id="input" placeholder={{somePlaceholder}} onkeydown="enterPressed()" #commentInput [(ngModel)]="changingComment"></textarea>
-          </mat-form-field>
-        </mat-card-content>
-        <mat-card-actions class="row" align="end">
-          <button mat-button id="commentBtn" (click)="addComment(commentInput.value)" [disabled]="changingComment == ''"> {{( !isReplying)?"Comment":"reply"}}</button>
-          <button mat-button *ngIf="isReplying" id="cancelBtn" (click)="cancelReplying()"> Cancel</button>
+    <!--<mat-list-item *ngIf="signedIn" role="list" id="target">-->
+      <!--<mat-card >-->
+        <!--<mat-card-header>-->
+          <!--<div mat-card-avatar class="example-header-image"></div>-->
+          <!--<mat-card-title style="font-weight: bold"> {{currentUser.username}} </mat-card-title>-->
+        <!--</mat-card-header>-->
+        <!--<mat-card-content>-->
+          <!--&lt;!&ndash;<mat-form-field class="example-container">&ndash;&gt;-->
+            <!--&lt;!&ndash;&lt;!&ndash;<textarea matInput id="input" placeholder={{somePlaceholder}} onkeydown="enterPressed()" #commentInput [(ngModel)]="changingComment"></textarea>&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;</mat-form-field>&ndash;&gt;-->
+        <!--</mat-card-content>-->
+        <!--&lt;!&ndash;<mat-card-actions class="row" align="end">&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<button mat-button id="commentBtn" (click)="addComment(commentInput.value)" [disabled]="changingComment == ''"> {{( !isReplying)?"Comment":"reply"}}</button>&ndash;&gt;&ndash;&gt;-->
+          <!--&lt;!&ndash;&lt;!&ndash;<button mat-button *ngIf="isReplying" id="cancelBtn" (click)="cancelReplying()"> Cancel</button>&ndash;&gt;&ndash;&gt;-->
 
-        </mat-card-actions>
-      </mat-card>
-    </mat-list-item>
+        <!--&lt;!&ndash;</mat-card-actions>&ndash;&gt;-->
+      <!--</mat-card>-->
+    <!--</mat-list-item>-->
 
     <mat-list-item role="list" *ngFor="let comment of activity.discussion; let i = index">
       <mat-card>
