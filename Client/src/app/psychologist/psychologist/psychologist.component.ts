@@ -47,6 +47,7 @@ export class PsychologistComponent implements OnInit {
 
   showEditPrompt(i): void {
     const self = this;
+    console.log(this.admin);
     if (this.admin) {
       self.getPsychologistData(self.psychologists[i]._id);
     } else {
@@ -149,6 +150,7 @@ export class PsychologistComponent implements OnInit {
     const userDataColumns = ['isAdmin'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       if (res.user) {
+        console.log(self.user.isAdmin);
         self.user = res.data;
         self.admin = self.user.isAdmin;
       }
