@@ -1,3 +1,4 @@
+
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
@@ -6,6 +7,8 @@ var Product = mongoose.model('Product');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 var should = chai.should();
+var users = mongoose.model('User');
+var User = require('../../api/models/User');
 
 chai.use(chaiHttp);
 
@@ -13,163 +16,144 @@ var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
-// user for authentication
-var user = {
+var user = new User({
     birthdate: '1/1/1980',
     email: 'omar@omar.omar',
-    firstName: 'omar',
+    firstName: 'Omar',
+    isEmailVerified: true,
     lastName: 'Elkilany',
     password: '123456789',
     phone: '0112345677',
     username: 'omar'
-};
-var prod1 = new Product({
-    // _id: this.Product._id,
-    acquiringType: 'rent',
-    birthdate: '1/1/1980',
-//  createdAt: this.product.createdAt,
-    description: 'description',
-    image: 'https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
-    name: 'productname',
-    price: '500',
-    rentPeriod: '2',
+});
+
+var pro1 = new Product({
+    acquiringType: 'sell',
+    description: 'description description description',
+    image: 'https://vignette.wikia.nocookie.net/spongebob/images' +
+        '/a/ac/Spongebobwithglasses.jpeg/' +
+        'revision/latest?cb=20121014113150',
+    name: 'product1',
+    price: '11',
     seller: 'omar'
 });
-// authenticated token
+
+var updatedProd2 = ({ 
+    acquiringType: 'sell',
+    description: 'description description description',
+    image: 'https://vignette.wikia.nocookie.net/spongebob/images' +
+        '/a/ac/Spongebobwithglasses.jpeg/' +
+        'revision/latest?cb=20121014113150',
+    name: 'product1',
+    price: '200',
+    seller: 'omar'
+});
+
+// //write your test's name below in <write here>
+// describe('EditPrice', function () {
+
+//     // --- Mockgoose Initiation --- //
+//     before(function (done) {
+//         mockgoose.prepareStorage().then(function () {
+//             mongoose.connect(config.MONGO_URI, function () {
+//                 done();
+//             });
+//         });
+//     });
+//     // --- End of "Mockgoose Initiation" --- //
+
+// // authenticated token
+// var token = null;
 var token = null;
 
-//write your test's name below in <write here>
-describe('EditPrice', function () {
+describe('Editing product Price', function () {
 
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
-                done();
+                mockgoose.helper.reset().then(function () {
+                    user.save(function (error) {
+                        if (error) {
+                            throw error;
+                        }
+
+                        //sign in
+                        chai.request(server).
+                            post('/api/signIn').
+                            send({
+                                'password': '123456789',
+                                'username': 'omar'
+                            }).
+                            end(function (err, response) {
+                                if (err) {
+                                    return console.log(err);
+                                }
+                                expect(response).to.have.status(200);
+                                token = response.body.token;
+                                // save your document with a call to save
+                                done();
+                            });
+                    });
+                });
             });
         });
     });
     // --- End of "Mockgoose Initiation" --- //
 
-    // --- Clearing Mockgoose --- //
-    beforeEach(function (done) {
-        mockgoose.helper.reset().then(function () {
-            done();
-        });
-    });
-    // --- End of "Clearing Mockgoose" --- //
 
     it('it should PATCH Product from the server', function (done) {
-        //here you need to call your schema to construct a document
 
-        var updatedProd2 = new Product ({
-            acquiringType: 'rent',
-            birthdate: '1/1/1980',
-        //  createdAt: this.product.createdAt,
-            description: 'description',
-            image: 'https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
-            name: 'productname',
-            price: '20',
-            rentPeriod: '2',
-            seller: 'omar'
-        });
-//sign up
-chai.request(server).
-                post('/api/signUp').
-                send(user).
-                set('Authorization', token).
-                end(function (err, response) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    response.should.have.status(201);
-                    token = response.body.token;
-// save your document with a call to save, cat1 is just the variable name here
-        updatedProd2.save(function (err, savedReq) {
+        Product.create(pro1, function (err, savedReq) {
             if (err) {
                 return console.log(err);
             }
-// write your actual test here, like this:
-  chai.request(server).patch('/api/productrequest/editPrice/'+ savedReq._id + '/' + user.username).
-            send(prod1).
-            set('Authorization', token).
-            end(function (error, res) {
-                if (error) {
-                    return console.log(error);
-                }
-                //200 = ProductRequest was created successfully.
-                expect(res).to.have.status(201);
-                res.body.should.be.a('object');
-                res.body.should.have.property('msg').
-                    eql('product price updated.');
+
+            chai.request(server).
+                patch('/api/productrequest/editPrice/' + savedReq._id + '/' + user.username).
+                set('Authorization', token).
+                send(updatedProd2).
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    expect(res).to.have.status(201);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('msg').
+                        eql('product price updated.');
 
 
                     done();
                 });
-            });
         });
     });
 
     it('it should give error ', function (done) {
-        //here you need to call your schema to construct a document
-//like this:
-//var cat1 = new Category({
-          //  name: 'testcat1',
-            //sections: [{ name: 'sec1.1' }]
-//});  
-         var updatedProd2 = new Product ({
-            acquiringType: 'rent',
-            birthdate: '1/1/1980',
-        //  createdAt: this.product.createdAt,
-            description: 'description',
-            image: 'https://vignette.wikia.nocookie.net/spongebob/images/a/ac/Spongebobwithglasses.jpeg/revision/latest?cb=20121014113150',
-            name: 'productname',
-            price: '20',
-            rentPeriod: '2',
-            seller: 'ahmed'
-        });
-//sign up
-chai.request(server).
-                post('/api/signUp').
-                send(user).
-                set('Authorization', token).
-                end(function (err, response) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    response.should.have.status(201);
-                    token = response.body.token;
-// save your document with a call to save, cat1 is just the variable name here
-        updatedProd2.save(function (err, savedReq) {
+        pro1.save(function (err, savedReq) {
             if (err) {
                 return console.log(err);
             }
-// write your actual test here, like this:
-     chai.request(server).patch('/api/productrequest/editPrice/' + savedReq._id + '/' + user.username).
-            send(updatedProd2).
-            set('Authorization', token).
-            end(function (error, res) {
-                if (error) {
-                    return console.log(error);
-                }
-                //200 = ProductRequest was created successfully.
-                expect(res).to.have.status(403);
-                res.body.should.be.a('object');
-                res.body.should.have.property('err').
-                    eql('You can only edit your product');
-
-
+            chai.request(server).
+                patch('/api/productrequest/editPrice/' + savedReq._id + '/someIdiotUser').
+                set('Authorization', token).
+                send(updatedProd2).
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    expect(res).to.have.status(403);
+                    res.body.err.should.be.equal('You can only edit your product');
                     done();
                 });
-            });
         });
     });
-    after(function (done) {
-        mongoose.connection.close(function () {
-            done();
-        });
-    });
- });
 
-    // --- Mockgoose Termination --- //
-   // --- End of "Mockgoose Termination" --- //
+// --- Mockgoose Termination --- //
+after(function (done) {
+    mongoose.connection.close(function () {
+        done();
+    });
+});
+    // --- End of "Mockgoose Termination" --- //
+});
+// });

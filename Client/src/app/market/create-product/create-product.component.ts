@@ -24,22 +24,36 @@ export class CreateProductComponent {
         self.user = res.data;
       }
     });
-
+ 
   }
 
   productrequest: CreateProductRequest;
-  formInput = <any>{};
+  formInput = <any>{}; 
   user: any = {};
+  img = <any>String;
+
+  uploaded(url: string) {
+    if (url === 'imageFailedToUpload') {
+      console.log('image upload failed');
+      // TODO: handle image uploading failure
+      alert("image upload failed");
+    } else {
+      console.log('in vcC and its uploaded with url = ' + url);
+     
+    this.img =url;
+    }
+  }
 
   createProduct(product: any) {
- 
+
     // this.user = this.authService.getUser(); // here i get the currently logged in user
 
     let pro = { // here i put the inputs i take and place them in pro
       name: this.formInput.name,
       price: this.formInput.price,
       seller: this.user.username,
-      image: this.formInput.imageURL,
+      image: this.img,
+      //  this.formInput.imageURL,
       acquiringType: this.formInput.acquiringType,
       rentPeriod: this.formInput.rentPeriod,
       description: this.formInput.description,

@@ -1,14 +1,14 @@
 <section class="content file_manager">
   <div class="block-header">
     <div class="row">
-      <div class="col-lg-7 col-md-5 col-sm-12">
+      <div class="col-lg-7 col-md-5 col-8">
         <h2>
           <i class="zmdi zmdi-shopping-cart"></i>
           Marketplace
           <small>Buy, sell or rent unwanted stuff</small>
         </h2>
       </div>
-      <div class="col-lg-5 col-md-7 col-sm-12">
+      <div class="col-lg-5 col-md-7 col-4">
         <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" (click)="goToCreate()">
           <i class="zmdi zmdi-plus"></i>
         </button>
@@ -16,37 +16,63 @@
     </div>
   </div>
   <div class="container-fluid">
-    <div class="row clearfix js-sweetalert">
+    <div class="row clearfix">
       <div class="col-lg-12">
         <div class="card bg-dark">
           <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" data-toggle="tab" href="#products">Products</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="!this.user || !this.user.isAdmin">
               <a class="nav-link" data-toggle="tab" href="#requests">My Pending Products</a>
             </li>
           </ul>
         </div>
         <div class="tab-content">
           <div class="tab-pane active" id="products">
+
             <div class="row clearfix">
               <div class="col-lg-12">
                 <div class="card action_bar">
                   <div class="body">
                     <div class="row clearfix">
-                      <div class="col-lg-6 col-md-6 col-6">
-                        <div class="input-group search" *ngIf="filter=='name'">
+                      <div class="col-lg-8 col-md-6 col-12">
+                        <div class="input-group search" *ngIf="filter=='Name'">
                           <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="writtenName">
-                          <span class="input-group-addon">
-                            <i class="zmdi zmdi-search"></i>
-                          </span>
+
+                          <button class="btn btn-primary btn-round hidden-sm-down m-l-10" type="button" (click)="applyName()">
+                            <i class="zmdi zmdi-search"></i> Product
+                          </button>
                         </div>
-                        <div class="irs-demo m-b-30" *ngIf="filter=='price'">
-                          <input type="text" id="range_02" value="" />
+                        <div div class="input-group search" *ngIf="filter=='Price'">
+                          <input type="number" class="form-control" placeholder="Search..." [(ngModel)]="writtenPrice">
+
+                          <button class="btn btn-primary btn-round hidden-sm-down m-l-10" type="button" (click)="applyPrice()">
+                            <i class="zmdi zmdi-search"></i> Price
+                          </button>
+                        </div>
+                        <div *ngIf="filter=='Sort'">
+                          <div class="radio">
+                            <input type="radio" name="radio1" id="radio1" value="option1" checked="" (click)="applySort('latest')">
+                            <label for="radio1">
+                              Latest first
+                            </label>
+                            <input type="radio" name="radio1" id="radio2" value="option2" (click)="applySort('cheapest')">
+                            <label for="radio2">
+                              Cheapest first
+                            </label>
+                          </div>
                         </div>
                       </div>
-                      <div class="text-right">
+                      <div class="col-lg-2 col-md-2 col-8">
+                        <div class="checkbox inlineblock">
+                          <input id="myProducts" type="checkbox" (click)="applySeller()">
+                          <label for="myProducts">
+                            My Products
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-md-3 col-4 text-right">
                         <div class="btn-group hidden-sm-down" role="group">
                           <div class="btn-group">
                             <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -55,20 +81,29 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right pullDown">
                               <li>
-                                <a (click)="showFilter('name')">Name</a>
+                                <a (click)="showFilter('Name')">Name</a>
                               </li>
                               <li>
-                                <a (click)="showFilter('price')">Price</a>
+                                <a (click)="showFilter('Price')">Price</a>
                               </li>
                               <li>
-                                <a (click)="showFilter('seller')">Seller</a>
+                                <a (click)="showFilter('Sort')">Sort</a>
                               </li>
                             </ul>
+
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
+                </div>
+                <div>
+                  <button class="btn btn-primary btn-round btn-sm" *ngIf="this.selectedSeller" (click)="remove('seller')">seller: {{this.selectedSeller}} </button>
+                  <button class="btn btn-primary btn-round btn-sm" *ngIf="this.selectedPrice" (click)="remove('price')">
+                    <={{this.selectedPrice}}LE</button>
+                      <button class="btn btn-primary btn-round btn-sm" *ngIf="this.sort" (click)="remove('sort')">sort by: {{this.sort}}</button>
+                      <button class="btn btn-primary btn-round btn-sm" *ngIf="this.selectedName" (click)="remove('name')">{{this.selectedName}}</button>
                 </div>
               </div>
             </div>
@@ -77,11 +112,6 @@
                 <div class="card">
                   <div class="file">
                     <a (click)="showProductDetails(product)">
-                      <div class="hover" *ngIf="this.user && (this.user.isAdmin || this.user.username == product.seller)">
-                        <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger" (click)="this.showConfirmMessage()">
-                          <i class="zmdi zmdi-delete"></i>
-                        </button>
-                      </div>
                       <div class="image">
                         <img src={{product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
                       </div>
@@ -96,8 +126,25 @@
                 </div>
               </div>
             </div>
+            <ul *ngIf="totalNumberOfPages>1" class="pagination pagination-primary">
+              <li *ngIf="currentPageNumber>1" class="page-item">
+                <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">Previous</a>
+              </li>
+              <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
+                <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
+              </li>
+              <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
+                <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">Next</a>
+              </li>
+            </ul>
+            <div class="body text-center" *ngIf="!this.products.length">
+              <div class="not_found">
+                <i class="zmdi zmdi-mood-bad zmdi-hc-4x"></i>
+                <h4 class="m-b-0">Sorry No products found.</h4>
+              </div>
+            </div>
           </div>
-          <div class="tab-pane" id="requests">
+          <div class="tab-pane" id="requests" *ngIf="!this.user || !this.user.isAdmin">
             <div class="row clearfix">
               <div class="col-lg-3 col-md-4 col-sm-6 col-6" *ngFor="let product of userRequests">
                 <div class="card">
@@ -108,13 +155,18 @@
                       </div>
                       <div class="file-name">
                         <p class="m-b-5 text-muted">{{product.name}}</p>
-                        <small>{{product.price}} EGP
-                          <span class="date text-muted">{{product.createdAt | date}}</span>
-                        </small>
+                        <small>{{product.price}} EGP</small>
+                        <p class="date text-muted">{{product.createdAt | date}}</p>
                       </div>
                     </a>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div class="body text-center" *ngIf="!this.userRequests || !this.userRequests.length">
+              <div class="not_found">
+                <i class="zmdi zmdi-mood zmdi-hc-4x"></i>
+                <h4 class="m-b-0">No product requests. All clean</h4>
               </div>
             </div>
           </div>
@@ -122,95 +174,6 @@
       </div>
     </div>
   </div>
+
+
 </section>
-<!-- <mat-tab-group>
-  <mat-tab label="Market">
-    <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
-      [scrollWindow]="false">
-      <mat-card style="height: fit-content ;width: 75%;float: left;">
-        <div class="row justify-content-md-center" ngClass.gt-lg="ml-5" ngClass.lg="ml-5" ngClass.md="ml-5" ngClass.xs="ml-1 mr-2">
-          <mat-card class="m-3 col-md-3 col-sm-5 col-xs-12" *ngFor="let product of products">
-            <div class="container" style="padding:0px" (click)="this.showProductDetails(product)">
-              <img mat-card-image class="image" src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
-                alt="Photo of product" style="height:200px">
-              <div class="middle">
-                <div class="text">View</div>
-              </div>
-            </div>
-            <mat-card-content class="mt-2">
-              <mat-card-title style="width:100%; color:#3f51b5">{{product.name}}</mat-card-title>
-              <mat-card-subtitle>{{product.price}} EGP</mat-card-subtitle>
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </mat-card>
-      <mat-card style="width:25%;height:100%; float: right;position: fixed; left:74%">
-        <mat-card-content>
-          <button mat-button class="md-raised md-primary" style="position:relative; float:right; background:#3f51b5; color:white" (click)="this.goToCreate()">Add a new item</button>
-          <h3>Search</h3>
-          <mat-form-field>
-            <input matInput placeholder="Value" [(ngModel)]="writtenName">
-          </mat-form-field>
-          <button mat-icon-button (click)="this.applyName()">
-            <mat-icon>search</mat-icon>
-          </button>
-          <h3>Seller</h3>
-          <mat-radio-group [(ngModel)]="seller">
-            <mat-radio-button *ngFor="let s of sellers" [value]="s" style="margin-right: 3px" (click)="applySeller(s)">{{s}}</mat-radio-button>
-          </mat-radio-group>
-          <div class="row">
-            <h3 class="col-5">Price</h3>
-
-            <input matInput type="number" class="col-3" placeholder="Value" [(ngModel)]="writtenPrice" style="height:30px">
-          </div>
-          <div class="row">
-            <mat-slider class="col-8" [disabled]=false [invert]=false [max]=100000 [min]=0 [step]=1 [thumb-label]=false [tick-interval]=false
-              [(ngModel)]="writtenPrice" [vertical]=false>
-            </mat-slider>
-            <button mat-button class="md-raised md-primary button col-2" (click)="this.applyPrice()" style="height:40px;">Apply</button>
-          </div>
-          <h3>Sort By</h3>
-          <mat-radio-group [(ngModel)]="sort">
-            <mat-radio-button *ngFor="let s of sorts" [value]="s" style="margin-right: 3px" (click)="applySort(s)">{{s}}</mat-radio-button>
-          </mat-radio-group>
-          <mat-chip-list>
-            <mat-chip *ngIf="this.selectedSeller" [removable]=true (remove)="remove('seller')">{{this.selectedSeller}}
-              <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-            <mat-chip *ngIf="!this.selectedSeller">All Sellers</mat-chip>
-            <mat-chip *ngIf="this.selectedPrice" [removable]=true (remove)="remove('price')">
-              <={{this.selectedPrice}}LE <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-            <mat-chip [removable]=true (remove)="remove('name')" *ngIf="this.selectedName">{{this.selectedName}}
-              <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-            <mat-chip [removable]=true (remove)="remove('sort')" *ngIf="this.sort">{{this.sort}}
-              <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-
-          </mat-chip-list>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </mat-tab>
-  <mat-tab label="My Requests" *ngIf="!user.isAdmin">
-    <mat-card style="height:80px">
-      <mat-card-title style="float:left">Pending Requests</mat-card-title>
-    </mat-card>
-    <mat-card style="min-height: 300px">
-      <div class="row justify-content-md-center">
-        <mat-card *ngFor="let product of userRequests" style="width:19%">
-          <img mat-card-image src={{product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
-            alt="Photo of product" style="height:200px">
-          <mat-card-content class="mt-2">
-            <mat-card-title style="width:100%; color:#3f51b5">{{product.name}}</mat-card-title>
-            <mat-card-subtitle>{{product.price}} EGP</mat-card-subtitle>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white" (click)="this.showProductDetails(product)">View</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </mat-card>
-  </mat-tab>
-</mat-tab-group> -->

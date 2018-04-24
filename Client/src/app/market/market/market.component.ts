@@ -25,37 +25,33 @@ export class MarketComponent implements OnInit {
   user: any;
   products: Product[] = [];
   currentPageNumber: number;
-  entriesPerPage = 15;
+  entriesPerPage = 16;
+  totalNumberOfPages = 0;
   selectedName: String;
   selectedPrice;
   selectedSeller;
   writtenPrice;
   writtenName;
   userRequests: Product[];
-  seller = 'all';
+
   sort: string;
-  filter = 'name';
-  sorts = [
-    'latest',
-    'cheapest'
-  ];
-  sellers = [
-    'all',
-    'me'
-  ];
+  filter = 'Name';
   constructor(public dialog: MatDialog, public router: Router,
     private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) { }
 
   // initializes the current pages in the market and user item
   // gets the products in the market and the products owned by the user)
   ngOnInit() {
+    $(function () {
+      // Taken from http://ionden.com/a/plugins/ion.rangeSlider/demo.html
 
-    $('#range_02').ionRangeSlider({
-      min: 100,
-      max: 1000,
-      from: 550
-  });
-
+      $('#range').ionRangeSlider({
+        min: 100,
+        max: 1000,
+        from: 550
+      });
+    });
+    // get logged in user info
     const self = this;
     const userDataColumns = ['username', 'isAdmin'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
@@ -69,26 +65,60 @@ export class MarketComponent implements OnInit {
       }
     });
   }
-  showConfirmMessage(): void {
-    swal({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this imaginary file!',
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#DD6B55',
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, cancel plx!',
-      closeOnConfirm: false,
-      closeOnCancel: true
-    }, function (isConfirm) {
-      if (isConfirm) {
-        swal('Deleted!', 'Your imaginary file has been deleted.', 'success');
+
+  //        start of market page actions       //
+
+  // sets the current page to the first page
+  // gets the current page products
+  firstPage(): void {
+    const self = this;
+    self.currentPageNumber = 1;
+    self.products = [];
+    self.getPage();
+  }
+
+  // gets the content of the current market page from the market service (DB)
+  // restrict the products to the ones following the delimiters given
+  getPage(): void {
+    // scroll to the top
+    window.scrollTo(0, 0);
+
+    const self = this;
+    if (self.selectedName) {
+      self.selectedName = self.selectedName.trim();
+    }
+    const limiters = {
+      price: self.selectedPrice + 1,
+      name: self.selectedName,
+      seller: self.selectedSeller,
+      sort: self.sort
+    };
+    self.marketService.getMarketPage(self.entriesPerPage,
+      self.currentPageNumber, limiters)
+      .subscribe(function (products) {
+        self.totalNumberOfPages = products.data.pages;
+        console.log(self.totalNumberOfPages);
+        self.products = products.data.docs;
+      });
+  }
+
+  //        end of market page actions       //
+
+
+  //        start of my requests page actions       //
+
+  // get the requests submitted by the user
+  getUserRequests(): void {
+    let self = this;
+    this.marketService.getUserRequests(this.user.username).subscribe(function (res) {
+      if (res.msg === 'Requests retrieved.') {
+        self.userRequests = res.data;
       }
     });
   }
-  showFilter(option: string) {
-    this.filter = option;
-  }
+
+  //        end of my requests page actions       //
+
 
   // opens the product details dialog
   showProductDetails(prod: any): void {
@@ -116,12 +146,12 @@ export class MarketComponent implements OnInit {
       }
     }
   }
+
+
   // Opens the dialog form of creating a product
   goToCreate() {
     const self = this;
     let dialogRef = self.dialog.open(CreateProductComponent, {
-    //  width: '75%',
-    //  height: '60%',
       data: { market: self }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -131,66 +161,52 @@ export class MarketComponent implements OnInit {
     });
   }
 
-  // gets the content of the current market page from the market service (DB)
-  // restrict the products to the ones following the delimiters given
-  getPage(): void {
-    const self = this;
-    if (self.selectedName) {
-      self.selectedName = self.selectedName.trim();
-    }
-    const limiters = {
-      price: self.selectedPrice + 1,
-      name: self.selectedName,
-      seller: self.selectedSeller,
-      sort: self.sort
-    };
-    self.marketService.getMarketPage(self.entriesPerPage,
-      self.currentPageNumber, limiters)
-      .subscribe(function (products) {
-        self.products = self.products.concat(products.data.docs);
-      });
+
+
+
+  //         start of search actions         //
+
+
+  // show the div related to the filter selected
+  showFilter(option: string) {
+    this.filter = option;
   }
 
-  // gets the totals number of products to be shown later
-  // gets the current page products
-  // restrict the products to the ones following the delimiters given
-  firstPage(): void {
-    const self = this;
-    self.currentPageNumber = 1;
-    self.products = [];
-    self.getPage();
-  }
-
-  applySeller(x: string): void {
+  // apply delimiter based on seller
+  applySeller(): void {
     let self = this;
-    self.seller = x;
-    if (x === 'all') {
-      self.selectedSeller = null;
-    } else {
+    if (self.selectedSeller) { self.selectedSeller = null; } else {
       self.selectedSeller = this.user.username;
     }
     self.firstPage();
   }
+
+  // apply price delimiter
   applyPrice(): void {
     let self = this;
     self.selectedPrice = self.writtenPrice;
     self.firstPage();
   }
+
+  // apply name search delimiter
   applyName(): void {
     let self = this;
     self.selectedName = self.writtenName;
     self.firstPage();
   }
+
+  // apply sorting delimiter
   applySort(x: string): void {
     let self = this;
     self.sort = x;
     self.firstPage();
   }
+
+  // remove a search delimiter
   remove(toRemove: string): void {
     let self = this;
     if (toRemove === 'seller') {
       self.selectedSeller = null;
-      self.seller = 'all';
     } else if (toRemove === 'price') {
       self.selectedPrice = undefined;
       self.writtenPrice = undefined;
@@ -203,17 +219,45 @@ export class MarketComponent implements OnInit {
     self.firstPage();
   }
 
-  onScroll(): void {
-    this.currentPageNumber += 1;
+  //            end of search actions            //
+
+
+
+  //         start of pagination actions         //
+
+  // change the current page on user click on pagination
+  changePage(pageNum: number): any {
+    this.currentPageNumber = pageNum;
     this.getPage();
   }
 
-  getUserRequests(): void {
-    let self = this;
-    this.marketService.getUserRequests(this.user.username).subscribe(function (res) {
-      if (res.msg === 'Requests retrieved.') {
-        self.userRequests = res.data;
+  // calculate the number of pages to display in pagination
+  getPaginationRange(): any {
+
+    let pageNumbers = [];
+    let counter = 1;
+
+    if (this.currentPageNumber < 3) {
+      // we are in page 1 or 2
+      while (counter < 6 && counter <= this.totalNumberOfPages) {
+        pageNumbers.push(counter);
+        counter += 1;
       }
-    });
+    } else {
+      // we are in a page greater than 2
+      pageNumbers.push(this.currentPageNumber - 2);
+      pageNumbers.push(this.currentPageNumber - 1);
+      pageNumbers.push(this.currentPageNumber);
+      if (this.currentPageNumber + 1 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.currentPageNumber + 1);
+      }
+      if (this.currentPageNumber + 2 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.currentPageNumber + 2);
+      }
+    }
+    return pageNumbers;
   }
+
+  //         end of pagination actions         //
+
 }
