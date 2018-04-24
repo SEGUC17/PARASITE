@@ -16,14 +16,11 @@ export class ContentListViewComponent implements OnInit {
   // general contents for viewing
   contents: Content[] = [];
 
-  // content created by the current user
-  myContributions: Content[] = [];
-
   // categories for the general contents view
   categories: Category;
 
   // determine which tab we are on
-  selectedTab: Number = 0;
+  selectedTabIndex: Number = 0;
 
   // shared between myContributions and content list
   numberOfEntriesPerPage = 20;
@@ -32,18 +29,13 @@ export class ContentListViewComponent implements OnInit {
   selectedCategory: String = '';
   selectedSection: String = '';
   currentPageNumber = 1;
-
-  // for my contributions pagination
-  myContributionsSelectedCategory: String = '';
-  myContributionsSelectedSection: String = '';
-  myContributionsCurrentPageNumber = 1;
+  totalNumberOfPages = 0;
 
   // search variables
   searchQuery: String = '';
 
   // sorting variables
   sortResultsBy: String = 'relevance';
-  sortOptions = ['relevance', 'upload date', 'rating'];
 
   // signed in user
   currentUser: User;
@@ -56,43 +48,82 @@ export class ContentListViewComponent implements OnInit {
     this.authService.getUserData(['username', 'avatar']).
       subscribe(function (user) {
         self.currentUser = user.data;
-        if (self.currentUser) {
-          self.getMyContributionsPage();
-        }
       });
     this.getContentPage();
     this.getCategories();
   }
 
-  // respond to user scrolling to the end of the general content
-  onScroll(): void {
-    console.log('scrolled!!');
-    // increment the page number
-    this.currentPageNumber += 1;
-
-    // update the content array
-    this.getContentPage();
+  // extract the first ten tags of a certain content
+  getFirstTenTags(tags: any): any {
+    if (tags) {
+      return tags.slice(0, 10);
+    } else {
+      return [];
+    }
   }
 
-  // respond to user scrolling to the end of the my contributions section
-  onScrollMyContributions(): void {
-    console.log('scrolled!!');
+  // calculate the number of pages to display in pagination
+  getPaginationRange(): any {
+
+    let pageNumbers = [];
+    let counter = 1;
+
+    if (this.currentPageNumber < 3) {
+      // we are in page 1 or 2
+      while (counter < 6 && counter <= this.totalNumberOfPages) {
+        pageNumbers.push(counter);
+        counter += 1;
+      }
+    } else {
+      // we are in a page greater than 2
+      pageNumbers.push(this.currentPageNumber - 2);
+      pageNumbers.push(this.currentPageNumber - 1);
+      pageNumbers.push(this.currentPageNumber);
+      if (this.currentPageNumber + 1 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.currentPageNumber + 1);
+      }
+      if (this.currentPageNumber + 2 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.currentPageNumber + 2);
+      }
+    }
+    return pageNumbers;
+  }
+
+  // respond to the user changing the tab
+  changeTab(tabIndex: number): void {
+    this.selectedTabIndex = tabIndex;
+    this.selectedCategory = '';
+    this.selectedSection = '';
+    this.changePage(1);
+  }
+
+  // respond to user changing the page
+  changePage(pageNumber: number): void {
+
     // increment the page number
-    this.myContributionsCurrentPageNumber += 1;
+    this.currentPageNumber = pageNumber;
+
+    // scroll to the top
+    window.scrollTo(0, 0);
 
     // update the content array
-    this.getMyContributionsPage();
+    if (this.selectedTabIndex === 0) {
+      this.getContentPage();
+    } else {
+      this.getMyContributionsPage();
+    }
   }
 
   // get a page of the content created by the current user
   getMyContributionsPage(): void {
     const self = this;
     this.contentService.
-      getContentByCreator(self.numberOfEntriesPerPage, self.myContributionsCurrentPageNumber,
-        self.myContributionsSelectedCategory, self.myContributionsSelectedSection).
+      getContentByCreator(self.numberOfEntriesPerPage, self.currentPageNumber,
+        self.selectedCategory, self.selectedSection).
       subscribe(function (retrievedContents) {
-        // append a new page to the myContributions array
-        self.myContributions = self.myContributions.concat(retrievedContents.data.docs);
+        // assign the retrieved contents to the contents array
+        self.contents = retrievedContents.data.docs;
+        self.totalNumberOfPages = retrievedContents.data.pages;
         console.log('Get Contributions');
       });
   }
@@ -108,29 +139,15 @@ export class ContentListViewComponent implements OnInit {
 
   // respond to the user changing the current category and section
   changeCategoryAndSection(category: any, section: any): void {
-    // we are in the general content tab
-    if (this.selectedTab === 0) {
-      // user changed the category or section, nullifying the validity of his search query
-      this.searchQuery = '';
+    // user changed the category or section, nullifying the validity of his search query
+    this.searchQuery = '';
 
-      // intialize category/section browsing
-      this.selectedCategory = category;
-      this.selectedSection = section;
+    // intialize category/section browsing
+    this.selectedCategory = category;
+    this.selectedSection = section;
 
-      // start from page 1
-      this.currentPageNumber = 1;
-      this.contents = [];
-      this.getContentPage();
-    } else {
-      // initialize category/section for my contributions
-      this.myContributionsSelectedCategory = category;
-      this.myContributionsSelectedSection = section;
-
-      // start from page 1
-      this.myContributionsCurrentPageNumber = 1;
-      this.myContributions = [];
-      this.getMyContributionsPage();
-    }
+    // return to page 1
+    this.changePage(1);
   }
 
   // respond to the user clicking the search button
@@ -173,11 +190,9 @@ export class ContentListViewComponent implements OnInit {
         ).avatar;
       }
       // update the contents array
-      self.contents = self.contents.concat(retrievedContent);
+      self.contents = retrievedContent;
+      self.totalNumberOfPages = res.data.contents.pages;
     });
   }
 
-  checkCreatorProfile(username: String) {
-    this.router.navigateByUrl('/profile/' + username);
-  }
 }

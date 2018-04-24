@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminService } from '../../admin.service';
+import { ContentService } from '../../content/content.service';
+import { Category } from '../../content/category';
 
 @Component({
   selector: 'app-category-management',
@@ -6,14 +9,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./category-management.component.scss']
 })
 export class CategoryManagementComponent implements OnInit {
-  options = [
-    {value: 'steak-0', viewValue: 'Steak'},
-    {value: 'pizza-1', viewValue: 'Pizza'},
-    {value: 'tacos-2', viewValue: 'Tacos'}
-  ];
-  constructor() { }
-
-  ngOnInit() {
+  categories: Category[];
+  constructor(private adminservice: AdminService, private contentService: ContentService) { }
+  // retrieve all categories from server
+  getCategories(): void {
+    const self = this;
+    this.contentService.getCategories().subscribe(function (res) {
+      if (!res || !res.data) {
+        return [];
+      }
+      self.categories = res.data;
+    });
   }
-}
+  ngOnInit() {
+    this.getCategories();
+  }
 
+}
