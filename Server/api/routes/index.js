@@ -367,6 +367,13 @@ module.exports = function (passport) {
     contentController.deleteContent
   );
 
+  // Add gamification score
+  router.post(
+    '/content/:contentId/score',
+    isAuthenticated,
+    contentController.addScore
+  );
+
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message

@@ -96,6 +96,11 @@ export class ContentService {
       );
   }
 
+  // Add learning score
+  addLearningScore(contentId: any): Observable<any> {
+    return this.http.post(this.endpoint + 'content/' + contentId + '/score', {});
+  }
+
   // general error handler
   private handleError<T>(operation = 'operation', result?: T) {
     const self = this;
