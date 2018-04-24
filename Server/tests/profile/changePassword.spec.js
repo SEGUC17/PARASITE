@@ -38,7 +38,7 @@ var array = [
 ];
 
 var oldPassword = null;
-
+// old password
 describe('user changes password', function () {
     this.timeout(120000);
     before(function (done) {
