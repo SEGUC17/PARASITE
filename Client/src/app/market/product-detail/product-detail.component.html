@@ -1,6 +1,5 @@
 <form #updateDetails="ngForm" [ngSwitch]="this.toggleEditForm">
   <div class="modal-body">
-<<<<<<< HEAD
     <h2 class="title" id="largeModalLabel" style="word-break: break-all;">{{data.product.name}}</h2>
     <div class="row" width="100%">
       <div class="col" height="100%">
@@ -40,57 +39,6 @@
         <img class="img-fluid img-thumbnail" src={{data.product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
           alt="Photo of product" />
       </div>
-=======
-    <h2 class="title" id="largeModalLabel">{{data.product.name}}</h2>
-    <div class="body table-responsive">
-      <table class="table">
-        <tbody>
-          <tr>
-            <td>
-              <p *ngSwitchCase="false" style="font-size:20px; color: #3f51b5">{{data.product.price}}
-                <span style="font-size: 15px; color: #3f51b5"> EGP</span>
-                <button mat-icon-button *ngIf="data.product.seller == data.curUser" (click)="this.editPrice()">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-              </p>
-              <!-- Edit Data -->
-              <div *ngSwitchCase="true">
-                <mat-form-field>
-                  <input matInput type="number" name="price" id="price" [(ngModel)]="formInput.price" class="example-right-align">
-                  <span matPrefix>$&nbsp;</span>
-                </mat-form-field>
-                <button mat-icon-button *ngIf="data.product.seller == data.curUser" (click)="this.editPrice()">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-              </div>
-              
-              <li>
-                <span style="font-weight: bold">Product Information:</span>
-              </li>
-              <p>{{data.product.description}}</p>
-              <li>
-                <span style="font-weight: bold">Created At: {{data.product.createdAt | date }}</span>
-              </li>
-              <li>
-                <span style="font-weight: bold">For {{data.product.acquiringType}}</span>
-                <span *ngIf="data.product.rentPeriod">: {{data.product.rentPeriod}} days</span>
-              </li>
-              <li>
-                <span style="font-weight: bold">Sold by: </span>
-                <a routerLink="market">{{data.product.seller}}</a>
-              </li>
-              <li>
-                <span style="font-weight: bold">Shipping to: </span>
-              </li>
-            </td>
-            <td>
-              <img class="img-fluid img-thumbnail" src={{data.product.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
-                alt="Photo of product" style="height:300px ">
-            </td>
-          </tr>
-        </tbody>
-      </table>
->>>>>>> 8ab29defd706a19fe44c6e244f3b705736b346b1
     </div>
   </div>
   <div class="modal-footer">
