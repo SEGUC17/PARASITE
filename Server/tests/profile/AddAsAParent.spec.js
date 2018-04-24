@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-//var User = mongoose.model('User');
+var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 //var should = chai.should();
@@ -41,6 +41,7 @@ describe('Add user as a parent', function () {
                 birthdate: '1/1/1997',
                 email: 'Magicx@gmail.com',
                 firstName: 'Omar',
+                isEmailVerified: true,
                 lastName: 'Omar',
                 password: '123456789',
                 phone: '01111111111',
@@ -52,6 +53,13 @@ describe('Add user as a parent', function () {
             };
             // sign up and be authenticated
 
+            User.create(user, function (err) {
+                if (err) {
+                    done(err);
+                } else {
+                    done();
+                }
+            });
             chai.request(server).
                 post('/api/signUp').
                 send(user).
