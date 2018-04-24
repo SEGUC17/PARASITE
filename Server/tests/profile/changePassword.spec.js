@@ -50,31 +50,29 @@ describe('user changes password', function () {
             birthdate: new Date('03/02/1984'),
             email: 'melody@anther.com',
             firstName: 'Melody',
+            isEmailVerified: true,
             lastName: 'Anther',
             password: '123456789melod',
             phone: '343493202',
-            username: 'melody.anther',
-            isEmailVerified: true
+            username: 'melody.anther'
         };
-        this.token  = '';
+        this.token = '';
 
-
-        
         mockgoose.helper.reset().then(function () {
             User.create(that.user, function (error) {
                 if (error) {
-                    return done(err);
+                    return done(error);
             }
 
             chai.request(server).
             post('/api/signIn').
             send({
-                username: 'melody.anther',
-                password: '123456789melod'
+                password: '123456789melod',
+                username: 'melody.anther'
             }).
-            end(function (error, response) {
-                if (error) {
-                    done(error);
+            end(function (Error, response) {
+                if (Error) {
+                    done(Error);
                 } else {
                 response.should.have.status(200);
                 that.token = response.body.token;
@@ -111,7 +109,7 @@ describe('user changes password', function () {
                                 resp.should.have.status(200);
 
 
-                                resp.body.data.password.should.be.a('string').not.
+                              resp.body.data.password.should.be.a('string').not.
                                     equal(oldPassword);
 
                                 done();
@@ -119,7 +117,7 @@ describe('user changes password', function () {
                             });
                     });
                 });
-        it('should -not- /PATCH/ user password and return 401',  function(done) {
+       it('should -not- /PATCH/ user password and return 401', function(done) {
             chai.request(server).
             post('/api/userData').
             send(array).
@@ -144,12 +142,7 @@ describe('user changes password', function () {
 
                             });
                     });
-        })
-        
-    
-
-
-
+        });
     after(function (done) {
         mongoose.connection.close(function (err) {
             done(err);
