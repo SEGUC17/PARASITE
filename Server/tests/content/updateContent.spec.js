@@ -16,8 +16,14 @@ var mockgoose = new Mockgoose(mongoose);
 var userToken = null;
 var adminToken = null;
 var cat1 = new Category({
+    iconLink: 'this-is-a-link.com',
     name: 'testcat1',
-    sections: [{ name: 'sec1.1' }]
+    sections: [
+        {
+            iconLink: 'this-is-a-link.com',
+            name: 'sec1.1'
+        }
+    ]
 });
 var testContent = new Content({
     approved: true,
@@ -66,13 +72,84 @@ describe('/PATCH /content', function () {
                 password: 'testing123',
                 username: 'Hellothere'
             }).
-            end(function (err, res) {
+            end(function (err) {
                 if (err) {
-                    return done(err);
+                    done();
                 }
-                // get the first test user token
-                userToken = res.body.token;
-                done();
+                User.findOneAndUpdate(
+                    { username: 'Hellothere' },
+                    { $set: { isEmailVerified: true } },
+                    function (updateError, user) {
+                        if (updateError) {
+                            done();
+                        }
+                        chai.request(server).
+                            post('/api/signin').
+                            send({
+                                password: 'testing123',
+                                username: user.username
+                            }).
+                            end(function (loginError, loginRes) {
+                                if (loginError) {
+                                    done(loginError);
+                                }
+                                // get the first test user token
+                                userToken = loginRes.body.token;
+                                done();
+                            });
+
+
+                    }
+                );
+
+
+            });
+    });
+    before(function (done) {
+        //create the second test user(admin permissions)
+        chai.request(server).post('/api/signUp').
+            send({
+                birthdate: '11/11/1997',
+                email: 'admin@admin.com',
+                firstName: 'admin',
+                lastName: 'admin',
+                password: 'admin123',
+                username: 'admin'
+            }).
+            end(function (err) {
+                if (err) {
+                    done();
+                }
+                // update user permissions
+                User.findOneAndUpdate(
+                    { username: 'admin' },
+                    {
+                        $set:
+                            {
+                                isAdmin: true,
+                                isEmailVerified: true
+                            }
+                    },
+                    function (updateErr, user) {
+                        if (updateErr) {
+                            done();
+                        }
+                        chai.request(server).
+                            post('/api/signin').
+                            send({
+                                password: 'admin123',
+                                username: user.username
+                            }).
+                            end(function (loginError, loginRes) {
+                                if (loginError) {
+                                    done(loginError);
+                                }
+                                // get the first test user token
+                                adminToken = loginRes.body.token;
+                                done();
+                            });
+                    }
+                );
             });
     });
     before(function (done) {
@@ -91,37 +168,6 @@ describe('/PATCH /content', function () {
             done();
         });
     });
-    before(function (done) {
-        //create the second test user(admin permissions)
-        chai.request(server).post('/api/signUp').
-            send({
-                birthdate: '11/11/1997',
-                email: 'admin@admin.com',
-                firstName: 'admin',
-                lastName: 'admin',
-                password: 'admin123',
-                username: 'admin'
-            }).
-            end(function (err, res) {
-                if (err) {
-                    done();
-                }
-                // update user permissions
-                User.updateOne(
-                    { username: 'admin' },
-                    { $set: { isAdmin: true } },
-                    function (updateErr) {
-                        if (updateErr) {
-                            done(updateErr);
-                        }
-                        // get the token for the second test user
-                        adminToken = res.body.token;
-                        done();
-                    }
-                );
-            });
-    });
-
     it(
         'should update content successfully for an admin' +
         ' with true approval status' +

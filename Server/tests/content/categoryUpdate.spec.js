@@ -62,13 +62,37 @@ describe('/PATCH/category', function () {
                 password: 'testing123',
                 username: 'Hellothere'
             }).
-            end(function (err, res) {
+            end(function (err) {
                 if (err) {
                     done();
                 }
-                // get the first test user token
-                userToken = res.body.token;
-                done();
+                User.findOneAndUpdate(
+                    { username: 'Hellothere' },
+                    { $set: { isEmailVerified: true } },
+                    function (updateError, user) {
+                        if (updateError) {
+                            done();
+                        }
+                        chai.request(server).
+                            post('/api/signin').
+                            send({
+                                password: 'testing123',
+                                username: user.username
+                            }).
+                            end(function (loginError, loginRes) {
+                                if (loginError) {
+                                    done(loginError);
+                                }
+                                // get the first test user token
+                                userToken = loginRes.body.token;
+                                done();
+                            });
+
+
+                    }
+                );
+
+
             });
     });
     before(function (done) {
@@ -82,21 +106,38 @@ describe('/PATCH/category', function () {
                 password: 'admin123',
                 username: 'admin'
             }).
-            end(function (err, res) {
+            end(function (err) {
                 if (err) {
                     done();
                 }
                 // update user permissions
-                User.updateOne(
+                User.findOneAndUpdate(
                     { username: 'admin' },
-                    { $set: { isAdmin: true } },
-                    function (updateErr) {
+                    {
+                        $set:
+                            {
+                                isAdmin: true,
+                                isEmailVerified: true
+                            }
+                    },
+                    function (updateErr, user) {
                         if (updateErr) {
                             done();
                         }
-                        // get the token for the second test user
-                        adminToken = res.body.token;
-                        done();
+                        chai.request(server).
+                            post('/api/signin').
+                            send({
+                                password: 'admin123',
+                                username: user.username
+                            }).
+                            end(function (loginError, loginRes) {
+                                if (loginError) {
+                                    done(loginError);
+                                }
+                                // get the first test user token
+                                adminToken = loginRes.body.token;
+                                done();
+                            });
                     }
                 );
             });
