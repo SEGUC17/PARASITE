@@ -24,7 +24,7 @@ export class StudyPlanService {
   }
 
   createStudyPlan(username: String, studyPlan: StudyPlan): Observable<any> {
-    return this.http.patch(environment.apiUrl + 'study-plan/createStudyPlan/' + username, studyPlan);
+    return this.http.patch(environment.apiUrl + 'study-plan/createStudyPlan', studyPlan);
   }
 
   getPublishedStudyPlans(pageNumber: Number): Observable<any> {
