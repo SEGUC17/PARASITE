@@ -27,18 +27,13 @@ import {
   styleUrls: ['./study-plan-edit-view.component.scss']
 })
 export class StudyPlanEditViewComponent implements OnInit {
-  @ViewChild('modalContent') modalContent: TemplateRef<any>;
   type: string;
   _id: string;
   username: string;
   studyPlan: StudyPlan;
-  view = 'month';
-  viewDate: Date = new Date();
   title: string;
   events: CalendarEvent[];
   description: string;
-  activeDayIsOpen: Boolean = false;
-  refresh: Subject<any> = new Subject();
   private editor;
   public editorOut;
   public editorContent = ``;
@@ -46,25 +41,6 @@ export class StudyPlanEditViewComponent implements OnInit {
     placeholder: 'Enter the description for your study plan here.'
   };
   separatorKeysCodes = [ENTER, COMMA, SPACE];
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
     private router: Router) { }
@@ -113,67 +89,19 @@ export class StudyPlanEditViewComponent implements OnInit {
     }
   }
 
-  fetchEvents(): void {
-    const getStart: any = {
-      month: startOfMonth,
-      week: startOfWeek,
-      day: startOfDay
-    }[this.view];
-
-    const getEnd: any = {
-      month: endOfMonth,
-      week: endOfWeek,
-      day: endOfDay
-    }[this.view];
-
-    this.activeDayIsOpen = false;
-  }
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-        this.viewDate = date;
-      }
-    }
-  }
-
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
-    event.start = newStart;
-    event.end = newEnd;
-    this.handleEvent('Dropped or resized', event);
-    this.refresh.next();
-  }
-
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-  }
-
-  addEvent(): void {
+  createEvent(eventTitle: string, eventDescription: string, start: Date, end: Date) {
     this.events.push({
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
+      title: eventTitle,
+      start: start,
+      end: end,
       color: {
-        primary: '#ad2121',
+        primary: '#2196f3',
         secondary: '#FAE3E3'
       },
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
+      meta: {
+        description: eventDescription
       }
     });
-    this.refresh.next();
   }
 
   create(): void {

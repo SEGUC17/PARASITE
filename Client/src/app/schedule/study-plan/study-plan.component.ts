@@ -48,16 +48,13 @@ export class StudyPlanComponent implements OnInit {
   // routing parameters
   type: string;
   _id: String;
-  username: String;
-  listOfChildren: any[];
+  profileUsername: string;
 
   // user info
+  currUsername: string;
   currIsChild: boolean;
   currIsAdmin: boolean;
-
-  // Users
-  loggedInUser: any = {};
-  @Input() profileUser;
+  listOfChildren: any[];
 
   // end of routing parameters
   studyPlan: StudyPlan;
@@ -88,7 +85,8 @@ export class StudyPlanComponent implements OnInit {
     this.description = '';
     this.editorContent = '';
     this.events = [];
-    this._AuthService.getUserData(['isChild', 'isAdmin', 'children']).subscribe((res) => {
+    this._AuthService.getUserData(['username', 'isChild', 'isAdmin', 'children']).subscribe((res) => {
+      this.currUsername = res.data.username;
       this.currIsChild = res.data.isChild;
       this.currIsAdmin = res.data.isAdmin;
       this.listOfChildren = res.data.children;
@@ -96,11 +94,11 @@ export class StudyPlanComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.type = params.type;
       this._id = params.id;
-      this.username = params.username;
+      this.profileUsername = params.username;
     });
 
     if (this.type === 'personal') {
-      this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
+      this.studyPlanService.getPersonalStudyPlan(this.profileUsername, this._id)
         .subscribe(res => {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
@@ -151,7 +149,7 @@ export class StudyPlanComponent implements OnInit {
     this.tempStudyPlan = this.studyPlan;
     this.tempStudyPlan._id = undefined;
     this.studyPlanService
-      .createStudyPlan(this.username, this.tempStudyPlan)
+      .createStudyPlan(this.currUsername, this.tempStudyPlan)
       .subscribe(res => {
         alert(res.msg);
       });
@@ -191,7 +189,7 @@ export class StudyPlanComponent implements OnInit {
   };
 
   edit(): void {
-    this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.username]);
+    this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.profileUsername]);
   }
 
   createEvent(eventTitle: string, eventDescription: string, start: Date, end: Date) {
