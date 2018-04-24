@@ -51,6 +51,7 @@ let counter = 0;
       self.profileService.getChildren(self.username).subscribe(function(response) { self.childrenList = response.data;
 
 console.log(self.childrenList);
+
 // getting username , avatar , first name , lastname , birthdate of
 // each child in children list and adding them to a single array
 self.singleArray.pop();

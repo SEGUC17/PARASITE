@@ -38,7 +38,7 @@ export class ActivityDetailComponent implements OnInit {
   };
  // updatedActivity: ActivityCreate;
 isCreator = false ;
-isNotBooked = false;
+isBooked = true;
 username = '';
  public updatedActivity: ActivityEdit = {
   name: '',
@@ -79,12 +79,16 @@ username = '';
   ) { }
 
   ngOnInit() {
-    this.getCurrentUser();
-    this.getActivity();
-    this.refreshComments(true);
+    let self = this;
+    self.getCurrentUser();
+    self.getActivity();
+    self.refreshComments(true);
 
     this.authService.getUserData(['username']).subscribe(function (res) {
       this.username = res.data.username;
+     // console.log('current: ' + this.currentUser.username );
+      console.log('booked? ' + self.isBooked);
+      console.log('creator? ' + self.isCreator);
 // if (this.updatedActivity.creator.equal(this.username)) { this.isCreator = true; }
 
   });
@@ -102,7 +106,7 @@ username = '';
       'lastName',
       'avatar'
     ]).subscribe(function(res) {
-        if (typeof res.data == 'undefined') {
+        if (typeof res.data === 'undefined') {
           self.signedIn = false;
         } else {
           self.currentUser = res.data;
@@ -112,7 +116,7 @@ username = '';
         console.log('signed in : ' + self.signedIn );
         console.log(res);
       }
-    )
+    );
 
   }
 
@@ -163,10 +167,13 @@ username = '';
       @author: Wessam
     */
     let id = this.route.snapshot.paramMap.get('id');
+    let self = this;
     this.activityService.getActivity(id).subscribe(
       res => {
         this.activity = res.data;
         this.updatedActivity = res.data;
+        if (this.activity.bookedBy.length < 1) { self.isBooked = false; }
+      if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
         if (!this.activity.image) {
           this.activity.image = 'assets/images/activity-view/default-activity-image.jpg';
         }

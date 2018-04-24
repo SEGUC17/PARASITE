@@ -283,6 +283,7 @@ module.exports.prepareActivity = function (req, res, next) {
 
 // Author: Heidi
 module.exports.editActivity = function (req, res, next) {
+    console.log('current :' + req.user);
     var Status = 'pending';
 if (req.user.isAdmin) {
     Status = 'verified';
@@ -294,6 +295,7 @@ return next(err);
 
         }
 // only activity creator can edit his/her own activity
+console.log('booked :' + activity.bookedBy);
 if (!(activity.creator == req.user.username)) {
     return res.status(403).send({
         data: null,
@@ -302,8 +304,8 @@ if (!(activity.creator == req.user.username)) {
     });
 }
 // if status is booked already it cannot be edited
-if (activity.bookedBy.length == 0) {
-    return res.status(403).send({
+if (activity.bookedBy.length > 0) {
+    return res.status(405).send({
         data: null,
         err: null,
         msg: 'no edition allowed'
