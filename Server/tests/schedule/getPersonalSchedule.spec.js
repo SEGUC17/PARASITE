@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
 var User = mongoose.model('User');
-var event = mongoose.model('CalendarEvent');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 var should = chai.should();
