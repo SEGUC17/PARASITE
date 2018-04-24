@@ -13,6 +13,11 @@ var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
+var johnDoe = null;
+var janeDoe = null;
+var johnny = null;
+var studyPlan = null;
+
 describe('Create Study Plan PATCH', function () {
     this.timeout(120000);
     // --- Mockgoose Initiation --- //
@@ -28,40 +33,7 @@ describe('Create Study Plan PATCH', function () {
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
         mockgoose.helper.reset().then(function () {
-            done();
-        });
-    });
-    // --- End of "Clearing Mockgoose" --- //
-
-    it('should return status 404 if the user isn\'t found', function (done) {
-        chai.request(server).
-                patch('/api/study-plan/createStudyPlan' +
-                    '/jake', {}).
-                end(function (error, res) {
-                    if (error) {
-                        return console.log(error);
-                    }
-
-                    res.should.be.json;
-                    res.should.have.status(404);
-                    done();
-                });
-    });
-
-    it('should return status 200 on successful creation', function (done) {
-        var user = new User({
-            address: 'A Mental Institute',
-            birthdate: new Date('11/1/1997'),
-            email: 'Jathri@real.com',
-            firstName: 'jathri',
-            lastName: 'Ripper',
-            password: 'hashed password',
-            phone: ['01448347641'],
-            studyPlans: [],
-            username: 'jathri'
-        });
-
-        var studyPlan = new StudyPlan({
+          studyPlan = new StudyPlan({
             _id: '9ac09be2f578185d46efc3c7',
             creator: 'Jathri',
             description: '<p class="ql-align-center">' +
@@ -81,16 +53,84 @@ describe('Create Study Plan PATCH', function () {
                 }
             ],
             title: 'The Ultimate Guide to KPop'
+          });
+          johnDoe = new User({
+            address: 'John Address Sample',
+            birthdate: '1/1/1980',
+            children: ['johnny'],
+            email: 'johndoe@gmail.com',
+            firstName: 'John',
+            isEmailVerified: true,
+            isTeacher: true,
+            lastName: 'Doe',
+            password: 'JohnPasSWorD',
+            phone: ['123'],
+            studyPlans: [studyPlan],
+            username: 'john'
         });
+            janeDoe = new User({
+            address: 'Jane Address Sample',
+            birthdate: '1/1/2000',
+            email: 'janedoe@gmail.com',
+            firstName: 'Jane',
+            isEmailVerified: true,
+            isTeacher: true,
+            lastName: 'Doe',
+            password: 'JanePasSWorD',
+            phone: ['123'],
+            studyPlans: [studyPlan],
+            username: 'jane'
+        });
+            johnny = new User({
+            address: 'Johnny Address Sample',
+            birthdate: '1/1/1980',
+            email: 'johnny@gmail.com',
+            firstName: 'Johnny',
+            isChild: true,
+            isEmailVerified: true,
+            isTeacher: true,
+            lastName: 'Doe',
+            password: 'JohnPasSWorD',
+            phone: ['123'],
+            studyPlans: [studyPlan],
+            username: 'johnny'
+        });
+          johnDoe.save(function(err1) {
+            if (err1) {
+              console.log(err1);
+            }
+            janeDoe.save(function(err2) {
+              if (err2) {
+                console.log(err2);
+              }
+              johnny.save(function(err3) {
+                if (err3) {
+                  console.log(err3);
+                }
+                done();
+              });
+            });
+          });
+        });
+      });
+    // --- End of "Clearing Mockgoose" --- //
 
-        user.save(function (err) {
-            if (err) {
-                return console.log(err);
+    it('should return status 200 on successful creation', function (done) {
+
+        chai.request(server).
+        post('/api/signIn').
+        send({
+            'password': 'JohnPasSWorD',
+            'username': johnDoe.username
+        }).
+        end(function (err1, signinData) {
+            if (err1) {
+                return console.log(err1);
             }
 
             chai.request(server).
-                patch('/api/study-plan/createStudyPlan' +
-                    '/jathri', studyPlan).
+                patch('/api/study-plan/createStudyPlan', studyPlan).
+                set('Authorization', signinData.body.token).
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);

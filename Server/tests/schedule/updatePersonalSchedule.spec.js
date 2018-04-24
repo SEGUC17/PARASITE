@@ -31,7 +31,6 @@ var aCalendarEvent = null;
 
 
 describe('updateSchedule', function () {
-    this.timeout(120000);
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
@@ -106,12 +105,11 @@ describe('updateSchedule', function () {
 
     it('it should PATCH user\'s own personal schedule', function (done) {
         // Creating the User
-        johnDoe.save(function(err0, savedJohn) {
+        johnDoe.save(function(err0) {
             if (err0) {
                 console.log(err0);
             }
         // Logging in
-            console.log(savedJohn);
         chai.request(server).
             post('/api/signIn').
             send({
@@ -119,7 +117,6 @@ describe('updateSchedule', function () {
                 'username': johnDoe.username
             }).
             end(function (err1, signinData) {
-                console.log(signinData.body);
                 if (err1) {
                     console.log(err1);
                 }
@@ -158,12 +155,10 @@ describe('updateSchedule', function () {
     });
     it('it should PATCH user\'s child\'s personal schedule', function (done) {
         // Creating the user
-        johnDoe.save(function(err0, savedData) {
-            console.log(savedData);
+        johnDoe.save(function(err0) {
             if (err0) {
                 console.log(err0);
             }
-            console.log('start');
         // Logging in
         chai.request(server).
             post('/api/signIn').
@@ -172,7 +167,6 @@ describe('updateSchedule', function () {
                 'username': johnDoe.username
             }).
             end(function (err1, signinData) {
-                console.log(signinData.body);
                 if (err1) {
                     console.log(err1);
                 }
@@ -271,9 +265,9 @@ describe('updateSchedule', function () {
                         console.log(err1);
                     }
                     // Creating and signing in as user who'll try to change schedule
-                    johnDoe.save(function (errSave) {
-                        if (errSave) {
-                            console.log(errSave);
+                    johnDoe.save(function (err2) {
+                        if (err2) {
+                            console.log(err2);
                         }
                     });
                     chai.request(server).
@@ -282,9 +276,9 @@ describe('updateSchedule', function () {
                         'password': 'JohnPasSWorD',
                         'username': johnDoe.username
                     }).
-                    end(function (err2, signinData) {
-                        if (err2) {
-                            console.log(err2);
+                    end(function (err3, signinData) {
+                        if (err3) {
+                            console.log(err3);
                         }
                         // Updating schedule
                         chai.request(server).
@@ -292,9 +286,9 @@ describe('updateSchedule', function () {
                                 janeDoe.username).
                             set('Authorization', signinData.body.token).
                             send([aCalendarEvent]).
-                            end(function (err3, updateData) {
-                                if (err3) {
-                                    console.log(err3);
+                            end(function (err4, updateData) {
+                                if (err4) {
+                                    console.log(err4);
                                 }
                                 updateData.should.have.status(401);
                                 updateData.body.err.should.be.a('string');
