@@ -779,32 +779,59 @@ module.exports.updateSection = function (req, res, next) {
 
     }
 
-    //update the section
-
-    Category.findOneAndUpdate(
-        {
-            _id: req.params.categoryId,
-            'sections._id': req.params.sectionId
-        },
-        {
-            $set: {
-                'sections.$.iconLink': req.body.iconLink,
-                'sections.$.name': req.body.sectionName
-            }
-        },
-        { new: true },
-        function (err, updatedCategory) {
+    // get the target section of the update
+    Category.findOne(
+        { _id: req.params.categoryId },
+        function (err, targetCategory) {
             if (err) {
                 return next(err);
             }
+            var targetSection = targetCategory.
+                sections.id(req.params.sectionId);
 
-            return res.status(200).json({
-                data: updatedCategory,
-                err: null,
-                msg: 'The section was updated successfully'
-            });
+            // update target section
+            Category.findOneAndUpdate(
+                {
+                    _id: req.params.categoryId,
+                    'sections._id': req.params.sectionId
+                },
+                {
+                    $set: {
+                        'sections.$.iconLink': req.body.iconLink,
+                        'sections.$.name': req.body.sectionName
+                    }
+                },
+                { new: true },
+                function (updateCategoryError, updatedCategory) {
+                    if (updateCategoryError) {
+                        return next(updateCategoryError);
+                    }
+                    // update the content under that section
+                    Content.updateMany(
+                        { section: targetSection.name },
+                        {
+                            $set:
+                                { section: req.body.sectionName }
+                        },
+                        function (contentUpdateError) {
+                            if (contentUpdateError) {
+                                return next(contentUpdateError);
+                            }
+
+                            return res.status(200).json({
+                                data: updatedCategory,
+                                err: null,
+                                msg: 'The section was updated successfully' +
+                                    ' and the content in that' +
+                                    ' section was updated'
+                            });
+                        }
+                    );
+                }
+            );
         }
     );
+
 
 };
 
