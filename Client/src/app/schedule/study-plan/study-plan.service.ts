@@ -23,7 +23,7 @@ export class StudyPlanService {
     return this.http.get(environment.apiUrl + 'study-plan/getPublishedStudyPlan/' + studyPlanID);
   }
 
-  createStudyPlan(username: String, studyPlan: StudyPlan): Observable<any> {
+  createStudyPlan(studyPlan: StudyPlan): Observable<any> {
     return this.http.patch(environment.apiUrl + 'study-plan/createStudyPlan', studyPlan);
   }
 
