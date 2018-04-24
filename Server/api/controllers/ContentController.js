@@ -939,6 +939,26 @@ module.exports.deleteSection = function (req, res, next) {
     );
 };
 
+module.exports.addScore = function (req, res, next) {
+    User.findByIdAndUpdate(
+        req.user._id,
+        { learningScore: req.user.learningScore + 10 },
+        { new: true },
+        function (err, user) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'You got 10 more learning points,' +
+                    ' your score is now ' + user.learningScore
+            });
+        }
+    );
+};
+
 module.exports.prepareContent = function (req, res, next) {
 
     /*
