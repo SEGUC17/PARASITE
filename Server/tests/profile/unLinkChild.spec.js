@@ -5,10 +5,10 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-//var User = mongoose.model('User');
+var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-//var should = chai.should();
+var should = chai.should();
 var request = require('supertest');
 
 chai.use(chaiHttp);
@@ -43,6 +43,7 @@ describe('Unlink a child ', function () {
             birthdate: '7/7/1997',
             email: 'fsociety@gmail.com',
             firstName: 'Mr',
+            isEmailVerified: true,
             lastName: 'Robot',
             password: '123456789',
             phone: '01111225223',
@@ -53,15 +54,10 @@ describe('Unlink a child ', function () {
             password: '123456789'
         };
 
-        chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                response.should.have.status(201);
-                var token = response.body.token;
+        User.create(user, function (err) {
+            if (err) {
+                done(err);
+            }
                 var authenticatedUser = request.agent(server);
 
                 authenticatedUser.
@@ -69,7 +65,7 @@ describe('Unlink a child ', function () {
                     send(UserIn).
                     end(function (err, response) {
                         response.should.have.status(200);
-                        token = response.body.token;
+                        var token = response.body.token;
                         var array = [
                             '_id',
                             'username'

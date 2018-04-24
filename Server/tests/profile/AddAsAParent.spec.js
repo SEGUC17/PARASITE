@@ -4,7 +4,7 @@ var server = require('../../app');
 var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-//var should = chai.should();
+var should = chai.should();
 var request = require('supertest');
 
 chai.use(chaiHttp);
@@ -56,19 +56,7 @@ describe('Add user as a parent', function () {
             User.create(user, function (err) {
                 if (err) {
                     done(err);
-                } else {
-                    done();
                 }
-            });
-            chai.request(server).
-                post('/api/signUp').
-                send(user).
-                end(function (err, response) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    response.should.have.status(201);
-                    token = response.body.token;
                     var authenticatedUser = request.agent(server);
                     // Sign in
                     authenticatedUser.
