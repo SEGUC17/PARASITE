@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /*eslint no-underscore-dangle: ["error", { "allow": ["__v","_id"] }]*/
 var mongoose = require('mongoose');
-var Validations = require('../utils/validators/is-object-id');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
 
@@ -244,7 +243,7 @@ module.exports.evaluateRequest = function (req, res, next) {
             });
         } else {
             // Simply delete the request and notify the user
-            ProductRequest.findByIdAndRemove(req.body._id, function (err, product) {
+            ProductRequest.findByIdAndRemove(req.body._id, function (err) {
                 if (err) {
                     return res.status(404).json({
                         data: null,
