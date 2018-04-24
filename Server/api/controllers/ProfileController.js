@@ -264,13 +264,11 @@ module.exports.unLinkChild = function (req, res, next) {
 
 module.exports.changePassword = function (req, res, next) {
 
-  console.log('Old Password entered is: ', req.body.oldpw);
   // match user to one of the users in the database
   User.findById({ _id: req.params.id }, function (err, user) {
     if (err) {
       return next(err);
     } else if (!user) {
-      console.log('Username is incorrect');
       res.status(401).json({
         data: null,
         err: null,
@@ -280,7 +278,6 @@ module.exports.changePassword = function (req, res, next) {
       return;
     }
 
-    // console.log('New Password to enter: ', req.body.newpw);
     // compare entered password with existing hashed password in database
     Encryption.comparePasswordToHash(req.body.oldpw, user.password, function (
       err2,
@@ -311,7 +308,6 @@ module.exports.changePassword = function (req, res, next) {
             if (err4) {
               return next(err4);
             }
-            console.log('User password updated successfully.');
             res.status(200).json({
               data: user2,
               err: null,
