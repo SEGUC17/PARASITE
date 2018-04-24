@@ -3,7 +3,7 @@
 
     <div class="col-md-12 col-lg-4 col-xl-4">
       <div class="body">
-        <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#addevent">Add Events</button>
+        <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal">Add Events</button>
         <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
           aria-controls="collapseExample">
           <i class="zmdi zmdi-chevron-down"></i>
@@ -50,3 +50,64 @@
 
   </div>
 </section>
+
+<!-- Event Create Modal -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="title" id="createModalLabel">New Event</h4>
+      </div>
+      <div class="modal-body">
+        <form id="createForm" method="POST">
+          <div class="form-group form-float" [ngClass]="{'has-success': createTitle.length >= 3, 'has-danger': createTitle.length < 3}">
+            <input type="text" class="form-control" [ngClass]="{'form-control-success': createTitle.length >= 3, 'form-control-danger': createTitle.length < 3}"
+              name="minmaxlength" value="" placeholder="Title" [(ngModel)]="createTitle" maxlength="10" minlength="3" required>
+            <div class="help-info">Min. 3, Max. 10 characters</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-round waves-effect">SAVE CHANGES</button>
+        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Event Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="title" id="editModalLabel">Edit Event</h4>
+      </div>
+      <div class="modal-body">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-round waves-effect">SAVE CHANGES</button>
+        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Event Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="title" id="deleteModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sodales orci ante, sed ornare eros vestibulum ut. Ut
+        accumsan vitae eros sit amet Integer dapibus, mi ac tempor varius, purus nibh mattis erat, vitae porta nunc nisi
+        non tellus. Vivamus mollis ante non massa egestas fringilla. Vestibulum egestas consectetur nunc at ultricies. Morbi
+        quis consectetur nunc. </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-round waves-effect">SAVE CHANGES</button>
+        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
+      </div>
+    </div>
+  </div>
+</div>

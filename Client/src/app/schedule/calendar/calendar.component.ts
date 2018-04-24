@@ -1,5 +1,6 @@
 import { Subject } from 'rxjs/Subject';
-import { Component, Input } from '@angular/core';
+import { NgModel } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import {
   isSameMonth,
@@ -15,6 +16,8 @@ import {
   addDays,
   addHours
 } from 'date-fns';
+
+declare const $: any;
 
 const colors: any = {
   red: {
@@ -36,12 +39,13 @@ const colors: any = {
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
   // events CRUD inputs
   @Input() events: CalendarEvent[];
   @Input() onCreate;
   @Input() onEdit;
   @Input() onDelete;
+  createTitle = '';
   // Calendar API view control
   view = 'month';
   viewDate: Date = new Date();
@@ -65,6 +69,26 @@ export class CalendarComponent {
   ];
 
   constructor() { }
+
+  ngOnInit() {
+    // modals
+    $('#createModal').appendTo('body');
+    $('#editModal').appendTo('body');
+    $('#deleteModal').appendTo('body');
+
+    // form validation
+    $('#createForm').validate({
+      highlight: function (input) {
+        $(input).parents('.form-group').addClass('error');
+      },
+      unhighlight: function (input) {
+        $(input).parents('.form-group').removeClass('error');
+      },
+      errorPlacement: function (error, element) {
+        $(element).parents('.form-group').append(error);
+      }
+    });
+  }
 
   // calendar header change handler
   headerChange(): void {
