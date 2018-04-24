@@ -87,25 +87,11 @@ describe('Evaluate Add Psychologists\' Requests By Admin', function () {
                     if (err1) {
                         throw err1;
                     }
-                    console.log(user.password);
-                chai.request(server).
-                    post('/api/signIn').
-                    send({
-                        'password': '12345678',
-                        'username': 'marioma'
-                    }).
-                    end(function (err2, response) {
-                        if (err2) {
-                            return console.log(err2);
-                        }
-                        response.should.have.status(200);
-                        token = response.body.token;
-                    });
                     done();
                 });
             });
     });
-    
+
 
     beforeEach(function (done) {
         psychReqTest.save(function (err1) {
@@ -115,6 +101,7 @@ describe('Evaluate Add Psychologists\' Requests By Admin', function () {
             done();
         });
     });
+
     describe('Evaluate Add Psychologists\' Requests By Admin', function () {
     it('Request should be accepted', function (done) {
         var acceptedReq = {
@@ -223,69 +210,93 @@ describe('Evaluate Add Psychologists\' Requests By Admin', function () {
 });
 });
 
-// Testing for no-user and non-admin case
-describe('EvaluatePsychRequestByNonAdmin', function () {
+// // Testing for no-user and non-admin case
+// describe('EvaluatePsychRequestByNonAdmin', function () {
 
-    // --- Mockgoose Initiation --- //
-    before(function (done) {
-        mockgoose.prepareStorage().then(function () {
-            mongoose.connect(config.MONGO_URI, function () {
-                done();
-            });
-        });
-    });
-    // --- End of "Mockgoose Initiation" --- //
+//     // --- Mockgoose Initiation --- //
+//     before(function (done) {
+//         mockgoose.prepareStorage().then(function () {
+//             mongoose.connect(config.MONGO_URI, function () {
+//                 done();
+//             });
+//         });
+//     });
+//     // --- End of "Mockgoose Initiation" --- //
+//     before(function (done) {
+//         chai.request(server).
+//         post('/api/signIn').
+//         send({
+//             'password': '12345678',
+//             'username': 'marioma'
+//         }).
+//         end(function (err2, response) {
+//             if (err2) {
+//                 return console.log(err2);
+//             }
+//             response.should.have.status(200);
+//             token = response.body.token;
+//         });
+//         done();
+//     });
 
-    // --- Clearing Mockgoose --- //
-    beforeEach(function (done) {
-        mockgoose.helper.reset().then(function () {
-            done();
-        });
-    });
-    // --- End of "Clearing Mockgoose" --- //
+//     before(function (done) {
+//             user.save(function (err) {
+//                 if (err) {
+//                     throw err;
+//                 }
+//                 psychReqTest.save(function (err1) {
+//                     if (err1) {
+//                         throw err1;
+//                     }
+//                     done();
+//                 });
+//             });
+//     });
 
-    it('Request should NOT be evaluated', function (done) {
 
-        //sign up
-        chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                response.should.have.status(201);
-                token = response.body.token;
+//     beforeEach(function (done) {
+//         psychReqTest.save(function (err1) {
+//             if (err1) {
+//                 throw err1;
+//             }
+//             done();
+//         });
+//     });
 
-                // save your document with a call to save
-                psychReqTest.save(function (err1) {
-                    if (err1) {
-                        return console.log(err1);
-                    }
 
-                    psychReqTest.result = true;
+//     it('Request should NOT be evaluated', function (done) {
 
-                    chai.request(server).
-                        post('/api/psychologist/request/evalRequest').
-                        send(psychReqTest).
-                        set('Authorization', token).
-                        end(function (error, res) {
-                            if (error) {
-                                return console.log(error);
-                            }
-                            expect(res).to.have.status(403);
-                            res.body.err.should.be.equal('You are not an admin to do that OR You are not signed in');
-                            done();
-                        });
-                });
+        
 
-            });
-    });
-    // --- Mockgoose Termination --- //
-    after(function (done) {
-        mongoose.connection.close(function () {
-            done();
-        });
-    });
-    // --- End of "Mockgoose Termination" --- //
-});
+//                 // save your document with a call to save
+//                 psychReqTest.save(function (err1) {
+//                     if (err1) {
+//                         return console.log(err1);
+//                     }
+
+//                     psychReqTest.result = true;
+
+//                     chai.request(server).
+//                         post('/api/psychologist/request/evalRequest').
+//                         send(psychReqTest).
+//                         set('Authorization', token).
+//                         end(function (error, res) {
+//                             if (error) {
+//                                 return console.log(error);
+//                             }
+//                             expect(res).to.have.status(403);
+//                             res.body.err.should.be.equal('You are not an admin to do that OR You are not signed in');
+//                             done();
+//                         });
+//                 });
+
+            
+//     });
+//     // --- Mockgoose Termination --- //
+//     after(function (done) {
+//         mongoose.connection.close(function () {
+//             done();
+//         });
+//     });
+//     // --- End of "Mockgoose Termination" --- //
+// });
