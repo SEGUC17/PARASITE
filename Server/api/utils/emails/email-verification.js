@@ -8,18 +8,18 @@ var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
     auth: {
-        pass: config.MAIL_PW,
-        user: config.MAIL_ID
+        pass: config.EMAIL_PW,
+        user: config.EMAIL_ID
     },
     service: 'gmail'
 });
 
-module.exports.sendEmailVerification = function (email, link) {
+module.exports.send = function (email, link) {
     var mailOptions = {
         from: 'email-verification@nawwar.com',
         to: email,
         subject: 'Email Verification - Nawwar.com',
-        text: 'Verification Link: ' + link,
+        html: '<b><a href="' + link + '">Verification Link</a></b>',
     };
     transporter.sendMail(mailOptions, function (err, info) {
         if (err) {

@@ -1,4 +1,4 @@
-/* eslint max-statements: ["error", 20] */
+/* eslint max-statements: ["error", 12] */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }] */
 
 
@@ -78,6 +78,11 @@ var prepareQueryOptionsForSearch = function (query, params) {
     var options = {
         limit: Number(params.pageSize),
         page: Number(params.pageNumber),
+        select:
+            {
+                body: 0,
+                discussion: 0
+            },
         sort: {}
     };
 
@@ -97,7 +102,7 @@ var prepareQueryOptionsForSearch = function (query, params) {
 
     // relevance is of importance to the query
     if (query.searchQuery !== '') {
-        options.select = { score: { $meta: 'textScore' } };
+        options.select.score = { $meta: 'textScore' };
         options.sort.score = { $meta: 'textScore' };
     }
 
@@ -134,12 +139,6 @@ module.exports.getSearchPage = function (req, res, next) {
     // prepare the conditions and options for the query
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
-
-    if (options.select) {
-        options.select.discussion = 0;
-    } else {
-        options.select = { discussion: 0 };
-    }
 
     // log the options and conditions for debugging
     console.log(options);
@@ -407,6 +406,56 @@ module.exports.createContent = function (req, res, next) {
     return handleNonAdminCreate(req, res, next);
 };
 
+//Delete Content
+module.exports.deleteContent = function (req, res, next) {
+    var valid = false;
+    var isOwner = false;
+    var isAdmin = false;
+
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The Content Id is not valid.',
+            msg: null
+        });
+    }
+
+    Content.findById(req.params.id, function (
+        err,
+        content
+    ) {
+        if (err) {
+            return next(err);
+        }
+        if (content.creator === req.user.username) {
+            isOwner = true;
+
+        }
+        if (req.user.isAdmin) {
+            isAdmin = true;
+        }
+        valid = isOwner || isAdmin;
+        if (!valid) {
+            return res.status(422).json({
+                data: null,
+                err: 'The Content Id is not valid.',
+                msg: null
+            });
+        }
+        Content.remove({ _id: req.params.id }).
+            exec(function (removeError) {
+                if (removeError) {
+                    return next(removeError);
+                }
+                res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'Content was deleted successfully'
+                });
+            });
+    });
+};
+
 var handleAdminUpdate = function (req, res, next) {
     // No requests are made, and content is approved automatically
     req.body.approved = true;
@@ -498,7 +547,7 @@ module.exports.getCategories = function (req, res, next) {
 
 };
 
-module.exports.createCategory = function (req, res, next) {
+module.exports.checkAdmin = function (req, res, next) {
     // Admin permission check
 
     if (!req.user.isAdmin) {
@@ -508,6 +557,30 @@ module.exports.createCategory = function (req, res, next) {
             msg: null
         });
     }
+    next();
+};
+
+module.exports.validateIconLink = function (req, res, next) {
+    // category icon link validation
+    if (!req.body.iconLink) {
+        return res.status(422).json({
+            data: null,
+            err: 'No icon link supplied',
+            msg: null
+        });
+    }
+    if (typeof req.body.iconLink !== 'string') {
+        return res.status(422).json({
+            data: null,
+            err: 'icon link type is invalid',
+            msg: null
+        });
+    }
+    next();
+};
+
+
+module.exports.createCategory = function (req, res, next) {
 
     // category name validation check
     if (!req.body.category) {
@@ -517,7 +590,7 @@ module.exports.createCategory = function (req, res, next) {
             msg: null
         });
     }
-    if (typeof req.body.category === 'string') {
+    if (typeof req.body.category !== 'string') {
         return res.status(422).json({
             data: null,
             err: 'category type is invalid',
@@ -526,7 +599,10 @@ module.exports.createCategory = function (req, res, next) {
     }
 
     Category.create(
-        { name: req.body.category.trim().toLowerCase() },
+        {
+            iconLink: req.body.iconLink,
+            name: req.body.category.toLowerCase()
+        },
         function (err, category) {
             if (err) {
                 return next(err);
@@ -544,7 +620,7 @@ module.exports.createCategory = function (req, res, next) {
 
 module.exports.createSection = function (req, res, next) {
 
-    if (!req.params.id) {
+    if (!req.params.id || req.params.id === 'null') {
         return res.status(422).json({
             data: null,
             err: 'The category is not supplied',
@@ -566,7 +642,7 @@ module.exports.createSection = function (req, res, next) {
         });
     }
 
-    if (typeof req.body.section === 'string') {
+    if (typeof req.body.section !== 'string') {
         return res.status(422).json({
             data: null,
             err: 'The section value is invalid',
@@ -576,7 +652,14 @@ module.exports.createSection = function (req, res, next) {
 
     Category.findByIdAndUpdate(
         req.params.id,
-        { $push: { sections: { name: req.body.section } } },
+        {
+            $push: {
+                sections: {
+                    iconLink: req.body.iconLink,
+                    name: req.body.section
+                }
+            }
+        },
         { new: true },
         function (updateError, updatedCategory) {
             if (updateError) {
@@ -584,7 +667,7 @@ module.exports.createSection = function (req, res, next) {
                 return next(updateError);
             }
 
-            return res.status(200).json({
+            return res.status(201).json({
                 data: updatedCategory,
                 err: null,
                 msg: 'Updated the category with the section ' +
@@ -595,64 +678,52 @@ module.exports.createSection = function (req, res, next) {
 
 };
 
-module.exports.prepareContent = function (req, res, next) {
-
-    /*
-     *  function to prepare content for discussion
-     *
-     * @author: Wessam
-     */
-
-    var contentId = req.params.contentId;
-
-    Content.findById(contentId).
-        exec(function (err, content) {
-            if (err) {
-                return next(err);
-            }
-            if (!content) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'Content doesn\'t exist',
-                    msg: null
-                });
-            }
-            req.object = content;
-            req.verified = content.approved;
-
-            return next();
-        });
-};
 
 module.exports.updateCategory = function (req, res, next) {
-    // check admin permissions
-    if (!req.user.isAdmin) {
-        return res.status(403).json({
-            data: null,
-            err: 'This user is not an admin user',
-            msg: null
-        });
-    }
-
     // validate category id
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.categoryId)) {
         return res.status(422).json({
             data: null,
             err: 'The category id provided was not valid',
             msg: null
         });
     }
+    // category name validation check
+    if (!req.body.name) {
+        return res.status(422).json({
+            data: null,
+            err: 'No category supplied',
+            msg: null
+        });
+    }
+    if (typeof req.body.name !== 'string') {
+        return res.status(422).json({
+            data: null,
+            err: 'category type is invalid',
+            msg: null
+        });
+    }
 
-    //find category by ID and update its name
+    //find category by ID and update it
     Category.findByIdAndUpdate(
-        req.params.id,
-        { name: req.body.name },
-        function (categoryUpdateError, updatedCategory) {
+        req.params.categoryId,
+        {
+            $set: {
+                iconLink: req.body.iconLink,
+                name: req.body.name.trim().toLowerCase()
+            }
+        },
+        function (categoryUpdateError, oldCategory) {
             if (categoryUpdateError) {
                 return next(categoryUpdateError);
             }
+
             Content.updateMany(
-                { category: updatedCategory.name },
+                { category: oldCategory.name },
+                {
+                    $set:
+                        { category: req.body.name.trim().toLowerCase() }
+                },
                 function (contentUpdateError) {
                     if (contentUpdateError) {
                         return next(contentUpdateError);
@@ -670,18 +741,75 @@ module.exports.updateCategory = function (req, res, next) {
     );
 };
 
+module.exports.updateSection = function (req, res, next) {
 
-module.exports.deleteCategory = function (req, res, next) {
-
-    // verify that the issuer of the request is an admin
-    if (!req.user.isAdmin) {
-        return res.status(403).json({
+    // validate category id
+    if (!mongoose.Types.ObjectId.isValid(req.params.categoryId)) {
+        return res.status(422).json({
             data: null,
-            err: 'User does not have admin privileges and' +
-                'is not authorized to delete categories.',
+            err: 'The category id provided was not valid',
             msg: null
         });
     }
+    // validate section id
+    if (!mongoose.Types.ObjectId.isValid(req.params.sectionId)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The section id provided is invalid',
+            msg: null
+        });
+    }
+
+    // validate section name
+    if (!req.body.sectionName) {
+        return res.status(422).json({
+            data: null,
+            err: 'The section name is not supplied',
+            msg: null
+        });
+
+    }
+
+    if (typeof req.body.sectionName !== 'string') {
+        return res.status(422).json({
+            data: null,
+            err: 'The section name is not supplied',
+            msg: null
+        });
+
+    }
+
+    //update the section
+
+    Category.findOneAndUpdate(
+        {
+            _id: req.params.categoryId,
+            'sections._id': req.params.sectionId
+        },
+        {
+            $set: {
+                'sections.$.iconLink': req.body.iconLink,
+                'sections.$.name': req.body.sectionName
+            }
+        },
+        { new: true },
+        function (err, updatedCategory) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: updatedCategory,
+                err: null,
+                msg: 'The section was updated successfully'
+            });
+        }
+    );
+
+};
+
+
+module.exports.deleteCategory = function (req, res, next) {
 
     // validate category id
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -732,16 +860,6 @@ module.exports.deleteCategory = function (req, res, next) {
 
 
 module.exports.deleteSection = function (req, res, next) {
-
-    // verify that the issuer of the request is an admin
-    if (!req.user.isAdmin) {
-        return res.status(403).json({
-            data: null,
-            err: 'User does not have admin privileges and' +
-                'is not authorized to delete categories.',
-            msg: null
-        });
-    }
 
     // validate category and section id
     if (!mongoose.Types.ObjectId.isValid(req.params.categoryId) ||
@@ -794,4 +912,31 @@ module.exports.deleteSection = function (req, res, next) {
     );
 };
 
+module.exports.prepareContent = function (req, res, next) {
 
+    /*
+     *  function to prepare content for discussion
+     *
+     * @author: Wessam
+     */
+
+    var contentId = req.params.contentId;
+
+    Content.findById(contentId).
+        exec(function (err, content) {
+            if (err) {
+                return next(err);
+            }
+            if (!content) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'Content doesn\'t exist',
+                    msg: null
+                });
+            }
+            req.object = content;
+            req.verified = content.approved;
+
+            return next();
+        });
+};

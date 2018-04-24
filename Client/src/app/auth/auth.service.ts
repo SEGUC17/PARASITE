@@ -1,4 +1,4 @@
-import { apiUrl } from '../variables';
+import { environment } from '../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -11,10 +11,8 @@ const httpOptions = {
 @Injectable()
 export class AuthService {
 
-  private endPoint: String = apiUrl;
+  private endPoint: String = environment.apiUrl;
   private localStorageTokenName = 'jwtToken';
-  // Added To Satisfy Merge
-  user: any;
 
   constructor(private http: HttpClient) { }
 
@@ -33,6 +31,13 @@ export class AuthService {
     const self = this;
     return this.http.post<any>(this.endPoint + 'signUp', user).pipe(
       catchError(self.handleError('signUp', []))
+    );
+  }
+
+  verifyEmail(id: any): Observable<any> {
+    const self = this;
+    return this.http.get<any>(this.endPoint + 'verifyEmail/' + id).pipe(
+      catchError(self.handleError('verifyEmail', []))
     );
   }
 
@@ -77,12 +82,6 @@ export class AuthService {
     };
   }
 
-  setUser(user: any): void {
-    this.user = user;
-  }
-  getUser(): any {
-    return this.user;
-  }
   resetpassword(email): any {
     const self = this;
     return this.http.get<any>(this.endPoint + 'resetpassword/' + email).pipe(
@@ -93,7 +92,7 @@ export class AuthService {
 
   ChangePassword(email, pws): Observable<any> {
     const self = this;
-    return this.http.patch<any> (this.endPoint + 'changepassword/' + email, pws, httpOptions).pipe(
+    return this.http.patch<any>(this.endPoint + 'changepassword/' + email, pws, httpOptions).pipe(
       catchError(self.handleError('changepassword', []))
     );
 
