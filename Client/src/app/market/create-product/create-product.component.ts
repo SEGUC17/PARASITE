@@ -5,6 +5,7 @@ import { CreateProductRequest } from './createProductRequest';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MarketComponent } from '../market/market.component';
 import { AuthService } from '../../auth/auth.service';
+// import { SharedModule } from '../shared/shared.module';
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
@@ -30,16 +31,31 @@ export class CreateProductComponent {
   productrequest: CreateProductRequest;
   formInput = <any>{};
   user: any = {};
+  img = <any>String;
+
+  uploaded(url: string) {
+    if (url === 'imageFailedToUpload') {
+      console.log('image upload failed');
+      // TODO: handle image uploading failure
+      alert("image upload failed");
+    } else {
+      console.log('in vcC and its uploaded with url = ' + url);
+      // TODO: handle image uploading success and use the url to retrieve the image later
+      let img = url;
+
+    }
+  }
 
   createProduct(product: any) {
- 
+
     // this.user = this.authService.getUser(); // here i get the currently logged in user
 
     let pro = { // here i put the inputs i take and place them in pro
       name: this.formInput.name,
       price: this.formInput.price,
       seller: this.user.username,
-      image: this.formInput.imageURL,
+      image: this.img,
+      //  this.formInput.imageURL,
       acquiringType: this.formInput.acquiringType,
       rentPeriod: this.formInput.rentPeriod,
       description: this.formInput.description,

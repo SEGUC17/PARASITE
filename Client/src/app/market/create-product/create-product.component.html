@@ -1,67 +1,145 @@
-<h1 mat-dialog-title style="font-size: 35px; font-weight: bold">Product's Information</h1>
-<form (ngSubmit)="createProduct()" #createproduct="ngForm">
-  <!-- calling (createProduct()) -->
-  <mat-card style="float:left;width:460px;height:430px">
-    <mat-form-field>
-      <input matInput placeholder="Product's name" name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
-    </mat-form-field>
-    <!-- taking product's name as input from user -->
-    <div>
-      <mat-form-field>
-        <textarea matInput placeholder="Products description" name="description" id="description" [(ngModel)]="formInput.description"></textarea>
-      </mat-form-field>
-    </div>
-    <!-- taking product's description as input from user -->
-
-    <div>
-      <mat-form-field>
-        <input matInput placeholder="Price" type="number" name="price" id="price" [(ngModel)]="formInput.price" class="example-right-align">
-        <span matPrefix>$&nbsp;</span>
-      </mat-form-field>
-    </div>
-    <!-- taking product's price as input from user, only takes numbers -->
+<div class="modal-body">
+  <h2 class="title" id="largeModalLabel">Product's Information</h2>
 
 
-    <div>
-      <div>
-        <mat-form-field>
-          <mat-select matInput placeholder="Product is up for" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
-            <mat-option value="rent" name="rent">rent</mat-option>
-            <mat-option value="sell" name="sell">sell</mat-option>
-            <mat-option value="rent/sell" name="rent/sell">rent/sell</mat-option>
+  <form #createproduct="ngForm">
+    <div class="row clearfix">
+      <div class="card col-lg-8 col-m-8 col-sm-12">
+        <div class="form-group form-float">
+          <input type="text" class="form-control email" placeholder="Product's name"  name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
+        </div>
+        <div>
 
-          </mat-select>
-        </mat-form-field>
+          <div class="form-group form-float">
+            <textarea name="address" cols="30" rows="3" placeholder="Products description" name="description" id="description" [(ngModel)]="formInput.description"
+              class="form-control no-resize" required></textarea>
+          </div>
+        </div>
+        <div>
+          <div class="col-lg-3 col-md-6">
+            <div class="input-group">
+              <input type="text" class="form-control money-dollar" placeholder="Price $" type="number" name="price" id="price" [(ngModel)]="formInput.price"
+                class="example-right-align">
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="col-lg-3 col-md-6">
+            <select class="form-control show-tick" placeholder="Product is up for" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
+              <option>sell</option>
+              <option>rent</option>
+              <option>rent/sell</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="form-group form-float">
+            <input type="text" class="form-control email" placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod"
+              [(ngModel)]="formInput.rentPeriod">
+          </div>
+        </div>
+        <!-- <div>
+          <div class="form-group form-float">
+            <input type="text" class="form-control email" placeholder="image URL" name="imageURL" id="imageURL" hintLabel="Image URL "
+              [(ngModel)]="formInput.imageURL">
+          </div>
+        </div> -->
+      </div>
+      <div class="col-lg-4 col-m-4 col-sm-12">
+        <img src={{formInput.imageURL}} onerror="this.src='assets/images/market-view/product.jpg'" alt="Product's Picture" />
+        <!-- <form action="/action_page.php">
+          <input type="file" name="pic" id="pic" [(ngModel)]="formInput.pic" accept="image/*" capture>
+        </form> -->
+          <app-image-uploader (ImageUploaded) = "uploaded($event)"></app-image-uploader>
+
+
+        <button style="margin-top:30px;float:right;width:50%;background:#3f51b5; color:white" (click)="createProduct()">Create Product</button>
       </div>
     </div>
-    <!-- taking product's acquiringType as input from user, either sell, rent, or rent/sell -->
+  </form>
+</div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <h1 mat-dialog-title style="font-size: 35px; font-weight: bold">Product's Information</h1>
+<form (ngSubmit)="createProduct()" #createproduct="ngForm">
+<mat-card style="float:left;width:460px;height:430px">
+  <mat-form-field>
+    <input matInput placeholder="Product's name" name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
+  </mat-form-field>
+  <div>
+    <mat-form-field>
+      <textarea matInput placeholder="Products description" name="description" id="description" [(ngModel)]="formInput.description"></textarea>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Price" type="number" name="price" id="price" [(ngModel)]="formInput.price" class="example-right-align">
+      <span matPrefix>$&nbsp;</span>
+    </mat-form-field>
+  </div>
+
+
+  <div>
     <div>
       <mat-form-field>
-        <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod" [(ngModel)]="formInput.rentPeriod"
-          class="example-right-align">
+        <mat-select matInput placeholder="Product is up for" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
+          <mat-option value="rent" name="rent">rent</mat-option>
+          <mat-option value="sell" name="sell">sell</mat-option>
+          <mat-option value="rent/sell" name="rent/sell">rent/sell</mat-option>
+
+        </mat-select>
       </mat-form-field>
     </div>
-    <!-- taking product's rent period if exists" , <could be left empyty>  since the product could be up for sell-->
+  </div>
 
-    <div>
-      <mat-form-field>
-        <input matInput placeholder="image URL" name="imageURL" id="imageURL" hintLabel="Image URL " [(ngModel)]="formInput.imageURL">
-      </mat-form-field>
-    </div>
-    <!-- taking product's image as input from user,not necessarly required-->
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod" [(ngModel)]="formInput.rentPeriod"
+        class="example-right-align">
+    </mat-form-field>
+  </div>
 
-  </mat-card>
-  <mat-card style="float: right; width:260px;height:400px;" class="mat-elevation-z0">
-    <img mat-card-image src={{formInput.imageURL}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
-      style="height:300px; width:260px;" alt="Product's Picture" />
-    <form action="/action_page.php">
-      <input type="file" name="pic" id="pic" [(ngModel)]="formInput.pic" accept="image/*" capture>
-    </form>
-    <mat-card-actions>
-      <button mat-button style="margin-top:30px;float:right;width:50%;background:#3f51b5; color:white">Create Product</button>
-    </mat-card-actions>
-  </mat-card>
-  <!-- taking product's Pic's URL as input from user, not necessarly required -->
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="image URL" name="imageURL" id="imageURL" hintLabel="Image URL " [(ngModel)]="formInput.imageURL">
+    </mat-form-field>
+  </div>
 
-</form>
+</mat-card>
+<mat-card style="float: right; width:260px;height:400px;" class="mat-elevation-z0">
+  <img mat-card-image src={{formInput.imageURL}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
+    style="height:300px; width:260px;" alt="Product's Picture" />
+  <form action="/action_page.php">
+    <input type="file" name="pic" id="pic" [(ngModel)]="formInput.pic" accept="image/*" capture>
+  </form>
+  <mat-card-actions>
+    <button mat-button style="margin-top:30px;float:right;width:50%;background:#3f51b5; color:white">Create Product</button>
+  </mat-card-actions>
+</mat-card>
+
+</form> -->
