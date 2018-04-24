@@ -1,4 +1,4 @@
-<div *ngFor="let x of child ">
+<!--div *ngFor="let x of singleArray ">
 
 
   <mat-card class="example-card">
@@ -8,8 +8,8 @@
   
   
   
-      <mat-card-title>{{x}}</mat-card-title>
-     
+      <mat-card-title>{{x.username}}</mat-card-title>
+      <p> {{x.firstName}}</p>
   
     </mat-card-header>
   
@@ -20,5 +20,80 @@
     </mat-card-actions>
   </mat-card>
   
+  </div-->
+
+      <!--div class="row clearfix">
+          <div class="row ">
+      <div class="col-lg-5 col-md-4">
+  <div class="card">
+     
+    <div class="header">
+      <h2><strong>Children</strong></h2>
+    </div>
+
+    <div class="body table-responsive">
+        <table class="table table-hover m-b-0 c_list">
+      <ul class="follow_us list-unstyled">
+          <div *ngFor="let x of singleArray ">
+  <li class="online">
+    <a href="javascript:void(0);">
+      <div class="media">
+        <img class="media-object " src="assets/images/xs/avatar3.jpg" alt="">
+        <div class="media-body">
+          <span class="name">{{x.firstName}}</span>
+          <p >@{{x.username}}</p>
+        </div>
+      </div>
+    </a>
+  </li>
+</div>
+</ul>
+
+
+
+
+
+        </table>
+</div>
+</div>
+</div>
+</div>
+</div-->
+
+
+    <div class="col-lg-18">
+      <div class="card">
+        <div class="body table-responsive">
+          <table class="table table-hover m-b-0 c_list">
+            <thead>
+            <tr>
+              
+              <th>Child</th>
+              <th data-breakpoints="xs">Education System</th>
+              <th data-breakpoints="xs">Education Level</th>
+            </tr>
+            </thead>
+            <tbody>
+   
+            <tr>
+             
+              <td>
+                <img src="assets/images/xs/avatar3.jpg" class="rounded-circle avatar" alt="">
+                <p class="name">@Hossein</p>
+              </td>
+              <td>
+                <span class="phone"><i class="zmdi zmdi-graduation-cap m-r-10"></i>Thanawya Amma</span>
+              </td>
+              <!--td>
+                <address><i class="zmdi zmdi-pin"></i>44 Shirley Ave. West Chicago, IL 60185</address>
+              </td-->
+              <td>
+                  <span class="phone"><i class="zmdi zmdi-book m-r-10"></i>Grade 1</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  
+
