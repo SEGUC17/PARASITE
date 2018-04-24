@@ -28,6 +28,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
 import { AuthService } from '../auth/auth.service';
 import { MatIconModule } from '@angular/material/icon';
+import { ViewReportsComponent } from './view-reports/view-reports.component';
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import { MatIconModule } from '@angular/material/icon';
     ViewProductRequestsComponent,
     ViewContentRequestsComponent,
     ViewPsychRequestsComponent,
-    PublishRequestsComponent],
+    PublishRequestsComponent,
+    ViewReportsComponent],
   exports: [
     MatButtonModule,
     MatButtonToggleModule,

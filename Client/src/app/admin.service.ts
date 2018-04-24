@@ -21,6 +21,7 @@ export class AdminService {
   private getContent = 'admin/getContent/';
   private URL = 'http://localhost:3000/api/admin/';
   private addContributionPtsURL = 'admin/addContPts';
+  private reportUrl= '/getReports';
 
 
   constructor(private http: HttpClient) {
@@ -145,5 +146,11 @@ getcontent(): any {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  getReports(): any {
+    const self = this;
+    return this.http.get<any>(this.URL+this.reportUrl, httpOptions);
+
   }
 }

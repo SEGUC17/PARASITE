@@ -10,7 +10,7 @@ var StudyPlan = mongoose.model('StudyPlan');
 var User = mongoose.model('User');
 var VCRmodel = mongoose.model('VerifiedContributerRequest');
 var userModel = mongoose.model('User');
-
+var Report = mongoose.model('Report');
 // get all pending contentRequests
 module.exports.viewPendingContReqs = function (req, res, next) {
     // find All entries in DB
@@ -434,3 +434,18 @@ module.exports.VCRResponde = function (req, res, next) {
         });
     }
 };
+
+module.exports.getReports = function(req,res,next ){
+
+    Report.find({}).exec(function(err,report){
+        if(err)
+        return next(err);
+        else{
+            return res.status(200).json({
+                data: report,
+                err: null,
+                msg: ' Reports retrieved successfully.'
+            });
+        }
+    })
+}

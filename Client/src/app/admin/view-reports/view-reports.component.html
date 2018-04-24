@@ -1,0 +1,12 @@
+<div Id="report">
+    <h1>Reports </h1>
+    <mat-card *ngFor="let report of reports">
+        <mat-card-content>
+            <p> Reporter : {{report.reporter}}</p>
+            <p> Reported User : {{report.reportedPerson}}</p>
+            <p>Reason : {{report.reason}} </p>
+            <p>Reported at : {{report.reportedAt}} </p>
+        </mat-card-content>
+    </mat-card>
+
+</div>

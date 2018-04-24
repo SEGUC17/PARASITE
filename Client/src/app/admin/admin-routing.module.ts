@@ -8,6 +8,7 @@ import { CategoryManagementComponent } from './category-management/category-mana
 import { ViewProductRequestsComponent } from './view-product-requests/view-product-requests.component';
 import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
 import { PublishRequestsComponent } from '../schedule/study-plan/publish-requests/publish-requests.component';
+// import { ViewReportsComponent } from './view-reports/view-reports.component'
 
 const routes = [
   { path: 'admin', component: AdminControlComponent },
