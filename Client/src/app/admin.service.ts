@@ -3,6 +3,9 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
+import { Category } from './content/category';
+import { ToastrService } from 'ngx-toastr';
+import { Section } from './content/section';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -23,7 +26,7 @@ export class AdminService {
   private addContributionPtsURL = 'admin/addContPts';
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private toasterService: ToastrService) {
   }
 
   respondToContributerValidationRequest(id, resp): any {
@@ -34,7 +37,7 @@ export class AdminService {
     console.log('the Responce is sent el mafrood AUTHOR: Maher');
     return this.http.patch(
       this.URL + 'VerifiedContributerRequestRespond/' + id,
-      {responce: resp}
+      { responce: resp }
     ).subscribe();
   }
 
@@ -58,15 +61,15 @@ export class AdminService {
 
   respondContentRequest(response, rid, cid, cresponse, username, oldscore): any {
     const self = this;
-    return this.http.patch<any>(this.baseURL + this.respondContentRequestURL + rid + '/' + cid ,
-    { str: response, approved: cresponse, userName: username, oldScore: oldscore })
+    return this.http.patch<any>(this.baseURL + this.respondContentRequestURL + rid + '/' + cid,
+      { str: response, approved: cresponse, userName: username, oldScore: oldscore })
       .pipe(
         catchError(
           self.handleError('respondContentRequest', [])
         )
       );
   }
-getcontent(): any {
+  getcontent(): any {
     const self = this;
     return this.http.get<any>(this.baseURL + this.getContent)
       .pipe(
@@ -76,27 +79,7 @@ getcontent(): any {
       );
   }
 
-  // create a category for content (resrouces and ideas) to be classified into
-  createCategory(category: any): Observable<any> {
-    const self = this;
-    return this.http.post(self.baseURL + 'content/category', category)
-      .pipe(
-        catchError(
-          self.handleError('createCategory', [])
-        )
-      );
-  }
 
-  // create a section for content (resources and ideas) to be classified into
-  createSection(categoryId: any, section: any): Observable<any> {
-    const self = this;
-    return this.http.post(self.baseURL + 'content/category/' + categoryId + '/section', section)
-      .pipe(
-        catchError(
-          self.handleError('createSection', [])
-        )
-      );
-  }
   removePublishedStudyPlans(studyPlanId: any): Observable<any> {
     const self = this;
     return this.http.get(self.baseURL + self.removePublishedStudyPlansURL + studyPlanId)
@@ -117,13 +100,83 @@ getcontent(): any {
   }
   respondStudyPlanPublishReqs(respo, id, sid): Observable<any> {
     const self = this;
-    return this.http.patch<any>(self.baseURL + self.respondStudyPlanPublishRequestURL + id + '/' + sid,  respo)
+    return this.http.patch<any>(self.baseURL + self.respondStudyPlanPublishRequestURL + id + '/' + sid, respo)
       .pipe(
         catchError(
           self.handleError('respondContentRequest', [])
         )
       );
   }
+  // create a category for content (resrouces and ideas) to be classified into
+  createCategory(category: Category): Observable<any> {
+    const self = this;
+    return this.http.post(self.baseURL + 'content/category', category)
+      .pipe(
+        catchError(
+          self.handleError('create category')
+        )
+      );
+  }
+
+  // update a category
+
+  updateCategory(category: Category): Observable<any> {
+    const self = this;
+    return this.http.patch(self.baseURL + 'content/category/' + category._id,
+      {
+        name: category.name,
+        iconLink: category.iconLink
+      }).pipe(
+        catchError(self.handleError('update category'))
+      );
+  }
+
+  // Delete Category
+
+  deleteCategory(category: any): Observable<any> {
+    const self = this;
+    return this.http.delete(self.baseURL + 'content/category/' + category._id)
+      .pipe(
+        catchError(
+          self.handleError('Delete Category')
+        )
+      );
+  }
+
+  // create a section for content (resources and ideas) to be classified into
+  createSection(categoryId: any, section: any): Observable<any> {
+    const self = this;
+    return this.http.post(self.baseURL + 'content/category/' + categoryId + '/section', section)
+      .pipe(
+        catchError(
+          self.handleError('createSection', [])
+        )
+      );
+  }
+
+  // Update section
+  updateSection(categoryId: any, section: Section): Observable<any> {
+    const self = this;
+    return this.http.patch(
+      self.baseURL + 'content/category/' + categoryId +
+      '/section/' + section._id,
+      { iconLink: section.iconLink, sectionName: section.name })
+      .pipe(
+        catchError(self.handleError('Update Section'))
+      );
+  }
+
+  // Delete section
+  deleteSection(categoryId: any, sectionId: any): Observable<any> {
+    const self = this;
+    return this.http.delete(self.baseURL + 'content/category/' + categoryId + '/section/' + sectionId)
+      .pipe(
+        catchError(
+          self.handleError('Delete Section', [])
+        )
+      );
+  }
+
   // TO-DO ContributionPts
   // addContPts(userName: any ): any {
   //   const self = this;
@@ -137,11 +190,11 @@ getcontent(): any {
 
   // general error handler
   private handleError<T>(operation = 'operation', result?: T) {
-
+    const self = this;
     return function (error: any): Observable<T> {
-
-      console.error(error); // log to console instead
-
+      if (error.error.msg) {
+        self.toasterService.error(error.error.msg, operation + ' failed');
+      }
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
