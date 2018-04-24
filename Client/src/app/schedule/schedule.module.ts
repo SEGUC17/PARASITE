@@ -29,6 +29,7 @@ import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/st
 import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { CalendarComponent } from './calendar/calendar.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { CalendarComponent } from './calendar/calendar.component';
     MatNativeDateModule,
     MatButtonToggleModule,
     MatChipsModule,
-    MatMenuModule
+    MatMenuModule,
+    SharedModule
   ],
   declarations: [
     ScheduleComponent,
