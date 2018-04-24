@@ -7,7 +7,8 @@ import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../auth/user';
 import { DiscussionService } from '../../discussion.service';
-
+import { VideoIdExtractorPipe } from '../video-id-extractor.pipe';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-content-view',
@@ -33,11 +34,22 @@ export class ContentViewComponent implements OnInit {
   Reply: String = 'Reply';
   isReplying: boolean;
   commentReplyingOn: any;
+  public YT: any;
+  public videoId: any;
+  public player: any;
 
   // inject the needed services
-  constructor(private contentService: ContentService, private route: ActivatedRoute,
-    private adminService: AdminService, private authService: AuthService,
-    private discussionService: DiscussionService, private router: Router) { }
+  constructor(
+    private contentService: ContentService,
+    private route: ActivatedRoute,
+    private videoIdExtractorPipe: VideoIdExtractorPipe,
+    private adminService: AdminService,
+    private authService: AuthService,
+    private discussionService: DiscussionService,
+    private toasterService: ToastrService,
+    private router: Router
+  ) { }
+
 
   ngOnInit() {
     const self = this;
@@ -60,6 +72,10 @@ export class ContentViewComponent implements OnInit {
       if (self.content) {
         self.getRecommendedContent();
         self.comments = retrievedContent.data.discussion;
+        if (self.content.video) {
+          self.initYoutubeAPI();
+          self.initContentVideo();
+        }
       }
       let input = document.getElementById('input');
       input.addEventListener('keyup', function (event) {
@@ -207,4 +223,40 @@ export class ContentViewComponent implements OnInit {
     });
 
   }
+
+  initYoutubeAPI() {
+    const apiScriptTag = document.createElement('script');
+    apiScriptTag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(apiScriptTag, firstScriptTag);
+  }
+
+  initContentVideo() {
+    const self = this;
+    this.videoId = this.videoIdExtractorPipe.transform(this.content.video);
+    window['onYouTubeIframeAPIReady'] = function (event) {
+      self.YT = window['YT'];
+      self.player = new window['YT'].Player('player', {
+        videoId: self.videoId,
+        events: {
+          'onStateChange': self.onPlayerStateChange.bind(self)
+        }
+      });
+    };
+  }
+
+  onPlayerStateChange(event) {
+    const self = this;
+    if (event.data === window['YT'].PlayerState.ENDED) {
+      this.contentService.addLearningScore(self.content._id).subscribe(function (res) {
+        if (!res) {
+          return;
+        }
+        self.toasterService.success(res.msg, 'success');
+        console.log(self.toasterService.previousToastMessage);
+      });
+    }
+  }
+
+
 }

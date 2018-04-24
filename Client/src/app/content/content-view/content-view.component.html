@@ -59,7 +59,7 @@
                         <div class="container">
                             <div class="video-container">
                                 <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
-                                    <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>
+                                    <div class="embed-responsive-item" id="player"></div>
                                 </div>
                             </div>
                             <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
