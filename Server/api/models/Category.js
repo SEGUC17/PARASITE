@@ -1,5 +1,10 @@
 var mongoose = require('mongoose');
 var sectionSchema = mongoose.Schema({
+    iconLink: {
+        required: true,
+        trim: true,
+        type: String
+    },
     name: {
         required: true,
         trim: true,
@@ -8,6 +13,11 @@ var sectionSchema = mongoose.Schema({
 });
 
 var categorySchema = mongoose.Schema({
+    iconLink: {
+        required: true,
+        trim: true,
+        type: String
+    },
     name: {
         required: true,
         trim: true,

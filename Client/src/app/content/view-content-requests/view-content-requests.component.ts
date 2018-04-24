@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ContentRoutingModule } from '../content-routing.module';
 import { AuthService } from '../../auth/auth.service';
 import { SafeResourceUrlPipe } from '../safe-resource-url.pipe';
+import { MessageService } from '../../messaging/messaging.service';
 @Component({
   selector: 'app-view-content-requests',
   templateUrl: './view-content-requests.component.html',
@@ -13,25 +14,31 @@ import { SafeResourceUrlPipe } from '../safe-resource-url.pipe';
 export class ViewContentRequestsComponent implements OnInit {
 
   reqs: ContentRequest[];
-  unique: String[];
-  type: String;
+  res: boolean;
+  idea: boolean;
+  create: boolean;
+  edit: boolean;
 
-  constructor(private _adminService: AdminService, private router: Router, private _authService: AuthService) {
+  constructor(private _adminService: AdminService, private router: Router, private _authService: AuthService,
+    private _messageService: MessageService) {
   }
 
   ngOnInit() {
-
-  }
-  setFilterToResource() {
     let self = this;
-    self.type = 'resource';
+    self.viewPendingContReqs();
+  }
+  refreshCBs() {
+    let self = this;
+    let CBRes = <HTMLInputElement>document.getElementById('CBRes');
+    let CBIdea = <HTMLInputElement>document.getElementById('CBIdea');
+    let CBCreate = <HTMLInputElement>document.getElementById('CBCreate');
+    let CBEdit = <HTMLInputElement>document.getElementById('CBEdit');
+    self.res = CBRes.checked;
+    self.idea = CBIdea.checked;
+    self.create = CBCreate.checked;
+    self.edit = CBEdit.checked;
     self.viewPendingContReqs();
 
-  }
-  setFilterToIdea() {
-    let self = this;
-    self.type = 'idea';
-    self.viewPendingContReqs();
   }
   viewCont(contID) {
     let self = this;
@@ -40,40 +47,12 @@ export class ViewContentRequestsComponent implements OnInit {
 
   viewPendingContReqs(): void {
     let self = this;
-    self._adminService.viewPendingContReqs(self.type).subscribe(function (res) {
+    self._adminService.viewPendingContReqs(self.res, self.idea, self.create, self.edit).subscribe(function (res) {
       self.reqs = res.data;
       console.log(res.data);
       console.log(res.msg);
-      // self.group();
     });
   }
-  // group(): void {
-  //   let self = this;
-  //   let i: number;
-  //   let j: number;
-  //   let found: boolean;
-  //   found = false;
-  //   self.unique = [];
-  //   for (i = 0; i < self.reqs.length; i++) {
-  //     for (j = 0; j < self.unique.length; j++) {
-  //       console.log('[' + i + '][' + j + ']');
-  //       console.log(self.unique[j]);
-  //       console.log(self.reqs[i].creator);
-
-  //       if (self.unique[j] === self.reqs[i].creator) {
-  //         found = true;
-  //       }
-  //     }
-  //     console.log('found is: ' + found);
-  //     if (found) {
-  //       console.log('gonna push now');
-  //       self.unique.push(self.reqs[i].creator);
-  //       console.log(self.unique);
-  //       found = false;
-  //     }
-  //   }
-  //   console.log(self.unique);
-  // }
   approveContentRequest(Rid, Cid, username): any {
     let self = this;
     let wantedCols: string[] = ['contributionScore'];
@@ -83,13 +62,28 @@ export class ViewContentRequestsComponent implements OnInit {
       });
     });
   }
-  disapproveContentRequest(Rid, Cid): any {
+  disapproveContentRequest(Rid, Cid, update, creator): any {
     let self = this;
-    let wantedCols: string[] = ['contributionScore'];
+    let isUpdate: boolean;
+    let body = 'Your request to update your content has been disapproved, make sure there is nothing inappropriate,' +
+      ' out of scope or irrelevant to your topic and update it again. Go to content list then my contributions to reach your document';
+    if (update === 'update') {
+      isUpdate = true;
+    }
     self._adminService.respondContentRequest('disapproved', Rid, Cid, false, 'NotNeededHere', 0).subscribe(function (res1) {
       self.viewPendingContReqs();
+      self._authService.getUserData(['username']).subscribe(function (res) {
+        console.log(res.data.username);
+        let msg = { 'body': body, 'recipient': creator, 'sender': res.data.username };
+        if (isUpdate) {
+          console.log('sending message now');
+          self._messageService.send(msg).subscribe(function(res2) {
+            console.log(res2.msg);
+          });
+        }
+      });
     });
-  }
+}
 
   getcontent(): any {
     let self = this;

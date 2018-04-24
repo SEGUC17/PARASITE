@@ -61,21 +61,21 @@ export class ContentService {
   }
 
   // delete content (ideas or categories) by id
-  deleteContent(contentId: any): Observable<any> {
+  deleteContentById(contentId: any): Observable<any> {
     const self = this;
     return this.http.delete(self.endpoint + 'content/' + contentId)
       .pipe(
         catchError(self.handleError('deleteContent', []))
       );
   }
-
   // get search page from server
   getSearchPage(currentPageNumber: number,
     numberOfEntriesPerPage: number,
     searchQuery: String,
     selectedCategory: String,
     selectedSection: String,
-    sortResultsBy: String
+    sortResultsBy: String,
+    contentLanguage: String
   ): Observable<any> {
 
     const self = this;
@@ -85,14 +85,20 @@ export class ContentService {
     selectedCategory = encodeURIComponent(selectedCategory.toString());
     selectedSection = encodeURIComponent(selectedSection.toString());
     sortResultsBy = encodeURIComponent(sortResultsBy.toString());
+    contentLanguage = encodeURIComponent(contentLanguage.toString());
 
     return this.http.get(self.endpoint + 'content/' + numberOfEntriesPerPage +
       '/' + currentPageNumber + '/search?searchQuery=' +
       searchQuery + '&category=' + selectedCategory + '&section=' + selectedSection
-      + '&sort=' + sortResultsBy)
+      + '&sort=' + sortResultsBy + '&language=' + contentLanguage)
       .pipe(
         catchError(self.handleError('getSearchPage', []))
       );
+  }
+
+  // Add learning score
+  addLearningScore(contentId: any): Observable<any> {
+    return this.http.post(this.endpoint + 'content/' + contentId + '/score', {});
   }
 
   // general error handler

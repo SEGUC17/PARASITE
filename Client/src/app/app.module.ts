@@ -16,7 +16,6 @@ import { MarketModule } from './market/market.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminModule } from './admin/admin.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ChildsignupModule } from './childsignup/childsignup.module';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
@@ -27,6 +26,8 @@ import { AuthInterceptor } from './auth-interceptor';
 import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
+import { ToastrService } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -36,7 +37,6 @@ import { SharedModule } from './shared/shared.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    FlexLayoutModule,
     DashboardModule,
     AdminModule,
     ProfileModule,
@@ -66,7 +66,8 @@ import { SharedModule } from './shared/shared.module';
       useClass: AuthInterceptor,
       multi: true
     },
-    RatingService
+    RatingService,
+    ToastrService
   ],
   bootstrap: [AppComponent]
 })
