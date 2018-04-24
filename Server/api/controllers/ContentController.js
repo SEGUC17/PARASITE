@@ -55,6 +55,7 @@ var prepareQueryConditionsForSearch = function (query) {
         '$text': { '$search': query.searchQuery },
         'approved': true,
         'category': query.category,
+        'language': query.language,
         'section': query.section
     };
 
@@ -119,6 +120,7 @@ var checkRequestValidityForSearch = function (req) {
         typeof req.query.section === 'string' &&
         typeof req.query.searchQuery === 'string' &&
         typeof req.query.sort === 'string' &&
+        typeof req.query.language === 'string' &&
         !isNaN(req.params.pageSize) &&
         !isNaN(req.params.pageNumber);
 };
@@ -139,10 +141,6 @@ module.exports.getSearchPage = function (req, res, next) {
     // prepare the conditions and options for the query
     var conditions = prepareQueryConditionsForSearch(req.query);
     var options = prepareQueryOptionsForSearch(req.query, req.params);
-
-    // log the options and conditions for debugging
-    console.log(options);
-    console.log(conditions);
 
     // execute the database query
     Content.paginate(
@@ -174,7 +172,7 @@ module.exports.getSearchPage = function (req, res, next) {
                     if (error) {
                         return next(err);
                     }
-                    console.log(userAvatars);
+
                     // send the page of contents
 
                     return res.status(200).json({
@@ -779,32 +777,59 @@ module.exports.updateSection = function (req, res, next) {
 
     }
 
-    //update the section
-
-    Category.findOneAndUpdate(
-        {
-            _id: req.params.categoryId,
-            'sections._id': req.params.sectionId
-        },
-        {
-            $set: {
-                'sections.$.iconLink': req.body.iconLink,
-                'sections.$.name': req.body.sectionName
-            }
-        },
-        { new: true },
-        function (err, updatedCategory) {
+    // get the target section of the update
+    Category.findOne(
+        { _id: req.params.categoryId },
+        function (err, targetCategory) {
             if (err) {
                 return next(err);
             }
+            var targetSection = targetCategory.
+                sections.id(req.params.sectionId);
 
-            return res.status(200).json({
-                data: updatedCategory,
-                err: null,
-                msg: 'The section was updated successfully'
-            });
+            // update target section
+            Category.findOneAndUpdate(
+                {
+                    _id: req.params.categoryId,
+                    'sections._id': req.params.sectionId
+                },
+                {
+                    $set: {
+                        'sections.$.iconLink': req.body.iconLink,
+                        'sections.$.name': req.body.sectionName
+                    }
+                },
+                { new: true },
+                function (updateCategoryError, updatedCategory) {
+                    if (updateCategoryError) {
+                        return next(updateCategoryError);
+                    }
+                    // update the content under that section
+                    Content.updateMany(
+                        { section: targetSection.name },
+                        {
+                            $set:
+                                { section: req.body.sectionName }
+                        },
+                        function (contentUpdateError) {
+                            if (contentUpdateError) {
+                                return next(contentUpdateError);
+                            }
+
+                            return res.status(200).json({
+                                data: updatedCategory,
+                                err: null,
+                                msg: 'The section was updated successfully' +
+                                    ' and the content in that' +
+                                    ' section was updated'
+                            });
+                        }
+                    );
+                }
+            );
         }
     );
+
 
 };
 
@@ -908,6 +933,26 @@ module.exports.deleteSection = function (req, res, next) {
                     });
                 }
             );
+        }
+    );
+};
+
+module.exports.addScore = function (req, res, next) {
+    User.findByIdAndUpdate(
+        req.user._id,
+        { learningScore: req.user.learningScore + 10 },
+        { new: true },
+        function (err, user) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'You got 10 more learning points,' +
+                    ' your score is now ' + user.learningScore
+            });
         }
     );
 };

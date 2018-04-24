@@ -50,9 +50,9 @@ export class AdminService {
     return this.http.get(this.URL + 'VerifiedContributerRequests/' + FilterBy);
   }
 
-  viewPendingContReqs(type): any {
+  viewPendingContReqs(res, idea, create, edit): any {
     const self = this;
-    return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL + type)
+    return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL + res + '/' + idea + '/'  + create + '/' + edit)
       .pipe(
         catchError(
           self.handleError('viewPendingContReqs', [])
