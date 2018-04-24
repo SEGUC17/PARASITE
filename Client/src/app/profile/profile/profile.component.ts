@@ -37,6 +37,7 @@ export class ProfileComponent implements OnInit {
 
   // ---------- Current User Info ---------------
   user: any;
+  avatar: string;
   firstName: string;
   lastName: string;
   username: string;
@@ -57,10 +58,11 @@ export class ProfileComponent implements OnInit {
 
   // ---------Visited User Info-----------
   vUser: any;
+  vAvatar: string;
   vFirstName: string;
   vLastName: string;
   vUsername: string;
-   vAge: Number;
+  vAge: Number;
   vEmail: string;
   vAddress: string;
   vPhone: [string];
@@ -78,9 +80,9 @@ export class ProfileComponent implements OnInit {
   personalInfo: Boolean;
   // ----------- Other Lists ------------
   listOfUncommonChildren: any[];
-  listOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
+  listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
     'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent'];
-  vListOfWantedVariables: string[] = ['_id', 'firstName', 'lastName', 'email',
+  vListOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'email',
     'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username'];
   // ------------------------------------
   // ------------ edited values ---------
