@@ -20,12 +20,16 @@ export class ScheduleService {
   }
 
   scheduleActivity(username: String, activity: any): Observable<any> {
-    // TODO: Add url to activity in event.meta.description or give it its own field AND ¿take color as input?
     const newEvent = {
+      color: {
+        primary: '#000000',
+        secondary: '#BEBEBE'
+      },
       start: activity.fromDateTime,
       end: activity.toDateTime,
       title: activity.name,
       draggable: false,
+      meta: { description: 'URL to activity here' },
       resizable: {
         beforeStart: false,
         afterEnd: false
