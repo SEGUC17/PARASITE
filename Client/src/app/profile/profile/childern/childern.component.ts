@@ -18,20 +18,30 @@ export class ChildernComponent implements OnInit {
   avatars: string[];
   username: string;
 
-  singleArray: [{username: string, firstName: string, lastName: string, avatar: string}];
+  singleArray: [{avatar: string, firstName: string, lastName: string, birthdate: Number , username: string}];
   constructor (private profileService: ProfileService, private authService: AuthService) { }
 
   ngOnInit() {
+
     this.avatars = [''];
-    this.singleArray = [{username: '', educationLevel: '' , education: '' , avatar: ''}];
+    this.singleArray = [{avatar: '', firstName: '', lastName: '', birthdate: 0 , username: ''}];
 
     this.getChildern();
 
 
  } // Heidi
+
+ calculateAge(birthdate: Date): Number {
+  const birthday = new Date(birthdate);
+  const today = new Date();
+  const age = ((today.getTime() - birthday.getTime()) / (31557600000));
+  const result = Math.floor(age);
+  return result;
+}
   getChildern() {
     let username;
 let counter = 0;
+
     let self = this;
     // getting username of the authenticated user and adding it to the get request
     this.authService.getUserData(['username']).subscribe(function (res) {
@@ -44,16 +54,20 @@ console.log(self.childrenList);
 
 self.singleArray.pop();
 for (let x of self.childrenList) {
-self.authService.getAnotherUserData(['username', 'avatar',
- 'educationLevel', 'educationSystem'], x ).subscribe(function (result) {
+self.authService.getAnotherUserData(['firstName', 'avatar',
+ 'lastName', 'birthdate' , 'username'], x ).subscribe(function (result) {
 
-
+  if (!result.data.avatar) {
+    result.data.avatar = 'assets/images/activity-view/default-activity-image.jpg';
+   }
 
         self.singleArray.push({
-                             username: self.childrenList[counter],
-                             educationLevel: result.data.educationLevel,
-                             educationSystem: result.data.educationSystem,
-                             avatar: result.data.avatar
+
+                             avatar: result.data.avatar,
+                             firstName: result.data.firstName,
+                             lastName: result.data.lastName,
+                             birthdate   : self.calculateAge(result.data.birthdate),
+                            username: result.data.username
                });
                          counter++;
                         });
