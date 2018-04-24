@@ -184,7 +184,7 @@ module.exports = function (passport) {
     adminController.respondStudyPlanPublishRequest
   );
   router.get(
-    '/admin/PendingContentRequests/:type', isAuthenticated,
+    '/admin/PendingContentRequests/:res/:idea/:create/:edit', isAuthenticated,
     adminController.viewPendingContReqs
   );
   router.patch(
