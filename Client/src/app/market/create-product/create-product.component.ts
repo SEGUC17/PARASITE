@@ -5,7 +5,6 @@ import { CreateProductRequest } from './createProductRequest';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MarketComponent } from '../market/market.component';
 import { AuthService } from '../../auth/auth.service';
-// import { SharedModule } from '../shared/shared.module';
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
@@ -25,7 +24,7 @@ export class CreateProductComponent {
         self.user = res.data;
       }
     });
-
+ 
   }
 
   productrequest: CreateProductRequest;
@@ -40,9 +39,8 @@ export class CreateProductComponent {
       alert("image upload failed");
     } else {
       console.log('in vcC and its uploaded with url = ' + url);
-      // TODO: handle image uploading success and use the url to retrieve the image later
-      let img = url;
-
+     
+    this.img =url;
     }
   }
 

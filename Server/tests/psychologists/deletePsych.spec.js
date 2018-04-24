@@ -28,6 +28,7 @@ var usr = {
     firstName: 'mariam',
     isAdmin: true,
     isChild: false,
+    isEmailVerified: true,
     isParent: false,
     isTeacher: false,
     lastName: 'mahran',
@@ -45,12 +46,12 @@ describe('Admin deletes a psychologist from address book', function () {
 
     /* preparing Mockooge */
     before(function (done) {
-    mockgoose.prepareStorage().then(function () {
-        mongoose.connect(config.MONGO_URI, function () {
-            done();
+        mockgoose.prepareStorage().then(function () {
+            mongoose.connect(config.MONGO_URI, function () {
+                done();
+            });
         });
-    });
-    });
+        });
 
     /* Mockgoose is ready */
 
