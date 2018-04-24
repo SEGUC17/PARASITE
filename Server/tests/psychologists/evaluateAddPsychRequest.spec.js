@@ -266,8 +266,6 @@ describe('Evaluate Add Psychologists\' Requests By Admin', function () {
 
 //     it('Request should NOT be evaluated', function (done) {
 
-        
-
 //                 // save your document with a call to save
 //                 psychReqTest.save(function (err1) {
 //                     if (err1) {
@@ -289,8 +287,6 @@ describe('Evaluate Add Psychologists\' Requests By Admin', function () {
 //                             done();
 //                         });
 //                 });
-
-            
 //     });
 //     // --- Mockgoose Termination --- //
 //     after(function (done) {
