@@ -17,14 +17,11 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   setToken(token: string): void {
-    if (token) {
-      localStorage.setItem(this.localStorageTokenName, token);
-    }
+    localStorage.setItem(this.localStorageTokenName, token);
   }
 
   getToken(): string {
-    const token = localStorage.getItem(this.localStorageTokenName);
-    return token ? token : '';
+    return localStorage.getItem(this.localStorageTokenName);
   }
 
   signUp(user: any): Observable<any> {
@@ -55,14 +52,14 @@ export class AuthService {
   getUserData(userDataColumns: Array<string>): Observable<any> {
     const self = this;
     return this.http.post<any>(this.endPoint + 'userData', userDataColumns).pipe(
-      catchError(self.handleError('getUserDataFromServer', []))
+      catchError(self.handleError('getUserData', []))
     );
   }
 
   getAnotherUserData(userDataColumns: Array<string>, username: string): Observable<any> {
     const self = this;
     return this.http.post<any>(this.endPoint + 'userData/' + username, userDataColumns).pipe(
-      catchError(self.handleError('getUserDataFromServer', []))
+      catchError(self.handleError('getAnotherUserData', []))
     );
   }
 
@@ -71,15 +68,6 @@ export class AuthService {
     return this.http.post<any>(this.endPoint + 'childsignup', user).pipe(
       catchError(self.handleError('childsignup', []))
     );
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return function (error: any): Observable<T> {
-      if (operation !== 'getUserDataFromServer') {
-        alert(error.error.msg);
-      }
-      return of(result as T);
-    };
   }
 
   resetpassword(email): any {
@@ -96,6 +84,13 @@ export class AuthService {
       catchError(self.handleError('changepassword', []))
     );
 
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return function (error: any): Observable<T> {
+      alert(error.error.msg);
+      return of(result as T);
+    };
   }
 
 }
