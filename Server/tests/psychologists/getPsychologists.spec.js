@@ -9,7 +9,22 @@ var should = require('chai').should();
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
+var User = mongoose.model('User');
 
+// user for authentication
+var user = new User({
+    birthdate: '1/1/1980',
+    email: 'omar@omar.omar',
+    firstName: 'Omar',
+    isAdmin: false,
+    isEmailVerified: true,
+    lastName: 'Elkilany',
+    password: '123456789',
+    phone: '0112345677',
+    username: 'omar'
+});
+// authenticated token
+var token = null;
 
 chai.use(chaiHttp);
 
@@ -26,6 +41,7 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
         if (docArray.length === 0) {
             chai.request(server).
                 get(requestUrl).
+                set('Authorization', token).
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -44,26 +60,37 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
 // tests
 describe('/GET/ Psychologists Page', function () {
     this.timeout(1200000);
-
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
-                done();
+                mockgoose.helper.reset().then(function () {
+                    user.save(function (err) {
+                        if (err) {
+                            throw err;
+                        }
+                        chai.request(server).
+                            post('/api/signIn').
+                            send({
+                                'password': '123456789',
+                                'username': 'omar'
+                            }).
+                            end(function (err2, response) {
+                                if (err2) {
+                                    return console.log(err2);
+                                }
+                                response.should.have.status(200);
+                                token = response.body.token;
+                                Psychologist.ensureIndexes(function () {
+                                    done();
+                                });
+                            });
+                    });
+                });
             });
         });
     });
     // --- End of "Mockgoose Initiation" --- //
-
-    // --- Clearing Mockgoose --- //
-    beforeEach(function (done) {
-        mockgoose.helper.reset().then(function () {
-            Psychologist.ensureIndexes(function () {
-                done();
-            });
-        });
-    });
-    // --- End of "Clearing Mockgoose" --- //
 
     it('it should GET page of psychologists from the server ' +
         'with a first or last name that' +
@@ -244,6 +271,7 @@ describe('/GET/ Psychologists Page', function () {
         };
         chai.request(server).
             get('/api/psychologist/search/' + JSON.stringify(limiters)).
+            set('Authorization', token).
             end(function (error, res) {
                 if (error) {
                     return console.log(error);
@@ -253,21 +281,22 @@ describe('/GET/ Psychologists Page', function () {
             });
     });
     it('it should fail because number of entries' +
-    ' per page is not given', function (done) {
-        var limiters = {
-            address: 1,
-            pageNumber: 1
-        };
-        chai.request(server).
-            get('/api/psychologist/search/' + JSON.stringify(limiters)).
-            end(function (error, res) {
-                if (error) {
-                    return console.log(error);
-                }
-                expect(res).to.have.status(422);
-                done();
-            });
-    });
+        ' per page is not given', function (done) {
+            var limiters = {
+                address: 1,
+                pageNumber: 1
+            };
+            chai.request(server).
+                get('/api/psychologist/search/' + JSON.stringify(limiters)).
+                set('Authorization', token).
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
+                    }
+                    expect(res).to.have.status(422);
+                    done();
+                });
+        });
     it('it should fail because page number is not given', function (done) {
         var limiters = {
             address: 1,
@@ -275,6 +304,7 @@ describe('/GET/ Psychologists Page', function () {
         };
         chai.request(server).
             get('/api/psychologist/search/' + JSON.stringify(limiters)).
+            set('Authorization', token).
             end(function (error, res) {
                 if (error) {
                     return console.log(error);
