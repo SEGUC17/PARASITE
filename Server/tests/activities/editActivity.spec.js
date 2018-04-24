@@ -65,7 +65,7 @@ it(' should update activity information', function (done) {
 console.log('signed up');
 
     var Activity1 = new Activity({
-        bookedBy: [null],
+        bookedBy: [],
         creator: 'normalusername',
         description: 'activity1 des',
         fromDateTime: Date.now(),
@@ -98,7 +98,7 @@ console.log('signed up');
             return console.log(error);
         }
         ress.should.have.status(200);
-        console.log('lol');
+
        ress.body.should.have.property('msg').
        eql('Activity is updated');
         ress.body.should.have.property('err').eql(null);
