@@ -18,11 +18,11 @@ var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
-var User = {
-    password: 'mahermaher',
+var UserLogin = {
+    password: '123456789',
     username: 'maher'
 };
-var token = 'maher';
+var token = null;
 
 
 var user = {
@@ -54,7 +54,8 @@ describe('Verified Contributer Requests', function() {
                 return console.log(err);
             }
             response.should.have.status(201);
-            token = response.body.token;
+
+
             users.updateOne(
                 { username: 'maher' },
                 { $set: { isAdmin: true, isEmailVerified: true } },
@@ -64,6 +65,16 @@ describe('Verified Contributer Requests', function() {
                     }
                 }
             );
+            chai.request(server).
+            post('/api/signIn').
+            send(UserLogin).
+            end(function (errr, response) {
+                if (errr) {
+                    return console.log(err);
+                }
+                token = response.body.token;
+            });
+
             done();
         });
     });
@@ -109,18 +120,29 @@ describe('Verified Contributer Requests', function() {
             'post a new request for contribution verification.',
             function (done) {
                 chai.request(server).
-                post('/api/profile/VerifiedContributerRequest').
-                send([]).
-                set('Authorization', token).
-                end(function (err, res) {
-                    if (err) {
-                        throw err;
+                post('/api/signIn').
+                send(UserLogin).
+                end(function (errr, response) {
+                    if (errr) {
+                        return console.log(err);
                     }
-                    should.exist(res);
-                    res.should.have.status(200);
-                    res.should.have.property('body');
-                    assert.equal(res.body.msg, 'the request is submitted');
+                    token = response.body.token;
+                    chai.request(server).
+                    post('/api/profile/VerifiedContributerRequest').
+                    send([]).
+                    set('Authorization', token).
+                    end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        should.exist(res);
+                        res.should.have.status(200);
+                        res.should.have.property('body');
+                        assert.equal(res.body.msg, 'the request is submitted');
+                    });
                 });
+
+
                 done();
             }
         );
@@ -129,50 +151,80 @@ describe('Verified Contributer Requests', function() {
     describe('GET Verified Contributer Request', function() {
         it('get pending Verified Contributer Requests', function (done) {
             chai.request(server).
-            get('/api/admin/VerifiedContributerRequests/pending').
-            set('Authorization', token).
-            end(function (err, res) {
-                if (err) {
-                    throw err;
+            post('/api/signIn').
+            send(UserLogin).
+            end(function (errr, response) {
+                if (errr) {
+                    return console.log(err);
                 }
-                should.exist(res);
-                res.should.have.status(200);
-                res.should.have.property('body');
-                res.body.data.should.have.property('dataField');
-                res.body.data.dataField.should.be.an('array');
+                token = response.body.token;
+                chai.request(server).
+                get('/api/admin/VerifiedContributerRequests/pending').
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        throw err;
+                    }
+                    should.exist(res);
+                    res.should.have.status(200);
+                    res.should.have.property('body');
+                    res.body.data.should.have.property('dataField');
+                    res.body.data.dataField.should.be.an('array');
+                });
             });
+
             done();
         });
         it('get accepted Verified Contributer Requests', function (done) {
             chai.request(server).
-            get('/api/admin/VerifiedContributerRequests/approved').
-            set('Authorization', token).
-            end(function (err, res) {
-                if (err) {
-                    throw err;
+            post('/api/signIn').
+            send(UserLogin).
+            end(function (errr, response) {
+                if (errr) {
+                    return console.log(err);
                 }
-                should.exist(res);
-                res.should.have.status(200);
-                res.should.have.property('body');
-                res.body.data.should.have.property('dataField');
-                res.body.data.dataField.should.be.an('array');
+                token = response.body.token;
+                chai.request(server).
+                get('/api/admin/VerifiedContributerRequests/approved').
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        throw err;
+                    }
+                    should.exist(res);
+                    res.should.have.status(200);
+                    res.should.have.property('body');
+                    res.body.data.should.have.property('dataField');
+                    res.body.data.dataField.should.be.an('array');
+                });
             });
+
             done();
         });
         it('get rejected Verified Contributer Requests', function (done) {
             chai.request(server).
-            get('/api/admin/VerifiedContributerRequests/disapproved').
-            set('Authorization', token).
-            end(function (err, res) {
-                if (err) {
-                    throw err;
+            post('/api/signIn').
+            send(UserLogin).
+            end(function (errr, response) {
+                if (errr) {
+                    return console.log(err);
                 }
-                should.exist(res);
-                res.should.have.status(200);
-                res.should.have.property('body');
-                res.body.data.should.have.property('dataField');
-                res.body.data.dataField.should.be.an('array');
+                token = response.body.token;
+                chai.request(server).
+                get('/api/admin/VerifiedContributerRequests/disapproved').
+                set('Authorization', token).
+                end(function (err, res) {
+                    if (err) {
+                        throw err;
+                    }
+                    should.exist(res);
+                    res.should.have.status(200);
+                    res.should.have.property('body');
+                    res.body.data.should.have.property('dataField');
+                    res.body.data.dataField.should.be.an('array');
+                });
             });
+
             done();
         });
     });
@@ -182,19 +234,29 @@ describe('Verified Contributer Requests', function() {
             'Respond to a request.',
             function (done) {
                 chai.request(server).
-                patch('/api/admin/VerifiedContributerRequestRes' +
-                'pond/5aca0d4d8865fc24fe140712').
-                send({ responce: 'approved' }).
-                set('Authorization', token).
-                end(function (err, res) {
-                    if (err) {
-                        throw err;
+                post('/api/signIn').
+                send(UserLogin).
+                end(function (errr, response) {
+                    if (errr) {
+                        return console.log(err);
                     }
-                    should.exist(res);
-                    res.should.have.status(200);
-                    res.should.have.property('body');
-                    assert.equal(res.body.msg, 'reponse has been submitted');
+                    token = response.body.token;
+                    chai.request(server).
+                    patch('/api/admin/VerifiedContributerRequestRes' +
+                        'pond/5aca0d4d8865fc24fe140712').
+                    send({ responce: 'approved' }).
+                    set('Authorization', token).
+                    end(function (err, res) {
+                        if (err) {
+                            throw err;
+                        }
+                        should.exist(res);
+                        res.should.have.status(200);
+                        res.should.have.property('body');
+                        assert.equal(res.body.msg, 'reponse has been submitted');
+                    });
                 });
+
                 done();
             }
         );
