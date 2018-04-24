@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { ToastrService } from 'ngx-toastr';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -13,7 +14,7 @@ export class AuthService {
 
   private localStorageTokenName = 'jwtToken';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastService: ToastrService) { }
 
   setToken(token: any): void {
     if (token) {
@@ -96,8 +97,12 @@ export class AuthService {
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
+    const self = this;
     return function (error: any): Observable<T> {
-      alert(error.error.msg);
+      if (error) {
+        self.toastService.error(error.error.msg);
+      }
+
       return of(result as T);
     };
   }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
 import { cities } from '../../variables';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -23,7 +25,7 @@ export class SignUpComponent implements OnInit {
     isTeacher: false,
   };
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private toastrService: ToastrService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -31,9 +33,8 @@ export class SignUpComponent implements OnInit {
   signUp() {
     const self = this;
     self.authService.signUp(this.user).subscribe(function (res) {
-      if (res.msg) {
-        alert(res.msg);
-      }
+      self.toastrService.success(res.msg);
+      self.router.navigate(['/dashboard']);
     });
   }
 
