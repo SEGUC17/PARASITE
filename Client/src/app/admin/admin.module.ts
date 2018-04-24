@@ -29,6 +29,12 @@ import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-req
 import { AuthService } from '../auth/auth.service';
 import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '../shared/shared.module';
+import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
+import { CategoryUpdateComponent } from './category-management/category-update/category-update.component';
+import { CategoryDeleteComponent } from './category-management/category-delete/category-delete.component';
+import { SectionCreateComponent } from './category-management/section-create/section-create.component';
+import { SectionUpdateComponent } from './category-management/section-update/section-update.component';
+import { SectionDeleteComponent } from './category-management/section-delete/section-delete.component';
 
 @NgModule({
   imports: [
@@ -62,7 +68,13 @@ import { SharedModule } from '../shared/shared.module';
     ViewProductRequestsComponent,
     ViewContentRequestsComponent,
     ViewPsychRequestsComponent,
-    PublishRequestsComponent],
+    PublishRequestsComponent,
+    CategoryCreateComponent,
+    CategoryUpdateComponent,
+    CategoryDeleteComponent,
+    SectionCreateComponent,
+    SectionUpdateComponent,
+    SectionDeleteComponent],
   exports: [
     MatButtonModule,
     MatButtonToggleModule,

@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     const self = this;
     self.authService.signIn(this.user).subscribe(function (res) {
       self.authService.setToken(res.token);
-      if (res.token) {
+      if (res.msg) {
         alert(res.msg);
         self.location.back();
       }

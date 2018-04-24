@@ -2,7 +2,6 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-var Category = mongoose.model('Category');
 var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var should = chai.should();
