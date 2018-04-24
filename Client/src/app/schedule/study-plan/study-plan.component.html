@@ -20,7 +20,7 @@
   </div>
   <div class="container-fluid">
     <div class="card">
-      <app-calendar [(events)]="events"></app-calendar>
+      <app-calendar [(events)]="events" [onCreate]="createEvent"></app-calendar>
       <hr/>
       <div class="ql-editor preview" [innerHTML]="editorContent"></div>
       <hr/>

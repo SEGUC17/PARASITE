@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs/Subject';
 import { NgModel } from '@angular/forms';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import {
   isSameMonth,
@@ -37,7 +37,8 @@ const colors: any = {
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class CalendarComponent implements OnInit {
   // events CRUD inputs
@@ -51,6 +52,9 @@ export class CalendarComponent implements OnInit {
   viewDate: Date = new Date();
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
+  // datetime picker variables
+  start = '';
+  end = '';
   // actions for events
   actions: CalendarEventAction[] = [
     {
@@ -75,6 +79,23 @@ export class CalendarComponent implements OnInit {
     $('#createModal').appendTo('body');
     $('#editModal').appendTo('body');
     $('#deleteModal').appendTo('body');
+
+    // datetime pickers
+    $('.datetimepicker').bootstrapMaterialDatePicker({
+      format: 'dddd DD MMMM YYYY - HH:mm',
+      clearButton: true,
+      weekStart: 1
+    });
+
+    let self = this;
+
+    $('#createStart').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      self.start = date._d;
+    });
+
+    $('#createEnd').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      self.end = date._d;
+    });
 
     // form validation
     $('#createForm').validate({
