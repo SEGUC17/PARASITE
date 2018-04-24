@@ -155,7 +155,7 @@ export class StudyPlanComponent implements OnInit {
     this.tempStudyPlan = this.studyPlan;
     this.tempStudyPlan._id = undefined;
     this.studyPlanService
-      .createStudyPlan(this.username, this.tempStudyPlan)
+      .createStudyPlan(this.tempStudyPlan)
       .subscribe(res => {
         alert(res.msg);
       });
