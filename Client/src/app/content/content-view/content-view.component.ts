@@ -78,7 +78,7 @@ export class ContentViewComponent implements OnInit {
 
   // admin is done with reviewing the content, send him back to his page
   returnToContentRequests(): void {
-    this.router.navigate(['admin/ContentRequests']);
+    this.router.navigate(['admin']);
   }
 
   // delete Content function

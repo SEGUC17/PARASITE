@@ -165,7 +165,7 @@
                     <div class="body widget tag-clouds">
                         <ul class="list-unstyled m-b-0">
                             <li *ngFor="let tag of content.tags">
-                                <a href="#" class="tag badge badge-primary">{{ tag }}</a>
+                                <a routerLink="/content-list-view/{{ tag }}" class="tag badge badge-primary">{{ tag }}</a>
                             </li>
                         </ul>
                     </div>
