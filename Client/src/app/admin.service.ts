@@ -124,6 +124,29 @@ getcontent(): any {
         )
       );
   }
+  //Delete Category
+
+  deleteCategory(category: any): Observable<any> {
+    const self = this;
+    return this.http.post(self.baseURL + 'content/category', category)
+      .pipe(
+        catchError(
+          self.handleError('deleteCategory', [])
+        )
+      );
+  }
+
+  // delete section
+  deleteSection(categoryId: any, section: any): Observable<any> {
+    const self = this;
+    return this.http.post(self.baseURL + 'content/category/' + categoryId + '/section', section)
+      .pipe(
+        catchError(
+          self.handleError('deleteSection', [])
+        )
+      );
+    }
+
   // TO-DO ContributionPts
   // addContPts(userName: any ): any {
   //   const self = this;
