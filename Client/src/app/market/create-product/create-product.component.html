@@ -1,6 +1,4 @@
-<div class="modal-body">
-  <h2 class="title" id="largeModalLabel">Product's Information</h2>
-
+<h1 mat-dialog-title style="font-size: 35px; font-weight: bold">Product's Information</h1>
 
   <form #createproduct="ngForm">
     <div class="row clearfix">
@@ -23,7 +21,7 @@
             </div>
           </div>
         </div>
-        <div>
+        <div> 
           <div class="col-lg-3 col-md-6">
             <select class="form-control show-tick" placeholder="Product is up for" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
               <option>sell</option>
@@ -46,7 +44,7 @@
         </div> -->
       </div>
       <div class="col-lg-4 col-m-4 col-sm-12">
-        <img src={{formInput.imageURL}} onerror="this.src='assets/images/market-view/product.jpg'" alt="Product's Picture" />
+        <img src={{img}} onerror="this.src='assets/images/market-view/product.jpg'" alt="Product's Picture" />
         <!-- <form action="/action_page.php">
           <input type="file" name="pic" id="pic" [(ngModel)]="formInput.pic" accept="image/*" capture>
         </form> -->
@@ -57,7 +55,6 @@
       </div>
     </div>
   </form>
-</div>
 
 
 
