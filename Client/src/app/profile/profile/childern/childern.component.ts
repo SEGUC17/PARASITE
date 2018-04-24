@@ -51,14 +51,15 @@ let counter = 0;
       self.profileService.getChildren(self.username).subscribe(function(response) { self.childrenList = response.data;
 
 console.log(self.childrenList);
-
+// getting username , avatar , first name , lastname , birthdate of
+// each child in children list and adding them to a single array
 self.singleArray.pop();
 for (let x of self.childrenList) {
 self.authService.getAnotherUserData(['firstName', 'avatar',
  'lastName', 'birthdate' , 'username'], x ).subscribe(function (result) {
 
   if (!result.data.avatar) {
-    result.data.avatar = 'assets/images/activity-view/default-activity-image.jpg';
+    result.data.avatar = 'assets/images/xs/avatar3.jpg';
    }
 
         self.singleArray.push({
