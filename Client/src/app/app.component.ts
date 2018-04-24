@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef, Renderer2, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './auth/auth.service';
 import { Router, NavigationStart } from '@angular/router';
+
 declare const $: any;
 declare const jquery: any;
 declare const screenfull: any;
@@ -67,10 +68,10 @@ export class AppComponent implements OnInit {
       name: 'Admin Category Control'
     }
   ];
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
   }
   ngOnInit() {
-    $(function() {
+    $(function () {
       'use strict';
       skinChanger();
       CustomScrollbar();
@@ -83,7 +84,7 @@ export class AppComponent implements OnInit {
     }
     // Skin changer
     function skinChanger() {
-      $('.right-sidebar .choose-skin li').on('click', function() {
+      $('.right-sidebar .choose-skin li').on('click', function () {
         const $body = $('body');
         const $this = $(this);
 
@@ -137,34 +138,34 @@ export class AppComponent implements OnInit {
       });
     }
     function CustomPageJS() {
-      $('.boxs-close').on('click', function() {
+      $('.boxs-close').on('click', function () {
         const element = $(this);
         const cards = element.parents('.card');
         cards.addClass('closed').fadeOut();
       });
 
       // Theme Light and Dark  ============
-      $('.theme-light-dark .t-light').on('click', function() {
+      $('.theme-light-dark .t-light').on('click', function () {
         $('body').removeClass('menu_dark');
       });
 
-      $('.theme-light-dark .t-dark').on('click', function() {
+      $('.theme-light-dark .t-dark').on('click', function () {
         $('body').addClass('menu_dark');
       });
 
-      $('.menu-sm').on('click', function() {
+      $('.menu-sm').on('click', function () {
         $('body').toggleClass('menu_sm');
       });
       // Chat widget js ====
-      $(document).ready(function() {
-        $('.btn_overlay').on('click', function() {
+      $(document).ready(function () {
+        $('.btn_overlay').on('click', function () {
           $('.overlay_menu').fadeToggle(200);
           $(this)
             .toggleClass('btn-open')
             .toggleClass('btn-close');
         });
       });
-      $('.overlay_menu').on('click', function() {
+      $('.overlay_menu').on('click', function () {
         $('.overlay_menu').fadeToggle(200);
         $('.overlay_menu button.btn')
           .toggleClass('btn-open')
@@ -172,19 +173,19 @@ export class AppComponent implements OnInit {
       });
       // =========
       $('.form-control')
-        .on('focus', function() {
+        .on('focus', function () {
           $(this)
             .parent('.input-group')
             .addClass('input-group-focus');
         })
-        .on('blur', function() {
+        .on('blur', function () {
           $(this)
             .parent('.input-group')
             .removeClass('input-group-focus');
         });
     }
     // Fullscreen
-    $(function() {
+    $(function () {
       'use strict';
       $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
 
@@ -192,38 +193,38 @@ export class AppComponent implements OnInit {
         return false;
       }
 
-      $('#request').on('click', function() {
+      $('#request').on('click', function () {
         screenfull.request($('#container')[0]);
         // Does not require jQuery. Can be used like this too:
         // screenfull.request(document.getElementById('container'));
       });
 
-      $('#exit').on('click', function() {
+      $('#exit').on('click', function () {
         screenfull.exit();
       });
 
-      $('[data-provide~="boxfull"]').on('click', function() {
+      $('[data-provide~="boxfull"]').on('click', function () {
         screenfull.toggle($('.box')[0]);
       });
 
-      $('[data-provide~="fullscreen"]').on('click', function() {
+      $('[data-provide~="fullscreen"]').on('click', function () {
         screenfull.toggle($('#container')[0]);
       });
 
       // var selector = '[data-provide~='boxfull']';
       const selector = '[data-provide~="fullscreen"]';
 
-      $(selector).each(function() {
+      $(selector).each(function () {
         $(this).data('fullscreen-default-html', $(this).html());
       });
 
-      document.addEventListener(screenfull.raw.fullscreenchange, function() {
+      document.addEventListener(screenfull.raw.fullscreenchange, function () {
         if (screenfull.isFullscreen) {
-          $(selector).each(function() {
+          $(selector).each(function () {
             $(this).addClass('is-fullscreen');
           });
         } else {
-          $(selector).each(function() {
+          $(selector).each(function () {
             $(this).removeClass('is-fullscreen');
           });
         }
@@ -251,5 +252,17 @@ export class AppComponent implements OnInit {
       // Set the initial values
       fullscreenchange();
     }); // End of use strict
+
+    this.isSignedIn();
   }
+
+  isSignedIn(): void {
+    const self = this;
+    this.authService.isSignedIn().subscribe(function (res) {
+      if (res.status === 401) {
+        self.authService.setToken(null);
+      }
+    });
+  }
+
 }

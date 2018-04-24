@@ -11,13 +11,16 @@ const httpOptions = {
 @Injectable()
 export class AuthService {
 
-  private endPoint: String = environment.apiUrl;
   private localStorageTokenName = 'jwtToken';
 
   constructor(private http: HttpClient) { }
 
-  setToken(token: string): void {
-    localStorage.setItem(this.localStorageTokenName, token);
+  setToken(token: any): void {
+    if (token) {
+      localStorage.setItem(this.localStorageTokenName, token);
+    } else {
+      localStorage.removeItem(this.localStorageTokenName);
+    }
   }
 
   getToken(): string {
@@ -26,22 +29,29 @@ export class AuthService {
 
   signUp(user: any): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endPoint + 'signUp', user).pipe(
+    return this.http.post<any>(environment.apiUrl + 'signUp', user).pipe(
       catchError(self.handleError('signUp', []))
     );
   }
 
   verifyEmail(id: any): Observable<any> {
     const self = this;
-    return this.http.get<any>(this.endPoint + 'verifyEmail/' + id).pipe(
+    return this.http.get<any>(environment.apiUrl + 'verifyEmail/' + id).pipe(
       catchError(self.handleError('verifyEmail', []))
     );
   }
 
   signIn(user: any): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endPoint + 'signIn', user).pipe(
+    return this.http.post<any>(environment.apiUrl + 'signIn', user).pipe(
       catchError(self.handleError('signIn', []))
+    );
+  }
+
+  isSignedIn(): Observable<any> {
+    const self = this;
+    return this.http.get<any>(environment.apiUrl + 'isSignedIn').pipe(
+      catchError(self.handleError('isSignedIn', []))
     );
   }
 
@@ -51,36 +61,35 @@ export class AuthService {
 
   getUserData(userDataColumns: Array<string>): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endPoint + 'userData', userDataColumns).pipe(
+    return this.http.post<any>(environment.apiUrl + 'userData', userDataColumns).pipe(
       catchError(self.handleError('getUserData', []))
     );
   }
 
   getAnotherUserData(userDataColumns: Array<string>, username: string): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endPoint + 'userData/' + username, userDataColumns).pipe(
+    return this.http.post<any>(environment.apiUrl + 'userData/' + username, userDataColumns).pipe(
       catchError(self.handleError('getAnotherUserData', []))
     );
   }
 
   childSignUp(user: any): Observable<any> {
     const self = this;
-    return this.http.post<any>(this.endPoint + 'childsignup', user).pipe(
+    return this.http.post<any>(environment.apiUrl + 'childsignup', user).pipe(
       catchError(self.handleError('childsignup', []))
     );
   }
 
   resetpassword(email): any {
     const self = this;
-    return this.http.get<any>(this.endPoint + 'resetpassword/' + email).pipe(
+    return this.http.get<any>(environment.apiUrl + 'resetpassword/' + email).pipe(
       catchError(self.handleError('resetpassword', []))
     );
-
   }
 
   ChangePassword(email, pws): Observable<any> {
     const self = this;
-    return this.http.patch<any>(this.endPoint + 'changepassword/' + email, pws, httpOptions).pipe(
+    return this.http.patch<any>(environment.apiUrl + 'changepassword/' + email, pws, httpOptions).pipe(
       catchError(self.handleError('changepassword', []))
     );
 

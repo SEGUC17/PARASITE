@@ -364,7 +364,7 @@
             <a href="javascript:void(0);" class="btn_overlay hidden-sm-down">
                 <i class="zmdi zmdi-sort-amount-desc"></i>
             </a>
-            <a routerLink="/auth/sign-in" class="mega-menu">
+            <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" routerLinkActive="active" class="mega-menu">
                 <i class="zmdi zmdi-power"></i>
             </a>
         </li>
