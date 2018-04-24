@@ -67,7 +67,7 @@ export class ActivityComponent implements OnInit {
     //
     // @author: Wessam
 
-    document.querySelector('.mat-sidenav-content').scrollTop = 0;
+    // document.querySelector('.mat-sidenav-content').scrollTop = 0;
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
