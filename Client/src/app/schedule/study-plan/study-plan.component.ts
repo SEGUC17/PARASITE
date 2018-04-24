@@ -190,4 +190,23 @@ export class StudyPlanComponent implements OnInit {
   edit(): void {
     this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.username]);
   }
+
+  createEvent(eventTitle: string, eventDescription: string, start: Date, end: Date) {
+    this.events.push({
+      title: eventTitle,
+      start: start,
+      end: end,
+      color: {
+        primary: '#2196f3',
+        secondary: '#FAE3E3'
+      },
+      draggable: true,
+      meta: {
+        description: eventDescription
+      }
+    });
+
+    console.log(start);
+    console.log(end);
+  }
 }

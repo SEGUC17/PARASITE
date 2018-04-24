@@ -3,7 +3,7 @@
 
     <div class="col-md-12 col-lg-4 col-xl-4">
       <div class="body">
-        <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal">Add Events</button>
+        <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="onCreate">Add Events</button>
         <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
           aria-controls="collapseExample">
           <i class="zmdi zmdi-chevron-down"></i>
@@ -12,14 +12,14 @@
           <hr>
           <div class="event-name b-primary row" *ngFor="let event of events; let index = index">
             <div class="col-2 text-center">
-              <h4>{{ event.start.getDay() }}
+              <h4>{{ event.start | date:'dd' }}
                 <span>{{ event.start | date:'MMM' }}</span>
-                <span>{{ event.start.getFullYear() }}</span>
+                <span>{{ event.start | date:'yyyy' }}</span>
               </h4>
             </div>
             <div class="col-10">
               <h6>{{ event.title }}</h6>
-              <p>Will we add descriptions?</p>
+              <p>{{ event.meta && event.meta.description ? event.meta.description : 'N/A' }}</p>
               <address>
                 <i class="zmdi zmdi-pin"></i>Mars</address>
             </div>
@@ -60,16 +60,34 @@
       </div>
       <div class="modal-body">
         <form id="createForm" method="POST">
-          <div class="form-group form-float" [ngClass]="{'has-success': createTitle.length >= 3, 'has-danger': createTitle.length < 3}">
-            <input type="text" class="form-control" [ngClass]="{'form-control-success': createTitle.length >= 3, 'form-control-danger': createTitle.length < 3}"
-              name="minmaxlength" value="" placeholder="Title" [(ngModel)]="createTitle" maxlength="10" minlength="3" required>
-            <div class="help-info">Min. 3, Max. 10 characters</div>
+          <div class="form-group">
+            <div class="form-line">
+              <input type="text" class="form-control" name="createTitle" [(ngModel)]="createTitle" placeholder="Title" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-line">
+              <input type="text" class="form-control" name="createDescription" [(ngModel)]="createDescription" placeholder="Description"
+                [(ngModel)]="createDescription">
+            </div>
+          </div>
+          <div class="input-group">
+            <input type="text" class="form-control datetimepicker" id="createStart" placeholder="Event Start">
+            <span class="input-group-addon">
+              <i class="zmdi zmdi-calendar"></i>
+            </span>
+          </div>
+          <div class="input-group">
+            <input type="text" class="form-control datetimepicker" id="createEnd" placeholder="Event End">
+            <span class="input-group-addon">
+              <i class="zmdi zmdi-calendar"></i>
+            </span>
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect">SAVE CHANGES</button>
-        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CLOSE</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="onCreate(createTitle, createDescription, start, end); this.refresh.next();">Create Event</button>
+        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>
