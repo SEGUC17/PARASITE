@@ -38,7 +38,7 @@
     "ngx-quill-editor": "^2.2.2",
     "rxjs": "^5.5.6",
     "sweetalert": "^2.1.0",
-    "zone.js": "^0.8.19"
+    "zone.js": "^0.8.19",
     "ngx-toastr": "^8.4.0"
   },
   "devDependencies": {
