@@ -211,7 +211,7 @@ module.exports = function (passport) {
   // ---------------Schedule Controller Endpoints ---------------//
   router.patch('/schedule/SaveScheduleChanges/:username', isAuthenticated, scheduleController.updateSchedule);
   router.put('/schedule/addEvent/:username', isAuthenticated, scheduleController.addEvent);
-  router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
+  router.get('/schedule/getPersonalSchedule/:username', isAuthenticated, scheduleController.getPersonalSchedule);
   // ------------End of Schedule Controller Endpoints -----------//
 
   // --------------Content Module Endpoints---------------------- //
