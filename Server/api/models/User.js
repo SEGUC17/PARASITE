@@ -79,6 +79,10 @@ var userSchema = mongoose.Schema({
         default: false,
         type: Boolean
     },
+    isBanned: {
+        default: false,
+        type: Boolean
+    },
     isChild: {
         default: false,
         type: Boolean

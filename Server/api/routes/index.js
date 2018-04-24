@@ -6,6 +6,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+var Report = require('../models/Report');
 var UserRating = require('../models/UserRating');
 
 var SearchController = require('../controllers/SearchController');
@@ -191,6 +192,8 @@ module.exports = function (passport) {
     '/admin/RespondContentRequest/:ContentRequestId/:ContentId', isAuthenticated,
     adminController.respondContentRequest
   );
+  router.get('/admin/getReports', isAuthenticated, adminController.getReports);
+
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
@@ -204,6 +207,7 @@ module.exports = function (passport) {
   router.patch('/profile/:username/UnlinkMyself', isAuthenticated, profileController.UnlinkIndependent);
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
   router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
+  router.post('/profile/ReportUser', isAuthenticated, profileController.reportUser);
 
 
   // ------------------- End of Profile module Endpoints-----------//

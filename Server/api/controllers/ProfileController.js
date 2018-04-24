@@ -1,6 +1,7 @@
 
 /* eslint-disable sort-keys */
 /* eslint-disable no-shadow */
+/* eslint-disable no-else-return */
 
 var mongoose = require('mongoose');
 var moment = require('moment');
@@ -9,6 +10,7 @@ var Encryption = require('../utils/encryption/encryption');
 var adminController = require('./AdminController');
 var User = mongoose.model('User');
 var VCRSchema = mongoose.model('VerifiedContributerRequest');
+var Report = mongoose.model('Report');
 
 // author: Heidi
 module.exports.getChildren = function (req, res, next) {
@@ -156,7 +158,8 @@ module.exports.requestUserValidation = function (req, res, next) {
         });
       } else {
         console.log('passing error to next');
-        next(err);
+
+        return next(err);
       }
     }
     res.status(200).json({
@@ -261,13 +264,11 @@ module.exports.unLinkChild = function (req, res, next) {
 
 module.exports.changePassword = function (req, res, next) {
 
-  console.log('Old Password entered is: ', req.body.oldpw);
   // match user to one of the users in the database
   User.findById({ _id: req.params.id }, function (err, user) {
     if (err) {
       return next(err);
     } else if (!user) {
-      console.log('Username is incorrect');
       res.status(401).json({
         data: null,
         err: null,
@@ -277,7 +278,6 @@ module.exports.changePassword = function (req, res, next) {
       return;
     }
 
-    // console.log('New Password to enter: ', req.body.newpw);
     // compare entered password with existing hashed password in database
     Encryption.comparePasswordToHash(req.body.oldpw, user.password, function (
       err2,
@@ -308,7 +308,6 @@ module.exports.changePassword = function (req, res, next) {
             if (err4) {
               return next(err4);
             }
-            console.log('User password updated successfully.');
             res.status(200).json({
               data: user2,
               err: null,
@@ -415,9 +414,13 @@ module.exports.changeChildInfo = function (req, res, next) {
             req.body.id,
             {
               $set: {
-                username: req.body.username, firstName: req.body.firstName,
-                lastName: req.body.lastName, email: req.body.email, address: req.body.address,
-                birthdate: req.body.birthdate, phone: req.body.phone
+                username: req.body.username,
+                firstName: req.body.firstName,
+                lastName: req.body.lastName,
+                email: req.body.email,
+                address: req.body.address,
+                birthdate: req.body.birthdate,
+                phone: req.body.phone
               }
             }, { new: true },
             function (err, user3) {
@@ -435,7 +438,7 @@ module.exports.changeChildInfo = function (req, res, next) {
               return res.status(200).json({
                 data: user3,
                 err: null,
-                msg: 'Info updated succesfully.'
+                msg: 'Info updated successfully.'
               });
             }
           );
@@ -502,3 +505,41 @@ module.exports.ChangeInfo = function (req, res, next) {
   });
 };
 
+module.exports.reportUser = function(req, res, next) {
+  Report.create(req.body, function (error) {
+    if (error) {
+        return next(error);
+    }
+
+    return res.status(201).json({
+        data: req.body,
+        error: null,
+        msg: 'Report sent successfully'
+    });
+});
+};
+
+module.exports.banUser = function(req, res, next) {
+  User.findByIdAndUpdate(
+    req.params.userId,
+    { $set: { isBanned: true } }, { new: true },
+    function (err, user) {
+      if (err) {
+        return next(err);
+      }
+      if (!user) {
+        return res.status(404).json({
+          data: null,
+          err: null,
+          msg: 'User not found.'
+        });
+      }
+
+      return res.status(200).json({
+        data: user,
+        err: null,
+        msg: 'Info updated successfully.'
+      });
+    }
+  );
+};
