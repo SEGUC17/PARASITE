@@ -35,28 +35,37 @@ describe('/PATCH Activity', function () {
     });
 
 it(' should update activity information', function (done) {
-    var user = {
+    var user = new User({
         birthdate: '12/12/1999',
         email: 'user@gmail.com',
         firstName: 'firstName',
+        isEmailVerified: true,
         lastName: 'lastName',
         password: '12345678',
         phone: '01113999999',
         username: 'normalusername'
-    };
+    });
+    user.save(function (err2, save2) {
+        if (err2) {
+            return console.log(err2);
+        }
     chai.request(server).
-    post('/api/signUp').
-    send(user).
+    post('/api/signIn').
+    send({
+        'password': '12345678',
+        'username': 'normalusername'
+    }).
     end(function (err, response) {
         if (err) {
             return console.log(err);
         }
-        response.should.have.status(201);
+        response.should.have.status(200);
         token = response.body.token;
 
 console.log('signed up');
 
     var Activity1 = new Activity({
+        bookedBy: [null],
         creator: 'normalusername',
         description: 'activity1 des',
         fromDateTime: Date.now(),
@@ -102,6 +111,7 @@ console.log('signed up');
       done();
     });
  });
+});
 });
 });
     // --- End of "Clearing Mockgoose" --- //
