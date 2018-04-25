@@ -11,6 +11,8 @@
       <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
         <i class="zmdi zmdi-plus"></i>
       </button>
+      <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button"*ngIf="isCreator && !isBooked" (click)="openDialog()">
+        <i class="zmdi zmdi-edit"></i></button>
       <ul class="breadcrumb float-md-right">
         <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> Dasboard</a></li>
         <li class="breadcrumb-item active">{{activity.name}}</li>
