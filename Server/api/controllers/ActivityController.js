@@ -285,6 +285,7 @@ module.exports.prepareActivity = function (req, res, next) {
 
 // Author: Heidi
 module.exports.editActivity = function (req, res, next) {
+    console.log('current :' + req.user);
     var Status = 'pending';
     if (req.user.isAdmin) {
         Status = 'verified';
@@ -320,7 +321,6 @@ module.exports.editActivity = function (req, res, next) {
                 price: req.body.price,
                 status: Status,
                 toDateTime: req.body.toDateTime
-
             }
         }, { new: true }).exec(function (error, updatedActivity) {
             if (err) {
