@@ -69,74 +69,15 @@
                         </div>
                     </div>
                 </div>
-                <div *ngIf="content" class="card">
+                <div *ngIf="content" class="card single_post">
                     <div class="header">
                         <h2>
                             <strong>Comments</strong> {{ content.discussion.length }}</h2>
                     </div>
-                    <!-- <div class="body">
-                        <ul class="comment-reply list-unstyled">
-                            <li class="row">
-                                <div class="icon-box col-md-2 col-4">
-                                    <img class="img-fluid img-thumbnail" src="assets/images/sm/avatar2.jpg" alt="Awesome Image">
-                                </div>
-                                <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                    <h5 class="m-b-0">Gigi Hadid </h5>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
-                                        has been the industry's standard dummy text</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <a href="#">Dec 09 2017</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Reply</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="row">
-                                <div class="icon-box col-md-2 col-4">
-                                    <img class="img-fluid img-thumbnail" src="assets/images/sm/avatar3.jpg" alt="Awesome Image">
-                                </div>
-                                <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                    <h5 class="m-b-0">Christian Louboutin</h5>
-                                    <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                        unknown printer took a galley of type and scramble</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <a href="#">Dec 12 2017</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Reply</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="row">
-                                <div class="icon-box col-md-2 col-4">
-                                    <img class="img-fluid img-thumbnail" src="assets/images/sm/avatar4.jpg" alt="Awesome Image">
-                                </div>
-                                <div class="text-box col-md-10 col-8 p-l-0 p-r0">
-                                    <h5 class="m-b-0">Kendall Jenner</h5>
-                                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have
-                                        suffered alteration in some form, by injected humour</p>
-                                    <ul class="list-inline">
-                                        <li>
-                                            <a href="#">Dec 20 2017</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Reply</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div> -->
-                    <!-- *ngFor="let comment of comments; let i = index" -->
                     <div class="container">
                         <div class="comment-container">
                             <mat-list-item role="list" id="target">
-                                <mat-card *ngIf="currentUser" >
+                                <mat-card *ngIf="currentUser">
                                     <mat-card-header>
                                         <mat-card-title style="font-weight: bold"> {{currentUser.username}} </mat-card-title>
                                     </mat-card-header>
@@ -198,45 +139,45 @@
                             </mat-list-item>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12 right-box">
-                        <div *ngIf="content" class="card">
-                            <div class="header">
-                                <h2>
-                                    <strong>Recommended</strong> Content</h2>
-                            </div>
-                            <div class="body widget popular-post">
-                                <ul *ngIf="recommendedContent" class="list-unstyled m-b-0">
-                                    <li *ngFor="let contentItem of recommendedContent" class="row">
-                                        <div class="icon-box col-4">
-                                            <img class="img-fluid img-thumbnail" [src]="contentItem.image" alt="{{ contentItem.title }}">
-                                        </div>
-                                        <div class="text-box col-8 p-l-0">
-                                            <h5 class="m-b-0">
-                                                <a href="/content-view/{{ contentItem._id }}">{{ contentItem.title }}</a>
-                                            </h5>
-                                            <small class="author-name">By:
-                                                <a href="/profile/{{ contentItem.creator }}">{{ contentItem.creator }}</a>
-                                            </small>
-                                            <small class="date"> {{ contentItem.touchDate | date }}</small>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div *ngIf="content" class="card">
-                            <div class="header">
-                                <h2>
-                                    <strong>Tags</strong>
-                                </h2>
-                            </div>
-                            <div class="body widget tag-clouds">
-                                <ul class="list-unstyled m-b-0">
-                                    <li *ngFor="let tag of content.tags">
-                                        <a routerLink="/content-list-view/{{ tag }}" class="tag badge badge-primary">{{ tag }}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 right-box">
+                <div *ngIf="content" class="card">
+                    <div class="header">
+                        <h2>
+                            <strong>Recommended</strong> Content</h2>
+                    </div>
+                    <div class="body widget popular-post">
+                        <ul *ngIf="recommendedContent" class="list-unstyled m-b-0">
+                            <li *ngFor="let contentItem of recommendedContent" class="row">
+                                <div class="icon-box col-4">
+                                    <img class="img-fluid img-thumbnail" [src]="contentItem.image" alt="{{ contentItem.title }}">
+                                </div>
+                                <div class="text-box col-8 p-l-0">
+                                    <h5 class="m-b-0">
+                                        <a href="/content-view/{{ contentItem._id }}">{{ contentItem.title }}</a>
+                                    </h5>
+                                    <small class="author-name">By:
+                                        <a href="/profile/{{ contentItem.creator }}">{{ contentItem.creator }}</a>
+                                    </small>
+                                    <small class="date"> {{ contentItem.touchDate | date }}</small>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div *ngIf="content" class="card">
+                    <div class="header">
+                        <h2>
+                            <strong>Tags</strong>
+                        </h2>
+                    </div>
+                    <div class="body widget tag-clouds">
+                        <ul class="list-unstyled m-b-0">
+                            <li *ngFor="let tag of content.tags">
+                                <a routerLink="/content-list-view/{{ tag }}" class="tag badge badge-primary">{{ tag }}</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

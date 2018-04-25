@@ -78,16 +78,6 @@ export class ContentViewComponent implements OnInit {
           self.initContentVideo();
         }
       }
-      let input = document.getElementById('input');
-      input.addEventListener('keyup', function (event) {
-        event.preventDefault();
-        if (event.keyCode === 13) {
-          document.getElementById('commentBtn').click();
-        }
-        if (event.keyCode === 27) {
-          document.getElementById('cancelBtn').click();
-        }
-      });
     });
   }
 
