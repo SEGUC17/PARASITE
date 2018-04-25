@@ -701,9 +701,7 @@ module.exports.forgotPassword = function (req, res, next) {
 };
 
 module.exports.resetPassword = function (req, res, next) {
-    console.log(req.body.newpassword);
-    console.log(req.body.newpw);
-    console.log(req.params.id);
+   
     User.findById({ '_id': req.params.id }, function(err, user) {
         if (err) {
             return next(err);
