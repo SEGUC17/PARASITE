@@ -149,6 +149,7 @@ module.exports = function (passport) {
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
   router.post('/signIn', isNotAuthenticated, userController.signIn);
+  router.get('/isSignedIn', isNotAuthenticated, isAuthenticated);
   router.post('/childsignup', isAuthenticated, userController.signUpChild);
   router.post('/userData', isAuthenticated, userController.getUserData);
   router.post('/userData/:usernameOrEmail', isAuthenticated, userController.getAnotherUserData);
@@ -256,14 +257,14 @@ module.exports = function (passport) {
 
   // delete a category
   router.delete(
-    '/category/:id',
+    '/content/category/:id',
     isAuthenticated,
     contentController.deleteCategory
   );
 
   // delete a section
   router.delete(
-    '/category/:categoryId/section/:sectionId',
+    '/content/category/:categoryId/section/:sectionId',
     isAuthenticated,
     contentController.deleteSection
   );

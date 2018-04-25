@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { User } from '../user';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -15,7 +17,7 @@ export class SignInComponent implements OnInit {
     rememberMe: false
   };
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private toastrService: ToastrService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -23,9 +25,10 @@ export class SignInComponent implements OnInit {
   signIn() {
     const self = this;
     self.authService.signIn(this.user).subscribe(function (res) {
-      self.authService.setToken(res.token);
       if (res.msg) {
-        alert(res.msg);
+        self.authService.setToken(res.token);
+        self.toastrService.success(res.msg, 'Welcome!');
+        self.router.navigate(['/dashboard']);
       }
     });
   }

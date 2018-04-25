@@ -351,14 +351,6 @@
                 </li>
             </ul>
         </li>
-        <li class="search_bar hidden-sm-down">
-            <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search...">
-                <span class="input-group-addon">
-                    <i class="zmdi zmdi-search"></i>
-                </span>
-            </div>
-        </li>
         <li class="float-right">
             <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
                 <i class="zmdi zmdi-fullscreen"></i>
@@ -372,7 +364,7 @@
             <a href="javascript:void(0);" class="btn_overlay hidden-sm-down">
                 <i class="zmdi zmdi-sort-amount-desc"></i>
             </a>
-            <a routerLink="/auth/sign-in" class="mega-menu">
+            <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" routerLinkActive="active" class="mega-menu">
                 <i class="zmdi zmdi-power"></i>
             </a>
         </li>
