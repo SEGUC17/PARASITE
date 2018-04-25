@@ -75,6 +75,11 @@ var userSchema = mongoose.Schema({
         sparse: true,
         type: String
     },
+    interests: {
+        default: [],
+        required: false,
+        type: [String]
+    },
     isAdmin: {
         default: false,
         type: Boolean

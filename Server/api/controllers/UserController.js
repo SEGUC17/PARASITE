@@ -279,7 +279,13 @@ module.exports.signIn = function (req, res, next) {
                 return res.status(422).json({
                     data: null,
                     err: null,
-                    msg: 'Email Is Not Verified'
+                    msg: 'Email Is Not Verified!'
+                });
+            } else if (user.isBanned) {
+                return res.status(422).json({
+                    data: null,
+                    err: null,
+                    msg: 'User Is Banned!'
                 });
             }
 
@@ -369,8 +375,7 @@ module.exports.signUpChild = function (req, res, next) {
             data: null,
             err1: null,
             msg: field +
-                ' does not match the required data entry!' +
-                err1.message + '!!'
+                ' does not match the required data entry!'
         });
     }
     //---end of types and formats validations--///
@@ -398,7 +403,7 @@ module.exports.signUpChild = function (req, res, next) {
         return res.status(401).json({
             data: null,
             err2: null,
-            msg: 'you are missing required data entry '
+            msg: 'you are missing required data entry'
         });
     }
     //---end of emptiness validations--////
