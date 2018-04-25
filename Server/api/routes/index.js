@@ -23,6 +23,7 @@ var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
 var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
+var tagController = require('../controllers/TagController');
 
 module.exports = function (passport) {
 
@@ -118,7 +119,7 @@ module.exports = function (passport) {
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
   router.patch('/activities/:activityId/EditActivity', isAuthenticated, ActivityController.editActivity);
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', isAuthenticated, psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
   router.delete('/psychologist/delete/:id', optionalAuthentication, psychCtrl.deletePsychologist);
   router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
@@ -129,11 +130,8 @@ module.exports = function (passport) {
 
   // --------------Product Controller---------------------- //
   router.get('/market/getMarketPage/:entriesPerPage/:' +
-    'pageNumber/:limiters', productCtrl.getMarketPage);
-  router.get(
-    '/market/getNumberOfProducts/:limiters',
-    productCtrl.getNumberOfProducts
-  );
+    'pageNumber/:limiters', isAuthenticated, productCtrl.getMarketPage);
+
   router.post('/productrequest/evaluateRequest', isAuthenticated, productCtrl.evaluateRequest);
   router.get('/productrequest/getRequests', isAuthenticated, productCtrl.getRequests);
   router.post('/productrequest/createproduct', isAuthenticated, productCtrl.createProduct);
@@ -403,6 +401,15 @@ module.exports = function (passport) {
   //-------------------- Rating Endpoints ------------------//
   router.put('/rating', isAuthenticated, UserRatingController.postRating);
   //------------------- End of Rating Endpoints-----------//
+
+  //-------------------- Tag Endpoints ------------------//
+  router.get('/tags/getTags', tagController.getTags);
+  router.get('/tags/getSubtags/:id', tagController.getSubtags);
+  router.delete('/tags/deleteTag/:id', isAuthenticated, tagController.deleteTag);
+  router.delete('/tags/deleteSubtag/:id', isAuthenticated, tagController.deleteSubtag);
+  router.post('/tags/addTag', isAuthenticated, tagController.addTag);
+  router.post('/tags/addSubtag/:id', isAuthenticated, tagController.addSubtag);
+  //------------------- End of Tag Endpoints-----------//
 
   // -------------------------------------------------------------------- //
   module.exports = router;
