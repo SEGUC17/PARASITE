@@ -9,6 +9,7 @@ var compression = require('compression');
 var bodyParser = require('body-parser');
 var helmet = require('helmet');
 var passport = require('passport');
+var path = require('path');
 require('./api/config/passport')(passport);
 var router = require('./api/routes/index')(passport);
 // -------------------------- End of "Requirements" --------------------- //
@@ -23,6 +24,9 @@ app.set(config.SECRET);
 // @author: Wessam
 app.disable('etag');
 
+// Create link to Angular build directory
+var distDir = path.join(__dirname, '/dist/');
+app.use(express.static(distDir));
 // -------------------------- Middleware -------------------------------- //
 app.use(cors({
   credentials: true,
