@@ -33,7 +33,7 @@ export class StudyPlanListViewComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getStudyPlans();
@@ -43,14 +43,18 @@ export class StudyPlanListViewComponent implements OnInit {
     if (!this.username) {
       this.username = 'undefined';
     }
-    if (this.type === 'published') {
-      // to retreive the pages one by one the number has to be passed to the call each time incremented by one
-      // event occurs at the loading of the pages each time so if there is an event indx is incremented by one
-      // else its a one as we are at the start of loading the published plans
-      this.studyPlanService.getPublishedStudyPlans(pageEvent ? pageEvent.pageIndex + 1 : 1).subscribe(res => this.updateLayout(res));
-    } else {
-      this.authService.getAnotherUserData(['studyPlans'], this.username).subscribe(res => this.studyPlans = res.data.studyPlans);
-    }
+    this.authService.getUserData(['username', 'isChild']).subscribe(currUser => {
+      this.username = currUser.data.username;
+      this.currIsChild = currUser.data.isChild;
+      if (this.type === 'published') {
+        // to retreive the pages one by one the number has to be passed to the call each time incremented by one
+        // event occurs at the loading of the pages each time so if there is an event indx is incremented by one
+        // else its a one as we are at the start of loading the published plans
+        this.studyPlanService.getPublishedStudyPlans(pageEvent ? pageEvent.pageIndex + 1 : 1).subscribe(res => this.updateLayout(res));
+      } else {
+        this.authService.getAnotherUserData(['studyPlans'], this.username).subscribe(res => this.studyPlans = res.data.studyPlans);
+      }
+    });
   }
 
   updateLayout(res) {
