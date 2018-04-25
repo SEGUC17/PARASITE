@@ -6,6 +6,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
+var Report = require('../models/Report');
 var UserRating = require('../models/UserRating');
 
 var SearchController = require('../controllers/SearchController');
@@ -22,6 +23,7 @@ var messageController = require('../controllers/MessageController');
 var scheduleController = require('../controllers/ScheduleController');
 var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
+var tagController = require('../controllers/TagController');
 
 module.exports = function (passport) {
 
@@ -102,6 +104,12 @@ module.exports = function (passport) {
     DiscussionController.postCommentReply
   );
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
+  router.post(
+    '/activities/:activityId/book',
+    isAuthenticated,
+    ActivityController.isIndependent,
+    ActivityController.bookActivity
+  );
   router.delete(
     '/activities/:activityId/comments/:commentId',
     isAuthenticated,
@@ -117,7 +125,7 @@ module.exports = function (passport) {
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
   router.patch('/activities/:activityId/EditActivity', isAuthenticated, ActivityController.editActivity);
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', isAuthenticated, psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
   router.delete('/psychologist/delete/:id', optionalAuthentication, psychCtrl.deletePsychologist);
   router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
@@ -128,11 +136,8 @@ module.exports = function (passport) {
 
   // --------------Product Controller---------------------- //
   router.get('/market/getMarketPage/:entriesPerPage/:' +
-    'pageNumber/:limiters', productCtrl.getMarketPage);
-  router.get(
-    '/market/getNumberOfProducts/:limiters',
-    productCtrl.getNumberOfProducts
-  );
+    'pageNumber/:limiters', isAuthenticated, productCtrl.getMarketPage);
+
   router.post('/productrequest/evaluateRequest', isAuthenticated, productCtrl.evaluateRequest);
   router.get('/productrequest/getRequests', isAuthenticated, productCtrl.getRequests);
   router.post('/productrequest/createproduct', isAuthenticated, productCtrl.createProduct);
@@ -149,25 +154,26 @@ module.exports = function (passport) {
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
   router.post('/signIn', isNotAuthenticated, userController.signIn);
+  router.get('/isSignedIn', isNotAuthenticated, isAuthenticated);
   router.post('/childsignup', isAuthenticated, userController.signUpChild);
   router.post('/userData', isAuthenticated, userController.getUserData);
   router.post('/userData/:usernameOrEmail', isAuthenticated, userController.getAnotherUserData);
   router.get('/dupCheck/:usernameOrEmail', userController.isUserExist);
-  router.get('/resetpassword/:email', userController.resetpassword);
-  router.patch('/changepassword/:email', userController.changePassword);
+  router.get('/forgotPassword/:email', userController.forgotPassword);
+  router.patch('/forgotPassword/resetpassword/:id', userController.resetPassword);
   // ---------------------- End of User Controller --------------- //
 
   //-------------------- Study Plan Endpoints ------------------//
   router.get('/study-plan/getPublishedStudyPlans/:pageNumber', studyPlanController.getPublishedStudyPlans);
   router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.getPersonalStudyPlan);
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
-  router.patch('/study-plan/createStudyPlan/:username', studyPlanController.createStudyPlan);
+  router.patch('/study-plan/createStudyPlan', isAuthenticated, studyPlanController.createStudyPlan);
   router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
   router.post('/study-plan/PublishStudyPlan', isAuthenticated, studyPlanController.publishStudyPlan);
-  router.delete('/study-plan/deleteStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
+  router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
   router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deletePublishedStudyPlan);
   router.patch('/study-plan/assignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.assignStudyPlan);
-  router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', studyPlanController.unAssignStudyPlan);
+  router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.unAssignStudyPlan);
   router.patch('/study-plan/editPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.editPersonalStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
@@ -191,6 +197,8 @@ module.exports = function (passport) {
     '/admin/RespondContentRequest/:ContentRequestId/:ContentId', isAuthenticated,
     adminController.respondContentRequest
   );
+  router.get('/admin/getReports', isAuthenticated, adminController.getReports);
+
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
@@ -204,6 +212,7 @@ module.exports = function (passport) {
   router.patch('/profile/:username/UnlinkMyself', isAuthenticated, profileController.UnlinkIndependent);
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
   router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
+  router.post('/profile/ReportUser', isAuthenticated, profileController.reportUser);
 
 
   // ------------------- End of Profile module Endpoints-----------//
@@ -211,7 +220,7 @@ module.exports = function (passport) {
   // ---------------Schedule Controller Endpoints ---------------//
   router.patch('/schedule/SaveScheduleChanges/:username', isAuthenticated, scheduleController.updateSchedule);
   router.put('/schedule/addEvent/:username', isAuthenticated, scheduleController.addEvent);
-  router.get('/schedule/getPersonalSchedule/:username', scheduleController.getPersonalSchedule);
+  router.get('/schedule/getPersonalSchedule/:username', isAuthenticated, scheduleController.getPersonalSchedule);
   // ------------End of Schedule Controller Endpoints -----------//
 
   // --------------Content Module Endpoints---------------------- //
@@ -394,11 +403,24 @@ module.exports = function (passport) {
   //Get recently contacted users
   router.get('/message/contacts/:user', messageController.getRecentlyContacted);
 
+  // Registered user contacts admins
+  router.post('/contactus', messageController.contactAdmin);
+    //Unblocking users
+    router.patch('/message/unblock/:blocked', messageController.unBlock);
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//
   router.put('/rating', isAuthenticated, UserRatingController.postRating);
   //------------------- End of Rating Endpoints-----------//
+
+  //-------------------- Tag Endpoints ------------------//
+  router.get('/tags/getTags', tagController.getTags);
+  router.get('/tags/getSubtags/:id', tagController.getSubtags);
+  router.delete('/tags/deleteTag/:id', isAuthenticated, tagController.deleteTag);
+  router.delete('/tags/deleteSubtag/:id', isAuthenticated, tagController.deleteSubtag);
+  router.post('/tags/addTag', isAuthenticated, tagController.addTag);
+  router.post('/tags/addSubtag/:id', isAuthenticated, tagController.addSubtag);
+  //------------------- End of Tag Endpoints-----------//
 
   // -------------------------------------------------------------------- //
   module.exports = router;

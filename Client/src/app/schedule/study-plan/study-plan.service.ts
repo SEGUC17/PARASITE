@@ -23,8 +23,8 @@ export class StudyPlanService {
     return this.http.get(environment.apiUrl + 'study-plan/getPublishedStudyPlan/' + studyPlanID);
   }
 
-  createStudyPlan(username: String, studyPlan: StudyPlan): Observable<any> {
-    return this.http.patch(environment.apiUrl + 'study-plan/createStudyPlan/' + username, studyPlan);
+  createStudyPlan(studyPlan: StudyPlan): Observable<any> {
+    return this.http.patch(environment.apiUrl + 'study-plan/createStudyPlan', studyPlan);
   }
 
   getPublishedStudyPlans(pageNumber: Number): Observable<any> {
@@ -49,8 +49,8 @@ export class StudyPlanService {
     return this.http.patch(environment.apiUrl + 'study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
   }
 
-  deleteStudyPlan(username: String, studyPlanID: String): Observable<any> {
-    return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + username + '/' + studyPlanID);
+  deleteStudyPlan(studyPlanID: String): Observable<any> {
+    return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + studyPlanID);
 
   }
 

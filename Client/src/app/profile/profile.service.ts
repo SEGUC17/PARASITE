@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { AuthService } from '../auth/auth.service';
-import { environment } from '../../environments/environment'
+import { environment } from '../../environments/environment';
 import { apiUrl } from '../variables';
 
 
@@ -21,14 +21,15 @@ export class ProfileService {
   private apiUrl = environment.apiUrl;
   UserData = ['username'];
   private linkAnotherParentUrl = apiUrl + 'profile/LinkAnotherParent';
-  private UnlinkUrl = apiUrl + 'profile/UnLinkChild/';
-  private linkAsParentUrl = apiUrl + 'profile/AddAsAParent/';
+  private UnlinkUrl = apiUrl + 'profile/UnLinkChild';
+  private linkAsParentUrl = apiUrl + 'profile/AddAsAParent';
   private getChildrenUrl = apiUrl + 'profile/';
   private continueUrl = 'getChildren';
   private pwURL = apiUrl + 'profile/changePassword';
   private profileUrl = apiUrl + 'profile';
   private changeChildInfoUrl = apiUrl + 'profile/changeChildInfo';
   private changeInfoUrl = apiUrl + 'profile/ChangeInfo';
+  private reportUserUrl = apiUrl + 'profile/ReportUser';
   // private editeInfoUrl = 'http://localhost:3000/api/profile/editInfo';
 
   // Author: Yomna
@@ -38,13 +39,13 @@ export class ProfileService {
 
 
   Unlink(childrenList, Id): Observable<any> {
-    return this.http.patch<any>(`${this.UnlinkUrl}/${Id}`, childrenList, httpOptions);
+    return this.http.put<any>(`${this.UnlinkUrl}/${Id}`, childrenList, httpOptions);
 
   }
 
 
   linkAsParent(child, vId): Observable<any> {
-    return this.http.patch<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions);
+    return this.http.put<any>(`${this.linkAsParentUrl}/${vId}`, child, httpOptions);
   }
   // ------------------------------------------------------------------------
 
@@ -86,6 +87,10 @@ export class ProfileService {
   UnlinkMyself(visitedParentUsername): any {
     // adding username of the visited parent to the patch request
     return this.http.patch('http://localhost:3000/api/profile/' + visitedParentUsername + '/UnlinkMyself', null);
+  }
+
+  reportUser(report, Id): any {
+    return this.http.post(this.reportUserUrl, report, httpOptions);
   }
 
 }

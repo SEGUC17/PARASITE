@@ -86,36 +86,38 @@ module.exports.getActivity = function (req, res, next) {
         isAdmin = user.isAdmin;
     }
 
-    Activity.findById(activityId, function (err, activity) {
-        if (err) {
-            return next(err);
-        }
-        if (!activity) {
-            return res.status(404).json({
-                data: null,
-                err: 'Activity doesn\'t exist',
-                msg: null
-            });
-        }
-        var creatorName = activity.creator;
-
-        if (activity.status !== 'verified') {
-
-            if (!isAdmin && creatorName !== user.username) {
-                return res.status(403).json({
+    Activity.findById(activityId).
+        populate('bookedBy').
+        exec(function (err, activity) {
+            if (err) {
+                return next(err);
+            }
+            if (!activity) {
+                return res.status(404).json({
                     data: null,
-                    err: 'this activity isn\'t verified yet',
+                    err: 'Activity doesn\'t exist',
                     msg: null
                 });
             }
-        }
+            var creatorName = activity.creator;
 
-        return res.status(200).json({
-            data: activity,
-            err: null,
-            msg: 'activity retrieved successfully'
+            if (activity.status !== 'verified') {
+
+                if (!isAdmin && creatorName !== user.username) {
+                    return res.status(403).json({
+                        data: null,
+                        err: 'this activity isn\'t verified yet',
+                        msg: null
+                    });
+                }
+            }
+
+            return res.status(200).json({
+                data: activity,
+                err: null,
+                msg: 'activity retrieved successfully'
+            });
         });
-    });
 };
 
 
@@ -283,53 +285,146 @@ module.exports.prepareActivity = function (req, res, next) {
 
 // Author: Heidi
 module.exports.editActivity = function (req, res, next) {
+    console.log('current :' + req.user);
     var Status = 'pending';
-if (req.user.isAdmin) {
-    Status = 'verified';
-}
-// finding activity by id
-Activity.findById(req.params.activityId).exec(function (err, activity) {
-if (err) {
-return next(err);
+    if (req.user.isAdmin) {
+        Status = 'verified';
+    }
+    // finding activity by id
+    Activity.findById(req.params.activityId).exec(function (err, activity) {
+        if (err) {
+            return next(err);
 
         }
-// only activity creator can edit his/her own activity
-if (!(activity.creator == req.user.username)) {
-    return res.status(403).send({
-        data: null,
-        err: null,
-        msg: 'Action not allowed'
-    });
-}
-// if status is booked already it cannot be edited
-if (activity.bookedBy.length == 0) {
-    return res.status(403).send({
-        data: null,
-        err: null,
-        msg: 'no edition allowed'
-    });
-}
-// updating activity
-Activity.findByIdAndUpdate(req.params.activityId, {
- $set: {
-description: req.body.description,
-fromDateTime: req.body.fromDateTime,
- name: req.body.name,
-price: req.body.price,
-status: Status,
-toDateTime: req.body.toDateTime
-
-}
- }, { new: true }).exec(function(error, updatedActivity) {
-    if (err) {
-        return next(err);
+        // only activity creator can edit his/her own activity
+        if (!(activity.creator == req.user.username)) {
+            return res.status(403).send({
+                data: null,
+                err: null,
+                msg: 'Action not allowed'
+            });
+        }
+        // if status is booked already it cannot be edited
+        if (activity.bookedBy.length == 0) {
+            return res.status(403).send({
+                data: null,
+                err: null,
+                msg: 'no edition allowed'
+            });
+        }
+        // updating activity
+        Activity.findByIdAndUpdate(req.params.activityId, {
+            $set: {
+                description: req.body.description,
+                fromDateTime: req.body.fromDateTime,
+                name: req.body.name,
+                price: req.body.price,
+                status: Status,
+                toDateTime: req.body.toDateTime
+            }
+        }, { new: true }).exec(function (error, updatedActivity) {
+            if (err) {
+                return next(err);
             }
 
-return res.status(200).send({
-    data: updatedActivity,
-    err: null,
-    msg: 'Activity is updated'
-});
-});
-});
+            return res.status(200).send({
+                data: updatedActivity,
+                err: null,
+                msg: 'Activity is updated'
+            });
+        });
+    });
+};
+
+
+module.exports.isIndependent = function(req, res, next) {
+
+    /*
+     * Middleware for making sure that the user is independent
+     *
+     * @author: Wessam
+     */
+
+    if (req.user.isChild) {
+        return res.status(403).json({
+            data: null,
+            err: 'You have to be independent to complete this action',
+            msg: null
+        });
+    }
+
+    return next();
+};
+
+module.exports.bookActivity = function(req, res, next) {
+
+    /*
+     * Middleware for booking activities for child or for self
+     *
+     * BODY
+     *  {
+     *      username: String
+     *  }
+     * @author: Wessam
+     */
+
+    var reqUser = req.user;
+    var bookingUser = req.body.username;
+
+    Activity.findById(req.params.activityId, function(err, activity) {
+        if (err) {
+            return next(err);
+        }
+        if (!activity) {
+            return res.status(404).json({
+                data: null,
+                err: 'Activity doesn\'t exist',
+                msg: null
+            });
+        }
+        if (activity.status !== 'verified') {
+            return res.status(403).json({
+                data: null,
+                err: 'Activity isn\'t verified yet.',
+                msg: null
+            });
+        }
+        if (activity.bookedBy.indexOf(bookingUser) > -1) {
+            return res.status(400).json({
+                data: null,
+                err: 'User already booked the activity',
+                msg: null
+            });
+        }
+        if (
+            bookingUser === reqUser.username ||
+            reqUser.children.indexOf(bookingUser) > -1) {
+            // TODO: Payment
+            Activity.findOneAndUpdate(
+                { _id: req.params.activityId },
+                { $push: { bookedBy: bookingUser } },
+                {
+                    new: true,
+                    runValidators: true
+                },
+                function(err2, activity2) {
+                    if (err2) {
+                        return next(err2);
+                    }
+
+                    return res.status(201).json({
+                        data: activity2.bookedBy,
+                        err: null,
+                        msg: 'Booked successfully'
+                    });
+                }
+            );
+        } else {
+            return res.status(403).json({
+                data: null,
+                err: 'You can\'t book for this user',
+                msg: null
+            });
+        }
+    });
 };

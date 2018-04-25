@@ -1,5 +1,5 @@
 import { CalendarEvent } from 'calendar-utils';
-import { Rating } from './star-rating/rating';
+import { UserRating } from '../../shared/rating/rating';
 
 export class StudyPlan {
     _id?: string;
@@ -9,7 +9,7 @@ export class StudyPlan {
     description: string;
     assigned?: Boolean;
     published?: Boolean;
-    rating?: Rating;
+    rating?: UserRating;
 
     constructor(title: string, creator: string, events: CalendarEvent[], description: string) {
         this.title = title;

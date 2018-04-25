@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
+import { CalendarComponent } from '../calendar/calendar.component';
 import { StudyPlan } from './study-plan';
 import { Rating } from './star-rating/rating';
 import { StudyPlanService } from './study-plan.service';
@@ -44,49 +45,33 @@ const colors: any = {
   styleUrls: ['./study-plan.component.scss']
 })
 export class StudyPlanComponent implements OnInit {
-  @ViewChild('modalContent') modalContent: TemplateRef<any>;
   // routing parameters
   type: string;
   _id: String;
-  username: String;
+  profileUsername: string;
+
+  // assign modal
+  selectedUser: String;
+
+  // user info
+  currUsername: string;
+  currIsChild: boolean;
+  currIsAdmin: boolean;
   listOfChildren: any[];
 
-  // Users
-  loggedInUser: any = {};
-  @Input() profileUser;
-
   // end of routing parameters
-  rating = 0;
-  starCount = 5;
-  starColor = 'primary';
   studyPlan: StudyPlan;
   tempStudyPlan: StudyPlan;
   description: string;
   editorContent: SafeHtml;
-  view = 'month';
-  viewDate: Date = new Date();
   events: CalendarEvent[];
-  activeDayIsOpen: Boolean = false;
+
+  // assign button binding
+  assignFunction;
+  assignText;
+
+  // Utility
   refresh: Subject<any> = new Subject();
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fa fa-fw fa-pencil"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      }
-    },
-    {
-      label: '<i class="fa fa-fw fa-times"></i>',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter(iEvent => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      }
-    }
-  ];
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
     private router: Router, private _AuthService: AuthService) { }
@@ -96,28 +81,37 @@ export class StudyPlanComponent implements OnInit {
       creator: '',
       description: '',
       events: [],
-      title: ''
+      title: '',
+      rating: {
+        ratedId: '',
+        rating: 0,
+        type: 'studyPlan'
+      }
     };
-    this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
-      this.listOfChildren = user.data.children;
-      console.log(user.data.children);
-    });
     this.description = '';
     this.editorContent = '';
     this.events = [];
+    this._AuthService.getUserData(['username', 'isChild', 'isAdmin', 'children']).subscribe((res) => {
+      this.currUsername = res.data.username;
+      this.currIsChild = res.data.isChild;
+      this.currIsAdmin = res.data.isAdmin;
+      this.listOfChildren = res.data.children;
+    });
     this.route.params.subscribe(params => {
       this.type = params.type;
       this._id = params.id;
-      this.username = params.username;
+      this.profileUsername = params.username;
     });
 
     if (this.type === 'personal') {
-      this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
+      this.studyPlanService.getPersonalStudyPlan(this.profileUsername, this._id)
         .subscribe(res => {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
           this.description = this.studyPlan.description;
           this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
+          this.assignFunction = this.studyPlan.assigned ? this.unAssign : this.assign;
+          this.assignText = this.studyPlan.assigned ? 'Unassign' : 'Assign';
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);
@@ -130,54 +124,12 @@ export class StudyPlanComponent implements OnInit {
           this.events = this.studyPlan.events;
           this.description = this.studyPlan.description;
           this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
-          if (this.studyPlan.rating) {
-            this.rating = this.studyPlan.rating.value;
-          }
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
             this.events[index].end = new Date(this.events[index].end);
           }
         });
     }
-  }
-
-  fetchEvents(): void {
-    const getStart: any = {
-      month: startOfMonth,
-      week: startOfWeek,
-      day: startOfDay
-    }[this.view];
-
-    const getEnd: any = {
-      month: endOfMonth,
-      week: endOfWeek,
-      day: endOfDay
-    }[this.view];
-
-    this.activeDayIsOpen = false;
-  }
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-        this.viewDate = date;
-      }
-    }
-  }
-
-  handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-  }
-
-  onRatingChanged(rating) {
-    this.rating = rating;
-    this.studyPlanService.rateStudyPlan(this._id, rating).subscribe();
   }
 
   publish(): void {
@@ -203,42 +155,66 @@ export class StudyPlanComponent implements OnInit {
     this.tempStudyPlan = this.studyPlan;
     this.tempStudyPlan._id = undefined;
     this.studyPlanService
-      .createStudyPlan(this.username, this.tempStudyPlan)
+      .createStudyPlan(this.tempStudyPlan)
       .subscribe(res => {
         alert(res.msg);
       });
   }
 
-  assign(): void {
+  assign = function () {
     // this.studyPlan.assigned = true;
-    if (this.loggedInUser.username === this.profileUser) {
-      this.studyPlanService.assignStudyPlan(this.username, this._id).subscribe(
+      this.studyPlanService.assignStudyPlan(this.selectedUser, this._id).subscribe(
         res => {
-          if (res.msg === 'StudyPlan assigned successfully.') {
+          if (res.msg === 'Study plan assigned successfully') {
             alert(res.msg);
+            this.refreshDocument();
           } else {
             alert('An error occured while assigning the study plan');
           }
         });
-    }
 
-  }
+  };
 
-  unAssign(): void {
+  unAssign = function () {
     // this.studyPlan.assigned = false;
-    if (this.loggedInUser.username === this.profileUser) {
-      this.studyPlanService.unAssignStudyPlan(this.username, this._id).subscribe(
+      this.studyPlanService.unAssignStudyPlan(this.profileUsername, this._id).subscribe(
         res => {
-          if (res.msg === 'StudyPlan Unassigned from me.') {
+          if (res.msg === 'Study plan unassigned successfully') {
             alert(res.msg);
+            this.refreshDocument();
           } else {
             alert('An error occured while Unassigning the study plan from me');
           }
         });
-    }
-  }
+  };
 
   edit(): void {
-    this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.username]);
+    this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.profileUsername]);
+  }
+
+  createEvent(eventTitle: string, eventDescription: string, start: Date, end: Date) {
+    this.events.push({
+      title: eventTitle,
+      start: start,
+      end: end,
+      color: {
+        primary: '#2196f3',
+        secondary: '#FAE3E3'
+      },
+      draggable: true,
+      meta: {
+        description: eventDescription
+      }
+    });
+
+    console.log(start);
+    console.log(end);
+  }
+  refreshDocument() {
+    // Light refresh to show any changes
+    const self = this;
+    setTimeout(function () {
+      return self.refresh.next();
+    }, 0);
   }
 }

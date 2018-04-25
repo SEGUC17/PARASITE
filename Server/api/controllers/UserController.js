@@ -18,7 +18,6 @@ var isDate = require('../utils/validators/is-date');
 var isString = require('../utils/validators/is-string');
 var isNotEmpty = require('../utils/validators/not-empty');
 var Encryption = require('../utils/encryption/encryption');
-var emails = require('../utils/emails/email-verification');
 // ---------------------- End of "Validators" ---------------------- //
 
 
@@ -279,7 +278,13 @@ module.exports.signIn = function (req, res, next) {
                 return res.status(422).json({
                     data: null,
                     err: null,
-                    msg: 'Email Is Not Verified'
+                    msg: 'Email Is Not Verified!'
+                });
+            } else if (user.isBanned) {
+                return res.status(422).json({
+                    data: null,
+                    err: null,
+                    msg: 'User Is Banned!'
                 });
             }
 
@@ -369,8 +374,7 @@ module.exports.signUpChild = function (req, res, next) {
             data: null,
             err1: null,
             msg: field +
-                ' does not match the required data entry!' +
-                err1.message + '!!'
+                ' does not match the required data entry!'
         });
     }
     //---end of types and formats validations--///
@@ -398,7 +402,7 @@ module.exports.signUpChild = function (req, res, next) {
         return res.status(401).json({
             data: null,
             err2: null,
-            msg: 'you are missing required data entry '
+            msg: 'you are missing required data entry'
         });
     }
     //---end of emptiness validations--////
@@ -660,8 +664,7 @@ module.exports.isUserExist = function (req, res, next) {
 
 };
 
-module.exports.resetpassword = function (req, res, next) {
-    console.log('entered resetPassword backend method');
+module.exports.forgotPassword = function (req, res, next) {
     // password gets trimmed of spaces
     req.params.email = req.params.email.toLowerCase().trim();
     // check if the user exits
@@ -671,24 +674,24 @@ module.exports.resetpassword = function (req, res, next) {
             if (err) {
                 throw err;
             } else if (user) {
-                // generate random code to send to user
-                var code = Math.random().toString(36).
-                    substring(7);
+                console.log(user.firstName);
+                emailVerification.send(
+                user.email,
+                config.FRONTEND_URI +
+                 'auth/forgotPassword/resetpassword/' + user._id
+                );
 
-                emails.sendEmailVerification(user.email, code);
-
-                return res.status(201).json({
-                    code: code,
+                 return res.status(201).json({
                     data: null,
                     err: null,
-                    msg: 'User found!'
+                    msg: 'An email was sent to the provided email'
                 });
 
             } else if (!user) {
                 return res.status(404).json({
                     data: null,
                     err: null,
-                    msg: 'User was not found!'
+                    msg: 'There is no account for the provided email address!'
                 });
             }
 
@@ -697,34 +700,32 @@ module.exports.resetpassword = function (req, res, next) {
 
 };
 
-module.exports.changePassword = function (req, res, next) {
-    console.log('entered changePAssword backend method');
-    req.params.email = req.params.email.toLowerCase().trim();
-    // hash incoming password
-    Encryption.hashPassword(req.body.newpw, function (err3, hash) {
-        if (err3) {
-            console.log('entered err3 in changePassword');
-
-            return next(err3);
-        }
-        // update user password with hash
-        User.findOneAndUpdate(
-            { email: req.params.email },
-            { password: hash }, function (err, user2) {
-                if (err) {
-                    console.log('entered err in changePassword');
-
-                    return next(err);
+module.exports.resetPassword = function (req, res, next) {
+   
+    User.findById({ '_id': req.params.id }, function(err, user) {
+        if (err) {
+            return next(err);
+        } else if (user) {
+            Encryption.hashPassword('12345678910', function (errors, hash) {
+                if (errors) {
+                    return next(errors);
                 }
-                console.log('returned res 200');
+            User.findByIdAndUpdate(
+                { '_id': req.params.id },
+                { 'password': hash }, function (error) {
+                    if (error) {
+                        return next(error);
+                    }
+                }
+            );
 
-                return res.status(200).json({
-                    data: user2,
-                    err: null,
-                    msg: 'User password was reset successfully.'
-                });
+                        return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'User password was reset successfully.'
+                    });
+               });
             }
-        );
-    });
-};
+         });
+        };
 
