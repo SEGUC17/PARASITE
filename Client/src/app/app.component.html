@@ -2,7 +2,7 @@
 <div class="page-loader-wrapper">
     <div class="loader">
         <div class="m-t-30">
-            <img class="zmdi-hc-spin" src="assets/images/logo.svg" width="48" height="48" alt="sQuare">
+            <img class="zmdi-hc-spin" src="assets/images/favicon.ico" width="48" height="48" alt="sQuare">
         </div>
         <p>Please wait...</p>
     </div>
@@ -142,8 +142,8 @@
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="bars"></a>
                 <a class="navbar-brand" routerLink="/dashboard">
-                    <img src="assets/images/logo.svg" width="30" alt="sQuare">
-                    <span class="m-l-10">sQuare</span>
+                    <img src="assets/images/favicon.ico" width="30" alt="sQuare">
+                    <span class="m-l-10">Nawwar</span>
                 </a>
             </div>
         </li>
@@ -376,45 +376,10 @@
     <aside id="leftsidebar" class="sidebar">
         <div class="menu">
             <ul class="list">
-                <li>
-                    <div class="user-info m-b-20">
-                        <div class="image">
-                            <a routerLink="/sample-pages/profile">
-                                <img src="assets/images/profile_av.jpg" alt="User">
-                            </a>
-                        </div>
-                        <div class="detail">
-                            <h4>Michael</h4>
-                            <p class="m-b-0">Manager</p>
-                            <a routerLink="/app/calendar" title="Events">
-                                <i class="zmdi zmdi-calendar"></i>
-                            </a>
-                            <a routerLink="/message" title="Inbox">
-                                <i class="zmdi zmdi-email"></i>
-                            </a>
-                            <a routerLink="/app/contact" title="Contact List">
-                                <i class="zmdi zmdi-account-box-phone"></i>
-                            </a>
-                            <div class="row">
-                                <div class="col-4 p-r-0">
-                                    <h6 class="m-b-5">852</h6>
-                                    <small>Sales</small>
-                                </div>
-                                <div class="col-4 p-l-0 p-r-0">
-                                    <h6 class="m-b-5">513</h6>
-                                    <small>Order</small>
-                                </div>
-                                <div class="col-4 p-l-0">
-                                    <h6 class="m-b-5">$34M</h6>
-                                    <small>Revenue</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
                 <li class="header">MAIN</li>
                 <li routerLinkActive="active open" *ngFor="let link of links">
                     <a [routerLink]="link.url">
+                       <i *ngIf="link.name=='Market'"class="zmdi zmdi-shopping-cart"></i>
                         <span>{{link.name}}</span>
                     </a>
                 </li>

@@ -124,6 +124,7 @@ module.exports.editRequest = function (req, res, next) {
   }
 };
 
+// extract the limits out of the json object passed in the parameters of the get psych request
 var limits = function (toFind) {
   var limiters = { '$text': { '$search': toFind.search } };
   if (toFind.address) {
@@ -135,6 +136,8 @@ var limits = function (toFind) {
 
   return limiters;
 };
+// extract the search option (sort, entries per page and page number)
+// out of the json object passed in the parameters of the get psych request
 var options = function (toFind) {
 
   var ret = {
@@ -161,6 +164,19 @@ module.exports.getPsychologists = function (req, res, next) {
   // extract limiters out of header
   var toFind = JSON.parse(req.params.limiters);
   // get the search options (sort, entries/page, page #)
+  var valid = toFind.entriesPerPage && toFind.pageNumber && !isNaN(toFind.entriesPerPage) &&
+  !isNaN(toFind.entriesPerPage) &&
+  (!toFind.sort || typeof toFind.sort === 'string') &&
+  (!toFind.address || typeof toFind.address === 'string') &&
+  (!toFind.search || typeof toFind.search === 'string');
+      // the request was not valid
+      if (!valid) {
+        return res.status(422).json({
+            data: null,
+            err: 'The required fields were missing or of wrong type.',
+            msg: null
+        });
+    }
   var opt = options(toFind);
   // get the non null limiters
   var limiters = limits(toFind);

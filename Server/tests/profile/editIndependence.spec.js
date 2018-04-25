@@ -59,7 +59,8 @@ describe('/PATCH/ ChildrenIndependence', function () {
                 return console.log(err);
             }
 // testing patch request
-   chai.request(server).patch('/api/profile/' +
+   chai.request(server).
+   patch('/api/profile/' +
         savedCategory.username + '/EditChildIndependence').
         send(savedCategory).
                    end(function (error, res) {

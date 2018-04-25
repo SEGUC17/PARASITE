@@ -28,6 +28,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ViewPsychRequestsComponent } from './view-psych-requests/view-psych-requests.component';
 import { AuthService } from '../auth/auth.service';
 import { MatIconModule } from '@angular/material/icon';
+import { ViewReportsComponent } from './view-reports/view-reports.component';
 import { SharedModule } from '../shared/shared.module';
 import { CategoryCreateComponent } from './category-management/category-create/category-create.component';
 import { CategoryUpdateComponent } from './category-management/category-update/category-update.component';
@@ -69,6 +70,7 @@ import { SectionDeleteComponent } from './category-management/section-delete/sec
     ViewContentRequestsComponent,
     ViewPsychRequestsComponent,
     PublishRequestsComponent,
+    ViewReportsComponent,
     CategoryCreateComponent,
     CategoryUpdateComponent,
     CategoryDeleteComponent,
