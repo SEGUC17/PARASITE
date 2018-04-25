@@ -4,6 +4,7 @@ import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } fr
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
 import { AuthService } from '../../auth/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   isSameMonth,
   isSameDay,
@@ -80,7 +81,7 @@ export class ScheduleComponent implements OnInit {
 
 
 
-  constructor(private scheduleService: ScheduleService, private _AuthService: AuthService) { }
+  constructor(private scheduleService: ScheduleService, private route: ActivatedRoute, private _AuthService: AuthService) { }
 
   ngOnInit() {
     this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
@@ -88,7 +89,12 @@ export class ScheduleComponent implements OnInit {
       this.loggedInUser.isChild = user.data.isChild;
       this.loggedInUser.children = user.data.children;
       if (!this.profileUser) {
-        this.profileUser = this.loggedInUser.username;
+        this.route.params.subscribe( params => {
+          this.profileUser = params.username;
+          if (!this.profileUser) {
+            this.profileUser = this.loggedInUser.username;
+          }
+        });
       }
       this.fetchAndDisplay();
     });
