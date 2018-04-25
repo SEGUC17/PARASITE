@@ -17,6 +17,7 @@ var user = {
   birthdate: '2/2/1997',
   email: 'ibrahim@gmail.com',
   firstName: 'ibrahim',
+  isEmailVerified: true,
   lastName: 'ali',
   password: '123456789',
   phone: '01155633833',
@@ -49,50 +50,60 @@ describe('/DELETE/:id message', function () {
 
   it('should delete a message given its id', function (done) {
 
-    // sign up and be authenticated
-    chai.request(server)
-      .post('/api/signUp')
-      .send(user)
-      .end(function (err, response) {
-        if (err) {
-          return console.log(err);
-        }
-        response.should.have.status(201);
-        token = response.body.token;
+    User.create(user, function(error) {
+      if (error) {
+        return done(error);
+      }
 
-        // get username of logged in user
-        chai.request(server).post('/api/userData').
-          send(['username']).
-          set('Authorization', token).
-          end(function (err, result) {
-            if (err) {
-              return console.log(err);
-            }
-            result.should.have.status(200);
+      // sign in and be authenticated
+    chai.request(server).
+    post('/api/signIn').
+    send({
+      'password': user.password,
+      'username': user.username
+  }).
+    end(function (err, response) {
+      if (err) {
+        return console.log(err);
+      }
+      response.should.have.status(200);
+      token = response.body.token;
 
-            var message = new Message({
-              body: 'hi',
-              recipient: 'test',
-              sender: result.body.data.username
-            });
+      // get username of logged in user
+      chai.request(server).post('/api/userData').
+        send(['username']).
+        set('Authorization', token).
+        end(function (err, result) {
+          if (err) {
+            return console.log(err);
+          }
+          result.should.have.status(200);
 
-            chai.request(server).
-              delete('/api/message/' + message._id).
-              set('Authorization', token).
-              end(function (error, res) {
-                if (error) {
-                  return console.log(error);
-                }
-                // console.log(res.body.data);
-                res.should.have.status(200);
-                res.body.should.be.a('object');
-                res.body.data.should.have.property('ok').eql(1);
-                res.body.data.should.have.property('n').eql(0);
-
-                done();
-              });
+          var message = new Message({
+            body: 'hi',
+            recipient: 'test',
+            sender: result.body.data.username
           });
-      });
+
+          chai.request(server).
+            delete('/api/message/' + message._id).
+            set('Authorization', token).
+            end(function (error, res) {
+              if (error) {
+                return console.log(error);
+              }
+              // console.log(res.body.data);
+              res.should.have.status(200);
+              res.body.should.be.a('object');
+              res.body.data.should.have.property('ok').eql(1);
+              res.body.data.should.have.property('n').eql(0);
+
+              done();
+            });
+        });
+    });
+
+    });
   });
   // --- Mockgoose Termination --- //
   after(function (done) {

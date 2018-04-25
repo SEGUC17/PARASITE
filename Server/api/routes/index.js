@@ -402,6 +402,10 @@ module.exports = function (passport) {
   //Get recently contacted users
   router.get('/message/contacts/:user', messageController.getRecentlyContacted);
 
+  // Registered user contacts admins
+  router.post('/contactus', messageController.contactAdmin);
+    //Unblocking users
+    router.patch('/message/unblock/:blocked', messageController.unBlock);
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//

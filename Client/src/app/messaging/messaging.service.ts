@@ -49,4 +49,9 @@ export class MessageService {
     return this.http.get<any>(this.url + 'message/contacts/' + user);
   }
 
+  contactus(toSend: any): Observable<any> {
+    return this.http.post<any> (this.url + 'contactus', toSend, httpOptions);
+
+  }
+
 }

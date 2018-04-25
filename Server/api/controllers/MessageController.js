@@ -110,15 +110,21 @@ module.exports.deleteMessage = function(req, res, next) {
  );
 };
 
+// get recently contacted users
 module.exports.getRecentlyContacted = function(req, res, next) {
 
-  Message.find({ sender: req.params.user }).sort({ sentAt: -1 }).
-  limit(10).
-  exec(function(err, users) {
+  Message.aggregate([
+    { $match: { sender: req.params.user } }, // get records where sender is equal to the input parameter user
+    { $group: { _id: '$recipient', sentAt: {$max: '$sentAt'} } }, // group records by recipient and most recent sentAt date
+    { $sort: { sentAt: -1 } }, // order records descendingly by sentAt
+    { $limit: 10 } // get the first 10 elements
+   ]).
+   exec(function(err, users) {
     if (err) {
       return next(err);
     }
 
+    // console.log(users);
     return res.status(200).json({
       data: users,
       err: null,
@@ -127,3 +133,70 @@ module.exports.getRecentlyContacted = function(req, res, next) {
   });
 };
 
+module.exports.contactAdmin = function (req, res, next) {
+  console.log('in here');
+ User.find({ 'isAdmin': true }, function (err, users) {
+    if (err) {
+      return next(err);
+    } else if (users) {
+      for (var num = 0; num < users.length; num += 1) {
+        req.body.recipient = users[num].username;
+        console.log(users[num].firstName);
+        Message.create(
+        req.body
+      , function(error, posted) {
+        if (err) {
+          return next(err);
+      }
+     }
+    );
+   }
+
+    return res.status(200).json({
+      data: null,
+      err: null,
+      msg: 'Message Sent!'
+    });
+    }
+  });
+ };
+
+module.exports.unBlock = function(req, res, next) {
+    var blockedUser = req.params.blocked;
+  //  console.log('username of blocked: ', blocked);
+  // console.log('unBlock CONT. ID of user is: ', req.body._id);
+    User.findById(
+      req.body._id,
+     { new: true }, function (err, updatedob) {
+     if (err) {
+           console.log('entered the error stage of update');
+
+         return res.status(402).json({
+             data: null,
+             msg: 'error occurred during unblocking the user'
+         });
+     }
+    
+    else {
+       updatedob=req.body;
+       //   console.log('id of updatedob: ', updatedob._id);
+         // console.log('username of updatedob: ', updatedob.username);
+
+          for(let i=0; i<req.body.blocked.length; i++)
+             {
+                 if(req.body.blocked[i] == blockedUser)
+                 {
+                   console.log('this user is no longer blocked');
+                   req.body.blocked[i].remove();
+                 }//end if
+             }// end for 
+       
+     return res.status(200).json({
+      data: updatedob,
+      err: null,
+      msg: 'This user is no longer blocked'
+     });
+    }//end else
+    }//end function
+);
+};
