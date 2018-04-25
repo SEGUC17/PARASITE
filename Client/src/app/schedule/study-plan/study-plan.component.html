@@ -10,9 +10,9 @@
               <i class="zmdi zmdi-home"></i>sQuare</a>
           </li>
           <li class="breadcrumb-item">
-            <a routerLink="{{ type === 'personal' ? '/profile/' + username : '/published-study-plans' }}">
+            <a routerLink="{{ type === 'personal' ? '/profile/' + profileUsername : '/published-study-plans' }}">
               <i class="{{ type === 'personal' ? 'zmdi zmdi-account-circle' : 'zmdi zmdi-graduation-cap' }}">
-              </i>{{ type === 'personal' ? ' ' + username : ' Study Plans' }}</a>
+              </i>{{ type === 'personal' ? ' ' + profileUsername : ' Study Plans' }}</a>
           </li>
           <li class="breadcrumb-item active">{{ studyPlan.title }}</li>
         </ul>
@@ -43,12 +43,13 @@
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <div class="form-line">
-            <select [(ngModel)]="selectedUser" name="assignFunctionTarget">
-              <option>{{ username }}</option>
-              <option  *ngFor="let child of listOfChildren" >{{child.username}}</option>
-            </select>
-          </div>
+          <span class="reset">
+              <input type="text" [(ngModel)]="selectedUser" name="assignFunctionTarget" list="userList">
+              <datalist id="userList">
+                  <option class="reset">{{ profileUsername }}</option>
+                  <option  *ngFor="let child of listOfChildren" >{{child.username}}</option>
+              </datalist>
+          </span>
         </div>
       </div>
       <div class="modal-footer">

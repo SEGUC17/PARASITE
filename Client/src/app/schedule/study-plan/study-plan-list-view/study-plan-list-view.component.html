@@ -37,7 +37,7 @@
             <div class="body">
               <p>
                 <a class="btn btn-primary" routerLink="/study-plan/{{type}}/{{plan._id}}/{{username}}">View</a>
-                <button class="btn btn-primary" (click)="studyPlans.splice(index,1); delete(username,plan)" color="primary" *ngIf="!currIsChild">Delete</button>
+                <button class="btn btn-primary" (click)="studyPlans.splice(index,1); delete(plan)" color="primary" *ngIf="!currIsChild">Delete</button>
               </p>
             </div>
           </div>
