@@ -126,7 +126,7 @@ export class MarketComponent implements OnInit {
       if (this.products.indexOf(prod) !== -1) {
         let dialogRef = this.dialog.open(ProductDetailComponent, {
           width: '80%',
-          height: '80%',
+          maxHeight: '80%',
           panelClass: 'product-dialog',
           data: { product: prod, curUser: this.user.username, isAdmin: this.user.isAdmin }
         });
