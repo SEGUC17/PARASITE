@@ -110,13 +110,14 @@ module.exports.deleteMessage = function(req, res, next) {
  );
 };
 
+// get recently contacted users
 module.exports.getRecentlyContacted = function(req, res, next) {
 
   Message.aggregate([
-    { $match: { sender: req.params.user } },
-    { $group: { _id: '$recipient', sentAt: {$max: '$sentAt'} } },
-    { $sort: { sentAt: -1 } },
-    { $limit: 10 }
+    { $match: { sender: req.params.user } }, // get records where sender is equal to the input parameter user
+    { $group: { _id: '$recipient', sentAt: {$max: '$sentAt'} } }, // group records by recipient and most recent sentAt date
+    { $sort: { sentAt: -1 } }, // order records descendingly by sentAt
+    { $limit: 10 } // get the first 10 elements
    ]).
    exec(function(err, users) {
     if (err) {

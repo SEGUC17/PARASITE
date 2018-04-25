@@ -69,7 +69,7 @@ describe('/GET sent messages', function () {
             sender: 'blah'
         });
 
-        // sign up and be authenticated
+        // sign in and be authenticated
         chai.request(server).
             post('/api/signIn').
             send({
