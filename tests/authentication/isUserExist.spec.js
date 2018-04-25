@@ -39,7 +39,7 @@ describe('isUserExist', function () {
         this.johnDoe = {
             address: 'John Address Sample',
             birthdate: '1/1/1980',
-            email: 'johndoe@gmail.com',
+            email: 'johndoe@s.s',
             firstName: 'John',
             isTeacher: true,
             lastName: 'Doe',
@@ -50,7 +50,7 @@ describe('isUserExist', function () {
         this.janeDoe = {
             address: 'Jane Address Sample',
             birthdate: '1/1/2000',
-            email: 'janedoe@gmail.com',
+            email: 'janedoe@s.s',
             firstName: 'Jane',
             isTeacher: true,
             lastName: 'Doe',
