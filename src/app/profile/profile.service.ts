@@ -5,20 +5,19 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { AuthService } from '../auth/auth.service';
 import { environment } from '../../environments/environment';
-import { apiUrl } from '../variables';
 
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
+const apiUrl = environment.apiUrl;
 
 @Injectable()
 
 export class ProfileService {
-  // ------------- Profile Page Method(s) -------------- AUTHOR: H
+  // ------------- Profile Page Method(s) -------------- AUTHOR:
   constructor(private http: HttpClient, private authService: AuthService) { }
-  private apiUrl = environment.apiUrl;
   UserData = ['username'];
   private linkAnotherParentUrl = apiUrl + 'profile/LinkAnotherParent';
   private UnlinkUrl = apiUrl + 'profile/UnLinkChild';
@@ -81,9 +80,9 @@ export class ProfileService {
   }
 
   changeChildinfo(info): any {
-    return this.http.patch(apiUrl + 'profile/changeChildInfo', info );
+    return this.http.patch(apiUrl + 'profile/changeChildInfo', info);
   }
-// Author: Heidi
+  // Author: Heidi
   UnlinkMyself(visitedParentUsername): any {
     // adding username of the visited parent to the patch request
     return this.http.patch('http://localhost:3000/api/profile/' + visitedParentUsername + '/UnlinkMyself', null);
