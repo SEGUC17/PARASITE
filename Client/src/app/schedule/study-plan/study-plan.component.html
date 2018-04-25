@@ -46,8 +46,8 @@
           <span class="reset">
               <input type="text" [(ngModel)]="selectedUser" name="assignFunctionTarget" list="userList">
               <datalist id="userList">
-                  <option class="reset">{{ profileUsername }}</option>
-                  <option  *ngFor="let child of listOfChildren" >{{child.username}}</option>
+                  <option>{{ profileUsername }}</option>
+                  <option  *ngFor="let child of listOfChildren" >{{child}}</option>
               </datalist>
           </span>
         </div>
