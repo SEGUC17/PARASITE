@@ -1,8 +1,12 @@
 {
     "env": {
-        "node": true
+        "node": true,
+        "mocha": true
     },
     "extends": "eslint:recommended",
+    "plugins": [
+        "chai-friendly"
+    ],
     "rules": {
         "accessor-pairs": "error",
         "array-bracket-newline": "error",
@@ -80,7 +84,7 @@
         "max-lines": [
             "error",
             {
-                "max": 700
+                "max": 1500
             }
         ],
         "max-nested-callbacks": "error",
@@ -88,7 +92,7 @@
         "max-statements": "error",
         "max-statements-per-line": "error",
         "multiline-comment-style": [
-            "error",
+            "off",
             "separate-lines"
         ],
         "new-parens": "error",
@@ -172,10 +176,18 @@
         "no-trailing-spaces": "error",
         "no-undef-init": "error",
         "no-undefined": "error",
-        "no-underscore-dangle": "error",
+        "no-underscore-dangle": [
+            "error",
+            {
+                "allow": [
+                    "_id"
+                ]
+            }
+        ],
         "no-unmodified-loop-condition": "error",
         "no-unneeded-ternary": "error",
-        "no-unused-expressions": "error",
+        "no-unused-expressions": 0,
+        "chai-friendly/no-unused-expressions": 2,
         "no-use-before-define": "error",
         "no-unused-vars": "warn",
         "no-useless-call": "error",
@@ -196,7 +208,7 @@
             "always"
         ],
         "object-property-newline": "error",
-        "object-shorthand": "error",
+        "object-shorthand": "off",
         "one-var": "off",
         "one-var-declaration-per-line": "error",
         "operator-assignment": "error",
