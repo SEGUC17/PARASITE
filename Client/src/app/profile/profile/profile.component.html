@@ -1,4 +1,3 @@
-<section class="content">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0.scss/font-awesome.min.scss">
 
 
@@ -248,7 +247,6 @@
 
 
 </div>
-</section>
 
 <section class="content profile-page">
   <div class="block-header">
@@ -305,7 +303,7 @@
         <div class="card">
           <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#about">About</a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#friends">Children</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#friends" *ngIf = "false">Children</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane body active" id="about">
@@ -321,7 +319,7 @@
               <small class="text-muted">Age: </small>
               <p class="m-b-0" >{{currIsOwner? age : vAge}}</p>
             </div>
-            <div class="tab-pane body" id="friends">
+            <div class="tab-pane body" id="friends" *ngIf="false">
               <ul class="new_friend_list list-unstyled row">
                 <li class="col-lg-4 col-md-2 col-sm-6 col-4">
                   <a href="">
@@ -408,6 +406,7 @@
       <div class="col-lg-8 col-md-12">
         <div class="card bg-dark">
           <ul class="nav nav-tabs">
+              <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#children">Children</a></li>
             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#mypost">Personal Schedule</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#timeline">Study Plans</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#usersettings">Settings</a></li>
@@ -496,6 +495,9 @@
               </div>
             </div>
           </div>
+          <div role="tabpanel" class="tab-pane" id="children">
+              <app-childern></app-childern>
+            </div>
         </div>
       </div>
     </div>
