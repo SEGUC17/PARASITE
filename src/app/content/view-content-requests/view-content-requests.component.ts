@@ -29,7 +29,7 @@ export class ViewContentRequestsComponent implements OnInit {
   }
   refreshCBs() {
     let self = this;
-    let CBRes = <HTMLInputElement>document.getElementById('CBRes');
+    let CBRes = <HTMLInputElement>document.getElementById('realtime');
     let CBIdea = <HTMLInputElement>document.getElementById('CBIdea');
     let CBCreate = <HTMLInputElement>document.getElementById('CBCreate');
     let CBEdit = <HTMLInputElement>document.getElementById('CBEdit');
@@ -38,7 +38,6 @@ export class ViewContentRequestsComponent implements OnInit {
     self.create = CBCreate.checked;
     self.edit = CBEdit.checked;
     self.viewPendingContReqs();
-
   }
   viewCont(contID) {
     let self = this;
