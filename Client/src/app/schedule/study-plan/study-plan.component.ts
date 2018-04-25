@@ -177,7 +177,7 @@ export class StudyPlanComponent implements OnInit {
 
   unAssign = function () {
     // this.studyPlan.assigned = false;
-      this.studyPlanService.unAssignStudyPlan(this.username, this._id).subscribe(
+      this.studyPlanService.unAssignStudyPlan(this.profileUsername, this._id).subscribe(
         res => {
           if (res.msg === 'Study plan unassigned successfully') {
             alert(res.msg);
