@@ -30,7 +30,6 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     MatSelectModule,
     InfiniteScrollModule,
     MatDialogModule,
-    //
     LayoutModule,
     PsychologistRoutingModule
   ],

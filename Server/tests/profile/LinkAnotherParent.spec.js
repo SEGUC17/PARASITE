@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-//var User = mongoose.model('User');
+var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-//var should = chai.should();
+var should = chai.should();
 var request = require('supertest');
 
 chai.use(chaiHttp);
@@ -14,7 +14,7 @@ var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
 var token = null;
-describe('Add user as a parent', function () {
+describe('Add user as a parent to my child', function () {
     this.timeout(120000);
 
     // --- Mockgoose Initiation --- //
@@ -41,6 +41,7 @@ describe('Add user as a parent', function () {
                 birthdate: '1/1/1997',
                 email: 'Magicx@gmail.com',
                 firstName: 'Omar',
+                isEmailVerified: true,
                 lastName: 'Omar',
                 password: '123456789',
                 phone: '01111111111',
@@ -50,16 +51,10 @@ describe('Add user as a parent', function () {
                 password: '123456789',
                 username: 'snickers123'
             };
-            // sign up and be authenticated
-            chai.request(server).
-                post('/api/signUp').
-                send(user).
-                end(function (err, response) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    response.should.have.status(201);
-                    token = response.body.token;
+            User.create(user, function (err) {
+                if (err) {
+                    done(err);
+                }
                     var authenticatedUser = request.agent(server);
                     // Sign in
                     authenticatedUser.

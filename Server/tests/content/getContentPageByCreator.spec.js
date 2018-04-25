@@ -8,20 +8,21 @@ var should = require('chai').should();
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
-
+var User = mongoose.model('User');
 
 chai.use(chaiHttp);
 
 // user for authentication
-var user = {
+var user = new User({
     birthdate: '1/1/1980',
     email: 'omar@omar.omar',
     firstName: 'omar',
+    isEmailVerified: true,
     lastName: 'Elkilany',
     password: '123456789',
     phone: '0112345677',
     username: 'omar'
-};
+});
 // authenticated token
 var token = null;
 
@@ -118,7 +119,30 @@ describe('/GET/ Content Page by Creator', function () {
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
-                done();
+                // save user
+                user.save(function (err) {
+                    if (err) {
+                        throw err;
+                    }
+
+                    //login to be authenticated
+                    chai.request(server).
+                        post('/api/signIn').
+                        send({
+                            'password': '123456789',
+                            'username': 'omar'
+                        }).
+                        end(function (err2, res) {
+                            if (err2) {
+                                done(err2);
+                            } else {
+                                res.should.have.status(200);
+                                token = res.body.token;
+                                done();
+                            }
+                        });
+                });
+
             });
         });
     });
@@ -126,7 +150,10 @@ describe('/GET/ Content Page by Creator', function () {
 
     // --- Clearing Mockgoose --- //
     beforeEach(function (done) {
-        mockgoose.helper.reset().then(function () {
+        Content.deleteMany({}, function (err) {
+            if (err) {
+                done(err);
+            }
             done();
         });
     });
@@ -159,27 +186,14 @@ describe('/GET/ Content Page by Creator', function () {
                 }));
             }
 
-            // sign up and be authenticated
-            chai.request(server).
-                post('/api/signUp').
-                send(user).
-                end(function (err, response) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    response.should.have.status(201);
-                    token = response.body.token;
-                    // perfrom the test
-                    saveAllAndTest(
-                        done,
-                        '/api/content/username/3/1/' +
-                        'categorization?category=&section=',
-                        3,
-                        '',
-                        ''
-                    );
-
-                });
+            saveAllAndTest(
+                done,
+                '/api/content/username/3/1/' +
+                'categorization?category=&section=',
+                3,
+                '',
+                ''
+            );
         }
     );
 
@@ -212,27 +226,15 @@ describe('/GET/ Content Page by Creator', function () {
                 }));
             }
 
-            // sign up and be authenticated
-            chai.request(server).
-                post('/api/signUp').
-                send(user).
-                end(function (err, response) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    response.should.have.status(201);
-                    token = response.body.token;
-                    // perfrom the test
-                    saveAllAndTest(
-                        done,
-                        '/api/content/username/3/1/' +
-                        'categorization?category=cat1&section=sec1',
-                        1,
-                        'cat1',
-                        'sec1'
-                    );
-
-                });
+            // perfrom the test
+            saveAllAndTest(
+                done,
+                '/api/content/username/3/1/' +
+                'categorization?category=cat1&section=sec1',
+                1,
+                'cat1',
+                'sec1'
+            );
         }
     );
 
@@ -241,29 +243,18 @@ describe('/GET/ Content Page by Creator', function () {
     it(
         'it should fail with an error if the elements per page is not valid.',
         function (done) {
-            // sign up and be authenticated
+            // perfrom the test
             chai.request(server).
-                post('/api/signUp').
-                send(user).
-                end(function (err, response) {
-                    if (err) {
-                        return console.log(err);
+                get('/api/content/username/FAIL/1/' +
+                    'categorization?category=&section=').
+                set('Authorization', token).
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
                     }
-                    response.should.have.status(201);
-                    token = response.body.token;
-                    // perfrom the test
-                    chai.request(server).
-                        get('/api/content/username/FAIL/1/' +
-                            'categorization?category=&section=').
-                        set('Authorization', token).
-                        end(function (error, res) {
-                            if (error) {
-                                return console.log(error);
-                            }
-                            // expect 422 status due to error
-                            expect(res).to.have.status(422);
-                            done();
-                        });
+                    // expect 422 status due to error
+                    expect(res).to.have.status(422);
+                    done();
                 });
         }
     );
@@ -273,29 +264,18 @@ describe('/GET/ Content Page by Creator', function () {
     it(
         'it should fail with an error if the page number is not valid.',
         function (done) {
-            // sign up and be authenticated
+            // perfrom the test
             chai.request(server).
-                post('/api/signUp').
-                send(user).
-                end(function (err, response) {
-                    if (err) {
-                        return console.log(err);
+                get('/api/content/username/3/FAIL/' +
+                    'categorization?category=&section=').
+                set('Authorization', token).
+                end(function (error, res) {
+                    if (error) {
+                        return console.log(error);
                     }
-                    response.should.have.status(201);
-                    token = response.body.token;
-                    // perfrom the test
-                    chai.request(server).
-                        get('/api/content/username/3/FAIL/' +
-                            'categorization?category=&section=').
-                        set('Authorization', token).
-                        end(function (error, res) {
-                            if (error) {
-                                return console.log(error);
-                            }
-                            //expect error status
-                            expect(res).to.have.status(422);
-                            done();
-                        });
+                    //expect error status
+                    expect(res).to.have.status(422);
+                    done();
                 });
         }
     );
