@@ -12,13 +12,13 @@
   open a new terminal (Linux) or command prompt, git bash, or Cmndr (Windows) and run `mongod`
   then keep this terminal open.
   
-- go to the Server directory and run in a new terminal
+- run in a new terminal
 
 ```
 npm install
 npm start
 ```
-- go to Client directory and run in a new terminal
+- Then open another terminal and run
 ```
 npm install
 ng serve -o
