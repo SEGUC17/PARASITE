@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, Output, ChangeDetectionStrategy,
+   EventEmitter, ViewChild, TemplateRef, HostListener } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
 import { AuthService } from '../../auth/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import {
   isSameMonth,
   isSameDay,
@@ -30,6 +32,21 @@ export class ScheduleComponent implements OnInit {
   view = 'month';
   viewDate: Date = new Date();
   events: CalendarEvent[] = [];
+  selectedEvent = {
+    title: 'New event',
+    start: startOfDay(new Date()),
+    end: endOfDay(new Date()),
+    color: {
+      primary: '#ad2121',
+      secondary: '#FAE3E3'
+    },
+    draggable: true,
+    resizable: {
+      beforeStart: true,
+      afterEnd: true
+    },
+    meta: {}
+  };
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
   editing = false;
@@ -64,15 +81,31 @@ export class ScheduleComponent implements OnInit {
 
 
 
-  constructor(private scheduleService: ScheduleService, private _AuthService: AuthService) { }
+  constructor(private scheduleService: ScheduleService, private route: ActivatedRoute, private _AuthService: AuthService) { }
 
   ngOnInit() {
     this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
       this.loggedInUser.username = user.data.username;
       this.loggedInUser.isChild = user.data.isChild;
       this.loggedInUser.children = user.data.children;
+      if (!this.profileUser) {
+        this.route.params.subscribe( params => {
+          this.profileUser = params.username;
+          if (!this.profileUser) {
+            this.profileUser = this.loggedInUser.username;
+          }
+        });
+      }
       this.fetchAndDisplay();
     });
+
+  }
+
+
+  // Automatically save changes of page close/change
+  @HostListener('window:beforeunload', [ '$event' ])
+  unloadHandler(event) {
+    this.saveScheduleChanges();
   }
 
   fetchAndDisplay() {
@@ -133,7 +166,6 @@ export class ScheduleComponent implements OnInit {
     event.start = newStart;
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event);
-    const self = this;
     this.activeDayIsOpen = false;
     this.refreshDocument();
   }
@@ -142,9 +174,10 @@ export class ScheduleComponent implements OnInit {
     this.modalData = { event, action };
   }
 
-  addEvent(): void {
+
+  // NOTE: Legacy function, kept temporarily
+  addEventTemp(): void {
     // Add a new event
-    const self = this;
     this.events.push({
       title: 'New event',
       start: startOfDay(new Date()),
@@ -159,6 +192,34 @@ export class ScheduleComponent implements OnInit {
         afterEnd: true
       }
     });
+    this.refreshDocument();
+  }
+
+  // Add single new event
+  addEvent(title: string, description: string, start: Date, end: Date, color: any): void {
+    // Default value for color (Transparent)
+    if (!color) {
+      color = '#FFFFFF00';
+    }
+    const newEvent = {
+      title: title,
+      start: new Date(start),
+      end: new Date(end),
+      color: {
+        primary: color,
+        secondary: '#BEBEBE'
+      },
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true
+      },
+      meta: {
+        description: description
+      }
+    };
+    this.events.push(newEvent);
+    // this.scheduleService.addEvent(this.profileUser, newEvent).subscribe();
     this.refreshDocument();
   }
 
@@ -177,14 +238,12 @@ export class ScheduleComponent implements OnInit {
       this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
     }
     this.editing = false;
-    const self = this;
     this.refreshDocument();
   }
 
   cancel() {
     // Cancel changes, refresh schedule from database
     this.editing = false;
-    const self = this;
     this.fetchAndDisplay();
     this.refreshDocument();
   }

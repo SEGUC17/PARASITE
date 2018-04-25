@@ -1,5 +1,20 @@
-<div class="container">
-  <app-study-plan-list-view
-    [(type)]="type">
-  </app-study-plan-list-view>
-</div>
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <h2>Study Plans</h2>
+                <ul class="breadcrumb p-l-0 p-b-0 ">
+                    <li class="breadcrumb-item">
+                        <a routerLink="/dashboard">
+                            <i class="zmdi zmdi-home"></i>sQuare</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <i class="zmdi zmdi-graduation-cap">
+                        </i> Study Plans</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <app-study-plan-list-view [(type)]="type">
+    </app-study-plan-list-view>
+</section>

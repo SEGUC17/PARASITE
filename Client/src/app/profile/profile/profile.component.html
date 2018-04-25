@@ -406,11 +406,21 @@
       <div class="col-lg-8 col-md-12">
         <div class="card bg-dark">
           <ul class="nav nav-tabs">
-              <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#children">Children</a></li>
-            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#mypost">Personal Schedule</a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#timeline">Study Plans</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#children">Children</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/schedule/{{vUsername}}">Personal Schedule</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#studyplans">Study Plans</a></li>
             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#usersettings">Settings</a></li>
           </ul>
+        </div>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane" id="studyplans">
+            <app-study-plan-list-view
+              type="personal"
+              [(username)]="vUsername"
+              [(currIsChild)]="currIsChild"
+              >
+            </app-study-plan-list-view>
+          </div>
         </div>
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane" id="usersettings">

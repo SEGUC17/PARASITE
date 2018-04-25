@@ -26,9 +26,10 @@ import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { StudyPlanListViewComponent } from './study-plan/study-plan-list-view/study-plan-list-view.component';
 import { PublishedStudyPlansComponent } from './study-plan/published-study-plans/published-study-plans.component';
 import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/study-plan-edit-view.component';
-import { StarRatingComponent } from './study-plan/star-rating/star-rating.component';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatMenuModule } from '@angular/material/menu';
+import { CalendarComponent } from './calendar/calendar.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import {MatMenuModule} from '@angular/material/menu';
     MatNativeDateModule,
     MatButtonToggleModule,
     MatChipsModule,
-    MatMenuModule
+    MatMenuModule,
+    SharedModule
   ],
   declarations: [
     ScheduleComponent,
@@ -62,7 +64,7 @@ import {MatMenuModule} from '@angular/material/menu';
     StudyPlanListViewComponent,
     PublishedStudyPlansComponent,
     StudyPlanEditViewComponent,
-    StarRatingComponent
+    CalendarComponent
   ],
   exports: [
     ScheduleComponent,

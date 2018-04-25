@@ -132,7 +132,7 @@ export class ProfileComponent implements OnInit {
       }
 
 
-
+      
 
       if (!this.vUsername || this.vUsername === this.username) {
         this.currIsOwner = true;

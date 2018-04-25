@@ -20,6 +20,7 @@ export class SearchControlComponent implements OnInit {
   numberPerPage = 10;
   totParents: number;
   totPages: number;
+  searchKey: string;
   selectedUsername: string;
   eduL: string;
   eduS: string;

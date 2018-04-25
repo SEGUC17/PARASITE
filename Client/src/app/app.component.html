@@ -183,9 +183,9 @@
                     </a>
                 </li>
                 <li>
-                    <a routerLink="/app/calendar">
+                    <a routerLink="/schedule/mySchedule">
                         <i class="zmdi zmdi-calendar-note m-r-10"></i>
-                        <span>Calendar</span>
+                        <span>My Schedule</span>
                     </a>
                 </li>
                 <li>
@@ -376,6 +376,42 @@
     <aside id="leftsidebar" class="sidebar">
         <div class="menu">
             <ul class="list">
+                <li>
+                    <div class="user-info m-b-20">
+                        <div class="image">
+                            <a routerLink="/sample-pages/profile">
+                                <img src="assets/images/profile_av.jpg" alt="User">
+                            </a>
+                        </div>
+                        <div class="detail">
+                            <h4>Michael</h4>
+                            <p class="m-b-0">Manager</p>
+                            <a routerLink="/schedule/mySchedule" title="My Schedule">
+                                <i class="zmdi zmdi-calendar"></i>
+                            </a>
+                            <a routerLink="/app/inbox" title="Inbox">
+                                <i class="zmdi zmdi-email"></i>
+                            </a>
+                            <a routerLink="/app/contact" title="Contact List">
+                                <i class="zmdi zmdi-account-box-phone"></i>
+                            </a>
+                            <div class="row">
+                                <div class="col-4 p-r-0">
+                                    <h6 class="m-b-5">852</h6>
+                                    <small>Sales</small>
+                                </div>
+                                <div class="col-4 p-l-0 p-r-0">
+                                    <h6 class="m-b-5">513</h6>
+                                    <small>Order</small>
+                                </div>
+                                <div class="col-4 p-l-0">
+                                    <h6 class="m-b-5">$34M</h6>
+                                    <small>Revenue</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
                 <li class="header">MAIN</li>
                 <li routerLinkActive="active open" *ngFor="let link of links">
                     <a [routerLink]="link.url">

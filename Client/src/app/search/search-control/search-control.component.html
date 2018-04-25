@@ -1,75 +1,149 @@
-<mat-card class="margin30">
-<mat-tab-group  dynamicHeight>
-  <mat-tab label="Username" >
-    <mat-form-field class="margin10">
-      <input matInput placeholder="Search" [(ngModel)]="selectedUsername">
-    </mat-form-field>
-    <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('user')" >Search</button>
-  </mat-tab>
-
-  <mat-tab label="Location" >
+<section class="content search-control">
+  <!-- <div class="block-header">
+    <div class="row">
+      <div class="col-lg-7 col-md-6 col-sm-12">
+        <h2>Connecting Parents
+          <small>Reach out to other parents !</small>
+        </h2>
+      </div>
+      <div class="col-lg-5 col-md-6 col-sm-12">
+        <ul class="breadcrumb float-md-right">
+          <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> Nawwar </a></li>
+          <li class="breadcrumb-item active">Connecting Parents</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+      <div class="row clearfix">
+          <div class="col-lg-12">
+            <div class="card action_bar">
+              <div class="body">
+                <div class="row clearfix">
+                  <div class="col-lg-1 col-md-2 col-3">
+                    <div class="checkbox inlineblock delete_all">
+                      <input id="deleteall" type="checkbox">
+                      <label for="deleteall">
+                        All
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-5 col-md-4 col-6">
+                    <div class="input-group search">
+                      <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchKey">
+                      <span class="input-group-addon">
+                                            <i class="zmdi zmdi-search"></i>
+                                        </span>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-3 text-right">
+                   
+                    <div class="btn-group hidden-sm-down">
+                      <div class="btn-group">
+                        <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="zmdi zmdi-label"></i>
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right pullDown">
+                          <li>
+                            <a href="javascript:void(0);">Username</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0);">Location</a>
+                          </li>
+                          <li>
+                            <a href="javascript:void(0);">Level of education</a>
+                          </li>
+                          <li role="separator" class="divider"></li>
+                          <li>
+                            <a href="javascript:void(0);">System of education</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  
+  </div> -->
+  
+  <mat-card class="margin30">
+  <mat-tab-group  dynamicHeight>
+    <mat-tab label="Username" >
       <mat-form-field class="margin10">
-        <input matInput placeholder="Search" [(ngModel)]="loc">
+        <input matInput placeholder="Search" [(ngModel)]="selectedUsername">
       </mat-form-field>
-      <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('loc')" >Search</button>
+      <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('user')" >Search</button>
     </mat-tab>
-
-      <mat-tab label="Education Levels">
+  
+    <mat-tab label="Location" >
         <mat-form-field class="margin10">
-          <input matInput placeholder="Search" [(ngModel)]="eduL">
+          <input matInput placeholder="Search" [(ngModel)]="loc">
         </mat-form-field>
-        <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('eduL')">Search</button>
+        <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('loc')" >Search</button>
       </mat-tab>
-
-          <mat-tab label="Education Systems">
-    
-              <mat-radio-group [(ngModel)]="eduS"  >
-                  <mat-radio-button value="Thanaweya Amma (GSEC)">Thanaweya Amma (GSEC)</mat-radio-button>
-                  <mat-radio-button value="IG">IG</mat-radio-button>
-                  <mat-radio-button value="American Diploma">American Diploma</mat-radio-button>
-                </mat-radio-group>
-                <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('eduS')" >Search</button>
-   
-          </mat-tab>
-        </mat-tab-group>
-      </mat-card>
-      <mat-card class="margin10">
-  <mat-chip-list #chipList>
-    <mat-chip *ngIf="this.tags[0] != 'NA'" [removable]="removable" (remove)="this.remove('user')" color="primary">
-      {{this.tags[0]}}
-      <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-    </mat-chip>
-
-    <mat-chip *ngIf="this.tags[1] != 'NA'" [removable]="removable" (remove)="this.remove('eduL')" color="primary">
-        {{this.tags[1]}}
+  
+        <mat-tab label="Education Levels">
+          <mat-form-field class="margin10">
+            <input matInput placeholder="Search" [(ngModel)]="eduL">
+          </mat-form-field>
+          <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('eduL')">Search</button>
+        </mat-tab>
+  
+            <mat-tab label="Education Systems">
+      
+                <mat-radio-group [(ngModel)]="eduS"  >
+                    <mat-radio-button value="Thanaweya Amma (GSEC)">Thanaweya Amma (GSEC)</mat-radio-button>
+                    <mat-radio-button value="IG">IG</mat-radio-button>
+                    <mat-radio-button value="American Diploma">American Diploma</mat-radio-button>
+                  </mat-radio-group>
+                  <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('eduS')" >Search</button>
+     
+            </mat-tab>
+          </mat-tab-group>
+        </mat-card>
+        <mat-card class="margin10">
+    <mat-chip-list #chipList>
+      <mat-chip *ngIf="this.tags[0] != 'NA'" [removable]="removable" (remove)="this.remove('user')" color="primary">
+        {{this.tags[0]}}
         <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
       </mat-chip>
-
-      <mat-chip *ngIf="this.tags[2] != 'NA'" [selectable] = "removable"[removable]="removable" (remove)="this.remove('eduS')" color="primary">
-          {{this.tags[2]}}
+  
+      <mat-chip *ngIf="this.tags[1] != 'NA'" [removable]="removable" (remove)="this.remove('eduL')" color="primary">
+          {{this.tags[1]}}
           <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
         </mat-chip>
-        <mat-chip *ngIf="this.tags[3] != 'NA'" [removable]="removable" (remove)="this.remove('loc')" color="primary">
-            {{this.tags[3]}}
+  
+        <mat-chip *ngIf="this.tags[2] != 'NA'" [selectable] = "removable"[removable]="removable" (remove)="this.remove('eduS')" color="primary">
+            {{this.tags[2]}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
-   
-  </mat-chip-list>
-</mat-card>
-
-  <mat-card class="margin10" style="min-height: 300px">
-    <div class="row">
-      <mat-card *ngFor="let user of users" class="col-3">
-        <mat-card-content>
-          <mat-card-title>{{user.username}}</mat-card-title>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button style="width:100%; background:#3f51b5; color:white" (click)="this.goToProfile(user.username)">Go To Profile</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
+          <mat-chip *ngIf="this.tags[3] != 'NA'" [removable]="removable" (remove)="this.remove('loc')" color="primary">
+              {{this.tags[3]}}
+              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+     
+    </mat-chip-list>
   </mat-card>
-  <!-- <script src="js/site.js"></script> -->
-  <div class="paginator">
-<mat-paginator [length]="totParents" [pageSize]="numberPerPage" (page)="this.getPage($event)"></mat-paginator>
-</div>
+  
+    <mat-card class="margin10" style="min-height: 300px">
+      <div class="row">
+        <mat-card *ngFor="let user of users" class="col-3">
+          <mat-card-content>
+            <mat-card-title>{{user.username}}</mat-card-title>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-button style="width:100%; background:#3f51b5; color:white" (click)="this.goToProfile(user.username)">Go To Profile</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </mat-card>
+    <script src="js/site.js"></script>
+    <<div class="paginator">
+  <mat-paginator [length]="totParents" [pageSize]="numberPerPage" (page)="this.getPage($event)"></mat-paginator>
+  </div> 
+
+</section>
+

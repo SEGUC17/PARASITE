@@ -1,68 +1,46 @@
-<div class="container">
-  <mat-card>
-    <mat-form-field>
-      <input matInput placeholder="Title" [(ngModel)]="title">
-    </mat-form-field> 
-    <mat-card-title>{{ title }}</mat-card-title>    
-    <app-calendar-header
-      [(view)]="view"
-      [(viewDate)]="viewDate"
-      (viewDateChange)="fetchEvents()"
-      (viewChange)="fetchEvents()">
-    </app-calendar-header>
-    <div [ngSwitch]="view">
-      <mwl-calendar-month-view
-        *ngSwitchCase="'month'"
-        [viewDate]="viewDate"
-        [events]="events"
-        [refresh]="refresh"
-        [activeDayIsOpen]="activeDayIsOpen"
-        (dayClicked)="dayClicked($event.day)"
-        (eventClicked)="handleEvent('Clicked', $event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)">
-      </mwl-calendar-month-view>
-
-      <mwl-calendar-week-view
-        *ngSwitchCase="'week'"
-        [viewDate]="viewDate"
-        [events]="events"
-        [refresh]="refresh"
-        (eventClicked)="handleEvent('Clicked', $event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)">
-      </mwl-calendar-week-view>
-
-      <mwl-calendar-day-view
-        *ngSwitchCase="'day'"
-        [viewDate]="viewDate"
-        [events]="events"
-        [refresh]="refresh"
-        (eventClicked)="handleEvent('Clicked', $event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)">
-      </mwl-calendar-day-view>
-    </div>
-  </mat-card>
-  <mat-card>
-      <div class="row">
-        <div class="col-md-9">
-          <mat-card-title>Edit events</mat-card-title>
-        </div>
-        <div class="col-md-3">
-          <button
-            mat-raised-button
-            color="primary"
-            style="float: right;"
-            (click)="addEvent()">
-            Add new
-          </button>
-        </div>
+<section class="content">
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <ul class="breadcrumb p-l-0 p-b-0 ">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">
+              <i class="zmdi zmdi-home"></i>sQuare</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a routerLink="{{ type === 'personal' ? '/profile/' + profileUsername : '/published-study-plans' }}">
+              <i class="{{ type === 'personal' ? 'zmdi zmdi-account-circle' : 'zmdi zmdi-graduation-cap' }}">
+              </i>{{ type === 'personal' ? ' ' + profileUsername : ' Study Plans' }}</a>
+          </li>
+          <li class="breadcrumb-item active">{{ title }}</li>
+        </ul>
       </div>
-      
-      <div class="clearfix"></div>
-
-      <br />
-        
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="header">
+        <form id="titleForm" method="POST">
+          <div class="form-group">
+            <div class="form-line">
+              <input type="text" class="form-control col-md-3" name="title" [(ngModel)]="title" placeholder="Title" required>
+            </div>
+          </div>
+        </form>
+      </div>
+      <app-calendar [(events)]="events" [onCreate]="addEvent"></app-calendar>
+      <hr>
+      <div class="header">
+        <h2>
+          <strong>Edit events</strong>
+          <!-- <button class="btn btn-primary" style="float: right;" (click)="addEvent()">
+            Add new
+          </button> -->
+        </h2>
+      </div>
+      <div class="body">
         <table class="table table-bordered">
-        
+
           <thead>
             <tr>
               <th>Title</th>
@@ -70,89 +48,68 @@
               <th>Secondary color</th>
               <th>Starts at</th>
               <th>Ends at</th>
-              <th>Remove</th>
+              <!-- <th>Remove</th> -->
             </tr>
           </thead>
-        
+
           <tbody>
             <tr *ngFor="let event of events; let index = index">
               <td>
-                <input
-                  type="text"
-                  class="form-control"
-                  [(ngModel)]="event.title"
-                  (keyup)="refresh.next()">
+                <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()">
               </td>
               <td>
-                <input
-                  type="color"
-                  [(ngModel)]="event.color.primary"
-                  (change)="refresh.next()">
+                <input type="color" [(ngModel)]="event.color.primary" (change)="refresh.next()">
               </td>
               <td>
-                <input
-                  type="color"
-                  [(ngModel)]="event.color.secondary"
-                  (change)="refresh.next()">
+                <input type="color" [(ngModel)]="event.color.secondary" (change)="refresh.next()">
               </td>
               <td>
-                <app-date-time-picker
-                  [(ngModel)]="event.start"
-                  [time]="event.start | date:'HH:mm'"
-                  (ngModelChange)="refresh.next()"
-                  placeholder="Choose a date">
+                <app-date-time-picker [(ngModel)]="event.start" [time]="event.start | date:'HH:mm'" (ngModelChange)="refresh.next()" placeholder="Choose a date">
                 </app-date-time-picker>
               </td>
               <td>
-                <app-date-time-picker
-                  [(ngModel)]="event.end"
-                  [time]="event.end | date:'HH:mm'"
-                  (ngModelChange)="refresh.next()"
-                  placeholder="Choose a date">
+                <app-date-time-picker [(ngModel)]="event.end" [time]="event.end | date:'HH:mm'" (ngModelChange)="refresh.next()" placeholder="Choose a date">
                 </app-date-time-picker>
               </td>
-              <td>
-                <button
-                  mat-raised-button
-                  color="warn"
-                  (click)="events.splice(index, 1); refresh.next()">
+              <!-- <td>
+                <button mat-raised-button color="warn" (click)="events.splice(index, 1); refresh.next()">
                   Delete
                 </button>
-              </td>
+              </td> -->
             </tr>
           </tbody>
-        
+
         </table>
-  </mat-card>
-  <mat-card label="Content Description">
-    <mat-card-title>Description Editor</mat-card-title>
-    <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="editorContent" name="editorContent" (change)="onContentChanged($event)"></quill-editor>
-  </mat-card>
-  <mat-card label="Description Preview">
-    <mat-card-title>Description Preview</mat-card-title>
-    <div class="ql-editor preview" [innerHTML]="editorOut"></div>
-  </mat-card>
-  <mat-card>
-    <h2 *ngIf="type === 'create'">
-      Press the button on the right to finish creation.
-      <button
-        mat-raised-button
-        color="primary"
-        style="float: right;"
-        (click)="create()">
-        Create
-      </button>
-    </h2>
-    <h2 *ngIf="type === 'edit'">
-      Press the button on the right to save your changes.
-      <button
-        mat-raised-button
-        color="primary"
-        style="float: right;"
-        (click)="saveChanges()">
-        Save Changes
-      </button>
-    </h2>
-  </mat-card>
-</div>
-  
+      </div>
+      <hr>
+      <div class="header">
+        <h2>
+          <strong>Description Editor</strong>
+        </h2>
+      </div>
+      <div class="body">
+        <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="editorContent" name="editorContent" (change)="onContentChanged($event)"></quill-editor>
+      </div>
+      <hr>
+      <div class="header">
+        <h2>
+          <strong>Description Preview</strong>
+        </h2>
+      </div>
+      <div class="body">
+        <div class="ql-editor preview" [innerHTML]="editorOut"></div>
+      </div>
+      <hr>
+      <div class="body" *ngIf="type === 'create'">
+        <button class="btn btn-primary col align-self-center" (click)="create()">
+          Create
+        </button>
+      </div>
+      <div class="body" *ngIf="type === 'edit'">
+        <button class="btn btn-primary col align-self-center" (click)="saveChanges()">
+          Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
