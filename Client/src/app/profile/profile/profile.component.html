@@ -275,10 +275,10 @@
           <div class="body col-white">
             <div class="row">
               <div class="col-lg-3 col-md-4 col-12">
-                <div class="profile-image float-md-right"> <img src="assets/images/profile_av.jpg" alt=""> </div>
+                <div class="profile-image float-md-right"> <img src="assets/images/defaultProfilePic.png" alt=""> </div>
               </div>
               <div class="col-lg-9 col-md-8 col-12">
-                <h4 class="m-t-0 m-b-0"><strong>{{firstName}}</strong>{{lastName}}</h4>
+                <h4 class="m-t-0 m-b-0"><strong>{{currIsOwner? firstName : vFirstName}}</strong>{{currIsOwner? lastName : vLastName}}</h4>
                 <span class="job_post">Ui UX Designer</span>
                 <p>{{currIsOwner? address : vAddress}}</p>
                 <div>
