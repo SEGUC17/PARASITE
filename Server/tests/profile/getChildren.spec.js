@@ -56,7 +56,8 @@ describe('/GET/ Children ', function () {
             if (err) {
                 return console.log(err);
             }
-            chai.request(server).get('/api/profile/' + user1.username + '/getChildren').
+           chai.request(server).
+           get('/api/profile/' + user1.username + '/getChildren').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);

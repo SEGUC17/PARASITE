@@ -11,6 +11,7 @@ var cont = mongoose.model('Content');
 chai.use(chaiHttp);
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
+var users = mongoose.model('User');
 var mockgoose = new Mockgoose(mongoose);
 var nonAdminToken = null;
 
@@ -19,6 +20,7 @@ var nonAdminUser = {
     email: 'salma@salmaa.admin',
     firstName: 'adminsalma',
     isAdmin: true,
+    isEmailVerified: true,
     lastName: 'adminsalma',
     password: 'adminsalma',
     phone: 23456,
@@ -55,6 +57,19 @@ describe('All what a nonAdmin can do', function () {
                 }
                 response.should.have.status(201);
                 nonAdminToken = response.body.token;
+                users.updateOne(
+                    { username: 'adminsalma' },
+                    {
+                        $set:
+                            { isEmailVerified: true }
+                    },
+                    function (err1) {
+                        if (err1) {
+                            console.log(err1);
+                        }
+                    }
+                );
+
                 done();
 
             });
@@ -65,6 +80,17 @@ describe('All what a nonAdmin can do', function () {
             'shouldn\'t get anything, should get unauthorized error' +
             '(trying to view ideas)',
             function (done) {
+                chai.request(server).
+                post('/api/signIn').
+                send({
+                    'password': 'adminsalma',
+                    'username': 'adminsalma'
+                }).
+                end(function (errr, responsse) {
+                    if (errr) {
+                        return console.log(errr);
+                    }
+
                 var ContReqI1 = new contReq({
                     contentType: 'idea',
                     createdOn: '1/1/1111',
@@ -78,8 +104,9 @@ describe('All what a nonAdmin can do', function () {
                 });
 
                 chai.request(server).
-                    get('/api/admin/PendingContentRequests/idea').
-                    set('Authorization', nonAdminToken).
+                    get('/api/admin/PendingContentRequests/' +
+                    'false/true/false/false').
+                    set('Authorization', responsse.body.token).
                     end(function (err, res) {
                         if (!err === null) {
                             console.log('get Pending' +
@@ -92,12 +119,24 @@ describe('All what a nonAdmin can do', function () {
                         expect(res.body.err).to.equal('Unauthorized action');
                         done();
                     });
-            }
-        );
+            });
+        }
+    );
         it(
             'shouldn\'t get anything, should get unauthorized error' +
             '(trying to view resources)',
             function (done) {
+                chai.request(server).
+                post('/api/signIn').
+                send({
+                    'password': 'adminsalma',
+                    'username': 'adminsalma'
+                }).
+                end(function (errr, responsse) {
+                    if (errr) {
+                        return console.log(errr);
+                    }
+
                 var ContReqR1 = new contReq({
                     contentType: 'resource',
                     createdOn: '1/1/1111',
@@ -110,8 +149,9 @@ describe('All what a nonAdmin can do', function () {
                     }
                 });
                 chai.request(server).
-                    get('/api/admin/PendingContentRequests/resource').
-                    set('Authorization', nonAdminToken).
+                    get('/api/admin/PendingContentRequests/' +
+                    'true/false/false/false').
+                    set('Authorization', responsse.body.token).
                     end(function (err, res) {
                         if (!err === null) {
                             console.log('get Pending' +
@@ -124,12 +164,23 @@ describe('All what a nonAdmin can do', function () {
                         expect(res.body.err).to.equal('Unauthorized action');
                         done();
                     });
-            }
-        );
+            });
+        }
+    );
         it(
             'shouldn\'t get anything, should get unauthorized error' +
             '(trying to respond to requests)',
             function (done) {
+                chai.request(server).
+                post('/api/signIn').
+                send({
+                    'password': 'adminsalma',
+                    'username': 'adminsalma'
+                }).
+                end(function (errr, responsse) {
+                    if (errr) {
+                        return console.log(errr);
+                    }
                 var Cont = new cont({
                     _id: '5aca0d4d8865fc24fe140713',
                     approved: false,
@@ -164,7 +215,7 @@ describe('All what a nonAdmin can do', function () {
                             '5aca0d4d8865fc24fe140711/' +
                             '5aca0d4d8865fc24fe140713').
                         send({ str: 'disapproved' }).
-                        set('Authorization', nonAdminToken).
+                        set('Authorization', responsse.body.token).
                         end(function (err2, res) {
                             console.log(err);
                             if (!err === null) {
@@ -180,8 +231,9 @@ describe('All what a nonAdmin can do', function () {
                             done();
                         });
                 });
-            }
-        );
+            });
+        }
+    );
         it(
             'the content he/she tried to change is untouched',
             function (done) {

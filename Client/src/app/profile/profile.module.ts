@@ -6,7 +6,9 @@ import { CommonModule } from '@angular/common';
 import { ProfileService } from './profile.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { ChildernComponent } from './profile/childern/childern.component';
-import { MatTabsModule, MatButtonModule, MatMenuModule, MatChipsModule, MatCardModule, MatExpansionModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonToggleModule } from '@angular/material';
+import { MatTabsModule, MatButtonModule, MatMenuModule,
+  MatChipsModule, MatCardModule, MatExpansionModule,
+  MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonToggleModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { ScheduleModule } from '../schedule/schedule.module';
 

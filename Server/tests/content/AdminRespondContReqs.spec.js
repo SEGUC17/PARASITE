@@ -1,3 +1,4 @@
+/*eslint max-statements: ["error", 100]*/
 
 var chai = require('chai');
 var chaiHttp = require('chai-http');
@@ -21,6 +22,7 @@ var adminUser = {
     email: 'salma@salmaa.admin',
     firstName: 'adminsalma',
     isAdmin: true,
+    isEmailVerified: true,
     lastName: 'adminsalma',
     password: 'adminsalma',
     phone: 23456,
@@ -60,7 +62,13 @@ describe('Admin responding to Requests', function () {
                 adminToken = response.body.token;
                 users.updateOne(
                     { username: 'adminsalma' },
-                    { $set: { isAdmin: true } },
+                    {
+                        $set:
+                            {
+                                isAdmin: true,
+                                isEmailVerified: true
+                            }
+                    },
                     function (err1) {
                         if (err1) {
                             console.log(err1);
@@ -71,11 +79,37 @@ describe('Admin responding to Requests', function () {
 
             });
     });
+    before(function (done) {
+        chai.request(server).
+            post('/api/signIn').
+            send({
+                'password': 'adminsalma',
+                'username': 'adminsalma'
+            }).
+            end(function (errr, responsse) {
+                if (errr) {
+                    return console.log(errr);
+                }
+                adminToken = responsse.body.token;
+            });
+        done();
+    });
     describe('request should be approved when admin approves &' +
         'user gains 10 contribution points', function () {
             it(
                 'request should be approved when admin approves',
                 function (done) {
+                    chai.request(server).
+                    post('/api/signIn').
+                    send({
+                        'password': 'adminsalma',
+                        'username': 'adminsalma'
+                    }).
+                    end(function (errr, responsse) {
+                        if (errr) {
+                            return console.log(errr);
+                        }
+                        adminToken = responsse.body.token;
                     var ContI1 = new cont({
                         _id: '5aca0d4d8865fc24fe140713',
                         approved: false,
@@ -128,8 +162,9 @@ describe('Admin responding to Requests', function () {
                             // get the content to check its status
                             done();
                         });
-                }
-            );
+                });
+        }
+    );
             it(
                 'Approved Content is Approved',
                 function (done) {
@@ -225,6 +260,7 @@ describe('Admin responding to Requests', function () {
             it(
                 'Disapproved Content is dispproved',
                 function (done) {
+
                     chai.request(server).get('/api/content/view/' +
                         '5aca0d4d8865fc24fe140714').
                         end(function (error, resCont) {
@@ -239,20 +275,20 @@ describe('Admin responding to Requests', function () {
                         });
                 }
             );
-    // --- Clearing Mockgoose --- //
-    after(function (done) {
-        mockgoose.helper.reset().then(function () {
-            done();
-        });
-    });
-    // --- End of "Clearing Mockgoose" --- //
+            // --- Clearing Mockgoose --- //
+            after(function (done) {
+                mockgoose.helper.reset().then(function () {
+                    done();
+                });
+            });
+            // --- End of "Clearing Mockgoose" --- //
 
-    // --- Mockgoose Termination --- //
-    after(function (done) {
-        mongoose.connection.close(function () {
-            done();
-            console.log('mockgoose closing the connection');
+            // --- Mockgoose Termination --- //
+            after(function (done) {
+                mongoose.connection.close(function () {
+                    done();
+                    console.log('mockgoose closing the connection');
+                });
+            });
         });
-        });
-    });
 });

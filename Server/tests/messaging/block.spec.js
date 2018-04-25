@@ -19,8 +19,9 @@ chai.use(chaiHttp);
 
 var user = {
     birthdate: '3/29/1997',
-    blocked: [''],
+    blocked: [],
     email: 'lama@gmail.com',
+    isEmailVerified:'true',
     firstName: 'lama',
     lastName: 'ahmed',
     password: '123456789',
@@ -54,7 +55,7 @@ describe('blocking a user from messaging me', function () {
     it('it should block a user from messaging me', function (done) {
         console.log('Ana wasalt el it');
         // sign up and be authenticated
-        chai.request(server).
+      /*  chai.request(server).
             post('/api/signUp').
             send(user).
             end(function (err, response) {
@@ -62,9 +63,24 @@ describe('blocking a user from messaging me', function () {
                     return console.log(err);
                 }
                 response.should.have.status(201);
-                token = response.body.token;
+                token = response.body.token;  */
               //  console.log('id is: ', response.body._id);
                 // get username of logged in user
+
+                User.create(user, function (err) {
+                    if (err) {
+                        return done(err);
+                    }
+                chai.request(server)
+                .post('/api/signIn')
+                .send({'password' : user.password, 
+                 'username': user.username })
+                .end((err6, res6) => {
+                    res6.should.have.status(200);
+                    res6.body.should.be.a('object');
+                  res6.body.should.have.property('token');
+                  token = res6.body.token;
+
                chai.request(server).post('/api/userData').
                     send([
                         '_id',
@@ -104,6 +120,7 @@ describe('blocking a user from messaging me', function () {
                             });
                     });
             });
+        });
     });
     // --- Mockgoose Termination --- //
     after(function (done) {

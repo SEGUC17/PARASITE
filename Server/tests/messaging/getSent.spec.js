@@ -17,6 +17,7 @@ var user = {
     birthdate: '2/6/1997',
     email: 'sarah@gmail.com',
     firstName: 'sarah',
+    isEmailVerified: true,
     lastName: 'ayman',
     password: '123456789',
     phone: '0174536975',
@@ -49,6 +50,11 @@ describe('/GET sent messages', function () {
 
     it('it should GET all sent messages of logged in user', function (done) {
 
+        User.create(user, function(error) {
+            if (error) {
+                return done(error);
+            }
+
         // message that should be retreived
         var message = new Message({
             body: 'hi',
@@ -63,15 +69,18 @@ describe('/GET sent messages', function () {
             sender: 'blah'
         });
 
-        // sign up and be authenticated
+        // sign in and be authenticated
         chai.request(server).
-            post('/api/signUp').
-            send(user).
+            post('/api/signIn').
+            send({
+                'password': user.password,
+                'username': user.username
+            }).
             end(function (err, response) {
                 if (err) {
                     return console.log(err);
                 }
-                response.should.have.status(201);
+                response.should.have.status(200);
                 token = response.body.token;
 
                 message.save(function (err) {
@@ -116,6 +125,7 @@ describe('/GET sent messages', function () {
                     });
                 });
             });
+        });
     });
     // --- Mockgoose Termination --- //
     after(function (done) {

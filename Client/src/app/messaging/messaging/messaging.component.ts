@@ -57,6 +57,7 @@ export class MessagingComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
   openForwardDialog(message): void {
     let dialogRef = this.dialog.open(ForwardDialogComponent, {
       width: '600px',
@@ -74,6 +75,7 @@ export class MessagingComponent implements OnInit {
   ngOnInit() {
     const self = this;
     const userDataColumns = ['_id', 'username', 'isChild'];
+    // get info of logged in user
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
       console.log(self.currentUser.username);
@@ -133,6 +135,7 @@ export class MessagingComponent implements OnInit {
   });
  }// end method
 
+ // getting a list of recently contacted users
  getContacts(): void {
   const self = this;
   this.messageService.getContacts(this.currentUser.username).subscribe(function (contacts) {

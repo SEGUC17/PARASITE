@@ -20,6 +20,8 @@ import { ActivityCreateComponent } from './activity-create/activity-create.compo
 import { ActivityDetailComponent } from './activity-detail/activity-detail.component';
 import { ActivityEditComponent } from './activity-edit/activity-edit.component';
 import { DiscussionService } from '../discussion.service';
+import { SharedModule } from '../shared/shared.module';
+
 
 @NgModule({
   imports: [
@@ -34,7 +36,8 @@ import { DiscussionService } from '../discussion.service';
     FormsModule,
     MatListModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    SharedModule
   ],
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent],
   entryComponents: [ActivityEditComponent],

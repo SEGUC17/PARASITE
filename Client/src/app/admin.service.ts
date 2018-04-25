@@ -22,8 +22,9 @@ export class AdminService {
   private respondContentRequestURL = 'admin/RespondContentRequest/';
   private respondContentStatusURL = 'admin/RespondContentStatus/';
   private getContent = 'admin/getContent/';
-  private URL = 'http://localhost:3000/api/admin/';
+  private URL = 'http://localhost:3000/api/admin';
   private addContributionPtsURL = 'admin/addContPts';
+  private reportUrl = '/getReports';
 
 
   constructor(private http: HttpClient, private toasterService: ToastrService) {
@@ -49,9 +50,9 @@ export class AdminService {
     return this.http.get(this.URL + 'VerifiedContributerRequests/' + FilterBy);
   }
 
-  viewPendingContReqs(type): any {
+  viewPendingContReqs(res, idea, create, edit): any {
     const self = this;
-    return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL + type)
+    return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL + res + '/' + idea + '/'  + create + '/' + edit)
       .pipe(
         catchError(
           self.handleError('viewPendingContReqs', [])
@@ -198,5 +199,11 @@ export class AdminService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+  // Getting the user reports.
+  getReports(): any {
+    const self = this;
+    return this.http.get<any>(this.URL + this.reportUrl, httpOptions);
+
   }
 }
