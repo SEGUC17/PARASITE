@@ -3,7 +3,8 @@
 
     <div class="col-md-12 col-lg-4 col-xl-4">
       <div class="body">
-        <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="onCreate">Add Events</button>
+        <button type="button" class="btn btn-round btn-primary waves-effect" (click)="onCreate(); this.refresh.next();">Add Events</button>
+        <!-- <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="onCreate">Add Events</button> -->
         <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
           aria-controls="collapseExample">
           <i class="zmdi zmdi-chevron-down"></i>

@@ -28,11 +28,14 @@
           </div>
         </form>
       </div>
-      <app-calendar [(events)]="events" [onCreate]="createEvent"></app-calendar>
+      <app-calendar [(events)]="events" [onCreate]="addEvent"></app-calendar>
       <hr>
       <div class="header">
         <h2>
           <strong>Edit events</strong>
+          <!-- <button class="btn btn-primary" style="float: right;" (click)="addEvent()">
+            Add new
+          </button> -->
         </h2>
       </div>
       <div class="body">
@@ -45,7 +48,7 @@
               <th>Secondary color</th>
               <th>Starts at</th>
               <th>Ends at</th>
-              <th>Remove</th>
+              <!-- <th>Remove</th> -->
             </tr>
           </thead>
 
@@ -68,11 +71,11 @@
                 <app-date-time-picker [(ngModel)]="event.end" [time]="event.end | date:'HH:mm'" (ngModelChange)="refresh.next()" placeholder="Choose a date">
                 </app-date-time-picker>
               </td>
-              <td>
+              <!-- <td>
                 <button mat-raised-button color="warn" (click)="events.splice(index, 1); refresh.next()">
                   Delete
                 </button>
-              </td>
+              </td> -->
             </tr>
           </tbody>
 

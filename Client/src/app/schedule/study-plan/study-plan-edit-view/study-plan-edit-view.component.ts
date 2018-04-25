@@ -34,6 +34,7 @@ export class StudyPlanEditViewComponent implements OnInit {
   title: string;
   events: CalendarEvent[];
   description: string;
+  refresh: Subject<any> = new Subject();
   private editor;
   public editorOut;
   public editorContent = ``;
@@ -102,6 +103,24 @@ export class StudyPlanEditViewComponent implements OnInit {
         description: eventDescription
       }
     });
+  }
+
+  addEvent(): void {
+    this.events.push({
+      title: 'New event',
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
+      color: {
+        primary: '#2196f3',
+        secondary: '#FAE3E3'
+      },
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true
+      }
+    });
+    this.refresh.next();
   }
 
   create(): void {
