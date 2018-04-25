@@ -7,6 +7,7 @@ const routes = [
   { path: 'content-edit', component: ContentEditComponent },
   { path: 'content-edit/:id', component: ContentEditComponent },
   { path: 'content-list-view', component: ContentListViewComponent },
+  { path: 'content-list-view/:tag', component: ContentListViewComponent },
   { path: 'content-view/:id', component: ContentViewComponent }
 ];
 @NgModule({

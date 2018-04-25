@@ -68,13 +68,37 @@ describe('/PATCH/section/', function () {
                 password: 'testing123',
                 username: 'Hellothere'
             }).
-            end(function (err, res) {
+            end(function (err) {
                 if (err) {
                     done();
                 }
-                // get the first test user token
-                userToken = res.body.token;
-                done();
+                User.findOneAndUpdate(
+                    { username: 'Hellothere' },
+                    { $set: { isEmailVerified: true } },
+                    function (updateError, user) {
+                        if (updateError) {
+                            done();
+                        }
+                        chai.request(server).
+                            post('/api/signin').
+                            send({
+                                password: 'testing123',
+                                username: user.username
+                            }).
+                            end(function (loginError, loginRes) {
+                                if (loginError) {
+                                    done(loginError);
+                                }
+                                // get the first test user token
+                                userToken = loginRes.body.token;
+                                done();
+                            });
+
+
+                    }
+                );
+
+
             });
     });
     before(function (done) {
@@ -88,21 +112,38 @@ describe('/PATCH/section/', function () {
                 password: 'admin123',
                 username: 'admin'
             }).
-            end(function (err, res) {
+            end(function (err) {
                 if (err) {
                     done();
                 }
                 // update user permissions
-                User.updateOne(
+                User.findOneAndUpdate(
                     { username: 'admin' },
-                    { $set: { isAdmin: true } },
-                    function (updateErr) {
+                    {
+                        $set:
+                            {
+                                isAdmin: true,
+                                isEmailVerified: true
+                            }
+                    },
+                    function (updateErr, user) {
                         if (updateErr) {
                             done();
                         }
-                        // get the token for the second test user
-                        adminToken = res.body.token;
-                        done();
+                        chai.request(server).
+                            post('/api/signin').
+                            send({
+                                password: 'admin123',
+                                username: user.username
+                            }).
+                            end(function (loginError, loginRes) {
+                                if (loginError) {
+                                    done(loginError);
+                                }
+                                // get the first test user token
+                                adminToken = loginRes.body.token;
+                                done();
+                            });
                     }
                 );
             });
@@ -147,7 +188,8 @@ describe('/PATCH/section/', function () {
                 should.not.exist(err);
                 res.should.have.status(200);
                 res.body.msg.should.be.equal('The section was updated' +
-                    ' successfully');
+                    ' successfully and the content in that section' +
+                    ' was updated');
                 should.exist(res.body.data);
                 var updatedSections = res.body.data.
                     sections.filter(function (section) {

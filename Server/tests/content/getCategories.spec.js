@@ -23,20 +23,18 @@ describe('/GET/ Category', function () {
     });
     // --- End of "Mockgoose Initiation" --- //
 
-    // --- Clearing Mockgoose --- //
-    beforeEach(function (done) {
-        mockgoose.helper.reset().then(function () {
-            done();
-        });
-    });
-    // --- End of "Clearing Mockgoose" --- //
-
     // test that the server will retrieve categories
     it('it should GET categories from the server', function (done) {
         // create a category for the test
         var cat1 = new Category({
+            iconLink: 'link.com',
             name: 'testcat1',
-            sections: [{ name: 'sec1.1' }]
+            sections: [
+                {
+                    iconLink: 'link.org',
+                    name: 'sec1.1'
+                }
+            ]
         });
 
         // save the category to the database
@@ -79,6 +77,15 @@ describe('/GET/ Category', function () {
                     done();
                 });
         });
+
+    // --- Clearing Mockgoose --- //
+    beforeEach(function (done) {
+        mockgoose.helper.reset().then(function () {
+            done();
+        });
+    });
+    // --- End of "Clearing Mockgoose" --- //
+
 
     // --- Mockgoose Termination --- //
     after(function (done) {

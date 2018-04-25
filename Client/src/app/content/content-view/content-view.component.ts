@@ -7,7 +7,8 @@ import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../auth/user';
 import { DiscussionService } from '../../discussion.service';
-
+import { VideoIdExtractorPipe } from '../video-id-extractor.pipe';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-content-view',
@@ -33,13 +34,25 @@ export class ContentViewComponent implements OnInit {
   Reply: String = 'Reply';
   isReplying: boolean;
   commentReplyingOn: any;
+  public YT: any;
+  public videoId: any;
+  public player: any;
 
   // inject the needed services
-  constructor(private contentService: ContentService, private route: ActivatedRoute,
-    private adminService: AdminService, private authService: AuthService,
-    private discussionService: DiscussionService, private router: Router) { }
+  constructor(
+    private contentService: ContentService,
+    private route: ActivatedRoute,
+    private videoIdExtractorPipe: VideoIdExtractorPipe,
+    private adminService: AdminService,
+    private authService: AuthService,
+    private discussionService: DiscussionService,
+    private toasterService: ToastrService,
+    private router: Router
+  ) { }
+
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
     // retrieve the user data
     this.authService.getUserData(['username', 'isAdmin']).
@@ -48,7 +61,6 @@ export class ContentViewComponent implements OnInit {
       });
     // retrieve the id of the content from the current path and request content
     this.route.params.subscribe(function (params) {
-      console.log('Object Requested with Id: ' + params.id);
       self.getContentById(params.id);
     });
   }
@@ -57,8 +69,14 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
-      self.getRecommendedContent();
-      self.comments = retrievedContent.data.discussion;
+      if (self.content) {
+        self.getRecommendedContent();
+        self.comments = retrievedContent.data.discussion;
+        if (self.content.video) {
+          self.initYoutubeAPI();
+          self.initContentVideo();
+        }
+      }
       let input = document.getElementById('input');
       input.addEventListener('keyup', function (event) {
         event.preventDefault();
@@ -69,13 +87,12 @@ export class ContentViewComponent implements OnInit {
           document.getElementById('cancelBtn').click();
         }
       });
-      console.log('Retrieved: ' + retrievedContent.data);
     });
   }
 
   // admin is done with reviewing the content, send him back to his page
   returnToContentRequests(): void {
-    this.router.navigate(['admin/ContentRequests']);
+    this.router.navigate(['admin']);
   }
 
   // delete Content function
@@ -184,12 +201,10 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     // remove unnecessary spaces
     let searchQuery =
+      this.content.title + ' ' +
       this.content.category + ' ' +
       this.content.section + ' ' +
       this.content.tags.join(' ');
-
-    // print statements for debugging
-    console.log('Query Tags: ' + searchQuery);
 
     // retrieve search page from the server
     this.contentService.getSearchPage(
@@ -198,11 +213,48 @@ export class ContentViewComponent implements OnInit {
       searchQuery,
       '',
       '',
-      'relevance'
+      'relevance',
+      this.content.language
     ).subscribe(function (res) {
       // update the recommended content array
       self.recommendedContent = res.data.contents.docs.slice(1);
     });
 
   }
+
+  initYoutubeAPI() {
+    const apiScriptTag = document.createElement('script');
+    apiScriptTag.src = 'https://www.youtube.com/iframe_api';
+    const firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(apiScriptTag, firstScriptTag);
+  }
+
+  initContentVideo() {
+    const self = this;
+    this.videoId = this.videoIdExtractorPipe.transform(this.content.video);
+    window['onYouTubeIframeAPIReady'] = function (event) {
+      self.YT = window['YT'];
+      self.player = new window['YT'].Player('player', {
+        videoId: self.videoId,
+        events: {
+          'onStateChange': self.onPlayerStateChange.bind(self)
+        }
+      });
+    };
+  }
+
+  onPlayerStateChange(event) {
+    const self = this;
+    if (event.data === window['YT'].PlayerState.ENDED) {
+      this.contentService.addLearningScore(self.content._id).subscribe(function (res) {
+        if (!res) {
+          return;
+        }
+        self.toasterService.success(res.msg, 'success');
+        console.log(self.toasterService.previousToastMessage);
+      });
+    }
+  }
+
+
 }

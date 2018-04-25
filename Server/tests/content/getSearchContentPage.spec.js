@@ -189,7 +189,8 @@ var runValidityTests = function () {
             chai.request(server).
                 get('/api/content/3/' +
                     'number/search?searchQuery=' +
-                    '&sort=relevance&category=cat1&section=sec1').
+                    '&sort=relevance&category=cat1' +
+                    '&section=sec1&language=english').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -206,7 +207,8 @@ var runValidityTests = function () {
             chai.request(server).
                 get('/api/content/number/' +
                     '1/search?searchQuery=' +
-                    '&sort=relevance&category=cat1&section=sec1').
+                    '&sort=relevance&category=cat1' +
+                    '&section=sec1&language=english').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -223,7 +225,8 @@ var runValidityTests = function () {
             chai.request(server).
                 get('/api/content/3/' +
                     '1/search?' +
-                    '&sort=relevance&category=cat1&section=sec1').
+                    '&sort=relevance&category=cat1' +
+                    '&section=sec1&language=english').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -240,7 +243,7 @@ var runValidityTests = function () {
             chai.request(server).
                 get('/api/content/3/' +
                     '1/search?searchQuery=' +
-                    '&category=cat1&section=sec1').
+                    '&category=cat1&section=sec1&language=english').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -257,7 +260,7 @@ var runValidityTests = function () {
             chai.request(server).
                 get('/api/content/3/' +
                     '1/search?searchQuery=' +
-                    '&sort=relevance&section=sec1').
+                    '&sort=relevance&section=sec1&language=english').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -274,7 +277,7 @@ var runValidityTests = function () {
             chai.request(server).
                 get('/api/content/3/' +
                     '1/search?searchQuery=' +
-                    '&sort=relevance&category=cat1').
+                    '&sort=relevance&category=cat1&language=english').
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -299,6 +302,7 @@ var runNoQueryTests = function () {
                 body: '<h1>Hello</h1>',
                 category: 'cat77',
                 creator: 'Omar',
+                language: 'english',
                 section: 'sec77',
                 title: 'Test Content'
             }));
@@ -310,6 +314,7 @@ var runNoQueryTests = function () {
                     body: '<h1>Hello</h1>',
                     category: 'cat1',
                     creator: 'Omar',
+                    language: 'english',
                     section: 'sec1',
                     title: 'Test Content' + counter
                 }));
@@ -319,7 +324,7 @@ var runNoQueryTests = function () {
             saveAllAndTest(
                 done,
                 '/api/content/3/1/search?searchQuery=' +
-                '&sort=relevance&category=cat1&section=sec1',
+                '&sort=relevance&category=cat1&section=sec1&language=english',
                 3,
                 'cat1',
                 'sec1',
@@ -339,6 +344,7 @@ var runNoQueryTests = function () {
                     body: '<h1>Hello</h1>',
                     category: 'cat' + counter,
                     creator: 'Omar',
+                    language: 'english',
                     section: 'sec1',
                     title: 'Test Content' + counter
                 }));
@@ -347,7 +353,7 @@ var runNoQueryTests = function () {
             saveAllAndTest(
                 done,
                 '/api/content/3/1/search?searchQuery=' +
-                '&sort=relevance&category=&section=',
+                '&sort=relevance&category=&section=&language=english',
                 3,
                 '',
                 '',
@@ -367,6 +373,7 @@ var runQueryTests = function () {
                 body: '<h1>Hello</h1>',
                 category: 'cat77',
                 creator: 'Omar',
+                language: 'english',
                 section: 'sec77',
                 title: 'No Retrieval Content'
             }));
@@ -378,6 +385,7 @@ var runQueryTests = function () {
                     body: '<h1>Hello</h1>',
                     category: 'cat1',
                     creator: 'Omar',
+                    language: 'english',
                     section: 'sec1',
                     title: 'Test ' + counter
                 }));
@@ -389,6 +397,7 @@ var runQueryTests = function () {
                 body: '<h1>Hello</h1>',
                 category: 'cat77',
                 creator: 'Omar',
+                language: 'english',
                 section: 'sec77',
                 tags: ['Test'],
                 title: 'Retrieval Tags Content'
@@ -398,7 +407,7 @@ var runQueryTests = function () {
             saveAllAndTest(
                 done,
                 '/api/content/5/1/search?searchQuery=Test' +
-                '&sort=relevance&category=&section=',
+                '&sort=relevance&category=&section=&language=english',
                 4,
                 '',
                 '',
@@ -416,6 +425,7 @@ var runQueryTests = function () {
                 body: '<h1>Hello</h1>',
                 category: 'cat77',
                 creator: 'Omar',
+                language: 'english',
                 section: 'sec77',
                 title: 'No Retrieval Content'
             }));
@@ -427,6 +437,7 @@ var runQueryTests = function () {
                     body: '<h1>Hello</h1>',
                     category: 'cat1',
                     creator: 'Omar',
+                    language: 'english',
                     section: 'sec1',
                     title: 'Test ' + counter
                 }));
@@ -438,6 +449,7 @@ var runQueryTests = function () {
                 body: '<h1>Hello</h1>',
                 category: 'cat77',
                 creator: 'Omar',
+                language: 'english',
                 section: 'sec77',
                 tags: ['Test'],
                 title: 'Retrieval Tags Content'
@@ -447,7 +459,7 @@ var runQueryTests = function () {
             saveAllAndTest(
                 done,
                 '/api/content/5/1/search?searchQuery=nothing' +
-                '&sort=relevance&category=&section=',
+                '&sort=relevance&category=&section=&language=english',
                 0,
                 '',
                 '',
@@ -468,6 +480,7 @@ var runSortTests = function () {
                 body: '<h1>Hello</h1>',
                 category: 'cat77',
                 creator: 'Omar',
+                language: 'english',
                 section: 'sec77',
                 title: 'No Retrieval Content'
             }));
@@ -479,6 +492,7 @@ var runSortTests = function () {
                     body: '<h1>Hello</h1>',
                     category: 'cat1',
                     creator: 'Omar',
+                    language: 'english',
                     section: 'sec1',
                     title: 'Test ' + counter
                 }));
@@ -490,6 +504,7 @@ var runSortTests = function () {
                 body: '<h1>Hello</h1>',
                 category: 'cat77',
                 creator: 'Omar',
+                language: 'english',
                 section: 'sec77',
                 tags: ['Test'],
                 title: 'Retrieval Tags Content'
@@ -499,7 +514,7 @@ var runSortTests = function () {
             saveAllAndTest(
                 done,
                 '/api/content/5/1/search?searchQuery=Test' +
-                '&category=&section=&sort=upload date',
+                '&category=&section=&sort=upload date&language=english',
                 4,
                 '',
                 '',
@@ -518,6 +533,7 @@ var runSortTests = function () {
                 body: '<h1>Hello</h1>',
                 category: 'cat77',
                 creator: 'Omar',
+                language: 'english',
                 rating: 5,
                 section: 'sec77',
                 title: 'No Retrieval Content'
@@ -530,6 +546,7 @@ var runSortTests = function () {
                     body: '<h1>Hello</h1>',
                     category: 'cat1',
                     creator: 'Omar',
+                    language: 'english',
                     rating: counter,
                     section: 'sec1',
                     title: 'Test ' + counter
@@ -542,6 +559,7 @@ var runSortTests = function () {
                 body: '<h1>Hello</h1>',
                 category: 'cat77',
                 creator: 'Omar',
+                language: 'english',
                 rating: 3,
                 section: 'sec77',
                 tags: ['Test'],
@@ -552,7 +570,7 @@ var runSortTests = function () {
             saveAllAndTest(
                 done,
                 '/api/content/5/1/search?searchQuery=Test' +
-                '&category=&section=&sort=rating',
+                '&category=&section=&sort=rating&language=english',
                 4,
                 '',
                 '',
