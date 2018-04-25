@@ -38,7 +38,7 @@ describe('getUserData', function () {
         this.johnDoe = {
             address: 'John Address Sample',
             birthdate: '1/1/1980',
-            email: 'johndoe@s.s',
+            email: 'johndoe@j.d',
             firstName: 'John',
             isEmailVerified: true,
             isTeacher: true,
