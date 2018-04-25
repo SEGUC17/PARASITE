@@ -76,11 +76,11 @@ module.exports.viewPendingContReqs = function (req, res, next) {
             // return 200 if everything is OK
 
             return res.status(200).json({
-        data: finalResults,
-        err: null,
-        msg: 'Requested requests retrieved successfully.'
-    });
-});
+                data: finalResults,
+                err: null,
+                msg: 'Requested requests retrieved successfully.'
+            });
+        });
 };
 
 // view all pending study plan publish requests
@@ -475,13 +475,13 @@ module.exports.VCRResponde = function (req, res, next) {
 module.exports.getReports = function (req, res, next) {
     Report.find().exec(function (err, report) {
         if (err) {
-           return next(err);
+            return next(err);
         }
 
         return res.status(200).json({
-                data: report,
-                err: null,
-                msg: ' Reports retrieved successfully.'
-            });
+            data: report,
+            err: null,
+            msg: ' Reports retrieved successfully.'
+        });
     });
 };

@@ -1,89 +1,62 @@
-<form>
-	<div align="center" class="wrapper">
-		<mat-card class="request-form">
-        <br>
-				<mat-card-header style="width:100%">
-					<mat-card-title id="title">
-							Edit your information on our address book:
-					</mat-card-title>
-				</mat-card-header>
-			<br><br>
+<div class="container-fluid">
+	<div class="col-lg-12">
+		<div class="card" style="height:max-content; width:100%">
+			<div class="header">
+				<ul class="header-dropdown">
+					<li class="remove">
+						<a role="button" class="boxs-close" (click)="close()" ><i class="zmdi zmdi-close"></i></a>
+					</li>
+				</ul>
+			</div>
 			<div align="left">
-				<mat-card-content class="mat-card-content">
-				    <mat-form-field>
-                        <input matInput name="firstName" placeholder="{{psychologist.firstName}}" id="firstName" [formControl]="firstNameFormControl"
-                        [errorStateMatcher]="matcher" [(ngModel)]="formInput.firstName" >
-                        <mat-label>First Name</mat-label>
-                            <button mat-button *ngIf="formInput.firstName" matSuffix mat-icon-button aria-label="Clear" (click)="formInput.firstName=''">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                    </mat-form-field>
+				<div class="body">
+					<h3 class="text-primary" style="color:primary">Contact Information</h3>
+					<fieldset>
+						<div class="form-group form-float">
+							<input type="text" class="form-control" placeholder="First Name *" name="firstName" id="psychFirstName" 
+							[formControl]="firstNameFormControl" [(ngModel)]="value" value="{{psychologist.firstName}}" required>
+						</div>
+						<div class="form-group form-float">
+								<input type="text" class="form-control" placeholder="Last Name *" name="lastName" id="psychLastName" 
+								[formControl]="lastNameFormControl" [(ngModel)]="value1" value="{{psychologist.lastName}}" required>
+						</div>
+						<div class="form-group form-float">
+							<input type="text" class="form-control" placeholder="Phone Number"  id="psychPhoneNumber" name="confirm" 
+							[formControl]="phoneFormControl" [(ngModel)]="value2" value="{{psychologist.phone}}">
+						</div>
+						<div class="form-group form-float">
+						  <input type="email" class="form-control required" placeholder="Email *" name="email"
+						  [formControl]="emailFormControl" value="{{psychologist.email}}" required>
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
+								<mat-select class="form-control" placeholder="Days Off" [formControl]="daysOff" multiple value="{{psychologist.daysOff}}" >
+									<mat-option *ngFor="let day of daysOfWeek" [value]="day">{{day}}</mat-option>
+								</mat-select>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group form-float">
+									<input type="number" class="form-control" placeholder="Maximum Price Range:" id="psychPriceRange" 
+									[formControl]="priceFormControl" [(ngModel)]="value5" value="{{psychologist.priceRange}}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="form-control">
+								<textarea rows="2" maxlength="120" class="form-control no-resize" placeholder="Address..."
+								id="psychAddress" [formControl]="addFormControl" [(ngModel)]="value3" style="font-size:15px" value="{{psychologist.address}}"></textarea>
+							</div>
+						</div>
+					</fieldset>
+					<span> <small> you don't have to fill on all fields, just fill the ones you wish to edit.</small></span>
+					<div align="right">
+						<button class="btn btn-primary hidden-sm-down float-right m-l-10" id="btn" (click)="editPsychologists()">Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-            <mat-form-field>
-              <input matInput placeholder="{{psychologist.lastName}}" name="lastName"  id="lastName" [formControl]="lastNameFormControl"
-              [errorStateMatcher]="matcher"  [(ngModel)]="formInput.lastName" >
-              <mat-label>Last Name</mat-label>
-                <button mat-button *ngIf="formInput.lastName" matSuffix mat-icon-button aria-label="Clear" (click)="formInput.lastName=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </mat-form-field>
-            
-            <mat-form-field>
-                <input matInput placeholder="{{psychologist.phone}}" name="phone" id="phone" [formControl]="phoneFormControl"
-                [(ngModel)]="formInput.phone" >
-                <mat-label>Phone Number</mat-label>
-                <button mat-button *ngIf="formInput.phone" matSuffix mat-icon-button aria-label="Clear" (click)="formInput.phone=''">
-                    <mat-icon>close</mat-icon>
-                </button>
-              </mat-form-field>
 
-              <mat-form-field>
-                  <input matInput placeholder="{{psychologist.address}}" name="address" id="address" [formControl]="addFormControl"
-                    [(ngModel)]="formInput.address">
-                  <mat-label>Adress</mat-label>
-                    <button mat-button *ngIf="formInput.address" matSuffix mat-icon-button aria-label="Clear" (click)="formInput.address=''">
-                        <mat-icon>close</mat-icon>
-                    </button>
-                </mat-form-field>
 
-                <mat-form-field id="email-input">
-                    <input matInput placeholder="{{psychologist.email}}" name="email" id="email" [formControl]="emailFormControl"
-                    [errorStateMatcher]="matcher"  [(ngModel)]="formInput.email" >
-                    <mat-label>Email</mat-label>
-                    <button mat-button *ngIf="formInput.email" matSuffix mat-icon-button aria-label="Clear" (click)="formInput.email=''">
-                            <mat-icon>close</mat-icon>
-                    </button>
-                    <mat-error *ngIf="emailFormControl.hasError('email')">
-                            Please enter a valid email address
-                    </mat-error>
-                  </mat-form-field>
-
-                    <mat-form-field id="days-off-input">
-                        <mat-select placeholder="Days Off:" [formControl]="daysOff" [(ngModel)]="formInput.daysOff" multiple >
-                          <mat-option *ngFor="let day of daysOfWeek" [value]="day">{{day}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field>
-                        <input matInput placeholder="{{psychologist.priceRange}}" name="priceRange"  id="psychPriceRange" 
-                        [formControl]="priceFormControl" [(ngModel)]="formInput.priceRange" >
-                        <mat-label>Maximum price range</mat-label>
-                        <button mat-button *ngIf="formInput.priceRange" matSuffix mat-icon-button aria-label="Clear" (click)="formInput.priceRange=''">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field>
-          </mat-card-content>
-          <div align="right">
-              <mat-card-actions class="mat-card-actions">
-                    <button mat-raised-button color="primary" id="btn" (click)="close()" >Cancel</button>
-                    <button mat-raised-button color="primary" id="btn" (click)="editPsychologists()" >Edit</button>
-              </mat-card-actions>
-          </div>
-      
-            <mat-card-footer class="mat-card-footer">
-            </mat-card-footer>
-
-        </div>
-    </mat-card>
-  </div>
-</form>

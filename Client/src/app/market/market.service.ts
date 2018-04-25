@@ -11,7 +11,7 @@ const httpOptions = {
 
 @Injectable()
 export class MarketService {
-  
+
   host: String = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
@@ -26,15 +26,7 @@ export class MarketService {
       catchError(this.handleError('getMarketPage', []))
     );
   }
-  // gets the total number of products
-  // restrict the products to the ones following the delimiters given
-  numberOfMarketPages(limiters: any): Observable<any> {
-    console.log(JSON.stringify(limiters));
-    let url = this.host + 'market/getNumberOfProducts/' + JSON.stringify(limiters);
-    return this.http.get(url).pipe(
-      catchError(this.handleError('getNumberOfProducts', []))
-    );
-  }
+
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
       console.error(error);

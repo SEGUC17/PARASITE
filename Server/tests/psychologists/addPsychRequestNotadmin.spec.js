@@ -37,6 +37,7 @@ describe('send a request by a reular rgistered/unregistered user', function () {
 /* End of "Clearing Mockgoose" */
 describe('send a request to add psychologist by a reular rgistered/unregistered user', function () {
     it('post a request to add psychologist information', function () {
+        // The Request to be tested:
         var req = {
             address: 'here',
             createdAt: '1/1/2018',

@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /*eslint no-underscore-dangle: ["error", { "allow": ["__v","_id"] }]*/
 var mongoose = require('mongoose');
-var Validations = require('../utils/validators/is-object-id');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
 
@@ -41,37 +40,6 @@ var options = function (toFind, params) {
     return ret;
 };
 
-// get number of products in the DB
-// restricted by delimiters given as a JSON object in the URL
-module.exports.getNumberOfProducts = function (req, res, next) {
-    var toFind = JSON.parse(req.params.limiters);
-    // validations
-    var valid = (!toFind.price || !isNaN(toFind.price)) &&
-        (!toFind.name || typeof toFind.name === 'string') &&
-        (!toFind.seller || typeof toFind.seller === 'string');
-
-    // the request was not valid
-    if (!valid) {
-        return res.status(422).json({
-            data: null,
-            err: 'The required fields were missing or of wrong type.',
-            msg: null
-        });
-    }
-    var limiters = limits(toFind);
-    Product.find(limiters).count().
-        exec(function (err, count) {
-            if (err) {
-                return next(err);
-            }
-
-            return res.status(200).json({
-                data: count,
-                err: null,
-                msg: 'Number of products = ' + count
-            });
-        });
-};
 // get the actual products in the DB
 // restricted by delimiters given as a JSON object in the URL
 module.exports.getMarketPage = function (req, res, next) {
@@ -244,7 +212,7 @@ module.exports.evaluateRequest = function (req, res, next) {
             });
         } else {
             // Simply delete the request and notify the user
-            ProductRequest.findByIdAndRemove(req.body._id, function (err, product) {
+            ProductRequest.findByIdAndRemove(req.body._id, function (err) {
                 if (err) {
                     return res.status(404).json({
                         data: null,
