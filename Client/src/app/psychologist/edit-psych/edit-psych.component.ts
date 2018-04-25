@@ -65,17 +65,17 @@ export class EditPsychComponent implements OnInit {
 
   editPsychologists(): void {
     const self = this;
-    console.log(this.daysOff.value);
+    console.log(this.firstNameFormControl.value);
     const req = {
       editID: this.psychologist._id,
-      firstName: (this.formInput.firstName) ? this.formInput.firstName : this.psychologist.firstName,
-      lastName: (this.formInput.lastName) ? this.formInput.lastName : this.psychologist.lastName,
-      phone: (this.formInput.phone) ? this.formInput.phone : this.psychologist.phone,
-      address: (this.formInput.address) ? this.formInput.address : this.psychologist.address,
-      email: (this.formInput.email) ? this.formInput.email : this.psychologist.email,
-      daysOff: (this.formInput.daysOff) ? this.formInput.daysOff : this.psychologist.daysOff,
+      firstName: (this.firstNameFormControl.value) ? this.firstNameFormControl.value : this.psychologist.firstName,
+      lastName: (this.lastNameFormControl.value) ? this.lastNameFormControl.value : this.psychologist.lastName,
+      phone: (this.phoneFormControl.value) ? this.phoneFormControl.value : this.psychologist.phone,
+      address: (this.addFormControl.value) ? this.addFormControl.value : this.psychologist.address,
+      email: (this.emailFormControl.value) ? this.emailFormControl.value : this.psychologist.email,
+      daysOff: (this.daysOff.value) ? this.daysOff.value : this.psychologist.daysOff,
       type: 'edit',
-      priceRange: parseInt(((this.formInput.priceRange) ? this.formInput.priceRange : this.psychologist.priceRange), 10)
+      priceRange: parseInt(((this.priceFormControl.value) ? this.priceFormControl.value : this.psychologist.priceRange), 10)
     };
     this.psychologistService.editRequest(req).subscribe(function (res) {
       if (res.err == null) {

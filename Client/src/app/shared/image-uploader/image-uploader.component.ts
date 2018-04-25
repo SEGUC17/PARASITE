@@ -2,6 +2,9 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CloudinaryOptions, CloudinaryUploader } from 'ng2-cloudinary';
 import { CloudinaryCredentials } from '../../variables';
 
+
+
+
 @Component({
   selector: 'app-image-uploader',
   templateUrl: './image-uploader.component.html',
@@ -9,7 +12,7 @@ import { CloudinaryCredentials } from '../../variables';
 })
 export class ImageUploaderComponent implements OnInit {
 
-
+ 
   //
   // # Getting Started;
   //
