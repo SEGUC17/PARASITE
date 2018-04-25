@@ -81,17 +81,18 @@ export class AuthService {
     );
   }
 
-  resetpassword(email): any {
+  forgotPassword(email): any {
     const self = this;
-    return this.http.get<any>(environment.apiUrl + 'resetpassword/' + email).pipe(
-      catchError(self.handleError('resetpassword', []))
+    return this.http.get<any>(environment.apiUrl + 'forgotPassword/' + email).pipe(
+      catchError(self.handleError('forgotPassword', []))
     );
   }
 
-  ChangePassword(email, pws): Observable<any> {
+  resetPassword(id, newpassword): Observable<any> {
     const self = this;
-    return this.http.patch<any>(environment.apiUrl + 'changepassword/' + email, pws, httpOptions).pipe(
-      catchError(self.handleError('changepassword', []))
+    console.log(newpassword);
+    return this.http.patch<any>(environment.apiUrl + 'forgotPassword/resetpassword/' + id, newpassword, httpOptions).pipe(
+      catchError(self.handleError('resetPassword', []))
     );
 
   }

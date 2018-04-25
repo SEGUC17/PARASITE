@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthRoutingModule } from './auth-routing.module';
-import { ResetPasswordComponent} from './resetpassword/resetpassword.component';
+import { SignupComponent } from './signup/signup.component';
+import { ForgotPasswordComponent} from './forgotPassword/forgotPassword.component';
+import { ResetPasswordComponent} from './forgotPassword/resetpassword/resetpassword.component';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from './auth.service';
 import {
@@ -35,6 +37,6 @@ import { SignOutComponent } from './sign-out/sign-out.component';
     MatCheckboxModule,
     MatSelectModule
   ],
-  declarations: [ResetPasswordComponent, VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent]
+  declarations: [ForgotPasswordComponent, ResetPasswordComponent, VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent]
 })
 export class AuthModule { }
