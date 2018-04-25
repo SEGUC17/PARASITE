@@ -104,6 +104,12 @@ module.exports = function (passport) {
     DiscussionController.postCommentReply
   );
   router.post('/activities', isAuthenticated, ActivityController.postActivity);
+  router.post(
+    '/activities/:activityId/book',
+    isAuthenticated,
+    ActivityController.isIndependent,
+    ActivityController.bookActivity
+  );
   router.delete(
     '/activities/:activityId/comments/:commentId',
     isAuthenticated,
