@@ -5,13 +5,28 @@ var server = require('../../app');
 var Product = mongoose.model('Product');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
-
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
-
+var User = mongoose.model('User');
+var should = require('chai').should();
 
 chai.use(chaiHttp);
+
+// user for authentication
+var user = new User({
+    birthdate: '1/1/1980',
+    email: 'omar@omar.omar',
+    firstName: 'Omar',
+    isAdmin: false,
+    isEmailVerified: true,
+    lastName: 'Elkilany',
+    password: '123456789',
+    phone: '0112345677',
+    username: 'omar'
+});
+// authenticated token
+var token = null;
 
 // an array for insertions
 var docArray = [];
@@ -26,6 +41,7 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
         if (docArray.length === 0) {
             chai.request(server).
                 get(requestUrl).
+                set('Authorization', token).
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -45,23 +61,36 @@ var saveAllAndTest = function (done, requestUrl, pageLength) {
 describe('/GET/ Market Page', function () {
     this.timeout(120000);
 
+
     // --- Mockgoose Initiation --- //
     before(function (done) {
         mockgoose.prepareStorage().then(function () {
             mongoose.connect(config.MONGO_URI, function () {
-                done();
+                mockgoose.helper.reset().then(function () {
+                    user.save(function (err) {
+                        if (err) {
+                            throw err;
+                        }
+                        chai.request(server).
+                            post('/api/signIn').
+                            send({
+                                'password': '123456789',
+                                'username': 'omar'
+                            }).
+                            end(function (err2, response) {
+                                if (err2) {
+                                    return console.log(err2);
+                                }
+                                response.should.have.status(200);
+                                token = response.body.token;
+                                done();
+                            });
+                    });
+                });
             });
         });
     });
     // --- End of "Mockgoose Initiation" --- //
-
-    // --- Clearing Mockgoose --- //
-    beforeEach(function (done) {
-        mockgoose.helper.reset().then(function () {
-            done();
-        });
-    });
-    // --- End of "Clearing Mockgoose" --- //
 
     it('it should GET page of products from the server ' +
         'with a name that partially or totally' +
@@ -122,6 +151,7 @@ describe('/GET/ Market Page', function () {
                 5
             );
         });
+
     it('it should GET page of market from the server ' +
         'with no specific name or price', function (done) {
             for (var counter = 0; counter < 5; counter += 1) {
@@ -210,6 +240,7 @@ describe('/GET/ Market Page', function () {
             chai.request(server).
                 get('/api/market/getMarketPage/wrongType/1/' +
                     JSON.stringify(limiters)).
+                    set('Authorization', token).
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -226,6 +257,7 @@ describe('/GET/ Market Page', function () {
             chai.request(server).
                 get('/api/market/getMarketPage/5/pageNumber/' +
                     JSON.stringify(limiters)).
+                    set('Authorization', token).
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -242,6 +274,7 @@ describe('/GET/ Market Page', function () {
             chai.request(server).
                 get('/api/market/getMarketPage/5/1/' +
                     JSON.stringify(limiters)).
+                    set('Authorization', token).
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -258,6 +291,7 @@ describe('/GET/ Market Page', function () {
             chai.request(server).
                 get('/api/market/getMarketPage/5/1/' +
                     JSON.stringify(limiters)).
+                    set('Authorization', token).
                 end(function (error, res) {
                     if (error) {
                         return console.log(error);
@@ -267,11 +301,12 @@ describe('/GET/ Market Page', function () {
                 });
         }
     );
-
     // --- Mockgoose Termination --- //
     after(function (done) {
-        mongoose.connection.close(function () {
-            done();
+        mockgoose.helper.reset().then(function () {
+            mongoose.connection.close(function () {
+                done();
+            });
         });
     });
     // --- End of "Mockgoose Termination" --- //

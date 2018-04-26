@@ -19,6 +19,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SafeResourceUrlPipe } from './safe-resource-url.pipe';
+import { VideoIdExtractorPipe } from './video-id-extractor.pipe';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
 import { AdminModule } from '../admin/admin.module';
@@ -26,9 +27,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { SharedModule } from '../shared/shared.module';
-import {MatListModule} from '@angular/material/list';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -59,7 +61,14 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatDividerModule,
     MatTooltipModule
   ],
-  providers: [ContentService],
-  declarations: [ContentEditComponent, ContentListViewComponent, ContentViewComponent, SafeResourceUrlPipe, SafeHtmlPipe]
+  providers: [ContentService, ToastrService, VideoIdExtractorPipe],
+  declarations: [
+    ContentEditComponent,
+    ContentListViewComponent,
+    ContentViewComponent,
+    SafeResourceUrlPipe,
+    SafeHtmlPipe,
+    VideoIdExtractorPipe
+  ]
 })
 export class ContentModule { }

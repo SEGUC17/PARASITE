@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var chai = require('chai');
 var server = require('../../app');
-//var User = mongoose.model('User');
+var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 var should = chai.should();
@@ -20,6 +20,7 @@ var user1 = {
     email: 'magicx@gmail.com',
     firstName: 'omar',
     id: '',
+    isEmailVerified: true,
     lastName: 'omar',
     password: '123456789',
     phone: '01111111111',
@@ -30,6 +31,7 @@ var user2 = {
     birthdate: '10/10/1997',
     email: 'lama@gmail.com',
     firstName: 'lama',
+    isEmailVerified: true,
     lastName: 'ahmed',
     password: '123456789',
     phone: '01111111111',
@@ -91,23 +93,14 @@ describe('Change my personal information', function () {
     // --- End of "Clearing Mockgoose" --- //
 
     beforeEach(function (done) {
-        chai.request(server).
-            post('/api/signUp').
-            send(user2).
-            end(function (err1, response1) {
-                if (err1) {
-                    return console.log(err1);
+        User.create(user2, function (err5) {
+            if (err5) {
+                done(err5);
+            }
+            User.create(user1, function (err4) {
+                if (err4) {
+                    done(err4);
                 }
-                response1.should.have.status(201);
-                chai.request(server).
-                    post('/api/signUp').
-                    send(user1).
-                    end(function (err, response) {
-                        if (err) {
-                            return console.log(err);
-                        }
-                        response.should.have.status(201);
-                        token = response.body.token;
                         var authenticatedUser = request.agent(server);
                         // Sign in
                         authenticatedUser.
@@ -165,7 +158,7 @@ describe('Change my personal information', function () {
                 done();
             });
     });
-    // --------------------------------------------------------------------------
+   // --------------------------------------------------------------------------
     it('It should not allow duplicate username', function (done) {
         chai.request(server).
             patch('/api/profile/ChangeInfo/' +

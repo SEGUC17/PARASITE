@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys */
 /* eslint-disable max-len */
-/* eslint-disable no-shadow */
+/* eslint-disable max-statements */
 
 var mongoose = require('mongoose');
 var chai = require('chai');
@@ -18,11 +18,11 @@ var Mockgoose = require('mockgoose').Mockgoose;
 var mockgoose = new Mockgoose(mongoose);
 
 
-
 var user = {
     birthdate: '7/7/1997',
     email: 'fsociety@gmail.com',
     firstName: 'Mr',
+    isEmailVerified: true,
     lastName: 'Robot',
     password: '123456789',
     phone: '01111225223',
@@ -32,6 +32,7 @@ var user2 = {
     birthdate: '7/7/1997',
     email: 'fsociety1@gmail.com',
     firstName: 'Mr',
+    isEmailVerified: true,
     lastName: 'Robot',
     password: '123456789',
     phone: '01111225223',
@@ -68,8 +69,8 @@ var userIn = {
     username: 'fsociety',
     password: '123456789'
 };
-var token;
-var id;
+var token = null;
+var id = '';
 var authenticatedUser = request.agent(server);
 
 describe('/PATCH/ edit child info', function () {
@@ -95,52 +96,39 @@ describe('/PATCH/ edit child info', function () {
     // --- End of "Clearing Mockgoose" --- //
 
 
-
     beforeEach(function (done) {
-        chai.request(server).
-            post('/api/signUp').
-            send(user2).
-            end(function (err, response) {
-
-                if (err) {
-                    console.log(err);
-
-                    return console.log(err);
+        User.create(user2, function (err) {
+            if (err) {
+                done(err);
+            }
+            User.create(user, function (err3) {
+                if (err3) {
+                    done(err3);
                 }
-                response.should.have.status(201);
-                token = response.body.token;
-                chai.request(server).
-                    post('/api/signUp').
-                    send(user).
-                    end(function (err, response1) {
-
-                        if (err) {
-                            console.log(err);
-
-                            return console.log(err);
-                        }
-                        response1.should.have.status(201);
-                        token = response1.body.token;
                         authenticatedUser.
                             post('/api/signIn').
                             send(userIn).
-                            end(function (err, response) {
-                                response.should.have.status(200);
-                                token = response.body.token;
+                            end(function (err1, response2) {
+                                response2.should.have.status(200);
+                                token = response2.body.token;
                                 var array = [
                                     '_id',
                                     'username'
                                 ];
-                                if (err) {
-                                    console.log(err);
+                                if (err1) {
+                                    console.log(err1);
+
+                                    return err1;
                                 }
                                 chai.request(server).
                                     post('/api/userData').
                                     send(['_id']).
                                     set('Authorization', token).
-                                    end(function (err, returned) {
-                                        if (err) {
-                                            console.log(err);
+                                    end(function (err2, returned) {
+                                        if (err2) {
+                                            console.log(err2);
+
+                                            return err2;
                                         }
                                         returned.should.have.status(200);
                                         id = returned.body.data._id;
@@ -162,6 +150,11 @@ describe('/PATCH/ edit child info', function () {
             end(function (err, res) {
                 res.should.have.status(403);
                 res.body.should.have.property('msg').eql('Username already exists');
+                if (err) {
+                    console.log(err);
+
+                    return err;
+                }
                 done();
             });
     });
@@ -172,6 +165,11 @@ describe('/PATCH/ edit child info', function () {
             end(function (err, res1) {
                 res1.should.have.status(403);
                 res1.body.should.have.property('msg').eql('Email already exists');
+                if (err) {
+                    console.log(err);
+
+                    return err;
+                }
                 done();
             });
     });
@@ -181,13 +179,18 @@ describe('/PATCH/ edit child info', function () {
             send(newInfo3).
             end(function (err, res2) {
                 res2.should.have.status(200);
-                res2.body.should.have.property('msg').eql('Info updated succesfully.');
+                res2.body.should.have.property('msg').eql('Info updated successfully.');
                 res2.body.data.username.should.eql('hulk');
                 res2.body.data.firstName.should.eql('H');
                 res2.body.data.lastName.should.eql('Rihan');
                 res2.body.data.email.should.eql('fsociety@gmail.com');
                 res2.body.data.phone.should.eql(['01111225223']);
                 res2.body.data.birthdate.should.eql('1997-07-29T21:00:00.000Z');
+                if (err) {
+                    console.log(err);
+
+                    return err;
+                }
                 done();
             });
     });

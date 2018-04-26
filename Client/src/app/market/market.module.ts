@@ -19,6 +19,7 @@ import {MatSliderModule,
 MatSlideToggleModule, MatIconModule, MatRadioModule, MatChipsModule} from '@angular/material';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RequestDetailComponent } from './request-detail/request-detail.component';
+import { SharedModule } from '../shared/shared.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,6 +32,7 @@ import { RequestDetailComponent } from './request-detail/request-detail.componen
     MatInputModule,
     MatOptionModule,
     MatSelectModule,
+    SharedModule,
     MatGridListModule,
     MatPaginatorModule,
     MatRadioModule,

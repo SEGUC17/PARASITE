@@ -2,7 +2,7 @@
 
 
 
-<div id = "wrapper">
+<div id = "wrapper" *ngIf = "false">
     <div id = "PPDiv">
       <img id = "PP" src= "../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
       <br>
@@ -247,3 +247,255 @@
 
 
 </div>
+
+<section class="content profile-page">
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-7 col-md-6 col-sm-12">
+        <h2>Profile
+        </h2>
+      </div>
+      <div class="col-lg-5 col-md-6 col-sm-12">
+        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
+          <i class="zmdi zmdi-plus"></i>
+        </button>
+        <ul class="breadcrumb float-md-right">
+          <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> sQuare</a></li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12">
+        <div class="card profile-header bg-dark">
+          <div class="body col-white">
+            <div class="row">
+              <div class="col-lg-3 col-md-4 col-12">
+                <div class="profile-image float-md-right"> <img src="assets/images/defaultProfilePic.png" alt=""> </div>
+              </div>
+              <div class="col-lg-9 col-md-8 col-12">
+                <h4 class="m-t-0 m-b-0"><strong>{{currIsOwner? firstName : vFirstName}}</strong>{{currIsOwner? lastName : vLastName}}</h4>
+                <span class="job_post">Ui UX Designer</span>
+                <p>{{currIsOwner? address : vAddress}}</p>
+                <div>
+                  <button class="btn btn-primary btn-round">Follow</button>
+                  <button class="btn btn-primary btn-round btn-simple">Message</button>
+                  <button class="btn btn-primary btn-round btn-simple" style="float: right" (click) = "reportPopUp()">Report</button>
+                </div>
+                <p class="social-icon m-t-5 m-b-0">
+                  <a title="Twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
+                  <a title="Facebook" href="javascript:void(0);"><i class="zmdi zmdi-facebook"></i></a>
+                  <a title="Google-plus" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
+                  <a title="Behance" href="javascript:void(0);"><i class="zmdi zmdi-behance"></i></a>
+                  <a title="Instagram" href="javascript:void(0);"><i class="zmdi zmdi-instagram "></i></a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row clearfix">
+      <div class="col-lg-4 col-md-12">
+        <div class="card">
+          <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#about">About</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#friends">Children</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane body active" id="about">
+              <small class="text-muted">Email address: </small>
+              <p>{{currIsOwner? email : vEmail}}</p>
+              <hr>
+              <small class="text-muted">Phone: </small>
+              <p>{{currIsOwner? phone : vPhone}}</p>
+              <hr>
+              <small class="text-muted">Birth Date: </small>
+              <p class="m-b-0" >{{(currIsOwner? birthday : vBirthday) | date: "MM/dd/yyyy"}}</p>
+              <hr>
+              <small class="text-muted">Age: </small>
+              <p class="m-b-0" >{{currIsOwner? age : vAge}}</p>
+            </div>
+            <div class="tab-pane body" id="friends">
+              <ul class="new_friend_list list-unstyled row">
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Jackson</h6>
+                    <small class="join_date">Today</small>
+                  </a>
+                </li>
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Jackson</h6>
+                    <small class="join_date">Today</small>
+                  </a>
+                </li>
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Jackson</h6>
+                    <small class="join_date">Today</small>
+                  </a>
+                </li>
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Jackson</h6>
+                    <small class="join_date">Today</small>
+                  </a>
+                </li>
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Jackson</h6>
+                    <small class="join_date">Today</small>
+                  </a>
+                </li>
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar2.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Aubrey</h6>
+                    <small class="join_date">Yesterday</small>
+                  </a>
+                </li>
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar3.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Oliver</h6>
+                    <small class="join_date">08 Nov</small>
+                  </a>
+                </li>
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar3.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Oliver</h6>
+                    <small class="join_date">08 Nov</small>
+                  </a>
+                </li>
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar4.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Isabella</h6>
+                    <small class="join_date">12 Dec</small>
+                  </a>
+                </li>
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Jacob</h6>
+                    <small class="join_date">12 Dec</small>
+                  </a>
+                </li>
+                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                  <a href="">
+                    <img src="assets/images/sm/avatar5.jpg" class="img-thumbnail" alt="User Image">
+                    <h6 class="users_name">Matthew</h6>
+                    <small class="join_date">17 Dec</small>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8 col-md-12">
+        <div class="card bg-dark">
+          <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#mypost">Personal Schedule</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#timeline">Study Plans</a></li>
+            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#usersettings">Settings</a></li>
+          </ul>
+        </div>
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane" id="usersettings">
+            <div class="card">
+              <div class="header">
+                <h2><strong>Security</strong> Settings</h2>
+              </div>
+              <div class="body">
+                <div class="form-group">
+                  <input type="text" class="form-control" placeholder="Username">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="Current Password">
+                </div>
+                <div class="form-group">
+                  <input type="password" class="form-control" placeholder="New Password">
+                </div>
+                <button class="btn btn-info btn-round">Save Changes</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="header">
+                <h2><strong>Account</strong> Settings</h2>
+              </div>
+              <div class="body">
+                <div class="row clearfix">
+                  <div class="col-lg-6 col-md-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="First Name">
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Last Name">
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="City">
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="E-mail">
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-12">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Country">
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <textarea rows="4" class="form-control no-resize" placeholder="Address Line 1"></textarea>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="checkbox">
+                      <input id="procheck1" type="checkbox">
+                      <label for="procheck1">Profile Visibility For Everyone</label>
+                    </div>
+                    <div class="checkbox">
+                      <input id="procheck2" type="checkbox">
+                      <label for="procheck2">New task notifications</label>
+                    </div>
+                    <div class="checkbox">
+                      <input id="procheck3" type="checkbox">
+                      <label for="procheck3">New friend request notifications</label>
+                    </div>
+                  </div>
+                  <div class="col-md-12">
+                    <button class="btn btn-primary btn-round">Save Changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="header">
+                <h2><strong>Block</strong> List</h2>
+              </div>
+              <div class="body">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
