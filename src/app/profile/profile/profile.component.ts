@@ -25,6 +25,7 @@ export class ProfileComponent implements OnInit {
   currIsParent = false;
   currIsChild = false;
   currIsOfAge = false;
+  currCanBeParent = false;
 
   visitedIsParent = false;
   visitedIsChild = false;
@@ -130,7 +131,9 @@ export class ProfileComponent implements OnInit {
       if (this.age > 13) {
         this.currIsOfAge = true;
       }
-
+      if (this.age >= 18) {
+        this.currCanBeParent = true;
+      }
 
       
 
