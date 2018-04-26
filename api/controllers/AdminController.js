@@ -161,9 +161,9 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                     }
                 },
                 { new: true },
-                function (err, studyPlan) {
-                    if (err) {
-                        console.log(err);
+                function (error, studyPlan) {
+                    if (error) {
+                        return next(error);
                     }
                     if (!studyPlan) {
                         return res.status(404).json({
