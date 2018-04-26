@@ -13,8 +13,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class StudyPlanListViewComponent implements OnInit {
   @Input() type: string;
-  @Input() username: string;
-  @Input() currIsChild: boolean;
+  currUsername: string;
+  profileUsername: string;
+  currIsChild: boolean;
   studyPlans: StudyPlan[];
   tempPlan: StudyPlan;
   numberOfElements: Number;
@@ -32,7 +33,7 @@ export class StudyPlanListViewComponent implements OnInit {
     private studyPlanService: StudyPlanService,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -40,19 +41,23 @@ export class StudyPlanListViewComponent implements OnInit {
   }
 
   getStudyPlans(pageEvent?: PageEvent) {
-    if (!this.username) {
-      this.username = 'undefined';
-    }
     this.authService.getUserData(['username', 'isChild']).subscribe(currUser => {
-      this.username = currUser.data.username;
+      this.currUsername = currUser.data.username;
       this.currIsChild = currUser.data.isChild;
+      this.activatedRoute.params.subscribe((params) => {
+        this.profileUsername = params.username;
+      });
       if (this.type === 'published') {
         // to retreive the pages one by one the number has to be passed to the call each time incremented by one
         // event occurs at the loading of the pages each time so if there is an event indx is incremented by one
         // else its a one as we are at the start of loading the published plans
         this.studyPlanService.getPublishedStudyPlans(pageEvent ? pageEvent.pageIndex + 1 : 1).subscribe(res => this.updateLayout(res));
-      } else {
-        this.authService.getAnotherUserData(['studyPlans'], this.username).subscribe(res => this.studyPlans = res.data.studyPlans);
+      } else if (this.type === 'personal') {
+        if (!this.profileUsername || this.currUsername === this.profileUsername) {
+          this.authService.getUserData(['studyPlans']).subscribe(res => this.studyPlans = res.data.studyPlans);
+        } else {
+          this.authService.getAnotherUserData(['studyPlans'], this.profileUsername).subscribe(res => this.studyPlans = res.data.studyPlans);
+        }
       }
     });
   }
