@@ -1,16 +1,23 @@
+
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../auth/auth.service';
-declare const swal: any;
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+
+declare const $: any;
+
 @Component({
   selector: 'app-childsignup',
   templateUrl: './childsignup.component.html',
-  styleUrls: ['./childsignup.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./childsignup.component.scss']
 })
+
+
 export class ChildsignupComponent implements OnInit {
 
-  constructor(private location: Location, private authService: AuthService) { }
+  constructor(private location: Location, private authService: AuthService,
+    private toastrService: ToastrService, private router: Router) { }
   Firstname: String = '';
   Lastname: String = '';
   Username: String = '';
@@ -25,49 +32,50 @@ export class ChildsignupComponent implements OnInit {
   Div3 = false;
   AllisWell: Boolean = true;
   User: any;
-
+  private done = false;
 
 
   ngOnInit() {
-    function showSuccessMessage() {
-      swal('Good job!', 'You clicked the button!', 'success');
-  }
+
   }
 
   register(): void {
-    // checking that password and confirm password match and all required entries are there
-    // this.checked();ser: any
-
-    if (!(this.Password === this.ConfirmPassword)) {
-      this.showDiv1();
-      this.AllisWell = false;
-    }
-
-
-    // to be continued
     if (this.AllisWell) {
       this.User = { 'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
       'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone, 'address': this.Address};
       const self = this;
       self.authService.childSignUp(this.User).subscribe(function (res) {
          this.Div3 = true;
-         this.showSuccessMessage();
-        // if ( res.data ) {
-        alert(res.msg);
-     // }
+         if ( res.msg ) {
+            self.toastrService.success(res.msg);
+            self.router.navigate(['/dashboard']);
+           }
        });
     }// end if
      this.location.back();
   }// end method
 
-  showDiv1() {
-    this.Div1 = true;
+
+  showPersonalInfoTab(): void {
+    $('#personalInfo').prop('hidden', false);
+    $('#credentials').prop('hidden', true);
+    $('#prevTab').prop('disabled', true);
+    $('#nextTab').prop('value', 'Next');
+    this.done = false;
   }
 
-
-  // this method redirects the user back to the last page he was on before signing up
-  redirect() {
-    this.location.back();
-  }// end method
+  showCredentialsTab(): void {
+    const self = this;
+    if (this.done) {
+      $('#nextTab').attr('onclick', function () {
+        self.register();
+      });
+    }
+    $('#personalInfo').prop('hidden', true);
+    $('#credentials').prop('hidden', false);
+    $('#prevTab').prop('disabled', false);
+    $('#nextTab').prop('value', 'Sign Up');
+    this.done = true;
+  }
 
 }
