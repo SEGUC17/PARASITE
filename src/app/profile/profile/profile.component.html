@@ -288,7 +288,7 @@
                   <button class="btn btn-primary btn-round btn-simple">Message</button>
                   <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "currIsOfAge && !currIsOwner && visitedIsOfAge" (click) = "reportPopUp()">Report</button>
                   <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "currCanBeParent && currIsOwner">Create A Child Account</button>
-                  <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "!currIsOwner && visitedIsMyParent && !currIsOfAge" (click)="UnlinkMyself()">Unlink My Parent</button>
+                  <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "!currIsOwner && visitedIsMyParent && currIsOfAge" (click)="UnlinkMyself()">Unlink My Parent</button>
                 </div>
                 <p class="social-icon m-t-5 m-b-0">
                   <a title="Twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
