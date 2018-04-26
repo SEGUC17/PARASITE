@@ -88,10 +88,9 @@ export class AuthService {
     );
   }
 
-  resetPassword(id, newpassword): Observable<any> {
+  resetPassword(id, pws: any): Observable<any> {
     const self = this;
-    console.log(newpassword);
-    return this.http.patch<any>(environment.apiUrl + 'forgotPassword/resetpassword/' + id, newpassword, httpOptions).pipe(
+    return this.http.patch<any>(environment.apiUrl + 'forgotPassword/resetpassword/' + id, pws, httpOptions).pipe(
       catchError(self.handleError('resetPassword', []))
     );
 
