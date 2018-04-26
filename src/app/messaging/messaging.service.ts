@@ -53,5 +53,7 @@ export class MessageService {
     return this.http.post<any> (this.url + 'contactus', toSend, httpOptions);
 
   }
-
+  unBLock(userId: any, list: any):  Observable<any> {
+    return this.http.patch(this.url + `message/unblock/${userId}`, list, httpOptions);
+    }
 }
