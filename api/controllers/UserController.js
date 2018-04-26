@@ -522,7 +522,8 @@ module.exports.signUpChild = function (req, res, next) {
                 return res.status(201).json({
                     data: null,
                     error: null,
-                    msg: 'Child Successfully Signed Up!'
+                    msg: 'Child Sign Up is Successful!\n' +
+                    'Verification Mail Was Sent To Your Child\'s Email!'
                 });
             });
         }
