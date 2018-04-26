@@ -1,13 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { AdminService } from '../../admin.service';
 
+declare const swal: any;
+declare const $: any;
+
 @Component({
     selector: 'app-view-reports',
     templateUrl: './view-reports.component.html',
-    styleUrls: ['./view-reports.component.scss']
+    styleUrls: ['./view-reports.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 
 
@@ -35,6 +39,33 @@ export class ViewReportsComponent implements OnInit {
             this.reports = res.data;
             // Getting all the reports from the array of reports and printing the reports
         });
+    }
+
+    deleteReport(report) {
+        this.reports = this.reports.filter(rep => rep._id !== report._id);
+        this._adminService.deleteReport(report).subscribe();
+    }
+
+    deleteReportPopUp(report) {
+            swal({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this user report',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'Cancel',
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, (isConfirm) => {
+                if (isConfirm) {
+                    this.deleteReport(report);
+                    swal('Deleted!', 'Report has been deleted.', 'success');
+                } else {
+                    swal('Cancelled', 'Report is safe :)', 'error');
+                }
+            });
+
     }
 
 }

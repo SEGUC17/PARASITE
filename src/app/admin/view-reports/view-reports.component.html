@@ -11,7 +11,7 @@
         <div class="card"  *ngFor="let rep of reports">
       <li class="list-group-item">
             <a href="/profile/{{rep.reporter}}" ><strong>{{rep.reporter}}</strong> </a> <strong> reported </strong> <a href="/profile/{{rep.reporter}}" ><strong>{{rep.reportedPerson}}</strong> </a>
-            <span class="dropdown"><a role="button" class="boxs-close" style="float:right" (click)="deleteReport(rep)"><i class="material-icons">delete</i></a>
+            <span class="dropdown"><a role="button" class="boxs-close" style="float:right" (click)="deleteReportPopUp(rep)"><i class="material-icons">delete</i></a>
             </span>
             <br/>
           <strong>Reason: </strong>

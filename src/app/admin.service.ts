@@ -25,6 +25,7 @@ export class AdminService {
   private getContent = 'admin/getContent/';
   private addContributionPtsURL = 'admin/addContPts';
   private reportUrl = 'admin/getReports';
+  private deleteReportUrl = this.baseURL + 'admin/DeleteReport';
 
 
   constructor(private http: HttpClient, private toasterService: ToastrService) {
@@ -205,5 +206,9 @@ export class AdminService {
     const self = this;
     return this.http.get<any>(this.baseURL + this.reportUrl, httpOptions);
 
+  }
+  // Deleting reports.
+  deleteReport(report): any {
+    return this.http.patch<any>(`${this.deleteReportUrl}/${report._id}`, httpOptions);
   }
 }

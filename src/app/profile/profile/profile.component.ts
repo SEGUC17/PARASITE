@@ -340,14 +340,14 @@ export class ProfileComponent implements OnInit {
           reporter: this.username,
           reason: inputValue
         };
-        console.log(report.reporter + ' ' + report.reason + ' ' + report.reportedPerson);
+        // console.log(report.reporter + ' ' + report.reason + ' ' + report.reportedPerson);
         this.sendReport(report);
         swal('Report sent!', 'reason: ' + inputValue, 'success');
     });
 
 }
   sendReport(report) {
-    console.log('wasalt el sendReport');
+    // console.log('wasalt el sendReport');
     this._ProfileService.reportUser(report, this.vId).subscribe();
   }
 
