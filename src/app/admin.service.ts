@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { Category } from './content/category';
 import { ToastrService } from 'ngx-toastr';
 import { Section } from './content/section';
+import { environment } from '../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +15,7 @@ const httpOptions = {
 
 
 export class AdminService {
-  private baseURL = 'http://localhost:3000/api/';
+  private baseURL = environment.apiUrl;
   private removePublishedStudyPlansURL = 'admin/removePublishedStudyPlan/';
   private viewPendingStudyPlanPublishReqsURL = 'admin/PendingStudyPlanPublishRequests';
   private respondStudyPlanPublishRequestURL = 'admin/RespondStudyPlanPublishRequest/';
@@ -22,9 +23,8 @@ export class AdminService {
   private respondContentRequestURL = 'admin/RespondContentRequest/';
   private respondContentStatusURL = 'admin/RespondContentStatus/';
   private getContent = 'admin/getContent/';
-  private URL = 'http://localhost:3000/api/admin';
   private addContributionPtsURL = 'admin/addContPts';
-  private reportUrl = '/getReports';
+  private reportUrl = 'admin/getReports';
 
 
   constructor(private http: HttpClient, private toasterService: ToastrService) {
@@ -37,7 +37,7 @@ export class AdminService {
    */
     console.log('the Responce is sent el mafrood AUTHOR: Maher');
     return this.http.patch(
-      this.URL + 'VerifiedContributerRequestRespond/' + id,
+      this.baseURL + 'admin/VerifiedContributerRequestRespond/' + id,
       { responce: resp }
     ).subscribe();
   }
@@ -47,7 +47,7 @@ export class AdminService {
       @author: MAHER.
       gets the requests.
    */
-    return this.http.get(this.URL + 'VerifiedContributerRequests/' + FilterBy);
+    return this.http.get(this.baseURL + 'VerifiedContributerRequests/' + FilterBy);
   }
 
   viewPendingContReqs(res, idea, create, edit): any {
@@ -203,7 +203,7 @@ export class AdminService {
   // Getting the user reports.
   getReports(): any {
     const self = this;
-    return this.http.get<any>(this.URL + this.reportUrl, httpOptions);
+    return this.http.get<any>(this.baseURL + this.reportUrl, httpOptions);
 
   }
 }

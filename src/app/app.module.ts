@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import { DashboardModule } from './dashboard/dashboard.module';
 import { ContentModule } from './content/content.module';
 import { MessagingModule } from './messaging/messaging.module';
 import { ProfileModule } from './profile/profile.module';
@@ -37,7 +36,6 @@ import { ToastrService } from 'ngx-toastr';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    DashboardModule,
     AdminModule,
     ProfileModule,
     SearchModule,

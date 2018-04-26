@@ -305,7 +305,7 @@ module.exports.editActivity = function (req, res, next) {
             });
         }
         // if status is booked already it cannot be edited
-        if (activity.bookedBy.length == 0) {
+        if (activity.bookedBy.length > 0) {
             return res.status(403).send({
                 data: null,
                 err: null,

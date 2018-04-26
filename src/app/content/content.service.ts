@@ -5,12 +5,13 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { Content } from './content';
 import { MatSnackBar } from '@angular/material';
+import { environment } from '../../environments/environment';
 
 
 @Injectable()
 export class ContentService {
 
-  endpoint: String = 'http://localhost:3000/api/';
+  endpoint: String = environment.apiUrl;
 
   constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
 

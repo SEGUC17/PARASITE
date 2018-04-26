@@ -244,8 +244,9 @@ username = '';
     let from = new Date(this.activity.fromDateTime).toJSON();
     let to   = new Date(this.activity.toDateTime).toJSON();
   let   dialogRef = this.dialog.open(ActivityEditComponent, {
-      width: '350px',
-      height: '500px',
+    width: '700px',
+    height: '520px',
+    hasBackdrop: false,
       data: { name: this.activity.name, price : this.activity.price  ,
          description: this.activity.description ,
          fromDateTime: from.substr(0, from.length - 1)
@@ -277,11 +278,11 @@ EditActivity(activity) {
   );
 }
   uploaded(url: string) {
-    if(url === 'imageFailedToUpload') {
+    if (url === 'imageFailedToUpload') {
       console.log('image upload failed');
       // TODO: handle image uploading failure
     } else {
-      console.log('in vcC and its uploaded with url = '+ url);
+      console.log('in vcC and its uploaded with url = ' + url);
       // TODO: handle image uploading success and use the url to retrieve the image later
     }
   }

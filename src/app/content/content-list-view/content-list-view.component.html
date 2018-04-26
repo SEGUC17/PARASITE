@@ -155,9 +155,9 @@
                     </div>
                   </div>
                   <div *ngFor="let category of categories" class="panel panel-primary">
-                    <div class="panel-heading" role="tab" id="{{ 'heading' + category.name}}">
-                      <a class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="{{'#collapse'+ category.name}}"
-                        [attr.aria-expanded]="false" [attr.aria-controls]="'collapse' + category.name">
+                    <div class="panel-heading" role="tab" id="{{ 'heading' + category._id}}">
+                      <a class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="{{'#collapse'+ category._id}}"
+                        [attr.aria-expanded]="false" [attr.aria-controls]="'collapse' + category._id">
                         <div class="row">
                           <div class="col mr-auto">
                             <h4 class="panel-title">
@@ -170,7 +170,7 @@
                         </div>
                       </a>
                     </div>
-                    <div id="{{'collapse' + category.name}}" class="panel-collapse collapse in" role="tabpanel" [attr.aria-labelledby]="'heading' + category.name">
+                    <div id="{{'collapse' + category._id}}" class="panel-collapse collapse in" role="tabpanel" [attr.aria-labelledby]="'heading' + category._id">
                       <div class="panel-body list-group">
                         <button *ngFor="let section of category.sections" type="button" class="list-group-item section-button" (click)="changeCategoryAndSection(category.name,section.name)">{{ section.name }}<img [src]="section.iconLink" width="32px" height="32px" style="float: right;"></button>
                       </div>

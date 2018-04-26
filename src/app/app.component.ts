@@ -16,10 +16,6 @@ export class AppComponent implements OnInit {
   previousUrl: string;
   links = [
     {
-      url: '/dashboard',
-      name: 'Dashboard'
-    },
-    {
       url: '/content-edit',
       name: 'Content Edit'
     },
