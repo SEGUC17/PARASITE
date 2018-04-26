@@ -12,7 +12,6 @@ import { environment } from '../../../environments/environment';
 @Injectable()
 export class StudyPlanService {
 
-
   constructor(private http: HttpClient) { }
 
   getPersonalStudyPlan(username: String, studyPlanID: String): Observable<any> {

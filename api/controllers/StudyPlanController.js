@@ -270,59 +270,6 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
     }
 };
 
-
-module.exports.rateStudyPlan = function (req, res, next) {
-    StudyPlan.findById(
-        req.params.studyPlanID,
-        function (err, studyPlan) {
-            if (err) {
-                return next(err);
-            }
-
-            var rating = parseInt(req.params.rating, 10);
-
-            var newRating = {
-                number: 1,
-                sum: rating,
-                value: rating
-            };
-
-            if (studyPlan.rating) {
-                newRating.number = studyPlan.rating.number + 1;
-                newRating.sum = studyPlan.rating.sum +
-                    rating;
-                newRating.value = newRating.sum / newRating.number;
-            }
-
-            StudyPlan.findByIdAndUpdate(
-                req.params.studyPlanID, { rating: newRating },
-                function (err2) {
-                    if (err2) {
-                        return next(err2);
-                    }
-                }
-            );
-
-            res.status(201).json({
-                data: null,
-                err: null,
-                msg: 'Study plan rated succesfully'
-            });
-        }
-    );
-};
-
-var findStudyPlan = function (studyPlans, studyPlanID) {
-    for (var index = 0; index < studyPlans.length; index += 1) {
-        if (studyPlans[index]._id &&
-            studyPlans[index]._id.equals(studyPlanID)) {
-            return studyPlans[index];
-        }
-    }
-
-    return null;
-};
-
 module.exports.deleteStudyPlan = function (req, res, next) {
     if (req.user.isChild) {
         return res.status(401).json({
