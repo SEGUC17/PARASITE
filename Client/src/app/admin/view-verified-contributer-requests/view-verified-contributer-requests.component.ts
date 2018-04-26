@@ -16,12 +16,8 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   constructor(private _adminService: AdminService, private router: Router
   ) { }
 
-  Requests: any[];
+  Requests: any[] = [];
   filter: String = 'pending';
-
-  imageUploaded(url: string ) {
-    console.log(url);
-  }
 
 
   ngOnInit() {
