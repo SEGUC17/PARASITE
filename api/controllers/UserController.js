@@ -665,15 +665,16 @@ module.exports.isUserExist = function (req, res, next) {
 };
 
 module.exports.forgotPassword = function (req, res, next) {
-    // password gets trimmed of spaces
+    // email input gets trimmed of spaces
     req.params.email = req.params.email.toLowerCase().trim();
-    // check if the user exits
+    // check is the user exists
     User.findOne(
         { email: req.params.email },
         function (err, user) {
             if (err) {
                 throw err;
             } else if (user) {
+                // user exists in database
                 console.log(user.firstName);
                 emailVerification.send(
                 user.email,
@@ -686,7 +687,7 @@ module.exports.forgotPassword = function (req, res, next) {
                     err: null,
                     msg: 'An email was sent to the provided email'
                 });
-
+                // user does not exist
             } else if (!user) {
                 return res.status(404).json({
                     data: null,
@@ -701,15 +702,17 @@ module.exports.forgotPassword = function (req, res, next) {
 };
 
 module.exports.resetPassword = function (req, res, next) {
-   
+   // User identified by ID
     User.findById({ '_id': req.params.id }, function(err, user) {
         if (err) {
             return next(err);
         } else if (user) {
-            Encryption.hashPassword('12345678910', function (errors, hash) {
+            // new password gets hashed
+            Encryption.hashPassword(req.body.newpw , function (errors, hash) {
                 if (errors) {
                     return next(errors);
                 }
+            // new hashed password replaces old one
             User.findByIdAndUpdate(
                 { '_id': req.params.id },
                 { 'password': hash }, function (error) {
