@@ -22,22 +22,18 @@ export class ViewReportsComponent implements OnInit {
 
     constructor(private _adminService: AdminService,
         private router: Router) {
-
+        this.getReports();
 
     }
 
     ngOnInit() {
-        this._adminService.getReports().subscribe(function (res) {
+    }
+
+    getReports() {
+        this._adminService.getReports().subscribe((res) => {
 
             this.reports = res.data;
-            // Getting all the reports from the array of reports and printing the reoprts
-            for (let i = 0; i < this.reports.length; i += 1) {
-                this.report = this.reports[i];
-                console.log('The reporter : ' + this.report.reporter);
-                console.log('The reported user: ' + this.report.reportedPerson);
-                console.log(this.report.reportedAt);
-                console.log('reason: ' + this.report.reason);
-            }
+            // Getting all the reports from the array of reports and printing the reports
         });
     }
 

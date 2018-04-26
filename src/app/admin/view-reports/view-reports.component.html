@@ -1,0 +1,23 @@
+<div class="card">
+<div class="body">
+        <div class="header">
+                <h2><strong>User</strong> Reports</h2>
+                <ul class="header-dropdown">
+                  <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="zmdi zmdi-more"></i> </a>
+                  </li>
+                </ul>
+              </div>
+    <ul class="list-group">
+        <div class="card"  *ngFor="let rep of reports">
+      <li class="list-group-item">
+            <a href="/profile/{{rep.reporter}}" ><strong>{{rep.reporter}}</strong> </a> <strong> reported </strong> <a href="/profile/{{rep.reporter}}" ><strong>{{rep.reportedPerson}}</strong> </a>
+            <span class="dropdown"><a role="button" class="boxs-close" style="float:right" (click)="deleteReport(rep)"><i class="material-icons">delete</i></a>
+            </span>
+            <br/>
+          <strong>Reason: </strong>
+          <small>{{rep.reason}}</small>
+      </li>
+    </div>
+    </ul>
+  </div>
+</div>
