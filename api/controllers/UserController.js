@@ -677,12 +677,12 @@ module.exports.forgotPassword = function (req, res, next) {
                 // user exists in database
                 console.log(user.firstName);
                 emailVerification.send(
-                user.email,
-                config.FRONTEND_URI +
-                 'auth/forgotPassword/resetpassword/' + user._id
+                    user.email,
+                    config.FRONTEND_URI +
+                    'auth/forgotPassword/resetpassword/' + user._id
                 );
 
-                 return res.status(201).json({
+                return res.status(201).json({
                     data: null,
                     err: null,
                     msg: 'An email was sent to the provided email'
@@ -702,33 +702,33 @@ module.exports.forgotPassword = function (req, res, next) {
 };
 
 module.exports.resetPassword = function (req, res, next) {
-   // User identified by ID
-    User.findById({ '_id': req.params.id }, function(err, user) {
+    // User identified by ID
+    User.findById({ '_id': req.params.id }, function (err, user) {
         if (err) {
             return next(err);
         } else if (user) {
             // new password gets hashed
-            Encryption.hashPassword(req.body.newpw , function (errors, hash) {
+            Encryption.hashPassword(req.body.newpw, function (errors, hash) {
                 if (errors) {
                     return next(errors);
                 }
-            // new hashed password replaces old one
-            User.findByIdAndUpdate(
-                { '_id': req.params.id },
-                { 'password': hash }, function (error) {
-                    if (error) {
-                        return next(error);
+                // new hashed password replaces old one
+                User.findByIdAndUpdate(
+                    { '_id': req.params.id },
+                    { 'password': hash }, function (error) {
+                        if (error) {
+                            return next(error);
+                        }
                     }
-                }
-            );
+                );
 
-                        return res.status(200).json({
-                        data: null,
-                        err: null,
-                        msg: 'User password was reset successfully.'
-                    });
-               });
-            }
-         });
-        };
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'User password was reset successfully.'
+                });
+            });
+        }
+    });
+};
 
