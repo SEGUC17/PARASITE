@@ -12,7 +12,7 @@ import { CloudinaryCredentials } from '../../variables';
 })
 export class ImageUploaderComponent implements OnInit {
 
- 
+
   //
   // # Getting Started;
   //
@@ -36,7 +36,7 @@ export class ImageUploaderComponent implements OnInit {
   //     }
   //
 
- @Output() ImageUploaded = new EventEmitter<string>();
+  @Output() ImageUploaded = new EventEmitter<string>();
 
   uploader: CloudinaryUploader = new CloudinaryUploader(
     new CloudinaryOptions({ cloudName: CloudinaryCredentials.cloudName, uploadPreset: CloudinaryCredentials.uploadPreset })
@@ -64,10 +64,10 @@ export class ImageUploaderComponent implements OnInit {
       self.ImageUploaded.emit(res.url);
     };
     this.uploader.onErrorItem =
-      function(fileItem, response, status, headers) {
-      // console.info('onErrorItem', fileItem, response, status, headers);
-      self.ImageUploaded.emit('imageFailedToUpload');
-    };
+      function (fileItem, response, status, headers) {
+        // console.info('onErrorItem', fileItem, response, status, headers);
+        self.ImageUploaded.emit('imageFailedToUpload');
+      };
   }
 
 }
