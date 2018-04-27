@@ -505,14 +505,13 @@ module.exports.banUser = function(req, res, next) {
         return res.status(200).json({
           data: user,
           err: null,
-          msg: 'Info updated successfully.'
+          msg: 'User banned successfully.'
         });
       }
     );
   };
 
   module.exports.deleteReport = function(req, res, next) {
-      console.log('HElloooo');
     Report.remove({ _id: req.params.reportId }).
     exec(function (removeError) {
         if (removeError) {

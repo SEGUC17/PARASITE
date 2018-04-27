@@ -28,7 +28,7 @@ var user = {
     phone: '0174536975',
     username: 'lama'
 };
-
+ var blockList= [];
 // token for authentication
 var token = null;
 
@@ -53,7 +53,6 @@ describe('Unblocking a user so that they could message me back', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
     it('it should unblock a user to enable him to message me back once again', function (done) {
-        console.log('reached it!');
         // sign up and be authenticated
         User.create(user, function (err) {
             if (err) {
@@ -87,16 +86,16 @@ describe('Unblocking a user so that they could message me back', function () {
                             recipient: 'test',
                             sender: result.body.data.username
                           };
-                          // block patch request
+                        
 
-                     //   console.log('TEST. Id of the user is: ', result.body.data._id);
+                      // block patch request
                         chai.request(server).
                             patch('/api/message/block/' + message.recipient).
                             send(result.body.data).
                             set('Authorization', token).
                             end(function (error, res) {
                                 if (error) {
-                                    console.log('entered error stage');
+                               //     console.log('entered error stage');
 
                                     return console.log(error);
                                 }
@@ -105,24 +104,30 @@ describe('Unblocking a user so that they could message me back', function () {
                                 res.body.data.should.be.a('Object');
                                 res.body.data.should.have.property('blocked').eql(res.body.data.blocked);
                                 res.body.should.have.property('msg').eql('Blocked user');
-                                //done();
+                               
+                               // setting the var blockList to be that of the user's 
+                               this.blockList= res.body.data.blocked;
 
-
-                            //    console.log('ubBlock TEST. Id of the user is: ', result.body.data._id);
+                            for(let i=0; i<this.blockList.length; i++) {
+                                if(this.blockList[i] === message.recipient) {
+                                 //   console.log('removed this blocked user: ', this.blockList[i]);
+                                    this.blockList.splice(i, 1);
+                                }// end if 
+                            }// end for
                                 chai.request(server).
-                                    patch('/api/message/unblock/' + message.recipient).
-                                    send(result.body.data).
+                                    patch('/api/message/unblock/' + result.body.data._id).
+                                    send(this.blockList).
                                     set('Authorization', token).
                                     end(function (error2, res2) {
                                         if (error2) {
-                                            console.log('entered error stage');
+                                        //    console.log('entered error stage');
 
                                             return console.log(error2);
                                         }
-                                        console.log('blocklist after unblocking: ', res2.body.data.blocked);
+                                        console.log('blocklist after unblocking', res2.body.data.blocked);
                                         res2.should.have.status(200);
                                         res2.body.data.should.be.a('Object');
-                                        res2.body.data.should.have.property('blocked').eql(res2.body.data.blocked);
+                                         res2.body.data.should.have.property('blocked').eql(res2.body.data.blocked);
                                         res2.body.should.have.property('msg').eql('This user is no longer blocked');
                                         done();
                             });

@@ -273,23 +273,31 @@
           <div class="body col-white">
             <div class="row">
               <div class="col-lg-3 col-md-4 col-12">
-                  <div class="profile-image float-md-right"> <img src="assets/images/defaultProfilePic.png" alt=""> </div>
+                <div class="profile-image float-md-right"> <img src="assets/images/defaultProfilePic.png" alt=""> </div>
+              </div>
+              <div class="col-lg-9 col-md-8 col-12">
+                <h4 class="m-t-0 m-b-0"><strong>{{currIsOwner? firstName : vFirstName}}</strong>{{currIsOwner? lastName : vLastName}}</h4>
+                <span class="job_post" *ngIf="true">Ui UX Designer</span>
+                <p>{{currIsOwner? address : vAddress}}</p>
+                <div>
+                  <button class="btn btn-primary btn-round btn-simple" *ngIf = "!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent" (click)= "linkToParent()">Add As A Parent</button>
+                  <button class="btn btn-primary btn-round btn-simple" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild" (click)= "EditChildIndependence()">Make Independent</button>
+                  <button class="btn btn-primary btn-round btn-simple" *ngIf = "currIsOwner && !currIsChild && !verified && currIsOfAge" (click)="requestContributerValidation()">Be A Verified Contributor</button>
+                  <button class="btn btn-primary btn-round btn-simple" *ngIf = "currIsParent && currIsOwner">Unlink My Child</button>
+                  <button class="btn btn-primary btn-round btn-simple" *ngIf = "currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">Link To My Child</button>
+                  <button class="btn btn-primary btn-round btn-simple">Message</button>
+                  <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "currIsOfAge && !currIsOwner && visitedIsOfAge" (click) = "reportPopUp()">Report</button>
+                  <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "currCanBeParent && currIsOwner">Create A Child Account</button>
+                  <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "!currIsOwner && visitedIsMyParent && currIsOfAge" (click)="UnlinkMyself()">Unlink My Parent</button>
+                  <button class="btn btn-primary btn-round btn-simple" *ngIf = "currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
+                    <span class="dropdown"> <span class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Link To My Child</span>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                      <li *ngFor="let child of listOfUncommonChildren"><a (click)="addChild(child)"><strong>{{child}}</strong></a></li>
+                    </ul>
+                  </span>
+                  </button>
                 </div>
-                <div class="col-lg-9 col-md-8 col-12">
-                  <h4 class="m-t-0 m-b-0"><strong>{{currIsOwner? firstName : vFirstName}}</strong>{{currIsOwner? lastName : vLastName}}</h4>
-                  <span class="job_post">Ui UX Designer</span>
-                  <p>{{currIsOwner? address : vAddress}}</p>
-                  <div>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf = "!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent" (click)= "linkToParent()">Add As A Parent</button>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild" (click)= "EditChildIndependence()">Make Independent</button>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf = "currIsOwner && !currIsChild && !verified && currIsOfAge" (click)="requestContributerValidation()">Be A Verified Contributor</button>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf = "currIsParent && currIsOwner">Unlink My Child</button>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf = "currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">Link To My Child</button>
-                    <button class="btn btn-primary btn-round btn-simple">Message</button>
-                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "currIsOfAge && !currIsOwner && visitedIsOfAge" (click) = "reportPopUp()">Report</button>
-                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "currCanBeParent && currIsOwner">Create A Child Account</button>
-                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "!currIsOwner && visitedIsMyParent && !currIsOfAge" (click)="UnlinkMyself()">Unlink My Parent</button>  
-                </div>
+
                 <p class="social-icon m-t-5 m-b-0">
                     <a title="Twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
                     <a title="Facebook" href="javascript:void(0);"><i class="zmdi zmdi-facebook"></i></a>
@@ -510,10 +518,30 @@
             </div>
             <div class="card">
               <div class="header">
-                <h2>
-                  <strong>Block</strong> List</h2>
+
+                  <h2><strong>Messages Block</strong> List</h2>
+                </div>
+                <style> 
+                    .body1{
+                        -webkit-column-count: 3; /* Chrome, Safari, Opera */
+                        -moz-column-count: 3; /* Firefox */
+                        column-count: 3;
+                    
+                        -webkit-column-gap: 80px; /* Chrome, Safari, Opera */
+                        -moz-column-gap: 80px; /* Firefox */
+                        column-gap: 80px;
+                    }
+                    </style>
+              <div class="body1">
+                <div *ngFor="let blockedUser of blocklist" class="zmdi zmdi-account-circle" style="padding-left:25px;">
+                <strong>  <span>{{blockedUser}} </span></strong>
+                <div class="col-md-12">
+                  <button class="btn btn-primary btn-round"  (click) = "unblockUser(blockedUser)" >
+                      Unblock
+                    </button>
+                  </div>
+
               </div>
-              <div class="body">
               </div>
             </div>
           </div>
@@ -578,8 +606,7 @@
                     <div class="col-lg-4 col-md-12">
                       <div class="form-group">
                           <small class="text-muted">Birthdate: </small>
-                        <input id="dBirthday" type="text" rows="5" class="form-control" [ngModel]=dBirthday placeholder="Birthdate : {{vBirthday}}"
-                          value= {{birthday}}>
+                        <input id="dBirthday" type="text" rows="5" class="form-control" [ngModel]=dBirthday placeholder="Birthdate : {{vBirthday}}" value= {{birthday}}>
                       </div>
                     </div>
                     <div class="col-lg-4 col-md-12">
