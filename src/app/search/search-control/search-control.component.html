@@ -23,21 +23,29 @@
         <div class="card action_bar">
           <div class="body">
             <div class="row clearfix">
-              <div class="col-lg-1 col-md-2 col-3">
-                <div class="checkbox inlineblock delete_all">
-                  <input id="deleteall" type="checkbox">
-                  <label for="deleteall">
-                    All
-                  </label>
-                </div>
-              </div>
               <div class="col-lg-5 col-md-4 col-6">
-                <div class="input-group search">
+                <div class="input-group search" *ngIf="filter[2]!='eduS'">
                   <input type="text" class="form-control" placeholder="Search for Olfat" (keydown.enter)="getParents()" [(ngModel)]="searchKey">
                   <span class="input-group-addon">
                     <i class="zmdi zmdi-search"></i>
                   </span>
                 </div>
+                <div *ngIf="filter[2]=='eduS'">
+                    <div class="radio">
+                        <input type="radio" name="radio1" id="radio1" value="Thanaweya Amma" checked="" (click)="applyEDUS('Thanaweya Amma')">
+                        <label for="radio1">
+                          Thanaweya Amma
+                        </label>
+                      <input type="radio" name="radio1" id="radio2" value="IG" (click)="applyEDUS('IG')">
+                      <label for="radio2">
+                        IG
+                      </label>
+                      <input type="radio" name="radio1" id="radio3" value="American Diploma"  (click)="applyEDUS('American Diploma')">
+                      <label for="radio3">
+                        American Diploma
+                      </label>
+                    </div>
+                  </div>
               </div>
               <div class="col-lg-6 col-md-6 col-3 text-right">
 
@@ -49,17 +57,17 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-right pullDown" >
                       <li>
-                        <a href="javascript:void(0);" ng-value="user" [(ngModel)]="selectedUsername">Username</a>
+                        <a (click)="showFilter('user',0)">Username</a>
                       </li>
                       <li>
-                        <a href="javascript:void(0);" ng-value="loc" [(ngModel)]="loc">Location</a>
+                        <a (click)="showFilter('loc',3)">Location</a>
                       </li>
                       <li>
-                        <a href="javascript:void(0);" ng-value="eduL" [(ngModel)]="eduL">Level of education</a>
+                        <a  (click)="showFilter('eduL',1)">Level of education</a>
                       </li>
                       <li role="separator" class="divider"></li>
                       <li>
-                        <a href="javascript:void(0);" ng-value="eduS" [(ngModel)]="eduS">System of education</a>
+                        <a  (click)="showFilter('eduS',2)">System of education</a>
                       </li>
                     </ul>
                   </div>
@@ -70,26 +78,50 @@
         </div>
       </div>
     </div>
-    <div *ngIf="this.tags" class="tags-holder">
-      <span *ngFor="let tag of tags" *ngIf="tag !== 'NA'" class="badge badge-info btn-round" [removable]="true" (remove)="this.remove()">{{tag}}</span>
-    </div>
-    <div class="row">
-      <div class="col-lg-8 col-md-12 left-box">
-        <div *ngFor="let user of users" class="card single_post">
-          <div class="body">
-            <ul class="meta">
-              <li *ngIf="content.creator">
-                <a routerLink="/profile/{{user.username}}">
-                  <i class="zmdi zmdi-account col-blue"></i> {{ user.firstName }}</a>
-              </li>
-            </ul>
-          </div>
-          <div class="body">
-            <div class="img-post m-b-15" *ngIf="user.avatar">
-              <img [src]="user.avatar" width="100%" height="100%" alt="profile Image">
+    <span class="input-group-addon">
+      <button class="btn btn-primary btn-round btn-sm" type="button" (click) = "removeTags()">
+        <i class="zmdi zmdi-search"></i> Remove all tags
+      </button>
+      </span>
+    <span class="input-group-addon"  *ngIf="tags[0]!='NA'">
+      <button class="btn btn-primary btn-round btn-sm" type="button" >
+        <i class="zmdi zmdi-search"></i> {{ this.tags[0] }}
+      </button>
+      </span>
+      <span class="input-group-addon"  *ngIf="tags[1]!='NA'">
+        <button class="btn btn-primary btn-round btn-sm" type="button" >
+          <i class="zmdi zmdi-search"></i> {{ this.tags[1] }}
+        </button>
+        </span>
+        <span class="input-group-addon"  *ngIf="tags[2]!='NA'">
+          <button class="btn btn-primary btn-round btn-sm" type="button" >
+            <i class="zmdi zmdi-search"></i> {{ this.tags[2] }}
+          </button>
+          </span>
+          <span class="input-group-addon"  *ngIf="tags[3]!='NA'">
+            <button class="btn btn-primary btn-round btn-sm" type="button" >
+              <i class="zmdi zmdi-search"></i> {{ this.tags[3] }}
+            </button>
+          </span>
+              <div class="col-lg-8 col-md-12 left-box">
+            <div class="row clearfix">
+              <div class="col-lg-3 col-md-4 col-sm-6 col-6" *ngFor="let user of users">
+                <div class="card">
+                  <div class="file">
+                    <a (click)="goToProfile(user.username)">
+                      <div class="image">
+                        <img src={{user.avatar}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
+                      </div>
+                      <div class="file-name">
+                        <p class="m-b-5 text-muted">{{user.username}}</p>
+                        <small>{{user.firstName}} {{user.lastName}}
+                        </small>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
         <ul *ngIf="totPages>1" class="pagination pagination-primary">
           <li *ngIf="currPage>1" class="page-item">
             <a class="page-link" (click)="changePage(this.currPage - 1)">Previous</a>
@@ -101,83 +133,7 @@
             <a class="page-link" (click)="changePage(this.currPage + 1)">Next</a>
           </li>
         </ul>
-      </div>
+
     </div>
   </div>
-    <!-- <mat-card class="margin30">
-  <mat-tab-group  dynamicHeight>
-    <mat-tab label="Username" >
-      <mat-form-field class="margin10">
-        <input matInput placeholder="Search" [(ngModel)]="selectedUsername">
-      </mat-form-field>
-      <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('user')" >Search</button>
-    </mat-tab>
-  
-    <mat-tab label="Location" >
-        <mat-form-field class="margin10">
-          <input matInput placeholder="Search" [(ngModel)]="loc">
-        </mat-form-field>
-        <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('loc')" >Search</button>
-      </mat-tab>
-  
-        <mat-tab label="Education Levels">
-          <mat-form-field class="margin10">
-            <input matInput placeholder="Search" [(ngModel)]="eduL">
-          </mat-form-field>
-          <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('eduL')">Search</button>
-        </mat-tab>
-  
-            <mat-tab label="Education Systems">
-      
-                <mat-radio-group [(ngModel)]="eduS"  >
-                    <mat-radio-button value="Thanaweya Amma (GSEC)">Thanaweya Amma (GSEC)</mat-radio-button>
-                    <mat-radio-button value="IG">IG</mat-radio-button>
-                    <mat-radio-button value="American Diploma">American Diploma</mat-radio-button>
-                  </mat-radio-group>
-                  <button mat-button class="md-raised md-primary" style="background:#3f51b5; color:white" (click)="this.getParents('eduS')" >Search</button>
-     
-            </mat-tab>
-          </mat-tab-group>
-        </mat-card>
-        <mat-card class="margin10">
-    <mat-chip-list #chipList>
-      <mat-chip *ngIf="this.tags[0] != 'NA'" [removable]="removable" (remove)="this.remove('user')" color="primary">
-        {{this.tags[0]}}
-        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-      </mat-chip>
-  
-      <mat-chip *ngIf="this.tags[1] != 'NA'" [removable]="removable" (remove)="this.remove('eduL')" color="primary">
-          {{this.tags[1]}}
-          <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-        </mat-chip>
-  
-        <mat-chip *ngIf="this.tags[2] != 'NA'" [selectable] = "removable"[removable]="removable" (remove)="this.remove('eduS')" color="primary">
-            {{this.tags[2]}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-          </mat-chip>
-          <mat-chip *ngIf="this.tags[3] != 'NA'" [removable]="removable" (remove)="this.remove('loc')" color="primary">
-              {{this.tags[3]}}
-              <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-            </mat-chip>
-     
-    </mat-chip-list>
-  </mat-card>
-  
-    <mat-card class="margin10" style="min-height: 300px">
-      <div class="row">
-        <mat-card *ngFor="let user of users" class="col-3">
-          <mat-card-content>
-            <mat-card-title>{{user.username}}</mat-card-title>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button style="width:100%; background:#3f51b5; color:white" (click)="this.goToProfile(user.username)">Go To Profile</button>
-          </mat-card-actions>
-        </mat-card>
-      </div>
-    </mat-card>
-    <script src="js/site.js"></script>
-    <<div class="paginator">
-  <mat-paginator [length]="totParents" [pageSize]="numberPerPage" (page)="this.getPage($event)"></mat-paginator>
-  </div>  -->
-
 </section>
