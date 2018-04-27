@@ -15,7 +15,7 @@
       </div>
     </div>
   </div> -->
-<div class="container-fluid">
+<!-- <div class="container-fluid"> -->
   <div class="card">
     <div class="body">
       <div *ngIf="type === 'personal' && (!this.profileUsername || this.currUsername == this.profileUsername) && !currIsChild">
@@ -38,12 +38,12 @@
           <div class="body">
             <p>
               <a class="btn btn-primary" routerLink="/study-plan/{{type}}/{{studyPlan._id}}/{{ this.type === 'personal' ? (this.profileUsername ? this.profileUsername : this.currUsername) : '' }}">View</a>
-              <button class="btn btn-primary" (click)="delete(index)" color="primary" *ngIf="!currIsChild">Delete</button>
+              <button class="btn btn-primary" (click)="delete(index)" color="primary" *ngIf="(this.type === 'personal' || studyPlan.creator === this.currUsername) && !currIsChild">Delete</button>
             </p>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+<!-- </div> -->
 <!-- </section> -->
