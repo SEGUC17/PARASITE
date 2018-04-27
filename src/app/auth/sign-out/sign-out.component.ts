@@ -10,7 +10,11 @@ import { Router } from '@angular/router';
 })
 export class SignOutComponent implements OnInit {
 
-  constructor(private authService: AuthService, private toastrService: ToastrService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private toastrService: ToastrService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.authService.setToken(null);

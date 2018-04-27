@@ -14,7 +14,10 @@ export class AuthService {
 
   private localStorageTokenName = 'jwtToken';
 
-  constructor(private http: HttpClient, private toastService: ToastrService) { }
+  constructor(
+    private http: HttpClient,
+    private toastService: ToastrService
+  ) { }
 
   setToken(token: any): void {
     if (token) {
@@ -102,7 +105,7 @@ export class AuthService {
     );
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  public handleError<T>(operation = 'operation', result?: T) {
     const self = this;
     return function (error: any): Observable<T> {
       if (
