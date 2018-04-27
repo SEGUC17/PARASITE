@@ -49,15 +49,16 @@ export class SignInComponent implements OnInit {
   }
 
   signInWithFacebook() {
+    const self = this;
     const loginOptions: LoginOptions = {
       enable_profile_selector: true,
       return_scopes: true,
-      scope: 'public_profile, user_friends, email, pages_show_list'
+      scope: 'email, public_profile, user_birthday, user_hometown'
     };
 
-    this.facebookService.login()
+    this.facebookService.login(loginOptions)
       .then(function (res: LoginResponse) {
-        console.log('Logged in', res);
+        self.authService.authFacebook(res.authResponse).subscribe(function(res2) { });
       })
       .catch(this.authService.handleError);
   }

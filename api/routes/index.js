@@ -151,6 +151,7 @@ module.exports = function (passport) {
   // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
+  router.post('/auth/facebook', passport.authenticate('facebook-token'));
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
   router.get('/verifyChildEmail/:id', userController.verifyChildEmail);
@@ -406,8 +407,8 @@ module.exports = function (passport) {
 
   // Registered user contacts admins
   router.post('/contactus', messageController.contactAdmin);
-    //Unblocking users
-    router.patch('/message/unblock/:blocked', messageController.unBlock);
+  //Unblocking users
+  router.patch('/message/unblock/:blocked', messageController.unBlock);
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//

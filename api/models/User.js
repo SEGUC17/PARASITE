@@ -69,6 +69,12 @@ var userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
+    facebookId: {
+        index: true,
+        sparse: true,
+        type: String,
+        unique: true
+    },
     firstName: {
         index: true,
         required: true,

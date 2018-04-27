@@ -57,6 +57,13 @@ export class AuthService {
     );
   }
 
+  authFacebook(authResponse): Observable<any> {
+    const self = this;
+    return this.http.post<any>(environment.apiUrl + 'auth/facebook', authResponse).pipe(
+      catchError(self.handleError('authFacebook', []))
+    );
+  }
+
   isSignedIn(): Observable<any> {
     const self = this;
     return this.http.get<any>(environment.apiUrl + 'isSignedIn').pipe(

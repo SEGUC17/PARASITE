@@ -1,6 +1,8 @@
 // -------------------------- Requirements ------------------------------- //
 var config = require('../config/config');
+var secret = require('../utils/secret');
 var ExtractJwt = require('passport-jwt').ExtractJwt;
+var FacebookTokenStrategy = require('passport-facebook-token');
 var JWTStrategy = require('passport-jwt').Strategy;
 var User = require('../models/User');
 // -------------------------- End of "Requirements" ---------------------- //
@@ -13,13 +15,19 @@ module.exports = function (passport) {
         },
         function (jwtPayload, done) {
             User.findById(jwtPayload.id, function (err, user) {
-                if (err) {
-                    return done(false, null);
-                } else if (!user) {
-                    return done(null, false);
-                }
+                return done(err, user);
+            });
+        }
+    ));
 
-                return done(null, user);
+    passport.use(new FacebookTokenStrategy(
+        {
+            clientID: secret.FACEBOOK.ID,
+            clientSecret: secret.FACEBOOK.PW
+        },
+        function (accessToken, refreshToken, profile, done) {
+            User.findOrCreate({ facebookId: profile.id }, function (error, user) {
+                return done(error, user);
             });
         }
     ));
