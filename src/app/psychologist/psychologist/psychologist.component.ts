@@ -13,7 +13,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angu
 import { FormControl, Validators } from '@angular/forms';
 import { Psychologist } from '../psychologist/psychologist';
 declare const swal: any;
-declare const $: any;
 
 @Component({
   selector: 'app-psychologist',
@@ -38,7 +37,6 @@ export class PsychologistComponent implements OnInit {
   selectedSearch: string;
   writtenAddress: string;
   selectedAddress: string;
-
   constructor(private psychologistService: PsychologistService,
     public snackBar: MatSnackBar,
     private authService: AuthService,
@@ -69,20 +67,15 @@ export class PsychologistComponent implements OnInit {
 
   // open the request form for adding a new psychologist
   addRequestForm(): void {
-    $('#largeModal').modal('show');
-    // const self = this;
-    // let dialogOpener = this.dialog.open(AddPsychRequestComponent, {
-    //   width: '60%',
-    //   height: '90%'
-    // });
+    const self = this;
+    let dialogOpener = this.dialog.open(AddPsychRequestComponent, {
+      width: '60%',
+      height: '90%'
+    });
 
-    // dialogOpener.afterClosed().subscribe(result => {
-    //   self.getPsychologists();
-    // });
-  }
-  closeModal(): void {
-    let btn = document.getElementById('btn11');
-    btn.click();
+    dialogOpener.afterClosed().subscribe(result => {
+      self.getPsychologists();
+    });
   }
 
 
@@ -169,9 +162,6 @@ export class PsychologistComponent implements OnInit {
   }
 
   ngOnInit() {
-    $('#largeModal .selectpicker').selectpicker();
-    $(document).on('focusin.modal', '[data-toggle=dropdown], [role=menu]', function (e) { e.stopPropagation();
-    });
     const self = this;
     const userDataColumns = ['isAdmin'];
     // set 'admin' flag to true if the signed in user is an admin
