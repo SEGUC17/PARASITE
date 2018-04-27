@@ -57,6 +57,10 @@
               <h5>
                 <a routerLink="/auth/forgotPassword" class="link">Forgot Password?</a>
               </h5>
+              <div class="footer input-group">
+                <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signUpInWithFacebook()">
+                <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google">
+              </div>
             </div>
           </form>
         </div>

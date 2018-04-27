@@ -38,21 +38,16 @@ export class SignUpComponent implements OnInit {
     $('#personalInfo').prop('hidden', false);
     $('#credentials').prop('hidden', true);
     $('#prevTab').prop('disabled', true);
-    $('#nextTab').prop('value', 'Next');
+    $('#nextTab').prop('disabled', false);
     this.isReady = false;
   }
 
   showCredentialsTab(): void {
     const self = this;
-    if (this.isReady) {
-      $('#nextTab').attr('onclick', function () {
-        self.signUp();
-      });
-    }
     $('#personalInfo').prop('hidden', true);
     $('#credentials').prop('hidden', false);
     $('#prevTab').prop('disabled', false);
-    $('#nextTab').prop('value', 'Sign Up');
+    $('#nextTab').prop('disabled', true);
     this.isReady = true;
   }
 

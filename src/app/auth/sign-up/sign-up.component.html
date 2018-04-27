@@ -102,13 +102,17 @@
 
             <div class="footer">
               <div class="input-group">
-                <input id="prevTab" type="button" class="form-control btn btn-primary btn-lg" value="Previous" (click)="showPersonalInfoTab()"
-                  disabled>
-                <input id="nextTab" type="button" class="form-control btn btn-primary btn-lg" value="Next" (click)="showCredentialsTab()">
+                <input id="prevTab" type="button" class="form-control" value="Previous" (click)="showPersonalInfoTab()" disabled>
+                <input id="nextTab" type="button" class="form-control" value="Next" (click)="showCredentialsTab()">
               </div>
+              <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">SIGN UP</a>
               <h5>
                 <a class="link" routerLink="/auth/sign-in">You already have a membership?</a>
               </h5>
+              <div class="footer input-group">
+                <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signUpInWithFacebook()">
+                <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google">
+              </div>
             </div>
           </form>
         </div>
