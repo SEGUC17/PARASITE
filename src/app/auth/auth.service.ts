@@ -14,7 +14,10 @@ export class AuthService {
 
   private localStorageTokenName = 'jwtToken';
 
-  constructor(private http: HttpClient, private toastService: ToastrService) { }
+  constructor(
+    private http: HttpClient,
+    private toastService: ToastrService
+  ) { }
 
   setToken(token: any): void {
     if (token) {
@@ -86,6 +89,7 @@ export class AuthService {
     );
   }
 
+
   forgotPassword(email): any {
     const self = this;
     return this.http.get<any>(environment.apiUrl + 'forgotPassword/' + email).pipe(
@@ -98,10 +102,9 @@ export class AuthService {
     return this.http.patch<any>(environment.apiUrl + 'forgotPassword/resetpassword/' + id, pws, httpOptions).pipe(
       catchError(self.handleError('resetPassword', []))
     );
-
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  public handleError<T>(operation = 'operation', result?: T) {
     const self = this;
     return function (error: any): Observable<T> {
       if (
