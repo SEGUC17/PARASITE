@@ -200,6 +200,7 @@ module.exports = function (passport) {
   router.get('/admin/getReports', isAuthenticated, adminController.getReports);
 
   router.patch('/admin/DeleteReport/:reportId', isAuthenticated, adminController.deleteReport);
+  router.patch('/admin/BanUser/:username', isAuthenticated, adminController.banUser);
 
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//

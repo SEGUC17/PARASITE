@@ -519,27 +519,3 @@ module.exports.reportUser = function(req, res, next) {
 });
 };
 
-module.exports.banUser = function(req, res, next) {
-  User.findByIdAndUpdate(
-    req.params.userId,
-    { $set: { isBanned: true } }, { new: true },
-    function (err, user) {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return res.status(404).json({
-          data: null,
-          err: null,
-          msg: 'User not found.'
-        });
-      }
-
-      return res.status(200).json({
-        data: user,
-        err: null,
-        msg: 'Info updated successfully.'
-      });
-    }
-  );
-};

@@ -197,7 +197,7 @@ export class ProfileComponent implements OnInit {
     //     creator: '5ac12591a813a63e419ebce5'
     // }
     this._ProfileService.makeContributerValidationRequest({}).subscribe(function (res) {
-      console.log(res);
+      // console.log(res);
     });
   }
 
@@ -206,7 +206,7 @@ export class ProfileComponent implements OnInit {
       child: child
     };
     this._ProfileService.linkAnotherParent(object, this.vId).subscribe(function (res) {
-      alert(res.msg);
+      // alert(res.msg);
     });
 
   }
