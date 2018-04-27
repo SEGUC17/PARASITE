@@ -1,29 +1,32 @@
 <form #updateDetails="ngForm" [ngSwitch]="this.toggleEditForm">
-  <!-- Name -->
-  <!-- Show Data -->
-  <h1 *ngSwitchCase="false" mat-dialog-title style="font-size: 35px; font-weight: bold">{{this.oldData.name}}</h1>
-  <!-- Edit Data -->
-  <mat-form-field *ngSwitchCase="true">
-    <input (keyup)="addToUpdatedFields($event)" matInput style="font-size: 35px; font-weight: bold" name="name" id="name" hintLabel="Prdouct's name "
-      [(ngModel)]="formInput.name">
-  </mat-form-field>
+  <div class="modal-body">
 
-  <div class="container">
-    <div class="row" style="height:300px">
+    <!-- Name -->
+    <!-- Show Data -->
+    <h2 *ngSwitchCase="false" class="title" id="largeModalLabel" style="word-break: break-all;">{{this.oldData.name}}</h2>
+    <!-- Edit Data -->
+    <div *ngSwitchCase="true">
+      <input (keyup)="addToUpdatedFields($event)" class="form-control col-lg-8" style="font-size: 35px; font-weight: bold" name="name"
+        id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
+    </div>
+
+    <br/>
+
+    <div class="row" style="width: 100%">
 
       <!-- Image -->
-      <mat-card class="col-3 mat-elevation-z0">
+      <div class="image col-lg-4 col-md-5 col-12" style="max-width: 50vw; max-height: 50vh;">
         <img mat-card-image src={{formInput.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
-          alt="Photo of product" style="height:300px ">
-      </mat-card>
+          style="height:300px ">
+      </div>
 
-      <mat-card class="col-6 mat-elevation-z0">
+      <div class="col-lg-8 col-md-7 col-12" height="100%" style="max-width: 50%;">
 
-          <div *ngSwitchCase="true">
-              <mat-form-field>
-                <input matInput placeholder="Image URL" name="imageURL" id="imageURL" hintLabel="Image URL" [(ngModel)]="formInput.image">
-              </mat-form-field>
-            </div>
+        <div *ngSwitchCase="true" class="col-lg-8">
+          <input class="form-control" placeholder="Image URL" name="imageURL" id="imageURL" hintLabel="Image URL" [(ngModel)]="formInput.image">
+        </div>
+
+        <br/>
 
         <!-- PRICE-->
         <!-- Show Data -->
@@ -31,37 +34,34 @@
           <span style="font-size: 15px; color: #3f51b5"> EGP</span>
         </p>
         <!-- Edit Data -->
-        <div *ngSwitchCase="true">
-          <mat-form-field>
-            <input style="font-size: 15px; color: #3f51b5" matInput (keyup)="addToUpdatedFields($event)" type="number" name="price" id="price" [(ngModel)]="formInput.price"
-              class="example-right-align">
-            <span matPrefix>$&nbsp;</span>
-          </mat-form-field>
+        <div *ngSwitchCase="true" class="col-lg-8 input-group">
+          <span class="input-group-addon">
+            <i class="zmdi zmdi-money"></i>
+          </span>
+          <input type="text" class="form-control money-dollar" name="price" id="price" (keyup)="addToUpdatedFields($event)" [(ngModel)]="formInput.price">
         </div>
 
-        <!-- Information Part-->
-        <li>
-          <span style="font-weight: bold">Product Information:</span>
-        </li>
+        <br/>
 
         <!-- Description -->
         <!-- Show Data -->
+        <li>
+          <span style="font-weight: bold">Product Information:</span>
+        </li>
         <p *ngSwitchCase="false">{{this.oldData.description}}</p>
         <!-- Edit Data -->
-        <div *ngSwitchCase="true">
-          <mat-form-field>
-            <textarea matInput (keyup)="addToUpdatedFields($event)" name="description" id="description" [(ngModel)]="formInput.description"></textarea>
-          </mat-form-field>
+        <div *ngSwitchCase="true" class="col-lg-8">
+          <textarea class="form-control no-resize" (keyup)="addToUpdatedFields($event)" name="description" id="description" [(ngModel)]="formInput.description"></textarea>
         </div>
+
+        <br/>
 
         <!-- Creation Date -->
         <li>
-          <span style="font-weight: bold">Created At:</span>
+          <span style="font-weight: bold">Created At:</span> {{this.oldData.createdAt | date }}
         </li>
-        <span>{{this.oldData.createdAt | date }}</span>
 
-      </mat-card>
-      <mat-card class="col mat-elevation-z0">
+        <br/>
 
         <!-- Acquiring Type -->
         <!-- Show Data -->
@@ -70,18 +70,16 @@
           <span *ngIf="this.oldData.rentPeriod">: {{this.oldData.rentPeriod}} days</span>
         </li>
         <!-- Edit Data -->
-        <div *ngSwitchCase="true">
-          <mat-form-field>
-            <mat-select matInput (keyup)="addToUpdatedFields($event)" (blur)="addToUpdatedFields($event)" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
-              <mat-option value="rent" name="rent">rent</mat-option>
-              <mat-option value="sell" name="sell">sell</mat-option>
-              <mat-option value="rent/sell" name="rent/sell">rent/sell</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput (keyup)="addToUpdatedFields($event)" placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod" [(ngModel)]="formInput.rentPeriod"
-              class="example-right-align">
-          </mat-form-field>
+        <div *ngSwitchCase="true" class="col-lg-8">
+          <select class="form-control show-tick" (keyup)="addToUpdatedFields($event)" (blur)="addToUpdatedFields($event)" name="acquiringType"
+            id="acquiringType" [(ngModel)]="formInput.acquiringType">
+            <option value="rent" name="rent">Rent</option>
+            <option value="sell" name="sell">Sale</option>
+            <option value="rent/sell" name="rent/sell">Rent/Sale</option>
+          </select>
+          <br/>
+          <input (keyup)="addToUpdatedFields($event)" placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod"
+            [(ngModel)]="formInput.rentPeriod" class="form-control">
         </div>
 
         <!-- Seller Name -->
@@ -90,19 +88,25 @@
           <a routerLink="market">{{this.oldData.seller}}</a>
         </li>
 
+        <br/>
+
         <!-- Shipping to -->
         <li>
           <span style="font-weight: bold">Shipping to: </span>
         </li>
 
-        <!-- Submission button -->
-        <mat-card-actions>
-          <button mat-button *ngIf="!this.toggleEditForm" (click)="this.toggleForm()" class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">Edit Request</button>
-          <button mat-button *ngIf="this.toggleEditForm" (click)="this.cancelEdits()"  class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">Cancel Edits</button>
-          <br />       
-          <button mat-button *ngIf="this.toggleEditForm" (click)="this.toggleForm()"  class="md-raised md-primary" style="width:100%; background:#3f51b5; color:white">Submit Edits</button>
-        </mat-card-actions>
-      </mat-card>
+      </div>
     </div>
   </div>
+
+  <!-- Submission button -->
+  <div class="col-lg-8" style="max-height: 20%; text-align: right">
+    <button *ngIf="!this.toggleEditForm" (click)="this.toggleForm()" class="btn btn-default btn-simple btn-round waves-effect"
+      style="width:50%;">Edit Request</button>
+    <button *ngIf="this.toggleEditForm" (click)="this.cancelEdits()" class="btn btn-danger btn-simple btn-round waves-effect"
+      style="width:50%;">Cancel Edits</button>
+    <button *ngIf="this.toggleEditForm" (click)="this.toggleForm()" class="btn btn-default btn-simple btn-round waves-effect"
+      style="width:50%;">Submit Edits</button>
+  </div>
+
 </form>

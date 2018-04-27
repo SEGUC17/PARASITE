@@ -1,11 +1,19 @@
 <form #updateDetails="ngForm" [ngSwitch]="this.toggleEditForm">
   <div class="modal-body">
+    <!-- Title -->
     <h2 class="title" id="largeModalLabel" style="word-break: break-all;">{{data.product.name}}</h2>
+
+    <!-- Body -->
     <div class="row" width="100%">
-      <div class="image col-lg-4 col-md-5 col-12" style="width: 100%; height: 100%;">
-        <img src={{data.product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
+      <!-- Image -->
+      <div class="image col-lg-4 col-md-5 col-12" style="max-width: 50vw; max-height: 50vh;">
+        <img src={{data.product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" style="vertical-align:center"
+          class="rounded img-raised">
       </div>
+
       <div class="col-lg-8 col-md-7 col-12" height="100%">
+
+        <!-- Price -->
         <p *ngSwitchCase="false" style="font-size:20px; color: #3f51b5">{{data.product.price}}
           <span style="font-size: 15px; color: #3f51b5"> EGP</span>
         </p>
@@ -19,33 +27,40 @@
         <button mat-icon-button *ngIf="data.product.seller == data.curUser" (click)="this.editPrice()">
           <mat-icon>edit</mat-icon>
         </button>
+
+
         <li>
           <span style="font-weight: bold">Product Information:</span>
         </li>
         <p>{{data.product.description}}</p>
+
         <li>
-          <span style="font-weight: bold">Created At: {{data.product.createdAt | date }}</span>
+          <span style="font-weight: bold">Created At: </span> {{data.product.createdAt | date }}
         </li>
+
         <li>
           <span style="font-weight: bold">For {{data.product.acquiringType}}</span>
           <span *ngIf="data.product.rentPeriod">: {{data.product.rentPeriod}} days</span>
         </li>
+
         <li>
           <span style="font-weight: bold">Sold by: </span>
           <a routerLink="profile/{{data.product.seller}}">{{data.product.seller}}</a>
         </li>
+
         <li>
           <span style="font-weight: bold">Shipping to: </span>
         </li>
+        
       </div>
-
-
-
     </div>
   </div>
-  <div class="modal-footer">
-    <button *ngIf="data.product.seller !== data.curUser" class="btn btn-default btn-simple btn-round waves-effect" style="max-width:50%;">Acquire</button>
+  
+  <!-- Button -->
+  <div style="max-height: 20%; text-align: right">
+    <button *ngIf="data.product.seller !== data.curUser" class="btn btn-default btn-simple btn-round waves-effect" style="width:50%;">Acquire</button>
     <button *ngIf="data.product.seller == data.curUser || data.isAdmin" class="btn btn-danger btn-simple btn-round waves-effect"
-      style="max-width: 50%;">Delete</button>
+      style="width: 50%;">Delete</button>
   </div>
+
 </form>

@@ -125,24 +125,17 @@ export class MarketComponent implements OnInit {
     if (prod) {
       if (this.products.indexOf(prod) !== -1) {
         let dialogRef = this.dialog.open(ProductDetailComponent, {
-          width: '80%',
+          maxWidth: '80%',
           maxHeight: '80%',
           panelClass: 'product-dialog',
           data: { product: prod, curUser: this.user.username, isAdmin: this.user.isAdmin }
         });
-
-        dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-        });
       } else if (this.userRequests.indexOf(prod) !== -1) {
-        console.log('here1');
         let dialogRef = this.dialog.open(RequestDetailComponent, {
-          width: '80%',
+          maxWidth: '80%',
+          maxHeight: '80%',
+          panelClass: 'product-dialog',
           data: { product: prod, curUser: this.user.username }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
         });
       }
     }
