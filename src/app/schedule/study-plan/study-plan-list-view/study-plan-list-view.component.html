@@ -26,10 +26,11 @@
       </div>
       <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="getStudyPlans($event)"></mat-paginator>
       <div class="row">
-        <div class="card col-3" *ngFor="let studyPlan of studyPlans; let index = index">
+        <div class="card" [ngClass]="{'col-3': type === 'published', 'col-4': type === 'personal'}" *ngFor="let studyPlan of studyPlans; let index = index">
           <div class="header">
             <h2>
-              <span class="badge badge-info float-right" *ngIf="studyPlan.assigned === true && type==='personal'">Assigned</span>
+              <span class="badge badge-info float-right" *ngIf="studyPlan.assigned && type === 'personal'">Assigned</span>
+              <span class="badge badge-info float-right" *ngIf="studyPlan.creator === this.currUsername && type === 'published'">Mine</span>
               <strong>{{studyPlan.title}}</strong>
               <br/> {{studyPlan.creator}}
             </h2>

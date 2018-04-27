@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
 import { AuthService } from '../../../auth/auth.service';
