@@ -29,6 +29,7 @@ export class ProfileComponent implements OnInit {
   currIsParent = false;
   currIsChild = false;
   currIsOfAge = false;
+  currCanBeParent = false;
 
   visitedIsParent = false;
   visitedIsChild = false;
@@ -136,7 +137,9 @@ export class ProfileComponent implements OnInit {
       if (this.age > 13) {
         this.currIsOfAge = true;
       }
-
+      if (this.age >= 18) {
+        this.currCanBeParent = true;
+      }
 
       
 
@@ -346,14 +349,14 @@ export class ProfileComponent implements OnInit {
           reporter: this.username,
           reason: inputValue
         };
-        console.log(report.reporter + ' ' + report.reason + ' ' + report.reportedPerson);
+        // console.log(report.reporter + ' ' + report.reason + ' ' + report.reportedPerson);
         this.sendReport(report);
         swal('Report sent!', 'reason: ' + inputValue, 'success');
     });
 
 }
   sendReport(report) {
-    console.log('wasalt el sendReport');
+    // console.log('wasalt el sendReport');
     this._ProfileService.reportUser(report, this.vId).subscribe();
   }
 

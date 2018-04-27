@@ -1,0 +1,20 @@
+<div class="card">
+<div class="body">
+        <div class="header">
+                <h2><strong>User</strong> Reports</h2>
+              </div>
+        <div class="card" style="height:unset"  *ngFor="let rep of reports">
+      <div class="block-header" style="height:unset">
+            <a href="/profile/{{rep.reporter}}" ><strong>{{rep.reporter}}</strong> </a> <strong> reported </strong> <a href="/profile/{{rep.reportedPerson}}" ><strong>{{rep.reportedPerson}}</strong> </a>
+            <button type="button" class="btn btn-neutral" style="float:right" (click)="deleteReportPopUp(rep)">
+                    <i class="material-icons">delete</i>
+            </button>
+            <strong style="float:right">{{rep.reportedAt | date: "dd/MM/yyy  hh:mm a"}}</strong>
+            <br/>
+            
+          <strong>Reason: </strong>
+          <small>{{rep.reason}}</small>
+        </div>
+    </div>
+  </div>
+</div>

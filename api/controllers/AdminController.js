@@ -485,3 +485,44 @@ module.exports.getReports = function (req, res, next) {
         });
     });
 };
+
+module.exports.banUser = function(req, res, next) {
+    User.findOneAndUpdate(
+      { username: req.params.username },
+      { $set: { isBanned: true } }, { new: true },
+      function (err, user) {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res.status(404).json({
+            data: null,
+            err: null,
+            msg: 'User not found.'
+          });
+        }
+
+        return res.status(200).json({
+          data: user,
+          err: null,
+          msg: 'Info updated successfully.'
+        });
+      }
+    );
+  };
+
+  module.exports.deleteReport = function(req, res, next) {
+      console.log('HElloooo');
+    Report.remove({ _id: req.params.reportId }).
+    exec(function (removeError) {
+        if (removeError) {
+            return next(removeError);
+        }
+        res.status(200).json({
+            data: null,
+            err: null,
+            msg: 'Report was deleted successfully'
+        });
+    });
+  };
+
