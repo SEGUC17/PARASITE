@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PsychologistRequest } from '../PsychologistRequest';
 import { PsychologistService } from '../psychologist.service';
-import { PsychologistComponent } from '../psychologist/psychologist.component';
 import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material';
@@ -22,7 +21,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class AddPsychRequestComponent implements OnInit {
   request: PsychologistRequest;
-  daysOff: any[];
+
+  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
 
   /* form controls for each input form field */
   firstNameFormControl = new FormControl('', [
@@ -40,6 +40,7 @@ export class AddPsychRequestComponent implements OnInit {
 
   addFormControl = new FormControl();
   phoneFormControl = new FormControl();
+  daysOff = new FormControl();
   priceFormControl = new FormControl();
 
   matcher = new MyErrorStateMatcher();
@@ -47,24 +48,11 @@ export class AddPsychRequestComponent implements OnInit {
 
   constructor(private RequestService: PsychologistService,
               public snackBar: MatSnackBar,
-              public dialogRef: MatDialogRef<AddPsychRequestComponent>,
-              public PsychComponent: PsychologistComponent) {
+              public dialogRef: MatDialogRef<AddPsychRequestComponent>) {
 
   }
 
   ngOnInit() {
-    this.daysOff = [];
-  }
-
-  /* get input days Off */
-  addDay(d: any): void {
-    let index = this.daysOff.indexOf(d, 0);
-    if (index > -1) {
-      this.daysOff.splice(index, 1);
-    } else {
-      this.daysOff.push(d);
-    }
-    console.log(this.daysOff);
   }
 
   /* called when user clicks on submit button */
@@ -85,8 +73,8 @@ export class AddPsychRequestComponent implements OnInit {
       });
     } else {
       let req = this.request;
-      if (this.daysOff === null || this.daysOff === []) {
-        this.daysOff = ['No days off'];
+      if (this.daysOff.value === null) {
+        this.daysOff.setValue(['No days off']);
       }
       /* create a request object with user's info */
       req = {
@@ -95,7 +83,7 @@ export class AddPsychRequestComponent implements OnInit {
         phone: this.phoneFormControl.value,
         address: this.addFormControl.value,
         email: this.emailFormControl.value,
-        daysOff: this.daysOff,
+        daysOff: this.daysOff.value,
         type: 'add',
         priceRange: parseInt(this.priceFormControl.value, 10)
       };
@@ -114,13 +102,13 @@ export class AddPsychRequestComponent implements OnInit {
           });
 
           /* close dialog */
-          self.close();
+          self.dialogRef.close();
         }
       });
     }
   }
   close(): void {
     /* close dialog */
-    this.PsychComponent.closeModal();
+    this.dialogRef.close();
   }
 }

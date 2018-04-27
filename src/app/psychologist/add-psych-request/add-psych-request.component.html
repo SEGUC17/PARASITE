@@ -1,119 +1,67 @@
-<div class="modal-content">
-	<div class="card" style="margin : 0px">
-		<div class="header">
-			<ul class="header-dropdown">
-				<li class="remove">
-					<a role="button" (click)="close()" ><i class="zmdi zmdi-close"></i></a>
-				</li>
-			</ul>
-		</div>
-		<div align="left">
-			<div class="modal-body">
-				<h3 class="text-primary" style="color:primary">Contact Information</h3>
-				<fieldset>
-					<div class="form-group form-float">
-						<input type="text" class="form-control" placeholder="First Name *" name="firstName" id="psychFirstName" 
-						[formControl]="firstNameFormControl" [(ngModel)]="value" required>
-					</div>
-					<div class="form-group form-float">
-							<input type="text" class="form-control" placeholder="Last Name *" name="lastName" id="psychLastName" 
-							[formControl]="lastNameFormControl" [(ngModel)]="value1" required>
-					</div>
-					<div class="form-group form-float">
-					  <input type="email" class="form-control required" placeholder="Email *" name="email"
-					  [formControl]="emailFormControl" required>
-					</div>
-					<div class="row" style="padding-left:20px">
-						<div class="card col-lg-6 col-md-6 col-sm-6">
-							<div class="body" style="padding:1%">
-								<div class="row col-lg-12 col-md-12 col-sm-12">
-									<div class="col-lg-3 col-md-4 col-sm-4" style="padding-left:0px">
-										<span>Days Off</span>
-										</div>
-									<div class="form-group checkbox col-lg-3 col-md-4 col-sm-4"><!-- checkbox -->
-										<input type="checkbox" name="fancy-checkbox-default" id="checkbox-sat" autocomplete="off" 
-										(change) = "addDay('sat')" />
-										<label for="checkbox-sat">
-											sat
-										</label>
-									</div>
-									<div class="form-group checkbox col-lg-3 col-md-4 col-sm-4"><!-- checkbox -->
-										<input type="checkbox" name="fancy-checkbox-default" id="checkbox-sun" autocomplete="off" 
-										(change) = "addDay('sun')" />
-										<label for="checkbox-sun">
-											sun
-										</label>
-									</div>
-									<div class="form-group checkbox col-lg-3 col-md-4 col-sm-4"><!-- checkbox -->
-										<input type="checkbox" name="fancy-checkbox-default" id="checkbox-mon" autocomplete="off" 
-										(change) = "addDay('mon')" />
-										<label for="checkbox-mon">
-											mon
-										</label>
-									</div>
-									<div class="form-group checkbox col-lg-3 col-md-2 col-sm-2"><!-- checkbox -->
-										<input type="checkbox" name="fancy-checkbox-default" id="checkbox-tue" autocomplete="off" 
-										(change) = "addDay('tue')" />
-										<label for="checkbox-tue">
-											tue
-										</label>
-									</div>
-									<div class="form-group checkbox col-lg-3 col-md-2 col-sm-2"><!-- checkbox -->
-										<input type="checkbox" name="fancy-checkbox-default" id="checkbox-wed" autocomplete="off" 
-										(change) = "addDay('wed')" />
-										<label for="checkbox-wed">
-											wed
-										</label>
-									</div>
-									<div class="form-group checkbox col-lg-3 col-md-2 col-sm-2"><!-- checkbox -->
-										<input type="checkbox" name="fancy-checkbox-default" id="checkbox-thu" autocomplete="off" 
-										(change) = "addDay('thu')" />
-										<label for="checkbox-thu">
-											thu
-										</label>
-									</div>
-									<div class="form-group checkbox col-lg-3 col-md-2 col-sm-2"><!-- checkbox -->
-										<input type="checkbox" name="fancy-checkbox-default" id="checkbox-fri" autocomplete="off" 
-										(change) = "addDay('fri')" />
-										<label for="checkbox-fri">
-											fri
-										</label>
-									</div>
-													
-								</div>
-							</div>
+<div class="container-fluid">
+	<div class="col-lg-12">
+		<div class="card" style="height:max-content; width:100%">
+			<div class="header">
+				<ul class="header-dropdown">
+					<li class="remove">
+						<a role="button" class="boxs-close" (click)="close()" ><i class="zmdi zmdi-close"></i></a>
+					</li>
+				</ul>
+			</div>
+			<div align="left">
+				<div class="body">
+					<h3 class="text-primary" style="color:primary">Contact Information</h3>
+					<fieldset>
+						<div class="form-group form-float">
+							<input type="text" class="form-control" placeholder="First Name *" name="firstName" id="psychFirstName" 
+							[formControl]="firstNameFormControl" [(ngModel)]="value" required>
 						</div>
-					<div class="col-sm-5">
+						<div class="form-group form-float">
+								<input type="text" class="form-control" placeholder="Last Name *" name="lastName" id="psychLastName" 
+								[formControl]="lastNameFormControl" [(ngModel)]="value1" required>
+						</div>
 						<div class="form-group form-float">
 							<input type="text" class="form-control" placeholder="Phone Number"  id="psychPhoneNumber" name="confirm" 
 							[formControl]="phoneFormControl" [(ngModel)]="value2">
 						</div>
 						<div class="form-group form-float">
-							<input type="number" class="form-control" placeholder="Maximum Price Range:" id="psychPriceRange" 
-							[formControl]="priceFormControl" [(ngModel)]="value5">
+						  <input type="email" class="form-control required" placeholder="Email *" name="email"
+						  [formControl]="emailFormControl" required>
 						</div>
-					</div>
-					</div>
-					<div class="form-group">
-						<div class="form-control">
-							<textarea rows="2" maxlength="120" class="form-control no-resize" placeholder="Address..."
-							id="psychAddress" [formControl]="addFormControl" [(ngModel)]="value3" style="font-size:15px"></textarea>
+						<div class="row">
+							<div class="col-sm-6">
+								<mat-select class="form-control" placeholder="Days Off" [formControl]="daysOff" multiple >
+									<mat-option *ngFor="let day of daysOfWeek" [value]="day">{{day}}</mat-option>
+								</mat-select>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group form-float">
+									<input type="number" class="form-control" placeholder="Maximum Price Range:" id="psychPriceRange" 
+									[formControl]="priceFormControl" [(ngModel)]="value5">
+								</div>
+							</div>
 						</div>
+						<div class="form-group">
+							<div class="form-control">
+								<textarea rows="2" maxlength="120" class="form-control no-resize" placeholder="Address..."
+								id="psychAddress" [formControl]="addFormControl" [(ngModel)]="value3" style="font-size:15px"></textarea>
+							</div>
+						</div>
+					</fieldset>
+					<span> <small> Required fields *</small></span>
+					<div align="right">
+						<button class="btn btn-primary hidden-sm-down float-right m-l-10" id="btn" (click)="submitReq()">Submit</button>
 					</div>
-				</fieldset>
-				<span> <small> Required fields *</small></span>
-				<div align="right">
-					<button class="btn btn-primary hidden-sm-down float-right m-l-10" id="btn" (click)="submitReq()">Submit</button>
 				</div>
-			</div>
-			<hr>
-			<div class="col-md-12">
-				<h5>Note</h5>
-				<p>If our admins accepted your request your contact Information will be added to our psychologists address book and an email with an ID will be sent to you, with this ID only you can later edit or delete your informatio.</p>
+				<hr>
+				<div class="col-md-12">
+					<h5>Note</h5>
+					<p>If our admins accepted your request your contact Information will be added to our psychologists address book and an email with an ID will be sent to you, with this ID only you can later edit or delete your informatio.</p>
+				</div>
 			</div>
 		</div>
 	</div>
-
 </div>
+
 
 
