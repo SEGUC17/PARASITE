@@ -60,35 +60,35 @@
 </div>
 </div-->
 
-
-    <div class="col-lg-6">
-      <div class="card">
+    <div class="col-lg-12">
+      <div class="card" >
         <div class="body table-responsive">
           <table class="table m-b-0 c_list">
             <thead>
-              <th>Name</th>
-              <th data-breakpoints="xs">Age</th>
+              <th data-breakpoints="xs"><i class="zmdi zmdi-face m-r-14"></i> </th>
+              <th data-breakpoints="xs"> Age</th>
+              <th data-breakpoints="xs">Learning Score</th>
             </thead>
            
             <tbody>
            
                 
-            <tr *ngFor="let x of singleArray "  >
+            <tr *ngFor="let x of singleArray ">
               
-              <td>
-                <img [src]="x.avatar"  style="width:50px;height:50px" class="rounded-circle avatar" alt="">
-                <a  href= "/profile/{{x.username}}"> <p> </p>{{x.firstName}} {{x.lastName}}</a>
-               
+              <td style="width:230px;height:50px">
+                <a  href= "/profile/{{x.username}}"><img [src]="x.avatar"  style="width:50px;height:50px" class="rounded-circle avatar" alt=""></a>
+                <strong><a  href= "/profile/{{x.username}}"> <p> </p>{{x.firstName}} {{x.lastName}}</a></strong>
               </td>
-              <td >
-                <span class="phone" data-breakpoints="xs"><i class="zmdi zmdi-time m-r-10"></i>{{x.birthdate}}</span>
+        
+              <td>
+                <span class="phone"><i class="zmdi zmdi-cake m-r-10"></i>{{x.birthdate}}</span>
               </td>
               <!--td>
                 <address><i class="zmdi zmdi-pin"></i>44 Shirley Ave. West Chicago, IL 60185</address>
               </td-->
-              <!--td>
-                  <span class="phone"><i class="zmdi zmdi-book m-r-10"></i>Grade 1</span>
-              </td-->
+              <td >
+                  <span class="phone"><i class="zmdi zmdi-flash m-r-10"></i>{{x.learningScore}} Points</span>
+              </td>
             
             </tr>
           
@@ -99,4 +99,3 @@
       </div>
     </div>
   </div>
-
