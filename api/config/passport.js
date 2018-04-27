@@ -48,7 +48,8 @@ module.exports = function (passport) {
                 },
                 {
                     'email': profile.emails[0].value,
-                    'facebookId': profile.id
+                    'facebookId': profile.id,
+                    'isEmailVerified': true
                 },
                 function (err, user) {
                     if (err) {
@@ -59,6 +60,7 @@ module.exports = function (passport) {
 
                     var newUser = new User({
                         email: profile.emails[0].value,
+                        facebookId: profile.id,
                         firstName: profile.name.givenName,
                         isEmailVerified: true,
                         lastName: profile.name.familyName,
