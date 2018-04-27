@@ -8,7 +8,6 @@ import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-
 import {
   isSameMonth,
   isSameDay,
@@ -23,6 +22,9 @@ import {
   addDays,
   addHours
 } from 'date-fns';
+
+// allow jquery
+declare const $: any;
 
 const colors: any = {
   red: {
@@ -59,50 +61,94 @@ export class StudyPlanComponent implements OnInit {
   currIsAdmin: boolean;
   listOfChildren: any[];
 
-  // end of routing parameters
+  // study plan details
   studyPlan: StudyPlan;
-  tempStudyPlan: StudyPlan;
   description: string;
   editorContent: SafeHtml;
   events: CalendarEvent[];
+  createTitle = '';
+  rating = 0;
+
+  // copy utility
+  tempStudyPlan: StudyPlan;
+
+  // Calendar API view control
+  view = 'month';
+  viewDate: Date = new Date();
+  activeDayIsOpen: Boolean = false;
+  refresh: Subject<any> = new Subject();
+
+  // datetime picker variables
+  createStart = '';
+  createEnd = '';
 
   // assign button binding
   assignFunction;
   assignText;
 
-  // Utility
-  refresh: Subject<any> = new Subject();
-
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
     private router: Router, private _AuthService: AuthService) { }
 
   ngOnInit() {
+
+    // datetime pickers
+    $('.datetimepicker').bootstrapMaterialDatePicker({
+      format: 'dddd DD MMMM YYYY - hh:mm a',
+      shortTime: true,
+      clearButton: true,
+      weekStart: 6
+    });
+
+    let self = this;
+
+    $('#createStart').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.createStart = date._d;
+        $('#createEnd').bootstrapMaterialDatePicker('setMinDate', date);
+      } else {
+        self.createStart = '';
+      }
+    });
+
+    $('#createEnd').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.createEnd = date._d;
+        $('#createStart').bootstrapMaterialDatePicker('setMaxDate', date);
+      } else {
+        self.createEnd = '';
+      }
+    });
+
     this.studyPlan = {
       creator: '',
       description: '',
       events: [],
       title: '',
       rating: {
-        ratedId: '',
-        rating: 0,
-        type: 'studyPlan'
+        number: 0,
+        sum: 0,
+        value: 0
       }
     };
     this.description = '';
     this.editorContent = '';
     this.events = [];
+
+    // fetch current user data for control
     this._AuthService.getUserData(['username', 'isChild', 'isAdmin', 'children']).subscribe((res) => {
       this.currUsername = res.data.username;
       this.currIsChild = res.data.isChild;
       this.currIsAdmin = res.data.isAdmin;
       this.listOfChildren = res.data.children;
     });
+    // fetch routing data
     this.route.params.subscribe(params => {
       this.type = params.type;
       this._id = params.id;
       this.profileUsername = params.username;
     });
 
+    // fetch study plan according to its type
     if (this.type === 'personal') {
       this.studyPlanService.getPersonalStudyPlan(this.profileUsername, this._id)
         .subscribe(res => {
@@ -123,6 +169,7 @@ export class StudyPlanComponent implements OnInit {
           this.studyPlan = res.data;
           this.events = this.studyPlan.events;
           this.description = this.studyPlan.description;
+          this.rating = this.studyPlan.rating.value;
           this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
           for (let index = 0; index < this.events.length; index++) {
             this.events[index].start = new Date(this.events[index].start);
@@ -192,21 +239,69 @@ export class StudyPlanComponent implements OnInit {
     this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.profileUsername]);
   }
 
-  createEvent(eventTitle: string, eventDescription: string, start: Date, end: Date) {
+  // Calendar API control methods
+
+  // calendar header change handler
+  headerChange(): void {
+    const getStart: any = {
+      month: startOfMonth,
+      week: startOfWeek,
+      day: startOfDay
+    }[this.view];
+
+    const getEnd: any = {
+      month: endOfMonth,
+      week: endOfWeek,
+      day: endOfDay
+    }[this.view];
+
+    this.activeDayIsOpen = false;
+  }
+
+  // day click handler
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+        this.viewDate = date;
+      }
+    }
+  }
+
+  // new event creation handler
+  createEvent(eventTitle: string, eventDescription: string, eventStart: Date, eventEnd: Date) {
     this.events.push({
       title: eventTitle,
-      start: start,
-      end: end,
+      start: eventStart,
+      end: eventEnd,
       color: {
         primary: '#2196f3',
         secondary: '#FAE3E3'
       },
-      draggable: true,
+      draggable: false,
       meta: {
         description: eventDescription
       }
     });
+
+    $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+
+    this.refresh.next();
   }
+
+  // clear date pickers in event creation modal on cancellation
+  cancelCreate() {
+    $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+  }
+
+  // utility
   refreshDocument() {
     // Light refresh to show any changes
     const self = this;

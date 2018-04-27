@@ -153,6 +153,7 @@ module.exports = function (passport) {
   // ---------------------- User Controller ---------------------- //
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
+  router.get('/verifyChildEmail/:id', userController.verifyChildEmail);
   router.post('/signIn', isNotAuthenticated, userController.signIn);
   router.get('/isSignedIn', isNotAuthenticated, isAuthenticated);
   router.post('/childsignup', isAuthenticated, userController.signUpChild);

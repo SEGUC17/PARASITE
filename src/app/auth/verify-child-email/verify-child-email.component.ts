@@ -4,11 +4,11 @@ import { AuthService } from '../auth.service';
 import { ToastrService, Toast } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-verify-email',
-  templateUrl: './verify-email.component.html',
-  styleUrls: ['./verify-email.component.scss']
+  selector: 'app-verify-child-email',
+  templateUrl: './verify-child-email.component.html',
+  styleUrls: ['./verify-child-email.component.scss']
 })
-export class VerifyEmailComponent implements OnInit {
+export class VerifyChildEmailComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -20,9 +20,8 @@ export class VerifyEmailComponent implements OnInit {
   ngOnInit() {
     const self = this;
     this.activatedRoute.params.subscribe(function (params) {
-      self.authService.verifyEmail(params['id']).subscribe(function (res) {
+      self.authService.verifyChildEmail(params['id']).subscribe(function (res) {
         if (res.msg === 'Email Verification Is Successful!') {
-          self.authService.setToken(res.token);
           self.toastrService.success(res.msg);
         }
         self.router.navigate(['/']);
