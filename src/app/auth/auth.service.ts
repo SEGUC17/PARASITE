@@ -41,7 +41,12 @@ export class AuthService {
       catchError(self.handleError('verifyEmail', []))
     );
   }
-
+  verifyChildEmail(id: any): Observable<any> {
+    const self = this;
+    return this.http.get<any>(environment.apiUrl + 'verifyChildEmail/' + id).pipe(
+      catchError(self.handleError('verifyChildEmail', []))
+    );
+  }
   signIn(user: any): Observable<any> {
     const self = this;
     return this.http.post<any>(environment.apiUrl + 'signIn', user).pipe(
@@ -99,7 +104,17 @@ export class AuthService {
   private handleError<T>(operation = 'operation', result?: T) {
     const self = this;
     return function (error: any): Observable<T> {
-      self.toastService.error(error.error.msg);
+      if (
+        operation === 'signUp' ||
+        operation === 'verifyEmail' ||
+        operation === 'signIn' ||
+        operation === 'childsignup' ||
+        operation === 'verifyChildEmail' ||
+        operation === 'forgotPassword' ||
+        operation === 'resetPassword'
+      ) {
+        self.toastService.error(error.error.msg);
+      }
       return of(result as T);
     };
   }

@@ -20,6 +20,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignOutComponent } from './sign-out/sign-out.component';
+import { VerifyChildEmailComponent } from './verify-child-email/verify-child-email.component';
 
 @NgModule({
   providers: [AuthService],
@@ -36,6 +37,7 @@ import { SignOutComponent } from './sign-out/sign-out.component';
     MatCheckboxModule,
     MatSelectModule
   ],
-  declarations: [ForgotPasswordComponent, ResetPasswordComponent, VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent]
+  declarations: [ForgotPasswordComponent, ResetPasswordComponent, VerifyEmailComponent, SignInComponent,
+    SignUpComponent, SignOutComponent, VerifyChildEmailComponent]
 })
 export class AuthModule { }
