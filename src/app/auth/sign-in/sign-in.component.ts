@@ -25,10 +25,10 @@ export class SignInComponent implements OnInit {
   signIn() {
     const self = this;
     self.authService.signIn(this.user).subscribe(function (res) {
-      if (res.msg) {
+      if (res.msg === 'Sign In Is Successful!') {
         self.authService.setToken(res.token);
         self.toastrService.success(res.msg, 'Welcome!');
-        self.router.navigate(['/dashboard']);
+        self.router.navigate(['/']);
       }
     });
   }

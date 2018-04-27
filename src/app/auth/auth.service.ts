@@ -93,13 +93,21 @@ export class AuthService {
     return this.http.patch<any>(environment.apiUrl + 'forgotPassword/resetpassword/' + id, pws, httpOptions).pipe(
       catchError(self.handleError('resetPassword', []))
     );
-
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
     const self = this;
     return function (error: any): Observable<T> {
-      self.toastService.error(error.error.msg);
+      if (
+        operation === 'signUp' ||
+        operation === 'verifyEmail' ||
+        operation === 'signIn' ||
+        operation === 'childsignup' ||
+        operation === 'forgotPassword' ||
+        operation === 'resetPassword'
+      ) {
+        self.toastService.error(error.error.msg);
+      }
       return of(result as T);
     };
   }
