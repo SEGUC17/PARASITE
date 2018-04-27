@@ -10,12 +10,16 @@ import { Router } from '@angular/router';
 })
 export class SignOutComponent implements OnInit {
 
-  constructor(private authService: AuthService, private toastrService: ToastrService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private toastrService: ToastrService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.authService.setToken(null);
-    this.toastrService.success('Sign Out Is Successful!');
-    this.router.navigate(['/dashboard']);
+    this.toastrService.success('Sign Out Is Successful!', 'Good Bye!');
+    this.router.navigate(['/']);
   }
 
 }

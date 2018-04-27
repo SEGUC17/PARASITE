@@ -201,6 +201,37 @@ module.exports.signUp = function (req, res, next) {
     // --- End of "Check: Duplicate Username/Email" --- //
 };
 
+module.exports.verifyChildEmail = function (req, res, next) {
+console.log('entered the verification for child email');
+    User.findByIdAndUpdate(
+        req.params.id,
+        { 'isEmailVerified': true },
+        function (err, user) {
+            if (err) {
+                console.log('entered error');
+                throw err;
+            } else if (!user) {
+                console.log('entered error of not user');
+
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User Not Found!'
+                });
+            }
+       console.log('res is 200 ');
+       console.log('isEmailVerified : ', user.isEmailVerified);
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'Email Verification Is Successful!'
+            });
+        }
+    );
+
+};
+
 module.exports.verifyEmail = function (req, res, next) {
 
     User.findByIdAndUpdate(
@@ -476,18 +507,23 @@ module.exports.signUpChild = function (req, res, next) {
             //---end of duplicate checks--//
 
             //--hashing password--//
-            User.create(newUser, function (error) {
+            User.create(newUser, function (error, user2) {
                 if (error) {
                     //  console.log('entered if error');
 
                     return next(error);
                 }
+                emailVerification.send(
+                    user2.email,
+                    config.FRONTEND_URI + 'auth/verifyChildEmail/' + user2._id
+                );
 
                 // --- Variable Assign --- //
                 return res.status(201).json({
                     data: null,
                     error: null,
-                    msg: 'Child Successfully Signed Up!'
+                    msg: 'Child Sign Up is Successful!\n' +
+                    'Verification Mail Was Sent To Your Child\'s Email!'
                 });
             });
         }
@@ -665,28 +701,29 @@ module.exports.isUserExist = function (req, res, next) {
 };
 
 module.exports.forgotPassword = function (req, res, next) {
-    // password gets trimmed of spaces
+    // email input gets trimmed of spaces
     req.params.email = req.params.email.toLowerCase().trim();
-    // check if the user exits
+    // check is the user exists
     User.findOne(
         { email: req.params.email },
         function (err, user) {
             if (err) {
                 throw err;
             } else if (user) {
+                // user exists in database
                 console.log(user.firstName);
                 emailVerification.send(
-                user.email,
-                config.FRONTEND_URI +
-                 'auth/forgotPassword/resetpassword/' + user._id
+                    user.email,
+                    config.FRONTEND_URI +
+                    'auth/forgotPassword/resetpassword/' + user._id
                 );
 
-                 return res.status(201).json({
+                return res.status(201).json({
                     data: null,
                     err: null,
                     msg: 'An email was sent to the provided email'
                 });
-
+                // user does not exist
             } else if (!user) {
                 return res.status(404).json({
                     data: null,
@@ -701,31 +738,33 @@ module.exports.forgotPassword = function (req, res, next) {
 };
 
 module.exports.resetPassword = function (req, res, next) {
-   
-    User.findById({ '_id': req.params.id }, function(err, user) {
+    // User identified by ID
+    User.findById({ '_id': req.params.id }, function (err, user) {
         if (err) {
             return next(err);
         } else if (user) {
-            Encryption.hashPassword('12345678910', function (errors, hash) {
+            // new password gets hashed
+            Encryption.hashPassword(req.body.newpw, function (errors, hash) {
                 if (errors) {
                     return next(errors);
                 }
-            User.findByIdAndUpdate(
-                { '_id': req.params.id },
-                { 'password': hash }, function (error) {
-                    if (error) {
-                        return next(error);
+                // new hashed password replaces old one
+                User.findByIdAndUpdate(
+                    { '_id': req.params.id },
+                    { 'password': hash }, function (error) {
+                        if (error) {
+                            return next(error);
+                        }
                     }
-                }
-            );
+                );
 
-                        return res.status(200).json({
-                        data: null,
-                        err: null,
-                        msg: 'User password was reset successfully.'
-                    });
-               });
-            }
-         });
-        };
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'User password was reset successfully.'
+                });
+            });
+        }
+    });
+};
 
