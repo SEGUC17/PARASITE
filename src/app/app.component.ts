@@ -16,52 +16,44 @@ export class AppComponent implements OnInit {
   previousUrl: string;
   links = [
     {
-      url: '/content-edit',
-      name: 'Content Edit'
-    },
-    {
-      url: '/content-list-view',
-      name: 'Content List'
+      url: '/content/view',
+      name: 'Content',
+      icon: 'book'
     },
     {
       url: '/profile',
-      name: 'Profile'
+      name: 'Profile',
+      icon: 'account'
     },
     {
-      url: '/childsignup',
-      name: 'Child SignUp'
-    },
-    {
-      url: 'message',
-      name: 'Messaging'
+      url: '/message',
+      name: 'Messaging',
+      icon: 'email'
     },
     {
       url: '/market',
-      name: 'Market'
-    },
-    {
-      url: 'published-study-plans',
-      name: 'Published Study Plans'
+      name: 'Market',
+      icon: 'shopping-cart'
     },
     {
       url: '/psychologist',
-      name: 'Psychologists'
+      name: 'Psychologists',
+      icon: 'hospital'
     },
     {
       url: '/activities',
-      name: 'Activities'
+      name: 'Activities',
+      icon: 'run'
     },
     {
       url: '/admin',
-      name: 'Admin Control'
+      name: 'Admin',
+      icon: 'accounts-list'
     },
     {
       url: '/search',
-      name: 'Search'
-    },
-    {
-      url: '/admin/category',
-      name: 'Admin Category Control'
+      name: 'Connect Parents',
+      icon: 'accounts'
     }
   ];
   constructor(private router: Router, private authService: AuthService) {
