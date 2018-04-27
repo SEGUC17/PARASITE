@@ -125,20 +125,20 @@ export class MessagingComponent implements OnInit {
     const self = this;
     //  if the currentUser is the sender then the receipent is the person to block
    if ( message.recipient !== this.currentUser.username ) {
-      console.log('receipient is:' + message.recipient);
+     // console.log('receipient is:' + message.recipient);
       this.blockedUser = message.recipient;
       // else the recipient is the currentUser & the sender is the person to block
     } else {
-      console.log(message.sender);
+     // console.log(message.sender);
       this.blockedUser = message.sender;
-  console.log('blocked user is:' + this.blockedUser);
+     // console.log('blocked user is:' + this.blockedUser);
     }
-    console.log('blocklist is: ', this.currentUser.blocked);
+   // console.log('blocklist is: ', this.currentUser.blocked);
     for (let i = 0 ; i < this.currentUser.blocked.length; i++) {
          if (this.currentUser.blocked[i] === this.blockedUser) {
              self.toastrService.error('This user is already blocked!');
              this.allIsWell = false;
-             console.log('all is not well, dup found: ', this.blockedUser);
+     //        console.log('all is not well, dup found: ', this.blockedUser);
          }// end if
 
     } // end for

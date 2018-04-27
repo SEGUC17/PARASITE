@@ -366,17 +366,16 @@ export class ProfileComponent implements OnInit {
 
   const self= this;
     for (let i = 0; i < this.blocklist.length; i++) {
-      if (this.blocklist[i] == blocked) {
+      if (this.blocklist[i] === blocked) {
         
             this.blocklist.splice(i, 1);
-            console.log('this user is no longer blocked', blocked);
-            console.log('updated list is', this.blocklist);
+         //   console.log('this user is no longer blocked', blocked);
+          //  console.log('updated list is', this.blocklist);
         }  //end if
       }//end for
 
      this.messageService.unBLock(this.id, this.blocklist).subscribe(function(res)  {
       if (res.msg) {
-        console.log('entered correct if');
         self.toastrService.success(res.msg);
       }//end if
      });
