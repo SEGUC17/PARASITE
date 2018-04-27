@@ -86,7 +86,7 @@ module.exports.deleteMessage = function(req, res, next) {
  module.exports.block = function(req, res, next) {
    var blocked = req.params.blocked;
    //  console.log('username of blocked: ', blocked);
-    console.log('CONT. ID of user is: ', req.body._id);
+   // console.log('CONT. ID of user is: ', req.body._id);
      User.findByIdAndUpdate(
        req.body._id, { $push: { 'blocked': blocked } },
       { new: true }, function (err, updatedob) {
@@ -99,7 +99,7 @@ module.exports.deleteMessage = function(req, res, next) {
               req.body.username + 'Blocked is: ' + blocked
           });
       }
-      console.log('status is 200');
+ //     console.log('status is 200');
 
       return res.status(200).json({
        data: updatedob,
@@ -166,14 +166,14 @@ module.exports.contactAdmin = function (req, res, next) {
   var ID = req.params.id;
   //var array =req.body.data.blocked;
  // console.log('req.body.data',req.body.data.blocked );
-  console.log('unBlock CONT. ID of user is: ', req.params.id);
-  console.log('blocklist is ', req.body);
+  //console.log('unBlock CONT. ID of user is: ', req.params.id);
+  //console.log('blocklist is ', req.body);
 
   User.findByIdAndUpdate(
     ID, { $set: { 'blocked': req.body } },
     { new: true }, function (err, updatedob) {
       if (err) {
-           console.log('entered the error stage of update');
+          // console.log('entered the error stage of update');
 
         return res.status(402).json({
           data: null,
@@ -182,7 +182,7 @@ module.exports.contactAdmin = function (req, res, next) {
       }
 
         return res.status(200).json({
-          data: null,
+          data: updatedob,
           err: null,
           msg: 'This user is no longer blocked'
         });
