@@ -280,12 +280,12 @@
                 <span class="job_post" *ngIf="true">Ui UX Designer</span>
                 <p>{{currIsOwner? address : vAddress}}</p>
                 <div>
+                  <button class="btn btn-primary btn-round btn-simple">Message</button>
                   <button class="btn btn-primary btn-round btn-simple" *ngIf = "!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent" (click)= "linkToParent()">Add As A Parent</button>
                   <button class="btn btn-primary btn-round btn-simple" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild" (click)= "EditChildIndependence()">Make Independent</button>
                   <button class="btn btn-primary btn-round btn-simple" *ngIf = "currIsOwner && !currIsChild && !verified && currIsOfAge" (click)="requestContributerValidation()">Be A Verified Contributor</button>
                   <button class="btn btn-primary btn-round btn-simple" *ngIf = "currIsParent && currIsOwner">Unlink My Child</button>
                   <button class="btn btn-primary btn-round btn-simple" *ngIf = "currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">Link To My Child</button>
-                  <button class="btn btn-primary btn-round btn-simple">Message</button>
                   <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "currIsOfAge && !currIsOwner && visitedIsOfAge" (click) = "reportPopUp()">Report</button>
                   <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "currCanBeParent && currIsOwner">Create A Child Account</button>
                   <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf = "!currIsOwner && visitedIsMyParent && currIsOfAge" (click)="UnlinkMyself()">Unlink My Parent</button>
@@ -347,69 +347,6 @@
                     <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
                     <h6 class="users_name">Jackson</h6>
                     <small class="join_date">Today</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Jackson</h6>
-                    <small class="join_date">Today</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Jackson</h6>
-                    <small class="join_date">Today</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Jackson</h6>
-                    <small class="join_date">Today</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar2.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Aubrey</h6>
-                    <small class="join_date">Yesterday</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar3.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Oliver</h6>
-                    <small class="join_date">08 Nov</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar3.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Oliver</h6>
-                    <small class="join_date">08 Nov</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar4.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Isabella</h6>
-                    <small class="join_date">12 Dec</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Jacob</h6>
-                    <small class="join_date">12 Dec</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar5.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Matthew</h6>
-                    <small class="join_date">17 Dec</small>
                   </a>
                 </li>
               </ul>
@@ -522,7 +459,7 @@
                   <h2><strong>Messages Block</strong> List</h2>
                 </div>
                 <style> 
-                    .body1{
+                    .bodyBlock{
                         -webkit-column-count: 3; /* Chrome, Safari, Opera */
                         -moz-column-count: 3; /* Firefox */
                         column-count: 3;
@@ -532,7 +469,7 @@
                         column-gap: 80px;
                     }
                     </style>
-              <div class="body1">
+              <div class="body" class="bodyBlock">
                 <div *ngFor="let blockedUser of blocklist" class="zmdi zmdi-account-circle" style="padding-left:25px;">
                 <strong>  <span>{{blockedUser}} </span></strong>
                 <div class="col-md-12">
