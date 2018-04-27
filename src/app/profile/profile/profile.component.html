@@ -507,23 +507,25 @@
               <div class="header">
                   <h2><strong>Messages Block</strong> List</h2>
                 </div>
+                <style> 
+                    .body{
+                        -webkit-column-count: 3; /* Chrome, Safari, Opera */
+                        -moz-column-count: 3; /* Firefox */
+                        column-count: 3;
+                    
+                        -webkit-column-gap: 80px; /* Chrome, Safari, Opera */
+                        -moz-column-gap: 80px; /* Firefox */
+                        column-gap: 80px;
+                    }
+                    </style>
               <div class="body">
-                  <style> 
-                      .body{
-                          -webkit-column-count: 2; /* Chrome, Safari, Opera */
-                          -moz-column-count: 2; /* Firefox */
-                          column-count: 2;
-                      
-                          -webkit-column-gap: 80px; /* Chrome, Safari, Opera */
-                          -moz-column-gap: 80px; /* Firefox */
-                          column-gap: 80px;
-                      }
-                      </style>
                 <div *ngFor="let blockedUser of blocklist" class="zmdi zmdi-account-circle" style="padding-left:25px;">
                 <strong>  <span>{{blockedUser}} </span></strong>
+                <div class="col-md-12">
                   <button class="btn btn-primary btn-round"  (click) = "unblockUser(blockedUser)" >
                       Unblock
                     </button>
+                  </div>
               </div>
               </div>
             </div>

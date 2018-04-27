@@ -5,6 +5,7 @@ import { ProfileService } from '../profile.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 declare const swal: any;
@@ -13,6 +14,7 @@ declare const $: any;
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
+  providers: [AuthService, MessageService, ToastrService],
   encapsulation: ViewEncapsulation.None
 })
 
@@ -97,7 +99,7 @@ export class ProfileComponent implements OnInit {
   dBirthday: Date;
   // ------------------------------------
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
-    private activatedRoute: ActivatedRoute, private messageService: MessageService) { }
+    private activatedRoute: ActivatedRoute, private messageService: MessageService, private toastrService: ToastrService) { }
 
   ngOnInit() {
     this._this = this;
@@ -358,8 +360,8 @@ export class ProfileComponent implements OnInit {
 
   unblockUser(blocked) {
     //calling the unblocking method in the service
-  //  console.log('blocked is :', blocked);
 
+  const self= this;
     for (let i = 0; i < this.blocklist.length; i++) {
       if (this.blocklist[i] == blocked) {
         
@@ -370,9 +372,11 @@ export class ProfileComponent implements OnInit {
       }//end for
 
      this.messageService.unBLock(this.id, this.blocklist).subscribe(function(res)  {
-
-      alert(res.msg);
-     });;
+      if (res.msg) {
+        console.log('entered correct if');
+        self.toastrService.success(res.msg);
+      }//end if
+     });
 }
 
 }

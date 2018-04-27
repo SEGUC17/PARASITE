@@ -15,9 +15,10 @@ import { MatIconModule } from '@angular/material';
 import { ReplyDialogComponent } from './reply-dialog/reply-dialog.component';
 import {MatChipsModule} from '@angular/material/chips';
 import { ForwardDialogComponent } from './forward-dialog/forward-dialog.component';
+import { ToastrService } from 'ngx-toastr';
 
 @NgModule({
-  providers: [MessageService, AuthService, MatDialog],
+  providers: [MessageService, AuthService, MatDialog, ToastrService],
   imports: [
     MessagingRoutingModule,
     FormsModule,

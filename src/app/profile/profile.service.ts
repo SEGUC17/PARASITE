@@ -5,6 +5,8 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { AuthService } from '../auth/auth.service';
 import { environment } from '../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
+import { MessageService } from '../messaging/messaging.service';
 
 
 const httpOptions = {
@@ -17,7 +19,8 @@ const apiUrl = environment.apiUrl;
 
 export class ProfileService {
   // ------------- Profile Page Method(s) -------------- AUTHOR:
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService,
+ private toastrService: ToastrService, private messageService: MessageService) { }
   UserData = ['username'];
   private linkAnotherParentUrl = apiUrl + 'profile/LinkAnotherParent';
   private UnlinkUrl = apiUrl + 'profile/UnLinkChild';
