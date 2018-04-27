@@ -6,6 +6,7 @@ import { ResetPasswordComponent } from './forgotPassword/resetpassword/resetpass
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignOutComponent } from './sign-out/sign-out.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { VerifyChildEmailComponent } from './verify-child-email/verify-child-email.component';
 
 const routes = [
 
@@ -17,6 +18,7 @@ const routes = [
   { path: 'auth/sign-out', component: SignOutComponent },
 
   { path: 'auth/verifyEmail/:id', component: VerifyEmailComponent },
+  { path: 'auth/verifyChildEmail/:id', component: VerifyChildEmailComponent },
 
   { path: 'auth/forgotPassword/resetpassword/:id', component: ResetPasswordComponent }
 ];
