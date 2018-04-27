@@ -81,6 +81,13 @@ export class AuthService {
     );
   }
 
+  verifyChildEmail(id: any): Observable<any> {
+    const self = this;
+    return this.http.get<any>(environment.apiUrl + 'verifyChildEmail/' + id).pipe(
+      catchError(self.handleError('verifyChildEmail', []))
+    );
+  }
+
   forgotPassword(email): any {
     const self = this;
     return this.http.get<any>(environment.apiUrl + 'forgotPassword/' + email).pipe(
@@ -103,6 +110,7 @@ export class AuthService {
         operation === 'verifyEmail' ||
         operation === 'signIn' ||
         operation === 'childsignup' ||
+        operation === 'verifyChildEmail' ||
         operation === 'forgotPassword' ||
         operation === 'resetPassword'
       ) {
