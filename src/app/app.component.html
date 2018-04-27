@@ -254,12 +254,12 @@
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                            <a routerLink="/sample-pages/profile">
-                                <img src="assets/images/defaultProfilePic.png" alt="User">
+                            <a *ngIf="username" [routerLink]="'/profile/'+username">
+                                <img [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
                             </a>
                         </div>
                         <div class="detail">
-                            <h4>Michael</h4>
+                            <h4 *ngIf="username">{{firstName + ' ' + lastName}}</h4>
                             <a routerLink="/scheduling/schedule" title="My Schedule">
                                 <i class="zmdi zmdi-calendar"></i>
                             </a>

@@ -14,9 +14,13 @@ declare const screenfull: any;
 })
 export class AppComponent implements OnInit {
   previousUrl: string;
+  username: string;
+  avatar: string;
+  firstName: string;
+  lastName: string;
   links = [
     {
-      url: '/content/view',
+      url: '/content/list',
       name: 'Content',
       icon: 'book'
     },
@@ -131,16 +135,6 @@ export class AppComponent implements OnInit {
         const cards = element.parents('.card');
         cards.addClass('closed').fadeOut();
       });
-
-      // Theme Light and Dark  ============
-      $('.theme-light-dark .t-light').on('click', function () {
-        $('body').removeClass('menu_dark');
-      });
-
-      $('.theme-light-dark .t-dark').on('click', function () {
-        $('body').addClass('menu_dark');
-      });
-
       $('.menu-sm').on('click', function () {
         $('body').toggleClass('menu_sm');
       });
@@ -246,10 +240,14 @@ export class AppComponent implements OnInit {
 
   isSignedIn(): void {
     const self = this;
-    this.authService.isSignedIn().subscribe(function (res) {
+    this.authService.getUserData(['username', 'firstName', 'lastName', 'avatar']).subscribe(function (res) {
       if (res.status === 401) {
         self.authService.setToken(null);
       }
+      self.username = res.data.username;
+      self.avatar = res.data.avatar;
+      self.firstName = res.data.firstName;
+      self.lastName = res.data.lastName;
     });
   }
 
