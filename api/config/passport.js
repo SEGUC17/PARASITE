@@ -39,12 +39,16 @@ module.exports = function (passport) {
             refreshTokenField: 'refreshToken'
         },
         function (accessToken, refreshToken, profile, done) {
-            User.findOne(
+            User.findOneAndUpdate(
                 {
                     $or: [
                         { 'email': profile.emails[0].value },
                         { 'facebookId': profile.id }
                     ]
+                },
+                {
+                    'email': profile.emails[0].value,
+                    'facebookId': profile.id
                 },
                 function (err, user) {
                     if (err) {
@@ -75,6 +79,8 @@ module.exports = function (passport) {
             );
         }
     ));
+
+
 };
 
 module.exports.getToken = function (headers) {

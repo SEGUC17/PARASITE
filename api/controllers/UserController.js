@@ -347,7 +347,7 @@ module.exports.signIn = function (req, res, next) {
 
 };
 
-module.exports.signInWithFacebook = function(req, res, next) {
+module.exports.signInWithThirdPartyResponse = function(req, res, next) {
     var time = '1d';
     generateJWTToken(req.user._id, time, function (jwtToken) {
         return res.status(200).json({
@@ -357,7 +357,7 @@ module.exports.signInWithFacebook = function(req, res, next) {
             token: jwtToken
         });
     });
-}
+};
 
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent

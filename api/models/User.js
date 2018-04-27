@@ -75,6 +75,12 @@ var userSchema = mongoose.Schema({
         sparse: true,
         type: String
     },
+    googleId: {
+        index: true,
+        sparse: true,
+        type: String,
+        unique: true
+    },
     interests: {
         default: [],
         type: [String]

@@ -11,7 +11,7 @@ var transporter = nodemailer.createTransport({
         pass: secret.EMAIL.PW,
         user: secret.EMAIL.ID
     },
-    service: 'gmail'
+    service: secret.EMAIL.SERVICE
 });
 
 module.exports.send = function (email, link) {
