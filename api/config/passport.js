@@ -1,8 +1,9 @@
 // -------------------------- Requirements ------------------------------- //
 var config = require('../config/config');
-var secret = require('../utils/secret');
+var SECRET = require('../utils/secret');
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 var FacebookTokenStrategy = require('passport-facebook-token');
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var generateString = require('../utils/generators/generate-string');
 var JWTStrategy = require('passport-jwt').Strategy;
 var User = require('../models/User');
@@ -24,8 +25,8 @@ module.exports = function (passport) {
     passport.use(new FacebookTokenStrategy(
         {
             accessTokenField: 'accessToken',
-            clientID: secret.FACEBOOK.ID,
-            clientSecret: secret.FACEBOOK.PW,
+            clientID: SECRET.FACEBOOK.ID,
+            clientSecret: SECRET.FACEBOOK.PW,
             profileFields: [
                 'emails',
                 'id',
@@ -82,7 +83,18 @@ module.exports = function (passport) {
         }
     ));
 
-
+    passport.use(new GoogleStrategy(
+        {
+            accessTokenField: 'accessToken',
+            callbackURL: config.BACKENDEND_URI + 'auth/google/callback',
+            clientID: SECRET.GOOGLE.ID,
+            clientSecret: SECRET.GOOGLE.PW,
+            refreshTokenField: 'refreshToken'
+        },
+        function (accessToken, refreshToken, profile, cb) {
+            console.log(profile);
+        }
+    ));
 };
 
 module.exports.getToken = function (headers) {
