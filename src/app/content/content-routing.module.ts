@@ -5,28 +5,33 @@ import { ContentListViewComponent } from './content-list-view/content-list-view.
 import { ContentViewComponent } from './content-view/content-view.component';
 const routes = [
   {
-    path: 'view',
-    component: ContentListViewComponent,
+    path: 'list',
     children: [
       {
-        path: ':tag',
+        path: '',
         component: ContentListViewComponent
       },
       {
-        path: ':id',
-        component: ContentViewComponent
+        path: ':tag',
+        component: ContentListViewComponent
       }
     ]
   },
   {
+    path: 'view/:id',
+    component: ContentViewComponent
+  },
+  {
     path: 'edit',
-    component: ContentEditComponent,
     children: [
+      {
+        path: '',
+        component: ContentEditComponent
+      },
       {
         path: ':id',
         component: ContentEditComponent,
       }
-
     ]
   }
 ];
