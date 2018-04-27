@@ -4,7 +4,6 @@
 
 import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef  } from '@angular/core';
 import { PsychologistService } from '../psychologist.service';
-import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { AddPsychRequestComponent } from '../add-psych-request/add-psych-request.component';
@@ -12,6 +11,7 @@ import { EditPsychComponent } from '../edit-psych/edit-psych.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { Psychologist } from '../psychologist/psychologist';
+import { ToastrService } from 'ngx-toastr';
 declare const swal: any;
 
 @Component({
@@ -37,8 +37,9 @@ export class PsychologistComponent implements OnInit {
   selectedSearch: string;
   writtenAddress: string;
   selectedAddress: string;
+
   constructor(private psychologistService: PsychologistService,
-    public snackBar: MatSnackBar,
+    private toasterService: ToastrService,
     private authService: AuthService,
     private router: Router,
     private dialog: MatDialog) { }
@@ -151,9 +152,7 @@ export class PsychologistComponent implements OnInit {
     this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
       if (res.err != null) {
         /* if an error returned notify the user to try again */
-        self.snackBar.open('Something went wrong, please try again.', '', {
-          duration: 2500
-        });
+        self.toasterService.error('Something went wrong, please try again.', 'failure');
       } else {
         /* everything went great!! notify the user it was a success then reload. */
         self.getPsychologists();
@@ -168,8 +167,11 @@ export class PsychologistComponent implements OnInit {
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       if (res.data) {
         self.admin = res.data.isAdmin;
-      }
-      self.getPsychologists();
+        self.getPsychologists();
+      } 
+      // else {
+      //   self.router.navigateByUrl('/');
+      // }
     });
   }
 
@@ -192,9 +194,7 @@ export class PsychologistComponent implements OnInit {
       } else {
         let msg1 = 'The ID you Entered doesn\'t exist,';
         let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
-        self.snackBar.open(msg1 + msg2, '', {
-          duration: 3500
-        });
+        self.toasterService.error(msg1 + msg2, 'failure');
       }
     });
   }
