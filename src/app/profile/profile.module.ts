@@ -31,7 +31,7 @@ import { ScheduleModule } from '../schedule/schedule.module';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
   ],
   declarations: [ProfileComponent, ChildernComponent],
   providers: [

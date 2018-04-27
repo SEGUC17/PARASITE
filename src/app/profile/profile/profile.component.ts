@@ -4,7 +4,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ProfileService } from '../profile.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-
+import { ToastrService } from 'ngx-toastr';
 declare const swal: any;
 declare const $: any;
 @Component({
@@ -95,7 +95,7 @@ export class ProfileComponent implements OnInit {
   dBirthday: Date;
   // ------------------------------------
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute , private toastrService: ToastrService) { }
 
   ngOnInit() {
     this._this = this;
@@ -237,6 +237,7 @@ export class ProfileComponent implements OnInit {
     } else if ((pws.newpw.length < 8)) {
       console.log('pw too short');
       this.message = 'Password should be more than 8 characters';
+
     } else {
       console.log(pws.oldpw);
       this._ProfileService.changePassword(this.id, pws).subscribe(function (res) {
@@ -247,22 +248,21 @@ export class ProfileComponent implements OnInit {
     }
   } // Author: Heidi
   EditChildIndependence() {
-
+let self =this;
+// getting the visited profile username and passing it to service
+// method to add it to the patch request
     this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
-
-      alert(res.msg);
-
-    }));
-    // getting the visited profile username and passing it to service method to add it to the patch request
-
+      if( res.msg.indexOf('13') < 0){self.toastrService.error(res.msg, 'failure' ) }
+       else{self.toastrService.success(res.msg, 'success' ) }
+    }));// if res.msg contains 13 then the child is under age and action is not allowed
+    
   }  // Author :Heidi
   UnlinkMyself() {
 // getting the visited profile username and passing it to service method to add it to the patch request
+let self =this;
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
-      console.log(res.msg);
-      alert(res.msg);
-
-  if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
+  if (res.msg.indexOf('Successefully')) 
+  { self.visitedIsMyParent = false; self.toastrService.success(res.msg, 'success') ;}
     }));
   }
 
