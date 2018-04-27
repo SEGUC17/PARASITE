@@ -71,7 +71,7 @@ export class AuthService {
     );
   }
 
-  signUpInWithFacebook() {
+  signInWithFacebook() {
     const self = this;
 
     this.facebookService.login()
@@ -87,9 +87,8 @@ export class AuthService {
       .catch(this.handleError);
   }
 
-  signUpInWithGoogle() {
+  signInWithGoogle() {
     const self = this;
-    
   }
 
   authFacebook(authResponse): Observable<any> {

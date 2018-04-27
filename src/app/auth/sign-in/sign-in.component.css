@@ -5,3 +5,15 @@
 .btn-google-plus {
     background-color: #d34836 !important;
 }
+
+.form-control:invalid {
+    border-color: red !important;
+}
+
+.form-control:valid {
+    border-color: green !important;
+}
+
+.form-control:focus {
+    border-color: white !important;
+}

@@ -36,13 +36,13 @@
             </div>
             <div class="content">
               <div class="input-group input-lg">
-                <input type="text" class="form-control" placeholder="User Name / Email" [(ngModel)]="user.username" name="username">
+                <input type="text" class="form-control" placeholder="User Name / Email" [(ngModel)]="user.username" name="username" required>
                 <span class="input-group-addon">
                   <i class="zmdi zmdi-account-circle"></i>
                 </span>
               </div>
               <div class="input-group input-lg">
-                <input type="password" placeholder="Password" class="form-control" [(ngModel)]="user.password" name="password" />
+                <input type="password" placeholder="Password" class="form-control" [(ngModel)]="user.password" name="password" required/>
                 <span class="input-group-addon">
                   <i class="zmdi zmdi-lock"></i>
                 </span>
@@ -58,8 +58,8 @@
                 <a routerLink="/auth/forgotPassword" class="link">Forgot Password?</a>
               </h5>
               <div class="footer input-group">
-                <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signUpInWithFacebook()">
-                <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google">
+                  <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
+                  <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()">
               </div>
             </div>
           </form>
