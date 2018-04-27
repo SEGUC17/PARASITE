@@ -91,7 +91,7 @@ module.exports = function (passport) {
             clientSecret: SECRET.GOOGLE.PW,
             refreshTokenField: 'refreshToken'
         },
-        function (accessToken, refreshToken, profile, cb) {
+        function (accessToken, refreshToken, profile, done) {
             console.log(profile);
         }
     ));

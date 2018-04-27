@@ -87,10 +87,22 @@ export class AuthService {
       .catch(this.handleError);
   }
 
+  signUpInWithGoogle() {
+    const self = this;
+    
+  }
+
   authFacebook(authResponse): Observable<any> {
     const self = this;
     return this.http.post<any>(environment.apiUrl + 'auth/facebook', authResponse).pipe(
       catchError(self.handleError('authFacebook', []))
+    );
+  }
+
+  authGoogle(authResponse): Observable<any> {
+    const self = this;
+    return this.http.post<any>(environment.apiUrl + 'auth/google', authResponse).pipe(
+      catchError(self.handleError('authGoogle', []))
     );
   }
 
