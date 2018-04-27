@@ -31,7 +31,6 @@ var generateJWTToken = function (id, time, callback) {
 };
 // ---------------------- End of "JWT Token Generator" ---------------------- //
 
-
 module.exports.signUp = function (req, res, next) {
 
     // --- Variable Assign --- //
@@ -348,6 +347,17 @@ module.exports.signIn = function (req, res, next) {
 
 };
 
+module.exports.signInWithFacebook = function(req, res, next) {
+    var time = '1d';
+    generateJWTToken(req.user._id, time, function (jwtToken) {
+        return res.status(200).json({
+            data: null,
+            err: null,
+            msg: 'Sign In Is Successful!',
+            token: jwtToken
+        });
+    });
+}
 
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent

@@ -50,15 +50,16 @@ export class SignInComponent implements OnInit {
 
   signInWithFacebook() {
     const self = this;
-    const loginOptions: LoginOptions = {
-      enable_profile_selector: true,
-      return_scopes: true,
-      scope: 'email, public_profile, user_birthday, user_hometown'
-    };
 
-    this.facebookService.login(loginOptions)
+    this.facebookService.login()
       .then(function (res: LoginResponse) {
-        self.authService.authFacebook(res.authResponse).subscribe(function(res2) { });
+        self.authService.authFacebook(res.authResponse).subscribe(function(res2) {
+          if (res2.msg === 'Sign In Is Successful!') {
+            self.authService.setToken(res2.token);
+            self.toastrService.success(res2.msg, 'Welcome!');
+            self.router.navigate(['/']);
+          }
+        });
       })
       .catch(this.authService.handleError);
   }

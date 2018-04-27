@@ -3,6 +3,7 @@ var config = require('../config/config');
 var secret = require('../utils/secret');
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 var FacebookTokenStrategy = require('passport-facebook-token');
+var generateString = require('../utils/generators/generate-string');
 var JWTStrategy = require('passport-jwt').Strategy;
 var User = require('../models/User');
 // -------------------------- End of "Requirements" ---------------------- //
@@ -22,13 +23,56 @@ module.exports = function (passport) {
 
     passport.use(new FacebookTokenStrategy(
         {
+            accessTokenField: 'accessToken',
             clientID: secret.FACEBOOK.ID,
-            clientSecret: secret.FACEBOOK.PW
+            clientSecret: secret.FACEBOOK.PW,
+            profileFields: [
+                'emails',
+                'id',
+                'age_range',
+                'first_name',
+                'gender',
+                'last_name',
+                'picture',
+                'verified'
+            ],
+            refreshTokenField: 'refreshToken'
         },
         function (accessToken, refreshToken, profile, done) {
-            User.findOrCreate({ facebookId: profile.id }, function (error, user) {
-                return done(error, user);
-            });
+            User.findOne(
+                {
+                    $or: [
+                        { 'email': profile.emails[0].value },
+                        { 'facebookId': profile.id }
+                    ]
+                },
+                function (err, user) {
+                    if (err) {
+                        return done(err);
+                    } else if (user) {
+                        return done(null, user);
+                    }
+
+                    var newUser = new User({
+                        email: profile.emails[0].value,
+                        firstName: profile.name.givenName,
+                        isEmailVerified: true,
+                        lastName: profile.name.familyName,
+                        password: generateString(12),
+                        username: profile.emails[0].value
+                    });
+
+                    console.log(newUser);
+
+                    newUser.save(function (err2, user2) {
+                        if (err2) {
+                            return done(err2);
+                        }
+
+                        return done(null, user2);
+                    });
+                }
+            );
         }
     ));
 };

@@ -28,6 +28,17 @@ var tagController = require('../controllers/TagController');
 module.exports = function (passport) {
 
   // --------------------- Authentication Checkers --------------- //
+  var authFacebook = function (req, res, next) {
+    passport.authenticate('facebook-token', { session: false }, function (err, user, info) {
+      if (err) {
+        return next(err);
+      }
+      req.user = user;
+
+      return next();
+    })(req, res, next);
+  };
+
   var optionalAuthentication = function (req, res, next) {
     passport.authenticate('jwt', { session: false }, function (err, user, info) {
       if (err) {
@@ -151,7 +162,7 @@ module.exports = function (passport) {
   // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/auth/facebook', passport.authenticate('facebook-token'));
+  router.post('/auth/facebook', authFacebook, userController.signInWithFacebook);
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
   router.get('/verifyChildEmail/:id', userController.verifyChildEmail);
