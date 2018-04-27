@@ -4,6 +4,8 @@ import { AuthService } from '../auth.service';
 import { MatButtonModule } from '@angular/material';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 
 
 @Component({
@@ -16,7 +18,7 @@ export class ForgotPasswordComponent implements OnInit {
   // ------ flags -----//
  email = '';
 
-  constructor(private _AuthService: AuthService, private _Location: Location) { }
+  constructor(private _AuthService: AuthService, private _toastr: ToastrService) { }
 
   ngOnInit() {
   }
@@ -24,30 +26,16 @@ export class ForgotPasswordComponent implements OnInit {
   submit (email): void {
     const self = this;
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     if (re.test(email)) {
+
     this._AuthService.forgotPassword(email).subscribe(function(res) {
-      console.log(email);
     });
+    self._toastr.success('an email was sent, check your email for further instructions');
   } else {
-      alert('Kindly provide a valid email address');
-      self._Location.forward();
+      self._toastr.warning('Kindly provide a valid email address');
     }
 
   }
-  /*ChangePassword(pws): void {
-    if (!(pws.newpw === pws.confirmpw)) {
-      alert('New and confirmed passwords do not match!');
 
-
-    } else if ((pws.newpw.length < 8)) {
-      alert('Password should be more than 8 characters');
-    } else {
-      console.log(this.email);
-      this._AuthService.ChangePassword(this.email, pws).subscribe(function (res) {
-        console.log(res.msg);
-        alert(res.msg);
-      });
-    }
- }
- */
 }
