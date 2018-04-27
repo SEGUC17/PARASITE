@@ -8,12 +8,16 @@ import { ReplyDialogComponent } from '../reply-dialog/reply-dialog.component';
 import { ForwardDialogComponent } from '../forward-dialog/forward-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
+import { SingleMailComponent } from '../single-mail/single-mail.component';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+declare const $: any;
 
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
   styleUrls: ['./messaging.component.scss'],
-  providers: [MessageService, AuthService]
+  providers: [MessageService, AuthService, ToastrService]
 })
 
 export class MessagingComponent implements OnInit {
@@ -30,10 +34,12 @@ export class MessagingComponent implements OnInit {
   displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
   contacts: any[];
 
-  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
+  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog,
+    private router: Router, private toastrService: ToastrService) { }
 
   // opening the send dialog (on pressing the compose button)
-  openDialog(): void {
+  /*openDialog(): void {
+    const self = this;
     let dialogRef = this.dialog.open(SendDialogComponent, {
       width: '600px',
       height: '500px'
@@ -42,9 +48,14 @@ export class MessagingComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }*/
+
+  openDialog(): void {
+    $('#send').modal('show');
   }
 
   openReplyDialog(user: any): void {
+    const self = this;
     let replydialog = this.dialog.open(ReplyDialogComponent, {
       width: '600px',
       height: '500px',
@@ -80,14 +91,9 @@ export class MessagingComponent implements OnInit {
       self.currentUser = res.data;
       console.log(self.currentUser.username);
       console.log(self.currentUser._id);
-      if (self.currentUser.isChild) {
-        self.div = true; // logged in user is a child
-      } else {
-        self.div = false;
-        self.getInbox();
-        self.getSent();
-        self.getContacts();
-      }
+      self.getInbox();
+      self.getSent();
+      self.getContacts();
     });
   }
 
@@ -142,5 +148,18 @@ export class MessagingComponent implements OnInit {
     self.contacts = contacts.data;
   });
 }
+
+ setMessage(message): void {
+   let currMsg: any = {
+     queryParams: {
+       'body': message.body,
+       'recipient': message.recipient,
+       'sender': message.sender,
+       'sentAt': message.sentAt
+     }
+   };
+
+   this.router.navigate(['/single-mail'], currMsg);
+ }
 
 }// end class

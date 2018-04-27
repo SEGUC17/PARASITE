@@ -1,0 +1,112 @@
+<section class="content inbox">
+        <div class="block-header">
+          <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+              <h2>View Email
+                <small>Welcome to sQuare</small>
+              </h2>
+            </div>
+            <div class="col-lg-5 col-md-6 col-sm-12">
+              <ul class="breadcrumb float-md-right">
+                <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> sQuare</a></li>
+                <li class="breadcrumb-item"><a href="javascript:void(0);">Inbox</a></li>
+                <li class="breadcrumb-item active">View Email</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="container-fluid">
+                <div class="row clearfix" style="float:right; margin-left:10px; margin-top:20px; width:300px;">
+                        <div class="col-lg-12">
+                          <div class="card">
+                              <div class="header">
+                                  <h2>
+                                    <strong>Recently Contacted <i class="material-icons">people</i></strong>
+                                  </h2>
+                                </div>
+                                <div *ngIf="!contacts.length">
+                                    <div class="body table-responsive">
+                                      <table class="table m-b-0 c_list">
+                                        <tbody>
+                                          <tr>
+                                            <p>You haven't contacted anyone yet.</p><a href="javascript:void(0);" (click)="openDialog()">Start a conversation?</a>
+                                          </tr>
+                                        </tbody>
+                                      </table>
+                                     </div>
+                                </div>
+                            <div class="body table-responsive">
+                              <table class="table table-hover m-b-0 c_list">
+                                <!-- <thead>
+                                <tr>
+                                  <th>Recently Contacted</th>
+                                </tr>
+                                </thead> -->
+                                <tbody *ngFor="let contact of contacts">
+                                <tr>
+                                  <td>
+                                      <!-- <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle avatar" alt=""> -->
+                                      <p class="c_name">{{contact._id}}</p>
+                                  </td>
+                                </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+          <div class="row clearfix">
+            <div class="col-lg-12">
+              <div class="card" style="margin-top:20px;">
+                <div class="body">
+                  <div class="row">
+                    <div class="col-md-12">
+                            <div class="media">
+                              <div class="float-left">
+                                <div class="m-r-20"> <img class="rounded" src="../../../assets/images/profile-view/defaultPP.png" width="70" alt=""> </div>
+                              </div>
+                              <div class="media-body">
+                                    <span class="float-right">
+                                        <button type="button" class="btn btn-neutral hidden-sm-down">
+                                            <i class="material-icons">reply</i>
+                                        </button>
+                                        <button type="button" class="btn btn-neutral hidden-sm-down">
+                                            <i class="material-icons">forward</i>
+                                        </button>
+                                        <button type="button" class="btn btn-neutral hidden-sm-down">
+                                            <i class="material-icons">delete</i>
+                                        </button>
+                                        <button type="button" class="btn btn-neutral hidden-sm-down">
+                                            <i class="material-icons">block</i>
+                                        </button>
+                                    </span>
+                                  <p class="m-b-0">
+                                    <strong class="m-r-10">From:</strong>{{sender}}
+                                  </p>
+                                  <p class="m-b-0">
+                                      <strong class="m-r-10">To:</strong>{{recipient}}
+                                      <br/>
+                                      <span class="text-muted text-sm">{{sentAt|date}}</span>
+                                  </p>
+                              </div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="col-md-12">
+                            <p>{{body}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal fade" id="send" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div>
+          <app-send-dialog></app-send-dialog>>
+        </div>
+      </div>
+   </div>
