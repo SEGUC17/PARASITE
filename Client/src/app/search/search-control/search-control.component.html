@@ -1,5 +1,5 @@
 <section class="content search-control">
-  <!-- <div class="block-header">
+  <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
         <h2>Connecting Parents
@@ -8,68 +8,103 @@
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
         <ul class="breadcrumb float-md-right">
-          <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> Nawwar </a></li>
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">
+              <i class="zmdi zmdi-home"></i> Nawwar </a>
+          </li>
           <li class="breadcrumb-item active">Connecting Parents</li>
         </ul>
       </div>
     </div>
   </div>
   <div class="container-fluid">
-      <div class="row clearfix">
-          <div class="col-lg-12">
-            <div class="card action_bar">
-              <div class="body">
-                <div class="row clearfix">
-                  <div class="col-lg-1 col-md-2 col-3">
-                    <div class="checkbox inlineblock delete_all">
-                      <input id="deleteall" type="checkbox">
-                      <label for="deleteall">
-                        All
-                      </label>
-                    </div>
-                  </div>
-                  <div class="col-lg-5 col-md-4 col-6">
-                    <div class="input-group search">
-                      <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="searchKey">
-                      <span class="input-group-addon">
-                                            <i class="zmdi zmdi-search"></i>
-                                        </span>
-                    </div>
-                  </div>
-                  <div class="col-lg-6 col-md-6 col-3 text-right">
-                   
-                    <div class="btn-group hidden-sm-down">
-                      <div class="btn-group">
-                        <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <i class="zmdi zmdi-label"></i>
-                          <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-right pullDown">
-                          <li>
-                            <a href="javascript:void(0);">Username</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);">Location</a>
-                          </li>
-                          <li>
-                            <a href="javascript:void(0);">Level of education</a>
-                          </li>
-                          <li role="separator" class="divider"></li>
-                          <li>
-                            <a href="javascript:void(0);">System of education</a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
+    <div class="row clearfix">
+      <div class="col-lg-12">
+        <div class="card action_bar">
+          <div class="body">
+            <div class="row clearfix">
+              <div class="col-lg-1 col-md-2 col-3">
+                <div class="checkbox inlineblock delete_all">
+                  <input id="deleteall" type="checkbox">
+                  <label for="deleteall">
+                    All
+                  </label>
+                </div>
+              </div>
+              <div class="col-lg-5 col-md-4 col-6">
+                <div class="input-group search">
+                  <input type="text" class="form-control" placeholder="Search for Olfat" (keydown.enter)="getParents()" [(ngModel)]="searchKey">
+                  <span class="input-group-addon">
+                    <i class="zmdi zmdi-search"></i>
+                  </span>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-3 text-right">
+
+                <div class="btn-group hidden-sm-down">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="zmdi zmdi-label"></i>
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-right pullDown" >
+                      <li>
+                        <a href="javascript:void(0);" ng-value="user" [(ngModel)]="selectedUsername">Username</a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0);" ng-value="loc" [(ngModel)]="loc">Location</a>
+                      </li>
+                      <li>
+                        <a href="javascript:void(0);" ng-value="eduL" [(ngModel)]="eduL">Level of education</a>
+                      </li>
+                      <li role="separator" class="divider"></li>
+                      <li>
+                        <a href="javascript:void(0);" ng-value="eduS" [(ngModel)]="eduS">System of education</a>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>  
-  </div> -->
-  
-  <mat-card class="margin30">
+        </div>
+      </div>
+    </div>
+    <div *ngIf="this.tags" class="tags-holder">
+      <span *ngFor="let tag of tags" *ngIf="tag !== 'NA'" class="badge badge-info btn-round" [removable]="true" (remove)="this.remove()">{{tag}}</span>
+    </div>
+    <div class="row">
+      <div class="col-lg-8 col-md-12 left-box">
+        <div *ngFor="let user of users" class="card single_post">
+          <div class="body">
+            <ul class="meta">
+              <li *ngIf="content.creator">
+                <a routerLink="/profile/{{user.username}}">
+                  <i class="zmdi zmdi-account col-blue"></i> {{ user.firstName }}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="body">
+            <div class="img-post m-b-15" *ngIf="user.avatar">
+              <img [src]="user.avatar" width="100%" height="100%" alt="profile Image">
+            </div>
+          </div>
+        </div>
+        <ul *ngIf="totPages>1" class="pagination pagination-primary">
+          <li *ngIf="currPage>1" class="page-item">
+            <a class="page-link" (click)="changePage(this.currPage - 1)">Previous</a>
+          </li>
+          <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currPage === pageNumberForPagination}">
+            <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
+          </li>
+          <li *ngIf="currPage<totalNumberOfPages" class="page-item">
+            <a class="page-link" (click)="changePage(this.currPage + 1)">Next</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+    <!-- <mat-card class="margin30">
   <mat-tab-group  dynamicHeight>
     <mat-tab label="Username" >
       <mat-form-field class="margin10">
@@ -143,7 +178,6 @@
     <script src="js/site.js"></script>
     <<div class="paginator">
   <mat-paginator [length]="totParents" [pageSize]="numberPerPage" (page)="this.getPage($event)"></mat-paginator>
-  </div> 
+  </div>  -->
 
 </section>
-
