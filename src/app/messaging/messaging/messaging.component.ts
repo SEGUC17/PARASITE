@@ -8,12 +8,13 @@ import { ReplyDialogComponent } from '../reply-dialog/reply-dialog.component';
 import { ForwardDialogComponent } from '../forward-dialog/forward-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
   styleUrls: ['./messaging.component.scss'],
-  providers: [MessageService, AuthService]
+  providers: [MessageService, AuthService, ToastrService]
 })
 
 export class MessagingComponent implements OnInit {
@@ -30,7 +31,8 @@ export class MessagingComponent implements OnInit {
   displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
   contacts: any[];
 
-  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
+  constructor(private messageService: MessageService, private authService: AuthService,
+    public dialog: MatDialog, private toastrService: ToastrService) { }
 
   // opening the send dialog (on pressing the compose button)
   openDialog(): void {

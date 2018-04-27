@@ -5,6 +5,7 @@ import { MessageService } from '../messaging.service';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 import { MatInputModule } from '@angular/material/input';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-send-dialog',
@@ -29,7 +30,8 @@ export class SendDialogComponent implements OnInit {
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
 
   constructor(public dialogRef: MatDialogRef<SendDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService,
+     private authService: AuthService, private toastrService: ToastrService) { }
 
   onNoClick(): void {
       this.dialogRef.close();
