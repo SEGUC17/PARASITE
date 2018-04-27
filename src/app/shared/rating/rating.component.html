@@ -1,0 +1,5 @@
+<div *ngIf="userRating">
+  <star-rating [starType]="'svg'" [rating]="objectRating" [labelText]="objectRating"
+    [labelPosition]="'right'" [staticColor]="'ok'" [size]="'medium'" [showHalfStars]="true" [hoverEnabled]="true" [disabled]="disabled"
+    (starClickChange)="onClick($event)"></star-rating>
+</div>
