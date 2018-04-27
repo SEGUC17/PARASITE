@@ -34,8 +34,13 @@ export class MessagingComponent implements OnInit {
   displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
   contacts: any[];
 
+<<<<<<< HEAD
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog,
     private router: Router, private toastrService: ToastrService) { }
+=======
+  constructor(private messageService: MessageService, private authService: AuthService,
+    public dialog: MatDialog, private toastrService: ToastrService) { }
+>>>>>>> de6e6acfd17c1e7b50f7c64f01576e5af7542989
 
   // opening the send dialog (on pressing the compose button)
   /*openDialog(): void {
