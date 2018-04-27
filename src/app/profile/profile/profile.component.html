@@ -386,15 +386,15 @@
               </div>
               <div class="body">
                 <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Username">
+                  <input #Oldpw type="password" class="form-control" placeholder="Your Current Password" [(ngModel)]=oldpw>
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control" placeholder="Current Password">
+                  <input #Newpw type="password" class="form-control" placeholder="New Password" [(ngModel)]=newpw>
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control" placeholder="New Password">
+                  <input #Confirmpw type="password" class="form-control" placeholder="Confirm New Password"  [(ngModel)]=confirmpw>
                 </div>
-                <button class="btn btn-info btn-round">Save Changes</button>
+                <button class="btn btn-danger btn-round"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
               </div>
             </div>
             <div class="card">
