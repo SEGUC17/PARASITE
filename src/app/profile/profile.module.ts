@@ -11,7 +11,8 @@ import { MatTabsModule, MatButtonModule, MatMenuModule,
   MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonToggleModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { ScheduleModule } from '../schedule/schedule.module';
-
+import { ToastrService } from 'ngx-toastr';
+import { MessageService } from '../messaging/messaging.service';
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import { ScheduleModule } from '../schedule/schedule.module';
   ],
   declarations: [ProfileComponent, ChildernComponent],
   providers: [
-    ProfileService
+    ProfileService, ToastrService, MessageService
   ]
 })
 export class ProfileModule { }

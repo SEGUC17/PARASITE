@@ -8,12 +8,13 @@ import { ReplyDialogComponent } from '../reply-dialog/reply-dialog.component';
 import { ForwardDialogComponent } from '../forward-dialog/forward-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
   styleUrls: ['./messaging.component.scss'],
-  providers: [MessageService, AuthService]
+  providers: [MessageService, AuthService, ToastrService]
 })
 
 export class MessagingComponent implements OnInit {
@@ -29,8 +30,10 @@ export class MessagingComponent implements OnInit {
   displayedColumns = ['sender', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
   displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
   contacts: any[];
+  allIsWell: Boolean = true;
 
-  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog) { }
+  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog, 
+    private toastrService: ToastrService) { }
 
   // opening the send dialog (on pressing the compose button)
   openDialog(): void {
@@ -74,7 +77,7 @@ export class MessagingComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['_id', 'username', 'isChild'];
+    const userDataColumns = ['_id', 'username', 'isChild', 'blocked'];
     // get info of logged in user
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
@@ -122,17 +125,31 @@ export class MessagingComponent implements OnInit {
     const self = this;
     //  if the currentUser is the sender then the receipent is the person to block
    if ( message.recipient !== this.currentUser.username ) {
-      console.log('receipient is:' + message.recipient);
+     // console.log('receipient is:' + message.recipient);
       this.blockedUser = message.recipient;
       // else the recipient is the currentUser & the sender is the person to block
     } else {
-      console.log(message.sender);
-        this.blockedUser = message.sender;
-  }
-    console.log('blocked user is:' + this.blockedUser);
+     // console.log(message.sender);
+      this.blockedUser = message.sender;
+     // console.log('blocked user is:' + this.blockedUser);
+    }
+   // console.log('blocklist is: ', this.currentUser.blocked);
+    for (let i = 0 ; i < this.currentUser.blocked.length; i++) {
+         if (this.currentUser.blocked[i] === this.blockedUser) {
+             self.toastrService.error('This user is already blocked!');
+             this.allIsWell = false;
+     //        console.log('all is not well, dup found: ', this.blockedUser);
+         }// end if
+
+    } // end for
+    if (this.allIsWell === true) {
+      this.currentUser.blocked.push(this.blockedUser);
     this.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
-    alert(res.msg);
+      if (res.msg) {
+        self.toastrService.success(res.msg);
+      }// end if
   });
+}// end if
  }// end method
 
  // getting a list of recently contacted users

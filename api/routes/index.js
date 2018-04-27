@@ -409,7 +409,7 @@ module.exports = function (passport) {
   // Registered user contacts admins
   router.post('/contactus', messageController.contactAdmin);
     //Unblocking users
-    router.patch('/message/unblock/:blocked', messageController.unBlock);
+    router.patch('/message/unblock/:id', messageController.unBlock);
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//
