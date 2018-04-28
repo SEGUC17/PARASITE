@@ -14,54 +14,56 @@ declare const screenfull: any;
 })
 export class AppComponent implements OnInit {
   previousUrl: string;
+  username: string;
+  avatar: string;
+  firstName: string;
+  lastName: string;
+  isAdmin: boolean;
   links = [
     {
-      url: '/content-edit',
-      name: 'Content Edit'
-    },
-    {
-      url: '/content-list-view',
-      name: 'Content List'
+      url: '/content/list',
+      name: 'Content',
+      icon: 'book'
     },
     {
       url: '/profile',
-      name: 'Profile'
+      name: 'Profile',
+      icon: 'account'
     },
     {
-      url: '/childsignup',
-      name: 'Child SignUp'
-    },
-    {
-      url: 'message',
-      name: 'Messaging'
+      url: '/message',
+      name: 'Messaging',
+      icon: 'email'
     },
     {
       url: '/market',
-      name: 'Market'
-    },
-    {
-      url: 'published-study-plans',
-      name: 'Published Study Plans'
+      name: 'Market',
+      icon: 'shopping-cart'
     },
     {
       url: '/psychologist',
-      name: 'Psychologists'
+      name: 'Psychologists',
+      icon: 'hospital'
     },
     {
       url: '/activities',
-      name: 'Activities'
+      name: 'Activities',
+      icon: 'run'
     },
     {
       url: '/admin',
-      name: 'Admin Control'
+      name: 'Admin',
+      icon: 'accounts-list'
     },
     {
       url: '/search',
-      name: 'Search'
+      name: 'Connect Parents',
+      icon: 'accounts'
     },
     {
-      url: '/admin/category',
-      name: 'Admin Category Control'
+      url: '/scheduling/study-plan/published',
+      name: 'Study Plans',
+      icon: 'graduation-cap'
     }
   ];
   constructor(private router: Router, private authService: AuthService) {
@@ -139,16 +141,6 @@ export class AppComponent implements OnInit {
         const cards = element.parents('.card');
         cards.addClass('closed').fadeOut();
       });
-
-      // Theme Light and Dark  ============
-      $('.theme-light-dark .t-light').on('click', function () {
-        $('body').removeClass('menu_dark');
-      });
-
-      $('.theme-light-dark .t-dark').on('click', function () {
-        $('body').addClass('menu_dark');
-      });
-
       $('.menu-sm').on('click', function () {
         $('body').toggleClass('menu_sm');
       });
@@ -254,10 +246,15 @@ export class AppComponent implements OnInit {
 
   isSignedIn(): void {
     const self = this;
-    this.authService.isSignedIn().subscribe(function (res) {
+    this.authService.getUserData(['username', 'firstName', 'lastName', 'avatar', 'isAdmin']).subscribe(function (res) {
       if (res.status === 401) {
         self.authService.setToken(null);
       }
+      self.username = res.data.username;
+      self.avatar = res.data.avatar;
+      self.firstName = res.data.firstName;
+      self.lastName = res.data.lastName;
+      self.isAdmin = res.data.isAdmin;
     });
   }
 

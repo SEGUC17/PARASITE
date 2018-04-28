@@ -8,12 +8,7 @@ import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   imports: [
     CommonModule,
-    StarRatingModule.forRoot(),
-    ToastrModule.forRoot({
-      timeOut: 3000,
-      positionClass: 'toast-bottom-right',
-      maxOpened: 3
-    })
+    StarRatingModule.forRoot()
   ],
   declarations: [RatingComponent, ImageUploaderComponent, FileSelectDirective],
   exports: [RatingComponent, StarRatingModule, ImageUploaderComponent]
