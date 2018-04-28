@@ -44,10 +44,19 @@
                                 </thead> -->
                                 <tbody *ngFor="let contact of contacts">
                                 <tr>
-                                  <td>
-                                      <!-- <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle avatar" alt=""> -->
-                                      <p class="c_name">{{contact._id}}</p>
-                                  </td>
+                                  <ul class="mail_list list-group list-unstyled">
+                                      <div>
+                                      <a href="#"><li class="list-group-item">
+                                        <div class="media">
+                                          <div class="pull-left">
+                                            <div class="thumb hidden-sm-down m-r-20"> <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle" alt=""> </div>
+                                            <small style="color:black;">{{contact._id}}</small>
+                                          </div>
+                                          </div>
+                                       </li>
+                                      </a>
+                                      </div>
+                                    </ul>
                                 </tr>
                                 </tbody>
                               </table>
@@ -67,16 +76,16 @@
                               </div>
                               <div class="media-body">
                                     <span class="float-right">
-                                        <button type="button" class="btn btn-neutral hidden-sm-down">
+                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openReplyDialog()">
                                             <i class="material-icons">reply</i>
                                         </button>
-                                        <button type="button" class="btn btn-neutral hidden-sm-down">
+                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openForwardDialog()">
                                             <i class="material-icons">forward</i>
                                         </button>
-                                        <button type="button" class="btn btn-neutral hidden-sm-down">
+                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="deleteMessage()">
                                             <i class="material-icons">delete</i>
                                         </button>
-                                        <button type="button" class="btn btn-neutral hidden-sm-down">
+                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="block()">
                                             <i class="material-icons">block</i>
                                         </button>
                                     </span>
@@ -109,4 +118,52 @@
           <app-send-dialog></app-send-dialog>>
         </div>
       </div>
+  </div>
+
+  <div class="modal fade" id="reply" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title" id="defaultModalLabel">Reply</h4>
+                </div>
+                <div class="modal-body">
+                    <label><strong>To:</strong></label>
+                    <span class="badge bg-cyan">{{sender}}</span>
+                    <div class="form-group form-float">
+                        <textarea #textarea class="form-control" placeholder="Enter Your Message Here" style="height:350px;" [(ngModel)]="Body"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary btn-round waves-effect" (click)="reply(); textarea.value=''">SEND</button>
+                  <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
+                </div>
+              </div>
+        </div>
+      </div>
    </div>
+
+   <div class="modal fade" id="forward" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title" id="defaultModalLabel">Forward</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group form-float">
+                        <input #receiver type="text" placeholder="To:" class="form-control" [(ngModel)]="Recipient">
+                    </div>
+                    <div class="form-group form-float">
+                        <textarea class="form-control" style="height:350px;" [(ngModel)]="body"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary btn-round waves-effect" (click)="forward(); receiver.value=''">SEND</button>
+                  <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
+                </div>
+              </div>
+        </div>
+      </div>
+   </div>
+

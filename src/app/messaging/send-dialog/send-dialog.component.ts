@@ -20,6 +20,7 @@ export class SendDialogComponent implements OnInit {
   user: any;
   allisWell: Boolean = true;
   msg: any;
+  sent: any[];
   currentUser: any; // currently logged in user
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
@@ -55,8 +56,10 @@ export class SendDialogComponent implements OnInit {
         this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.currentUser.username};
 
         // retrieveing the reciepient's info as an object
-        // console.log(this.Receiver.toString());
         this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user)  => {
+          if (!user) {
+            this.toastrService.error('Please enter a valid username.');
+          } else {
             console.log('length of array is: ', user.data.blocked.length);
             const list = user.data.blocked;
             for ( let i = 0 ; i < user.data.blocked.length ; i++) {
@@ -73,9 +76,11 @@ export class SendDialogComponent implements OnInit {
                 self.toastrService.success('Message was sent!');
               });
             }// end if
+          }
         });
       }// end 2nd else
 
     }// end else
   }// end method
+
 }// end class

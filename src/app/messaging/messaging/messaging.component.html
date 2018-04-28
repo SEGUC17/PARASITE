@@ -1,81 +1,4 @@
- <!-- <section class="content">
-     <div id="div" *ngIf="div">
-    <label>
-      Messaging is only permitted for users above the age of 13. Sorry!
-    </label>
-  </div>
-  
-  <div *ngIf="!div">
-      <br/>
-      <button mat-raised-button color="primary" class="btn" (click)="openDialog()">COMPOSE</button>
-      <br/>
-      <br/>
-  </div>
-
-  <div style="float:right; margin-left:200px;">
-      <mat-list role="list" class="list" *ngFor="let contact of contacts">
-          <mat-list-item role="listitem"> {{contact._id}} </mat-list-item>
-      </mat-list>
-  </div>
-
-  <div *ngIf="!div">
-  <mat-tab-group>
-      <mat-tab label="Inbox">
-          <div style="max-width:800px; padding-left: 6%;" *ngFor="let message of inbox">
-          <mat-card>
-              <mat-card-header>
-                <div mat-card-avatar><mat-icon>face</mat-icon></div>
-                <mat-card-title class="text"> {{message.sender}} </mat-card-title>
-                <div style="text-align: right; margin-left: 75%;">
-                    <mat-card-subtitle> {{message.sentAt|date}} </mat-card-subtitle>
-                </div>
-              </mat-card-header>
-              <mat-card-content>
-                <p>
-                    {{message.body}}
-                </p>
-              </mat-card-content>
-              <mat-card-footer style="text-align: right;">
-                  <button mat-icon-button class="replybtn" (click)="openReplyDialog(message.sender)"><mat-icon>reply</mat-icon></button>
-                  <button mat-icon-button class="forwardbtn" (click)="openForwardDialog(message)"><mat-icon>forward</mat-icon></button>
-                  <button mat-icon-button class="iconbtn" (click)="deleteMessage(message)"><mat-icon>delete</mat-icon></button>
-                  <button mat-icon-button class="iconbtn" (click)="block(message)"><mat-icon>block</mat-icon></button>
-              </mat-card-footer>
-          </mat-card>
-          <br/>
-          </div>
-      </mat-tab>
-
-      <mat-tab label="Sent">
-            <div style="max-width:800px; padding-left: 6%;" *ngFor="let msg of sent">
-                <mat-card>
-                    <mat-card-header>
-                      <div mat-card-avatar><mat-icon>face</mat-icon></div>
-                      <mat-card-title class="text"> {{msg.recipient}} </mat-card-title>
-                      <div style="text-align: right; margin-left: 75%;">
-                          <mat-card-subtitle> {{msg.sentAt|date}} </mat-card-subtitle>
-                      </div>
-                    </mat-card-header>
-                    <mat-card-content>
-                      <p>
-                          {{msg.body}}
-                      </p>
-                    </mat-card-content>
-                    <mat-card-footer style="text-align: right;">
-                        <button mat-icon-button class="replybtn" (click)="openReplyDialog(msg.recipient)"><mat-icon>reply</mat-icon></button>
-                        <button mat-icon-button class="forwardbtn" (click)="openForwardDialog(msg)"><mat-icon>forward</mat-icon></button>
-                        <button mat-icon-button class="iconbtn" (click)="deleteMessage(msg)"><mat-icon>delete</mat-icon></button>
-                        <button mat-icon-button class="iconbtn" (click)="block(msg)"><mat-icon>block</mat-icon></button>
-                    </mat-card-footer>
-                </mat-card>
-                <br/>
-            </div>
-      </mat-tab>
-    </mat-tab-group>
-    </div>
-    </section> -->
-
-    <section class="content inbox">
+ <section class="content inbox">
             <div class="block-header">
               <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-12">
@@ -113,18 +36,26 @@
                              </div>
                         </div>
                         <div class="body table-responsive">
-                          <table class="table table-hover m-b-0 c_list">
-                            <!-- <thead class="header">
-                            <tr>
-                              <th>Recently Contacted</th>
-                            </tr>
-                            </thead> -->
+                        <table class="table table-hover m-b-0 c_list">
                             <tbody *ngFor="let contact of contacts">
                             <tr>
-                              <td>
-                                  <!-- <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle avatar" alt=""> -->
+                              <!-- <td>
+                                  <img src="../../../assets/images/profile-view/defaultPP.png" class="hidden-sm-down" class="rounded-circle avatar" alt="">
                                   <p class="c_name">{{contact._id}}</p>
-                              </td>
+                              </td> -->
+                              <ul class="mail_list list-group list-unstyled">
+                                  <div>
+                                  <a href="#"><li class="list-group-item">
+                                    <div class="media">
+                                      <div class="pull-left">
+                                        <div class="thumb hidden-sm-down m-r-20"> <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle" alt=""> </div>
+                                        <small style="color:black;">{{contact._id}}</small>
+                                      </div>
+                                      </div>
+                                   </li>
+                                  </a>
+                                  </div>
+                                </ul>
                             </tr>
                             </tbody>
                           </table>
