@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   avatar: string;
   firstName: string;
   lastName: string;
+  isAdmin: boolean;
   links = [
     {
       url: '/content/list',
@@ -58,6 +59,11 @@ export class AppComponent implements OnInit {
       url: '/search',
       name: 'Connect Parents',
       icon: 'accounts'
+    },
+    {
+      url: '/scheduling/study-plan/published',
+      name: 'Study Plans',
+      icon: 'graduation-cap'
     }
   ];
   constructor(private router: Router, private authService: AuthService) {
@@ -240,7 +246,7 @@ export class AppComponent implements OnInit {
 
   isSignedIn(): void {
     const self = this;
-    this.authService.getUserData(['username', 'firstName', 'lastName', 'avatar']).subscribe(function (res) {
+    this.authService.getUserData(['username', 'firstName', 'lastName', 'avatar', 'isAdmin']).subscribe(function (res) {
       if (res.status === 401) {
         self.authService.setToken(null);
       } else if (res.status === 200) {

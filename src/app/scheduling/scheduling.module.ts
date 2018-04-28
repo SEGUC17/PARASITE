@@ -29,6 +29,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { CalendarComponent } from './calendar/calendar.component';
 import { SharedModule } from '../shared/shared.module';
+import { AdminService } from '../admin/admin.service';
 
 
 @NgModule({
@@ -68,6 +69,10 @@ import { SharedModule } from '../shared/shared.module';
     ScheduleComponent,
     StudyPlanListViewComponent
   ],
-  providers: [StudyPlanService, ScheduleService]
+  providers: [
+    StudyPlanService,
+    ScheduleService,
+    AdminService
+  ]
 })
 export class SchedulingModule { }
