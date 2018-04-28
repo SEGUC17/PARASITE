@@ -734,11 +734,10 @@ module.exports.forgotPassword = function (req, res, next) {
                 throw err;
             } else if (user) {
                 // user exists in database
-                console.log(user.firstName);
                 emailVerification.send(
                     user.email,
                     config.FRONTEND_URI +
-                    'auth/forgotPassword/resetpassword/' + user._id
+                    'auth/forgot-password/reset-password/' + user._id
                 );
 
                 return res.status(201).json({
