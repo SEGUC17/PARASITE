@@ -63,6 +63,7 @@ export class StudyPlanComponent implements OnInit {
 
   // study plan details
   studyPlan: StudyPlan;
+  title: string;
   description: string;
   editorContent: SafeHtml;
   events: CalendarEvent[];
@@ -79,8 +80,18 @@ export class StudyPlanComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
   // datetime picker variables
-  createStart = '';
-  createEnd = '';
+  createStart = new Date();
+  createEnd = new Date();
+  editStart = new Date();
+  editEnd = new Date();
+
+  // edit modal control
+  editIndex = 0;
+
+  // modification control
+  changed = false;
+  editingDescription = false;
+  editingTitle = false;
 
   // assign button binding
   assignFunction;
@@ -106,7 +117,7 @@ export class StudyPlanComponent implements OnInit {
         self.createStart = date._d;
         $('#createEnd').bootstrapMaterialDatePicker('setMinDate', date);
       } else {
-        self.createStart = '';
+        self.createStart = new Date();
       }
     });
 
@@ -115,7 +126,25 @@ export class StudyPlanComponent implements OnInit {
         self.createEnd = date._d;
         $('#createStart').bootstrapMaterialDatePicker('setMaxDate', date);
       } else {
-        self.createEnd = '';
+        self.createEnd = new Date();
+      }
+    });
+
+    $('#editStart').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.editStart = date._d;
+        $('#editEnd').bootstrapMaterialDatePicker('setMinDate', date);
+      } else {
+        self.editStart = new Date();
+      }
+    });
+
+    $('#editEnd').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.editEnd = date._d;
+        $('#editStart').bootstrapMaterialDatePicker('setMaxDate', date);
+      } else {
+        self.editEnd = new Date();
       }
     });
 
@@ -153,6 +182,7 @@ export class StudyPlanComponent implements OnInit {
       this.studyPlanService.getPersonalStudyPlan(this.profileUsername, this._id)
         .subscribe(res => {
           this.studyPlan = res.data;
+          this.title = this.studyPlan.title;
           this.events = this.studyPlan.events;
           this.description = this.studyPlan.description;
           this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
@@ -167,6 +197,7 @@ export class StudyPlanComponent implements OnInit {
       this.studyPlanService.getPublishedStudyPlan(this._id)
         .subscribe(res => {
           this.studyPlan = res.data;
+          this.title = this.studyPlan.title;
           this.events = this.studyPlan.events;
           this.description = this.studyPlan.description;
           this.rating = this.studyPlan.rating.value;
@@ -281,16 +312,18 @@ export class StudyPlanComponent implements OnInit {
       end: eventEnd,
       color: {
         primary: '#2196f3',
-        secondary: '#FAE3E3'
+        secondary: '#D1E8FF'
       },
       draggable: false,
       meta: {
-        description: eventDescription
+        description: eventDescription ? eventDescription : ''
       }
     });
 
     $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
     $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+
+    this.changed = true;
 
     this.refresh.next();
   }
@@ -299,6 +332,63 @@ export class StudyPlanComponent implements OnInit {
   cancelCreate() {
     $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
     $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+  }
+
+  // set date picker values to the values of the event to be edited
+  preEdit(index) {
+    $('#editStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editEnd').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editStart').bootstrapMaterialDatePicker('setDate', this.events[index].start);
+    $('#editEnd').bootstrapMaterialDatePicker('setDate', this.events[index].end);
+  }
+
+  // write updated event data
+  editEvent(editTitle, editDescription, editStart, editEnd) {
+    this.events[this.editIndex].title = editTitle;
+    this.events[this.editIndex].meta.description = editDescription;
+    if (editStart) {
+      this.events[this.editIndex].start = editStart;
+    }
+    if (editEnd) {
+      this.events[this.editIndex].end = editEnd;
+    }
+
+    $('#editStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editEnd').bootstrapMaterialDatePicker('_onClearClick');
+
+    this.changed = true;
+
+    this.refresh.next();
+  }
+
+  // delete corresponding event
+  delete(index) {
+    this.events.splice(index, 1);
+    this.changed = true;
+  }
+
+  saveChangesPersonal(): void {
+    if (!(this.title && this.description && this.events.length)) {
+      alert('A Study Plan needs a title, a description, and at least one event.');
+      return;
+    }
+
+    let targetUser = this.profileUsername ? this.profileUsername : this.currUsername;
+
+    this.studyPlanService.editPersonalStudyPlan(targetUser, this._id, new StudyPlan(
+      this.title,
+      this.currUsername,
+      this.events,
+      this.description
+    ))
+      .subscribe(res => {
+        if (res.err) {
+          alert(res.err);
+        } else {
+          alert(res.msg);
+          this.router.navigate(['/profile/' + targetUser]);
+        }
+      });
   }
 
   // utility
