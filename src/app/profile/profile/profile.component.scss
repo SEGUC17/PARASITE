@@ -42,3 +42,13 @@
     position: relative;
     display: inline-block;
 }
+
+.modal {
+    position: fixed;
+    top: 3%;
+    right: 3%;
+    left: 3%;
+    bottom: 3%;
+    width: auto;
+    margin: 0;
+    }

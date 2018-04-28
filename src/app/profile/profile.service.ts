@@ -32,6 +32,7 @@ export class ProfileService {
   private changeChildInfoUrl = apiUrl + 'profile/changeChildInfo';
   private changeInfoUrl = apiUrl + 'profile/ChangeInfo';
   private reportUserUrl = apiUrl + 'profile/ReportUser';
+  private changePPUrl = apiUrl + 'profile/ChangeProfilePic';
   // private editeInfoUrl = 'http://localhost:3000/api/profile/editInfo';
 
   // Author: Yomna
@@ -93,6 +94,10 @@ export class ProfileService {
 
   reportUser(report, Id): any {
     return this.http.post(this.reportUserUrl, report, httpOptions);
+  }
+
+  changeProfilePic(upload): any {
+    return this.http.patch(this.changePPUrl, upload, httpOptions);
   }
 
 }
