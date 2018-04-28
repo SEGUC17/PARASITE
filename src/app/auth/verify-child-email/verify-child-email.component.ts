@@ -23,7 +23,7 @@ export class VerifyChildEmailComponent implements OnInit {
         if (res.msg) {
           self.toastrService.success(res.msg);
         }
-        self.router.navigate(['/']);
+        self.router.navigateByUrl('/content/list');
       });
     });
   }

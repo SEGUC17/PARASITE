@@ -5,14 +5,22 @@ import { ActivityCreateComponent } from './activity-create/activity-create.compo
 import { ActivityDetailComponent } from './activity-detail/activity-detail.component';
 
 const routes = [
-  { path: 'activities', component: ActivityComponent },
-  { path: 'activities/:id', component: ActivityDetailComponent},
-  { path: 'create-activity', component: ActivityCreateComponent }
-
+  {
+    path: '',
+    component: ActivityComponent
+  },
+  {
+    path: ':id',
+    component: ActivityDetailComponent
+  },
+  {
+    path: 'create',
+    component: ActivityCreateComponent
+  }
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forChild(routes)
   ],
   exports: [
     RouterModule

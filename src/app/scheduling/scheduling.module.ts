@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { StudyPlanComponent } from './study-plan/study-plan.component';
-import { ScheduleRoutingModule } from './schedule-routing.module';
+import { SchedulingRoutingModule } from './scheduling-routing.module';
 import { CalendarModule } from 'angular-calendar';
 import { StudyPlanService } from './study-plan/study-plan.service';
 import { ScheduleService } from './schedule/schedule.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -34,9 +33,8 @@ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
-    ScheduleRoutingModule,
+    SchedulingRoutingModule,
     CommonModule,
-    BrowserAnimationsModule,
     CalendarModule.forRoot(),
     MatCardModule,
     MatButtonModule,
@@ -72,4 +70,4 @@ import { SharedModule } from '../shared/shared.module';
   ],
   providers: [StudyPlanService, ScheduleService]
 })
-export class ScheduleModule { }
+export class SchedulingModule { }

@@ -80,7 +80,7 @@ export class AuthService {
           if (res2.msg === 'Sign In Is Successful!') {
             self.setToken(res2.token);
             self.toastrService.success(res2.msg, 'Welcome!');
-            self.router.navigate(['/']);
+            self.router.navigateByUrl('/content/list');
           }
         });
       })

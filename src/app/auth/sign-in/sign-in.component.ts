@@ -32,7 +32,7 @@ export class SignInComponent implements OnInit {
       if (res.msg === 'Sign In Is Successful!') {
         self.authService.setToken(res.token);
         self.toastrService.success(res.msg, 'Welcome!');
-        self.router.navigate(['/']);
+        self.router.navigateByUrl('/content/list');
       }
     });
   }
