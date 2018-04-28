@@ -5,6 +5,8 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { AuthService } from '../auth/auth.service';
 import { environment } from '../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
+import { MessageService } from '../messaging/messaging.service';
 
 
 const httpOptions = {
@@ -17,7 +19,8 @@ const apiUrl = environment.apiUrl;
 
 export class ProfileService {
   // ------------- Profile Page Method(s) -------------- AUTHOR:
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService,
+ private toastrService: ToastrService, private messageService: MessageService) { }
   UserData = ['username'];
   private linkAnotherParentUrl = apiUrl + 'profile/LinkAnotherParent';
   private UnlinkUrl = apiUrl + 'profile/UnLinkChild';
@@ -29,6 +32,7 @@ export class ProfileService {
   private changeChildInfoUrl = apiUrl + 'profile/changeChildInfo';
   private changeInfoUrl = apiUrl + 'profile/ChangeInfo';
   private reportUserUrl = apiUrl + 'profile/ReportUser';
+  private changePPUrl = apiUrl + 'profile/ChangeProfilePic';
   // private editeInfoUrl = 'http://localhost:3000/api/profile/editInfo';
 
   // Author: Yomna
@@ -90,6 +94,10 @@ export class ProfileService {
 
   reportUser(report, Id): any {
     return this.http.post(this.reportUserUrl, report, httpOptions);
+  }
+
+  changeProfilePic(upload): any {
+    return this.http.patch(this.changePPUrl, upload, httpOptions);
   }
 
 }

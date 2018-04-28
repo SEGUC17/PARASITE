@@ -1,501 +1,569 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0.scss/font-awesome.min.scss">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0.scss/font-awesome.min.scss">
 
 
 
-<div id = "wrapper" *ngIf = "false">
-    <div id = "PPDiv">
-      <img id = "PP" src= "../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
-      <br>
-      <label id="ProfileName" >{{(currIsOwner? firstName : vFirstName) + " " + (currIsOwner? lastName : vLastName)}}</label>
-      <br>
-      <label id="Badge">Badge goes here</label><br>
+<div id="wrapper" *ngIf="false">
+  <div id="PPDiv">
+    <img id="PP" src="../../../assets/images/profile-view/defaultPP.png" alt="Profile Picture" style="width:200px;height:200px;">
+    <br>
+    <label id="ProfileName">{{(currIsOwner? firstName : vFirstName) + " " + (currIsOwner? lastName : vLastName)}}</label>
+    <br>
+    <label id="Badge">Badge goes here</label>
+    <br>
 
-      <div class = "RightSideBtns">
-          <button mat-raised-button id="btnRequestContributerValidation" *ngIf = "currIsOwner && !currIsChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>
-          <button mat-raised-button id="linkToParent" *ngIf = "!currIsOwner && isChild && visitedIsParent" (click)= "linkToParent()">Add as a parent</button>
-          <span class="dropdown" *ngIf = "currIsParent && !currIsOwner && !visitedIsChild">
-            <button mat-raised-button [matMenuTriggerFor]="menu" id = "linkAnotherParent" (click)="showChildren()">Link to my child</button>
-            <mat-menu #menu="matMenu">
-                <button *ngFor="let child of listOfUncommonChildren" mat-menu-item (click) = "addChild(child)" >
-                  <span>{{child}}</span>
-                </button>
-              </mat-menu>
-          </span>
-          <span class="dropdown" *ngIf = "currIsParent && visitedIsParent">
-            <button mat-raised-button [matMenuTriggerFor]="menu" id = "unlinkAnotherParent">Unlink my child</button>
-            <mat-menu #menu="matMenu">
-                <button *ngFor="let child of listOfChildren" mat-menu-item (click) = "removeChild(child)" >
-                  <span>{{child}}</span>
-                </button>
-              </mat-menu>
-          </span>
-          <button mat-raised-button id="mkIndep" *ngIf = "!currIsOwner && visitedIsMyChild && visitedIsChild"(click)= "EditChildIndependence()">Make Independent</button>
-          <button mat-raised-button id="UnlinkMyself" *ngIf = "visitedIsMyParent&& !currIsChild" (click)="UnlinkMyself()">Unlink</button>
-          <button mat-raised-button id="createChildAccount" *ngIf = "currIsParent && currIsOwner">Create child account</button>
-      
+    <div class="RightSideBtns">
+      <button mat-raised-button id="btnRequestContributerValidation" *ngIf="currIsOwner && !currIsChild && !verified" (click)="requestContributerValidation()">Make me a verified contributor</button>
+      <button mat-raised-button id="linkToParent" *ngIf="!currIsOwner && isChild && visitedIsParent" (click)="linkToParent()">Add as a parent</button>
+      <span class="dropdown" *ngIf="currIsParent && !currIsOwner && !visitedIsChild">
+        <button mat-raised-button [matMenuTriggerFor]="menu" id="linkAnotherParent" (click)="showChildren()">Link to my child</button>
+        <mat-menu #menu="matMenu">
+          <button *ngFor="let child of listOfUncommonChildren" mat-menu-item (click)="addChild(child)">
+            <span>{{child}}</span>
+          </button>
+        </mat-menu>
+      </span>
+      <span class="dropdown" *ngIf="currIsParent && visitedIsParent">
+        <button mat-raised-button [matMenuTriggerFor]="menu" id="unlinkAnotherParent">Unlink my child</button>
+        <mat-menu #menu="matMenu">
+          <button *ngFor="let child of listOfChildren" mat-menu-item (click)="removeChild(child)">
+            <span>{{child}}</span>
+          </button>
+        </mat-menu>
+      </span>
+      <button mat-raised-button id="mkIndep" *ngIf="!currIsOwner && visitedIsMyChild && visitedIsChild" (click)="EditChildIndependence()">Make Independent</button>
+      <button mat-raised-button id="UnlinkMyself" *ngIf="visitedIsMyParent&& !currIsChild" (click)="UnlinkMyself()">Unlink</button>
+      <button mat-raised-button id="createChildAccount" *ngIf="currIsParent && currIsOwner">Create child account</button>
+
+
+    </div>
+  </div>
+  <br>
+  <div class="tab">
+    <mat-tab-group>
+      <mat-tab label="About">
+        <div id="personalinfo" class="tabcontent">
+          <h3 style="font-weight: bold">Personal Info:</h3>
+
+          <label>Username: {{currIsOwner? username : vUsername}}</label>
+          <br>
+
+          <label>Email: {{currIsOwner? email : vEmail}}</label>
+          <br>
+          <label>Address: {{currIsOwner? address : vAddress}}</label>
+          <br>
+          <label>Phone: {{currIsOwner? phone : vPhone}}</label>
+          <br>
 
         </div>
-    </div>
-    <br>
-    <div class="tab">
-      <mat-tab-group>
-        <mat-tab label="About">
-          <div id = "personalinfo" class = "tabcontent">
-            <h3 style="font-weight: bold">Personal Info:</h3>
-
-            <label>Username: {{currIsOwner? username : vUsername}}</label> <br>
-            
-            <label>Email: {{currIsOwner? email : vEmail}}</label> <br>
-            <label>Address: {{currIsOwner? address : vAddress}}</label> <br>
-            <label>Phone: {{currIsOwner? phone : vPhone}}</label> <br>
-
-          </div>
-        </mat-tab>
-        <mat-tab label="Personal Schedule" *ngIf="currIsOwner || visitedIsMyChild">
-          <div id = "schedule" class = "tabcontent">
-            <app-schedule [profileUser]="vUsername"></app-schedule>
-          </div>
-        </mat-tab>
-        <mat-tab label="List of children" *ngIf = "currIsOwner? !currIsChild : !visitedIsChild">
-          <div id = "children" class = "tabcontent">
-            <h3 style="font-weight: bold">Your Children:</h3>
-            <app-childern></app-childern>
-          </div>
-        </mat-tab>
-        <mat-tab label="Study Plans" *ngIf = "currIsOwner || visitedIsMyChild">
-          <div id = "studyplans" class = "tabcontent">
-            <app-study-plan-list-view type="personal"></app-study-plan-list-view>
-          </div>
-        </mat-tab>
-        <mat-tab label="Settings" *ngIf = "visitedIsMyChild || currIsOwner">
-          <div id = "Settings" class = "tabcontent">
-            <mat-accordion *ngIf="false">
-                <mat-panel-title style = "font-size: 20px; font-weight: bold">
-                    Settings
-                  </mat-panel-title>
+      </mat-tab>
+      <mat-tab label="Personal Schedule" *ngIf="currIsOwner || visitedIsMyChild">
+        <div id="schedule" class="tabcontent">
+          <app-schedule [profileUser]="vUsername"></app-schedule>
+        </div>
+      </mat-tab>
+      <mat-tab label="List of children" *ngIf="currIsOwner? !currIsChild : !visitedIsChild">
+        <div id="children" class="tabcontent">
+          <h3 style="font-weight: bold">Your Children:</h3>
+          <app-childern></app-childern>
+        </div>
+      </mat-tab>
+      <mat-tab label="Study Plans" *ngIf="currIsOwner || visitedIsMyChild">
+        <div id="studyplans" class="tabcontent">
+          <app-study-plan-list-view type="personal" [username]="currIsOwner? username : vUsername" [(currIsChild)]="currIsChild">
+          </app-study-plan-list-view>
+        </div>
+      </mat-tab>
+      <mat-tab label="Settings" *ngIf="visitedIsMyChild || currIsOwner">
+        <div id="Settings" class="tabcontent">
+          <mat-accordion *ngIf="false">
+            <mat-panel-title style="font-size: 20px; font-weight: bold">
+              Settings
+            </mat-panel-title>
             <mat-expansion-panel [expanded]="false">
               <mat-expansion-panel-header style="font-weight: bold">Change Password</mat-expansion-panel-header>
-            Current Password <br> 
-            <input #Oldpw type="password" name="oldpw" [(ngModel)]=oldpw><br>
-            New Password<br> <input #Newpw type="password" name="newpw" [(ngModel)]=newpw><br>
-            Confirm New Password <br>
-             <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
-            <button type="button"class="btn btn-primary"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
-            <p [innerHTML]="message"></p>
-          </mat-expansion-panel>
-          <mat-expansion-panel [expanded]="false">
-            <mat-expansion-panel-header style="font-weight: bold">
-              Edit Child's Info
-            </mat-expansion-panel-header>
-        
-            <mat-form-field>
+              Current Password
+              <br>
+              <input #Oldpw type="password" name="oldpw" [(ngModel)]=oldpw>
+              <br> New Password
+              <br>
+              <input #Newpw type="password" name="newpw" [(ngModel)]=newpw>
+              <br> Confirm New Password
+              <br>
+              <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/>
+              <br>
+              <button type="button" class="btn btn-primary" (click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
+              <p [innerHTML]="message"></p>
+            </mat-expansion-panel>
+            <mat-expansion-panel [expanded]="false">
+              <mat-expansion-panel-header style="font-weight: bold">
+                Edit Child's Info
+              </mat-expansion-panel-header>
+
+              <mat-form-field>
                 <label>First Name: </label>
-                <input id="dFirstName" matInput [ngModel]=dFirstName value= {{firstName}}>
-            </mat-form-field>
-          <br/>
-            <mat-form-field>
+                <input id="dFirstName" matInput [ngModel]=dFirstName value={ {firstName}}>
+              </mat-form-field>
+              <br/>
+              <mat-form-field>
                 <label>Last Name: </label>
-                <input id="dLastName" matInput [ngModel]=dLastName value = {{lastName}}>
-            </mat-form-field>
-            <br/>
-            <mat-form-field>
+                <input id="dLastName" matInput [ngModel]=dLastName value={ {lastName}}>
+              </mat-form-field>
+              <br/>
+              <mat-form-field>
                 <label>Username: </label>
-              <input id="dUsername" matInput [ngModel]=dUsername value = {{username}}>
-            </mat-form-field>
-            <br/>
-            <mat-form-field>
+                <input id="dUsername" matInput [ngModel]=dUsername value={ {username}}>
+              </mat-form-field>
+              <br/>
+              <mat-form-field>
                 <label>Email: </label>
-                <input id = "dEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" matInput [ngModel]=dEmail value = {{email}}>
-            </mat-form-field>
-            <br/>
-            <mat-form-field>
+                <input id="dEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" matInput [ngModel]=dEmail value={ {email}}>
+              </mat-form-field>
+              <br/>
+              <mat-form-field>
                 <label>Address: </label>
-                <input id = "dAddress" matInput [ngModel]=dAddress value = {{address}}>
-            </mat-form-field>
-            <br/>
-            <mat-form-field>
+                <input id="dAddress" matInput [ngModel]=dAddress value={ {address}}>
+              </mat-form-field>
+              <br/>
+              <mat-form-field>
                 <label>Phone: </label>
-                <input id="dPhone" matInput [ngModel]=dPhone value = {{phone}}>
-            </mat-form-field>
-            <br/>
-            <mat-form-field>
+                <input id="dPhone" matInput [ngModel]=dPhone value={ {phone}}>
+              </mat-form-field>
+              <br/>
+              <mat-form-field>
                 <label>Birthdate: </label>
-                <input id = "dBirthday" matInput [ngModel]=dBirthday value = {{birthday}} [matDatepicker]="birthdatePicker" disabled/>
+                <input id="dBirthday" matInput [ngModel]=dBirthday value={ {birthday}} [matDatepicker]="birthdatePicker" disabled/>
                 <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
                 <mat-datepicker #birthdatePicker disabled="false" startView="multi-year"></mat-datepicker>
-            </mat-form-field>
-            <br/>
-            <button mat-raised-button color="primary" (click)="changeChildInfo()">Save</button>
-          </mat-expansion-panel>
-        </mat-accordion>
+              </mat-form-field>
+              <br/>
+              <button mat-raised-button color="primary" (click)="changeChildInfo()">Save</button>
+            </mat-expansion-panel>
+          </mat-accordion>
 
-        <button mat-raised-button style="font-weight:bold;" (click)="changePass = !changePass" >Change Password</button>
-        <div *ngIf = "changePass">
+          <button mat-raised-button style="font-weight:bold;" (click)="changePass = !changePass">Change Password</button>
+          <div *ngIf="changePass">
             <h3 style="font-weight: bold;">Change Password</h3>
-          Current Password <br> 
-          <input #Oldpw type="password" name="oldpw" [(ngModel)]=oldpw><br>
-          New Password<br> <input #Newpw type="password" name="newpw" [(ngModel)]=newpw><br>
-          Confirm New Password <br>
-           <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/> <br>
-          <button type="button"class="btn btn-primary"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
-          
-          <p [innerHTML]="message"></p>
-        </div>
-        <br/>
-        <br/>
-        <button mat-raised-button *ngIf="visitedIsMyChild" style="font-weight:bold;" (click)="childInfo = !childInfo" >Edit Child Info</button>
-        <div *ngIf = "childInfo">
+            Current Password
+            <br>
+            <input #Oldpw type="password" name="oldpw" [(ngModel)]=oldpw>
+            <br> New Password
+            <br>
+            <input #Newpw type="password" name="newpw" [(ngModel)]=newpw>
+            <br> Confirm New Password
+            <br>
+            <input #Confirmpw type="password" name="confirmPassword" [(ngModel)]=confirmpw/>
+            <br>
+            <button type="button" class="btn btn-primary" (click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
+
+            <p [innerHTML]="message"></p>
+          </div>
+          <br/>
+          <br/>
+          <button mat-raised-button *ngIf="visitedIsMyChild" style="font-weight:bold;" (click)="childInfo = !childInfo">Edit Child Info</button>
+          <div *ngIf="childInfo">
             <h3 style="font-weight: bold;">Edit Child Info</h3>
             <mat-form-field>
               <label>First Name: </label>
-              <input id="dFirstName" matInput [ngModel]=dFirstName value= {{firstName}}>
-          </mat-form-field>
-        <br/>
-          <mat-form-field>
+              <input id="dFirstName" matInput [ngModel]=dFirstName value={ {firstName}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Last Name: </label>
-              <input id="dLastName" matInput [ngModel]=dLastName value = {{lastName}}>
-          </mat-form-field>
-          <br/>
-          <mat-form-field>
+              <input id="dLastName" matInput [ngModel]=dLastName value={ {lastName}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Username: </label>
-            <input id="dUsername" matInput [ngModel]=dUsername value = {{username}}>
-          </mat-form-field>
-          <br/>
-          <mat-form-field>
+              <input id="dUsername" matInput [ngModel]=dUsername value={ {username}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Email: </label>
-              <input id = "dEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" matInput [ngModel]=dEmail value = {{email}}>
-          </mat-form-field>
-          <br/>
-          <mat-form-field>
+              <input id="dEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" matInput [ngModel]=dEmail value={ {email}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Address: </label>
-              <input id = "dAddress" matInput [ngModel]=dAddress value = {{address}}>
-          </mat-form-field>
-          <br/>
-          <mat-form-field>
+              <input id="dAddress" matInput [ngModel]=dAddress value={ {address}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Phone: </label>
-              <input id="dPhone" matInput [ngModel]=dPhone value = {{phone}}>
-          </mat-form-field>
-          <br/>
-          <mat-form-field>
+              <input id="dPhone" matInput [ngModel]=dPhone value={ {phone}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Birthdate: </label>
-              <input id = "dBirthday" matInput [ngModel]=dBirthday value = {{birthday}} [matDatepicker]="birthdatePicker" disabled/>
+              <input id="dBirthday" matInput [ngModel]=dBirthday value={ {birthday}} [matDatepicker]="birthdatePicker" disabled/>
               <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
               <mat-datepicker #birthdatePicker disabled="false" startView="multi-year"></mat-datepicker>
-          </mat-form-field>
-          <br/>
-          <button mat-raised-button color="primary" (click)="changeChildInfo()">Save</button>
-        </div>
-        <button mat-raised-button *ngIf="currIsOwner && !isChild" style="font-weight:bold;" (click)="personalInfo = !personalInfo" >Edit Personal Info</button>
-        <div *ngIf = "personalInfo">
+            </mat-form-field>
+            <br/>
+            <button mat-raised-button color="primary" (click)="changeChildInfo()">Save</button>
+          </div>
+          <button mat-raised-button *ngIf="currIsOwner && !isChild" style="font-weight:bold;" (click)="personalInfo = !personalInfo">Edit Personal Info</button>
+          <div *ngIf="personalInfo">
             <h3 style="font-weight: bold;">Edit Personal Info</h3>
             <mat-form-field>
               <label>First Name: </label>
-              <input id="dFirstName" matInput [ngModel]=dFirstName value= {{firstName}}>
-          </mat-form-field>
-        <br/>
-          <mat-form-field>
+              <input id="dFirstName" matInput [ngModel]=dFirstName value={ {firstName}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Last Name: </label>
-              <input id="dLastName" matInput [ngModel]=dLastName value = {{lastName}}>
-          </mat-form-field>
-          <br/>
-          <mat-form-field>
+              <input id="dLastName" matInput [ngModel]=dLastName value={ {lastName}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Username: </label>
-            <input id="dUsername" matInput [ngModel]=dUsername value = {{username}}>
-          </mat-form-field>
-          <br/>
-          <mat-form-field>
+              <input id="dUsername" matInput [ngModel]=dUsername value={ {username}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Email: </label>
-              <input id = "dEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" matInput [ngModel]=dEmail value = {{email}}>
-          </mat-form-field>
-          <br/>
-          <mat-form-field>
+              <input id="dEmail" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" matInput [ngModel]=dEmail value={ {email}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Address: </label>
-              <input id = "dAddress" matInput [ngModel]=dAddress value = {{address}}>
-          </mat-form-field>
-          <br/>
-          <mat-form-field>
+              <input id="dAddress" matInput [ngModel]=dAddress value={ {address}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Phone: </label>
-              <input id="dPhone" matInput [ngModel]=dPhone value = {{phone}}>
-          </mat-form-field>
-          <br/>
-          <mat-form-field>
+              <input id="dPhone" matInput [ngModel]=dPhone value={ {phone}}>
+            </mat-form-field>
+            <br/>
+            <mat-form-field>
               <label>Birthdate: </label>
-              <input id = "dBirthday" matInput [ngModel]=dBirthday value = {{birthday}} [matDatepicker]="birthdatePicker" disabled/>
+              <input id="dBirthday" matInput [ngModel]=dBirthday value={ {birthday}} [matDatepicker]="birthdatePicker" disabled/>
               <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
               <mat-datepicker #birthdatePicker disabled="false" startView="multi-year"></mat-datepicker>
-          </mat-form-field>
-          <br/>
-          <button mat-raised-button color="primary" (click)="ChangeInfo()">Save</button>
-        </div>
-
+            </mat-form-field>
+            <br/>
+            <button mat-raised-button color="primary" (click)="ChangeInfo()">Save</button>
           </div>
-            </mat-tab>
-      </mat-tab-group>
+
+        </div>
+      </mat-tab>
+    </mat-tab-group>
 
 
 
-      </div>
-
-
-
-
-
-
-</div>
-
-<section class="content profile-page">
-  <div class="block-header">
-    <div class="row">
-      <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>Profile
-        </h2>
-      </div>
-      <div class="col-lg-5 col-md-6 col-sm-12">
-        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
-          <i class="zmdi zmdi-plus"></i>
-        </button>
-        <ul class="breadcrumb float-md-right">
-          <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> sQuare</a></li>
-          <li class="breadcrumb-item active">Profile</li>
-        </ul>
-      </div>
-    </div>
   </div>
-  <div class="container-fluid">
-    <div class="row clearfix">
-      <div class="col-lg-12 col-md-12">
-        <div class="card profile-header bg-dark">
-          <div class="body col-white">
-            <div class="row">
-              <div class="col-lg-3 col-md-4 col-12">
-                <div class="profile-image float-md-right"> <img src="assets/images/defaultProfilePic.png" alt=""> </div>
-              </div>
-              <div class="col-lg-9 col-md-8 col-12">
-                <h4 class="m-t-0 m-b-0"><strong>{{currIsOwner? firstName : vFirstName}}</strong>{{currIsOwner? lastName : vLastName}}</h4>
-                <span class="job_post">Ui UX Designer</span>
-                <p>{{currIsOwner? address : vAddress}}</p>
-                <div>
-                  <button class="btn btn-primary btn-round">Follow</button>
-                  <button class="btn btn-primary btn-round btn-simple">Message</button>
-                  <button class="btn btn-primary btn-round btn-simple" style="float: right" (click) = "reportPopUp()">Report</button>
-                </div>
-                <p class="social-icon m-t-5 m-b-0">
-                  <a title="Twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
-                  <a title="Facebook" href="javascript:void(0);"><i class="zmdi zmdi-facebook"></i></a>
-                  <a title="Google-plus" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
-                  <a title="Behance" href="javascript:void(0);"><i class="zmdi zmdi-behance"></i></a>
-                  <a title="Instagram" href="javascript:void(0);"><i class="zmdi zmdi-instagram "></i></a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-    </div>
-    <div class="row clearfix">
-      <div class="col-lg-4 col-md-12">
-        <div class="card">
-          <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#about">About</a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#friends" *ngIf = "false">Children</a></li>
+
+
+
+
+
+</div> -->
+<section class="content">
+  <section class="content profile-page">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-lg-7 col-md-6 col-sm-12">
+          <h2>Profile
+          </h2>
+        </div>
+        <div class="col-lg-5 col-md-6 col-sm-12">
+          <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
+            <i class="zmdi zmdi-plus"></i>
+          </button>
+          <ul class="breadcrumb float-md-right">
+            <li class="breadcrumb-item">
+              <a routerLink="/dashboard">
+                <i class="zmdi zmdi-home"></i> sQuare</a>
+            </li>
+            <li class="breadcrumb-item active">Profile</li>
           </ul>
-          <div class="tab-content">
-            <div class="tab-pane body active" id="about">
-              <small class="text-muted">Email address: </small>
-              <p>{{currIsOwner? email : vEmail}}</p>
-              <hr>
-              <small class="text-muted">Phone: </small>
-              <p>{{currIsOwner? phone : vPhone}}</p>
-              <hr>
-              <small class="text-muted">Birth Date: </small>
-              <p class="m-b-0" >{{(currIsOwner? birthday : vBirthday) | date: "MM/dd/yyyy"}}</p>
-              <hr>
-              <small class="text-muted">Age: </small>
-              <p class="m-b-0" >{{currIsOwner? age : vAge}}</p>
-            </div>
-            <div class="tab-pane body" id="friends" *ngIf="false">
-              <ul class="new_friend_list list-unstyled row">
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Jackson</h6>
-                    <small class="join_date">Today</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Jackson</h6>
-                    <small class="join_date">Today</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Jackson</h6>
-                    <small class="join_date">Today</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Jackson</h6>
-                    <small class="join_date">Today</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Jackson</h6>
-                    <small class="join_date">Today</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar2.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Aubrey</h6>
-                    <small class="join_date">Yesterday</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar3.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Oliver</h6>
-                    <small class="join_date">08 Nov</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar3.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Oliver</h6>
-                    <small class="join_date">08 Nov</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar4.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Isabella</h6>
-                    <small class="join_date">12 Dec</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Jacob</h6>
-                    <small class="join_date">12 Dec</small>
-                  </a>
-                </li>
-                <li class="col-lg-4 col-md-2 col-sm-6 col-4">
-                  <a href="">
-                    <img src="assets/images/sm/avatar5.jpg" class="img-thumbnail" alt="User Image">
-                    <h6 class="users_name">Matthew</h6>
-                    <small class="join_date">17 Dec</small>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
       </div>
-      <div class="col-lg-8 col-md-12">
-        <div class="card bg-dark">
-          <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#children">Children</a></li>
-            <li class="nav-item" *ngIf = "currIsOwner || visitedIsMyChild"><a class="nav-link" routerLink="/schedule/{{vUsername}}">Personal Schedule</a></li>
-            <li class="nav-item" *ngIf = "currIsOwner || visitedIsMyChild"><a class="nav-link" data-toggle="tab" href="#studyplans">Study Plans</a></li>
-            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#usersettings">Settings</a></li>
-          </ul>
+    </div>
+    <div class="container-fluid">
+      <div class="row clearfix">
+        <div class="col-lg-12 col-md-12">
+          <div class="card profile-header bg-dark">
+            <div class="body col-white">
+              <div class="row">
+                <div class="col-lg-3 col-md-4 col-12">
+                  <div class="profile-image float-md-right">
+                    <img src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
+                      alt="Profile Picture">
+                    <br/>
+                    <a href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right">
+                      <i class="zmdi zmdi-edit"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-lg-9 col-md-8 col-12">
+                  <h4 class="m-t-0 m-b-0">
+                    <strong>{{currIsOwner? firstName : vFirstName}}</strong>{{currIsOwner? lastName : vLastName}}</h4>
+                  <a class="job_post" href="javascript:void(0);" *ngIf="(currIsOwner && currIsAdmin) || visitedIsAdmin">
+                    <i class="material-icons">verified_user</i> {{currIsOwner? (currIsAdmin? 'Admin' : '' ) : (visitedIsAdmin? 'Admin' : '' ) }}</a>
+                  <p>{{currIsOwner? address : vAddress}}</p>
+                  <div>
+                    <button class="btn btn-primary btn-round btn-simple">Message</button>
+                    <button class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent"
+                      (click)="linkToParent()">Add As A Parent</button>
+                    <button class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild"
+                      (click)="EditChildIndependence()">Make Independent</button>
+                    <button class="btn btn-primary btn-round btn-simple" *ngIf="currIsOwner && !currIsChild && !verified && currIsOfAge" (click)="requestContributerValidation()">Be A Verified Contributor</button>
+                    <button class="btn btn-primary btn-round btn-simple" *ngIf="currIsParent && currIsOwner">Unlink My Child</button>
+                    <button class="btn btn-primary btn-round btn-simple" *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">Link To My Child</button>
+                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currIsOfAge && !currIsOwner && visitedIsOfAge"
+                      (click)="reportPopUp()">Report</button>
+                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currCanBeParent && currIsOwner">Create A Child Account</button>
+                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge"
+                      (click)="UnlinkMyself()">Unlink My Parent</button>
+                    <button class="btn btn-primary btn-round btn-simple" *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
+                      <span class="dropdown">
+                        <span class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Link To My Child</span>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                          <li *ngFor="let child of listOfUncommonChildren">
+                            <a (click)="addChild(child)">
+                              <strong>{{child}}</strong>
+                            </a>
+                          </li>
+                        </ul>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane" id="studyplans">
-            <app-study-plan-list-view type="personal"></app-study-plan-list-view>
-          </div>
-          <div role="tabpanel" class="tab-pane" id="usersettings">
-            <div class="card">
-              <div class="header">
-                <h2><strong>Security</strong> Settings</h2>
+
+      </div>
+      <div class="row clearfix">
+        <div class="col-lg-4 col-md-12">
+          <div class="card">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#friends" *ngIf="false">Children</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane body active" id="about">
+                <small class="text-muted">Email address: </small>
+                <p>{{currIsOwner? email : vEmail}}</p>
+                <hr>
+                <small class="text-muted">Phone: </small>
+                <p>{{currIsOwner? phone : vPhone}}</p>
+                <hr>
+                <small class="text-muted">Birth Date: </small>
+                <p class="m-b-0">{{(currIsOwner? birthday : vBirthday) | date: "MM/dd/yyyy"}}</p>
+                <hr>
+                <small class="text-muted">Age: </small>
+                <p class="m-b-0">{{currIsOwner? age : vAge}}</p>
               </div>
-              <div class="body">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Username">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control" placeholder="Current Password">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control" placeholder="New Password">
-                </div>
-                <button class="btn btn-info btn-round">Save Changes</button>
-              </div>
-            </div>
-            <div class="card">
-              <div class="header">
-                <h2><strong>Account</strong> Settings</h2>
-              </div>
-              <div class="body">
-                <div class="row clearfix">
-                  <div class="col-lg-6 col-md-12">
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="First Name">
-                    </div>
-                  </div>
-                  <div class="col-lg-6 col-md-12">
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Last Name">
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-12">
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="City">
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-12">
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="E-mail">
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-12">
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Country">
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="form-group">
-                      <textarea rows="4" class="form-control no-resize" placeholder="Address Line 1"></textarea>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <div class="checkbox">
-                      <input id="procheck1" type="checkbox">
-                      <label for="procheck1">Profile Visibility For Everyone</label>
-                    </div>
-                    <div class="checkbox">
-                      <input id="procheck2" type="checkbox">
-                      <label for="procheck2">New task notifications</label>
-                    </div>
-                    <div class="checkbox">
-                      <input id="procheck3" type="checkbox">
-                      <label for="procheck3">New friend request notifications</label>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <button class="btn btn-primary btn-round">Save Changes</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card">
-              <div class="header">
-                <h2><strong>Block</strong> List</h2>
-              </div>
-              <div class="body">
+              <div class="tab-pane body" id="friends" *ngIf="false">
+                <ul class="new_friend_list list-unstyled row">
+                  <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                    <a href="">
+                      <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
+                      <h6 class="users_name">Jackson</h6>
+                      <small class="join_date">Today</small>
+                    </a>
+                  </li>
+                  <li class="col-lg-4 col-md-2 col-sm-6 col-4">
+                    <a href="">
+                      <img src="assets/images/sm/avatar1.jpg" class="img-thumbnail" alt="User Image">
+                      <h6 class="users_name">Jackson</h6>
+                      <small class="join_date">Today</small>
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
-          <div role="tabpanel" class="tab-pane" id="children">
+        </div>
+        <div class="col-lg-8 col-md-12">
+          <div class="card bg-dark">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#children">Children</a>
+              </li>
+             <!-- <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#studyplans">Study Plans</a>
+              </li> -->
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#userSettings" *ngIf="currIsOwner && currIsOfAge">Settings</a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane" id="userSettings">
+              <div class="card">
+                <div class="header">
+                  <h2>
+                    <strong>Security</strong> Settings</h2>
+                </div>
+                <div class="body">
+                  <div class="form-group">
+                    <input #Oldpw type="password" class="form-control" placeholder="Your Current Password" [(ngModel)]=oldpw>
+                  </div>
+                  <div class="form-group">
+                    <input #Newpw type="password" class="form-control" placeholder="New Password" [(ngModel)]=newpw>
+                  </div>
+                  <div class="form-group">
+                    <input #Confirmpw type="password" class="form-control" placeholder="Confirm New Password" [(ngModel)]=confirmpw>
+                  </div>
+                  <button class="btn btn-raised btn-primary btn-round waves-effect" (click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
+                </div>
+              </div>
+              <!-- Child Info
+
+              <div class="row clearfix" *ngIf = "visitedIsMyChild">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="card">
+                    <div class="header">
+                      <h2>
+                        <strong>Child</strong> Info</h2>
+                    </div>
+                    <div class="body">
+                        <label for="dFirstName">First Name</label>
+                        <div class="form-group">
+                          <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value= {{vFirstName}}>
+                        </div>
+                        <label for="dLastName">Last Name</label>
+                        <div class="form-group">
+                          <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value= {{vLastName}}>
+                        </div>
+                        <label for="dUsername">Username</label>
+                        <div class="form-group">
+                          <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value= {{vUsername}} disabled>
+                        </div>
+                        <label for="dEmail">Email</label>
+                        <div class="form-group">
+                          <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{vEmail}} disabled>
+                        </div>
+                        <label for="dAddress">Address</label>
+                        <div class="form-group">
+                          <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{vAddress}}>
+                        </div>
+                        <label for="dBirthday">Birthdate</label>
+                        <div class="input-group">
+                          <span class="input-group-addon">
+                            <i class="zmdi zmdi-calendar"></i>
+                          </span>
+                          <input id="dBirthday" type="text" class="form-control datetimepicker" value= {{vBirthdayView}}>
+                        </div>
+                        <label for="dPhone">Phone</label>
+                        <div class="form-group">
+                          <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value= {{vPhone}}>
+                        </div>
+                        <button type="button" (click)="changeChildInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              End Child Info -->
+              <!-- Personal Info -->
+              <div class="row clearfix" *ngIf = "currIsOwner">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="card">
+                    <div class="header">
+                      <h2>
+                        <strong>Personal</strong> Info</h2>
+                    </div>
+                    <div class="body">
+                        <label for="dFirstName">First Name</label>
+                        <div class="form-group">
+                          <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value= {{firstName}}>
+                        </div>
+                        <label for="dLastName">Last Name</label>
+                        <div class="form-group">
+                          <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value= {{lastName}}>
+                        </div>
+                        <label for="dUsername">Username</label>
+                        <div class="form-group">
+                          <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value= {{username}} disabled>
+                        </div>
+                        <label for="dEmail">Email</label>
+                        <div class="form-group">
+                          <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{email}} disabled>
+                        </div>
+                        <label for="dAddress">Address</label>
+                        <div class="form-group">
+                          <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{address}}>
+                        </div>
+                        <label for="dBirthday">Birthdate</label>
+                        <div class="input-group">
+                          <span class="input-group-addon">
+                            <i class="zmdi zmdi-calendar"></i>
+                          </span>
+                          <input id="dBirthday" type="text" class="form-control datetimepicker" value = {{birthdayView}}>
+                        </div>
+                        <label for="dPhone">Phone</label>
+                        <div class="form-group">
+                          <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value= {{phone}}>
+                        </div>
+                        <button type="button" (click)="ChangeInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End Personal Info -->
+              <div class="card">
+                <div class="header">
+                  <h2>
+                    <strong>Messages Block</strong> List</h2>
+                </div>
+                <style>
+                  .bodyBlock {
+                    -webkit-column-count: 3;
+                    /* Chrome, Safari, Opera */
+                    -moz-column-count: 3;
+                    /* Firefox */
+                    column-count: 3;
+
+                    -webkit-column-gap: 80px;
+                    /* Chrome, Safari, Opera */
+                    -moz-column-gap: 80px;
+                    /* Firefox */
+                    column-gap: 80px;
+                  }
+                </style>
+                <div class="body" class="bodyBlock">
+                  <div *ngFor="let blockedUser of blocklist" class="zmdi zmdi-account-circle" style="padding-left:25px;">
+                    <strong>
+                      <span>{{blockedUser}} </span>
+                    </strong>
+                    <div class="col-md-12">
+                      <button class="btn btn-primary btn-round" (click)="unblockUser(blockedUser)">
+                        Unblock
+                      </button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="children">
               <app-childern></app-childern>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</section>
+<section>
+  <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="title" id="defaultModalLabel">Profile picture upload</h4>
+        </div>
+        <div class="modal-body">
+          <app-image-uploader (ImageUploaded)="uploaded($event)"></app-image-uploader>
+          <button id="closeModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" style="float:right">Cancel</button>
         </div>
       </div>
     </div>

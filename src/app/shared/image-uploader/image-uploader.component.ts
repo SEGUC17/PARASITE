@@ -43,7 +43,7 @@ export class ImageUploaderComponent implements OnInit {
   );
 
   loading: any;
-
+  filePath = '';
 
   constructor() { }
 
@@ -53,21 +53,26 @@ export class ImageUploaderComponent implements OnInit {
 
   upload() {
     let self = this;
-    this.loading = true;
-    this.uploader.uploadAll();
-    this.uploader.onSuccessItem = (
-      item: any,
-      response: string,
-      status: number,
-      headers: any): any => {
-      let res: any = JSON.parse(response);
-      self.ImageUploaded.emit(res.url);
-    };
-    this.uploader.onErrorItem =
-      function (fileItem, response, status, headers) {
-        // console.info('onErrorItem', fileItem, response, status, headers);
-        self.ImageUploaded.emit('imageFailedToUpload');
+    if (this.uploader.queue.length > 0) {
+      this.loading = true;
+      this.uploader.uploadAll();
+      this.uploader.onSuccessItem = (
+        item: any,
+        response: string,
+        status: number,
+        headers: any): any => {
+        let res: any = JSON.parse(response);
+        this.loading = false;
+        self.ImageUploaded.emit(res.url);
       };
+      this.uploader.onErrorItem =
+        function (fileItem, response, status, headers) {
+          // console.info('onErrorItem', fileItem, response, status, headers);
+          self.ImageUploaded.emit('imageFailedToUpload');
+        };
+    } else {
+      self.ImageUploaded.emit('noFileToUpload');
+    }
   }
 
 }

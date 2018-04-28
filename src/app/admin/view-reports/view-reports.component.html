@@ -1,0 +1,41 @@
+<div class="card">
+        <div class="body">
+                <div class="header">
+                        <h2><strong>Ban</strong> User</h2>
+                </div>
+                          <div class="card">
+                            <div class="body">
+                              <form>
+                                  <div>
+                                    <div class="form-group">
+                                      <input id="bannedUsername" #bannedUsername type="text" class="form-control" placeholder="Enter username to be banned">
+                                    </div>
+                                    <button type="button" style="float:right" class="btn btn-raised btn-primary btn-round waves-effect m-l-20" (click)="banUserPopUp(bannedUsername.value)">BAN</button>
+                                </div>
+                            </form>
+                            </div>
+                          </div>
+        </div>
+</div>
+
+
+<div class="card">
+<div class="body">
+        <div class="header">
+                <h2><strong>User</strong> Reports</h2>
+        </div>
+        <div class="card" style="height:unset"  *ngFor="let rep of reports.slice().reverse()">
+      <div class="block-header" style="height:unset">
+            <a href="/profile/{{rep.reporter}}" ><strong>{{rep.reporter}}</strong> </a> <strong> reported </strong> <a href="/profile/{{rep.reportedPerson}}" ><strong>{{rep.reportedPerson}}</strong> </a>
+            <button type="button" class="btn btn-neutral" style="float:right" (click)="deleteReportPopUp(rep)">
+                    <i class="material-icons">delete</i>
+            </button>
+            <strong style="float:right">{{rep.reportedAt | date: "dd/MM/yyy  hh:mm a"}}</strong>
+            <br/>
+            
+          <strong>Reason: </strong>
+          <small>{{rep.reason}}</small>
+        </div>
+    </div>
+  </div>
+</div>

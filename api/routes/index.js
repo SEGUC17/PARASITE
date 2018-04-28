@@ -213,6 +213,9 @@ module.exports = function (passport) {
   );
   router.get('/admin/getReports', isAuthenticated, adminController.getReports);
 
+  router.patch('/admin/DeleteReport/:reportId', isAuthenticated, adminController.deleteReport);
+  router.patch('/admin/BanUser/:username', isAuthenticated, adminController.banUser);
+
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
@@ -227,6 +230,7 @@ module.exports = function (passport) {
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
   router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
   router.post('/profile/ReportUser', isAuthenticated, profileController.reportUser);
+  router.patch('/profile/ChangeProfilePic', isAuthenticated, profileController.changeProfilePic);
 
 
   // ------------------- End of Profile module Endpoints-----------//
@@ -419,8 +423,8 @@ module.exports = function (passport) {
 
   // Registered user contacts admins
   router.post('/contactus', messageController.contactAdmin);
-  //Unblocking users
-  router.patch('/message/unblock/:blocked', messageController.unBlock);
+    //Unblocking users
+    router.patch('/message/unblock/:id', messageController.unBlock);
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//

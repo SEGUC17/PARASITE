@@ -1,6 +1,7 @@
 @import "../../../assets/css/timeline.css";
 @import "../../../assets/plugins/sweetalert/sweetalert.css";
-
+@import "../../../assets/plugins/bootstrap-select/css/bootstrap-select.css";
+@import "../../../assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css";
 #wrapper{
     margin-top: 25px;
     margin-left: 50px;
@@ -42,3 +43,13 @@
     position: relative;
     display: inline-block;
 }
+
+.modal {
+    position: fixed;
+    top: 3%;
+    right: 3%;
+    left: 3%;
+    bottom: 3%;
+    width: auto;
+    margin: 0;
+    }
