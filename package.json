@@ -53,6 +53,7 @@
     "mongoose-paginate": "^5.0.3",
     "mongoose-timestamp-date-unix": "^0.6.2",
     "morgan": "^1.9.0",
+    "ng-gapi": "0.0.50",
     "ng2-cloudinary": "^0.9.2",
     "ngx-dropzone-wrapper": "^5.3.2",
     "ngx-facebook": "^2.4.0",

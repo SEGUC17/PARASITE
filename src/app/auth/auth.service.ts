@@ -7,6 +7,7 @@ import { of } from 'rxjs/observable/of';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { FacebookService, InitParams, LoginOptions, LoginResponse } from 'ngx-facebook';
+import { GoogleApiService, GoogleAuthService } from 'ng-gapi';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -20,7 +21,9 @@ export class AuthService {
     private http: HttpClient,
     private toastrService: ToastrService,
     private router: Router,
-    private facebookService: FacebookService
+    private facebookService: FacebookService,
+    private googleApiService: GoogleApiService,
+    private googleAuthService: GoogleAuthService
   ) {
     let initParams: InitParams = {
       appId: environment.facebookAppID,
@@ -29,6 +32,8 @@ export class AuthService {
     };
 
     facebookService.init(initParams);
+
+    googleApiService.onLoad().subscribe(function () { });
   }
 
   setToken(token: any): void {
@@ -89,6 +94,12 @@ export class AuthService {
 
   signInWithGoogle() {
     const self = this;
+    this.googleAuthService.getAuth().subscribe(function(res) {
+      res.signIn().then(function(res2) {
+        self.authGoogle(res2.Zi);
+      })
+      .catch(this.handleError);
+    });
   }
 
   authFacebook(authResponse): Observable<any> {
