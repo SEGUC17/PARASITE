@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile/profile.component';
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from './profile.service';
 import { ChildernComponent } from './profile/childern/childern.component';
@@ -16,7 +15,6 @@ import { SharedModule } from '../shared/shared.module';
 @NgModule({
   imports: [
     ProfileRoutingModule,
-    HttpClientModule,
     MatTabsModule,
     MatButtonModule,
     MatMenuModule,
