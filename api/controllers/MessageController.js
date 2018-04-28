@@ -9,11 +9,26 @@ var Validations = require('../utils/validators');
 var models = require('../models/Message');
 var Message = mongoose.model('Message');
 var User = mongoose.model('User');
+var unregisteredReply = require('../utils/emails/email-verification');
+var REGEX = require('../utils/validators/REGEX');
+
 
 // add a message to the messages collection in the DB
 module.exports.sendMessage = function(req, res, next) {
   // Security Check
   delete req.body.sentAt;
+User.findOne({username: req.body.sender}, function (err, user) {
+    
+       if(err)
+       {
+         return next(err);
+       }//end if
+      
+       //checking if the user is an admin & the message is from an unregistered user
+       if(user.isAdmin === true && req.body.recipient.match(REGEX.MAIL_REGEX) ) {
+              // send the reply through the unregistered user's personal email
+              unregisteredReply.adminReply(req.body.recipient, req.body.body);
+       }
 
   // create new entry in DB
   Message.create(req.body, function(err, msg) {
@@ -28,6 +43,7 @@ module.exports.sendMessage = function(req, res, next) {
       msg: 'Message was sent successfully.'
     });
   });
+});
 };
 
 // get messages stored in the DB
