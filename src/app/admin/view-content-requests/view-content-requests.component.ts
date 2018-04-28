@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../admin.service';
-import { ContentRequest } from '../contentRequest';
+import { AdminService } from '../admin.service';
+import { ContentRequest } from './contentRequest';
 import { Router } from '@angular/router';
-import { ContentRoutingModule } from '../content-routing.module';
 import { AuthService } from '../../auth/auth.service';
-import { SafeResourceUrlPipe } from '../safe-resource-url.pipe';
+import { SafeResourceUrlPipe } from '../../../pipe/safe-resource-url.pipe';
 import { MessageService } from '../../messaging/messaging.service';
 @Component({
   selector: 'app-view-content-requests',

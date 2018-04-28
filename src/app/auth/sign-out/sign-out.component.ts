@@ -19,7 +19,7 @@ export class SignOutComponent implements OnInit {
   ngOnInit() {
     this.authService.setToken(null);
     this.toastrService.success('Sign Out Is Successful!', 'Good Bye!');
-    this.router.navigate(['/']);
+    this.router.navigateByUrl('/content/list');
   }
 
 }

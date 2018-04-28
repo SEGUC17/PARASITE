@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ContentService } from '../../../content/content.service';
-import { Category } from '../../../content/category';
-import { AdminService } from '../../../admin.service';
+import { AdminService } from '../../admin.service';
+import { Category } from '../../../../interfaces/category';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

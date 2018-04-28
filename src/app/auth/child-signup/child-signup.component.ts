@@ -1,21 +1,18 @@
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '../auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 
 declare const $: any;
 
 @Component({
-  selector: 'app-childsignup',
-  templateUrl: './childsignup.component.html',
-  styleUrls: ['./childsignup.component.scss']
+  selector: 'app-child-signup',
+  templateUrl: './child-signup.component.html',
+  styleUrls: ['./child-signup.component.scss']
 })
-
-
-export class ChildsignupComponent implements OnInit {
-
+export class ChildSignupComponent implements OnInit {
   constructor(private location: Location, private authService: AuthService,
     private toastrService: ToastrService, private router: Router) { }
   Firstname: String = '';
@@ -48,7 +45,7 @@ export class ChildsignupComponent implements OnInit {
          this.Div3 = true;
          if ( res.msg ) {
             self.toastrService.success(res.msg);
-            self.router.navigate(['/dashboard']);
+            self.router.navigate(['/']);
            }
        });
     }// end if
@@ -77,5 +74,6 @@ export class ChildsignupComponent implements OnInit {
     $('#nextTab').prop('value', 'Sign Up');
     this.done = true;
   }
+
 
 }
