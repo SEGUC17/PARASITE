@@ -6,12 +6,12 @@
     <!-- Body -->
     <div class="row" width="100%">
       <!-- Image -->
-      <div class="image col-lg-4 col-md-5 col-12" style="max-width: 50vw; max-height: 50vh;">
+      <div class="image col-lg-4 col-md-4 col-sm-4 col-12" style="max-width: 55vw; max-height: 55vh; min-width: 30vw; min-height: 30vh">
         <img src={{data.product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" style="vertical-align:center"
           class="rounded img-raised">
       </div>
 
-      <div class="col-lg-8 col-md-7 col-12" height="100%">
+      <div class="col-lg-7 col-md-7 col-sm-7 col-12">
 
         <!-- Price -->
         <p *ngSwitchCase="false" style="font-size:20px; color: #3f51b5">{{data.product.price}}
@@ -32,8 +32,9 @@
         <li>
           <span style="font-weight: bold">Product Information:</span>
         </li>
-        <p>{{data.product.description}}</p>
-
+        <div style="word-wrap: break-word;">
+          <p>{{data.product.description}}</p>
+        </div>
         <li>
           <span style="font-weight: bold">Created At: </span> {{data.product.createdAt | date }}
         </li>
@@ -51,11 +52,11 @@
         <li>
           <span style="font-weight: bold">Shipping to: </span>
         </li>
-        
+
       </div>
     </div>
   </div>
-  
+
   <!-- Button -->
   <div style="max-height: 20%; text-align: right">
     <button *ngIf="data.product.seller !== data.curUser" class="btn btn-default btn-simple btn-round waves-effect" style="width:50%;">Acquire</button>
