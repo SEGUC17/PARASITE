@@ -4,13 +4,22 @@ import { PsychologistComponent } from './psychologist/psychologist.component';
 import { AddPsychRequestComponent } from './add-psych-request/add-psych-request.component';
 import { EditPsychComponent } from './edit-psych/edit-psych.component';
 const routes = [
-  { path: 'psychologist', component: PsychologistComponent },
-  { path: 'psychologist/editPsych', component: EditPsychComponent },
-  { path: 'psychologist/request/add', component: AddPsychRequestComponent }
+  {
+    path: '',
+    component: PsychologistComponent
+  },
+  {
+    path: 'editPsych',
+    component: EditPsychComponent
+  },
+  {
+    path: 'request/add',
+    component: AddPsychRequestComponent
+  }
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forChild(routes)
   ],
   exports: [
     RouterModule

@@ -5,11 +5,14 @@ import { MatChipsModule } from '@angular/material/chips';
 
 const routes = [
 
-  { path: 'search', component: SearchControlComponent }
+  {
+    path: '',
+    component: SearchControlComponent
+  }
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forChild(routes)
   ],
   exports: [
     RouterModule

@@ -2,7 +2,7 @@
 /* tslint-disable max-len */
 /* tslint-disable max-statements */
 
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { PsychologistService } from '../psychologist.service';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../../auth/auth.service';
@@ -12,6 +12,7 @@ import { EditPsychComponent } from '../edit-psych/edit-psych.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { Psychologist } from '../psychologist/psychologist';
+import { ToastrService } from 'ngx-toastr';
 declare const swal: any;
 
 @Component({
@@ -38,8 +39,8 @@ export class PsychologistComponent implements OnInit {
   writtenAddress: string;
   selectedAddress: string;
   constructor(private psychologistService: PsychologistService,
-    public snackBar: MatSnackBar,
     private authService: AuthService,
+    private toasterService: ToastrService,
     private router: Router,
     private dialog: MatDialog) { }
   formInput = <any>{};
@@ -89,22 +90,22 @@ export class PsychologistComponent implements OnInit {
     } else {
       // for normal users show swal with input field to enter ID
       swal({
-          title: 'Are you sure this is you!',
-          text: 'If you want to edit this information please enter your ID here',
-          type: 'input',
-          showCancelButton: true,
-          closeOnConfirm: false,
-          animation: 'slide-from-top',
-          inputPlaceholder: 'Request ID..'
+        title: 'Are you sure this is you!',
+        text: 'If you want to edit this information please enter your ID here',
+        type: 'input',
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: 'slide-from-top',
+        inputPlaceholder: 'Request ID..'
       }, function (inputValue) {
-          if (inputValue === false) { return false; }
-          if (!(inputValue === self.psychologists[i]._id)) {
-            // user entered incorrect ID
-              swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
-          }
-          // ID is correct close alert and retrive the data he's requesting to edit
-          swal.close();
-          self.getPsychologistData(inputValue);
+        if (inputValue === false) { return false; }
+        if (!(inputValue === self.psychologists[i]._id)) {
+          // user entered incorrect ID
+          swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
+        }
+        // ID is correct close alert and retrive the data he's requesting to edit
+        swal.close();
+        self.getPsychologistData(inputValue);
       });
     }
   }
@@ -118,30 +119,30 @@ export class PsychologistComponent implements OnInit {
     } else {
       // for normal users show swal with input field to enter ID
       swal({
-          title: 'Are you sure this is you!',
-          text: 'If you want to delete this information please enter your ID here',
-          type: 'input',
-          showCancelButton: true,
-          closeOnConfirm: false,
-          animation: 'slide-from-top',
-          inputPlaceholder: 'Request ID..'
-        }, function (inputValue) {
-            if (inputValue === false) { return false; }
-            if (!(inputValue === self.psychologists[i]._id)) {
-                // user entered incorrect ID
-                swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
-            } else {
-              // ID is correct confirm deletion
-              swal({
-                type: 'warning',
-                title: 'Are you sure you want to delete your information?',
-                showCancelButton: true,
-              }, function () {
-                // close alert and delete the data he's deleting
-                self.deletePsychologist(i);
-              });
-            }
-        });
+        title: 'Are you sure this is you!',
+        text: 'If you want to delete this information please enter your ID here',
+        type: 'input',
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: 'slide-from-top',
+        inputPlaceholder: 'Request ID..'
+      }, function (inputValue) {
+        if (inputValue === false) { return false; }
+        if (!(inputValue === self.psychologists[i]._id)) {
+          // user entered incorrect ID
+          swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
+        } else {
+          // ID is correct confirm deletion
+          swal({
+            type: 'warning',
+            title: 'Are you sure you want to delete your information?',
+            showCancelButton: true,
+          }, function () {
+            // close alert and delete the data he's deleting
+            self.deletePsychologist(i);
+          });
+        }
+      });
     }
   }
 
@@ -151,9 +152,7 @@ export class PsychologistComponent implements OnInit {
     this.psychologistService.deletePsychologist(self.psychologists[index]._id).subscribe(function (res) {
       if (res.err != null) {
         /* if an error returned notify the user to try again */
-        self.snackBar.open('Something went wrong, please try again.', '', {
-          duration: 2500
-        });
+        self.toasterService.error('Something went wrong, please try again.', 'failure');
       } else {
         /* everything went great!! notify the user it was a success then reload. */
         self.getPsychologists();
@@ -192,9 +191,7 @@ export class PsychologistComponent implements OnInit {
       } else {
         let msg1 = 'The ID you Entered doesn\'t exist,';
         let msg2 = ' Make sure you typed the right ID and that this is your information then try again.';
-        self.snackBar.open(msg1 + msg2, '', {
-          duration: 3500
-        });
+        self.toasterService.error(msg1 + msg2, 'failure');
       }
     });
   }

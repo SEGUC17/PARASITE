@@ -5,7 +5,7 @@ import { Activity } from '../../activities/activity';
 import { apiUrl } from '../../variables';
 
 @Component({
-  selector: 'view-unverified-activities',
+  selector: 'app-view-unverified-activities',
   templateUrl: './view-unverified-activities.component.html',
   styleUrls: ['./view-unverified-activities.component.scss']
 })
