@@ -374,7 +374,7 @@
           </div>
         </div>
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane" id="usersettings">
+          <div role="tabpanel" class="tab-pane" id="childsettings">
             <div class="card">
               <div class="header">
                 <h2><strong>Security</strong> Settings</h2>
@@ -481,7 +481,7 @@
             </div>
           </div>
 
-          <div role="tabpanel" class="tab-pane" id="childsettings">
+          <div role="tabpanel" class="tab-pane" id="usersettings">
               <div class="card">
                 <div class="header">
                   <h2>
@@ -500,6 +500,53 @@
                   <button class="btn btn-info btn-round">Save Changes</button>
                 </div>
               </div>
+    <!-- Vertical Layout -->
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2><strong>Vertical</strong> Layout</h2>
+          </div>
+          <div class="body">
+            <form>
+              <label for="dFirstName">First Name</label>
+              <div class="form-group">
+                <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value= {{firstName}}>
+              </div>
+              <label for="dLastName">Last Name</label>
+              <div class="form-group">
+                <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value= {{lastName}}>
+              </div>
+              <label for="dUsername">Username</label>
+              <div class="form-group">
+                <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value= {{username}} disabled>
+              </div>
+              <label for="dEmail">Email</label>
+              <div class="form-group">
+                <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{email}} disabled>
+              </div>
+              <label for="dAddress">Address</label>
+              <div class="form-group">
+                <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{address}}>
+              </div>
+              <label for="dBirthday">Birthdate</label>
+              <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="zmdi zmdi-calendar"></i>
+                </span>
+            <input id="dBirthday" type="text" class="form-control datetimepicker" value = {{birthdayView}}>
+            </div>
+            <label for="dPhone">Phone</label>
+            <div class="form-group">
+              <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value= {{phone}}>
+            </div>
+              <button type="button" (click) = "ChangeInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #END# Vertical Layout -->
               <div class="card">
                 <div class="header">
                   <h2>
@@ -566,7 +613,6 @@
             </div>
           <div role="tabpanel" class="tab-pane" id="children">
             <app-childern></app-childern>
-            <app-image-uploader (ImageUploaded) = "uploaded($event)"></app-image-uploader>
           </div>
         </div>
       </div>

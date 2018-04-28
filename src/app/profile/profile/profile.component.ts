@@ -6,7 +6,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
-
+import {  DatePipe } from '@angular/common';
 
 declare const swal: any;
 declare const $: any;
@@ -14,7 +14,7 @@ declare const $: any;
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  providers: [AuthService, MessageService, ToastrService],
+  providers: [AuthService, MessageService, ToastrService, DatePipe],
   encapsulation: ViewEncapsulation.None
 })
 
@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
 
   reportReason: string;
   _this;
-  
+
   // ---------- FLAGS --------------------
   // User Flags
   currIsOwner = false;
@@ -62,6 +62,7 @@ export class ProfileComponent implements OnInit {
   id: any;
   pws: { oldpw: '', newpw: '', confirmpw: '' };
   info: { address: '', birthdate: Date, email: '', firstName: '', lastName: '', phone: '', username: '' };
+  birthdayView: string;
 
   // -------------------------------------
 
@@ -83,6 +84,7 @@ export class ProfileComponent implements OnInit {
   vId: any;
   message: string;
   blocklist: any[];
+  vBirthdayView: string;
   // ------------------------------------
   changePass: Boolean;
   childInfo: Boolean;
@@ -105,9 +107,18 @@ export class ProfileComponent implements OnInit {
   // ------------------------------------
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute, private messageService: MessageService,
-    private toastrService: ToastrService) { }
+    private toastrService: ToastrService,  private _datePipe: DatePipe) { }
 
   ngOnInit() {
+
+    $('.datetimepicker').bootstrapMaterialDatePicker({
+      format: 'DD MM YYYY',
+      time: false,
+      clearButton: false,
+      weekStart: 1
+    });
+
+
     this._this = this;
     this._AuthService.getUserData(this.listOfWantedVariables).subscribe((user) => {
       this.activatedRoute.params.subscribe((params: Params) => { // getting the visited username
@@ -131,6 +142,7 @@ export class ProfileComponent implements OnInit {
       this.currIsChild = user.data.isChild;
       this.currIsParent = user.data.isParent;
       this.birthday = user.data.birthdate;
+      this.birthdayView = this._datePipe.transform(user.data.birthdate, 'dd MM yyyy');
       this.dFirstName = this.firstName;
       this.dLastName = this.lastName;
       this.dAddress = this.address;
@@ -148,7 +160,7 @@ export class ProfileComponent implements OnInit {
         this.currCanBeParent = true;
       }
 
-      
+
 
       if (!this.vUsername || this.vUsername === this.username) {
         this.currIsOwner = true;
@@ -169,6 +181,7 @@ export class ProfileComponent implements OnInit {
           this.vAddress = info.data.address;
           this.vPhone = info.data.phone;
           this.vBirthday = info.data.birthdate;
+          this.vBirthdayView = this._datePipe.transform(info.data.birthdate, 'dd MM yyyy');
           this.vListOfChildren = info.data.children;
           this.vAge = this.calculateAge(this.vBirthday);
           this.vVerified = info.data.verified;
@@ -279,12 +292,12 @@ export class ProfileComponent implements OnInit {
 
   }  // Author :Heidi
   UnlinkMyself() {
-// getting the visited profile username and passing it to service method to add it to the patch request
+    // getting the visited profile username and passing it to service method to add it to the patch request
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
       console.log(res.msg);
       alert(res.msg);
 
-  if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
+      if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
     }));
   }
 
@@ -344,30 +357,30 @@ export class ProfileComponent implements OnInit {
 
   reportPopUp() {
     swal({
-        title: 'Report',
-        text: 'Write a reason for your report:',
-        type: 'input',
-        showCancelButton: true,
-        closeOnConfirm: false,
-        animation: 'slide-from-top',
-        inputPlaceholder: 'Please provide a reason'
+      title: 'Report',
+      text: 'Write a reason for your report:',
+      type: 'input',
+      showCancelButton: true,
+      closeOnConfirm: false,
+      animation: 'slide-from-top',
+      inputPlaceholder: 'Please provide a reason'
     }, (inputValue) => {
-        if (inputValue === false) { return false; }
-        if (inputValue === '') {
-            swal.showInputError('Sorry, you must enter a reason'); return false;
-        }
-        this.reportReason = inputValue;
-        const report = {
-          reportedPerson: this.vUsername,
-          reporter: this.username,
-          reason: inputValue
-        };
-        // console.log(report.reporter + ' ' + report.reason + ' ' + report.reportedPerson);
-        this.sendReport(report);
-        swal('Report sent!', 'reason: ' + inputValue, 'success');
+      if (inputValue === false) { return false; }
+      if (inputValue === '') {
+        swal.showInputError('Sorry, you must enter a reason'); return false;
+      }
+      this.reportReason = inputValue;
+      const report = {
+        reportedPerson: this.vUsername,
+        reporter: this.username,
+        reason: inputValue
+      };
+      // console.log(report.reporter + ' ' + report.reason + ' ' + report.reportedPerson);
+      this.sendReport(report);
+      swal('Report sent!', 'reason: ' + inputValue, 'success');
     });
 
-}
+  }
   sendReport(report) {
     // console.log('wasalt el sendReport');
     this._ProfileService.reportUser(report, this.vId).subscribe();
@@ -377,48 +390,49 @@ export class ProfileComponent implements OnInit {
   unblockUser(blocked) {
     //calling the unblocking method in the service
 
-  const self= this;
+    const self = this;
     for (let i = 0; i < this.blocklist.length; i++) {
       if (this.blocklist[i] === blocked) {
-        
-            this.blocklist.splice(i, 1);
-         //   console.log('this user is no longer blocked', blocked);
-          //  console.log('updated list is', this.blocklist);
-        }  //end if
-      }//end for
 
-     this.messageService.unBLock(this.id, this.blocklist).subscribe(function(res)  {
+        this.blocklist.splice(i, 1);
+        //   console.log('this user is no longer blocked', blocked);
+        //  console.log('updated list is', this.blocklist);
+      }  //end if
+    }//end for
+
+    this.messageService.unBLock(this.id, this.blocklist).subscribe(function (res) {
       if (res.msg) {
         self.toastrService.success(res.msg);
       }//end if
-     });
-}
+    });
+  }
 
-uploaded(url: string) {
-        if(url === 'imageFailedToUpload') {
-          // console.log('image upload failed');
-          this.toastrService.error('Image upload failed');
-        } else if(url === 'noFileToUpload') {
-          this.toastrService.error('Please select a photo');
+  uploaded(url: string) {
+    if (url === 'imageFailedToUpload') {
+      // console.log('image upload failed');
+      this.toastrService.error('Image upload failed');
+    } else if (url === 'noFileToUpload') {
+      this.toastrService.error('Please select a photo');
+    } else {
+      var upload = {
+        id: this.id,
+        url: url
+      };
+      // console.log('in vcC and its uploaded with url = '+ url);
+      this._ProfileService.changeProfilePic(upload).subscribe((res) => {
+        if (res.data) {
+          this.toastrService.success('Profile picture changed successfully');
         } else {
-          var upload = {
-            id: this.id,
-            url: url
-          };
-          // console.log('in vcC and its uploaded with url = '+ url);
-          this._ProfileService.changeProfilePic(upload).subscribe((res) => {
-            if(res.data){
-              this.toastrService.success('Profile picture changed successfully');
-            } else {
-              this.toastrService.error('Image upload failed')
-            }
-          });
-          // TODO: handle image uploading success and use the url to retrieve the image later
+          this.toastrService.error('Image upload failed')
         }
-        document.getElementById('closeModal').click();
-        document.focus;
-        
-      }
+      });
+      // TODO: handle image uploading success and use the url to retrieve the image later
+    }
+    document.getElementById('closeModal').click();
+    document.focus;
+
+  }
+
 
 
 }
