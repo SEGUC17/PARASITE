@@ -62,7 +62,7 @@ export class AddPsychRequestComponent implements OnInit {
     /* check if any of the required fields are empty, if yes notify user he should fill them*/
     if (this.emailFormControl.hasError('required') || this.firstNameFormControl.hasError('required')
         || this.lastNameFormControl.hasError('required')) {
-            this.toasterService.error('Please fill all the required fields', 'failure');
+        this.toasterService.error('Please fill all the required fields', 'failure');
     } else if (this.emailFormControl.hasError('email')) {
       // if the emil user provided is not the in correct format
       // notify user he should enter a valid email

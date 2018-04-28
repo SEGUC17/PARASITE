@@ -2,7 +2,7 @@
 /* tslint-disable max-len */
 /* tslint-disable max-statements */
 
-import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild, ElementRef } from '@angular/core';
 import { PsychologistService } from '../psychologist.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
@@ -90,22 +90,22 @@ export class PsychologistComponent implements OnInit {
     } else {
       // for normal users show swal with input field to enter ID
       swal({
-          title: 'Are you sure this is you!',
-          text: 'If you want to edit this information please enter your ID here',
-          type: 'input',
-          showCancelButton: true,
-          closeOnConfirm: false,
-          animation: 'slide-from-top',
-          inputPlaceholder: 'Request ID..'
+        title: 'Are you sure this is you!',
+        text: 'If you want to edit this information please enter your ID here',
+        type: 'input',
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: 'slide-from-top',
+        inputPlaceholder: 'Request ID..'
       }, function (inputValue) {
-          if (inputValue === false) { return false; }
-          if (!(inputValue === self.psychologists[i]._id)) {
-            // user entered incorrect ID
-              swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
-          }
-          // ID is correct close alert and retrive the data he's requesting to edit
-          swal.close();
-          self.getPsychologistData(inputValue);
+        if (inputValue === false) { return false; }
+        if (!(inputValue === self.psychologists[i]._id)) {
+          // user entered incorrect ID
+          swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
+        }
+        // ID is correct close alert and retrive the data he's requesting to edit
+        swal.close();
+        self.getPsychologistData(inputValue);
       });
     }
   }
@@ -119,30 +119,30 @@ export class PsychologistComponent implements OnInit {
     } else {
       // for normal users show swal with input field to enter ID
       swal({
-          title: 'Are you sure this is you!',
-          text: 'If you want to delete this information please enter your ID here',
-          type: 'input',
-          showCancelButton: true,
-          closeOnConfirm: false,
-          animation: 'slide-from-top',
-          inputPlaceholder: 'Request ID..'
-        }, function (inputValue) {
-            if (inputValue === false) { return false; }
-            if (!(inputValue === self.psychologists[i]._id)) {
-                // user entered incorrect ID
-                swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
-            } else {
-              // ID is correct confirm deletion
-              swal({
-                type: 'warning',
-                title: 'Are you sure you want to delete your information?',
-                showCancelButton: true,
-              }, function () {
-                // close alert and delete the data he's deleting
-                self.deletePsychologist(i);
-              });
-            }
-        });
+        title: 'Are you sure this is you!',
+        text: 'If you want to delete this information please enter your ID here',
+        type: 'input',
+        showCancelButton: true,
+        closeOnConfirm: false,
+        animation: 'slide-from-top',
+        inputPlaceholder: 'Request ID..'
+      }, function (inputValue) {
+        if (inputValue === false) { return false; }
+        if (!(inputValue === self.psychologists[i]._id)) {
+          // user entered incorrect ID
+          swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
+        } else {
+          // ID is correct confirm deletion
+          swal({
+            type: 'warning',
+            title: 'Are you sure you want to delete your information?',
+            showCancelButton: true,
+          }, function () {
+            // close alert and delete the data he's deleting
+            self.deletePsychologist(i);
+          });
+        }
+      });
     }
   }
 

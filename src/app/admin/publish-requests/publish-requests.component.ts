@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../../admin.service';
-import { StudyPlanPublishRequest } from '../study-plan-publish-request';
+import { AdminService } from '../admin.service';
+import { StudyPlanPublishRequest } from './study-plan-publish-request';
 import { Router} from '@angular/router';
 
 @Component({

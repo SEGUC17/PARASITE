@@ -61,7 +61,7 @@ export class ViewPsychRequestsComponent implements OnInit {
   filter(reqs: any[]): void {
     this.addRequests = [];
     this.editRequests = [];
-    for (let i = 0, j = 0, h = 0 ; i < reqs.length ; i++ ) {
+    for (let i = 0, j = 0, h = 0; i < reqs.length; i++) {
       if (reqs[i].type === 'add') {
         this.addRequests[j++] = reqs[i];
       } else if (reqs[i].type === 'edit') {
@@ -125,8 +125,8 @@ export class ViewPsychRequestsComponent implements OnInit {
         self.toasterService.success(res.msg, 'success');
       } else {
         self.toasterService.error('Request was not found.', 'failure');
-              self.getRequests();
-              self.loadRequests(self.state);
+        self.getRequests();
+        self.loadRequests(self.state);
       }
     });
   }
