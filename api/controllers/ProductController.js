@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
+var Messages = mongoose.model('Message');
 
 
 var limits = function (toFind) {
@@ -220,7 +221,18 @@ module.exports.evaluateRequest = function (req, res, next) {
                         msg: 'Request not found.'
                     });
                 }
-                // TODO Notify user
+
+                // Notify user
+                var body = 'Your request to add ' + req.body.name + ' to the Marketplace was rejected';
+                Messages.create({
+                    body: body,
+                    recepient: req.body.seller,
+                    sender: 'Admin'
+                }, function (msgErr) {
+                    if (msgErr) {
+                        return console.log(err);
+                    }
+                });
 
                 // When done, send response
                 return res.status(200).json({
