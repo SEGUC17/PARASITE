@@ -138,9 +138,10 @@
       <div class="container">
         <nav>
           <ul>
-            <li>
-              <a href="javascript:void(0);" target="_blank">Contact Us</a>
-            </li>
+              <li>
+                <a href="#largeModal" data-toggle="modal" data-target="#largeModal">Contact Us</a>
+              </li>
+
             <li>
               <a href="javascript:void(0);" target="_blank">About Us</a>
             </li>
@@ -153,3 +154,18 @@
     </footer>
   </div>
 </div>
+
+<section>
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="title" id="defaultModalLabel">Contact Nawwar</h4>
+          </div>
+            <div class="modal-body"> 
+             <app-contact-us></app-contact-us>
+            </div> 
+      </div>
+     </div>
+   </div>
+</section>

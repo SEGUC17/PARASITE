@@ -6,7 +6,7 @@ import { ResetPasswordComponent } from './forgotPassword/resetpassword/resetpass
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignOutComponent } from './sign-out/sign-out.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
-
+import { ContactUsComponent } from '../messaging/contact-us/contact-us.component';
 const routes = [
 
   { path: 'auth/sign-up', component: SignUpComponent },
@@ -18,7 +18,9 @@ const routes = [
 
   { path: 'auth/verifyEmail/:id', component: VerifyEmailComponent },
 
-  { path: 'auth/forgotPassword/resetpassword/:id', component: ResetPasswordComponent }
+  { path: 'auth/forgotPassword/resetpassword/:id', component: ResetPasswordComponent },
+
+  { path: 'messaging/contact-us', component:  ContactUsComponent }
 ];
 @NgModule({
   imports: [
