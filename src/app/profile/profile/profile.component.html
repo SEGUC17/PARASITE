@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0.scss/font-awesome.min.scss">
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0.scss/font-awesome.min.scss">
 
 
 
@@ -50,11 +50,6 @@
               <label>Phone: {{currIsOwner? phone : vPhone}}</label> <br>
        
             </div>
-      </mat-tab>
-      <mat-tab label="Personal Schedule" *ngIf="currIsOwner || visitedIsMyChild">
-          <div id = "schedule" class = "tabcontent">
-              <app-schedule [profileUser]="vUsername"></app-schedule>
-        </div>
       </mat-tab>
       <mat-tab label="List of children" *ngIf = "currIsOwner? !currIsChild : !visitedIsChild">
           <div id = "children" class = "tabcontent">
@@ -246,7 +241,7 @@
 
 
 
-</div>
+</div> -->
 <section class="content">
 <section class="content profile-page">
   <div class="block-header">
@@ -353,7 +348,6 @@
         <div class="card bg-dark">
           <ul class="nav nav-tabs">
               <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#children">Children</a></li>
-              <li class="nav-item"><a class="nav-link" routerLink="/schedule/{{vUsername}}">Personal Schedule</a></li>
               <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#studyplans">Study Plans</a></li>
             <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#usersettings" *ngIf="currIsOwner && currIsOfAge">Settings</a>
@@ -365,16 +359,10 @@
         </div>
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane" id="studyplans">
-            <app-study-plan-list-view 
-            type="personal" 
-            [(username)]="vUsername" 
-            [(currIsChild)]="currIsChild"
-            >
-            </app-study-plan-list-view>
           </div>
         </div>
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane" id="childsettings">
+          <div role="tabpanel" class="tab-pane" id="usersettings">
             <div class="card">
               <div class="header">
                 <h2><strong>Security</strong> Settings</h2>
@@ -392,69 +380,49 @@
                 <button class="btn btn-danger btn-round"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
               </div>
             </div>
-            <div class="card">
-              <div class="header">
-                <h2><strong>Account</strong> Settings</h2>
-              </div>
-              <div class="body">
-                <div class="row clearfix">
-                  <div class="col-lg-6 col-md-12">
-                    <div class="form-group">
-                      <small class="text-muted">First Name: </small>
-                      <input id="dFirstName" type="text" class="form-control" [ngModel]=dFirstName placeholder="First Name : {{firstName}}" value= {{firstName}}>
-                    </div>
+            <div class="row clearfix">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                  <div class="header">
+                    <h2><strong>Personal</strong> Info</h2>
                   </div>
-                  <div class="col-lg-6 col-md-12">
-                    <div class="form-group">
-                      <small class="text-muted">Last Name: </small>
-                      <input id="dLastName" type="text" class="form-control" [ngModel]=dLastName placeholder="Last Name : {{lastName}}" value= {{lastName}}>
+                  <div class="body">
+                      <label for="dFirstName">First Name</label>
+                      <div class="form-group">
+                        <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value= {{firstName}}>
+                      </div>
+                      <label for="dLastName">Last Name</label>
+                      <div class="form-group">
+                        <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value= {{lastName}}>
+                      </div>
+                      <label for="dUsername">Username</label>
+                      <div class="form-group">
+                        <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value= {{username}} disabled>
+                      </div>
+                      <label for="dEmail">Email</label>
+                      <div class="form-group">
+                        <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{email}} disabled>
+                      </div>
+                      <label for="dAddress">Address</label>
+                      <div class="form-group">
+                        <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{address}}>
+                      </div>
+                      <label for="dBirthday">Birthdate</label>
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="zmdi zmdi-calendar"></i>
+                        </span>
+                    <input id="dBirthday" type="text" class="form-control datetimepicker" value = {{birthdayView}}>
                     </div>
-                  </div>
-                  <br/>
-                  <div class="col-lg-4 col-md-12">
+                    <label for="dPhone">Phone</label>
                     <div class="form-group">
-                      <small class="text-muted">Username: </small>
-                      <input id="dUsername" type="text" class="form-control" [ngModel]=dUsername placeholder="Username : {{username}}" value= {{username}}>
+                      <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value= {{phone}}>
                     </div>
-                  </div>
-                  <br/>
-                  <div class="col-lg-4 col-md-12">
-                    <div class="form-group">
-                      <small class="text-muted">Email address: </small>
-                      <input id="dEmail" type="text" class="form-control" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [ngModel]=dEmail
-                        placeholder="E-mail :  {{email}}" value= {{email}}>
-                    </div>
-                  </div>
-                  <br/>
-                  <div class="col-lg-4 col-md-12">
-                    <div class="form-group">
-                      <small class="text-muted">Address: </small>
-                      <input id="dAddress" type="text" class="form-control" [ngModel]=dAddress placeholder="Address : {{address}}" value= {{address}}>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-12">
-                    <div class="form-group">
-                      <small class="text-muted">Birthdate: </small>
-                      <input id="dBirthday" type="text" rows="5" class="form-control" [ngModel]=dBirthday placeholder="Birthdate : {{birthday}}"
-                        value= {{birthday}}>
-                    </div>
-                  </div>
-                  <div class="col-lg-4 col-md-12">
-                    <div class="form-group">
-                      <small class="text-muted">Phone: </small>
-                      <input id="dPhone" type="text" rows="5" class="form-control" [ngModel]=dPhone placeholder="Phone :{{phone}}" value= {{phone}}>
-                    </div>
-                  </div>
-                  <div class="col-md-12">
-                    <button class="btn btn-primary btn-round" (click)="ChangeInfo()">Save Changes</button>
+                      <button type="button" (click) = "ChangeInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="card">
-              <div class="header">
-
-                  <h2><strong>Messages Block</strong> List</h2>
+            </div>                  <h2><strong>Messages Block</strong> List</h2>
                 </div>
                 <style> 
                     .bodyBlock{
@@ -480,144 +448,8 @@
               </div>
             </div>
           </div>
-
-          <div role="tabpanel" class="tab-pane" id="usersettings">
-              <div class="card">
-                <div class="header">
-                  <h2>
-                    <strong>Security</strong> Settings</h2>
-                </div>
-                <div class="body">
-                  <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Username">
-                  </div>
-                  <div class="form-group">
-                    <input type="password" class="form-control" placeholder="Current Password">
-                  </div>
-                  <div class="form-group">
-                    <input type="password" class="form-control" placeholder="New Password">
-                  </div>
-                  <button class="btn btn-info btn-round">Save Changes</button>
-                </div>
-              </div>
-    <!-- Vertical Layout -->
-    <div class="row clearfix">
-      <div class="col-lg-12 col-md-12 col-sm-12">
-        <div class="card">
-          <div class="header">
-            <h2><strong>Vertical</strong> Layout</h2>
-          </div>
-          <div class="body">
-            <form>
-              <label for="dFirstName">First Name</label>
-              <div class="form-group">
-                <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value= {{firstName}}>
-              </div>
-              <label for="dLastName">Last Name</label>
-              <div class="form-group">
-                <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value= {{lastName}}>
-              </div>
-              <label for="dUsername">Username</label>
-              <div class="form-group">
-                <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value= {{username}} disabled>
-              </div>
-              <label for="dEmail">Email</label>
-              <div class="form-group">
-                <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{email}} disabled>
-              </div>
-              <label for="dAddress">Address</label>
-              <div class="form-group">
-                <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{address}}>
-              </div>
-              <label for="dBirthday">Birthdate</label>
-              <div class="input-group">
-                <span class="input-group-addon">
-                    <i class="zmdi zmdi-calendar"></i>
-                </span>
-            <input id="dBirthday" type="text" class="form-control datetimepicker" value = {{birthdayView}}>
-            </div>
-            <label for="dPhone">Phone</label>
-            <div class="form-group">
-              <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value= {{phone}}>
-            </div>
-              <button type="button" (click) = "ChangeInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
-            </form>
-          </div>
         </div>
       </div>
-    </div>
-    <!-- #END# Vertical Layout -->
-              <div class="card">
-                <div class="header">
-                  <h2>
-                    <strong>Account</strong> Settings</h2>
-                </div>
-                <div class="body">
-                  <div class="row clearfix">
-                    <div class="col-lg-6 col-md-12">
-                      <div class="form-group">
-                        <small class="text-muted">First Name: </small>
-                        <input id="dFirstName" type="text" class="form-control" [ngModel]=dFirstName placeholder="First Name : {{vFirstName}}" value= {{firstName}}>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                      <div class="form-group">
-                        <small class="text-muted">Last Name: </small>
-                        <input id="dLastName" type="text" class="form-control" [ngModel]=dLastName placeholder="Last Name : {{vLastName}}" value= {{lastName}}>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                      <div class="form-group">
-                        <small class="text-muted">Username: </small>
-                        <input id="dUsername" type="text" class="form-control" [ngModel]=dUsername placeholder="Username : {{vUsername}}" value= {{username}}>
-                      </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12">
-                      <div class="form-group">
-                        <small class="text-muted">Email address: </small>
-                        <input id="dEmail" type="text" class="form-control" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [ngModel]=dEmail
-                          placeholder="E-mail :  {{vEmail}}" value= {{email}}>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                      <div class="form-group">
-                        <small class="text-muted">Address: </small>
-                        <input id="dAddress" type="text" class="form-control" [ngModel]=dAddress placeholder="Address : {{vAddress}}" value= {{address}}>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                      <div class="form-group">
-                          <small class="text-muted">Birthdate: </small>
-                        <input id="dBirthday" type="text" rows="5" class="form-control" [ngModel]=dBirthday placeholder="Birthdate : {{vBirthday}}" value= {{birthday}}>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 col-md-12">
-                      <div class="form-group">
-                        <small class="text-muted">Phone: </small>
-                        <input id="dPhone" type="text" rows="5" class="form-control" [ngModel]=dPhone placeholder="Phone :{{vPhone}}" value= {{phone}}>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <button class="btn btn-primary btn-round" (click)="changeChildInfo()">Save Changes</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card">
-                <div class="header">
-                  <h2><strong>Block</strong> List</h2>
-                </div>
-                <div class="body">
-                </div>
-              </div>
-            </div>
-          <div role="tabpanel" class="tab-pane" id="children">
-            <app-childern></app-childern>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
 </section>
     <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">

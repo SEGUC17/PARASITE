@@ -4,7 +4,6 @@ import { ProfileComponent } from './profile/profile.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { ProfileService } from './profile.service';
-import { BrowserModule } from '@angular/platform-browser';
 import { ChildernComponent } from './profile/childern/childern.component';
 import { MatTabsModule, MatButtonModule, MatMenuModule,
   MatChipsModule, MatCardModule, MatExpansionModule,
@@ -18,7 +17,6 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     ProfileRoutingModule,
     HttpClientModule,
-    BrowserModule,
     MatTabsModule,
     MatButtonModule,
     MatMenuModule,
@@ -31,7 +29,8 @@ import { SharedModule } from '../shared/shared.module';
     MatInputModule,
     MatDatepickerModule,
     MatButtonToggleModule,
-    SharedModule
+    SharedModule,
+    CommonModule
   ],
   declarations: [ProfileComponent, ChildernComponent],
   providers: [
