@@ -32,6 +32,21 @@ export class SignUpComponent implements OnInit {
   constructor(private authService: AuthService, private toastrService: ToastrService, private router: Router) { }
 
   ngOnInit() {
+    const self = this;
+
+    $('.datetimepicker').bootstrapMaterialDatePicker({
+      clearButton: true,
+      format: 'DD MMMM YYYY',
+      maxDate: new Date(),
+      shortTime: true,
+      time: false
+    });
+
+    $('#birthdate').bootstrapMaterialDatePicker().on('change', function (event, date) {
+      if (date) {
+        self.user.birthdate = date._d;
+      }
+    });
   }
 
   signUp() {
