@@ -26,8 +26,7 @@ export class PsychologistComponent implements OnInit {
   admin: boolean;
   idInput = new FormControl();
   psychologist: Psychologist;
-  entriesPerPage = 25;
-  pageNumber: number;
+  entriesPerPage = 16;
   sorts = [
     'cheapest',
     'a-z'
@@ -37,6 +36,8 @@ export class PsychologistComponent implements OnInit {
   selectedSearch: string;
   writtenAddress: string;
   selectedAddress: string;
+  currentPageNumber: number;
+  totalNumberOfPages = 0;
   constructor(private psychologistService: PsychologistService,
     public snackBar: MatSnackBar,
     private authService: AuthService,
@@ -48,20 +49,21 @@ export class PsychologistComponent implements OnInit {
   getPsychologists(): void {
     let self = this;
     self.psychologists = [];
-    self.pageNumber = 1;
+    self.currentPageNumber = 1;
     self.getPage();
   }
   getPage(): void {
     let self = this;
     let limiters = {
       entriesPerPage: self.entriesPerPage,
-      pageNumber: self.pageNumber,
+      pageNumber: self.currentPageNumber,
       sort: self.sort,
       search: self.selectedSearch,
       address: self.selectedAddress
     };
     self.psychologistService.getPsychologists(JSON.stringify(limiters)).subscribe(function (psychs) {
-      self.psychologists = self.psychologists.concat(psychs.data.docs);
+      self.psychologists = psychs.data.docs;
+      self.totalNumberOfPages = psychs.data.pages;
     });
   }
 
@@ -169,6 +171,7 @@ export class PsychologistComponent implements OnInit {
       if (res.data) {
         self.admin = res.data.isAdmin;
       }
+      self.currentPageNumber = 1;
       self.getPsychologists();
     });
   }
@@ -232,8 +235,41 @@ export class PsychologistComponent implements OnInit {
     }
     this.getPsychologists();
   }
-  onScroll(): void {
-    this.pageNumber += 1;
+
+  //         start of pagination actions         //
+
+  // change the current page on user click on pagination
+  changePage(pageNum: number): any {
+    this.currentPageNumber = pageNum;
     this.getPage();
   }
+
+  // calculate the number of pages to display in pagination
+  getPaginationRange(): any {
+
+    let pageNumbers = [];
+    let counter = 1;
+
+    if (this.currentPageNumber < 3) {
+      // we are in page 1 or 2
+      while (counter < 6 && counter <= this.totalNumberOfPages) {
+        pageNumbers.push(counter);
+        counter += 1;
+      }
+    } else {
+      // we are in a page greater than 2
+      pageNumbers.push(this.currentPageNumber - 2);
+      pageNumbers.push(this.currentPageNumber - 1);
+      pageNumbers.push(this.currentPageNumber);
+      if (this.currentPageNumber + 1 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.currentPageNumber + 1);
+      }
+      if (this.currentPageNumber + 2 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.currentPageNumber + 2);
+      }
+    }
+    return pageNumbers;
+  }
+
+  //         end of pagination actions         //
 }

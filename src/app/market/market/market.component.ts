@@ -97,7 +97,6 @@ export class MarketComponent implements OnInit {
       self.currentPageNumber, limiters)
       .subscribe(function (products) {
         self.totalNumberOfPages = products.data.pages;
-        console.log(self.totalNumberOfPages);
         self.products = products.data.docs;
       });
   }
