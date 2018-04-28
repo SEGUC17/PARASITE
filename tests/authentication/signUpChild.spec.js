@@ -92,17 +92,7 @@ describe('signUpChild', function () {
                         // Now let's check our response
                         expect(response).to.have.status(201);
                         response.body.should.be.a('Object');
-                        response.body.should.have.property('msg').eql('Child Successfully Signed Up!');
-                     /*   response.body.should.have.property('username').eql(response.body.username);
-                        response.body.data.should.have.property('password').eql(response.body.data.password);
-                        response.body.data.should.have.property('birthdate').eql(response.body.data.birthdate);
-                        response.body.data.should.have.property('email').eql(response.body.data.email);
-                        response.body.data.should.have.property('firstName').eql(response.body.data.firstName);
-                        response.body.data.should.have.property('lastName').eql(response.body.data.lastName);
-                        response.body.data.should.have.property('phone').eql(response.body.data.phone);
-                        response.body.data.should.have.property('address').eql(response.body.data.address); */
-
-
+                        response.body.should.have.property('msg').eql('Child Sign Up is Successful!\nVerification Mail Was Sent To Your Child\'s Email!');
                        return done();
                     });   
             });

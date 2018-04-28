@@ -37,7 +37,8 @@ export class MarketComponent implements OnInit {
   filter = 'Name';
   isChecked = false;
   constructor(public dialog: MatDialog, public router: Router,
-    private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) { }
+    private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) {
+     }
 
   // initializes the current pages in the market and user item
   // gets the products in the market and the products owned by the user)
@@ -57,7 +58,7 @@ export class MarketComponent implements OnInit {
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.user = res.data;
       if (!self.user) {
-        self.router.navigate(['/']);
+        self.router.navigateByUrl('/content/view');
       } else {
         self.currentPageNumber = 1;
         self.firstPage();
