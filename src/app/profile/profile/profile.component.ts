@@ -22,7 +22,6 @@ export class ProfileComponent implements OnInit {
 
   reportReason: string;
   _this;
-
   // ---------- FLAGS --------------------
   // User Flags
   currIsOwner = false;
@@ -245,7 +244,9 @@ export class ProfileComponent implements OnInit {
     let object = {
       child: child
     };
+    let self = this;
     this._ProfileService.linkAnotherParent(object, this.vId).subscribe(function (res) {
+      self.toastrService.success(res.msg);
       // alert(res.msg);
     });
 
@@ -256,8 +257,10 @@ export class ProfileComponent implements OnInit {
     let object = {
       child: child
     };
+    let self = this;
     this._ProfileService.Unlink(object, this.id).subscribe(function (res) {
-      alert(res.msg);
+      self.toastrService.success(res.msg);
+      // alert(res.msg);
     });
   }
 
@@ -265,8 +268,10 @@ export class ProfileComponent implements OnInit {
     let object = {
       child: this.username
     };
+    let self = this;
     this._ProfileService.linkAsParent(object, this.vId).subscribe(function (res) {
-      alert(res.msg);
+      self.toastrService.success(res.msg);
+      // alert(res.msg);
     });
   }
 
@@ -287,10 +292,10 @@ export class ProfileComponent implements OnInit {
     }
   } // Author: Heidi
   EditChildIndependence() {
-
+    const self = this;
     this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
-
-      alert(res.msg);
+      self.toastrService.success(res.msg);
+//      alert(res.msg);
 
     }));
     // getting the visited profile username and passing it to service method to add it to the patch request
@@ -300,7 +305,9 @@ export class ProfileComponent implements OnInit {
     // getting the visited profile username and passing it to service method to add it to the patch request
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
       console.log(res.msg);
-      alert(res.msg);
+      const self = this;
+       self.toastrService.success(res.msg);
+//      alert(res.msg);
 
       if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
     }));
@@ -320,13 +327,16 @@ export class ProfileComponent implements OnInit {
       email: (<HTMLInputElement>document.getElementById('dEmail')).value
     };
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const self = this;
     if (re.test(info.email)) {
       this._ProfileService.changeChildinfo(info).subscribe(function (res) {
-        alert(res.msg);
+        self.toastrService.success(res.msg);
+        // alert(res.msg);
       });
 
     } else {
-      alert('Please enter a valid email address');
+      self.toastrService.error('Please enter a valid email address');
+//      alert('Please enter a valid email address');
     }
   }
 
@@ -343,13 +353,16 @@ export class ProfileComponent implements OnInit {
     };
     console.log(info);
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const self = this;
     if (re.test(info.email)) {
       this._ProfileService.ChangeInfo(this.id, info).subscribe(function (res) {
-        alert(res.msg);
+        self.toastrService.success(res.msg);
+        // alert(res.msg);
       });
 
     } else {
-      alert('Please enter a valid email address');
+      self.toastrService.error('Please enter a valid email address');
+//      alert('Please enter a valid email address');
     }
   }
 

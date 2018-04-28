@@ -104,20 +104,17 @@ removeChild(child): void { // removes the child from the list of children of the
   let object = {
     child: child
   };
+  const self = this;
+  // getting the birthdate of the child to get his/her age;
     this.authService.getAnotherUserData(['_id', 'birthdate'], child).subscribe(((user) => {
      age = this.calculateAge(user.data.birthdate);
-      console.log('The Date: ' + age);
-      console.log('The ID: ' + user.data._id);
-
-
-// if (this.calculateAge(ChildBirthdate))
 
 if ( age < 13) {
-  this.toaster.error('You can only unlink children 13 or above');
+  self.toaster.error('You can only unlink children 13 or above');
 }
 if ( age >= 13) {
 this.profileService.Unlink(object, this.id).subscribe(function (res) {
-    this.toaster(res.msg);
+    self.toaster.success(res.msg);
 });
 }
 }));
