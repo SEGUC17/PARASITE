@@ -216,6 +216,7 @@ module.exports = function (passport) {
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
   router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
   router.post('/profile/ReportUser', isAuthenticated, profileController.reportUser);
+  router.patch('/profile/ChangeProfilePic', isAuthenticated, profileController.changeProfilePic);
 
 
   // ------------------- End of Profile module Endpoints-----------//

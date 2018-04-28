@@ -247,7 +247,7 @@
 
 
 </div>
-
+<section class="content">
 <section class="content profile-page">
   <div class="block-header">
     <div class="row">
@@ -273,11 +273,14 @@
           <div class="body col-white">
             <div class="row">
               <div class="col-lg-3 col-md-4 col-12">
-                <div class="profile-image float-md-right"> <img src="assets/images/defaultProfilePic.png" alt=""> </div>
+                <div class="profile-image float-md-right"> <img src= "{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}" alt="Profile Picture">
+                  <br/>
+                  <a href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right"><i class="zmdi zmdi-edit"></i></a>
+                </div>
               </div>
               <div class="col-lg-9 col-md-8 col-12">
                 <h4 class="m-t-0 m-b-0"><strong>{{currIsOwner? firstName : vFirstName}}</strong>{{currIsOwner? lastName : vLastName}}</h4>
-                <span class="job_post" *ngIf="true">Ui UX Designer</span>
+                <a class="job_post" href="javascript:void(0);" *ngIf="(currIsOwner && currIsAdmin) || visitedIsAdmin"><i class="material-icons">verified_user</i> {{currIsOwner? (currIsAdmin? 'Admin' : '' ) : (visitedIsAdmin? 'Admin' : '' ) }}</a>
                 <p>{{currIsOwner? address : vAddress}}</p>
                 <div>
                   <button class="btn btn-primary btn-round btn-simple">Message</button>
@@ -297,14 +300,6 @@
                   </span>
                   </button>
                 </div>
-
-                <p class="social-icon m-t-5 m-b-0">
-                    <a title="Twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
-                    <a title="Facebook" href="javascript:void(0);"><i class="zmdi zmdi-facebook"></i></a>
-                    <a title="Google-plus" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
-                    <a title="Behance" href="javascript:void(0);"><i class="zmdi zmdi-behance"></i></a>
-                    <a title="Instagram" href="javascript:void(0);"><i class="zmdi zmdi-instagram "></i></a>  
-                </p>
               </div>
             </div>
           </div>
@@ -415,12 +410,14 @@
                       <input id="dLastName" type="text" class="form-control" [ngModel]=dLastName placeholder="Last Name : {{lastName}}" value= {{lastName}}>
                     </div>
                   </div>
+                  <br/>
                   <div class="col-lg-4 col-md-12">
                     <div class="form-group">
                       <small class="text-muted">Username: </small>
                       <input id="dUsername" type="text" class="form-control" [ngModel]=dUsername placeholder="Username : {{username}}" value= {{username}}>
                     </div>
                   </div>
+                  <br/>
                   <div class="col-lg-4 col-md-12">
                     <div class="form-group">
                       <small class="text-muted">Email address: </small>
@@ -428,6 +425,7 @@
                         placeholder="E-mail :  {{email}}" value= {{email}}>
                     </div>
                   </div>
+                  <br/>
                   <div class="col-lg-4 col-md-12">
                     <div class="form-group">
                       <small class="text-muted">Address: </small>
@@ -568,9 +566,25 @@
             </div>
           <div role="tabpanel" class="tab-pane" id="children">
             <app-childern></app-childern>
+            <app-image-uploader (ImageUploaded) = "uploaded($event)"></app-image-uploader>
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+</section>
+    <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="title" id="defaultModalLabel">Profile picture upload</h4>
+          </div>
+          <div class="modal-body">
+              <app-image-uploader (ImageUploaded) = "uploaded($event)"></app-image-uploader>
+            <button id="closeModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" style="float:right">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+

@@ -30,6 +30,8 @@ export class ProfileComponent implements OnInit {
   currIsChild = false;
   currIsOfAge = false;
   currCanBeParent = false;
+  currHasPP = false;
+  currIsAdmin = false;
 
   visitedIsParent = false;
   visitedIsChild = false;
@@ -38,6 +40,8 @@ export class ProfileComponent implements OnInit {
   visitedIsOfAge = false;
   visitedCanBeParent = false;
   visitedOld = true;
+  visitedHasPP = false;
+  visitedIsAdmin = false;
   // ------------------------------------
 
   // ---------- Current User Info ---------------
@@ -86,9 +90,9 @@ export class ProfileComponent implements OnInit {
   // ----------- Other Lists ------------
   listOfUncommonChildren: any[];
   listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
-    'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
+    'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'isAdmin'];
   vListOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'email',
-    'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username'];
+    'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username', 'isAdmin'];
   // ------------------------------------
   // ------------ edited values ---------
   dFirstName: string;
@@ -100,7 +104,8 @@ export class ProfileComponent implements OnInit {
   dBirthday: Date;
   // ------------------------------------
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
-    private activatedRoute: ActivatedRoute, private messageService: MessageService, private toastrService: ToastrService) { }
+    private activatedRoute: ActivatedRoute, private messageService: MessageService,
+    private toastrService: ToastrService) { }
 
   ngOnInit() {
     this._this = this;
@@ -110,6 +115,7 @@ export class ProfileComponent implements OnInit {
       });
 
       // Fetching logged in user info
+      this.avatar = user.data.avatar
       this.username = user.data.username;
       this.firstName = user.data.firstName;
       this.lastName = user.data.lastName;
@@ -133,6 +139,7 @@ export class ProfileComponent implements OnInit {
       this.dBirthday = this.birthday;
       this.dUsername = this.username;
       this.blocklist = user.data.blocked;
+      this.currIsAdmin = user.data.isAdmin;
       console.log(this.blocklist);
       if (this.age > 13) {
         this.currIsOfAge = true;
@@ -148,9 +155,14 @@ export class ProfileComponent implements OnInit {
         this.vUsername = this.username;
       }
 
+      if (this.avatar != '') {
+        this.currHasPP = true;
+      }
+
 
       if (!this.currIsOwner) { // Fetching other user's info, if the logged in user is not the owner of the profile
         this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
+          this.vAvatar = info.data.avatar;
           this.vFirstName = info.data.firstName;
           this.vLastName = info.data.lastName;
           this.vEmail = info.data.email;
@@ -163,6 +175,7 @@ export class ProfileComponent implements OnInit {
           this.vId = info.data._id;
           this.visitedIsParent = info.data.isParent;
           this.visitedIsChild = info.data.isChild;
+          this.visitedIsAdmin = info.data.isAdmin;
           if (!(this.listOfChildren.indexOf(this.vUsername.toLowerCase()) < 0)) {
             this.visitedIsMyChild = true;
           }
@@ -174,6 +187,9 @@ export class ProfileComponent implements OnInit {
           }
           if (this.vAge >= 18) {
             this.visitedCanBeParent = true;
+          }
+          if (this.vAvatar != '') {
+            this.visitedHasPP = true;
           }
 
           this.dFirstName = info.data.firstName;
@@ -380,5 +396,32 @@ export class ProfileComponent implements OnInit {
       }//end if
      });
 }
+
+uploaded(url: string) {
+        if(url === 'imageFailedToUpload') {
+          // console.log('image upload failed');
+          this.toastrService.error('Image upload failed');
+        } else if(url === 'noFileToUpload') {
+          this.toastrService.error('Please select a photo');
+        } else {
+          var upload = {
+            id: this.id,
+            url: url
+          };
+          // console.log('in vcC and its uploaded with url = '+ url);
+          this._ProfileService.changeProfilePic(upload).subscribe((res) => {
+            if(res.data){
+              this.toastrService.success('Profile picture changed successfully');
+            } else {
+              this.toastrService.error('Image upload failed')
+            }
+          });
+          // TODO: handle image uploading success and use the url to retrieve the image later
+        }
+        document.getElementById('closeModal').click();
+        document.focus;
+        
+      }
+
 
 }
