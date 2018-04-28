@@ -78,6 +78,13 @@ export class SendDialogComponent implements OnInit {
             }// end if
           }
         });
+
+        if ( this.Receiver.match(/\S+@\S+\.\S+/)) {
+          this.messageService.send(this.msg)
+          .subscribe(function(res) {
+            self.toastrService.success('Message was sent!');
+          });
+        }// end if
       }// end 2nd else
 
     }// end else

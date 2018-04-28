@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { MatButtonModule } from '@angular/material';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { ContactUsComponent } from '../../messaging/contact-us/contact-us.component';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class ForgotPasswordComponent implements OnInit {
   // ------ flags -----//
  email = '';
 
-  constructor(private _AuthService: AuthService, private _Location: Location) { }
+  constructor(private _AuthService: AuthService, private _Location: Location, private _Router: Router) { }
 
   ngOnInit() {
   }

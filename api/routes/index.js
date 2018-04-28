@@ -405,7 +405,7 @@ module.exports = function (passport) {
   router.get('/message/contacts/:user', messageController.getRecentlyContacted);
 
   // Registered user contacts admins
-  router.post('/contactus', messageController.contactAdmin);
+  router.post('/message/contactus', messageController.contactAdmin);
     //Unblocking users
     router.patch('/message/unblock/:blocked', messageController.unBlock);
   //------------------- End of Messaging Module Endpoints-----------//
