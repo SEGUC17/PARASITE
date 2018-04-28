@@ -6,7 +6,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
-import {  DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 declare const swal: any;
 declare const $: any;
@@ -107,7 +107,7 @@ export class ProfileComponent implements OnInit {
   // ------------------------------------
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute, private messageService: MessageService,
-    private toastrService: ToastrService,  private _datePipe: DatePipe) { }
+    private toastrService: ToastrService, private _datePipe: DatePipe) { }
 
   ngOnInit() {
 
@@ -121,7 +121,7 @@ export class ProfileComponent implements OnInit {
       format: 'dddd DD MMMM YYYY - HH:mm',
       clearButton: true,
       weekStart: 1
-  });
+    });
 
 
     this._this = this;
@@ -439,6 +439,18 @@ export class ProfileComponent implements OnInit {
 
   }
 
-
+  deleteStudyPlan(index): void {
+    let plan = this.currIsOwner ? this.studyPlans[index] : this.vStudyPlans[index];
+    this._ProfileService
+      .deleteStudyPlan(plan._id)
+      .subscribe(res => {
+        if (res.err) {
+          alert(res.err);
+        } else if (res.msg) {
+          this.studyPlans.splice(index, 1);
+          alert(res.msg);
+        }
+      });
+  }
 
 }

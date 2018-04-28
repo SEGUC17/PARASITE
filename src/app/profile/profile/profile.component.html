@@ -549,8 +549,34 @@
               <app-childern></app-childern>
             </div>
             <div role="tabpanel" class="tab-pane" id="studyplans">
-                <!-- Omar's work goes here -->
+              <div class="card">
+                <div class="body">
+                  <div *ngIf="!currIsChild && currIsOwner">
+                    <a class="btn btn-primary" routerLink="/scheduling/study-plan/edit/create/new/{{username}}" color="primary" style="float: right;">Create A New Study Plan</a>
+                    <br />
+                    <br />
+                    <br />
+                  </div>
+                  <div class="row">
+                    <div class="card col-4" *ngFor="let studyPlan of (currIsOwner ? studyPlans : vStudyPlans); let index = index">
+                      <div class="header">
+                        <h2>
+                          <span class="badge badge-assigned float-right" *ngIf="studyPlan.assigned">Assigned</span>
+                          <strong>{{studyPlan.title}}</strong>
+                          <br/> {{studyPlan.creator}}
+                        </h2>
+                      </div>
+                      <div class="body">
+                        <p>
+                          <a class="btn btn-primary" routerLink="/scheduling/study-plan/personal/{{ studyPlan._id }}/{{ currIsOwner ? username : vUsername }}">View</a>
+                          <button class="btn btn-primary" (click)="deleteStudyPlan(index)" color="primary" *ngIf="!currIsChild">Delete</button>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
           </div>
         </div>
       </div>
