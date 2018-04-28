@@ -44,11 +44,13 @@ export class ActivityComponent implements OnInit {
     for (var i = 0 ; i < this.activities.length ; i++) {
       this.activityService.getActivity(this.activities[i]._id).subscribe(
         res => {
+          res.data.image = 'https://res.cloudinary.com/nawwar/image/upload/v1524947811/default-activity-image.jpg';
           this.detailedActivities.push(res.data);
       })
     }
+
   }
-  
+
 
   getActivities(event) {
     /*

@@ -1,3 +1,4 @@
+<section
 <mat-card class="activity-create">
   <form class="activity-form" (ngSubmit)="createActivity()" #activityForm="ngForm">
     <mat-form-field>
@@ -19,8 +20,8 @@
       <mat-form-field>
       <input matInput [(ngModel)]="activity.toDateN" name="toDateN" required type="datetime-local" placeholder="to">
     </mat-form-field>
-    <div 
-      [hidden]="!activity.toDateN || !activity.fromDateN || activity.toDateN > activity.fromDateN" 
+    <div
+      [hidden]="!activity.toDateN || !activity.fromDateN || activity.toDateN > activity.fromDateN"
       class="alert alert-danger">
       From date can't be after to date
     </div>

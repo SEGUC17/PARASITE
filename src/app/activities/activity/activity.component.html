@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
-        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="canCreate" type="button">
+        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="canCreate" routerLink="/create" type="button">
                                                                                                                           <!--TODO: redirect to create Page-->
           <i class="zmdi zmdi-plus"></i>
         </button>
@@ -30,32 +30,31 @@
               <strong>Latest</strong> Activity</h2>
           </div>
           <div class="body">
-            <h3 class="m-t-0 m-b-5">
-              <a routerLink="/activities/{{activity._id}}">{{activity.name}}</a>
-            </h3>
-            <ul class="meta">
-              <li>
-                <a href="#">
-                  <i class="zmdi zmdi-account col-blue"></i>Posted By: activity.creator</a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="zmdi zmdi-comment-text col-blue"></i>Comments: {{activity.discussion.length}}</a>
-              </li>
-            </ul>
+            <h2 class="m-t-0 m-b-5" style="color: #242424;">
+              <small><a style="color: #242424; max-width: 100%" routerLink="/activities/{{activity._id}}">{{activity.name}}</a></small>
+            </h2>
+
+              <span class="col-md-9">
+
+                <i class="zmdi zmdi-account col-blue" style="margin-right: 5px;"></i><span style="font-style: italic; color: #959595;">Posted By: {{activity.creator}}</span>
+              </span>
+              <span class="col-md-5">
+                <i class="zmdi zmdi-comment-text col-blue" style="margin-right: 5px;"></i><span style="margin-right: 3px; font-style: italic; color: #959595;">Comments: {{activity.discussion.length}}</span>
+              </span>
           </div>
           <div class="body">
-            <div class="img-post m-b-15">
-              <img [src]="activity.image" alt="Awesome Image">
+            <div class="img-post col-sm-13 m-b-15">
+              <div class="activity-image" style.background="url({{activity.image}})" ></div>
 
             </div>
-            <p>{{activity.description}}</p>
-            <a routerLink="/app/blog-details" title="read more" class="btn btn-round btn-info">Read More</a>
+            <p>{{activity.description + " " + activity.image}}</p>
+            <a routerLink="/activities/{{activity._id}}" title="read more" class="btn btn-round btn-info">Read More</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+
 
   <!--<mat-paginator [length]="numberOfElements" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="pageEvent = getActivities($event)">-->
   <!--</mat-paginator>-->
