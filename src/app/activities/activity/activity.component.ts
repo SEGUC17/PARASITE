@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
 import { AuthService } from '../../auth/auth.service';
+declare const $: any;
 
 @Component({
   selector: 'app-activity',
@@ -40,15 +41,15 @@ export class ActivityComponent implements OnInit {
 
   getDetailedActivities() {
     this.detailedActivities = [] ;
-    var self = this;
-    for (var i = 0 ; i < this.activities.length ; i++) {
+    let self = this;
+    for (let i = 0 ; i < this.activities.length ; i++) {
       this.activityService.getActivity(this.activities[i]._id).subscribe(
         res => {
           this.detailedActivities.push(res.data);
-      })
+      });
     }
   }
-  
+
 
   getActivities(event) {
     /*
@@ -62,7 +63,7 @@ export class ActivityComponent implements OnInit {
     if (event) {
       page = event.pageIndex + 1;
     }
-    var self  = this;
+    let self  = this;
     this.activityService.getActivities(page).subscribe(function(res) {
       self.updateLayout(res);
       self.getDetailedActivities();
@@ -94,6 +95,13 @@ export class ActivityComponent implements OnInit {
         activity.image = 'assets/images/activity-view/default-activity-image.jpg';
       }
     }
+  }
+
+  showCreateActivityForm(): void {
+    $('#createModal').modal('show');
+  }
+  closeModal(): void {
+    document.getElementById('btn11').click();
   }
 
 
