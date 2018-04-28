@@ -111,12 +111,17 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
 
+    // $('.datetimepicker').bootstrapMaterialDatePicker({
+    //   format: 'MM/DD/YYYY',
+    //   time: false,
+    //   clearButton: false,
+    //   weekStart: 1
+    // });
     $('.datetimepicker').bootstrapMaterialDatePicker({
-      format: 'DD MM YYYY',
-      time: false,
-      clearButton: false,
+      format: 'dddd DD MMMM YYYY - HH:mm',
+      clearButton: true,
       weekStart: 1
-    });
+  });
 
 
     this._this = this;
@@ -142,7 +147,7 @@ export class ProfileComponent implements OnInit {
       this.currIsChild = user.data.isChild;
       this.currIsParent = user.data.isParent;
       this.birthday = user.data.birthdate;
-      this.birthdayView = this._datePipe.transform(user.data.birthdate, 'dd MM yyyy');
+      this.birthdayView = this._datePipe.transform(user.data.birthdate, 'MM/dd/yyyy');
       this.dFirstName = this.firstName;
       this.dLastName = this.lastName;
       this.dAddress = this.address;
@@ -181,7 +186,7 @@ export class ProfileComponent implements OnInit {
           this.vAddress = info.data.address;
           this.vPhone = info.data.phone;
           this.vBirthday = info.data.birthdate;
-          this.vBirthdayView = this._datePipe.transform(info.data.birthdate, 'dd MM yyyy');
+          this.vBirthdayView = this._datePipe.transform(info.data.birthdate, 'MM/dd/yyyy');
           this.vListOfChildren = info.data.children;
           this.vAge = this.calculateAge(this.vBirthday);
           this.vVerified = info.data.verified;
@@ -336,6 +341,7 @@ export class ProfileComponent implements OnInit {
       birthdate: (<HTMLInputElement>document.getElementById('dBirthday')).value,
       email: (<HTMLInputElement>document.getElementById('dEmail')).value
     };
+    console.log(info);
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (re.test(info.email)) {
       this._ProfileService.ChangeInfo(this.id, info).subscribe(function (res) {
