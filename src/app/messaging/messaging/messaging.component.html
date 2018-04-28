@@ -1,4 +1,4 @@
- <section class="content">
+ <!-- <section class="content">
      <div id="div" *ngIf="div">
     <label>
       Messaging is only permitted for users above the age of 13. Sorry!
@@ -12,11 +12,11 @@
       <br/>
   </div>
 
-  <!-- <div style="float:right; margin-left:200px;">
+  <div style="float:right; margin-left:200px;">
       <mat-list role="list" class="list" *ngFor="let contact of contacts">
           <mat-list-item role="listitem"> {{contact._id}} </mat-list-item>
       </mat-list>
-  </div> -->
+  </div>
 
   <div *ngIf="!div">
   <mat-tab-group>
@@ -73,32 +73,73 @@
       </mat-tab>
     </mat-tab-group>
     </div>
-    </section>
+    </section> -->
 
-    <!-- <section class="content inbox">
+    <section class="content inbox">
             <div class="block-header">
               <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-12">
-                  <h2>Inbox
-                    <small>Welcome to sQuare</small>
-                  </h2>
+                    <button class="btn btn-round btn-primary waves-effect" type="button" (click)="openDialog()">
+                        COMPOSE
+                    </button> 
                 </div>
                 <div class="col-lg-5 col-md-6 col-sm-12">
-                  <ul class="breadcrumb float-md-right">
+                  <ul class=" breadcrumb float-md-right">
                     <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> Dashboard</a></li>
                     <li class="breadcrumb-item active">Inbox</li>
+                  
                   </ul>
                 </div>
               </div>
             </div>
             <div class="container-fluid">
+                <div class="row clearfix" style="float:right; margin-left:10px; margin-top:20px; width:300px;">
+                    <div class="col-lg-12">
+                      <div class="card">
+                        <div class="header">
+                          <h2>
+                            <strong>Recently Contacted <i class="material-icons">people</i></strong>
+                          </h2>
+                        </div>
+                        <div *ngIf="!contacts.length">
+                            <div class="body table-responsive">
+                              <table class="table m-b-0 c_list">
+                                <tbody>
+                                  <tr>
+                                    <p>You haven't contacted anyone yet.</p><a href="javascript:void(0);" (click)="openDialog()">Start a conversation?</a>
+                                  </tr>
+                                </tbody>
+                              </table>
+                             </div>
+                        </div>
+                        <div class="body table-responsive">
+                          <table class="table table-hover m-b-0 c_list">
+                            <!-- <thead class="header">
+                            <tr>
+                              <th>Recently Contacted</th>
+                            </tr>
+                            </thead> -->
+                            <tbody *ngFor="let contact of contacts">
+                            <tr>
+                              <td>
+                                  <!-- <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle avatar" alt=""> -->
+                                  <p class="c_name">{{contact._id}}</p>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
                     <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#inbox"> <i class="zmdi zmdi-inbox"></i> INBOX </a></li>
                             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sent"><i class="zmdi zmdi-email"></i> SENT </a></li>
-                    </ul> -->
-                    
+                    </ul>
+                  </div>
                     <!-- Tab panes -->
-                    <!-- <div class="tab-content">
+                    <div class="tab-content">
                         <div role="tabpanel" class="tab-pane in active" id="inbox">
                             <div class="row clearfix">
                                     <div class="col-md-12 col-lg-12 col-xl-12">
@@ -106,7 +147,7 @@
                                         <div *ngFor="let message of inbox">
                                         <li class="list-group-item">
                                           <div class="media">
-                                            <div class="pull-left"> -->
+                                            <div class="pull-left">
                                               <!-- <div class="controls">
                                                 <div class="checkbox">
                                                   <input type="checkbox" id="basic_checkbox_1">
@@ -114,14 +155,14 @@
                                                 </div>
                                                 <a href="javascript:void(0);" class="favourite text-muted hidden-sm-down" data-toggle="active"><i class="zmdi zmdi-star-outline"></i></a>
                                               </div> -->
-                                              <!-- <div class="thumb hidden-sm-down m-r-20"> <img src="assets/images/xs/avatar1.jpg" class="rounded-circle" alt=""> </div>
+                                              <div class="thumb hidden-sm-down m-r-20"> <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle" alt=""> </div>
                                             </div>
                                             <div class="media-body">
                                               <div class="media-heading">
-                                                <a routerLink="/app/single-mail" class="m-r-10">{{ message.sender }}</a>
-                                                <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{ message.sentAt|date }}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
+                                                <a (click)="setMessage(message)" routerLink="" class="m-r-10">{{message.sender}}</a>
+                                                <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{message.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
                                               </div>
-                                              <p class="msg">{{ message.body }}</p>
+                                              <p class="msg">{{message.body}}</p>
                                             </div>
                                           </div>
                                          </li>
@@ -138,21 +179,21 @@
                                         <li class="list-group-item">
                                           <div class="media">
                                             <div class="pull-left">
-                                              <div class="controls">
+                                              <!-- <div class="controls">
                                                 <div class="checkbox">
                                                   <input type="checkbox" id="basic_checkbox_1">
                                                   <label for="basic_checkbox_1"></label>
                                                 </div>
                                                 <a href="javascript:void(0);" class="favourite text-muted hidden-sm-down" data-toggle="active"><i class="zmdi zmdi-star-outline"></i></a>
-                                              </div>
-                                              <div class="thumb hidden-sm-down m-r-20"> <img src="assets/images/xs/avatar1.jpg" class="rounded-circle" alt=""> </div>
+                                              </div> -->
+                                              <div class="thumb hidden-sm-down m-r-20"> <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle" alt=""> </div>
                                             </div>
                                             <div class="media-body">
                                               <div class="media-heading">
-                                                <a routerLink="/app/single-mail" class="m-r-10">{{ msg.recipient }}</a>
-                                                <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{ msg.sentAt|date }}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
+                                                <a (click)="setMessage(msg)" routerLink="" class="m-r-10">{{msg.recipient}}</a>
+                                                <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{msg.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
                                               </div>
-                                              <p class="msg">{{ msg.body }}</p>
+                                              <p class="msg">{{msg.body}}</p>
                                             </div>
                                           </div>
                                          </li>
@@ -163,4 +204,12 @@
                               </div>
                             </div>
                         </div>
-                 </section> -->
+                 </section>
+
+                 <div class="modal fade" id="send" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                      <div>
+                        <app-send-dialog></app-send-dialog>>
+                      </div>
+                    </div>
+                 </div>

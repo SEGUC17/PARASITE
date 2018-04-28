@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material';
 import { ReplyDialogComponent } from './reply-dialog/reply-dialog.component';
 import {MatChipsModule} from '@angular/material/chips';
 import { ForwardDialogComponent } from './forward-dialog/forward-dialog.component';
+import { SingleMailComponent } from './single-mail/single-mail.component';
 import { ToastrService } from 'ngx-toastr';
 
 @NgModule({
@@ -35,7 +36,7 @@ import { ToastrService } from 'ngx-toastr';
     MatChipsModule,
     MatListModule
   ],
-  declarations: [MessagingComponent, SendDialogComponent, ReplyDialogComponent, ForwardDialogComponent],
+  declarations: [MessagingComponent, SendDialogComponent, ReplyDialogComponent, ForwardDialogComponent, SingleMailComponent],
   entryComponents: [SendDialogComponent, ReplyDialogComponent, ForwardDialogComponent]
 })
 export class MessagingModule { }

@@ -21,6 +21,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignOutComponent } from './sign-out/sign-out.component';
 import { ContactUsComponent } from '../messaging/contact-us/contact-us.component';
+import { VerifyChildEmailComponent } from './verify-child-email/verify-child-email.component';
 
 @NgModule({
   providers: [AuthService],
@@ -38,6 +39,6 @@ import { ContactUsComponent } from '../messaging/contact-us/contact-us.component
     MatSelectModule
   ],
   declarations: [ForgotPasswordComponent, ResetPasswordComponent,
-     VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent, ContactUsComponent]
+     VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent, ContactUsComponent, VerifyChildEmailComponent]
 })
 export class AuthModule { }

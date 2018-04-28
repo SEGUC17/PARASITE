@@ -16,9 +16,9 @@ const httpOptions = {
 @Injectable()
 export class MessageService {
 
-  url: String = environment.apiUrl ;
+  url: String = environment.apiUrl;
 
-  constructor(private http: HttpClient, private toastrService: ToastrService) { }
+constructor(private http: HttpClient, private toastrService: ToastrService) { }
 
 
   // making a POST request to send a message

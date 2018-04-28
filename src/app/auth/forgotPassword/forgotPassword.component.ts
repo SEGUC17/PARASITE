@@ -28,7 +28,6 @@ export class ForgotPasswordComponent implements OnInit {
     if (re.test(email)) {
     this._AuthService.forgotPassword(email).subscribe(function(res) {
       console.log(email);
-      alert(res.msg);
     });
   } else {
       alert('Kindly provide a valid email address');
