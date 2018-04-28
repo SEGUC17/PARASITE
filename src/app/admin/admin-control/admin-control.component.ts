@@ -1,5 +1,8 @@
 import { OnInit, Input, Output, ViewChild, Component } from '@angular/core';
 import { ViewContentRequestsComponent } from '../view-content-requests/view-content-requests.component';
+import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../auth/auth.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-control',
   templateUrl: './admin-control.component.html',
@@ -7,7 +10,11 @@ import { ViewContentRequestsComponent } from '../view-content-requests/view-cont
 })
 
 export class AdminControlComponent implements OnInit {
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private toasterService: ToastrService,
+    private router: Router
+  ) { }
   links = [
     {
       name: 'Content Requests',
@@ -43,6 +50,16 @@ export class AdminControlComponent implements OnInit {
     }
   ];
   ngOnInit() {
-
+    const self = this;
+    this.authService.getUserData(['username', 'isAdmin']).subscribe(function (res) {
+      if (res.status === 401) {
+        self.toasterService.error('Please sign in first', 'failure');
+        self.router.navigateByUrl('/auth/sign-in');
+      }
+      if (res.data && !res.data.isAdmin) {
+        self.toasterService.error('You are not an admin', 'failure');
+        self.router.navigateByUrl('/content/list');
+      }
+    });
   }
 }
