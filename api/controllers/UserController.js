@@ -201,7 +201,7 @@ module.exports.signUp = function (req, res, next) {
 
                 emailVerification.send(
                     user2.email,
-                    config.FRONTEND_URI + 'auth/verifyEmail/' + user2._id
+                    config.FRONTEND_URI + 'auth/verify-email/' + user2._id
                 );
 
                 return res.status(201).json({
@@ -585,7 +585,7 @@ module.exports.signUpChild = function (req, res, next) {
                 }
                 emailVerification.send(
                     user2.email,
-                    config.FRONTEND_URI + 'auth/verifyChildEmail/' + user2._id
+                    config.FRONTEND_URI + 'auth/verify-child-email/' + user2._id
                 );
 
                 // --- Variable Assign --- //
