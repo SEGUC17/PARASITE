@@ -10,7 +10,6 @@ import { MatTabsModule, MatButtonModule, MatMenuModule,
   MatChipsModule, MatCardModule, MatExpansionModule,
   MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonToggleModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
-import { ScheduleModule } from '../schedule/schedule.module';
 
 
 
@@ -26,7 +25,6 @@ import { ScheduleModule } from '../schedule/schedule.module';
     MatChipsModule,
     FormsModule,
     MatCardModule,
-    ScheduleModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,

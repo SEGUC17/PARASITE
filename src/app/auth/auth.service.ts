@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { FacebookService, InitParams, LoginOptions, LoginResponse } from 'ngx-facebook';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,8 +18,18 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private toastService: ToastrService
-  ) { }
+    private toastrService: ToastrService,
+    private router: Router,
+    private facebookService: FacebookService
+  ) {
+    let initParams: InitParams = {
+      appId: environment.facebookAppID,
+      xfbml: true,
+      version: 'v2.8'
+    };
+
+    facebookService.init(initParams);
+  }
 
   setToken(token: any): void {
     if (token) {
@@ -45,10 +57,51 @@ export class AuthService {
     );
   }
 
+  verifyChildEmail(id: any): Observable<any> {
+    const self = this;
+    return this.http.get<any>(environment.apiUrl + 'verifyChildEmail/' + id).pipe(
+      catchError(self.handleError('verifyChildEmail', []))
+    );
+  }
+
   signIn(user: any): Observable<any> {
     const self = this;
     return this.http.post<any>(environment.apiUrl + 'signIn', user).pipe(
       catchError(self.handleError('signIn', []))
+    );
+  }
+
+  signInWithFacebook() {
+    const self = this;
+
+    this.facebookService.login()
+      .then(function (res: LoginResponse) {
+        self.authFacebook(res.authResponse).subscribe(function (res2) {
+          if (res2.msg === 'Sign In Is Successful!') {
+            self.setToken(res2.token);
+            self.toastrService.success(res2.msg, 'Welcome!');
+            self.router.navigateByUrl('/content/list');
+          }
+        });
+      })
+      .catch(this.handleError);
+  }
+
+  signInWithGoogle() {
+    const self = this;
+  }
+
+  authFacebook(authResponse): Observable<any> {
+    const self = this;
+    return this.http.post<any>(environment.apiUrl + 'auth/facebook', authResponse).pipe(
+      catchError(self.handleError('authFacebook', []))
+    );
+  }
+
+  authGoogle(authResponse): Observable<any> {
+    const self = this;
+    return this.http.post<any>(environment.apiUrl + 'auth/google', authResponse).pipe(
+      catchError(self.handleError('authGoogle', []))
     );
   }
 
@@ -84,12 +137,6 @@ export class AuthService {
     );
   }
 
-  verifyChildEmail(id: any): Observable<any> {
-    const self = this;
-    return this.http.get<any>(environment.apiUrl + 'verifyChildEmail/' + id).pipe(
-      catchError(self.handleError('verifyChildEmail', []))
-    );
-  }
 
   forgotPassword(email): any {
     const self = this;
@@ -112,12 +159,13 @@ export class AuthService {
         operation === 'signUp' ||
         operation === 'verifyEmail' ||
         operation === 'signIn' ||
+        operation === 'authFacebook' ||
         operation === 'childsignup' ||
         operation === 'verifyChildEmail' ||
         operation === 'forgotPassword' ||
         operation === 'resetPassword'
       ) {
-        self.toastService.error(error.error.msg);
+        self.toastrService.error(error.error.msg);
       }
       return of(result as T);
     };
