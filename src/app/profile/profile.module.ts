@@ -14,7 +14,6 @@ import { ScheduleModule } from '../schedule/schedule.module';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from '../messaging/messaging.service';
 import { SharedModule } from '../shared/shared.module';
-import { ProfilePicUploaderComponent } from './profile/profile-pic-uploader/profile-pic-uploader.component';
 import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
