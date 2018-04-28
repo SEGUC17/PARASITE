@@ -1,28 +1,70 @@
-<div class="background container">
-    <mat-radio-group class="row justify-content-center background">
-      <mat-radio-button value="add" (click)="loadRequests('add')" class="col-4"> Add Requests </mat-radio-button>
-      <mat-radio-button value="edit" (click)="loadRequests('edit')" class="col-4"> Edit Requests </mat-radio-button>
-    </mat-radio-group>
-  
-    <div class="row justify-content-center mt-5">
-        <mat-card class="m-2 col-lg-3 col-md-6 col-sm-12 col-xs-12" *ngFor="let mockReq of requests; let i = index">
-            <mat-card-header>
-              <mat-card-title><h3>{{mockReq.firstName}} {{mockReq.lastName}}</h3></mat-card-title>
-              <mat-card-subtitle>{{mockReq.address}}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <mat-chip-list>
-                <p>Days off:   </p>
-                <mat-chip *ngFor="let day of mockReq.daysOff">{{day}}</mat-chip>
-              </mat-chip-list>
-              <p>Email: {{mockReq.email}}</p>
-              <p>Phone Address: {{mockReq.phone}}</p>
-              <p>Consultations costs start from <b>{{mockReq.priceRange | currency}}</b></p>
-            </mat-card-content>
-            <mat-card-actions>
-              <button mat-raised-button (click)="acceptReq(i)">Accept the Request and Add to the Address Book</button>
-              <button mat-raised-button (click)="rejectReq(i)">Reject the Request and Notify the Applicant</button>
-            </mat-card-actions>
-          </mat-card>
+<div class="background container">  
+  <div class="card-deck">
+    <div class="card-deck col-lg-9 col-md-12">
+      <div class="col-lg-6 col-md-12" *ngFor="let req of requests; let i = index">
+        <div class="card single_post mt-4" >
+          <div class="header">
+            <h2 style="font-size:25px">
+              <strong>{{req.firstName}} {{req.lastName}}</strong>
+            </h2>
+          </div>
+          <div class="body text-secondary">
+            <span><strong> Phone</strong> {{req.phone}}</span><br>
+            <span><strong> Email</strong> {{req.email}}</span><br>
+            <span><strong> Days off </strong></span>
+            <div>
+              <span *ngFor="let day of req.daysOff" class="badge badge-default">{{day}}</span>
+            </div>
+            <span><strong> Maximum Price Range</strong> {{req.priceRange}}</span>
+            <br>
+            <span><strong> Address </strong></span>
+            <div style="height:70px">
+              <span>{{req.address}}</span>
+            </div>
+          </div>
+          <div class="card-footer bg-transparent border-0" align="end">
+            <a href="javascript:void(0);">
+              <div class="hover" style="float:right">
+                <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="acceptReq(i)">
+                  <i class="zmdi zmdi-check"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="rejectReq(i)">
+                  <i class="zmdi zmdi-close"></i>
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-12 right-box">
+      <div class="container d-flex">
+        <div class="card bg-dark text-center w-80">
+          <div class="header">
+            <h2>
+              <strong>
+                Filter Requests
+              </strong>
+            </h2>
+          </div>
+          <div class="body">
+            <div cass="row">
+              <div class="radio">
+                <input id="filter_add" style="margin-right: 3px" (click)="loadRequests('add')" [value]='add' name="filter" type="radio">
+                <label for="filter_add">
+                  Add requests
+                </label>
+              </div>
+              <div class="radio">
+                <input id="filter_edit" style="margin-right: 3px" (click)="loadRequests('edit')" [value]='edit' name="filter" type="radio">
+                <label for="filter_edit">
+                  Edit requests
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+</div>

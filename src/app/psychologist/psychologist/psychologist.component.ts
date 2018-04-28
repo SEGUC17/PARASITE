@@ -168,7 +168,7 @@ export class PsychologistComponent implements OnInit {
       if (res.data) {
         self.admin = res.data.isAdmin;
         self.getPsychologists();
-      } 
+      }
       // else {
       //   self.router.navigateByUrl('/');
       // }

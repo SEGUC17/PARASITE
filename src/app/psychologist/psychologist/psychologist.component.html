@@ -31,6 +31,9 @@
             <div class="col-lg-6 col-md-12" *ngFor="let psych of psychologists; let i = index;">
               <div class="card single_post clearfix js-sweetalert" style="margin-bottom: 5px">
                 <div class="header">
+                  <h2 style="font-size:25px">
+                    <strong>{{psych.firstName}} {{psych.lastName}}</strong>
+                  </h2>
                   <ul class="header-dropdown">
                     <li class="dropdown">
                       <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -47,12 +50,7 @@
                       </ul>
                   </ul>
                 </div>
-                <div class="body">
-                  <div align="center">
-                    <span style="font-size:28px" class="m-t-0 m-b-5 text-primary">
-                      <strong>{{psych.firstName}} {{psych.lastName}}</strong>
-                    </span>
-                  </div>
+                <div class="body" style="padding-top:0px">
                   <div class="body text-secondary" style="font-size:15px">
                     <div class="row">
                       <i class="zmdi zmdi-local-phone" style="margin-right:3%"> </i>
