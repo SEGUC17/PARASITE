@@ -110,17 +110,12 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
 
-    // $('.datetimepicker').bootstrapMaterialDatePicker({
-    //   format: 'MM/DD/YYYY',
-    //   time: false,
-    //   clearButton: false,
-    //   weekStart: 1
-    // });
     $('.datetimepicker').bootstrapMaterialDatePicker({
-      format: 'dddd DD MMMM YYYY - HH:mm',
-      clearButton: true,
+      format: 'MM DD YYYY',
+      time: false,
+      clearButton: false,
       weekStart: 1
-  });
+    });
 
 
     this._this = this;
@@ -156,7 +151,6 @@ export class ProfileComponent implements OnInit {
       this.dUsername = this.username;
       this.blocklist = user.data.blocked;
       this.currIsAdmin = user.data.isAdmin;
-      console.log(this.blocklist);
       if (this.age > 13) {
         this.currIsOfAge = true;
       }
@@ -196,6 +190,7 @@ export class ProfileComponent implements OnInit {
           if (!(this.listOfChildren.indexOf(this.vUsername.toLowerCase()) < 0)) {
             this.visitedIsMyChild = true;
           }
+          console.log(this.listOfChildren);
           if (!(this.vListOfChildren.indexOf(this.username.toLowerCase()) < 0)) {
             this.visitedIsMyParent = true;
           }
@@ -343,13 +338,13 @@ export class ProfileComponent implements OnInit {
   // Edit My Personal Info
   ChangeInfo(): void {
     const info = {
-      username: (<HTMLInputElement>document.getElementById('dUsername')).value,
-      firstName: (<HTMLInputElement>document.getElementById('dFirstName')).value,
-      lastName: (<HTMLInputElement>document.getElementById('dLastName')).value,
-      address: (<HTMLInputElement>document.getElementById('dAddress')).value,
-      phone: (<HTMLInputElement>document.getElementById('dPhone')).value,
-      birthdate: (<HTMLInputElement>document.getElementById('dBirthday')).value,
-      email: (<HTMLInputElement>document.getElementById('dEmail')).value
+      username: (<HTMLInputElement>document.getElementById('qUsername')).value,
+      firstName: (<HTMLInputElement>document.getElementById('qFirstName')).value,
+      lastName: (<HTMLInputElement>document.getElementById('qLastName')).value,
+      address: (<HTMLInputElement>document.getElementById('qAddress')).value,
+      phone: (<HTMLInputElement>document.getElementById('qPhone')).value,
+      birthdate: (<HTMLInputElement>document.getElementById('qBirthday')).value,
+      email: (<HTMLInputElement>document.getElementById('qEmail')).value
     };
     console.log(info);
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
