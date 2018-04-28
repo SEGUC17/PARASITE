@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { FacebookService, InitParams, LoginOptions, LoginResponse } from 'ngx-facebook';
 import { GoogleApiService, GoogleAuthService } from 'ng-gapi';
+import GoogleUser = gapi.auth2.GoogleUser;
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -103,22 +104,19 @@ export class AuthService {
     const self = this;
     this.googleAuthService.getAuth().subscribe(function(res) {
       res.signIn()
-      .then(function(res2) {
-        self.authGoogle(res2.Zi).subscribe(function(res3) {
-          if (res3.msg === 'Sign In Is Successful!') {
-            self.setToken(res3.token);
-            self.toastrService.success(res3.msg, 'Welcome!');
-            self.router.navigateByUrl('/content/list');
-          }
+      .then(function(res2: GoogleUser) {
+        console.log(res2.getAuthResponse());
+        self.authGoogle(res2.getAuthResponse()).subscribe(function(res3) {
+          console.log(res3);
         });
       })
       .catch(this.handleError);
     });
   }
 
-  authGoogle(Zi): Observable<any> {
+  authGoogle(authResponse): Observable<any> {
     const self = this;
-    return this.http.post<any>(environment.apiUrl + 'auth/google', Zi).pipe(
+    return this.http.post<any>(environment.apiUrl + 'auth/google', authResponse).pipe(
       catchError(self.handleError('authGoogle', []))
     );
   }
@@ -155,7 +153,6 @@ export class AuthService {
     );
   }
 
-
   forgotPassword(email): any {
     const self = this;
     return this.http.get<any>(environment.apiUrl + 'forgotPassword/' + email).pipe(
@@ -178,6 +175,7 @@ export class AuthService {
         operation === 'verifyEmail' ||
         operation === 'signIn' ||
         operation === 'authFacebook' ||
+        operation === 'authGoogle' ||
         operation === 'childsignup' ||
         operation === 'verifyChildEmail' ||
         operation === 'forgotPassword' ||
