@@ -117,9 +117,9 @@ export class ContentEditComponent implements OnInit {
         return;
       }
       if (contentRes.data.content) {
-        self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
+        self.router.navigateByUrl('/content/view/' + contentRes.data.content._id);
       }
-      self.router.navigateByUrl('/content-view/' + contentRes.data._id);
+      self.router.navigateByUrl('/content/view/' + contentRes.data._id);
     });
   }
   // retrieve all categories from server
