@@ -26,7 +26,7 @@ import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
 import { ToastrService } from 'ngx-toastr';
-
+import { FacebookModule } from 'ngx-facebook';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,8 @@ import { ToastrService } from 'ngx-toastr';
     LayoutModule,
     CommonModule,
     SharedModule,
-    AuthModule
+    AuthModule,
+    FacebookModule.forRoot()
   ],
   providers: [
     {

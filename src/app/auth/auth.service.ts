@@ -14,7 +14,10 @@ export class AuthService {
 
   private localStorageTokenName = 'jwtToken';
 
-  constructor(private http: HttpClient, private toastService: ToastrService) { }
+  constructor(
+    private http: HttpClient,
+    private toastService: ToastrService
+  ) { }
 
   setToken(token: any): void {
     if (token) {
@@ -81,6 +84,13 @@ export class AuthService {
     );
   }
 
+  verifyChildEmail(id: any): Observable<any> {
+    const self = this;
+    return this.http.get<any>(environment.apiUrl + 'verifyChildEmail/' + id).pipe(
+      catchError(self.handleError('verifyChildEmail', []))
+    );
+  }
+
   forgotPassword(email): any {
     const self = this;
     return this.http.get<any>(environment.apiUrl + 'forgotPassword/' + email).pipe(
@@ -88,19 +98,27 @@ export class AuthService {
     );
   }
 
-  resetPassword(id, newpassword): Observable<any> {
+  resetPassword(id, pws: any): Observable<any> {
     const self = this;
-    console.log(newpassword);
-    return this.http.patch<any>(environment.apiUrl + 'forgotPassword/resetpassword/' + id, newpassword, httpOptions).pipe(
+    return this.http.patch<any>(environment.apiUrl + 'forgotPassword/resetpassword/' + id, pws, httpOptions).pipe(
       catchError(self.handleError('resetPassword', []))
     );
-
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  public handleError<T>(operation = 'operation', result?: T) {
     const self = this;
     return function (error: any): Observable<T> {
-      self.toastService.error(error.error.msg);
+      if (
+        operation === 'signUp' ||
+        operation === 'verifyEmail' ||
+        operation === 'signIn' ||
+        operation === 'childsignup' ||
+        operation === 'verifyChildEmail' ||
+        operation === 'forgotPassword' ||
+        operation === 'resetPassword'
+      ) {
+        self.toastService.error(error.error.msg);
+      }
       return of(result as T);
     };
   }
