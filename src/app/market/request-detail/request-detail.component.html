@@ -10,26 +10,23 @@
         id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
     </div>
 
-    <br/>
-
     <div class="row" style="width: 100%">
 
       <!-- Image -->
-      <div class="image col-lg-4 col-md-5 col-12" style="max-width: 50vw; max-height: 50vh;">
-        <img mat-card-image src={{formInput.image}} onerror="this.src='https://www.resolutiongallery.com/wp-content/themes/trend/assets/img/empty/424x500.png';"
-          style="height:300px ">
+      <div class="image col-lg-4 col-md-4 col-sm-4 col-12" style="max-width: 55vw; max-height: 55vh; min-width: 30vw; min-height: 30vh">
+        <img src={{formInput.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" style="vertical-align:center"
+          class="rounded img-raised">
       </div>
 
-      <div class="col-lg-8 col-md-7 col-12" height="100%" style="max-width: 50%;">
+      <div class="col-lg-7 col-md-7 col-sm-7 col-12" style="height: 100%">
 
-        <div *ngSwitchCase="true" class="col-lg-8">
+        <!-- <div *ngSwitchCase="true" class="col-lg-8">
           <input class="form-control" placeholder="Image URL" name="imageURL" id="imageURL" hintLabel="Image URL" [(ngModel)]="formInput.image">
-        </div>
-
-        <br/>
+        </div> -->
 
         <!-- PRICE-->
         <!-- Show Data -->
+        
         <p *ngSwitchCase="false" style="font-size:20px; color: #3f51b5">{{this.oldData.price}}
           <span style="font-size: 15px; color: #3f51b5"> EGP</span>
         </p>
@@ -40,28 +37,24 @@
           </span>
           <input type="text" class="form-control money-dollar" name="price" id="price" (keyup)="addToUpdatedFields($event)" [(ngModel)]="formInput.price">
         </div>
-
-        <br/>
-
         <!-- Description -->
         <!-- Show Data -->
         <li>
           <span style="font-weight: bold">Product Information:</span>
         </li>
-        <p *ngSwitchCase="false">{{this.oldData.description}}</p>
-        <!-- Edit Data -->
+        <div  style="word-wrap: break-word;"><p *ngSwitchCase="false">{{this.oldData.description}}</p>
+        </div>
+          <!-- Edit Data -->
         <div *ngSwitchCase="true" class="col-lg-8">
           <textarea class="form-control no-resize" (keyup)="addToUpdatedFields($event)" name="description" id="description" [(ngModel)]="formInput.description"></textarea>
         </div>
 
-        <br/>
 
         <!-- Creation Date -->
         <li>
           <span style="font-weight: bold">Created At:</span> {{this.oldData.createdAt | date }}
         </li>
 
-        <br/>
 
         <!-- Acquiring Type -->
         <!-- Show Data -->
@@ -85,10 +78,8 @@
         <!-- Seller Name -->
         <li>
           <span style="font-weight: bold">Sold by: </span>
-          <a routerLink="market">{{this.oldData.seller}}</a>
+          <a routerLink="profile/{{this.oldData.seller}}">{{this.oldData.seller}}</a>
         </li>
-
-        <br/>
 
         <!-- Shipping to -->
         <li>
@@ -110,3 +101,4 @@
   </div>
 
 </form>
+

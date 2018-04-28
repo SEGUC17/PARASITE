@@ -48,8 +48,12 @@ export class RequestDetailComponent {
         }
       });
     } else {
+      let self = this;
       this.toggleEditForm = true;
-      this.formInput = this.oldData;
+      let fields = ['name', 'price', 'acquiringType', 'description', 'rentPeriod'];
+      for (let field of fields) {
+        self.formInput['' + field] = self.oldData['' + field];
+      }
     }
   }
 
