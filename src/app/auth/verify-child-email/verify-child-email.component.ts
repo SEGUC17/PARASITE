@@ -9,7 +9,6 @@ import { ToastrService, Toast } from 'ngx-toastr';
   styleUrls: ['./verify-child-email.component.scss']
 })
 export class VerifyChildEmailComponent implements OnInit {
-
   constructor(
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
@@ -21,10 +20,10 @@ export class VerifyChildEmailComponent implements OnInit {
     const self = this;
     this.activatedRoute.params.subscribe(function (params) {
       self.authService.verifyChildEmail(params['id']).subscribe(function (res) {
-        if (res.msg === 'Email Verification Is Successful!') {
+        if (res.msg) {
           self.toastrService.success(res.msg);
         }
-        self.router.navigate(['/']);
+        self.router.navigateByUrl('/content/list');
       });
     });
   }
