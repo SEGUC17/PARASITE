@@ -259,7 +259,7 @@ export class StudyPlanComponent implements OnInit {
   };
 
   edit(): void {
-    this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.profileUsername]);
+    this.router.navigate(['/scheduling/study-plan/edit/edit/' + this.studyPlan._id + '/' + this.profileUsername]);
   }
 
   // Calendar API control methods

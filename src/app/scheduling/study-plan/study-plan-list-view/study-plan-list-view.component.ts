@@ -80,6 +80,7 @@ export class StudyPlanListViewComponent implements OnInit {
 
   delete(index): void {
     let plan = this.studyPlans[index];
+
     if (this.type === 'published') {
       this.studyPlanService
         .deletePublishedStudyPlan(plan._id)
@@ -91,18 +92,8 @@ export class StudyPlanListViewComponent implements OnInit {
             alert(res.msg);
           }
         });
-    } else if (this.type === 'personal') {
-      this.studyPlanService
-        .deleteStudyPlan(plan._id)
-        .subscribe(res => {
-          if (res.err) {
-            alert(res.err);
-          } else if (res.msg) {
-            this.studyPlans.splice(index, 1);
-            alert(res.msg);
-          }
-        });
     }
+
     this.refreshDocument();
   }
 }

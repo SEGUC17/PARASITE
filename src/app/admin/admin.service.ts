@@ -16,7 +16,7 @@ const httpOptions = {
 
 export class AdminService {
   private baseURL = environment.apiUrl;
-  private removePublishedStudyPlansURL = 'admin/removePublishedStudyPlan/';
+  // private removePublishedStudyPlansURL = 'admin/removePublishedStudyPlan/';
   private viewPendingStudyPlanPublishReqsURL = 'admin/PendingStudyPlanPublishRequests';
   private respondStudyPlanPublishRequestURL = 'admin/RespondStudyPlanPublishRequest/';
   private viewPendingContReqsURL = 'admin/PendingContentRequests/';
@@ -82,16 +82,16 @@ export class AdminService {
       );
   }
 
-
-  removePublishedStudyPlans(studyPlanId: any): Observable<any> {
-    const self = this;
-    return this.http.get(self.baseURL + self.removePublishedStudyPlansURL + studyPlanId)
-      .pipe(
-        catchError(
-          self.handleError('removePublishedStudyPlan', [])
-        )
-      );
-  }
+  // moved to study plan service
+  // removePublishedStudyPlans(studyPlanId: any): Observable<any> {
+  //   const self = this;
+  //   return this.http.get(self.baseURL + self.removePublishedStudyPlansURL + studyPlanId)
+  //     .pipe(
+  //       catchError(
+  //         self.handleError('removePublishedStudyPlan', [])
+  //       )
+  //     );
+  // }
   viewStudyPlanPublishReqs(): Observable<any> {
     const self = this;
     return this.http.get(self.baseURL + self.viewPendingStudyPlanPublishReqsURL)

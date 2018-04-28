@@ -37,7 +37,7 @@
           </div>
           <div class="body">
             <p>
-              <a class="btn btn-primary" routerLink="/study-plan/{{type}}/{{studyPlan._id}}/{{ this.type === 'personal' ? (this.profileUsername ? this.profileUsername : this.currUsername) : '' }}">View</a>
+              <a class="btn btn-primary" routerLink="/scheduling/study-plan/{{type}}/{{studyPlan._id}}/{{ this.type === 'personal' ? (this.profileUsername ? this.profileUsername : this.currUsername) : '' }}">View</a>
               <button class="btn btn-primary" (click)="delete(index)" color="primary" *ngIf="(this.type === 'personal' || studyPlan.creator === this.currUsername) && !currIsChild">Delete</button>
             </p>
           </div>
