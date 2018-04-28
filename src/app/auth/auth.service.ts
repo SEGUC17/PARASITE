@@ -95,7 +95,8 @@ export class AuthService {
   signInWithGoogle() {
     const self = this;
     this.googleAuthService.getAuth().subscribe(function(res) {
-      res.signIn().then(function(res2) {
+      res.signIn()
+      .then(function(res2) {
         self.authGoogle(res2.Zi);
       })
       .catch(this.handleError);
@@ -109,9 +110,9 @@ export class AuthService {
     );
   }
 
-  authGoogle(authResponse): Observable<any> {
+  authGoogle(Zi): Observable<any> {
     const self = this;
-    return this.http.post<any>(environment.apiUrl + 'auth/google', authResponse).pipe(
+    return this.http.post<any>(environment.apiUrl + 'auth/google', Zi).pipe(
       catchError(self.handleError('authGoogle', []))
     );
   }
