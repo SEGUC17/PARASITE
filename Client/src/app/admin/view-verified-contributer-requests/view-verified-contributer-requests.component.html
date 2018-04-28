@@ -5,7 +5,7 @@
 
     <div class="col-lg-1"></div>
 
-    <div class="col-lg-7 col-md-12">
+    <div class="col-lg-8 col-md-12">
       <div *ngIf="Requests.length == 0">
         <div class="not_found text-center pt-5 text-warning">
           <i class="zmdi zmdi-mood-bad zmdi-hc-4x "></i>
@@ -63,44 +63,53 @@
       </form>
     </div>
 
-    <div class="col-lg-2 col-md-12 right-box">
+    <div class="col-lg-3 col-md-12 right-box">
 
-      <div class="container d-flex">
-        <div class="card bg-dark text-center w-80">
-          <div class="header">
-            <h2>
-              <strong>
-                Filter Requests
-              </strong>
-            </h2>
-          </div>
-          <div class="body">
+      <div class="container-fluid">
+        <div class="row clearfix">
+          <div class="col-lg-12 col-md-12">
+            <div class="card profile-header bg-dark">
+              <div class="body col-white">
+                <div class="row">
+                  <div class="header">
+                    <h2>
+                      <strong>
+                        Filter Requests
+                      </strong>
+                    </h2>
+                  </div>
+                  <div class="body">
+                      <div class="radio">
+                        <input type="radio" name="radio1" id="radio1" (click)="acceptedRadio()" value="option1">
+                        <label style="color: #ffffff" for="radio1">
+                          Accepted
+                        </label>
+                      </div>
 
-            <ul class="row">
-              <div class="radio">
-                <input id="CBIdea" type="radio" (click)="acceptedRadio()">
-                <label class="col-white" for="CBIdea">
-                  Accepted
-                </label>
+                      <div class="radio">
+                        <input type="radio" name="radio1" id="radio2" (click)="pendingRadio()" value="option2" checked="">
+                        <label style="color: #ffffff" for="radio2">
+                          Pending
+                        </label>
+                      </div>
+
+                      <div class="radio">
+                        <input type="radio" name="radio1" id="radio3" (click)="rejectedRadio()" value="option3">
+                        <label style="color: #ffffff" for="radio3">
+                          Rejected
+                        </label>
+                      </div>
+                  </div>
               </div>
-
-              <div class="radio">
-                <input id="CBRes" type="radio" (click)="rejectedRadio()">
-                <label class="col-white" for="CBRes">
-                  Rejected
-                </label>
-              </div>
-
-              <div class="radio">
-                <input id="pend" type="radio" checked="true" (click)="pendingRadio()">
-                <label class="col-white" for="CBRes">
-                  Pending
-                </label>
-              </div>
-            </ul>
-
+            </div>
           </div>
         </div>
+      </div>
+      <!--<div class="container d-flex">-->
+        <!--<div class="card bg-dark text-center w-80">-->
+          <!---->
+          <!--</div>-->
+        <!--</div>-->
       </div>
     </div>
   </div>
