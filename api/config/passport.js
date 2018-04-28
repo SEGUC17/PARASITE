@@ -85,11 +85,9 @@ module.exports = function (passport) {
 
     passport.use(new GoogleStrategy(
         {
-            accessTokenField: 'accessToken',
             callbackURL: config.BACKENDEND_URI + 'auth/google/callback',
             clientID: SECRET.GOOGLE.ID,
-            clientSecret: SECRET.GOOGLE.PW,
-            refreshTokenField: 'refreshToken'
+            clientSecret: SECRET.GOOGLE.PW
         },
         function (accessToken, refreshToken, profile, done) {
             console.log(profile);

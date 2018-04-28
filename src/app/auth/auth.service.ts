@@ -92,22 +92,28 @@ export class AuthService {
       .catch(this.handleError);
   }
 
-  signInWithGoogle() {
-    const self = this;
-    this.googleAuthService.getAuth().subscribe(function(res) {
-      res.signIn()
-      .then(function(res2) {
-        self.authGoogle(res2.Zi);
-      })
-      .catch(this.handleError);
-    });
-  }
-
   authFacebook(authResponse): Observable<any> {
     const self = this;
     return this.http.post<any>(environment.apiUrl + 'auth/facebook', authResponse).pipe(
       catchError(self.handleError('authFacebook', []))
     );
+  }
+
+  signInWithGoogle() {
+    const self = this;
+    this.googleAuthService.getAuth().subscribe(function(res) {
+      res.signIn()
+      .then(function(res2) {
+        self.authGoogle(res2.Zi).subscribe(function(res3) {
+          if (res3.msg === 'Sign In Is Successful!') {
+            self.setToken(res3.token);
+            self.toastrService.success(res3.msg, 'Welcome!');
+            self.router.navigateByUrl('/content/list');
+          }
+        });
+      })
+      .catch(this.handleError);
+    });
   }
 
   authGoogle(Zi): Observable<any> {
