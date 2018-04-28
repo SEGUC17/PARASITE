@@ -243,11 +243,12 @@ export class AppComponent implements OnInit {
     this.authService.getUserData(['username', 'firstName', 'lastName', 'avatar']).subscribe(function (res) {
       if (res.status === 401) {
         self.authService.setToken(null);
+      } else if (res.status === 200) {
+        self.username = res.data.username;
+        self.avatar = res.data.avatar;
+        self.firstName = res.data.firstName;
+        self.lastName = res.data.lastName;
       }
-      self.username = res.data.username;
-      self.avatar = res.data.avatar;
-      self.firstName = res.data.firstName;
-      self.lastName = res.data.lastName;
     });
   }
 
