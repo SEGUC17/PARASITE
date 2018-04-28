@@ -10,7 +10,7 @@ export class ActivityEditComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<ActivityEditComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { } // Edit activity dialog
 
 
   ngOnInit() {
@@ -18,7 +18,7 @@ export class ActivityEditComponent implements OnInit {
 
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(); // closing dialog
   }
 
 }

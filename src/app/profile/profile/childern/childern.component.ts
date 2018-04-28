@@ -9,7 +9,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 })
 export class ChildernComponent implements OnInit {
 
-
+// initializing variabless
   childrenList: string[];
 childListIsFilled: boolean;
   username: string;
@@ -27,7 +27,7 @@ childListIsFilled: boolean;
 
  } // Heidi
 
- calculateAge(birthdate: Date): Number {
+ calculateAge(birthdate: Date): Number { // calculating age
   const birthday = new Date(birthdate);
   const today = new Date();
   const age = ((today.getTime() - birthday.getTime()) / (31557600000));

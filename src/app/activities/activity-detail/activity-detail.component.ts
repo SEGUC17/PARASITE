@@ -86,15 +86,13 @@ username = '';
 
     this.authService.getUserData(['username']).subscribe(function (res) {
       this.username = res.data.username;
-     // console.log('current: ' + this.currentUser.username );
+
       console.log('booked? ' + self.isBooked);
       console.log('creator? ' + self.isCreator);
-// if (this.updatedActivity.creator.equal(this.username)) { this.isCreator = true; }
+
 
   });
-  // if ( this.updatedActivity.bookedBy.length < 1) {
-  // this.isNotBooked = true;
- // }
+
   }
 
   getCurrentUser() {
@@ -240,9 +238,9 @@ username = '';
 
 
 
-  openDialog(): void {
+  openDialog(): void { // author: Heidi
     let from = new Date(this.activity.fromDateTime).toJSON();
-    let to   = new Date(this.activity.toDateTime).toJSON();
+    let to   = new Date(this.activity.toDateTime).toJSON(); // converting dates to match datetime-local
   let   dialogRef = this.dialog.open(ActivityEditComponent, {
     width: '700px',
     height: '520px',
@@ -260,19 +258,19 @@ username = '';
       this.updatedActivity.description = result.description;
       this.updatedActivity.fromDateTime = new Date(result.fromDateTime).getTime();
       this.updatedActivity.toDateTime = new Date(result.toDateTime).getTime();
-      console.log('from' + this.updatedActivity.fromDateTime);
-      console.log('to' + this.updatedActivity.toDateTime);
+     // taking new values from dialog , assigning them to updatedActivity
+     // and passing it to EditActivity method
        this.EditActivity(this.updatedActivity);
     });
   }
 
 
 
-EditActivity(activity) {
+EditActivity(activity) { // author:Heidi
   let id = this.route.snapshot.paramMap.get('id');
   this.activityService.EditActivity(this.updatedActivity, id).subscribe(
     res => {
-        console.log(res);
+
     }
 
   );
