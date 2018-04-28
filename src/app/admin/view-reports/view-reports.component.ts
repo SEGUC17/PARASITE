@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-import { AdminService } from '../../admin.service';
+import { AdminService } from '../admin.service';
 import { ToastrService } from 'ngx-toastr';
 
 declare const swal: any;

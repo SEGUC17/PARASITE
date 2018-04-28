@@ -3,10 +3,10 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
-import { Category } from './content/category';
+import { Category } from '../../interfaces/category';
+import { Section } from '../../interfaces/section';
 import { ToastrService } from 'ngx-toastr';
-import { Section } from './content/section';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

@@ -5,11 +5,10 @@ import { MatChipInputEvent } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { ContentService } from '../content.service';
 import { Content } from '../content';
-import { Section } from '../section';
+import { Section } from '../../../interfaces/section';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Category } from '../category';
+import { Category } from '../../../interfaces/category';
 import { AuthService } from '../../auth/auth.service';
-import { AdminService } from '../../admin.service';
 @Component({
   selector: 'app-content-edit',
   templateUrl: './content-edit.component.html',
@@ -44,8 +43,7 @@ export class ContentEditComponent implements OnInit {
     private contentService: ContentService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router,
-    private adminService: AdminService) {
+    private router: Router) {
   }
 
   // Add a tag chip event handler
@@ -119,9 +117,9 @@ export class ContentEditComponent implements OnInit {
         return;
       }
       if (contentRes.data.content) {
-        self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
+        self.router.navigateByUrl('/content/view/' + contentRes.data.content._id);
       }
-      self.router.navigateByUrl('/content-view/' + contentRes.data._id);
+      self.router.navigateByUrl('/content/view/' + contentRes.data._id);
     });
   }
   // retrieve all categories from server

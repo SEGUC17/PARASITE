@@ -133,6 +133,11 @@ export class MessagingComponent implements OnInit {
       this.blockedUser = message.sender;
      // console.log('blocked user is:' + this.blockedUser);
     }
+    if ( this.blockedUser === this.currentUser.username ) {
+        this.toastrService.error('Sorry, you can\'t block yourself!');
+        this.allIsWell = false;
+    }
+
    // console.log('blocklist is: ', this.currentUser.blocked);
     for (let i = 0 ; i < this.currentUser.blocked.length; i++) {
          if (this.currentUser.blocked[i] === this.blockedUser) {

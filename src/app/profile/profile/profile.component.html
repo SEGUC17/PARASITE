@@ -247,7 +247,7 @@
 
 
 </div>
-
+<section class="content">
 <section class="content profile-page">
   <div class="block-header">
     <div class="row">
@@ -273,11 +273,14 @@
           <div class="body col-white">
             <div class="row">
               <div class="col-lg-3 col-md-4 col-12">
-                <div class="profile-image float-md-right"> <img src="assets/images/defaultProfilePic.png" alt=""> </div>
+                <div class="profile-image float-md-right"> <img src= "{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}" alt="Profile Picture">
+                  <br/>
+                  <a href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right"><i class="zmdi zmdi-edit"></i></a>
+                </div>
               </div>
               <div class="col-lg-9 col-md-8 col-12">
                 <h4 class="m-t-0 m-b-0"><strong>{{currIsOwner? firstName : vFirstName}}</strong>{{currIsOwner? lastName : vLastName}}</h4>
-                <span class="job_post" *ngIf="true">Ui UX Designer</span>
+                <a class="job_post" href="javascript:void(0);" *ngIf="(currIsOwner && currIsAdmin) || visitedIsAdmin"><i class="material-icons">verified_user</i> {{currIsOwner? (currIsAdmin? 'Admin' : '' ) : (visitedIsAdmin? 'Admin' : '' ) }}</a>
                 <p>{{currIsOwner? address : vAddress}}</p>
                 <div>
                   <button class="btn btn-primary btn-round btn-simple">Message</button>
@@ -297,14 +300,6 @@
                   </span>
                   </button>
                 </div>
-
-                <p class="social-icon m-t-5 m-b-0">
-                    <a title="Twitter" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
-                    <a title="Facebook" href="javascript:void(0);"><i class="zmdi zmdi-facebook"></i></a>
-                    <a title="Google-plus" href="javascript:void(0);"><i class="zmdi zmdi-twitter"></i></a>
-                    <a title="Behance" href="javascript:void(0);"><i class="zmdi zmdi-behance"></i></a>
-                    <a title="Instagram" href="javascript:void(0);"><i class="zmdi zmdi-instagram "></i></a>  
-                </p>
               </div>
             </div>
           </div>
@@ -379,22 +374,22 @@
           </div>
         </div>
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane" id="usersettings">
+          <div role="tabpanel" class="tab-pane" id="childsettings">
             <div class="card">
               <div class="header">
                 <h2><strong>Security</strong> Settings</h2>
               </div>
               <div class="body">
                 <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Username">
+                  <input #Oldpw type="password" class="form-control" placeholder="Your Current Password" [(ngModel)]=oldpw>
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control" placeholder="Current Password">
+                  <input #Newpw type="password" class="form-control" placeholder="New Password" [(ngModel)]=newpw>
                 </div>
                 <div class="form-group">
-                  <input type="password" class="form-control" placeholder="New Password">
+                  <input #Confirmpw type="password" class="form-control" placeholder="Confirm New Password"  [(ngModel)]=confirmpw>
                 </div>
-                <button class="btn btn-info btn-round">Save Changes</button>
+                <button class="btn btn-danger btn-round"(click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
               </div>
             </div>
             <div class="card">
@@ -415,12 +410,14 @@
                       <input id="dLastName" type="text" class="form-control" [ngModel]=dLastName placeholder="Last Name : {{lastName}}" value= {{lastName}}>
                     </div>
                   </div>
+                  <br/>
                   <div class="col-lg-4 col-md-12">
                     <div class="form-group">
                       <small class="text-muted">Username: </small>
                       <input id="dUsername" type="text" class="form-control" [ngModel]=dUsername placeholder="Username : {{username}}" value= {{username}}>
                     </div>
                   </div>
+                  <br/>
                   <div class="col-lg-4 col-md-12">
                     <div class="form-group">
                       <small class="text-muted">Email address: </small>
@@ -428,6 +425,7 @@
                         placeholder="E-mail :  {{email}}" value= {{email}}>
                     </div>
                   </div>
+                  <br/>
                   <div class="col-lg-4 col-md-12">
                     <div class="form-group">
                       <small class="text-muted">Address: </small>
@@ -483,7 +481,7 @@
             </div>
           </div>
 
-          <div role="tabpanel" class="tab-pane" id="childsettings">
+          <div role="tabpanel" class="tab-pane" id="usersettings">
               <div class="card">
                 <div class="header">
                   <h2>
@@ -502,6 +500,53 @@
                   <button class="btn btn-info btn-round">Save Changes</button>
                 </div>
               </div>
+    <!-- Vertical Layout -->
+    <div class="row clearfix">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2><strong>Vertical</strong> Layout</h2>
+          </div>
+          <div class="body">
+            <form>
+              <label for="dFirstName">First Name</label>
+              <div class="form-group">
+                <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value= {{firstName}}>
+              </div>
+              <label for="dLastName">Last Name</label>
+              <div class="form-group">
+                <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value= {{lastName}}>
+              </div>
+              <label for="dUsername">Username</label>
+              <div class="form-group">
+                <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value= {{username}} disabled>
+              </div>
+              <label for="dEmail">Email</label>
+              <div class="form-group">
+                <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{email}} disabled>
+              </div>
+              <label for="dAddress">Address</label>
+              <div class="form-group">
+                <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{address}}>
+              </div>
+              <label for="dBirthday">Birthdate</label>
+              <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="zmdi zmdi-calendar"></i>
+                </span>
+            <input id="dBirthday" type="text" class="form-control datetimepicker" value = {{birthdayView}}>
+            </div>
+            <label for="dPhone">Phone</label>
+            <div class="form-group">
+              <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value= {{phone}}>
+            </div>
+              <button type="button" (click) = "ChangeInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #END# Vertical Layout -->
               <div class="card">
                 <div class="header">
                   <h2>
@@ -574,3 +619,18 @@
     </div>
   </div>
 </section>
+</section>
+    <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="title" id="defaultModalLabel">Profile picture upload</h4>
+          </div>
+          <div class="modal-body">
+              <app-image-uploader (ImageUploaded) = "uploaded($event)"></app-image-uploader>
+            <button id="closeModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" style="float:right">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+

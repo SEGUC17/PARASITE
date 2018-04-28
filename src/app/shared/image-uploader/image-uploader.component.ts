@@ -12,7 +12,7 @@ import { CloudinaryCredentials } from '../../variables';
 })
 export class ImageUploaderComponent implements OnInit {
 
- 
+
   //
   // # Getting Started;
   //
@@ -36,14 +36,14 @@ export class ImageUploaderComponent implements OnInit {
   //     }
   //
 
- @Output() ImageUploaded = new EventEmitter<string>();
+  @Output() ImageUploaded = new EventEmitter<string>();
 
   uploader: CloudinaryUploader = new CloudinaryUploader(
     new CloudinaryOptions({ cloudName: CloudinaryCredentials.cloudName, uploadPreset: CloudinaryCredentials.uploadPreset })
   );
 
   loading: any;
-
+  filePath = '';
 
   constructor() { }
 
@@ -53,21 +53,26 @@ export class ImageUploaderComponent implements OnInit {
 
   upload() {
     let self = this;
-    this.loading = true;
-    this.uploader.uploadAll();
-    this.uploader.onSuccessItem = (
-      item: any,
-      response: string,
-      status: number,
-      headers: any): any => {
-      let res: any = JSON.parse(response);
-      self.ImageUploaded.emit(res.url);
-    };
-    this.uploader.onErrorItem =
-      function(fileItem, response, status, headers) {
-      // console.info('onErrorItem', fileItem, response, status, headers);
-      self.ImageUploaded.emit('imageFailedToUpload');
-    };
+    if (this.uploader.queue.length > 0) {
+      this.loading = true;
+      this.uploader.uploadAll();
+      this.uploader.onSuccessItem = (
+        item: any,
+        response: string,
+        status: number,
+        headers: any): any => {
+        let res: any = JSON.parse(response);
+        this.loading = false;
+        self.ImageUploaded.emit(res.url);
+      };
+      this.uploader.onErrorItem =
+        function (fileItem, response, status, headers) {
+          // console.info('onErrorItem', fileItem, response, status, headers);
+          self.ImageUploaded.emit('imageFailedToUpload');
+        };
+    } else {
+      self.ImageUploaded.emit('noFileToUpload');
+    }
   }
 
 }

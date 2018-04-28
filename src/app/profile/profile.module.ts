@@ -10,10 +10,9 @@ import { MatTabsModule, MatButtonModule, MatMenuModule,
   MatChipsModule, MatCardModule, MatExpansionModule,
   MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonToggleModule } from '@angular/material';
 import { FormsModule } from '@angular/forms';
-import { ScheduleModule } from '../schedule/schedule.module';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from '../messaging/messaging.service';
-
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -27,12 +26,12 @@ import { MessageService } from '../messaging/messaging.service';
     MatChipsModule,
     FormsModule,
     MatCardModule,
-    ScheduleModule,
     MatExpansionModule,
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    SharedModule
   ],
   declarations: [ProfileComponent, ChildernComponent],
   providers: [
