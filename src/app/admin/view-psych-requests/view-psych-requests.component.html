@@ -1,14 +1,14 @@
 <div class="background container">  
   <div class="card-deck">
     <div class="card-deck col-lg-9 col-md-12">
-      <div class="col-lg-6 col-md-12" *ngFor="let req of requests; let i = index">
+      <div class="col-lg-4 col-md-12" *ngFor="let req of requests; let i = index">
         <div class="card single_post mt-4" >
           <div class="header">
-            <h2 style="font-size:25px">
+            <h2>
               <strong>{{req.firstName}} {{req.lastName}}</strong>
             </h2>
           </div>
-          <div class="body text-secondary">
+          <div class="body text-secondary" style="font-size:12px">
             <span><strong> Phone</strong> {{req.phone}}</span><br>
             <span><strong> Email</strong> {{req.email}}</span><br>
             <span><strong> Days off </strong></span>
@@ -18,7 +18,7 @@
             <span><strong> Maximum Price Range</strong> {{req.priceRange}}</span>
             <br>
             <span><strong> Address </strong></span>
-            <div style="height:70px">
+            <div style="height:60px">
               <span>{{req.address}}</span>
             </div>
           </div>
@@ -39,7 +39,7 @@
     </div>
     <div class="col-lg-3 col-md-12 right-box">
       <div class="container d-flex">
-        <div class="card bg-dark text-center w-80">
+        <div class="card single_post bg-dark text-center w-80 mt-4">
           <div class="header">
             <h2>
               <strong>
@@ -50,14 +50,14 @@
           <div class="body">
             <div cass="row">
               <div class="radio">
-                <input id="filter_add" style="margin-right: 3px" (click)="loadRequests('add')" [value]='add' name="filter" type="radio">
-                <label for="filter_add">
+                <input id="filter_add" style="margin-right: 3px" (click)="loadRequests('add')" [value]='add' name="filter" type="radio" checked="">
+                <label class="col-white" for="filter_add">
                   Add requests
                 </label>
               </div>
               <div class="radio">
                 <input id="filter_edit" style="margin-right: 3px" (click)="loadRequests('edit')" [value]='edit' name="filter" type="radio">
-                <label for="filter_edit">
+                <label class="col-white" for="filter_edit">
                   Edit requests
                 </label>
               </div>
