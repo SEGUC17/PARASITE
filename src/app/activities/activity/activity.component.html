@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
-        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="canCreate" routerLink="/create" type="button">
+        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="canCreate" type="button" (click)="showCreateActivityForm()">
                                                                                                                           <!--TODO: redirect to create Page-->
           <i class="zmdi zmdi-plus"></i>
         </button>
@@ -75,3 +75,15 @@
   <!--</div>-->
 
 </section>
+
+<div class="modal" id="createModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div>
+      <app-activity-create></app-activity-create>
+    </div>
+
+    <div class="modal-footer" style="display: none;">
+      <button type="button" class="btn btn-default" id="btn11" data-dismiss="modal">Close</button>
+    </div>
+  </div>
+</div>
