@@ -31,7 +31,6 @@ var generateJWTToken = function (id, time, callback) {
 };
 // ---------------------- End of "JWT Token Generator" ---------------------- //
 
-
 module.exports.signUp = function (req, res, next) {
 
     // --- Variable Assign --- //
@@ -52,32 +51,13 @@ module.exports.signUp = function (req, res, next) {
     var field = '';
     try {
 
-        field = 'Address';
-        isString(newUser.address ? newUser.address : '');
-
-        field = 'Birthdate';
-        isNotEmpty(newUser.birthdate);
-        isDate(newUser.birthdate);
-
-        field = 'Email';
-        isNotEmpty(newUser.email);
-        isString(newUser.email);
-
         field = 'First Name';
         isNotEmpty(newUser.firstName);
         isString(newUser.firstName);
 
-        field = 'Is Teacher';
-        isNotEmpty(newUser.isTeacher);
-        isBoolean(newUser.isTeacher);
-
         field = 'Last Name';
         isNotEmpty(newUser.lastName);
         isString(newUser.lastName);
-
-        field = 'Password';
-        isNotEmpty(newUser.password);
-        isString(newUser.password);
 
         field = 'Phone';
         isArray(newUser.phone ? newUser.phone : []);
@@ -85,9 +65,28 @@ module.exports.signUp = function (req, res, next) {
             isString(newUser.phone[index]);
         }
 
+        field = 'Address';
+        isString(newUser.address ? newUser.address : '');
+
+        field = 'Birthdate';
+        isNotEmpty(newUser.birthdate);
+        isDate(newUser.birthdate);
+
+        field = 'Is Teacher';
+        isNotEmpty(newUser.isTeacher);
+        isBoolean(newUser.isTeacher);
+
         field = 'Username';
         isNotEmpty(newUser.username);
         isString(newUser.username);
+
+        field = 'Email';
+        isNotEmpty(newUser.email);
+        isString(newUser.email);
+
+        field = 'Password';
+        isNotEmpty(newUser.password);
+        isString(newUser.password);
 
     } catch (err) {
         return res.status(422).json({
@@ -109,6 +108,18 @@ module.exports.signUp = function (req, res, next) {
         ? newUser.username.toLowerCase().trim()
         : newUser.username;
     // --- End of "Trimming & Lowering Cases"--- //
+
+    // --- Check: Phone Regex Match ---//
+    for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
+        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
+            return res.status(422).json({
+                data: null,
+                err: null,
+                msg: 'Phone Is Not Valid!'
+            });
+        }
+    }
+    // --- End of "Check: Phone Regex Match" ---//
 
     // --- Check: birthdate --- //
     if (new Date().getFullYear() - newUser.birthdate.getFullYear() < 13) {
@@ -140,17 +151,18 @@ module.exports.signUp = function (req, res, next) {
     }
     // --- End of "Check: Password Length" --- //
 
-    // --- Check: Phone Regex Match ---//
-    for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
-        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
-            return res.status(422).json({
-                data: null,
-                err: null,
-                msg: 'Phone Is Not Valid!'
-            });
-        }
+    // --- Check: Password Match --- //
+    if (
+        req.body.confirmPassword &&
+        newUser.password.length !== req.body.confirmPassword
+    ) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: 'Password & Confirm Password Do Not Match!'
+        });
     }
-    // --- End of "Check: Phone Regex Match" ---//
+    // --- End of "Check: Password Match" --- //
 
     // --- Check: Duplicate Username/Email --- //
     User.findOne(
@@ -202,7 +214,7 @@ module.exports.signUp = function (req, res, next) {
 };
 
 module.exports.verifyChildEmail = function (req, res, next) {
-console.log('entered the verification for child email');
+    console.log('entered the verification for child email');
     User.findByIdAndUpdate(
         req.params.id,
         { 'isEmailVerified': true },
@@ -219,8 +231,8 @@ console.log('entered the verification for child email');
                     msg: 'User Not Found!'
                 });
             }
-       console.log('res is 200 ');
-       console.log('isEmailVerified : ', user.isEmailVerified);
+            console.log('res is 200 ');
+            console.log('isEmailVerified : ', user.isEmailVerified);
 
             return res.status(200).json({
                 data: null,
@@ -268,13 +280,13 @@ module.exports.signIn = function (req, res, next) {
     var field = '';
     try {
 
-        field = 'Password';
-        isNotEmpty(req.body.password);
-        isString(req.body.password);
-
         field = 'Username';
         isNotEmpty(req.body.username);
         isString(req.body.username);
+
+        field = 'Password';
+        isNotEmpty(req.body.password);
+        isString(req.body.password);
 
     } catch (err) {
         return res.status(422).json({
@@ -348,6 +360,17 @@ module.exports.signIn = function (req, res, next) {
 
 };
 
+module.exports.signInWithThirdPartyResponse = function (req, res, next) {
+    var time = '1d';
+    generateJWTToken(req.user._id, time, function (jwtToken) {
+        return res.status(200).json({
+            data: null,
+            err: null,
+            msg: 'Sign In Is Successful!',
+            token: jwtToken
+        });
+    });
+};
 
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
@@ -523,7 +546,7 @@ module.exports.signUpChild = function (req, res, next) {
                     data: null,
                     error: null,
                     msg: 'Child Sign Up is Successful!\n' +
-                    'Verification Mail Was Sent To Your Child\'s Email!'
+                        'Verification Mail Was Sent To Your Child\'s Email!'
                 });
             });
         }

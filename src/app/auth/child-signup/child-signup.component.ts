@@ -45,7 +45,7 @@ export class ChildSignupComponent implements OnInit {
          this.Div3 = true;
          if ( res.msg ) {
             self.toastrService.success(res.msg);
-            self.router.navigate(['/dashboard']);
+            self.router.navigate(['/']);
            }
        });
     }// end if

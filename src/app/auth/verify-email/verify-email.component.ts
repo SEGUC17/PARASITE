@@ -25,7 +25,7 @@ export class VerifyEmailComponent implements OnInit {
           self.authService.setToken(res.token);
           self.toastrService.success(res.msg);
         }
-        self.router.navigate(['/']);
+        self.router.navigateByUrl('/content/list');
       });
     });
   }
