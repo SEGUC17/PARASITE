@@ -162,14 +162,8 @@ module.exports = function (passport) {
   // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/auth/facebook', authFacebook, userController.signInWithThirdPartyResponse);
-  router.post('/auth/google', passport.authenticate('google'));
-  router.post('/auth/google/callback', function(req, res, next) {
-    console.log('POST', req);
-  });
-  router.get('/auth/google/callback', function(req, res, next) {
-    console.log('GET', req);
-  });
+  router.post('/auth/facebook', isNotAuthenticated, authFacebook, userController.signInWithThirdPartyResponse);
+  router.post('/auth/google', isNotAuthenticated, userController.signInWithGoogle, userController.signInWithThirdPartyResponse);
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
   router.get('/verifyChildEmail/:id', userController.verifyChildEmail);

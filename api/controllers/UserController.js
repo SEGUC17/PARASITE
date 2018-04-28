@@ -1,9 +1,12 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
 
+var that = this;
+
 // ---------------------- Requirements ---------------------- //
 var emailVerification = require('../utils/emails/email-verification');
 var config = require('../config/config');
+var generateString = require('../utils/generators/generate-string');
 var jwt = require('jsonwebtoken');
 var REGEX = require('../utils/validators/REGEX');
 var mongoose = require('mongoose');
@@ -370,6 +373,50 @@ module.exports.signInWithThirdPartyResponse = function (req, res, next) {
             token: jwtToken
         });
     });
+};
+
+module.exports.signInWithGoogle = function (req, res, next) {
+    User.findOneAndUpdate(
+        {
+            $or: [
+                { 'email': req.body.email },
+                { 'googleId': req.body.googleId }
+            ]
+        },
+        {
+            'email': req.body.email,
+            'googleId': req.body.googleId,
+            'isEmailVerified': true
+        },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (user) {
+                req.user = user;
+
+                return next();
+            }
+
+            var newUser = new User({
+                email: req.body.email,
+                firstName: req.body.firstName,
+                googleId: req.body.googleId,
+                isEmailVerified: true,
+                lastName: req.body.lastName,
+                password: generateString(12),
+                username: req.body.email
+            });
+
+            newUser.save(function (err2, user2) {
+                if (err2) {
+                    throw err2;
+                }
+                req.user = user2;
+
+                return next();
+            });
+        }
+    );
 };
 
 module.exports.signUpChild = function (req, res, next) {

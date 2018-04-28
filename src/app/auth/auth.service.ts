@@ -105,9 +105,19 @@ export class AuthService {
     this.googleAuthService.getAuth().subscribe(function(res) {
       res.signIn()
       .then(function(res2: GoogleUser) {
-        console.log(res2.getAuthResponse());
-        self.authGoogle(res2.getAuthResponse()).subscribe(function(res3) {
-          console.log(res3);
+        let user = {
+          'email': res2.getBasicProfile().getEmail(),
+          'firstName': res2.getBasicProfile().getGivenName(),
+          'googleId': res2.getBasicProfile().getId(),
+          'imageUrl': res2.getBasicProfile().getImageUrl(),
+          'lastName': res2.getBasicProfile().getFamilyName()
+        };
+        self.authGoogle(user).subscribe(function(res3) {
+          if (res3.msg === 'Sign In Is Successful!') {
+            self.setToken(res3.token);
+            self.toastrService.success(res3.msg, 'Welcome!');
+            self.router.navigateByUrl('/content/list');
+          }
         });
       })
       .catch(this.handleError);
