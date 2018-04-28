@@ -69,36 +69,34 @@
         <div class="row clearfix">
           <div class="col-lg-12 col-md-12">
             <div class="card profile-header bg-dark">
-              <div class="body col-white">
-                <div class="row">
-                  <div class="header">
-                    <h2>
-                      <strong>
-                        Filter Requests
-                      </strong>
-                    </h2>
+              <div class="header">
+                <h2>
+                  <strong>
+                    Filter Requests
+                  </strong>
+                </h2>
+              </div>
+              <div class="body">
+                <div class="column">
+                  <div class="radio">
+                    <input type="radio" name="radio1" id="radio1" (click)="acceptedRadio()" value="option1">
+                    <label style="color: #ffffff" for="radio1">
+                      Accepted
+                    </label>
                   </div>
-                  <div class="body">
-                      <div class="radio">
-                        <input type="radio" name="radio1" id="radio1" (click)="acceptedRadio()" value="option1">
-                        <label style="color: #ffffff" for="radio1">
-                          Accepted
-                        </label>
-                      </div>
 
-                      <div class="radio">
-                        <input type="radio" name="radio1" id="radio2" (click)="pendingRadio()" value="option2" checked="">
-                        <label style="color: #ffffff" for="radio2">
-                          Pending
-                        </label>
-                      </div>
+                  <div class="radio">
+                    <input type="radio" name="radio1" id="radio2" (click)="pendingRadio()" value="option2" checked="">
+                    <label style="color: #ffffff" for="radio2">
+                      Pending
+                    </label>
+                  </div>
 
-                      <div class="radio">
-                        <input type="radio" name="radio1" id="radio3" (click)="rejectedRadio()" value="option3">
-                        <label style="color: #ffffff" for="radio3">
-                          Rejected
-                        </label>
-                      </div>
+                  <div class="radio">
+                    <input type="radio" name="radio1" id="radio3" (click)="rejectedRadio()" value="option3">
+                    <label style="color: #ffffff" for="radio3">
+                      Rejected
+                    </label>
                   </div>
               </div>
             </div>

@@ -30,6 +30,7 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   }
 
   acceptedRadio() { // triggered by Radio button to change the filter
+    console.log('accept');
     this.filter = 'approved';
     this.viewVCRs(this.filter);
   }

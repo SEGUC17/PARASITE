@@ -22,7 +22,7 @@ export class AdminService {
   private respondContentRequestURL = 'admin/RespondContentRequest/';
   private respondContentStatusURL = 'admin/RespondContentStatus/';
   private getContent = 'admin/getContent/';
-  private URL = 'http://localhost:3000/api/admin';
+  private URL = 'http://localhost:3000/api/admin/';
   private addContributionPtsURL = 'admin/addContPts';
   private reportUrl = '/getReports';
 
