@@ -291,7 +291,7 @@
                     <img src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
                       alt="Profile Picture">
                     <br/>
-                    <a href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right">
+                    <a *ngIf = "currIsOwner" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right">
                       <i class="zmdi zmdi-edit"></i>
                     </a>
                   </div>
@@ -391,12 +391,65 @@
              <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#studyplans">Study Plans</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#userSettings" *ngIf="currIsOwner && currIsOfAge">Settings</a>
+              <li class="nav-item" *ngIf="currIsOwner && currIsOfAge">
+                <a class="nav-link" data-toggle="tab" href="#userSettings">Settings</a>
               </li>
+              <li class="nav-item" *ngIf="visitedIsMyChild">
+                  <a class="nav-link" data-toggle="tab" href="#childSettings">Settings</a>
+                </li>
             </ul>
           </div>
           <div class="tab-content">
+              <div role="tabpanel" class="tab-pane" id="childSettings">
+                  <!-- Child Info -->
+    
+                  <div class="row clearfix">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                      <div class="card">
+                        <div class="header">
+                          <h2>
+                            <strong>Child</strong> Info</h2>
+                        </div>
+                        <div class="body">
+                            <label for="dFirstName">First Name</label>
+                            <div class="form-group">
+                              <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value= {{vFirstName}}>
+                            </div>
+                            <label for="dLastName">Last Name</label>
+                            <div class="form-group">
+                              <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value= {{vLastName}}>
+                            </div>
+                            <label for="dUsername">Username</label>
+                            <div class="form-group">
+                              <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value= {{vUsername}} disabled>
+                            </div>
+                            <label for="dEmail">Email</label>
+                            <div class="form-group">
+                              <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{vEmail}} disabled>
+                            </div>
+                            <label for="dAddress">Address</label>
+                            <div class="form-group">
+                              <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{vAddress}}>
+                            </div>
+                            <label for="dBirthday">Birthdate</label>
+                            <div class="input-group">
+                              <span class="input-group-addon">
+                                <i class="zmdi zmdi-calendar"></i>
+                              </span>
+                              <input type="text" id = "dBirthday" class="form-control datetimepicker" value= {{vBirthdayView}}>
+                            </div>
+                            <label for="dPhone">Phone</label>
+                            <div class="form-group">
+                              <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value= {{vPhone}}>
+                            </div>
+                            <button type="button" (click)="changeChildInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    
+                  <!-- End Child Info -->
+                </div>
             <div role="tabpanel" class="tab-pane" id="userSettings">
               <div class="card">
                 <div class="header">
@@ -416,54 +469,6 @@
                   <button class="btn btn-raised btn-primary btn-round waves-effect" (click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
                 </div>
               </div>
-              <!-- Child Info -->
-
-              <div class="row clearfix" *ngIf = "visitedIsMyChild">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                  <div class="card">
-                    <div class="header">
-                      <h2>
-                        <strong>Child</strong> Info</h2>
-                    </div>
-                    <div class="body">
-                        <label for="dFirstName">First Name</label>
-                        <div class="form-group">
-                          <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value= {{vFirstName}}>
-                        </div>
-                        <label for="dLastName">Last Name</label>
-                        <div class="form-group">
-                          <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value= {{vLastName}}>
-                        </div>
-                        <label for="dUsername">Username</label>
-                        <div class="form-group">
-                          <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value= {{vUsername}} disabled>
-                        </div>
-                        <label for="dEmail">Email</label>
-                        <div class="form-group">
-                          <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{vEmail}} disabled>
-                        </div>
-                        <label for="dAddress">Address</label>
-                        <div class="form-group">
-                          <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{vAddress}}>
-                        </div>
-                        <label for="dBirthday">Birthdate</label>
-                        <div class="input-group">
-                          <span class="input-group-addon">
-                            <i class="zmdi zmdi-calendar"></i>
-                          </span>
-                          <input id="dBirthday" type="text" class="form-control datetimepicker" value= {{vBirthdayView}}>
-                        </div>
-                        <label for="dPhone">Phone</label>
-                        <div class="form-group">
-                          <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value= {{vPhone}}>
-                        </div>
-                        <button type="button" (click)="changeChildInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- End Child Info -->
               <!-- Personal Info -->
               <div class="row clearfix" *ngIf = "currIsOwner">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -475,34 +480,34 @@
                     <div class="body">
                         <label for="dFirstName">First Name</label>
                         <div class="form-group">
-                          <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value= {{firstName}}>
+                          <input type="text" id="qFirstName" [ngModel]=dFirstName class="form-control" value= {{firstName}}>
                         </div>
                         <label for="dLastName">Last Name</label>
                         <div class="form-group">
-                          <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value= {{lastName}}>
+                          <input type="text" id="qLastName" [ngModel]=dLastName class="form-control" value= {{lastName}}>
                         </div>
                         <label for="dUsername">Username</label>
                         <div class="form-group">
-                          <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value= {{username}} disabled>
+                          <input type="text" id="qUsername" [ngModel]=dUsername class="form-control" value= {{username}} disabled>
                         </div>
                         <label for="dEmail">Email</label>
                         <div class="form-group">
-                          <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{email}} disabled>
+                          <input type="text" id="qEmail" [ngModel]=dEmail class="form-control" value= {{email}} disabled>
                         </div>
                         <label for="dAddress">Address</label>
                         <div class="form-group">
-                          <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{address}}>
+                          <input type="text" id="qAddress" [ngModel]=dAddress class="form-control" value= {{address}}>
                         </div>
                         <label for="dBirthday">Birthdate</label>
                         <div class="input-group">
                           <span class="input-group-addon">
                             <i class="zmdi zmdi-calendar"></i>
                           </span>
-                          <input id="dBirthday" type="text" class="form-control datetimepicker" value = {{birthdayView}}>
+                          <input type="text" id = "qBirthday" class="form-control datetimepicker" value= {{birthdayView}}>
                         </div>
                         <label for="dPhone">Phone</label>
                         <div class="form-group">
-                          <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value= {{phone}}>
+                          <input type="text" id="qPhone" [ngModel]=dPhone class="form-control" value= {{phone}}>
                         </div>
                         <button type="button" (click)="ChangeInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
                     </div>
