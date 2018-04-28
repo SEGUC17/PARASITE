@@ -60,7 +60,7 @@
                   <h6>{{ event.title }}</h6>
                   <p>{{ event.meta && event.meta.description ? event.meta.description : 'N/A' }}</p>
                   <div class="float-right">
-                    <a class="clickable col-md-12 col-lg-4 col-xl-4" data-toggle="modal" data-target="#editModal" (click)="preEdit(index); editIndex = index; editTitle = event.title; editDescription = event.meta && event.meta.description ? event.meta.description : '';">
+                    <a class="clickable col-md-12 col-lg-4 col-xl-4" data-toggle="modal" data-target="#editModal" (click)="preEdit(index); editIndex = index; editTitle = event.title; editStart = event.start; editEnd = event.end; editDescription = event.meta && event.meta.description ? event.meta.description : '';">
                       <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
                     </a>
                     <a class="clickable col-md-12 col-lg-4 col-xl-4" (click)="delete(index)">
@@ -173,8 +173,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="createEvent(createTitle, createDescription, createStart, createEnd); createTitle = ''; createDescription = ''; createStart = ''; createEnd = '';">Create Event</button>
-        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="cancelCreate(); createTitle = ''; createDescription = ''; createStart = ''; createEnd = '';">Cancel</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="createEvent(createTitle, createDescription, createStart, createEnd); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">Create Event</button>
+        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="cancelCreate(); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">Cancel</button>
       </div>
     </div>
   </div>
@@ -214,8 +214,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = ''; editEnd = '';">Save Changes</button>
-        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = ''; editEnd = '';">Cancel</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">Save Changes</button>
+        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">Cancel</button>
       </div>
     </div>
   </div>

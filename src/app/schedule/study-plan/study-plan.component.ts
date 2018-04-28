@@ -116,8 +116,6 @@ export class StudyPlanComponent implements OnInit {
       if (date) {
         self.createStart = date._d;
         $('#createEnd').bootstrapMaterialDatePicker('setMinDate', date);
-      } else {
-        self.createStart = new Date();
       }
     });
 
@@ -125,8 +123,6 @@ export class StudyPlanComponent implements OnInit {
       if (date) {
         self.createEnd = date._d;
         $('#createStart').bootstrapMaterialDatePicker('setMaxDate', date);
-      } else {
-        self.createEnd = new Date();
       }
     });
 
@@ -134,8 +130,6 @@ export class StudyPlanComponent implements OnInit {
       if (date) {
         self.editStart = date._d;
         $('#editEnd').bootstrapMaterialDatePicker('setMinDate', date);
-      } else {
-        self.editStart = new Date();
       }
     });
 
@@ -143,8 +137,6 @@ export class StudyPlanComponent implements OnInit {
       if (date) {
         self.editEnd = date._d;
         $('#editStart').bootstrapMaterialDatePicker('setMaxDate', date);
-      } else {
-        self.editEnd = new Date();
       }
     });
 
@@ -346,12 +338,8 @@ export class StudyPlanComponent implements OnInit {
   editEvent(editTitle, editDescription, editStart, editEnd) {
     this.events[this.editIndex].title = editTitle;
     this.events[this.editIndex].meta.description = editDescription;
-    if (editStart) {
-      this.events[this.editIndex].start = editStart;
-    }
-    if (editEnd) {
-      this.events[this.editIndex].end = editEnd;
-    }
+    this.events[this.editIndex].start = editStart;
+    this.events[this.editIndex].end = editEnd;
 
     $('#editStart').bootstrapMaterialDatePicker('_onClearClick');
     $('#editEnd').bootstrapMaterialDatePicker('_onClearClick');
