@@ -40,7 +40,6 @@ var notificationSchema = mongoose.Schema({
     }
 });
 
-
 // -------------------------- Schemas ------------------------------------ //
 var userSchema = mongoose.Schema({
     address: {
@@ -144,6 +143,8 @@ var userSchema = mongoose.Schema({
         default: [],
         type: [notificationSchema]
     },
+     //To-do : put max length
+
     password: String,
     phone: {
         match: REGEX.PHONE_REGEX,

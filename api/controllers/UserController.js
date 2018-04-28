@@ -789,4 +789,79 @@ module.exports.resetPassword = function (req, res, next) {
         }
     });
 };
+module.exports.modifyNotification = function (req, res) {
+    User.findOne(
+        { username: req.user },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User couldn\'t be found'
+                });
+            }
+
+                var notification = user.notifications.filter(function (not) {
+                    return not._id === req.body.notificationId;
+                }).pop();
+                if (!notification) {
+                    return res.status(404).json({
+                        data: null,
+                        err: 'Notification doesn\'t exist',
+                        msg: null
+                    });
+                }
+
+                user.notifications.id(req.body.notificationId).isRead =
+                req.body.isRead;
+                notification.isRead = req.body.isRead;
+                notification.save(function(errr) {
+                    if (err) {
+                        console.log(errr);
+                        throw errr;
+                    }
+                });
+
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'Notification was set'
+                });
+                // user does not exist
+}
+);
+};
+module.exports.postNotification = function(req, res) {
+
+    User.findOneAndUpdate(
+        { username: req.body.username },
+        {
+            $push:
+                { 'notification': req.body.notification }
+        }
+        , { new: true }, function (err, updatedUser) {
+            if (!updatedUser) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'user not found'
+                });
+            }
+            if (err) {
+                return res.status(402).json({
+                    data: null,
+                    err: 'error occurred during adding the notification'
+});
+            }
+
+        return res.status(201).json({
+            data: updatedUser.notifications.pop(),
+            err: null,
+            msg: null
+        });
+    }
+);
+};
+
 

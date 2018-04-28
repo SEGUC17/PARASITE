@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef, Renderer2, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './auth/auth.service';
 import { Router, NavigationStart } from '@angular/router';
+import { Notification } from './notification'
 
 declare const $: any;
 declare const jquery: any;
@@ -19,6 +20,8 @@ export class AppComponent implements OnInit {
   firstName: string;
   lastName: string;
   isAdmin: boolean;
+  notifications: Notification[];
+  unread : number; // Number of unread notifications to display on top of icon
   links = [
     {
       url: '/content/list',
@@ -256,6 +259,22 @@ export class AppComponent implements OnInit {
       self.lastName = res.data.lastName;
       self.isAdmin = res.data.isAdmin;
     });
+  }
+  modifyNotification(notificationId, isRead:boolean): void {
+    let self = this;
+    this.authService.modifyNotification(notificationId, self.username, isRead).subscribe(function(res) {
+      self.getNotifications();
+    });
+    
+  }
+  getNotifications():void {
+    // console.log('getting notifications');
+    let self = this;
+    // self.notifications = [{ body : 'This ia a notification', link : 'fhbejdv' },{body : 'This ia a notification', link : 'fhbejdv' }] 
+    this.authService.getUserData(['notifications']).subscribe(function(res) {
+      self.notifications = res.data.notifications;
+      console.log(res.data.notifications);
+    })
   }
 
 }
