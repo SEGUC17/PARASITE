@@ -29,6 +29,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
+import { DiscussionService } from '../discussion.service';
 
 
 
@@ -58,7 +59,12 @@ import { ToastrService } from 'ngx-toastr';
     MatDividerModule,
     MatTooltipModule
   ],
-  providers: [ContentService, ToastrService, VideoIdExtractorPipe],
+  providers: [
+    ContentService,
+    DiscussionService,
+    ToastrService,
+    VideoIdExtractorPipe
+  ],
   declarations: [
     ContentEditComponent,
     ContentListViewComponent,
