@@ -254,19 +254,16 @@ export class ProfileComponent implements OnInit {
 
 
   ChangePassword(pws: any): void {
+    const self = this;
     if (!(pws.newpw === pws.confirmpw)) {
-      console.log('passwords dont match');
-      this.message = 'New and confirmed passwords do not match!';
+      self.toastrService.warning('New and confirmed passwords do not match!');
 
 
     } else if ((pws.newpw.length < 8)) {
-      console.log('pw too short');
-      this.message = 'Password should be more than 8 characters';
+      self.toastrService.warning('Password should be at least 8 characters.');
     } else {
-      console.log(pws.oldpw);
       this._ProfileService.changePassword(this.id, pws).subscribe(function (res) {
-        console.log(res.msg);
-        alert(res.msg);
+        self.toastrService.success(res.msg);
       });
 
     }
