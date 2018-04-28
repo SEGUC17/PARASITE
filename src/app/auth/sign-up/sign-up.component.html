@@ -37,7 +37,7 @@
             </div>
             <form name="signUpForm">
               <div class="content">
-                <div id="personalInfo">
+                <div id="personalInfo" [hidden]="this.tabNumber == 2">
                   <div class="input-group">
                     <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="user.firstName" name="firstName" required>
                     <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName" required>
@@ -65,7 +65,7 @@
                     <label for="isTeacher">Are you a teacher?</label>
                   </div>
                 </div>
-                <div id="credentials" hidden>
+                <div id="credentials" [hidden]="this.tabNumber == 1">
                   <div class="input-group">
                     <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="user.username" name="username" required>
                     <span class="input-group-addon">
@@ -105,8 +105,8 @@
 
             <div class="footer">
               <div class="input-group">
-                <input id="prevTab" type="button" class="form-control btn btn-lg" value="Previous" (click)="showPersonalInfoTab()" disabled>
-                <input id="nextTab" type="button" class="form-control btn btn-lg" value="Next" (click)="showCredentialsTab()">
+                <input type="button" class="form-control btn btn-lg" value="Previous" [disabled]="this.tabNumber == 1" (click)="this.tabNumber = 1;">
+                <input type="button" class="form-control btn btn-lg" value="Next" [disabled]="this.tabNumber == 2" (click)="this.tabNumber = 2;">
               </div>
               <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">SIGN UP</a>
               <h5>

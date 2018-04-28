@@ -27,28 +27,11 @@ export class SignUpComponent implements OnInit {
     isTeacher: false,
   };
 
-  private isReady = false;
+  private tabNumber = 1;
 
   constructor(private authService: AuthService, private toastrService: ToastrService, private router: Router) { }
 
   ngOnInit() {
-  }
-
-  showPersonalInfoTab(): void {
-    $('#personalInfo').prop('hidden', false);
-    $('#credentials').prop('hidden', true);
-    $('#prevTab').prop('disabled', true);
-    $('#nextTab').prop('disabled', false);
-    this.isReady = false;
-  }
-
-  showCredentialsTab(): void {
-    const self = this;
-    $('#personalInfo').prop('hidden', true);
-    $('#credentials').prop('hidden', false);
-    $('#prevTab').prop('disabled', false);
-    $('#nextTab').prop('disabled', true);
-    this.isReady = true;
   }
 
   signUp() {

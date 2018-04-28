@@ -154,7 +154,7 @@ module.exports.signUp = function (req, res, next) {
     // --- Check: Password Match --- //
     if (
         req.body.confirmPassword &&
-        newUser.password.length !== req.body.confirmPassword
+        newUser.password !== req.body.confirmPassword
     ) {
         return res.status(422).json({
             data: null,
