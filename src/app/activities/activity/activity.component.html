@@ -1,0 +1,78 @@
+<section class="content">
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-7 col-md-6 col-sm-12">
+        <h2>Stater Page
+          <small>Welcome to sQuare</small>
+        </h2>
+      </div>
+      <div class="col-lg-5 col-md-6 col-sm-12">
+        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="canCreate" type="button">
+                                                                                                                          <!--TODO: redirect to create Page-->
+          <i class="zmdi zmdi-plus"></i>
+        </button>
+        <ul class="breadcrumb float-md-right">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">
+              <i class="zmdi zmdi-home"></i>Dashboard</a>
+          </li>
+          <li class="breadcrumb-item active">Activity</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row clearfix">
+      <div *ngFor="let activity of detailedActivities" class="col-lg-4 col-md-12">
+        <div class="card single_post">
+          <div class="header">
+            <h2>
+              <strong>Latest</strong> Activity</h2>
+          </div>
+          <div class="body">
+            <h3 class="m-t-0 m-b-5">
+              <a routerLink="/activities/{{activity._id}}">{{activity.name}}</a>
+            </h3>
+            <ul class="meta">
+              <li>
+                <a href="#">
+                  <i class="zmdi zmdi-account col-blue"></i>Posted By: activity.creator</a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="zmdi zmdi-comment-text col-blue"></i>Comments: {{activity.discussion.length}}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="body">
+            <div class="img-post m-b-15">
+              <img [src]="activity.image" alt="Awesome Image">
+
+            </div>
+            <p>{{activity.description}}</p>
+            <a routerLink="/app/blog-details" title="read more" class="btn btn-round btn-info">Read More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<mat-paginator [length]="numberOfElements" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="pageEvent = getActivities($event)">-->
+  <!--</mat-paginator>-->
+  <!--<div id="creation" *ngIf="canCreate">-->
+    <!--<a class="btn btn-primary" href="{{createUrl}}">Create Activity</a>-->
+  <!--</div>-->
+  <!--<div class="activities-container">-->
+    <!--<mat-card *ngFor="let activity of activities" class="activity-card">-->
+      <!--<a routerLink="/activities/{{activity._id}}">-->
+        <!--<h3 id="activities-header">{{ activity.name }}</h3>-->
+        <!--<img mat-card-lg-image [src]="activity.image" />-->
+      <!--</a>-->
+      <!--<p class="time">From: {{ activity.fromDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>-->
+      <!--<p class="time">To: {{ activity.toDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>-->
+      <!--<p class="price">{{ activity.price | currency: 'EGP'}}</p>-->
+    <!--</mat-card>-->
+
+  <!--</div>-->
+
+</section>

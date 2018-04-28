@@ -1,0 +1,279 @@
+<div class="row clearfix" xmlns:ng>
+  <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="card user-account">
+      <div class="header">
+        <h2><strong>Unverified Contributer</strong> Requests <small>Users wants to be Verified to be able to make Activities and post Contents</small></h2>
+      </div>
+      <div class="body" ng-cloak>
+        <ul class="nav nav-tabs">
+          <li class="nav-item"><a class="nav-link active" data-toggle="tab" (click)="pendingRadio()" href="#home">Pending</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" (click)="acceptedRadio()" href="#profile">Accepted</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" (click)="rejectedRadio()" href="#messages">Rejected</a></li>
+        </ul>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane in active" id="home"> <b>Pending Accounts</b>
+            <div class="table-responsive">
+              <table class="table m-b-0">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Profile</th>
+                  <th>Name</th>
+                  <th>Request Date</th>
+                  <th>Email</th>
+                  <th>Number Of Children</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let req of Requests; let i = index">
+                  <td>{{i}}</td>
+                  <td style="width: 10%; height: 10%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
+                  <td (click)="onNameClick(req)">{{req.name}}</td>
+                  <td class="hidden-xs">{{req.createdAt | date:'yyyy-MM-dd HH:mm': 'locale'}}</td>
+                                                                                                            <!--TODO: test the date-->
+                  <td>{{req.email}}</td>
+                  <td>{{req.numberOfChildren}}</td>
+                  <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
+                    <i class="zmdi zmdi-check"></i>
+                  </button>
+                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
+                      <i class="zmdi zmdi-close"></i>
+                    </button></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="profile"> <b>Accepted Accounts</b>
+            <div class="table-responsive">
+              <table class="table m-b-0">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Profile</th>
+                  <th>Name</th>
+                  <th>Request Date</th>
+                  <th>Email</th>
+                  <th>Number Of Children</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let req of Requests; let i = index">
+                  <td>{{i}}</td>
+                  <td style="width: 10%; height: 10%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
+                  <td><a href="javascript:void(0);" (click)="onNameClick(req)">{{req.name}}</a></td>
+                  <td class="hidden-xs">{{req.createdAt | date:'yyyy-MM-dd HH:mm': 'locale'}}</td>
+                  <td>{{req.email}}</td>
+                  <td>{{req.numberOfChildren}}</td>
+                  <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
+                    <i class="zmdi zmdi-check"></i>
+                  </button>
+                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
+                      <i class="zmdi zmdi-close"></i>
+                    </button></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div role="tabpanel" class="tab-pane" id="messages"> <b>Rejected Acounts</b>
+            <div class="table-responsive">
+              <table class="table m-b-0">
+                <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Profile</th>
+                  <th>Name</th>
+                  <th>Request Date</th>
+                  <th>Email</th>
+                  <th>Number Of Children</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let req of Requests; let i = index">
+                  <td>{{i}}</td>
+                  <td style="width: 10%; height: 10%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
+                  <td (click)="onNameClick(req)">{{req.name}}</td>
+                  <td class="hidden-xs">{{req.createdAt | date:'yyyy-MM-dd HH:mm': 'locale'}}</td>
+                  <td>{{req.email}}</td>
+                  <td>{{req.numberOfChildren}}</td>
+                  <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
+                    <i class="zmdi zmdi-check"></i>
+                  </button>
+                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
+                      <i class="zmdi zmdi-close"></i>
+                    </button></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+
+<!--................................................................................................-->
+
+
+<!--<div class="container-fluid pt-4">-->
+  <!--<div class="row">-->
+
+    <!--<div class="col-lg-1"></div>-->
+
+    <!--<div class="col-lg-8 col-md-12">-->
+      <!--<div *ngIf="Requests.length == 0">-->
+        <!--<div class="not_found text-center pt-5 text-warning">-->
+          <!--<i class="zmdi zmdi-mood-bad zmdi-hc-4x "></i>-->
+          <!--<h4 class="m-b-0">No requests here</h4>-->
+        <!--</div>-->
+
+      <!--</div>-->
+      <!--<form viewRequestsForm="ngForm">-->
+        <!--<div class="row clearfix">-->
+          <!--<div class="card-columns">-->
+            <!--<div class="card request-card" *ngFor="let req of Requests">-->
+              <!--<div class="header">-->
+                <!--<h2>-->
+                  <!--<strong>-->
+                    <!--<a href="profile/{{req.name}}">-->
+                      <!--<i class="zmdi zmdi-account-o"></i>-->
+                      <!--{{req.name}}-->
+                    <!--</a>-->
+                  <!--</strong>-->
+                <!--</h2>-->
+              <!--</div>-->
+              <!--<div class="body">-->
+                <!--<div class="file-name">-->
+                  <!--<div class="text-center">-->
+                    <!--<p class="m-b-5">{{req.bio}}</p>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="card-footer bg-transparent border-0" align="end">-->
+                <!--<a href="javascript:void(0);">-->
+                  <!--<div class="hover">-->
+                    <!--<button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">-->
+                      <!--<i class="zmdi zmdi-check"></i>-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">-->
+                      <!--<i class="zmdi zmdi-close"></i>-->
+                    <!--</button>-->
+                    <!--<button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="onNameClick(req)">-->
+                      <!--<i class="zmdi zmdi-view-module"></i>-->
+                    <!--</button>-->
+                  <!--</div>-->
+                <!--</a>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</form>-->
+    <!--</div>-->
+
+    <!--<div class="col-lg-3 col-md-12 right-box">-->
+
+      <!--<div class="container-fluid">-->
+        <!--<div class="row clearfix">-->
+          <!--<div class="col-lg-12 col-md-12">-->
+            <!--<div class="card profile-header bg-dark">-->
+              <!--<div class="header">-->
+                <!--<h2>-->
+                  <!--<strong>-->
+                    <!--Filter Requests-->
+                  <!--</strong>-->
+                <!--</h2>-->
+              <!--</div>-->
+              <!--<div class="body">-->
+                <!--<div class="column">-->
+                  <!--<div class="radio">-->
+                    <!--<input type="radio" name="radio1" id="radio1" (click)="acceptedRadio()" value="option1">-->
+                    <!--<label style="color: #ffffff" for="radio1">-->
+                      <!--Accepted-->
+                    <!--</label>-->
+                  <!--</div>-->
+
+                  <!--<div class="radio">-->
+                    <!--<input type="radio" name="radio1" id="radio2" (click)="pendingRadio()" value="option2" checked="">-->
+                    <!--<label style="color: #ffffff" for="radio2">-->
+                      <!--Pending-->
+                    <!--</label>-->
+                  <!--</div>-->
+
+                  <!--<div class="radio">-->
+                    <!--<input type="radio" name="radio1" id="radio3" (click)="rejectedRadio()" value="option3">-->
+                    <!--<label style="color: #ffffff" for="radio3">-->
+                      <!--Rejected-->
+                    <!--</label>-->
+                  <!--</div>-->
+              <!--</div>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--&lt;!&ndash;<div class="container d-flex">&ndash;&gt;-->
+        <!--&lt;!&ndash;<div class="card bg-dark text-center w-80">&ndash;&gt;-->
+          <!--&lt;!&ndash;&ndash;&gt;-->
+          <!--&lt;!&ndash;</div>&ndash;&gt;-->
+        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
+
+
+
+
+
+<!--..........................................................................-->
+
+
+
+<!--<br>-->
+<!--<div id="RadioGroupDiv">-->
+  <!--<mat-radio-group id="RadioGroup">-->
+    <!--<mat-radio-button (click)="pendingRadio()" [checked]="true" value="1">Pending</mat-radio-button>-->
+    <!--<mat-radio-button (click)="acceptedRadio()" value="2">Accepted</mat-radio-button>-->
+    <!--<mat-radio-button (click)="rejectedRadio()" value="3">Rejected</mat-radio-button>-->
+  <!--</mat-radio-group>-->
+<!--</div>-->
+
+
+<!--<div id="listGroup">-->
+  <!--<mat-list>-->
+
+    <!--<p *ngFor="let request of Requests" style="padding-bottom: 75px; padding-top: 75px; padding-left: 150px;">-->
+    <!--<mat-list-item>-->
+      <!--<mat-card tabindex="0"  class="OneCard">-->
+        <!--<mat-card-header class="cardHeader">-->
+          <!--<div mat-card-avatar src='../../../../assets/images/profile-view/defaultPP.png'-->
+               <!--style="-->
+                  <!--background-size: cover;-->
+                  <!--margin-bottom: 20px;"-->
+               <!--class="cardHeader-image">-->
+          <!--</div>-->
+          <!--<mat-card-title  class="cardHeader-Name"><h1>{{ request.name }}</h1></mat-card-title>-->
+          <!--<mat-card-subtitle></mat-card-subtitle>-->
+        <!--</mat-card-header>-->
+        <!--<mat-card-content class="cardContent">-->
+
+        <!--<h3 id="bioo">{{ request.bio }}</h3>-->
+
+        <!--</mat-card-content>-->
+        <!--<mat-card-actions class="cardAction">-->
+          <!--<button mat-button id="accbtn" color="primary" (click)="Accept(request)">Accept</button>-->
+          <!--<button mat-button color="primary" (click)="Reject(request)">Reject</button>-->
+        <!--</mat-card-actions>-->
+      <!--</mat-card>-->
+
+    <!--</mat-list-item>-->
+    <!--</p>-->
+
+  <!--</mat-list>-->
+<!--</div>-->
+

@@ -1,0 +1,195 @@
+<section class="content blog-page">
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-7 col-md-6 col-sm-12">
+        <h2>Our Content
+          <small>Nawwar</small>
+        </h2>
+      </div>
+      <div class="col-lg-5 col-md-6 col-sm-12">
+        <a routerLink="/content/edit" class="hidden-sm-down float-right m-l-10">
+        <button class="btn btn-primary btn-round btn-icon">
+          <i class="zmdi zmdi-plus m-t--10"></i>
+        </button>
+      </a>
+        <ul class="breadcrumb float-md-right">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">
+              <i class="zmdi zmdi-home"></i> dashboard </a>
+          </li>
+          <li class="breadcrumb-item all-contents-item">
+            <a (click)="changeCategoryAndSection('','')">
+              <i class="zmdi zmdi-folder"></i> all contents </a>
+          </li>
+          <li *ngIf="selectedCategory !== ''" class="breadcrumb-item active">{{ selectedCategory }}</li>
+          <li *ngIf="selectedSection !== ''" class="breadcrumb-item active">{{ selectedSection }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <ul *ngIf="currentUser" class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active content-tab" data-toggle="tab" (click)="changeTab(0)">Browse Content</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link content-tab" data-toggle="tab" (click)="changeTab(1)">My Contributions</a>
+      </li>
+    </ul>
+    <div class="row">
+      <div class="col-lg-8 col-md-12 left-box">
+        <div *ngFor="let content of contents" class="card single_post">
+          <div class="body">
+            <h3 *ngIf="content.title" class="m-t-0 m-b-5">
+              <a routerLink="/content/view/{{content._id}}">{{ content.title }}</a>
+            </h3>
+            <ul class="meta">
+              <li *ngIf="content.creator">
+                <a routerLink="/profile/{{content.creator}}">
+                  <i class="zmdi zmdi-account col-blue"></i>Posted By: {{ content.creator }}</a>
+              </li>
+              <li *ngIf="content.category && content.section">
+                <a>
+                  <i class="zmdi zmdi-label col-red"></i> {{ content.category }}, {{ content.section }}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="body">
+            <div class="img-post m-b-15" *ngIf="content.image">
+              <img [src]="content.image" width="100%" height="100%" alt="Awesome Image">
+            </div>
+            <div *ngIf="content.tags" class="tags-holder">
+              <span *ngFor="let tag of getFirstTenTags(content.tags)" class="badge badge-info btn-round">{{tag}}</span>
+            </div>
+            <div>
+              <a routerLink="/content/view/{{content._id}}" title="Watch Now" class="btn btn-round btn-info">Watch Now</a>
+            </div>
+          </div>
+        </div>
+        <ul *ngIf="totalNumberOfPages>1" class="pagination pagination-primary">
+          <li *ngIf="currentPageNumber>1" class="page-item">
+            <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">Previous</a>
+          </li>
+          <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
+            <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
+          </li>
+          <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
+            <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">Next</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col-lg-4 col-md-12 right-box">
+
+        <div *ngIf="selectedTabIndex === 0" class="card">
+          <div class="body search">
+            <div class="input-group m-b-0">
+              <input type="text" class="form-control" (keydown.enter)="searchContent()" placeholder="Search..." [(ngModel)]="searchQuery">
+              <span class="input-group-addon search-icon" (click)="searchContent()">
+                <i class="zmdi zmdi-search"></i>
+              </span>
+            </div>
+            <div class="current-category">
+              <h6>
+                Category: {{ selectedCategory? selectedCategory : 'All' }}
+              </h6>
+              <h6>
+                Section: {{ selectedSection? selectedSection : 'All' }}
+              </h6>
+              <h6>
+                Sort By: {{ sortResultsBy }}
+              </h6>
+              <h6>
+                Language: {{ contentLanguage }}
+              </h6>
+            </div>
+            <div class="sort-by-div">
+              <form #f="ngForm">
+                <h5>Sort By</h5>
+                <div class="radio">
+                  <input type="radio" name="sortByRadioButtonGroup" id="radio1" value="relevance" [(ngModel)]="sortResultsBy">
+                  <label for="radio1">
+                    Relevance
+                  </label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="sortByRadioButtonGroup" id="radio2" value="upload date" [(ngModel)]="sortResultsBy">
+                  <label for="radio2">
+                    Upload Date
+                  </label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="sortByRadioButtonGroup" id="radio3" value="rating" [(ngModel)]="sortResultsBy">
+                  <label for="radio3">
+                    Rating
+                  </label>
+                </div>
+                <h5>Language</h5>
+                <div class="radio">
+                  <input type="radio" name="languageButtonGroup" id="radio4" value="english" [(ngModel)]="contentLanguage">
+                  <label for="radio4">
+                    English
+                  </label>
+                </div>
+                <div class="radio">
+                  <input type="radio" name="languageButtonGroup" id="radio5" value="arabic" [(ngModel)]="contentLanguage">
+                  <label for="radio5">
+                    Arabic
+                  </label>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="categories" class="card">
+          <div class="header">
+            <h2>
+              <strong>Categories</strong>
+            </h2>
+          </div>
+          <div class="body">
+            <div class="row clearfix">
+              <div class="col-md-12 col-lg-12">
+                <div class="panel-group" id="accordion" role="tablist" [attr.aria-multiselectable]="false">
+                  <div class="panel panel-primary all-category-panel">
+                    <div class="panel-heading" role="tab" (click)="changeCategoryAndSection('','')">
+                      <h4 class="panel-title">
+                        <a role="button"> All </a>
+                      </h4>
+                    </div>
+                  </div>
+                  <div *ngFor="let category of categories" class="panel panel-primary">
+                    <div class="panel-heading" role="tab" id="{{ 'heading' + category._id}}">
+                      <a class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="{{'#collapse'+ category._id}}"
+                        [attr.aria-expanded]="false" [attr.aria-controls]="'collapse' + category._id">
+                        <div class="row">
+                          <div class="col mr-auto">
+                            <h4 class="panel-title">
+                              {{ category.name }}
+                            </h4>
+                          </div>
+                          <div>
+                            <img [src]="category.iconLink" width="32px" height="32px" style="margin-right:10px;">
+                          </div>
+                        </div>
+                      </a>
+                    </div>
+                    <div id="{{'collapse' + category._id}}" class="panel-collapse collapse in" role="tabpanel" [attr.aria-labelledby]="'heading' + category._id">
+                      <div class="panel-body list-group">
+                        <button *ngFor="let section of category.sections" type="button" class="list-group-item section-button" (click)="changeCategoryAndSection(category.name,section.name)">{{ section.name }}
+                          <img [src]="section.iconLink" width="32px" height="32px" style="float: right;">
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

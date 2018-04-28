@@ -1,0 +1,118 @@
+<div class="authentication sidebar-collapse">
+  <div class="page-header">
+    <div class="container">
+      <div class="col-md-12 content-center">
+        <div class="card-plain">
+          <form class="form">
+            <div class="header">
+              <div class="logo-container expandUp">
+                <img src="assets/images/logo.svg" alt="">
+              </div>
+              <h5>Sign Up</h5>
+              <span>Register a new membership</span>
+            </div>
+            <form name="signUpForm">
+              <div class="content">
+                <div id="personalInfo" [hidden]="this.tabNumber == 2">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="user.firstName" name="firstName" required>
+                    <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName" required>
+                  </div>
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Phone" [(ngModel)]="user.phone" name="phone" pattern="\d*" required>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-smartphone"></i>
+                    </span>
+                  </div>
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Address" [(ngModel)]="user.address" name="address">
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-gps-dot"></i>
+                    </span>
+                  </div>
+                  <div class="input-group">
+                    <input id="birthdate" type="text" class="form-control datetimepicker" placeholder="Birthdate" required>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-calendar"></i>
+                    </span>
+                  </div>
+                  <div class="checkbox">
+                    <input id="isTeacher" type="checkbox" [(ngModel)]="user.isTeacher" name="isTeacher">
+                    <label for="isTeacher">Are you a teacher?</label>
+                  </div>
+                </div>
+                <div id="credentials" [hidden]="this.tabNumber == 1">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="user.username" name="username" required>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-account-circle"></i>
+                    </span>
+                  </div>
+                  <div class="input-group">
+                    <input type="email" class="form-control" placeholder="Email" [(ngModel)]="user.email" name="email" required>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-email"></i>
+                    </span>
+                  </div>
+                  <div class="input-group">
+                    <input type="password" minlength="8" placeholder="Password" class="form-control" [(ngModel)]="user.password" name="password"
+                      required/>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-lock"></i>
+                    </span>
+                  </div>
+                  <div class="input-group">
+                    <input type="password" minlength="8" placeholder="Confirm Password" class="form-control" [(ngModel)]="user.confirmPassword"
+                      name="confirmPassword" required/>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-lock"></i>
+                    </span>
+                  </div>
+                  <div class="checkbox">
+                    <input id="terms" type="checkbox" required>
+                    <label for="terms">
+                      I read and agree to the
+                      <a href="javascript:void(0);">terms of usage</a>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </form>
+
+            <div class="footer">
+              <div class="input-group">
+                <input type="button" class="form-control btn btn-lg" value="Previous" [disabled]="this.tabNumber == 1" (click)="this.tabNumber = 1;">
+                <input type="button" class="form-control btn btn-lg" value="Next" [disabled]="this.tabNumber == 2" (click)="this.tabNumber = 2;">
+              </div>
+              <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">SIGN UP</a>
+              <h5>
+                <a class="link" routerLink="/auth/sign-in">You already have a membership?</a>
+              </h5>
+              <div class="footer input-group">
+                <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
+                <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <nav>
+          <ul>
+            <li>
+              <a href="javascript:void(0);" target="_blank">Contact Us</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" target="_blank">About Us</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);">FAQ</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+  </div>
+</div>

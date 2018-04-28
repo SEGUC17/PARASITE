@@ -1,0 +1,66 @@
+<div class="authentication sidebar-collapse">
+  <div class="page-header">
+    <div class="container">
+      <div class="col-md-12 content-center">
+        <div class="card-plain">
+          <form class="form">
+            <div class="header">
+              <div class="logo-container expandUp">
+                <img src="assets/images/logo.svg" alt="">
+              </div>
+              <h5>Sign in</h5>
+            </div>
+            <div class="content">
+              <div class="input-group input-lg">
+                <input type="text" class="form-control" placeholder="User Name / Email" [(ngModel)]="user.username" name="username" required>
+                <span class="input-group-addon">
+                  <i class="zmdi zmdi-account-circle"></i>
+                </span>
+              </div>
+              <div class="input-group input-lg">
+                <input type="password" placeholder="Password" class="form-control" [(ngModel)]="user.password" name="password" required/>
+                <span class="input-group-addon">
+                  <i class="zmdi zmdi-lock"></i>
+                </span>
+              </div>
+              <div class="checkbox">
+                <input type="checkbox" class="form-control" id="rememberMe" [(ngModel)]="user.rememberMe" name="rememberMe" />
+                <label for="rememberMe">Remember Me</label>
+              </div>
+            </div>
+            <div class="footer">
+              <a class="btn btn-primary btn-round btn-lg btn-block" (click)="signIn()">SIGN IN</a>
+              <h5>
+                <a routerLink="/auth/forgot-password" class="link">Forgot Password?</a>
+              </h5>
+              <h5>
+                <a routerLink="/auth/sign-up" class="link">Join Us!</a>
+              </h5>
+              <div class="footer input-group">
+                <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
+                <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()">
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <nav>
+          <ul>
+            <li>
+              <a href="javascript:void(0);" target="_blank">Contact Us</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);" target="_blank">About Us</a>
+            </li>
+            <li>
+              <a href="javascript:void(0);">FAQ</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </footer>
+  </div>
+</div>
