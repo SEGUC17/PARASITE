@@ -11,7 +11,7 @@ export class ChildernComponent implements OnInit {
 
 
   childrenList: string[];
-  avatars: string[];
+childListIsFilled: boolean;
   username: string;
   singleArray: [{avatar: string, firstName: string,
     lastName: string, birthdate: Number , username: string , learningScore: Number}];
@@ -19,7 +19,7 @@ export class ChildernComponent implements OnInit {
      private authService: AuthService , private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.avatars = [''];
+    this.childListIsFilled = true;
     this.singleArray = [{avatar: '', firstName: '', lastName: '',
      birthdate: 0 , username: '' , learningScore: 0}];
     this.getChildern();
@@ -36,13 +36,10 @@ export class ChildernComponent implements OnInit {
 }
   getChildern() {
     let username;
-let counter = 0;
-
     let self = this;
     this.authService.getUserData(['username']).
     subscribe(function (res) {
       self.username = res.data.username;
-      console.log('Here ' + self.username);
 
     // getting username of the authenticated user
     // and adding it to the get request
@@ -51,12 +48,11 @@ let counter = 0;
         if (params.username === undefined) {
           self.username = res.data.username;
    } else { self.username = params.username; }
-      console.log(self.username);
+
       // calling service method that sends get request and subscribing to the data from the response
       self.profileService.getChildren(self.username).
       subscribe(function(response) { self.childrenList = response.data;
-
-console.log(self.childrenList);
+        if (self.childrenList.length < 1) {  self.childListIsFilled = false; }
 
 // getting username , avatar , first name , lastname , birthdate of
 // each child in children list and adding them to a single array
@@ -78,7 +74,7 @@ console.log(self.childrenList);
                              username: result.data.username,
                              learningScore: result.data.learningScore
                });
-                         counter++;
+
                         });
                         }
 
