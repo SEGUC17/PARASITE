@@ -48,6 +48,7 @@ export class ActivityComponent implements OnInit {
       })
     }
   }
+  
 
   getActivities(event) {
     /*
