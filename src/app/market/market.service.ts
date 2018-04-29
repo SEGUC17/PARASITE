@@ -52,6 +52,10 @@ export class MarketService {
     return this.http.patch<any>(this.host + 'productrequest/editPrice/' + product._id + '/' + username , product, httpOptions);
   }
 
+  deleteProduct(req:any): Observable<any> {
+    return this.http.patch<any>(this.host + 'productrequest/deleteProduct', req, httpOptions);
+  }   
+
   // Send updated request to Database
   updateRequest(updatedReq: any, _id: String, username: String): Observable<any> {
     return this.http.patch<any>(this.host + 'productrequest/updateProdRequest/' + _id + '/' + username, updatedReq, httpOptions);

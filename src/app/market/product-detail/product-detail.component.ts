@@ -62,6 +62,45 @@ export class ProductDetailComponent {
     }
   }
 
+  deleteProduct(): void {
+    let self = this;
+    const userDataColumns = ['isAdmin'];
+    this.authService.getUserData(userDataColumns).subscribe(function (res) {
+      self.user = res.data;
+      if (self.user.isAdmin || self.user.username == self.product.seller) {
+        const req = {
+          product: {
+            _id: self.product._id,
+            acquiringType: self.product.acquiringType,
+            createdAt: self.product.createdAt,
+            description: self.product.description,
+            image: self.product.image,
+            name: self.product.name,
+            price: self.formInput.price,
+            rentPeriod: self.product.rentPeriod,
+            seller: self.product.seller
+          }
+        };
+        self.marketService.deleteProduct(req).subscribe(function (res) {
+          if (res.err == null) {
+            console.log(res.err);
+          }
+        });
+        self.dialogRef.close();
+      }
+    });
+    // check if user is admin so he can delete any product
+    // if not admin then he can only delete his own product 
+  }
+
+
+
+
+
+
+
+
+
 
 
 }
