@@ -22,7 +22,6 @@ export class ProfileComponent implements OnInit {
 
   reportReason: string;
   _this;
-
   // ---------- FLAGS --------------------
   // User Flags
   currIsOwner = false;
@@ -115,15 +114,10 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
 
-    // $('.datetimepicker').bootstrapMaterialDatePicker({
-    //   format: 'MM/DD/YYYY',
-    //   time: false,
-    //   clearButton: false,
-    //   weekStart: 1
-    // });
     $('.datetimepicker').bootstrapMaterialDatePicker({
-      format: 'dddd DD MMMM YYYY - HH:mm',
-      clearButton: true,
+      format: 'MM DD YYYY',
+      time: false,
+      clearButton: false,
       weekStart: 1
     });
 
@@ -161,7 +155,6 @@ export class ProfileComponent implements OnInit {
       this.dUsername = this.username;
       this.blocklist = user.data.blocked;
       this.currIsAdmin = user.data.isAdmin;
-      console.log(this.blocklist);
       if (this.age > 13) {
         this.currIsOfAge = true;
       }
@@ -201,6 +194,7 @@ export class ProfileComponent implements OnInit {
           if (!(this.listOfChildren.indexOf(this.vUsername.toLowerCase()) < 0)) {
             this.visitedIsMyChild = true;
           }
+          console.log(this.listOfChildren);
           if (!(this.vListOfChildren.indexOf(this.username.toLowerCase()) < 0)) {
             this.visitedIsMyParent = true;
           }
@@ -249,7 +243,9 @@ export class ProfileComponent implements OnInit {
     let object = {
       child: child
     };
+    let self = this;
     this._ProfileService.linkAnotherParent(object, this.vId).subscribe(function (res) {
+      self.toastrService.success(res.msg);
       // alert(res.msg);
     });
 
@@ -260,8 +256,10 @@ export class ProfileComponent implements OnInit {
     let object = {
       child: child
     };
+    let self = this;
     this._ProfileService.Unlink(object, this.id).subscribe(function (res) {
-      alert(res.msg);
+      self.toastrService.success(res.msg);
+      // alert(res.msg);
     });
   }
 
@@ -269,8 +267,10 @@ export class ProfileComponent implements OnInit {
     let object = {
       child: this.username
     };
+    let self = this;
     this._ProfileService.linkAsParent(object, this.vId).subscribe(function (res) {
-      alert(res.msg);
+      self.toastrService.success(res.msg);
+      // alert(res.msg);
     });
   }
 
@@ -291,10 +291,10 @@ export class ProfileComponent implements OnInit {
     }
   } // Author: Heidi
   EditChildIndependence() {
-
+    const self = this;
     this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
-
-      alert(res.msg);
+      self.toastrService.success(res.msg);
+//      alert(res.msg);
 
     }));
     // getting the visited profile username and passing it to service method to add it to the patch request
@@ -304,7 +304,9 @@ export class ProfileComponent implements OnInit {
     // getting the visited profile username and passing it to service method to add it to the patch request
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
       console.log(res.msg);
-      alert(res.msg);
+      const self = this;
+       self.toastrService.success(res.msg);
+//      alert(res.msg);
 
       if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
     }));
@@ -324,36 +326,42 @@ export class ProfileComponent implements OnInit {
       email: (<HTMLInputElement>document.getElementById('dEmail')).value
     };
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const self = this;
     if (re.test(info.email)) {
       this._ProfileService.changeChildinfo(info).subscribe(function (res) {
-        alert(res.msg);
+        self.toastrService.success(res.msg);
+        // alert(res.msg);
       });
 
     } else {
-      alert('Please enter a valid email address');
+      self.toastrService.error('Please enter a valid email address');
+//      alert('Please enter a valid email address');
     }
   }
 
   // Edit My Personal Info
   ChangeInfo(): void {
     const info = {
-      username: (<HTMLInputElement>document.getElementById('dUsername')).value,
-      firstName: (<HTMLInputElement>document.getElementById('dFirstName')).value,
-      lastName: (<HTMLInputElement>document.getElementById('dLastName')).value,
-      address: (<HTMLInputElement>document.getElementById('dAddress')).value,
-      phone: (<HTMLInputElement>document.getElementById('dPhone')).value,
-      birthdate: (<HTMLInputElement>document.getElementById('dBirthday')).value,
-      email: (<HTMLInputElement>document.getElementById('dEmail')).value
+      username: (<HTMLInputElement>document.getElementById('qUsername')).value,
+      firstName: (<HTMLInputElement>document.getElementById('qFirstName')).value,
+      lastName: (<HTMLInputElement>document.getElementById('qLastName')).value,
+      address: (<HTMLInputElement>document.getElementById('qAddress')).value,
+      phone: (<HTMLInputElement>document.getElementById('qPhone')).value,
+      birthdate: (<HTMLInputElement>document.getElementById('qBirthday')).value,
+      email: (<HTMLInputElement>document.getElementById('qEmail')).value
     };
     console.log(info);
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const self = this;
     if (re.test(info.email)) {
       this._ProfileService.ChangeInfo(this.id, info).subscribe(function (res) {
-        alert(res.msg);
+        self.toastrService.success(res.msg);
+        // alert(res.msg);
       });
 
     } else {
-      alert('Please enter a valid email address');
+      self.toastrService.error('Please enter a valid email address');
+//      alert('Please enter a valid email address');
     }
   }
 

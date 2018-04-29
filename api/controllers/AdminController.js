@@ -505,7 +505,7 @@ module.exports.banUser = function(req, res, next) {
         return res.status(200).json({
           data: user,
           err: null,
-          msg: 'User banned successfully.'
+          msg: 'User banned successfully'
         });
       }
     );
