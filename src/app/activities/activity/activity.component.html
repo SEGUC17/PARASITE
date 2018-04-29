@@ -2,8 +2,8 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>Stater Page
-          <small>Welcome to sQuare</small>
+        <h2>Activities
+          <small>Welcome to Activities</small>
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
@@ -16,7 +16,7 @@
             <a routerLink="/dashboard">
               <i class="zmdi zmdi-home"></i>Dashboard</a>
           </li>
-          <li class="breadcrumb-item active">Activity</li>
+          <li class="breadcrumb-item active">Activities</li>
         </ul>
       </div>
     </div>
@@ -47,7 +47,7 @@
               <div class="activity-image" style.background="url({{activity.image}})" ></div>
 
             </div>
-            <p>{{activity.description + " " + activity.image}}</p>
+            <p>{{activity.description}}</p>
             <a routerLink="/activities/{{activity._id}}" title="read more" class="btn btn-round btn-info">Read More</a>
           </div>
         </div>

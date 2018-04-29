@@ -16,6 +16,7 @@
         <i class="zmdi zmdi-edit"></i></button>
       <ul class="breadcrumb float-md-right">
         <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> Dasboard</a></li>
+        <li class="breadcrumb-item"><a routerLink="/activities"><i class="zmdi zmdi-home"></i> Activities</a></li>
         <li class="breadcrumb-item active">{{activity.name}}</li>
       </ul>
     </div>
@@ -61,56 +62,104 @@
     <!--...................-->
   </div>
 
-  <div class="container-fluid">
+  <div class="container-fluid mb-0">
     <div class="row clearfix">
       <div class="col-lg-12">
         <div class="card">
           <div class="body">
-            <ul class="cbp_tmtimeline">
+            <ul class="cbp_tmtimeline  mt-3">
               <!--The part responsible for commenting-->
               <li  *ngIf="signedIn" id="target">
-                <time class="cbp_tmtime" datetime="2017-11-04T18:30"><span class="hidden">25/12/2017</span> <span class="large">Now</span></time>
-                <div class="cbp_tmicon"><img class="media-object circ " [src]="currentUser.avatar" alt=""></div>
+                <time class="cbp_tmtime" style="width: 20%;" datetime="2017-11-04T18:30">
+                  <span class="large mt-2">Now</span>
+                </time>
+                <div class="cbp_tmicon"><img class="media-object rounded-circle" [src]="currentUser.avatar" alt=""></div>
                 <div class="cbp_tmlabel empty">
                   <span>
-                    <textarea matInput class="col-lg-9" style="background-color: rgba(113, 113, 113, 0); border: #ffffff" id="inputArea" placeholder={{somePlaceholder}} onkeydown="enterPressed()" #commentInput [(ngModel)]="changingComment"></textarea>
+                    <div class="form-group  w-80">
+                      <input type="text" class="form-control" id="inputArea" placeholder={{somePlaceholder}} #commentInput [(ngModel)]="changingComment">
+                   </div>
                   </span>
-                  <span>
-                    <button mat-button id="commentBtn" (click)="addComment(commentInput.value)" [disabled]="changingComment == ''"> {{( !isReplying)?"Comment":"reply"}}</button>
-                    <button mat-button *ngIf="isReplying" id="cancelBtn" (click)="cancelReplying()">Cancel</button>
-                  </span>
+                  <div align="end">
+                    <span>
+                      <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
+                        {{(!isReplying)?"Comment":"Reply"}}
+                      </button>
+                      <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary" data-toggle="tooltip" data-placement="bottom"
+                              title="Cancel" (click)="cancelReplying()">
+                        <i class="zmdi zmdi-close zmdi-hc-lg"></i>
+                      </button>
+                    </span>
+                  </div>
                 </div>
               </li>
               <!--.....................-->
               <!--The Part responsible for comments-->
               <li *ngFor="let comment of activity.discussion; let i = index">
-                <time class="cbp_tmtime" datetime="2017-11-04T03:45"><span>{{comment.createdAt | date:'HH:mm': 'locale'}}</span></time>
-                <div class="cbp_tmicon bg-info"><i class="zmdi zmdi-label"></i></div>
+                <time style="width: 20%;" class="cbp_tmtime" datetime="2017-11-04T03:45">
+                  <span class="mt-2">{{comment.createdAt | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
+                </time>
+                <div class="cbp_tmicon bg-info">
+                  <i class="zmdi zmdi-label"></i>
+                </div>
                 <div class="cbp_tmlabel">
-                  <h2><a href="javascript:void(0);" (click)="redirectToProfile(comment.creator)">{{comment.creator}}</a>
-                    <span>
-                      <button mat-icon-button class="col-auto" *ngIf="signedIn && ( comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === activity.creator )" (click)="onDelete(comment._id)" matTooltip="delete">
-                        <mat-icon>delete</mat-icon>
-                      </button>
-                      <button mat-icon-button class="col-auto" *ngIf="comment.replies.length > 0" (click)="showReply(i)" matTooltip={{(viewedReplies[i])?hideReplies:showReplies}}>
-                        <mat-icon>{{(viewedReplies[i])?"arrow_drop_up":"arrow_drop_down"}}</mat-icon>
-                      </button>
-                      <button mat-icon-button class="col-auto" (click)="onReply(comment._id)" matTooltip="Reply">
-                        <mat-icon>reply</mat-icon>
-                      </button>
-                    </span>
-                  </h2>
-                  <p>{{comment.text}}</p>
+                  <div class="row">
+                    <div class="col-md-6 ">
+                      <div class="inner-content">
+                        <h2>
+                          <a href="profile/{{comment.creator}}">{{comment.creator}}</a>
+                        </h2>
+                      </div>
+                    </div>
+                    <div class="col-md-6" align="end">
+                      <div class="inner-content">
+                      <span>
+                        <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary" *ngIf="comment.replies.length > 0" (click)="showReply(i)"
+                                data-toggle="tooltip" data-placement="bottom" title={{(viewedReplies[i])?hideReplies:showReplies}}>
+                          <i *ngIf="!viewedReplies[i]" class="zmdi zmdi-triangle-down"></i>
+                          <i *ngIf="viewedReplies[i]" class="zmdi zmdi-triangle-up"></i>
+
+                        </button>
+                        <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary" (click)="onReply(comment._id)" data-toggle="tooltip"
+                                data-placement="bottom" title="Reply">
+                          <i class="zmdi zmdi-mail-reply"></i>
+                        </button>
+                        <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger" *ngIf="(comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === content.creator )"
+                                (click)="onDelete(comment._id)" data-toggle="tooltip" data-placement="bottom" title="Delete Comment">
+                          <i class="zmdi zmdi-delete "></i>
+                        </button>
+                      </span>
+                      </div>
+                    </div>
+                    <div class="text-muted ml-4">
+                      <p>{{comment.text}} </p>
+                    </div>
+                  </div>
                   <!--the part responsible for replies-->
                   <div *ngIf="viewedReplies[i]" style="margin-left: 10%">
                     <div *ngFor="let reply of comment.replies; let j = index">
-                      <div>
-                        <h2><a href="javascript:void(0);" (click)="redirectToProfile(comment.creator)">{{reply.creator}}</a></h2>
-                        <p>{{reply.text}}</p>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <h2>
+                            <a href="profile/{{comment.creator}}">{{reply.creator}}</a>
+                          </h2>
+                        </div>
+                        <div class="col-md-6" align="end">
+                          <small>
+                          <span>
+                            <button type="button" class="btn btn-icon btn-round btn-danger btn-xs" *ngIf="reply.creator === currentUser.username || comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === content.creator"
+                                    (click)="onDeleteReply(comment._id,reply._id)" data-toggle="tooltip" data-placement="bottom"
+                                    title="Delete Reply">
+                              <i class="zmdi zmdi-delete"></i>
+                            </button>
+                          </span>
+                          </small>
+                        </div>
                       </div>
-                      <button mat-icon-button style="width:7%" align="end" *ngIf="reply.creator === currentUser.username || comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === activity.creator" (click)="onDeleteReply(comment._id,reply._id)" matTooltip="delete">
-                        <mat-icon>delete</mat-icon>
-                      </button>
+                      <p class="ml-4 text-muted">{{reply.text}}</p>
+                      <div *ngIf=" j != comment.replies.length-1">
+                        <hr />
+                      </div>
                     </div>
                   </div>
                   <!--................................-->
