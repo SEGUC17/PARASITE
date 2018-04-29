@@ -140,6 +140,12 @@ export class ContentListViewComponent implements OnInit {
   // get a page of the content created by the current user
   getMyContributionsPage(): void {
     const self = this;
+
+    // clear the current contents
+    self.totalNumberOfPages = 0;
+    self.contents = [];
+
+    // retrieve the contributions
     this.contentService.
       getContentByCreator(self.numberOfEntriesPerPage, self.currentPageNumber,
         self.selectedCategory, self.selectedSection).
@@ -187,6 +193,11 @@ export class ContentListViewComponent implements OnInit {
   // retrieve a page of content that matches the search query
   getContentPage(): void {
     const self = this;
+
+    // clear the current contents
+    self.totalNumberOfPages = 0;
+    self.contents = [];
+
     // remove unnecessary spaces
     this.searchQuery = this.searchQuery.trim();
 
@@ -216,6 +227,8 @@ export class ContentListViewComponent implements OnInit {
     }, function (error) {
       self.contents = [];
       self.totalNumberOfPages = 0;
+      self.toasterService.
+          error('An error has occurred. Please check your network connection.', 'failure');
     });
   }
 

@@ -54,6 +54,9 @@ export class ContentViewComponent implements OnInit {
     this.authService.getUserData(['username', 'isAdmin']).
       subscribe(function (user) {
         self.currentUser = user.data;
+      }, function (error) {
+        // user is not signed in
+        // do nothing
       });
     // retrieve the id of the content from the current path and request content
     this.route.params.subscribe(function (params) {
@@ -65,7 +68,6 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
-      console.log('here');
       self.comments = retrievedContent.data.discussion;
       if (self.content) {
         self.getRecommendedContent();
@@ -73,6 +75,10 @@ export class ContentViewComponent implements OnInit {
           self.initYoutubeAPI();
           self.initContentVideo();
         }
+      }
+    }, function (error) {
+      if (error.status === 404) {
+        self.toasterService.error('The requested content could not be found', 'failure');
       }
     });
   }
