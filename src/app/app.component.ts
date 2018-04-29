@@ -1,8 +1,8 @@
 import { Component, ChangeDetectorRef, Renderer2, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './auth/auth.service';
-import { Router, NavigationStart } from '@angular/router';
-
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import 'rxjs/add/operator/filter';
 declare const $: any;
 declare const jquery: any;
 declare const screenfull: any;
@@ -13,7 +13,6 @@ declare const screenfull: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  previousUrl: string;
   username: string;
   avatar: string;
   firstName: string;
@@ -67,6 +66,15 @@ export class AppComponent implements OnInit {
     }
   ];
   constructor(private router: Router, private authService: AuthService) {
+    const self = this;
+    router.events
+      .filter(function (event) {
+        return event instanceof NavigationEnd;
+      }).subscribe(function (routerData: NavigationEnd) {
+        if (routerData.url === '/content/list') {
+          self.isSignedIn();
+        }
+      });
   }
   ngOnInit() {
     $(function () {
@@ -245,17 +253,25 @@ export class AppComponent implements OnInit {
   }
 
   isSignedIn(): void {
+    console.log('triggered');
     const self = this;
     this.authService.getUserData(['username', 'firstName', 'lastName', 'avatar', 'isAdmin']).subscribe(function (res) {
-      if (res.status === 401) {
+      self.username = res.data.username;
+      self.avatar = res.data.avatar;
+      self.firstName = res.data.firstName;
+      self.lastName = res.data.lastName;
+      self.isAdmin = res.data.isAdmin;
+    }, function (error) {
+      console.log(error);
+      if (error.status === 401) {
         self.authService.setToken(null);
-      } else if (res.status === 200) {
-        self.username = res.data.username;
-        self.avatar = res.data.avatar;
-        self.firstName = res.data.firstName;
-        self.lastName = res.data.lastName;
+        self.username = null;
+        self.avatar = null;
+        self.firstName = null;
+        self.lastName = null;
+        self.isAdmin = null;
+        return;
       }
     });
   }
-
 }

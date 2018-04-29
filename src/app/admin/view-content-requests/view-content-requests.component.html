@@ -1,172 +1,28 @@
-<!-- <div class="background container">
-  <mat-radio-group class="row justify-content-center background">
-    <mat-radio-button value="resource" (click)="setFilterToResource()" class="col-4"> Resource Requests </mat-radio-button>
-    <mat-radio-button value="idea" (click)="setFilterToIdea()" class="col-4"> Idea Requests </mat-radio-button>
-  </mat-radio-group> -->
-
-<!-- <div class="row justify-content-center mt-5">
-    <mat-card class="m-2 col-lg-3 col-md-6 col-sm-12 col-xs-12" *ngFor="let req of reqs">
-      
-        <div class="text-center">
-        <span style="font-weight: bold ; font-size: 25px" >{{req.contentTitle}} </span>
-        </div>
-      <mat-card-content style="margin-left: 5%">
-
-        <div class="row">
-          <mat-icon style="color: #FDC334; font-size: 20px" >account_circle</mat-icon>
-          <span style =" font-size:17px; " >{{req.creator}} </span> 
-        </div>
-        
-        <div class="row">
-          <mat-icon style="color: #FDC334; font-size: 20px" >today</mat-icon>
-          <span style="font-size: 15px" > {{req.createdOn}} </span> 
-        </div>
-        
-      </mat-card-content>
-      <mat-card-actions class="row" align="end" >
-        <button mat-icon-button class="col-auto" (click)="approveContentRequest(req._id,req.contentID,req.creator)" style = "color: #99D5C9"
-        matTooltip="Accept" >
-        <mat-icon>check_circle</mat-icon> 
-        </button>
-
-        <button mat-icon-button class="col-auto"  (click)="disapproveContentRequest(req._id, req.contentID)" style = "color: #DA572B" 
-        matTooltip = "Reject">
-        <mat-icon>cancel</mat-icon>
-        </button>
-        
-        <button mat-icon-button class="col-auto" (click)="viewCont(req.contentID)" style = "color: #99D5C9"
-        matTooltip="View {{req.contentType}}"  >
-        <mat-icon>info</mat-icon>
-        </button>
-
-      </mat-card-actions>
-    </mat-card>
-  <div class="container-fluid" style="margin-top: 0.7%">
-  <div class="row">
-
-    <div class="col-lg-1"></div>
-
-    <div class="col-lg-7 col-md-12">
-
-      <form viewRequestsForm="ngForm ">
-        <div class="row clearfix ">
-          <div class="card-columns">
-            <div class="card request-card" *ngFor="let req of reqs ">
-              <div class="header">
-                <h2>
-                  <strong>
-                    <i class="zmdi zmdi-account-o"></i>
-                    {{req.creator}}
-                  </strong>
-                </h2>
-                <small>
-                  <span class="date text-muted">
-                    <i class="zmdi zmdi-calendar"></i>
-                    {{req.createdOn | date: 'MM/dd/yyyy' : 'locale' }}
-                  </span>
-                </small>
-              </div>
-              <div class="body ">
-                <div class="header ">
-                  <div class="file-name">
-                    <div class="text-center">
-                      <p class="m-b-5">{{req.contentTitle}}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card-footer bg-transparent border-0 ">
-                <a href="javascript:void(0); ">
-                  <div class="hover ">
-                    <button type="button " class="btn btn-icon btn-icon-mini btn-round btn-primary " (click)="approveContentRequest(req._id,req.contentID,req.creator) ">
-                      <i class="zmdi zmdi-check "></i>
-                    </button>
-                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger " (click)="disapproveContentRequest(req._id,req.contentID, req.requestType, req.creator) ">
-                      <i class="zmdi zmdi-close "></i>
-                    </button>
-                    <button type="button " class="btn btn-icon btn-icon-mini btn-round btn-primary " (click)="viewCont(req.contentID) ">
-                      <i class="zmdi zmdi-view-module "></i>
-                    </button>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="col-lg-2 col-md-12 right-box ">
-
-      <div class="card bg-dark text-center w-75 ">
-        <div class="header">
-          <h2>
-            <strong>
-              Filter Requests
-            </strong>
-          </h2>
-        </div>
-        <div class="card-body">
-          <div class="col-lg-12 col-md-12 col-sm-12 ">
-            <div class="col-lg-6 col-md-6 col-sm-6 ">
-
-              <div class="checkbox">
-                <div id="CBRes " type="checkbox " (click)=" refreshCBs() ">
-                  <label class="col-white" for="CBRes ">
-                    Resource
-                  </label>
-                </div>
-              </div>
-              <div class="checkbox">
-                <div id="CBIdea " type="checkbox " (click)="refreshCBs() ">
-                  <label class="col-white" for="CBIdea">
-                    Idea
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-6 col-md-6 col-sm-6 ">
-
-              <div class="checkbox">
-                <div id="CBCreate " type="checkbox " (click)="refreshCBs() ">
-                  <label class="col-white" for="CBCreate ">
-                    Create
-                  </label>
-                </div>
-              </div>
-
-              <div class="checkbox ">
-                <div id="CBEdit " type="checkbox " (click)="refreshCBs() ">
-                  <label class="col-white" for="CBEdit ">
-                    Edit
-                  </label>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
 <div class="container-fluid pt-4">
   <div class="row">
 
     <div class="col-lg-1"></div>
 
-    <div class="col-lg-7 col-md-12">
+    <div class="col-lg-8 col-md-12">
 
-      <form viewRequestsForm="ngForm ">
-        <div class="row clearfix ">
+      <div *ngIf="reqs && reqs.length == 0">
+        <div class="not_found text-center pt-5 text-warning">
+          <i class="zmdi zmdi-mood-bad zmdi-hc-4x "></i>
+          <h4 class="m-b-0">No requests here</h4>
+        </div>
+
+      </div>
+      <form viewRequestsForm="ngForm">
+        <div class="row clearfix">
           <div class="card-columns">
-            <div class="card request-card " *ngFor="let req of reqs ">
+            <div class="card request-card" *ngFor="let req of reqs">
               <div class="header">
                 <h2>
                   <strong>
-                    <i class="zmdi zmdi-account-o"></i>
-                    {{req.creator}}
+                    <a href="profile/{{req.creator}}">
+                      <i class="zmdi zmdi-account-o"></i>
+                      {{req.creator}}
+                    </a>
                   </strong>
                 </h2>
                 <small>
@@ -176,8 +32,8 @@
                   </span>
                 </small>
               </div>
-              <div class="body ">
-                <div class="header ">
+              <div class="body">
+                <div class="header">
                   <div class="file-name">
                     <div class="text-center">
                       <p class="m-b-5">{{req.contentTitle}}</p>
@@ -186,16 +42,16 @@
                 </div>
               </div>
               <div class="card-footer bg-transparent border-0" align="end">
-                <a href="javascript:void(0); ">
-                  <div class="hover ">
-                    <button type="button " class="btn btn-icon btn-icon-mini btn-round btn-primary " (click)="approveContentRequest(req._id,req.contentID,req.creator) ">
-                      <i class="zmdi zmdi-check "></i>
+                <a href="javascript:void(0);">
+                  <div class="hover">
+                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="approveContentRequest(req._id,req.contentID,req.creator)">
+                      <i class="zmdi zmdi-check"></i>
                     </button>
-                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger " (click)="disapproveContentRequest(req._id,req.contentID, req.requestType, req.creator) ">
-                      <i class="zmdi zmdi-close "></i>
+                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="disapproveContentRequest(req._id,req.contentID, req.requestType, req.creator)">
+                      <i class="zmdi zmdi-close"></i>
                     </button>
-                    <button type="button " class="btn btn-icon btn-icon-mini btn-round btn-primary " (click)="viewCont(req.contentID) ">
-                      <i class="zmdi zmdi-view-module "></i>
+                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="viewCont(req.contentID)">
+                      <i class="zmdi zmdi-view-module"></i>
                     </button>
                   </div>
                 </a>
@@ -205,57 +61,65 @@
         </div>
       </form>
     </div>
-    <div class="col-lg-2 col-md-12 right-box ">
-      <div class="container d-flex">
-        <div class="card bg-dark text-center w-80 ">
-          <div class="header">
+    <div class="col-lg-3 col-md-12 right-box" >
+
+      <div class="container">
+        <div class="card bg-dark w-80">
+          <div class="header text-center">
             <h2>
               <strong>
                 Filter Requests
               </strong>
             </h2>
           </div>
-          <div class="body">
+          <div class="body column">
+            <div class="container">
+              <div class="col-lg-12">
+                <div class="row">
+                  <div class="col-lg-6 col-md-12">
+                    <div class="checkbox">
+                      <input id="CBIdea" type="checkbox" (click)="refreshCBs()">
+                      <label class="col-white" for="CBIdea">
+                        IDEA
+                      </label>
+                    </div>
+                  </div>
 
-            <ul class="row ">
-              <div class="checkbox ">
-
-                <div id="CBIdea" type="checkbox" (click)="refreshCBs() ">
-                  <label class="col-white" for="CBIdea">
-                    IDEA
-                  </label>
+                  <div class="col-lg-6 col-md-12">
+                    <div class="checkbox">
+                      <input id="CBRes" type="checkbox" (click)="refreshCBs()">
+                      <label class="col-white" for="CBRes">
+                        RESOURCE
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div class="checkbox ml-3 ">
+            <div class="container mt-2">
+              <div class="col-lg-12">
+                <div class="row" *ngIf="res || idea">
+                  <div class="col-lg-6 col-md-12">
+                    <div class="checkbox">
+                      <input id="CBEdit" type="checkbox" (click)="refreshCBs()">
+                      <label class="col-white" for="CBEdit">
+                        EDIT
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 col-md-12">
 
-                <div id="CBRes" type="checkbox " (click)=" refreshCBs() ">
-                  <label class="col-white" for="CBRes">
-                    RESOURCE
-                  </label>
+                    <div class="checkbox">
+                      <input id="CBCreate" type="checkbox" (click)="refreshCBs()">
+                      <label class="col-white" for="CBCreate">
+                        CREATE
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
-
-            </ul>
-
-            <ul class="row " *ngIf=r es || idea>
-              <div class="checkbox">
-                <div id="CBEdit" type="checkbox " (click)="refreshCBs() ">
-                  <label class="col-white" for="CBEdit">
-                    EDIT
-                  </label>
-                </div>
-
-              </div>
-
-              <div class="checkbox ml-3">
-                <div id="CBCreate" type="checkbox" (click)="refreshCBs() ">
-                  <label class="col-white" for="CBCreate">
-                    CREATE
-                  </label>
-                </div>
-              </div>
-            </ul>
+            </div>
           </div>
         </div>
       </div>

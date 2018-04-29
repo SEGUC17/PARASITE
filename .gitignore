@@ -111,3 +111,4 @@ journal/
 mongod.lock
 *.bson
 WiredTiger*
+*.iml
