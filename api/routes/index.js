@@ -135,6 +135,7 @@ module.exports = function (passport) {
   );
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
   router.patch('/activities/:activityId/EditActivity', isAuthenticated, ActivityController.editActivity);
+  router.delete('/activities/:activityId/', isAuthenticated, ActivityController.deleteActivity);
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist/search/:limiters', isAuthenticated, psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
@@ -162,9 +163,8 @@ module.exports = function (passport) {
   // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/auth/facebook', authFacebook, userController.signInWithThirdPartyResponse);
-  router.post('/auth/google', authFacebook, userController.signInWithThirdPartyResponse);
-  router.post('/auth/google/callback', authFacebook, userController.signInWithThirdPartyResponse);
+  router.post('/auth/facebook', isNotAuthenticated, authFacebook, userController.signInWithThirdPartyResponse);
+  router.post('/auth/google', isNotAuthenticated, userController.signInWithGoogle, userController.signInWithThirdPartyResponse);
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
   router.get('/verifyChildEmail/:id', userController.verifyChildEmail);

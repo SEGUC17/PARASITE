@@ -403,6 +403,8 @@ module.exports.getVCRs = function (req, res, next) {
 
 module.exports.VCRResponde = function (req, res, next) {
     // Checks if Admin
+    console.log('in bakend');
+    console.log('in bakend');
     if (req.user.isAdmin) {
         // Update the request with the given responce.
         VCRmodel.update(
