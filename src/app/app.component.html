@@ -178,18 +178,18 @@
                         <a href="javascript:void(0);">View All</a>
                     </li>
             </ul>
-            </li>
-            <li class="float-right">
-                <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
-                    <i class="zmdi zmdi-fullscreen"></i>
-                </a>
-                <a href="javascript:void(0);" class="btn_overlay hidden-sm-down">
-                    <i class="zmdi zmdi-sort-amount-desc"></i>
-                </a>
-                <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" routerLinkActive="active" class="mega-menu">
-                    <i class="zmdi zmdi-power"></i>
-                </a>
-            </li>
+        </li>
+        <li class="float-right">
+            <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
+                <i class="zmdi zmdi-fullscreen"></i>
+            </a>
+            <a href="javascript:void(0);" class="btn_overlay hidden-sm-down">
+                <i class="zmdi zmdi-sort-amount-desc"></i>
+            </a>
+            <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active" class="mega-menu">
+                <i class="zmdi zmdi-power"></i>
+            </a>
+        </li>
     </ul>
 </nav>
 
