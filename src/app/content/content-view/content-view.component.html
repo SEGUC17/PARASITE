@@ -32,7 +32,7 @@
                                     class="material-icons clickable-icon">delete</i>
                                 <i title="{{ 'CONTENT.VIEW.EDIT' | translate }}" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="redirectToContentEdit()"
                                     class="material-icons clickable-icon">edit</i>
-                                <i title="go back to content creation requests" *ngIf="currentUser.isAdmin && !content.approved" (click)="returnToContentRequests()"
+                                <i title="{{ 'CONTENT.VIEW.ADMIN_GO_BACK' | translate }}" *ngIf="currentUser.isAdmin && !content.approved" (click)="returnToContentRequests()"
                                     class="material-icons clickable-icon">assignment_late</i>
                             </div>
                         </div>
@@ -78,18 +78,18 @@
                                         <!--The part responsible for commenting-->
                                         <li id="target">
                                             <time class="cbp_tmtime" datetime="2017-11-04T18:30">
-                                                <span class="large mt-4 ">Now</span>
+                                                <span class="large mt-4 ">{{ 'CONTENT.VIEW.NOW' | translate }}</span>
                                             </time>
                                             <div class="cbp_tmlabel empty">
                                                 <span>
                                                     <div class="form-group  w-80">
-                                                        <input type="text" class="form-control" id="inputArea" placeholder={{somePlaceholder}} #commentInput [(ngModel)]="changingComment">
+                                                        <input type="text" class="form-control" id="inputArea" placeholder="{{'CONTENT.VIEW.' + somePlaceholder | translate }}" #commentInput [(ngModel)]="changingComment">
                                                     </div>
                                                 </span>
                                                 <div align="end">
                                                     <span>
                                                         <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
-                                                            {{(!isReplying)?"Comment":"Reply"}}
+                                                            {{ ((!isReplying)? 'CONTENT.VIEW.COMMENT_BUTTON' : 'CONTENT.VIEW.REPLY_BUTTON') | translate }}
                                                         </button>
                                                         <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary" data-toggle="tooltip" data-placement="bottom"
                                                             title="Cancel" (click)="cancel()">

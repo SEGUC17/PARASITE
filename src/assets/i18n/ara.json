@@ -59,8 +59,13 @@
             "RATING": " :التقييم",
             "BY": "نشره:",
             "DELETE_FOREVER": "الحذف للأبد",
-            "EDIT": "edit",
-            "ADMIN_GO_BACK": "go back to content creation requests"
+            "EDIT": "تعديل",
+            "ADMIN_GO_BACK": "العودة إلى تقييم الطلبات",
+            "NOW": "الآن",
+            "COMMENT_BUTTON": "التعليق",
+            "REPLY_BUTTON": "الرد",
+            "LEAVE_A_COMMENT": "اترك تعليقا",
+            "LEAVE_A_REPLY": "اترك ردًّا"
         }
     },
     "MARKET": {

@@ -60,7 +60,12 @@
             "BY": "By: ",
             "DELETE_FOREVER": "delete forever",
             "EDIT": "edit",
-            "ADMIN_GO_BACK": "go back to content creation requests"
+            "ADMIN_GO_BACK": "go back to content creation requests",
+            "NOW": "Now",
+            "COMMENT_BUTTON": "Comment",
+            "REPLY_BUTTON": "Reply",
+            "LEAVE_A_COMMENT": "Leave a comment",
+            "LEAVE_A_REPLY": "Leave a reply"
         }
     },
     "MARKET": {
