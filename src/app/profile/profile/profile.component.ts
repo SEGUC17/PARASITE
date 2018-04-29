@@ -252,8 +252,8 @@ let self =this;
 // getting the visited profile username and passing it to service
 // method to add it to the patch request
     this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
-      if( res.msg.indexOf('13') < 0){self.toastrService.error(res.msg, 'failure' ) }
-       else{self.toastrService.success(res.msg, 'success' ) }
+      if( res.msg.indexOf('13') < 0){self.toastrService.success(res.msg, 'success' ) }
+       else{self.toastrService.error(res.msg, 'failure' ) }
     }));// if res.msg contains 13 then the child is under age and action is not allowed
     
   }  // Author :Heidi
@@ -261,7 +261,7 @@ let self =this;
 // getting the visited profile username and passing it to service method to add it to the patch request
 let self =this;
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
-  if (res.msg.indexOf('Successefully')) 
+  if (res.msg.indexOf('Successefully')>-1) 
   { self.visitedIsMyParent = false; self.toastrService.success(res.msg, 'success') ;}
     }));
   }
