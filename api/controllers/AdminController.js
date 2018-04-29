@@ -152,6 +152,32 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                     msg: null
                 });
             }
+            var notification = {
+                body: 'Your request to publish the study plan is' +
+                req.body.respo,
+                date: moment().toDate(),
+                type: 'contributer'
+            };
+            User.findOneAndUpdate(
+                { username: updatedStudyPlanPubRequest.creator },
+                {
+                    $push:
+                        { 'notifications': notification }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    console.log('add the notification');
+                    console.log(updatedUser.notifications);
+                    if (errr) {
+                        return res.status(402).json({
+                            data: null,
+                            err: 'error occurred during adding ' +
+                                'the notification'
+                        });
+                    }
+                }
+            );
+
             StudyPlan.findByIdAndUpdate(
                 req.params.studyPlanId,
                 {
@@ -334,7 +360,8 @@ module.exports.respondContentRequest = function (req, res, next) {
                 var notification = {
                     body: 'You request has been approved',
                     date: moment().toDate(),
-                    link: 'www.google.com'
+                    itemId: req.paramd.ContentId,
+                    type: 'content'
                 };
 
                 User.findOneAndUpdate(
@@ -351,7 +378,7 @@ module.exports.respondContentRequest = function (req, res, next) {
                             return res.status(402).json({
                                 data: null,
                                 err: 'error occurred during adding ' +
-                                'the notification'
+                                    'the notification'
                             });
                         }
                     }
@@ -428,6 +455,7 @@ module.exports.getVCRs = function (req, res, next) {
 
 
 module.exports.VCRResponde = function (req, res, next) {
+    var notification = null;
     // Checks if Admin
     console.log('in bakend');
     console.log('in bakend');
@@ -454,6 +482,11 @@ module.exports.VCRResponde = function (req, res, next) {
                 }
                 userId = result[0].creator;
                 if (req.body.responce === 'approved') {
+                    notification = {
+                        body: 'You are now a Verified Contributer',
+                        date: moment().toDate(),
+                        type: 'contributer'
+                    };
 
                     // Updating verified by Approved.
                     userModel.update(
@@ -472,6 +505,13 @@ module.exports.VCRResponde = function (req, res, next) {
                     );
                 }
                 if (req.body.responce === 'disapproved') {
+                    notification = {
+                        body: 'Your request to become a verified' +
+                            ' contributer has been declined',
+                        date: moment().toDate(),
+                        type: 'contributer'
+                    };
+
                     // Updating verified by disapproved.
                     userModel.update(
                         { _id: userId }, { $set: { verified: false } },
@@ -488,14 +528,6 @@ module.exports.VCRResponde = function (req, res, next) {
                         }
                     );
                 }
-
-                var notification = {
-                    body: 'Youe request to be a verified contributer request' +
-                    'was ' + req.body.responce,
-                    date: moment().toDate(),
-                    link: 'www.google.com'
-                };
-
                 User.findOneAndUpdate(
                     { _id: userId },
                     {
@@ -510,7 +542,7 @@ module.exports.VCRResponde = function (req, res, next) {
                             return res.status(402).json({
                                 data: null,
                                 err: 'error occurred during adding ' +
-                                'the notification'
+                                    'the notification'
                             });
                         }
                     }
