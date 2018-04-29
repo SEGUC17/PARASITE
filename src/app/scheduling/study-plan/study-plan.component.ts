@@ -5,6 +5,7 @@ import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../auth/auth.service';
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import {
@@ -88,7 +89,7 @@ export class StudyPlanComponent implements OnInit {
   assignText;
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
-    private router: Router, private _AuthService: AuthService) { }
+    private router: Router, private _AuthService: AuthService, private toastrService: ToastrService) { }
 
   ngOnInit() {
 
@@ -207,9 +208,9 @@ export class StudyPlanComponent implements OnInit {
     this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
       res => {
         if (res.err) {
-          alert(res.err);
-        } else {
-          alert(res.msg);
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success(res.msg);
           this.router.navigate(['/scheduling/study-plan/published']);
         }
       });
@@ -221,7 +222,11 @@ export class StudyPlanComponent implements OnInit {
     this.studyPlanService
       .createStudyPlan(this.tempStudyPlan)
       .subscribe(res => {
-        alert(res.msg);
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success('Study plan copied successfully');
+        }
       });
   }
 
@@ -229,11 +234,11 @@ export class StudyPlanComponent implements OnInit {
     // this.studyPlan.assigned = true;
     this.studyPlanService.assignStudyPlan(this.selectedUser, this._id).subscribe(
       res => {
-        if (res.msg === 'Study plan assigned successfully') {
-          alert(res.msg);
-          this.refreshDocument();
-        } else {
-          alert('An error occured while assigning the study plan');
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success(res.msg);
+          this.studyPlan.assigned = true;
         }
       });
 
@@ -243,11 +248,11 @@ export class StudyPlanComponent implements OnInit {
     // this.studyPlan.assigned = false;
     this.studyPlanService.unAssignStudyPlan(this.profileUsername, this._id).subscribe(
       res => {
-        if (res.msg === 'Study plan unassigned successfully') {
-          alert(res.msg);
-          this.refreshDocument();
-        } else {
-          alert('An error occured while Unassigning the study plan from me');
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success(res.msg);
+          this.studyPlan.assigned = false;
         }
       });
   };
@@ -351,7 +356,7 @@ export class StudyPlanComponent implements OnInit {
 
   saveChangesPersonal(): void {
     if (!(this.title && this.description && this.events.length)) {
-      alert('A Study Plan needs a title, a description, and at least one event.');
+      this.toastrService.warning('A study plan needs a title, a description, and at least one event.');
       return;
     }
 
@@ -364,9 +369,9 @@ export class StudyPlanComponent implements OnInit {
     ))
       .subscribe(res => {
         if (res.err) {
-          alert(res.err);
+          this.toastrService.error(res.err);
         } else {
-          alert(res.msg);
+          this.toastrService.success(res.msg);
           this.changed = false;
         }
       });
@@ -376,14 +381,5 @@ export class StudyPlanComponent implements OnInit {
   onContentChanged(quill) {
     this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
     this.description = this.editorContent;
-  }
-
-  // utility
-  refreshDocument() {
-    // Light refresh to show any changes
-    const self = this;
-    setTimeout(function () {
-      return self.refresh.next();
-    }, 0);
   }
 }

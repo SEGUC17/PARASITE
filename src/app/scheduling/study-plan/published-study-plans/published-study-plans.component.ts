@@ -4,6 +4,7 @@ import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
 import { AuthService } from '../../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-published-study-plans',
@@ -22,12 +23,11 @@ export class PublishedStudyPlansComponent implements OnInit {
   pageSize: number;
   pageIndex: number;
 
-  constructor(
-    private studyPlanService: StudyPlanService,
-    private authService: AuthService,
-    private router: Router,
-    private activatedRoute: ActivatedRoute
-  ) { }
+  // delete modal
+  deleteIndex: number;
+
+  constructor(private studyPlanService: StudyPlanService, private authService: AuthService, private router: Router,
+    private activatedRoute: ActivatedRoute, private toastrService: ToastrService) { }
 
   ngOnInit() {
     this.authService.getUserData(['username', 'isChild']).subscribe(currUser => {
@@ -91,10 +91,10 @@ export class PublishedStudyPlansComponent implements OnInit {
       .deletePublishedStudyPlan(plan._id)
       .subscribe(res => {
         if (res.err) {
-          alert(res.err);
+          this.toastrService.error(res.err);
         } else if (res.msg) {
           this.studyPlans.splice(index, 1);
-          alert(res.msg);
+          this.toastrService.success(res.msg);
         }
       });
 

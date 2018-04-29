@@ -6,6 +6,7 @@ import { AuthService } from '../../../auth/auth.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import {
   isSameMonth,
@@ -63,7 +64,7 @@ export class StudyPlanCreateComponent implements OnInit {
   editIndex = 0;
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
-    private router: Router, private _AuthService: AuthService) { }
+    private router: Router, private _AuthService: AuthService, private toastrService: ToastrService) { }
 
   ngOnInit() {
 
@@ -202,7 +203,7 @@ export class StudyPlanCreateComponent implements OnInit {
 
   create(): void {
     if (!(this.title && this.description && this.events.length)) {
-      alert('A Study Plan needs a title, a description, and at least one event.');
+      this.toastrService.warning('A study plan needs a title, a description, and at least one event.');
       return;
     }
 
@@ -214,9 +215,9 @@ export class StudyPlanCreateComponent implements OnInit {
     this.studyPlanService.createStudyPlan(studyPlan).subscribe(
       res => {
         if (res.err) {
-          alert(res.err);
+          this.toastrService.error(res.err);
         } else {
-          alert(res.msg);
+          this.toastrService.success(res.msg);
           this.router.navigate(['/profile']);
         }
       }

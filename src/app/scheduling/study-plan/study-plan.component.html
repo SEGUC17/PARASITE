@@ -124,7 +124,7 @@
       <div class="button-row">
         <button class="btn btn-primary" (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
         <button class="btn btn-primary" (click)="copy()" color="primary" *ngIf="!currIsChild">Copy</button>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="type === personal && currUsername === profileUsername && !currIsChild">Assign</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="type === personal && profileUsername ? currUsername === profileUsername : true && !currIsChild">Assign</button>
         <button class="btn btn-primary" (click)="unAssign()" color="primary" *ngIf="studyPlan.assigned">Unassign</button>
         <button class="btn btn-primary" (click)="saveChangesPersonal()" color="primary" *ngIf="changed">Save Changes</button>
       </div>
