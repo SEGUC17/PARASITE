@@ -3,6 +3,8 @@ import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 import { Product } from '../Product';
 import { MarketService } from '../market.service';
 import { AuthService } from '../../auth/auth.service';
+import { ToastrService } from 'ngx-toastr'; 
+
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -18,7 +20,7 @@ export class ProductDetailComponent {
   oldData = <any>{};
   newData = <any>{};
   user: any;
-  constructor(private marketService: MarketService, private authService: AuthService,
+  constructor(private marketService: MarketService, private toasterService: ToastrService, private authService: AuthService,
     public dialogRef: MatDialogRef<ProductDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.oldData = data.product;
@@ -53,12 +55,15 @@ export class ProductDetailComponent {
         if (res.err == null) {
           console.log(res.err);
         }
+        self.toasterService.success('Price changed', 'success');
       });
       self.dialogRef.close();
       console.log(req);
     } else {
       self.toggleEditForm = true;
       self.formInput = self.oldData;
+      self.toasterService.error('Price edit failed', 'failure');
+
     }
   }
 
