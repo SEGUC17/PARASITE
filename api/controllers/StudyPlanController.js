@@ -39,37 +39,17 @@ module.exports.publishStudyPlan = function (req, res, next) {
     //so i am creating a new studyPlan with the body of the request
     //which is the studyPlan I want to publish and it returns an
     //error if there is an error else that studyPlan published successfully
-
-    if (req.user.username !== req.params.username) {
-        return res.status(401).json({
+    StudyPlan.create(req.body, function (error) {
+        if (error) {
+            return next(error);
+        }
+        res.status(201).json({
             data: null,
             err: null,
-            msg: 'Unauthorized'
-        });
-    }
-    User.findOne({ username: req.params.username }, function (err, user) {
-        if (err) {
-            return next(err);
-        }
-
-        if (!user) {
-            return res.status(404).json({
-                data: null,
-                err: null,
-                msg: 'User not found'
-            });
-        }
-        StudyPlan.create(req.body, function () {
-            if (err) {
-                return next(err);
-            }
-            res.status(201).json({
-                data: null,
-                err: null,
-                msg: 'StudyPlan published successfully'
-            });
+            msg: 'StudyPlan published successfully'
         });
     });
+
 };
 
 module.exports.getPersonalStudyPlan = function (req, res, next) {
@@ -290,65 +270,12 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
     }
 };
 
-
-module.exports.rateStudyPlan = function (req, res, next) {
-    StudyPlan.findById(
-        req.params.studyPlanID,
-        function (err, studyPlan) {
-            if (err) {
-                return next(err);
-            }
-
-            var rating = parseInt(req.params.rating, 10);
-
-            var newRating = {
-                number: 1,
-                sum: rating,
-                value: rating
-            };
-
-            if (studyPlan.rating) {
-                newRating.number = studyPlan.rating.number + 1;
-                newRating.sum = studyPlan.rating.sum +
-                    rating;
-                newRating.value = newRating.sum / newRating.number;
-            }
-
-            StudyPlan.findByIdAndUpdate(
-                req.params.studyPlanID, { rating: newRating },
-                function (err2) {
-                    if (err2) {
-                        return next(err2);
-                    }
-                }
-            );
-
-            res.status(201).json({
-                data: null,
-                err: null,
-                msg: 'Study plan rated succesfully'
-            });
-        }
-    );
-};
-
-var findStudyPlan = function (studyPlans, studyPlanID) {
-    for (var index = 0; index < studyPlans.length; index += 1) {
-        if (studyPlans[index]._id &&
-            studyPlans[index]._id.equals(studyPlanID)) {
-            return studyPlans[index];
-        }
-    }
-
-    return null;
-};
-
 module.exports.deleteStudyPlan = function (req, res, next) {
     if (req.user.isChild) {
         return res.status(401).json({
             data: null,
-            err: null,
-            msg: 'Unauthorized to delete study plan'
+            err: 'Unauthorized to delete study plan',
+            msg: null
         });
     }
     User.findOneAndUpdate(
@@ -362,8 +289,8 @@ module.exports.deleteStudyPlan = function (req, res, next) {
             if (!user) {
                 return res.status(404).json({
                     data: null,
-                    err: null,
-                    msg: 'User not found'
+                    err: 'User not found',
+                    msg: null
                 });
             }
 
@@ -379,29 +306,30 @@ module.exports.deleteStudyPlan = function (req, res, next) {
 };
 
 module.exports.deletePublishedStudyPlan = function (req, res, next) {
-    if (req.user.username !== req.params.username) {
-        return res.status(401).json({
-            data: null,
-            err: null,
-            msg: 'Unauthorized'
-        });
-    }
-    User.findOne({ username: req.params.username }, function (err, user) {
+    StudyPlan.findById(req.params.studyPlanID, function (err, studyPlan) {
         if (err) {
             return next(err);
         }
 
-        if (!user) {
+        if (!studyPlan) {
             return res.status(404).json({
                 data: null,
-                err: null,
-                msg: 'User not found'
+                err: 'Study plan not found',
+                msg: null
             });
         }
 
-        StudyPlan.remove({ _id: req.params.studyPlanID }, function (msg) {
-            if (err) {
-                return next(err);
+        if (studyPlan.creator !== req.user.username) {
+            return res.status(401).json({
+                data: null,
+                err: 'Unauthorized to delete study plan',
+                msg: null
+            });
+        }
+
+        StudyPlan.remove({ _id: req.params.studyPlanID }, function (error) {
+            if (error) {
+                return next(error);
             }
 
             return res.status(202).json({
@@ -412,6 +340,7 @@ module.exports.deletePublishedStudyPlan = function (req, res, next) {
         });
     });
 };
+
 module.exports.editPersonalStudyPlan = function (req, res, next) {
     if (req.user.username !== req.params.username &&
         req.user.children.indexOf(req.params.username) < 0) {
