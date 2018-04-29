@@ -38,7 +38,7 @@ export class CreateProductComponent {
     if (url === 'imageFailedToUpload') {
       console.log('image upload failed');
       // TODO: handle image uploading failure
-      
+      let self = this;
       self.toasterService.error('image upload failed', 'failure');
 
     } else {
