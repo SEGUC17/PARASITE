@@ -43,13 +43,15 @@
 
         <div class="col-md-12 col-lg-4 col-xl-4">
           <div class="body">
-            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="!currIsChild && (type === 'personal' || (currUsername === studyPlan.creator || currIsAdmin))">Add Event</button>
+            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)">Add Event</button>
             <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
               aria-controls="collapseExample">
               <i class="zmdi zmdi-chevron-down"></i>
             </button>
             <div class="collapse-xs collapse-sm collapse" id="open-events">
-              <hr>
+              <br *ngIf="currIsChild || (type === 'published' && currUsername !== studyPlan.creator && !currIsAdmin)" />
+              <br *ngIf="currIsChild || (type === 'published' && currUsername !== studyPlan.creator && !currIsAdmin)" />
+              <hr *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)" />
               <div class="event-name b-primary row" *ngFor="let event of events; let index = index">
                 <div class="col-2 text-center">
                   <h4>{{ event.start | date:'dd' }}
@@ -120,7 +122,7 @@
       <div class="body" *ngIf="!editingDescription">
         <div class="ql-editor preview" [innerHTML]="editorOut"></div>
       </div>
-      <hr/>
+      <hr />
       <div class="row justify-content-around">
         <button class="btn btn-primary" (click)="publish()" *ngIf="type === 'personal' && !currIsChild && profileUsername ? currUsername === profileUsername : true">Publish</button>
         <button class="btn btn-primary" (click)="copy()" *ngIf="!currIsChild && (type === 'published' || profileUsername ? currUsername === profileUsername : true)">Copy</button>
