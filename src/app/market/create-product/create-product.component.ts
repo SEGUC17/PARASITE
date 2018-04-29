@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 
 export class CreateProductComponent {
 
-  constructor(private marketService: MarketService,private toasterService: ToastrService, private authService: AuthService,
+  constructor(private marketService: MarketService, private toasterService: ToastrService, private authService: AuthService,
     public dialogRef: MatDialogRef<CreateProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
@@ -63,7 +63,7 @@ export class CreateProductComponent {
       description: this.formInput.description,
       createdAt: new Date(),
     };
-    console.log(pro); // Check if the input taken correctly
+    // console.log(pro); // Check if the input taken correctly
 
     let error = false; // Check if there is an error
 

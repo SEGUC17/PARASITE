@@ -1,9 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatIconModule, MatButtonModule } from '@angular/material';
 import { Product } from '../Product';
 import { MarketService } from '../market.service';
 import { AuthService } from '../../auth/auth.service';
-import { ToastrService } from 'ngx-toastr'; 
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-product-detail',
@@ -24,9 +25,8 @@ export class ProductDetailComponent {
     public dialogRef: MatDialogRef<ProductDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.oldData = data.product;
-    console.log(this.oldData);
+    // console.log(this.oldData);
     this.product = data.product;
-
   }
 
 
@@ -50,19 +50,19 @@ export class ProductDetailComponent {
         seller: this.product.seller
       };
       this.marketService.editPrice(req, self.user.username).subscribe(function (res) {
-        console.log(this.req);
+        // console.log(this.req);
         self.toggleEditForm = false;
         if (res.err == null) {
           console.log(res.err);
         }
-        self.toasterService.success('Price changed', 'success');
+        self.toasterService.success('Price changed Successfully');
       });
       self.dialogRef.close();
-      console.log(req);
+      // console.log(req);
     } else {
       self.toggleEditForm = true;
       self.formInput = self.oldData;
-      self.toasterService.error('Price edit failed', 'failure');
+      self.toasterService.error('Price edit failed.');
 
     }
   }
@@ -95,7 +95,7 @@ export class ProductDetailComponent {
       }
     });
     // check if user is admin so he can delete any product
-    // if not admin then he can only delete his own product 
+    // if not admin then he can only delete his own product
   }
 
 
