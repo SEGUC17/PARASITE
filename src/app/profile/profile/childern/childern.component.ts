@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProfileService } from '../../profile.service';
 import { AuthService } from './../../../auth/auth.service';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-childern',
   templateUrl: './childern.component.html',
@@ -13,21 +15,40 @@ export class ChildernComponent implements OnInit {
 //  }
 
 
-
   childrenList: string[];
   avatars: string[];
   username: string;
-
-  singleArray: [{avatar: string, firstName: string, lastName: string, birthdate: Number , username: string}];
-  constructor (private profileService: ProfileService, private authService: AuthService) { }
+  // ---------------------variables $ flag for Unlink my child ----------------
+  id: any;
+  vUsername: string;
+  isParent: boolean;
+  currIsOwner = false;
+  birthdate: Date;
+// -----------------------------------------------------------
+  singleArray: [{avatar: string, firstName: string, lastName: string, birthdate: Number , username: string }];
+  constructor (private profileService: ProfileService, private authService: AuthService,
+    private activatedRoute: ActivatedRoute, private toaster: ToastrService) { }
 
   ngOnInit() {
 
     this.avatars = [''];
-    this.singleArray = [{avatar: '', firstName: '', lastName: '', birthdate: 0 , username: ''}];
+    this.singleArray = [{avatar: '', firstName: '', lastName: '', birthdate: 0 , username: '' }];
 
     this.getChildern();
 
+    this.authService.getUserData(['username', '_id', 'isParent']).subscribe((user) => {
+      this.activatedRoute.params.subscribe((params: Params) => {
+        // getting the visited username
+        this.vUsername = params.username;
+      });
+  this.id = user.data._id;
+  this.isParent = user.data.isParent;
+
+  if (!this.vUsername || this.vUsername === this.username) {
+    this.currIsOwner = true;
+    this.vUsername = this.username;
+  }
+    });
 
  } // Heidi
 
@@ -40,6 +61,7 @@ export class ChildernComponent implements OnInit {
 }
   getChildern() {
     let username;
+    let id;
 let counter = 0;
 
     let self = this;
@@ -62,9 +84,7 @@ self.authService.getAnotherUserData(['firstName', 'avatar',
   if (!result.data.avatar) {
     result.data.avatar = 'assets/images/xs/avatar3.jpg';
    }
-
         self.singleArray.push({
-
                              avatar: result.data.avatar,
                              firstName: result.data.firstName,
                              lastName: result.data.lastName,
@@ -77,4 +97,26 @@ self.authService.getAnotherUserData(['firstName', 'avatar',
 
     });
   });
-}}
+}
+removeChild(child): void { // removes the child from the list of children of the currently logged in user
+  let ChildBirthdate: Date;
+  let age;
+  let object = {
+    child: child
+  };
+  const self = this;
+  // getting the birthdate of the child to get his/her age;
+    this.authService.getAnotherUserData(['_id', 'birthdate'], child).subscribe(((user) => {
+     age = this.calculateAge(user.data.birthdate);
+
+if ( age < 13) {
+  self.toaster.error('You can only unlink children 13 or above');
+}
+if ( age >= 13) {
+this.profileService.Unlink(object, this.id).subscribe(function (res) {
+    self.toaster.success(res.msg);
+});
+}
+}));
+}
+}

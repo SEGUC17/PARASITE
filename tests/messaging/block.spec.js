@@ -53,19 +53,7 @@ describe('blocking a user from messaging me', function () {
     });
     // --- End of "Clearing Mockgoose" --- //
     it('it should block a user from messaging me', function (done) {
-        console.log('Ana wasalt el it');
-        // sign up and be authenticated
-      /*  chai.request(server).
-            post('/api/signUp').
-            send(user).
-            end(function (err, response) {
-                if (err) {
-                    return console.log(err);
-                }
-                response.should.have.status(201);
-                token = response.body.token;  */
-              //  console.log('id is: ', response.body._id);
-                // get username of logged in user
+        console.log('Ana wasalt el it');         
 
                 User.create(user, function (err) {
                     if (err) {

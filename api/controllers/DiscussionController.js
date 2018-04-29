@@ -232,7 +232,7 @@ module.exports.deleteCommentReply = function (req, res, next) {
 
     var reply = comment.replies.filter(function (rep) {
         return rep._id == replyId;
-    });
+    }).pop();
 
     if (!reply) {
         return res.status(404).json({
@@ -241,7 +241,6 @@ module.exports.deleteCommentReply = function (req, res, next) {
             msg: null
         });
     }
-
     var isReplyCreator = reply.creator == user.username;
 
     if (
