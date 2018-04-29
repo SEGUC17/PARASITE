@@ -158,39 +158,52 @@
         <li class="dropdown notifications hidden-sm-down">
             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" (click)="getNotifications()">
                 <i class="zmdi zmdi-notifications"></i>
-                <span class="label-count">5</span>
-                <!-- number of unread notifications -->
+                <span class="label-count">{{unreadNotificationsNumber}}</span>
             </a>
             <ul class="dropdown-menu pullDown">
                 <li class="body">
                     <ul class="menu list-unstyled">
                         <li *ngFor="let not of notifications">
-                            <a href={{not.link}}>
-                                <div class="media">
-                                    <div class="media-body">
-                                        <span class="time"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
-                                        <span class="message"> {{not.body}} </span>
+                            <div *ngIf="not.isRead">
+                                <a href={{not.link}}>
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <span class="time"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
+                                            <span class="message"> {{not.body}} </span>
+                                        </div>
                                     </div>
+                                </a>
+                            </div>
+                            <div *ngIf="!not.isRead" class = "bg-dark">
+                                    <a href={{not.link}}>
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <span class="time col-primary"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
+                                                <span class="message text-muted col-white"> {{not.body}} </span>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
+    
                         </li>
                     </ul>
                     <li class="footer">
                         <a href="javascript:void(0);">View All</a>
                     </li>
             </ul>
-        </li>
-        <li class="float-right">
-            <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
-                <i class="zmdi zmdi-fullscreen"></i>
-            </a>
-            <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
-                <i class="zmdi zmdi-globe"></i>
-            </a>
-            <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active" class="mega-menu">
-                <i class="zmdi zmdi-power"></i>
-            </a>
-        </li>
+            </li>
+            <li class="float-right">
+                <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
+                    <i class="zmdi zmdi-fullscreen"></i>
+                </a>
+                <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
+                    <i class="zmdi zmdi-globe"></i>
+                </a>
+                <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active"
+                    class="mega-menu">
+                    <i class="zmdi zmdi-power"></i>
+                </a>
+            </li>
     </ul>
 </nav>
 

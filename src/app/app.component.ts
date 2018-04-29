@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   lastName: string;
   isAdmin: boolean;
   notifications: Notification[];
-  unread: number; // Number of unread notifications to display on top of icon
+  unreadNotificationsNumber: number; // Number of unread notifications to display on top of icon
   links = [
     {
       url: '/content/list',
@@ -262,6 +262,7 @@ export class AppComponent implements OnInit {
     }); // End of use strict
 
     this.isSignedIn();
+    this.getNotifications();
   }
 
   isSignedIn(): void {
@@ -301,6 +302,10 @@ export class AppComponent implements OnInit {
     this.authService.getUserData(['notifications']).subscribe(function (res) {
       self.notifications = res.data.notifications;
       console.log(res.data.notifications);
+      var unreadNots = self.notifications.filter(function (notRead) {
+        return notRead.isRead === false;
+      });
+      self.unreadNotificationsNumber = unreadNots.length;
     })
   }
 
