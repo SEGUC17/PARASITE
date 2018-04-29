@@ -98,7 +98,8 @@ export class CreateProductComponent {
       }
     } else {
       // If error then send an alert message
-      self.toasterService.errpr('Please make sure you have all data written', 'failure');
+      let self = this;
+      self.toasterService.error('Please make sure you have all data written', 'failure');
     }
   }
 }
