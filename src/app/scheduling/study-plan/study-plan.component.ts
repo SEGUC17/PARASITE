@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
-import { CalendarComponent } from '../calendar/calendar.component';
 import { StudyPlan } from './study-plan';
-import { Rating } from './star-rating/rating';
 import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../auth/auth.service';
+import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import {
   isSameMonth,
   isSameDay,
@@ -25,21 +25,6 @@ import {
 
 // allow jquery
 declare const $: any;
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
 
 @Component({
   selector: 'app-study-plan',
@@ -65,10 +50,16 @@ export class StudyPlanComponent implements OnInit {
   studyPlan: StudyPlan;
   title: string;
   description: string;
-  editorContent: SafeHtml;
   events: CalendarEvent[];
-  createTitle = '';
   rating = 0;
+
+  // editor
+  public editorOut;
+  public editorContent;
+  private editorOptions = {
+    placeholder: 'Enter the description for your study plan here.'
+  };
+  separatorKeysCodes = [ENTER, COMMA, SPACE];
 
   // copy utility
   tempStudyPlan: StudyPlan;
@@ -98,7 +89,7 @@ export class StudyPlanComponent implements OnInit {
   assignText;
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
-    private router: Router, private _AuthService: AuthService) { }
+    private router: Router, private _AuthService: AuthService, private toastrService: ToastrService) { }
 
   ngOnInit() {
 
@@ -161,45 +152,49 @@ export class StudyPlanComponent implements OnInit {
       this.currIsChild = res.data.isChild;
       this.currIsAdmin = res.data.isAdmin;
       this.listOfChildren = res.data.children;
-    });
-    // fetch routing data
-    this.route.params.subscribe(params => {
-      this.type = params.type;
-      this._id = params.id;
-      this.profileUsername = params.username;
-    });
 
-    // fetch study plan according to its type
-    if (this.type === 'personal') {
-      this.studyPlanService.getPersonalStudyPlan(this.profileUsername, this._id)
-        .subscribe(res => {
-          this.studyPlan = res.data;
-          this.title = this.studyPlan.title;
-          this.events = this.studyPlan.events;
-          this.description = this.studyPlan.description;
-          this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
-          this.assignFunction = this.studyPlan.assigned ? this.unAssign : this.assign;
-          this.assignText = this.studyPlan.assigned ? 'Unassign' : 'Assign';
-          for (let index = 0; index < this.events.length; index++) {
-            this.events[index].start = new Date(this.events[index].start);
-            this.events[index].end = new Date(this.events[index].end);
-          }
-        });
-    } else {
-      this.studyPlanService.getPublishedStudyPlan(this._id)
-        .subscribe(res => {
-          this.studyPlan = res.data;
-          this.title = this.studyPlan.title;
-          this.events = this.studyPlan.events;
-          this.description = this.studyPlan.description;
-          this.rating = this.studyPlan.rating.value;
-          this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
-          for (let index = 0; index < this.events.length; index++) {
-            this.events[index].start = new Date(this.events[index].start);
-            this.events[index].end = new Date(this.events[index].end);
-          }
-        });
-    }
+      // fetch routing data
+      this.route.params.subscribe(params => {
+        this.type = params.type;
+        this._id = params.id;
+        this.profileUsername = params.username;
+      });
+
+      // fetch study plan according to its type
+      if (this.type === 'personal') {
+        this.studyPlanService.getPersonalStudyPlan(this.profileUsername, this._id)
+          .subscribe(resStudyPlan => {
+            this.studyPlan = resStudyPlan.data;
+            this.title = this.studyPlan.title;
+            this.events = this.studyPlan.events;
+            this.description = this.studyPlan.description;
+            this.editorContent = this.studyPlan.description;
+            this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
+            this.assignFunction = this.studyPlan.assigned ? this.unAssign : this.assign;
+            this.assignText = this.studyPlan.assigned ? 'Unassign' : 'Assign';
+            for (let index = 0; index < this.events.length; index++) {
+              this.events[index].start = new Date(this.events[index].start);
+              this.events[index].end = new Date(this.events[index].end);
+            }
+          });
+      } else {
+        this.studyPlanService.getPublishedStudyPlan(this._id)
+          .subscribe(resStudyPlan => {
+            this.studyPlan = resStudyPlan.data;
+            this.title = this.studyPlan.title;
+            this.events = this.studyPlan.events;
+            this.description = this.studyPlan.description;
+            this.editorContent = this.studyPlan.description;
+            this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
+            this.rating = this.studyPlan.rating.value;
+            for (let index = 0; index < this.events.length; index++) {
+              this.events[index].start = new Date(this.events[index].start);
+              this.events[index].end = new Date(this.events[index].end);
+            }
+          });
+      }
+
+    });
   }
 
   publish(): void {
@@ -213,9 +208,9 @@ export class StudyPlanComponent implements OnInit {
     this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
       res => {
         if (res.err) {
-          alert(res.err);
-        } else {
-          alert(res.msg);
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success(res.msg);
           this.router.navigate(['/scheduling/study-plan/published']);
         }
       });
@@ -227,7 +222,11 @@ export class StudyPlanComponent implements OnInit {
     this.studyPlanService
       .createStudyPlan(this.tempStudyPlan)
       .subscribe(res => {
-        alert(res.msg);
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success('Study plan copied successfully');
+        }
       });
   }
 
@@ -235,11 +234,11 @@ export class StudyPlanComponent implements OnInit {
     // this.studyPlan.assigned = true;
     this.studyPlanService.assignStudyPlan(this.selectedUser, this._id).subscribe(
       res => {
-        if (res.msg === 'Study plan assigned successfully') {
-          alert(res.msg);
-          this.refreshDocument();
-        } else {
-          alert('An error occured while assigning the study plan');
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success(res.msg);
+          this.studyPlan.assigned = true;
         }
       });
 
@@ -249,11 +248,11 @@ export class StudyPlanComponent implements OnInit {
     // this.studyPlan.assigned = false;
     this.studyPlanService.unAssignStudyPlan(this.profileUsername, this._id).subscribe(
       res => {
-        if (res.msg === 'Study plan unassigned successfully') {
-          alert(res.msg);
-          this.refreshDocument();
-        } else {
-          alert('An error occured while Unassigning the study plan from me');
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success(res.msg);
+          this.studyPlan.assigned = false;
         }
       });
   };
@@ -357,7 +356,7 @@ export class StudyPlanComponent implements OnInit {
 
   saveChangesPersonal(): void {
     if (!(this.title && this.description && this.events.length)) {
-      alert('A Study Plan needs a title, a description, and at least one event.');
+      this.toastrService.warning('A study plan needs a title, a description, and at least one event.');
       return;
     }
 
@@ -365,26 +364,43 @@ export class StudyPlanComponent implements OnInit {
 
     this.studyPlanService.editPersonalStudyPlan(targetUser, this._id, new StudyPlan(
       this.title,
-      this.currUsername,
       this.events,
       this.description
     ))
       .subscribe(res => {
         if (res.err) {
-          alert(res.err);
+          this.toastrService.error(res.err);
         } else {
-          alert(res.msg);
-          this.router.navigate(['/profile/' + targetUser]);
+          this.toastrService.success(res.msg);
+          this.changed = false;
         }
       });
   }
 
-  // utility
-  refreshDocument() {
-    // Light refresh to show any changes
-    const self = this;
-    setTimeout(function () {
-      return self.refresh.next();
-    }, 0);
+  saveChangesPublished(): void {
+    if (!(this.title && this.description && this.events.length)) {
+      this.toastrService.warning('A study plan needs a title, a description, and at least one event.');
+      return;
+    }
+
+    this.studyPlanService.editPublishedStudyPlan(this._id, new StudyPlan(
+      this.title,
+      this.events,
+      this.description
+    ))
+      .subscribe(res => {
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else {
+          this.toastrService.success(res.msg);
+          this.changed = false;
+        }
+      });
+  }
+
+  // editor chnage handler
+  onContentChanged(quill) {
+    this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
+    this.description = this.editorContent;
   }
 }
