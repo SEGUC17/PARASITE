@@ -133,7 +133,7 @@ module.exports.getRecentlyContacted = function(req, res, next) {
     { $match: { sender: req.params.user } }, // get records where sender is equal to the input parameter user
     { $group: { _id: '$recipient', sentAt: {$max: '$sentAt'} } }, // group records by recipient and most recent sentAt date
     { $sort: { sentAt: -1 } }, // order records descendingly by sentAt
-    { $limit: 10 } // get the first 10 elements
+    { $limit: 5 } // get the first 5 elements
    ]).
    exec(function(err, users) {
     if (err) {

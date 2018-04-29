@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class SendDialogComponent implements OnInit {
 
   Body: String = '';
-  Receiver: String = '';
+  Receiver: String = '' ;
   user: any;
   allisWell: Boolean = true;
   msg: any;
@@ -26,7 +26,6 @@ export class SendDialogComponent implements OnInit {
 
   constructor(private messageService: MessageService, private authService: AuthService,
     private toastrService: ToastrService) { }
-
 
 
   ngOnInit() {
@@ -39,37 +38,44 @@ export class SendDialogComponent implements OnInit {
   }
 
   send(): void {
+    this.allisWell = true;
+    const self = this;
     // notify user if recipient field is empty
     if (this.Receiver === '') {
-      this.toastrService.warning('Please specify a recipient.');
+      this.allisWell = false;
+      self.toastrService.warning('Please specify a recipient.');
     } else {
       // notify user if message body is empty
       if (this.Body === '') {
-        this.toastrService.warning('You can\'t send an empty message.');
+        this.allisWell = false;
+        self.toastrService.warning('You can\'t send an empty message.');
       } else {
-        const self = this;
         // create a message object with the info the user entered
         this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.currentUser.username};
 
         // retrieveing the reciepient's info as an object
-        // console.log(this.Receiver.toString());
         this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user)  => {
+          if (!user.data) {
+            self.allisWell = false;
+            self.toastrService.error('Please enter a valid username.');
+          } else {
             console.log('length of array is: ', user.data.blocked.length);
             const list = user.data.blocked;
             for ( let i = 0 ; i < user.data.blocked.length ; i++) {
-              if ( this.currentUser.username === list[i] ) {
+              if ( self.currentUser.username === list[i] ) {
                 console.log('blocked is:', list[i]);
-                this.toastrService.error('Sorry, you are blocked.');
-                this.allisWell = false;
+                self.toastrService.error('Sorry, you are blocked.');
+                self.allisWell = false;
               } // end if
             }// end for
-
-            if ( this.allisWell === true) {
-              this.messageService.send(this.msg)
+           //       console.log('allIsWell', this.allisWell);
+            if ( self.allisWell === true) {
+              self.messageService.send(this.msg)
               .subscribe(function(res) {
                 self.toastrService.success('Message was sent!');
               });
             }// end if
+          }
         });
 
         if ( this.Receiver.match(/\S+@\S+\.\S+/)) {
@@ -82,4 +88,5 @@ export class SendDialogComponent implements OnInit {
 
     }// end else
   }// end method
+
 }// end class

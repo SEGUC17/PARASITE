@@ -10,9 +10,7 @@ import { SendDialogComponent } from './send-dialog/send-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material';
-import { ReplyDialogComponent } from './reply-dialog/reply-dialog.component';
 import {MatChipsModule} from '@angular/material/chips';
-import { ForwardDialogComponent } from './forward-dialog/forward-dialog.component';
 import { SingleMailComponent } from './single-mail/single-mail.component';
 import { ToastrService } from 'ngx-toastr';
 
@@ -32,8 +30,8 @@ import { ToastrService } from 'ngx-toastr';
     MatChipsModule,
     MatListModule
   ],
-  declarations: [MessagingComponent, SendDialogComponent, ReplyDialogComponent, ForwardDialogComponent, SingleMailComponent],
-  entryComponents: [SendDialogComponent, ReplyDialogComponent, ForwardDialogComponent]
+  declarations: [MessagingComponent, SendDialogComponent, SingleMailComponent],
+  entryComponents: [SendDialogComponent]
 })
 export class MessagingModule { }
 
