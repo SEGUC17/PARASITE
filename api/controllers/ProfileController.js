@@ -86,9 +86,9 @@ module.exports.EditChildIndependence = function (req, res, next) {
 
     // if the previous conditions are false then child is changed successefuly
 
-    User.update(
-      user,
-      { $set: { isChild: false } }
+    User.findOneAndUpdate(
+      { username: req.params.username },
+      { $set: { isChild: false } },{new:true}
     ).
       exec(function (error, updated) {
         if (err) {
