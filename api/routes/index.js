@@ -190,6 +190,7 @@ module.exports = function (passport) {
   router.patch('/study-plan/assignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.assignStudyPlan);
   router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.unAssignStudyPlan);
   router.patch('/study-plan/editPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.editPersonalStudyPlan);
+  router.patch('/study-plan/editPublishedStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.editPublishedStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //

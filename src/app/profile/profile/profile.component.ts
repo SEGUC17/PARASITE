@@ -453,7 +453,9 @@ let self =this;
     this._ProfileService
       .deleteStudyPlan(plan._id)
       .subscribe(res => {
-        if (res.msg) {
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
           this.studyPlans.splice(index, 1);
           this.toastrService.success(res.msg);
         }
