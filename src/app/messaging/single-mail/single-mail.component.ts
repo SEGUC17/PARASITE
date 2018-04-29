@@ -31,6 +31,7 @@ export class SingleMailComponent implements OnInit {
 
   msg: any;
   allisWell: Boolean = true;
+  list: any [];
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
 
@@ -54,7 +55,7 @@ export class SingleMailComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['_id', 'username', 'isChild'];
+    const userDataColumns = ['_id', 'username', 'isChild', 'blocked'];
     // get info of logged in user
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
@@ -109,10 +110,10 @@ export class SingleMailComponent implements OnInit {
       this.toastrService.warning('You can\'t send an empty message.');
     } else {
        this.authService.getAnotherUserData(this.UserList, this.sender.toString()).subscribe((user)  => {
-        const list = user.data.blocked;
+        this.list = user.data.blocked;
         for ( let i = 0 ; i < user.data.blocked.length ; i++) {
-          if ( this.currentUser.username === list[i] ) {
-            console.log('blocked is:', list[i]);
+          if ( this.currentUser.username === this.list[i] ) {
+            console.log('blocked is:', this.list[i]);
             this.toastrService.error('Sorry, you are blocked.');
             this.allisWell = false;
           } // end if
@@ -144,10 +145,10 @@ forward(): void {
   this.msg = {'body': this.body, 'recipient': this.Recipient, 'sender': this.currentUser.username};
 
   this.authService.getAnotherUserData(this.UserList, this.Recipient.toString()).subscribe((user)  => {
-    const list = user.data.blocked;
+    this.list = user.data.blocked;
     for ( let i = 0 ; i < user.data.blocked.length ; i++) {
-      if ( this.currentUser.username === list[i] ) {
-        console.log('blocked is:', list[i]);
+      if ( this.currentUser.username === this.list[i] ) {
+        console.log('blocked is:', this.list[i]);
         this.toastrService.error('Sorry, you are blocked.');
         this.allisWell = false;
       } // end if
@@ -175,31 +176,34 @@ deleteMessage(): void {
 
 // blocking the reciever of the message from messaging the current user again
 block(): void {
+  console.log('entered');
   const self = this;
   //  if the currentUser is the sender then the receipent is the person to block
  if (this.recipient !== this.currentUser.username ) {
-   // console.log('receipient is:' + message.recipient);
+   console.log('receipient is:' + this.recipient);
     this.blockedUser = this.recipient;
     // else the recipient is the currentUser & the sender is the person to block
   } else {
-   // console.log(message.sender);
+   console.log(this.sender);
     this.blockedUser = this.sender;
-   // console.log('blocked user is:' + this.blockedUser);
+   console.log('blocked user is:' + this.blockedUser);
   }
   if (this.blockedUser === this.currentUser.username ) {
       this.toastrService.error('Sorry, you can\'t block yourself!');
       this.allIsWell = false;
   }
 
- // console.log('blocklist is: ', this.currentUser.blocked);
+  console.log('blocklist from currentUser: ', this.currentUser.blocked);
+
   for (let i = 0 ; i < this.currentUser.blocked.length; i++) {
        if (this.currentUser.blocked[i] === this.blockedUser) {
            self.toastrService.error('This user is already blocked!');
            this.allIsWell = false;
-   //        console.log('all is not well, dup found: ', this.blockedUser);
+   console.log('all is not well, dup found: ', this.blockedUser);
        }// end if
   } // end for
   if (this.allIsWell === true) {
+    console.log('ENTERED');
     this.currentUser.blocked.push(this.blockedUser);
   this.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
     if (res.msg) {
