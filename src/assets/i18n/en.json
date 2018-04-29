@@ -13,7 +13,7 @@
 
     },
     "CONTENT": {
-
+        "LIST": { "OUR_CONTENT": "Our Content"}
     },
     "MARKET": {
 
@@ -33,5 +33,4 @@
     "SEARCH": {
 
     }
-
 }
