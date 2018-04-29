@@ -1,8 +1,0 @@
-<mat-form-field>
-  <input matInput [matDatepicker]="picker" [placeholder]="placeholder" [(ngModel)]="date" (ngModelChange)="update()">
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
-<mat-form-field>
-  <input matInput type="time" atp-time-picker [(ngModel)]="time" (ngModelChange)="update()" value="{{date | date:'HH:mm'}}"/>
-</mat-form-field>
