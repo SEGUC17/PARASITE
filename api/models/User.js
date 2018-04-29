@@ -33,9 +33,20 @@ var notificationSchema = mongoose.Schema({
         default: false,
         type: Boolean
     },
-    link: {
-        required: true,
+    itemId: {
         trim: true,
+        type: String
+    },
+    type: {
+        enum:
+            [
+                'activity',
+                'content',
+                'message',
+                'product',
+                'contributor'
+            ],
+        required: true,
         type: String
     }
 });
@@ -67,12 +78,12 @@ var userSchema = mongoose.Schema({
         type: Number
     },
     educationLevel: {
-      default: '',
-      type: String
+        default: '',
+        type: String
     },
     educationSystem: {
-      default: '',
-      type: String
+        default: '',
+        type: String
     },
     email: {
         lowercase: true,
@@ -143,7 +154,7 @@ var userSchema = mongoose.Schema({
         default: [],
         type: [notificationSchema]
     },
-     //To-do : put max length
+    //To-do : put max length
 
     password: String,
     phone: {
