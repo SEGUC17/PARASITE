@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Tags = mongoose.model('Tag');
+var Tags = mongoose.model('Tag').schema;
 
 var newsfeedSchema = mongoose.Schema({
     metadata: {
