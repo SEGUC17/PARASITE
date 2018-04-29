@@ -11,6 +11,7 @@ var jwt = require('jsonwebtoken');
 var REGEX = require('../utils/validators/REGEX');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var ObjectID = require('mongodb').ObjectID;
 // ---------------------- End of "Requirements" ---------------------- //
 
 
@@ -839,22 +840,19 @@ module.exports.resetPassword = function (req, res, next) {
 module.exports.modifyNotification = function (req, res) {
     var notifications = req.user.notifications;
     var notification = notifications.filter(function (not) {
-
         return not._id.equals(req.params.notificationId);
     }).pop();
 
-
+    notification.isRead = req.body.isRead;
+    notifications[notifications.indexOf(notification)] = notification;
+    console.log('the notification');
+    console.log(notification);
     User.update(
-        {
-            _id: req.user._id,
-            notifications: {
-                $in:
-                [notification]
-            }
-        },
-            { $set: { 'type': 'balabizo' } },
+        { _id: req.user._id },
+        { $set: { notifications: notifications } },
 
         function (err, user) {
+            console.log('inside the callback function');
             if (err) {
                 throw err;
             } else if (!user) {
@@ -864,55 +862,17 @@ module.exports.modifyNotification = function (req, res) {
                     msg: 'User couldn\'t be found'
                 });
             }
-                // var newNotification = notifications.filter(function (not) {
 
-                //     return not._id.equals(req.params.notificationId);
-                // }).pop();
-
-                // if (!notification) {
-                //     return res.status(404).json({
-                //         data: null,
-                //         err: 'Notification doesn\'t exist',
-                //         msg: null
-                //     });
-                // }
-
-                // newNotification.isRead = req.body.isRead;
-
-                // // User.save(function(errr) {
-                // //     if (err) {
-                // //         console.log(errr);
-                // //         throw errr;
-                // //     }
-                // // });
-                // User.update(
-                //     {
-                //         _id: req.user._id,
-                //         notifications: {
-                //             $eleMatch:
-                //             { _id: req.params.notificationId }
-                //         }
-                //     },
-                //     { $set: { 'notifications.$.isRead': req.body.isRead } }
-                // );
-                // newNotification.save(function(errr, saved) {
-                //     if (errr) {
-                //         console.log(errr);
-                //     } else {
-                //         console.log('in save' + saved);
-                //     }
-                // });
-
-                return res.status(200).json({
-                    data: req.user.notifications,
-                    err: null,
-                    msg: 'Notification was set'
-                });
-                // user does not exist
-}
-);
+            return res.status(200).json({
+                data: notification,
+                err: null,
+                msg: 'Notification was set'
+            });
+            // user does not exist
+        }
+    );
 };
-module.exports.postNotification = function(req, res) {
+module.exports.postNotification = function (req, res) {
 
     User.findOneAndUpdate(
         { username: req.body.username },
@@ -931,16 +891,16 @@ module.exports.postNotification = function(req, res) {
                 return res.status(402).json({
                     data: null,
                     err: 'error occurred during adding the notification'
-});
+                });
             }
 
-        return res.status(201).json({
-            data: updatedUser.notifications.pop(),
-            err: null,
-            msg: null
-        });
-    }
-);
+            return res.status(201).json({
+                data: updatedUser.notifications.pop(),
+                err: null,
+                msg: null
+            });
+        }
+    );
 };
 
 
