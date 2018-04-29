@@ -35,13 +35,14 @@
             "PREVIOUS": "السابق",
             "RATING": "التقييم",
             "RELEVANCE": "مدى الصلة",
+            "SEARCH": "...البحث",
             "SECTION": "القسم",
             "SECTION_SPECIFIED": "{{ section }} :القسم",
             "SORT_BY": "التصنيف بحسب",
             "SORT_BY_SPECIFIED": {
                 "RATING": "التصنيف بحسب: التقييم",
                 "RELEVANCE": "التصنيف بحسب: مدى الصلة",
-                "UPLOAD_DATE": "التصنيف بحسب: تاريخ التحميل"
+                "UPLOAD DATE": "التصنيف بحسب: تاريخ التحميل"
             },
             "UPLOAD_DATE": "تاريخ التحميل",
             "WATCH_NOW": "شاهد الآن"

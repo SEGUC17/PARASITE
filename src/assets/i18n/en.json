@@ -35,13 +35,14 @@
             "PREVIOUS": "Previous",
             "RATING": "Rating",
             "RELEVANCE": "Relevance",
+            "SEARCH": "Search...",
             "SECTION": "Section",
             "SECTION_SPECIFIED": "Section: {{ section }}",
             "SORT_BY": "Sort By",
             "SORT_BY_SPECIFIED": {
                 "RATING": "Sort By: Rating",
                 "RELEVANCE": "Sort By: Relevance",
-                "UPLOAD_DATE": "Sort By: Upload Date"
+                "UPLOAD DATE": "Sort By: Upload Date"
             },
             "UPLOAD_DATE": "Upload Date",
             "WATCH_NOW": "Watch Now"

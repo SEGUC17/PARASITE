@@ -84,7 +84,7 @@
         <div *ngIf="selectedTabIndex === 0" class="card">
           <div class="body search">
             <div class="input-group m-b-0">
-              <input type="text" class="form-control" (keydown.enter)="searchContent()" placeholder="Search..." [(ngModel)]="searchQuery">
+              <input type="text" class="form-control" (keydown.enter)="searchContent()" placeholder="{{ 'CONTENT.LIST.SEARCH' | translate }}" [(ngModel)]="searchQuery">
               <span class="input-group-addon search-icon" (click)="searchContent()">
                 <i class="zmdi zmdi-search"></i>
               </span>
