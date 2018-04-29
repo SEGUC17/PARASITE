@@ -118,9 +118,7 @@ export class AuthService {
 
   getUserData(userDataColumns: Array<string>): Observable<any> {
     const self = this;
-    return this.http.post<any>(environment.apiUrl + 'userData', userDataColumns).pipe(
-      catchError(self.handleError('getUserData', []))
-    );
+    return this.http.post<any>(environment.apiUrl + 'userData', userDataColumns);
   }
 
   getAnotherUserData(userDataColumns: Array<string>, username: string): Observable<any> {
