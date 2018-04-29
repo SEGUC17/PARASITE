@@ -108,4 +108,8 @@ export class ProfileService {
   }
   
 
+  deleteStudyPlan(studyPlanID: String): Observable<any> {
+    return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + studyPlanID);
+  }
+
 }

@@ -7,8 +7,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
 import {  DatePipe } from '@angular/common';
-import { of } from 'rxjs/observable/of';
-import { Observable } from 'rxjs/Observable';
 
 
 declare const swal: any;
@@ -107,9 +105,13 @@ export class ProfileComponent implements OnInit {
   dPhone: string;
   dBirthday: Date;
   // ------------------------------------
+
+  // study plan delete modal
+  studyPlanIndex: number;
+
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute, private messageService: MessageService,
-    private toastrService: ToastrService,  private _datePipe: DatePipe) { }
+    private toastrService: ToastrService, private _datePipe: DatePipe) { }
 
   ngOnInit() {
 
@@ -451,7 +453,21 @@ export class ProfileComponent implements OnInit {
 
   }
 
+<<<<<<< HEAD
   
 
+=======
+  deleteStudyPlan(index): void {
+    let plan = this.currIsOwner ? this.studyPlans[index] : this.vStudyPlans[index];
+    this._ProfileService
+      .deleteStudyPlan(plan._id)
+      .subscribe(res => {
+        if (res.msg) {
+          this.studyPlans.splice(index, 1);
+          this.toastrService.success(res.msg);
+        }
+      });
+  }
+>>>>>>> 110e267ac87ecf51e399744a37155526f146249b
 
 }
