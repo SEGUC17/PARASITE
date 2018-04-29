@@ -24,14 +24,16 @@ export class ActivityDetailComponent implements OnInit {
   isReplying: boolean ;
   commentReplyingOn: any;
   signedIn: boolean ;
-
+  canBookFor: String[];
+  bookingUser: String;
 
 
   currentUser = {
     isAdmin: false,
     verified: false,
     avatar: null,
-    username: 'Mohamed Maher'
+    username: 'Mohamed Maher',
+    isChild: true
 
   };
  // updatedActivity: ActivityCreate;
@@ -103,14 +105,17 @@ username = '';
       'isAdmin',
       'firstName',
       'lastName',
-      'avatar'
+      'avatar',
+      'children',
+      'isChild'
     ]).subscribe(function(res) {
         if (typeof res.data === 'undefined') {
           self.signedIn = false;
         } else {
           self.currentUser = res.data;
           self.signedIn = true;
-
+          self.canBookFor = res.data.children;
+          self.canBookFor.push(res.data.username);
         }
         console.log('signed in : ' + self.signedIn );
         console.log(res);
@@ -171,6 +176,8 @@ username = '';
       res => {
         this.activity = res.data;
         this.updatedActivity = res.data;
+        self.canBookFor = 
+          self.canBookFor.filter(user => res.data.bookedBy.indexOf(user) < 0);
         if (this.activity.bookedBy.length < 1) { self.isBooked = false; }
       if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
         if (!this.activity.image) {
@@ -293,6 +300,10 @@ username = '';
 
   deleteActivity() {
     this.activityService.deleteActivity(this.activity).subscribe();
+  }
+
+  bookActivity() {
+    this.activityService.bookActivity(this.activity, {username: this.bookingUser}).subscribe();
   }
 
 }
