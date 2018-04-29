@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
-import { CalendarComponent } from '../calendar/calendar.component';
 import { StudyPlan } from './study-plan';
 import { Rating } from './star-rating/rating';
 import { StudyPlanService } from './study-plan.service';
