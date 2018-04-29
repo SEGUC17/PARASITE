@@ -37,9 +37,6 @@ export class StudyPlanComponent implements OnInit {
   _id: String;
   profileUsername: string;
 
-  // assign modal
-  selectedUser: String;
-
   // user info
   currUsername: string;
   currIsChild: boolean;
@@ -230,9 +227,9 @@ export class StudyPlanComponent implements OnInit {
       });
   }
 
-  assign = function () {
+  assign = function (selectedUser) {
     // this.studyPlan.assigned = true;
-    this.studyPlanService.assignStudyPlan(this.selectedUser, this._id).subscribe(
+    this.studyPlanService.assignStudyPlan(selectedUser, this._id).subscribe(
       res => {
         if (res.err) {
           this.toastrService.error(res.err);

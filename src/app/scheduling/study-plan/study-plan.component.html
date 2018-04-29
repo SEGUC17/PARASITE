@@ -122,11 +122,19 @@
       </div>
       <hr/>
       <div class="button-row">
-        <button class="btn btn-primary" (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
-        <button class="btn btn-primary" (click)="copy()" color="primary" *ngIf="!currIsChild">Copy</button>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="type === 'personal' && profileUsername ? currUsername === profileUsername : true && !currIsChild">Assign</button>
-        <button class="btn btn-primary" (click)="unAssign()" color="primary" *ngIf="studyPlan.assigned">Unassign</button>
-        <button class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" color="primary" *ngIf="changed">Save Changes</button>
+        <button class="btn btn-primary" (click)="publish()" *ngIf="type === 'personal' && !currIsChild">Publish</button>
+        <button class="btn btn-primary" (click)="copy()" *ngIf="!currIsChild">Copy</button>
+        <div class="dropup">
+          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" *ngIf="type === 'personal' && profileUsername ? currUsername === profileUsername : true && !currIsChild">
+            Assign
+          </button>
+          <div class="dropdown-menu up">
+            <a class="dropdown-item" href="javascript:void(0);" (click)="assign(currUsername)">{{ currUsername }}</a>
+            <a class="dropdown-item" href="javascript:void(0);" (click)="assign(child)" *ngFor="let child of listOfChildren">{{ child }}</a>
+          </div>
+        </div>
+        <button class="btn btn-primary" (click)="unAssign()" *ngIf="studyPlan.assigned">Unassign</button>
+        <button class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" *ngIf="changed">Save Changes</button>
       </div>
     </div>
   </div>
@@ -139,7 +147,11 @@
         <h4 class="title" id="defaultModalLabel">Assign</h4>
       </div>
       <div class="modal-body">
-        <div class="form-group">
+        <div class="list-group">
+          <button type="button" class="list-group-item list-group-bg-cyan clickable" (click)="selectedUser = currUsername">{{ currUsername }}</button>
+          <button type="button" class="list-group-item list-group-bg-cyan clickable" *ngFor="let child of listOfChildren" (click)="selectedUser = child">{{ child }}</button>
+        </div>
+        <!-- <div class="form-group">
           <span class="reset">
             <input type="text" [(ngModel)]="selectedUser" name="assignFunctionTarget" list="userList">
             <datalist id="userList">
@@ -147,7 +159,7 @@
               <option *ngFor="let child of listOfChildren">{{child}}</option>
             </datalist>
           </span>
-        </div>
+        </div> -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary btn-round waves-effect" (click)="assign()" data-dismiss="modal">Assign</button>
