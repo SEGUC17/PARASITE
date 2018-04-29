@@ -10,7 +10,7 @@ import { CalendarHeaderComponent } from './calendar-header/calendar-header.compo
 import { FormsModule } from '@angular/forms';
 import { QuillEditorModule } from 'ngx-quill-editor';
 import { PublishedStudyPlansComponent } from './study-plan/published-study-plans/published-study-plans.component';
-import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/study-plan-edit-view.component';
+import { StudyPlanCreateComponent } from './study-plan/study-plan-create/study-plan-create.component';
 import { SharedModule } from '../shared/shared.module';
 import { AdminService } from '../admin/admin.service';
 
@@ -29,7 +29,7 @@ import { AdminService } from '../admin/admin.service';
     StudyPlanComponent,
     CalendarHeaderComponent,
     PublishedStudyPlansComponent,
-    StudyPlanEditViewComponent
+    StudyPlanCreateComponent
   ],
   exports: [
     ScheduleComponent

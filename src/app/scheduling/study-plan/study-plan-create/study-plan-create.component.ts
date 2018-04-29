@@ -25,11 +25,11 @@ import {
 declare const $: any;
 
 @Component({
-  selector: 'app-study-plan-edit-view',
-  templateUrl: './study-plan-edit-view.component.html',
-  styleUrls: ['./study-plan-edit-view.component.scss']
+  selector: 'app-study-plan-create',
+  templateUrl: './study-plan-create.component.html',
+  styleUrls: ['./study-plan-create.component.scss']
 })
-export class StudyPlanEditViewComponent implements OnInit {
+export class StudyPlanCreateComponent implements OnInit {
 
   // study plan details
   title: string;
