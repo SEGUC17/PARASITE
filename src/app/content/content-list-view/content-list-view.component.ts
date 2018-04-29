@@ -8,6 +8,7 @@ import { User } from '../../auth/user';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-list-view',
@@ -46,7 +47,8 @@ export class ContentListViewComponent implements OnInit {
   currentUser: User;
 
   constructor(private contentService: ContentService, private authService: AuthService,
-    private router: Router, private route: ActivatedRoute, private toasterService: ToastrService) { }
+    private router: Router, private route: ActivatedRoute, private toasterService: ToastrService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     // scroll to the top

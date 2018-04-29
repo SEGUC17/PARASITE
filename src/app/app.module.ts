@@ -24,6 +24,13 @@ import {
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/auth.service';
 import { environment } from '../environments/environment';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -50,6 +57,13 @@ import { environment } from '../environments/environment';
       provide: NG_GAPI_CONFIG,
       useValue: {
         client_id: environment.googleAppID,
+      }
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
       }
     })
   ],

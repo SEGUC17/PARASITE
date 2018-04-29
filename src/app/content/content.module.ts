@@ -30,7 +30,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
 import { DiscussionService } from '../discussion.service';
-
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -57,7 +57,8 @@ import { DiscussionService } from '../discussion.service';
     SharedModule,
     MatListModule,
     MatDividerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    TranslateModule.forChild()
   ],
   providers: [
     ContentService,
