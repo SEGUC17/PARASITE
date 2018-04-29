@@ -223,6 +223,7 @@ export class StudyPlanEditViewComponent implements OnInit {
     );
   }
 
+  // editor chnage handler
   onContentChanged(quill) {
     this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
     this.description = this.editorContent;

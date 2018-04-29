@@ -1,5 +1,17 @@
 <section class="content page-calendar">
   <div class="block-header">
+    <ul class="breadcrumb float-right">
+      <li class="breadcrumb-item">
+        <a routerLink="/dashboard">
+          <i class="zmdi zmdi-home"></i>sQuare</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/profile/{{ profileUsername }}">
+          <i class="zmdi zmdi-account-circle">
+          </i>{{ username }}</a>
+      </li>
+      <li class="breadcrumb-item active">Study Plan Creation</li>
+    </ul>
     <div class="row">
       <div class="col-lg-6">
         <div class="header">
@@ -11,19 +23,6 @@
             </div>
           </form>
         </div>
-
-        <ul class="breadcrumb p-l-0 p-b-0 ">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">
-              <i class="zmdi zmdi-home"></i>sQuare</a>
-          </li>
-          <li class="breadcrumb-item">
-            <a routerLink="/profile/{{ profileUsername }}">
-              <i class="zmdi zmdi-account-circle">
-              </i>{{ username }}</a>
-          </li>
-          <li class="breadcrumb-item active">Study Plan Creation</li>
-        </ul>
       </div>
     </div>
   </div>

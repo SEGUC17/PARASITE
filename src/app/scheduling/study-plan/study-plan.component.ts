@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import {
   isSameMonth,
   isSameDay,
@@ -48,9 +49,16 @@ export class StudyPlanComponent implements OnInit {
   studyPlan: StudyPlan;
   title: string;
   description: string;
-  editorContent: SafeHtml;
   events: CalendarEvent[];
   rating = 0;
+
+  // editor
+  public editorOut;
+  public editorContent;
+  private editorOptions = {
+    placeholder: 'Enter the description for your study plan here.'
+  };
+  separatorKeysCodes = [ENTER, COMMA, SPACE];
 
   // copy utility
   tempStudyPlan: StudyPlan;
@@ -159,7 +167,8 @@ export class StudyPlanComponent implements OnInit {
             this.title = this.studyPlan.title;
             this.events = this.studyPlan.events;
             this.description = this.studyPlan.description;
-            this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
+            this.editorContent = this.studyPlan.description;
+            this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
             this.assignFunction = this.studyPlan.assigned ? this.unAssign : this.assign;
             this.assignText = this.studyPlan.assigned ? 'Unassign' : 'Assign';
             for (let index = 0; index < this.events.length; index++) {
@@ -174,8 +183,9 @@ export class StudyPlanComponent implements OnInit {
             this.title = this.studyPlan.title;
             this.events = this.studyPlan.events;
             this.description = this.studyPlan.description;
+            this.editorContent = this.studyPlan.description;
+            this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
             this.rating = this.studyPlan.rating.value;
-            this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
             for (let index = 0; index < this.events.length; index++) {
               this.events[index].start = new Date(this.events[index].start);
               this.events[index].end = new Date(this.events[index].end);
@@ -357,9 +367,15 @@ export class StudyPlanComponent implements OnInit {
           alert(res.err);
         } else {
           alert(res.msg);
-          this.router.navigate(['/profile/' + targetUser]);
+          this.changed = false;
         }
       });
+  }
+
+  // editor chnage handler
+  onContentChanged(quill) {
+    this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
+    this.description = this.editorContent;
   }
 
   // utility
