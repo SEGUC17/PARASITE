@@ -235,7 +235,9 @@ export class StudyPlanComponent implements OnInit {
           this.toastrService.error(res.err);
         } else if (res.msg) {
           this.toastrService.success(res.msg);
-          this.studyPlan.assigned = true;
+          if (this.currUsername === selectedUser) {
+            this.studyPlan.assigned = true;
+          }
         }
       });
 
