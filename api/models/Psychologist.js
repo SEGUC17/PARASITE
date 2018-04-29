@@ -24,6 +24,7 @@ var psychSchema = mongoose.Schema({
   phone: { type: String },
   priceRange: { type: Number }
 });
+
 psychSchema.index(
 {
   firstName: 'text',

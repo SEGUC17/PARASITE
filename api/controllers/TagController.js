@@ -95,9 +95,5 @@ module.exports.deleteTag = function (req, res, next) {
 
 // This method adds tags from created content to the DB
 module.exports.addTagsDB = function (tags) {
-    Tag.insertMany(tags, function (err) {
-        if (err) {
-            return console.log(err);
-        }
-    });
+    Tag.insertMany(tags);
 };

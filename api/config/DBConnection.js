@@ -28,3 +28,4 @@ require('../models/StudyPlan');
 require('../models/StudyPlanPublishRequest');
 require('../models/Message');
 require('../models/Tag');
+require('../models/Newsfeed');
