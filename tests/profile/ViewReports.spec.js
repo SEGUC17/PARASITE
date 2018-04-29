@@ -123,8 +123,7 @@ describe('/GET/ View reports', function () {
 
                                         //reporting user 2
                                         chai.request(server).
-                                            post('/api/profile/ReportUser/' +
-                                            user1.id).
+                                            post('/api/profile/ReportUser').
                                             send(report1).
                                             set('Authorization', token).
                                             end(function (err4, res4) {

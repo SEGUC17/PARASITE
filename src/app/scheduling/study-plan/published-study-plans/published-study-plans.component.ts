@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudyPlanService } from '../study-plan.service';
-import { AdminService } from '../../../admin/admin.service';
+
 @Component({
   selector: 'app-published-study-plans',
   templateUrl: './published-study-plans.component.html',
@@ -8,14 +8,16 @@ import { AdminService } from '../../../admin/admin.service';
 })
 export class PublishedStudyPlansComponent implements OnInit {
   type: String = 'published';
-// declaring the type with published for the if condition is study-plan-list-view
-constructor(private adminService: AdminService) {
-}
+
+  // declaring the type with published for the if condition is study-plan-list-view
+  constructor(private studyPlanService: StudyPlanService) { }
+
   ngOnInit() {
   }
+
   removePublishedStudyPlan(studyPlanId): void {
     let self = this;
-    self.adminService.removePublishedStudyPlans(studyPlanId).subscribe(function(res) {
-     });
+    self.studyPlanService.removePublishedStudyPlans(studyPlanId).subscribe(function (res) {
+    });
   }
 }

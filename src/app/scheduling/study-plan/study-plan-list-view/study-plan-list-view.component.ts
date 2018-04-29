@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
 import { AuthService } from '../../../auth/auth.service';
@@ -13,8 +14,9 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class StudyPlanListViewComponent implements OnInit {
   @Input() type: string;
-  @Input() username: string;
-  @Input() currIsChild: boolean;
+  currUsername: string;
+  profileUsername: string;
+  currIsChild: boolean;
   studyPlans: StudyPlan[];
   tempPlan: StudyPlan;
   numberOfElements: Number;
@@ -32,7 +34,7 @@ export class StudyPlanListViewComponent implements OnInit {
     private studyPlanService: StudyPlanService,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -40,19 +42,23 @@ export class StudyPlanListViewComponent implements OnInit {
   }
 
   getStudyPlans(pageEvent?: PageEvent) {
-    if (!this.username) {
-      this.username = 'undefined';
-    }
     this.authService.getUserData(['username', 'isChild']).subscribe(currUser => {
-      this.username = currUser.data.username;
+      this.currUsername = currUser.data.username;
       this.currIsChild = currUser.data.isChild;
+      this.activatedRoute.params.subscribe((params) => {
+        this.profileUsername = params.username;
+      });
       if (this.type === 'published') {
         // to retreive the pages one by one the number has to be passed to the call each time incremented by one
         // event occurs at the loading of the pages each time so if there is an event indx is incremented by one
         // else its a one as we are at the start of loading the published plans
         this.studyPlanService.getPublishedStudyPlans(pageEvent ? pageEvent.pageIndex + 1 : 1).subscribe(res => this.updateLayout(res));
-      } else {
-        this.authService.getAnotherUserData(['studyPlans'], this.username).subscribe(res => this.studyPlans = res.data.studyPlans);
+      } else if (this.type === 'personal') {
+        if (!this.profileUsername || this.currUsername === this.profileUsername) {
+          this.authService.getUserData(['studyPlans']).subscribe(res => this.studyPlans = res.data.studyPlans);
+        } else {
+          this.authService.getAnotherUserData(['studyPlans'], this.profileUsername).subscribe(res => this.studyPlans = res.data.studyPlans);
+        }
       }
     });
   }
@@ -72,32 +78,22 @@ export class StudyPlanListViewComponent implements OnInit {
     }, 0);
   }
 
-  delete(plan): void {
-    if (plan.published) {
+  delete(index): void {
+    let plan = this.studyPlans[index];
+
+    if (this.type === 'published') {
       this.studyPlanService
         .deletePublishedStudyPlan(plan._id)
         .subscribe(res => {
-          if (res.msg === 'Study plan deleted successfully') {
+          if (res.err) {
+            alert(res.err);
+          } else if (res.msg) {
+            this.studyPlans.splice(index, 1);
             alert(res.msg);
-          } else {
-            alert(
-              'An error occured while deleting the study plan, please try again.'
-            );
-          }
-        });
-    } else {
-      this.studyPlanService
-        .deleteStudyPlan(plan._id)
-        .subscribe(res => {
-          if (res.msg === 'Study plan deleted successfully') {
-            alert(res.msg);
-          } else {
-            alert(
-              'An error occured while deleting the study plan, please try again.'
-            );
           }
         });
     }
+
     this.refreshDocument();
   }
 }

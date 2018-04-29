@@ -1,2 +1,6 @@
-<input matInput type="file" ng2FileSelect [uploader]="uploader" accept="image/*;capture=camera" >
-<button mat-button type="submit" [disabled]="loading" (click)="upload()" class="btn btn-success mt-3" >Upload Picture</button>
+<span>
+<input matInput id="fileInput" type="file" ng2FileSelect [uploader]="uploader" accept="image/*;capture=camera" >
+<br/>
+<button mat-button type="submit" [disabled]="loading" (click)="upload()" class="btn btn-primary btn-round waves-effect" style="float:right" >Upload Picture</button>
+<span *ngIf="loading && uploader">Loading...</span>
+</span>
