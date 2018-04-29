@@ -1,0 +1,49 @@
+<!-- <section class="content"></section>
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-12">
+        <h2>Study Plans</h2>
+        <ul class="breadcrumb p-l-0 p-b-0 ">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">
+              <i class="zmdi zmdi-home"></i>sQuare</a>
+          </li>
+          <li class="breadcrumb-item">
+            <i class="zmdi zmdi-graduation-cap">
+            </i> Study Plans</li>
+        </ul>
+      </div>
+    </div>
+  </div> -->
+<!-- <div class="container-fluid"> -->
+  <div class="card">
+    <div class="body">
+      <div *ngIf="type === 'personal' && (!this.profileUsername || this.currUsername == this.profileUsername) && !currIsChild">
+        <a class="btn btn-primary" routerLink="/study-plan-edit/create/new/{{currUsername}}" color="primary" style="float: right;">Create A New Study Plan</a>
+        <br />
+        <br />
+        <br />
+      </div>
+      <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="getStudyPlans($event)"></mat-paginator>
+      <div class="row">
+        <div class="card" [ngClass]="{'col-3': type === 'published', 'col-4': type === 'personal'}" *ngFor="let studyPlan of studyPlans; let index = index">
+          <div class="header">
+            <h2>
+              <span class="badge badge-info float-right" *ngIf="studyPlan.assigned && type === 'personal'">Assigned</span>
+              <span class="badge badge-info float-right" *ngIf="studyPlan.creator === this.currUsername && type === 'published'">Mine</span>
+              <strong>{{studyPlan.title}}</strong>
+              <br/> {{studyPlan.creator}}
+            </h2>
+          </div>
+          <div class="body">
+            <p>
+              <a class="btn btn-primary" routerLink="/scheduling/study-plan/{{type}}/{{studyPlan._id}}/{{ this.type === 'personal' ? (this.profileUsername ? this.profileUsername : this.currUsername) : '' }}">View</a>
+              <button class="btn btn-primary" (click)="delete(index)" color="primary" *ngIf="(this.type === 'personal' || studyPlan.creator === this.currUsername) && !currIsChild">Delete</button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- </div> -->
+<!-- </section> -->

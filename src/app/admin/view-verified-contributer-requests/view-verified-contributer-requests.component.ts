@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../admin.service';
+import { AdminService } from '../admin.service';
 import { Router } from '@angular/router';
 import { ImageUploaderComponent } from '../../shared/image-uploader/image-uploader.component';
 
@@ -16,12 +16,8 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   constructor(private _adminService: AdminService, private router: Router
   ) { }
 
-  Requests: any[];
+  Requests: any[] = [];
   filter: String = 'pending';
-
-  imageUploaded(url: string ) {
-    console.log(url);
-  }
 
 
   ngOnInit() {
@@ -34,6 +30,7 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   }
 
   acceptedRadio() { // triggered by Radio button to change the filter
+    console.log('accept');
     this.filter = 'approved';
     this.viewVCRs(this.filter);
   }
@@ -61,7 +58,7 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
 
   onNameClick(request) {  // redirect the Admin to the user's page.
     console.log('clicked');
-    this.router.navigate(['/profile/' + request.username]);
+    this.router.navigate(['/profile/' + request.creator]);
   }
 
   Accept(request) { // Accepted by Admin.

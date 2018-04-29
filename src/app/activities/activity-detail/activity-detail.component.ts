@@ -2,13 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
 import { Activity, ActivityCreate, ActivityEdit } from '../activity';
 import { ActivatedRoute } from '@angular/router';
-import { Inject} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {ActivityEditComponent} from '../activity-edit/activity-edit.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ActivityEditComponent } from '../activity-edit/activity-edit.component';
 import { DiscussionService } from '../../discussion.service';
 import { Router } from '@angular/router';
-import {AuthService} from '../../auth/auth.service';
-
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-activity-detail',
@@ -86,16 +84,17 @@ username = '';
 
     this.authService.getUserData(['username']).subscribe(function (res) {
       this.username = res.data.username;
-     // console.log('current: ' + this.currentUser.username );
       console.log('booked? ' + self.isBooked);
       console.log('creator? ' + self.isCreator);
-// if (this.updatedActivity.creator.equal(this.username)) { this.isCreator = true; }
-
-  });
-  // if ( this.updatedActivity.bookedBy.length < 1) {
-  // this.isNotBooked = true;
- // }
+    });
   }
+
+  testForDiscussion() {
+    console.log('printing the date here');
+    console.log(new Date(this.activity.discussion[0].createdAt).getTime());
+    console.log('after date');
+  }
+
 
   getCurrentUser() {
     let self = this;
@@ -131,7 +130,7 @@ username = '';
     let self = this;
     let element = document.getElementById('target');
     element.scrollIntoView();
-    let input = document.getElementById('input');
+    let input = document.getElementById('inputArea');
     self.somePlaceholder = 'leave a reply';
     input.focus();
     this.isReplying = true;
@@ -179,7 +178,7 @@ username = '';
         }
       }
     );
-    console.log(this.activity.fromDateTime);
+
   }
 
 
@@ -192,6 +191,8 @@ username = '';
         this.viewedReplies.push(false);
       }
     }
+
+
   }
 
   showReply(i: number) {
@@ -236,6 +237,7 @@ username = '';
 
   cancelReplying() {
     this.isReplying = false;
+    this.somePlaceholder = 'write a comment ...';
   }
 
 
@@ -244,8 +246,9 @@ username = '';
     let from = new Date(this.activity.fromDateTime).toJSON();
     let to   = new Date(this.activity.toDateTime).toJSON();
   let   dialogRef = this.dialog.open(ActivityEditComponent, {
-      width: '350px',
-      height: '500px',
+    width: '700px',
+    height: '520px',
+    hasBackdrop: false,
       data: { name: this.activity.name, price : this.activity.price  ,
          description: this.activity.description ,
          fromDateTime: from.substr(0, from.length - 1)
@@ -267,22 +270,29 @@ username = '';
 
 
 
-EditActivity(activity) {
-  let id = this.route.snapshot.paramMap.get('id');
-  this.activityService.EditActivity(this.updatedActivity, id).subscribe(
-    res => {
-        console.log(res);
-    }
+  EditActivity(activity) {
+    let id = this.route.snapshot.paramMap.get('id');
+    this.activityService.EditActivity(this.updatedActivity, id).subscribe(
+      res => {
+          console.log(res);
+      }
 
-  );
-}
+    );
+  }
+
+
   uploaded(url: string) {
-    if(url === 'imageFailedToUpload') {
+    if (url === 'imageFailedToUpload') {
       console.log('image upload failed');
       // TODO: handle image uploading failure
     } else {
-      console.log('in vcC and its uploaded with url = '+ url);
+      console.log('in vcC and its uploaded with url = ' + url);
       // TODO: handle image uploading success and use the url to retrieve the image later
     }
   }
+
+  deleteActivity() {
+    this.activityService.deleteActivity(this.activity).subscribe();
+  }
+
 }

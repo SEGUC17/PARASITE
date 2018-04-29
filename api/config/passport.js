@@ -1,6 +1,10 @@
 // -------------------------- Requirements ------------------------------- //
 var config = require('../config/config');
+var SECRET = require('../utils/secret');
 var ExtractJwt = require('passport-jwt').ExtractJwt;
+var FacebookTokenStrategy = require('passport-facebook-token');
+var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var generateString = require('../utils/generators/generate-string');
 var JWTStrategy = require('passport-jwt').Strategy;
 var User = require('../models/User');
 // -------------------------- End of "Requirements" ---------------------- //
@@ -13,14 +17,67 @@ module.exports = function (passport) {
         },
         function (jwtPayload, done) {
             User.findById(jwtPayload.id, function (err, user) {
-                if (err) {
-                    return done(false, null);
-                } else if (!user) {
-                    return done(null, false);
-                }
-
-                return done(null, user);
+                return done(err, user);
             });
+        }
+    ));
+
+    passport.use(new FacebookTokenStrategy(
+        {
+            accessTokenField: 'accessToken',
+            clientID: SECRET.FACEBOOK.ID,
+            clientSecret: SECRET.FACEBOOK.PW,
+            profileFields: [
+                'emails',
+                'id',
+                'age_range',
+                'first_name',
+                'gender',
+                'last_name',
+                'picture',
+                'verified'
+            ],
+            refreshTokenField: 'refreshToken'
+        },
+        function (accessToken, refreshToken, profile, done) {
+            User.findOneAndUpdate(
+                {
+                    $or: [
+                        { 'email': profile.emails[0].value },
+                        { 'facebookId': profile.id }
+                    ]
+                },
+                {
+                    'email': profile.emails[0].value,
+                    'facebookId': profile.id,
+                    'isEmailVerified': true
+                },
+                function (err, user) {
+                    if (err) {
+                        return done(err);
+                    } else if (user) {
+                        return done(null, user);
+                    }
+
+                    var newUser = new User({
+                        email: profile.emails[0].value,
+                        facebookId: profile.id,
+                        firstName: profile.name.givenName,
+                        isEmailVerified: true,
+                        lastName: profile.name.familyName,
+                        password: generateString(12),
+                        username: profile.emails[0].value
+                    });
+
+                    newUser.save(function (err2, user2) {
+                        if (err2) {
+                            return done(err2);
+                        }
+
+                        return done(null, user2);
+                    });
+                }
+            );
         }
     ));
 };

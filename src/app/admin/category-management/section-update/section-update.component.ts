@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Category } from '../../../content/category';
-import { Section } from '../../../content/section';
+import { Category } from '../../../../interfaces/category';
+import { Section } from '../../../../interfaces/section';
+import { AdminService } from '../../admin.service';
 import { ToastrService } from 'ngx-toastr';
-import { AdminService } from '../../../admin.service';
 
 @Component({
   selector: 'app-section-update',

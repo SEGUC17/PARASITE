@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
 import { ActivatedRoute } from '@angular/router';
-import { AdminService } from '../../admin.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../auth/user';
@@ -41,7 +40,6 @@ export class ContentViewComponent implements OnInit {
     private contentService: ContentService,
     private route: ActivatedRoute,
     private videoIdExtractorPipe: VideoIdExtractorPipe,
-    private adminService: AdminService,
     private authService: AuthService,
     private discussionService: DiscussionService,
     private toasterService: ToastrService,

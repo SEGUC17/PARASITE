@@ -147,46 +147,10 @@
                 <i class="zmdi zmdi-apps"></i>
             </a>
             <ul class="dropdown-menu pullDown">
-                <li>
-                    <a routerLink="/app/inbox">
-                        <i class="zmdi zmdi-email m-r-10"></i>
-                        <span>Mail</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/app/contact">
-                        <i class="zmdi zmdi-accounts-list m-r-10"></i>
-                        <span>Contacts</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/app/chat">
-                        <i class="zmdi zmdi-comment-text m-r-10"></i>
-                        <span>Chat</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/sample-page/invoices">
-                        <i class="zmdi zmdi-arrows m-r-10"></i>
-                        <span>Invoices</span>
-                    </a>
-                </li>
-                <li>
-                    <a routerLink="/schedule/mySchedule">
-                        <i class="zmdi zmdi-calendar-note m-r-10"></i>
-                        <span>My Schedule</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <i class="zmdi zmdi-arrows m-r-10"></i>
-                        <span>Notes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="javascript:void(0)">
-                        <i class="zmdi zmdi-view-column m-r-10"></i>
-                        <span>Taskboard</span>
+                <li *ngFor="let link of links">
+                    <a [routerLink]="link.url">
+                       <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                        <span>{{link.name}}</span>
                     </a>
                 </li>
             </ul>
@@ -202,7 +166,6 @@
                         <li>
                             <a href="javascript:void(0);">
                                 <div class="media">
-                                    <img class="media-object" src="assets/images/xs/avatar5.jpg" alt="">
                                     <div class="media-body">
                                         <span class="name">Alexander
                                             <span class="time">35min ago</span>
@@ -215,7 +178,6 @@
                         <li>
                             <a href="javascript:void(0);">
                                 <div class="media">
-                                    <img class="media-object" src="assets/images/xs/avatar6.jpg" alt="">
                                     <div class="media-body">
                                         <span class="name">Grayson
                                             <span class="time">1hr ago</span>
@@ -228,7 +190,6 @@
                         <li>
                             <a href="javascript:void(0);">
                                 <div class="media">
-                                    <img class="media-object" src="assets/images/xs/avatar3.jpg" alt="">
                                     <div class="media-body">
                                         <span class="name">Sophia
                                             <span class="time">31min ago</span>
@@ -240,7 +201,6 @@
                         </li>
                         <li>
                             <a class="alert alert-warning m-b-0" href="javascript:void(0);">
-                                <img class="float-right rounded-circle dropdown-avatar" src="assets/images/xs/avatar10.jpg" alt="">
                                 <strong>Alex Anistor</strong>
                                 <br>
                                 <small>Testing functionality...</small>
@@ -249,7 +209,6 @@
                         <li>
                             <a href="javascript:void(0);">
                                 <div class="media">
-                                    <img class="media-object" src="assets/images/xs/avatar4.jpg" alt="">
                                     <div class="media-body">
                                         <span class="name">Isabella
                                             <span class="time">35min ago</span>
@@ -261,76 +220,9 @@
                         </li>
                         <li>
                             <a class="alert alert-info m-b-0" href="javascript:void(0);">
-                                <img class="float-right rounded-circle dropdown-avatar" src="assets/images/xs/avatar9.jpg" alt="">
                                 <strong>Alicia Adell</strong>
                                 <br>
                                 <small>Reviewing last changes...</small>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="footer">
-                    <a href="javascript:void(0);">View All</a>
-                </li>
-            </ul>
-        </li>
-        <li class="dropdown task">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                <i class="zmdi zmdi-flag"></i>
-                <span class="label-count">3</span>
-            </a>
-            <ul class="dropdown-menu pullDown">
-                <li class="header">Project</li>
-                <li class="body">
-                    <ul class="menu tasks list-unstyled">
-                        <li>
-                            <a href="javascript:void(0);">
-                                <span class="text-muted">Project 1
-                                    <span class="float-right">29%</span>
-                                </span>
-                                <div class="progress">
-                                    <div class="progress-bar l-turquoise" role="progressbar" aria-valuenow="29" aria-valuemin="0" aria-valuemax="100" style="width: 29%;"></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <span class="text-muted">Project 2
-                                    <span class="float-right">78%</span>
-                                </span>
-                                <div class="progress">
-                                    <div class="progress-bar l-slategray" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <span class="text-muted">Project 3
-                                    <span class="float-right">45%</span>
-                                </span>
-                                <div class="progress">
-                                    <div class="progress-bar l-parpl" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%;"></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <span class="text-muted">Project 4
-                                    <span class="float-right">68%</span>
-                                </span>
-                                <div class="progress">
-                                    <div class="progress-bar l-coral" role="progressbar" aria-valuenow="68" aria-valuemin="0" aria-valuemax="100" style="width: 68%;"></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <span class="text-muted">Project 5
-                                    <span class="float-right">21%</span>
-                                </span>
-                                <div class="progress">
-                                    <div class="progress-bar l-amber" role="progressbar" aria-valuenow="21" aria-valuemin="0" aria-valuemax="100" style="width: 21%;"></div>
-                                </div>
                             </a>
                         </li>
                     </ul>
@@ -347,7 +239,7 @@
             <a href="javascript:void(0);" class="btn_overlay hidden-sm-down">
                 <i class="zmdi zmdi-sort-amount-desc"></i>
             </a>
-            <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" routerLinkActive="active" class="mega-menu">
+            <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active" class="mega-menu">
                 <i class="zmdi zmdi-power"></i>
             </a>
         </li>
@@ -362,28 +254,24 @@
                 <li>
                     <div class="user-info m-b-20">
                         <div class="image">
-                            <a routerLink="/sample-pages/profile">
-                                <img src="assets/images/profile_av.jpg" alt="User">
+                            <a *ngIf="username" [routerLink]="'/profile/'+username">
+                                <img [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
                             </a>
                         </div>
                         <div class="detail">
-                            <h4>Michael</h4>
-                            <a routerLink="/schedule/mySchedule" title="My Schedule">
+                            <h4 *ngIf="username">{{firstName + ' ' + lastName}}</h4>
+                            <a routerLink="/scheduling/schedule" title="My Schedule">
                                 <i class="zmdi zmdi-calendar"></i>
                             </a>
-                            <a routerLink="/app/inbox" title="Inbox">
+                            <a routerLink="/message" title="Inbox">
                                 <i class="zmdi zmdi-email"></i>
-                            </a>
-                            <a routerLink="/app/contact" title="Contact List">
-                                <i class="zmdi zmdi-account-box-phone"></i>
                             </a>
                         </div>
                     </div>
                 </li>
-                <li class="header">MAIN</li>
-                <li routerLinkActive="active open" *ngFor="let link of links">
+                <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin ">
                     <a [routerLink]="link.url">
-                       <i *ngIf="link.name=='Market'"class="zmdi zmdi-shopping-cart"></i>
+                       <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
                         <span>{{link.name}}</span>
                     </a>
                 </li>
