@@ -157,7 +157,7 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                 body: 'Your request to publish the study plan is' +
                     req.body.respo,
                 date: moment().toDate(),
-                itemId: req.params.req.params.studyPlanId,
+                itemId: req.params.studyPlanId,
                 type: 'study plan'
             };
             User.findOneAndUpdate(
