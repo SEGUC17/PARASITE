@@ -28,7 +28,7 @@
           </div>
         </form>
       </div>
-      <app-calendar [(events)]="events" [onCreate]="addEvent"></app-calendar>
+      <!-- <app-calendar [(events)]="events" [onCreate]="addEvent"></app-calendar> -->
       <hr>
       <div class="header">
         <h2>
@@ -64,12 +64,12 @@
                 <input type="color" [(ngModel)]="event.color.secondary" (change)="refresh.next()">
               </td>
               <td>
-                <app-date-time-picker [(ngModel)]="event.start" [time]="event.start | date:'HH:mm'" (ngModelChange)="refresh.next()" placeholder="Choose a date">
-                </app-date-time-picker>
+                <!-- <app-date-time-picker [(ngModel)]="event.start" [time]="event.start | date:'HH:mm'" (ngModelChange)="refresh.next()" placeholder="Choose a date">
+                </app-date-time-picker> -->
               </td>
               <td>
-                <app-date-time-picker [(ngModel)]="event.end" [time]="event.end | date:'HH:mm'" (ngModelChange)="refresh.next()" placeholder="Choose a date">
-                </app-date-time-picker>
+                <!-- <app-date-time-picker [(ngModel)]="event.end" [time]="event.end | date:'HH:mm'" (ngModelChange)="refresh.next()" placeholder="Choose a date">
+                </app-date-time-picker> -->
               </td>
               <!-- <td>
                 <button mat-raised-button color="warn" (click)="events.splice(index, 1); refresh.next()">
