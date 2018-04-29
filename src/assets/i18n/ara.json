@@ -13,7 +13,39 @@
 
     },
     "CONTENT": {
-        "LIST": { "OUR_CONTENT": "المحتويات"}
+        "LIST": {
+            "ALL": "جميع الفئات",
+            "ARABIC": "العربية",
+            "BROWSE_CONTENT": "تصفح المحتويات",
+            "CONTENT": "المحتويات",
+            "CATEGORY": "الفئة",
+            "CATEGORIES": "الفئات",
+            "CATEGORY_SPECIFIED": "{{ category }} :الفئة",
+            "DASHBOARD": "الصفحة الرئيسية",
+            "ENGLISH": "الإنجليزية",
+            "LANGUAGE": "اللغة",
+            "LANGUAGE_SPECIFIED": {
+                "ENGLISH": "اللغة: الإنجليزية",
+                "ARABIC": "اللغة: العربية"
+            },
+            "MY_CONTRIBUTIONS": "مساهماتي على الموقع",
+            "NEXT": "التالى",
+            "OUR_CONTENT": "المحتويات",
+            "POSTED_BY": "{{ creator }} :نشره",
+            "PREVIOUS": "السابق",
+            "RATING": "التقييم",
+            "RELEVANCE": "مدى الصلة",
+            "SECTION": "القسم",
+            "SECTION_SPECIFIED": "{{ section }} :القسم",
+            "SORT_BY": "التصنيف بحسب",
+            "SORT_BY_SPECIFIED": {
+                "RATING": "التصنيف بحسب: التقييم",
+                "RELEVANCE": "التصنيف بحسب: مدى الصلة",
+                "UPLOAD_DATE": "التصنيف بحسب: تاريخ التحميل"
+            },
+            "UPLOAD_DATE": "تاريخ التحميل",
+            "WATCH_NOW": "شاهد الآن"
+        }
     },
     "MARKET": {
 

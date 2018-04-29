@@ -13,7 +13,39 @@
 
     },
     "CONTENT": {
-        "LIST": { "OUR_CONTENT": "Our Content"}
+        "LIST": {
+            "ALL": "All",
+            "ARABIC": "Arabic",
+            "BROWSE_CONTENT": "Browse Content",
+            "CONTENT": "contents",
+            "CATEGORY": "Category",
+            "CATEGORIES": "Categories",
+            "CATEGORY_SPECIFIED": "Category: {{ category }}",
+            "DASHBOARD": "dashboard",
+            "ENGLISH": "English",
+            "LANGUAGE": "Language",
+            "LANGUAGE_SPECIFIED": {
+                "ENGLISH": "Language: english",
+                "ARABIC": "Language: arabic"
+            },
+            "MY_CONTRIBUTIONS": "My Contributions",
+            "NEXT": "Next",
+            "OUR_CONTENT": "Our Contents",
+            "POSTED_BY": "Posted By: {{ creator }}",
+            "PREVIOUS": "Previous",
+            "RATING": "Rating",
+            "RELEVANCE": "Relevance",
+            "SECTION": "Section",
+            "SECTION_SPECIFIED": "Section: {{ section }}",
+            "SORT_BY": "Sort By",
+            "SORT_BY_SPECIFIED": {
+                "RATING": "Sort By: Rating",
+                "RELEVANCE": "Sort By: Relevance",
+                "UPLOAD_DATE": "Sort By: Upload Date"
+            },
+            "UPLOAD_DATE": "Upload Date",
+            "WATCH_NOW": "Watch Now"
+        }
     },
     "MARKET": {
 

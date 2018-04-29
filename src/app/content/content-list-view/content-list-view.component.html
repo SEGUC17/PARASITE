@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
         <h2>{{ 'CONTENT.LIST.OUR_CONTENT' | translate }}
-          <small>Nawwar</small>
+          <small>{{ 'APP.NAWWAR' | translate }}</small>
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
@@ -15,11 +15,11 @@
         <ul class="breadcrumb float-md-right">
           <li class="breadcrumb-item">
             <a>
-              <i class="zmdi zmdi-home"></i> dashboard </a>
+              <i class="zmdi zmdi-home"></i> {{ 'CONTENT.LIST.DASHBOARD' | translate }}</a>
           </li>
           <li class="breadcrumb-item all-contents-item">
             <a (click)="changeCategoryAndSection('','')">
-              <i class="zmdi zmdi-folder"></i> all contents </a>
+              <i class="zmdi zmdi-folder"></i> {{ 'CONTENT.LIST.CONTENT' | translate }} </a>
           </li>
           <li *ngIf="selectedCategory !== ''" class="breadcrumb-item active">{{ selectedCategory }}</li>
           <li *ngIf="selectedSection !== ''" class="breadcrumb-item active">{{ selectedSection }}</li>
@@ -30,10 +30,10 @@
   <div class="container-fluid">
     <ul *ngIf="currentUser" class="nav nav-tabs">
       <li class="nav-item">
-        <a class="nav-link active content-tab" data-toggle="tab" (click)="changeTab(0)">Browse Content</a>
+        <a class="nav-link active content-tab" data-toggle="tab" (click)="changeTab(0)">{{ 'CONTENT.LIST.BROWSE_CONTENT' | translate }}</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link content-tab" data-toggle="tab" (click)="changeTab(1)">My Contributions</a>
+        <a class="nav-link content-tab" data-toggle="tab" (click)="changeTab(1)">{{ 'CONTENT.LIST.MY_CONTRIBUTIONS' | translate }}</a>
       </li>
     </ul>
     <div class="row">
@@ -46,7 +46,7 @@
             <ul class="meta">
               <li *ngIf="content.creator">
                 <a routerLink="/profile/{{content.creator}}">
-                  <i class="zmdi zmdi-account col-blue"></i>Posted By: {{ content.creator }}</a>
+                  <i class="zmdi zmdi-account col-blue"></i>{{ 'CONTENT.LIST.POSTED_BY' | translate: { creator: content.creator } }}</a>
               </li>
               <li *ngIf="content.category && content.section">
                 <a>
@@ -62,19 +62,19 @@
               <span *ngFor="let tag of getFirstTenTags(content.tags)" class="badge badge-info btn-round">{{tag}}</span>
             </div>
             <div>
-              <a routerLink="/content/view/{{content._id}}" title="Watch Now" class="btn btn-round btn-info">Watch Now</a>
+              <a routerLink="/content/view/{{content._id}}" title="Watch Now" class="btn btn-round btn-info">{{ 'CONTENT.LIST.WATCH_NOW' | translate }}</a>
             </div>
           </div>
         </div>
         <ul *ngIf="totalNumberOfPages>1" class="pagination pagination-primary">
           <li *ngIf="currentPageNumber>1" class="page-item">
-            <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">Previous</a>
+            <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">{{ 'CONTENT.LIST.PREVIOUS' | translate }}</a>
           </li>
           <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
             <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
           </li>
           <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
-            <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">Next</a>
+            <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">{{ 'CONTENT.LIST.NEXT' | translate }}</a>
           </li>
         </ul>
       </div>
@@ -91,50 +91,50 @@
             </div>
             <div class="current-category">
               <h6>
-                Category: {{ selectedCategory? selectedCategory : 'All' }}
+                {{ 'CONTENT.LIST.CATEGORY_SPECIFIED' | translate: { category: selectedCategory } }}
               </h6>
               <h6>
-                Section: {{ selectedSection? selectedSection : 'All' }}
+                {{ 'CONTENT.LIST.SECTION_SPECIFIED' | translate: { section: selectedSection } }}
               </h6>
               <h6>
-                Sort By: {{ sortResultsBy }}
+                {{ 'CONTENT.LIST.SORT_BY_SPECIFIED.' + sortResultsBy.toUpperCase() | translate }}
               </h6>
               <h6>
-                Language: {{ contentLanguage }}
+                {{ 'CONTENT.LIST.LANGUAGE_SPECIFIED.' + contentLanguage.toUpperCase() | translate }}
               </h6>
             </div>
             <div class="sort-by-div">
               <form #f="ngForm">
-                <h5>Sort By</h5>
+                <h5>{{ 'CONTENT.LIST.SORT_BY' | translate }}</h5>
                 <div class="radio">
                   <input type="radio" name="sortByRadioButtonGroup" id="radio1" value="relevance" [(ngModel)]="sortResultsBy">
                   <label for="radio1">
-                    Relevance
+                    {{ 'CONTENT.LIST.RELEVANCE' | translate }}
                   </label>
                 </div>
                 <div class="radio">
                   <input type="radio" name="sortByRadioButtonGroup" id="radio2" value="upload date" [(ngModel)]="sortResultsBy">
                   <label for="radio2">
-                    Upload Date
+                    {{ 'CONTENT.LIST.UPLOAD_DATE' | translate }}
                   </label>
                 </div>
                 <div class="radio">
                   <input type="radio" name="sortByRadioButtonGroup" id="radio3" value="rating" [(ngModel)]="sortResultsBy">
                   <label for="radio3">
-                    Rating
+                    {{ 'CONTENT.LIST.RATING' | translate }}
                   </label>
                 </div>
-                <h5>Language</h5>
+                <h5>{{ 'CONTENT.LIST.LANGUAGE' | translate }}</h5>
                 <div class="radio">
                   <input type="radio" name="languageButtonGroup" id="radio4" value="english" [(ngModel)]="contentLanguage">
                   <label for="radio4">
-                    English
+                    {{ 'CONTENT.LIST.ENGLISH' | translate }}
                   </label>
                 </div>
                 <div class="radio">
                   <input type="radio" name="languageButtonGroup" id="radio5" value="arabic" [(ngModel)]="contentLanguage">
                   <label for="radio5">
-                    Arabic
+                    {{ 'CONTENT.LIST.ARABIC' | translate }}
                   </label>
                 </div>
               </form>
@@ -145,7 +145,7 @@
         <div *ngIf="categories" class="card">
           <div class="header">
             <h2>
-              <strong>Categories</strong>
+              <strong>{{ 'CONTENT.LIST.CATEGORIES' | translate }}</strong>
             </h2>
           </div>
           <div class="body">
@@ -155,7 +155,7 @@
                   <div class="panel panel-primary all-category-panel">
                     <div class="panel-heading" role="tab" (click)="changeCategoryAndSection('','')">
                       <h4 class="panel-title">
-                        <a role="button"> All </a>
+                        <a role="button"> {{ 'CONTENT.LIST.ALL' | translate }} </a>
                       </h4>
                     </div>
                   </div>
