@@ -12,7 +12,7 @@ import { CloudinaryCredentials } from '../../variables';
 })
 export class ImageUploaderComponent implements OnInit {
 
- 
+
   //
   // # Getting Started;
   //

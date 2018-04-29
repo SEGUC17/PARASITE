@@ -97,7 +97,6 @@ export class MarketComponent implements OnInit {
       self.currentPageNumber, limiters)
       .subscribe(function (products) {
         self.totalNumberOfPages = products.data.pages;
-        console.log(self.totalNumberOfPages);
         self.products = products.data.docs;
       });
   }
@@ -125,13 +124,15 @@ export class MarketComponent implements OnInit {
     if (prod) {
       if (this.products.indexOf(prod) !== -1) {
         let dialogRef = this.dialog.open(ProductDetailComponent, {
-          width: '80%',
+          width: '85%',
+          height: '80%',
           panelClass: 'product-dialog',
           data: { product: prod, curUser: this.user.username, isAdmin: this.user.isAdmin }
         });
       } else if (this.userRequests.indexOf(prod) !== -1) {
         let dialogRef = this.dialog.open(RequestDetailComponent, {
-          width: '80%',
+          width: '85%',
+          height: '80%',
           panelClass: 'product-dialog',
           data: { product: prod, curUser: this.user.username }
         });
@@ -147,7 +148,6 @@ export class MarketComponent implements OnInit {
       data: { market: self }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       self.getUserRequests();
       self.firstPage();
     });

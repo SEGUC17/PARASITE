@@ -1,54 +1,107 @@
 <form #updateDetails="ngForm" [ngSwitch]="this.toggleEditForm">
-  <div class="modal-body">
+  <div class="modal-body" *ngSwitchCase="false">
+    <!-- Title -->
+    <div class="row">
+      <div class="col">
+        <h2 class="title" id="largeModalLabel" style="word-break: break-all;">{{data.product.name}}</h2>
+      </div>
+      <div class="col-2">
+        <button (click)="this.toggleForm()" class="btn btn-primary btn-round btn-icon hidden-sm-down float-right m-l-10" type="button">
+          <i class="zmdi zmdi-edit"></i>
+        </button>
+      </div>
+    </div>
+    <!-- Body -->
+    <div class="row" width="100%">
+      <!-- Image -->
+      <div class="image col-lg-4 col-md-4 col-sm-4 col-12" style="max-width: 50vw; max-height: 50vh; min-width: 30vw; min-height: 30vh">
+        <img src={{data.product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" style="vertical-align:center"
+          class="rounded img-raised">
+      </div>
+
+      <div class="col-lg-7 col-md-7 col-sm-7 col-12">
+
+        <!-- Price -->
+        <p style="font-size:20px; color: #3f51b5">{{data.product.price}}
+          <span style="font-size: 15px; color: #3f51b5"> EGP</span>
+        </p>
+        <li>
+          <span style="font-weight: bold">Product Information:</span>
+        </li>
+        <div style="word-wrap: break-word;">
+          {{data.product.description}}
+        </div>
+        <li>
+          <span style="font-weight: bold">Created At: </span> {{data.product.createdAt | date }}
+        </li>
+
+        <li>
+          <span style="font-weight: bold">For {{data.product.acquiringType}}</span>
+          <span *ngIf="data.product.rentPeriod">: {{data.product.rentPeriod}} days</span>
+        </li>
+
+        <li>
+          <span style="font-weight: bold">Sold by: </span>
+          <a routerLink="profile/{{data.product.seller}}">{{data.product.seller}}</a>
+        </li>
+
+        <li>
+          <span style="font-weight: bold">Shipping to: </span>
+        </li>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-body" *ngSwitchCase="true">
 
     <!-- Name -->
-    <!-- Show Data -->
-    <h2 *ngSwitchCase="false" class="title" id="largeModalLabel" style="word-break: break-all;">{{this.oldData.name}}</h2>
     <!-- Edit Data -->
-    <div *ngSwitchCase="true">
-      <input (keyup)="addToUpdatedFields($event)" class="form-control col-lg-8" style="font-size: 35px; font-weight: bold" name="name"
-        id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
+    <div class="row">
+      <div class="col-lg-8 col-10">
+        <input (keyup)="addToUpdatedFields($event)" class="form-control col-lg-8" style="font-size: 35px; font-weight: bold" name="name"
+          id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
+      </div>
+      <div class="col-lg-4 col-2">
+        <button (click)="this.toggleForm()" class="btn btn-primary btn-round btn-icon hidden-sm-down float-right m-l-10" type="button">
+          <i class="zmdi zmdi-check"></i>
+        </button>
+        <button (click)="this.cancelEdits()" class="btn btn-danger btn-round btn-icon hidden-sm-down float-right m-l-10" type="button">
+            <i class="zmdi zmdi-close"></i>
+          </button>
+      </div>
     </div>
 
     <div class="row" style="width: 100%">
 
       <!-- Image -->
-      <div class="image col-lg-4 col-md-4 col-sm-4 col-12" style="max-width: 55vw; max-height: 55vh; min-width: 30vw; min-height: 30vh">
+      <div class="image col-lg-4 col-md-4 col-sm-4 col-12" style="max-width: 50vw; max-height: 50vh; min-width: 30vw; min-height: 30vh">
         <img src={{formInput.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" style="vertical-align:center"
           class="rounded img-raised">
       </div>
 
-      <div class="col-lg-7 col-md-7 col-sm-7 col-12" style="height: 100%">
-
-        <!-- <div *ngSwitchCase="true" class="col-lg-8">
-          <input class="form-control" placeholder="Image URL" name="imageURL" id="imageURL" hintLabel="Image URL" [(ngModel)]="formInput.image">
-        </div> -->
+      <div class="col-lg-7 col-md-7 col-sm-7 col-12">
 
         <!-- PRICE-->
-        <!-- Show Data -->
-        
-        <p *ngSwitchCase="false" style="font-size:20px; color: #3f51b5">{{this.oldData.price}}
-          <span style="font-size: 15px; color: #3f51b5"> EGP</span>
-        </p>
         <!-- Edit Data -->
-        <div *ngSwitchCase="true" class="col-lg-8 input-group">
+
+        <li>
+          <span style="font-weight: bold">Price:</span>
+        </li>
+        <div class="col-lg-8 input-group">
           <span class="input-group-addon">
             <i class="zmdi zmdi-money"></i>
           </span>
           <input type="text" class="form-control money-dollar" name="price" id="price" (keyup)="addToUpdatedFields($event)" [(ngModel)]="formInput.price">
         </div>
+
         <!-- Description -->
-        <!-- Show Data -->
         <li>
           <span style="font-weight: bold">Product Information:</span>
         </li>
-        <div  style="word-wrap: break-word;"><p *ngSwitchCase="false">{{this.oldData.description}}</p>
-        </div>
-          <!-- Edit Data -->
-        <div *ngSwitchCase="true" class="col-lg-8">
+        <!-- Edit Data -->
+        <div class="col-lg-8">
           <textarea class="form-control no-resize" (keyup)="addToUpdatedFields($event)" name="description" id="description" [(ngModel)]="formInput.description"></textarea>
         </div>
-
 
         <!-- Creation Date -->
         <li>
@@ -57,22 +110,20 @@
 
 
         <!-- Acquiring Type -->
-        <!-- Show Data -->
-        <li *ngSwitchCase="false">
-          <span style="font-weight: bold">For {{this.oldData.acquiringType}}</span>
-          <span *ngIf="this.oldData.rentPeriod">: {{this.oldData.rentPeriod}} days</span>
-        </li>
         <!-- Edit Data -->
-        <div *ngSwitchCase="true" class="col-lg-8">
+
+        <li>
+          <span style="font-weight: bold">Acquiring type:</span>
+        </li>
+        <div class="col-lg-8">
           <select class="form-control show-tick" (keyup)="addToUpdatedFields($event)" (blur)="addToUpdatedFields($event)" name="acquiringType"
             id="acquiringType" [(ngModel)]="formInput.acquiringType">
             <option value="rent" name="rent">Rent</option>
             <option value="sell" name="sell">Sale</option>
             <option value="rent/sell" name="rent/sell">Rent/Sale</option>
           </select>
-          <br/>
           <input (keyup)="addToUpdatedFields($event)" placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod"
-            [(ngModel)]="formInput.rentPeriod" class="form-control">
+            [(ngModel)]="formInput.rentPeriod" class="form-control col-lg-6">
         </div>
 
         <!-- Seller Name -->
@@ -90,15 +141,5 @@
     </div>
   </div>
 
-  <!-- Submission button -->
-  <div class="col-lg-8" style="max-height: 20%; text-align: right">
-    <button *ngIf="!this.toggleEditForm" (click)="this.toggleForm()" class="btn btn-default btn-simple btn-round waves-effect"
-      style="width:50%;">Edit Request</button>
-    <button *ngIf="this.toggleEditForm" (click)="this.cancelEdits()" class="btn btn-danger btn-simple btn-round waves-effect"
-      style="width:50%;">Cancel Edits</button>
-    <button *ngIf="this.toggleEditForm" (click)="this.toggleForm()" class="btn btn-default btn-simple btn-round waves-effect"
-      style="width:50%;">Submit Edits</button>
-  </div>
 
 </form>
-

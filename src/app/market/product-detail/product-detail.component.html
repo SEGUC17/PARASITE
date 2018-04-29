@@ -6,7 +6,7 @@
     <!-- Body -->
     <div class="row" width="100%">
       <!-- Image -->
-      <div class="image col-lg-4 col-md-4 col-sm-4 col-12" style="max-width: 55vw; max-height: 55vh; min-width: 30vw; min-height: 30vh">
+      <div class="image col-lg-4 col-md-4 col-sm-4 col-12" style="max-width: 50vw; max-height: 50vh; min-width: 30vw; min-height: 30vh">
         <img src={{data.product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" style="vertical-align:center"
           class="rounded img-raised">
       </div>
@@ -16,6 +16,9 @@
         <!-- Price -->
         <p *ngSwitchCase="false" style="font-size:20px; color: #3f51b5">{{data.product.price}}
           <span style="font-size: 15px; color: #3f51b5"> EGP</span>
+          <button mat-icon-button *ngIf="data.product.seller == data.curUser" (click)="this.editPrice()">
+            <mat-icon>edit</mat-icon>
+          </button>  
         </p>
         <!-- Edit Data -->
         <div *ngSwitchCase="true" class="input-group" style="width: 40%">
@@ -23,17 +26,16 @@
             <i class="zmdi zmdi-money"></i>
           </span>
           <input type="number" name="price" id="price" [(ngModel)]="formInput.price" class="form-control money-dollar">
+          <button mat-icon-button *ngIf="data.product.seller == data.curUser" (click)="this.editPrice()">
+            <mat-icon>edit</mat-icon>
+          </button>  
         </div>
-        <button mat-icon-button *ngIf="data.product.seller == data.curUser" (click)="this.editPrice()">
-          <mat-icon>edit</mat-icon>
-        </button>
-
 
         <li>
           <span style="font-weight: bold">Product Information:</span>
         </li>
         <div style="word-wrap: break-word;">
-          <p>{{data.product.description}}</p>
+          {{data.product.description}}
         </div>
         <li>
           <span style="font-weight: bold">Created At: </span> {{data.product.createdAt | date }}

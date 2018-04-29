@@ -22,7 +22,6 @@ export class ProductDetailComponent {
     public dialogRef: MatDialogRef<ProductDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.oldData = data.product;
-    console.log(this.oldData);
     this.product = data.product;
 
   }
@@ -48,14 +47,11 @@ export class ProductDetailComponent {
         seller: this.product.seller
       };
       this.marketService.editPrice(req, self.user.username).subscribe(function (res) {
-        console.log(this.req);
         self.toggleEditForm = false;
         if (res.err == null) {
-          console.log(res.err);
         }
       });
       self.dialogRef.close();
-      console.log(req);
     } else {
       self.toggleEditForm = true;
       self.formInput = self.oldData;

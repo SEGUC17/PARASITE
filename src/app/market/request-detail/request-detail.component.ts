@@ -20,7 +20,7 @@ export class RequestDetailComponent {
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.oldData = data.product;
     this.formInput.image = data.product.image;
-    console.log(this.oldData);
+
   }
 
   toggleForm() {
@@ -34,12 +34,12 @@ export class RequestDetailComponent {
         delete this.formInput.rentPeriod;
         delete this.oldData.rentPeriod;
       }
-      console.log(this.newData);
+
       this.marketService.updateRequest(this.newData, this.oldData._id, this.oldData.seller).subscribe(function (res) {
         if (res.err) {
-          console.log('Something went wrong');
+
         } else {
-          console.log('Success');
+
           let _this = self;
           Object.keys(self.newData).forEach(function (field: String) {
             _this.oldData['' + field] = _this.newData['' + field];

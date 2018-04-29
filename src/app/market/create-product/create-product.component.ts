@@ -5,6 +5,10 @@ import { CreateProductRequest } from './createProductRequest';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MarketComponent } from '../market/market.component';
 import { AuthService } from '../../auth/auth.service';
+import { CloudinaryOptions, CloudinaryUploader } from 'ng2-cloudinary';
+import { CloudinaryCredentials } from '../../variables';
+import { MAT_INPUT_VALUE_ACCESSOR } from '@angular/material';
+declare const $: any;
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
@@ -24,42 +28,23 @@ export class CreateProductComponent {
         self.user = res.data;
       }
     });
-
   }
 
   productrequest: CreateProductRequest;
   formInput = <any>{};
   user: any = {};
-  img = <any>String;
+  img: string;
+  tmpImg: string;
+  uploader: CloudinaryUploader = new CloudinaryUploader(
+    new CloudinaryOptions({ cloudName: CloudinaryCredentials.cloudName, uploadPreset: CloudinaryCredentials.uploadPreset })
+  );
+  loading: any;
 
-  uploaded(url: string) {
-    if (url === 'imageFailedToUpload') {
-      console.log('image upload failed');
-      // TODO: handle image uploading failure
-      alert('image upload failed');
-    } else {
-      console.log('in vcC and its uploaded with url = ' + url);
-
-      this.img = url;
-    }
-  }
 
   createProduct(product: any) {
 
     // this.user = this.authService.getUser(); // here i get the currently logged in user
 
-    let pro = { // here i put the inputs i take and place them in pro
-      name: this.formInput.name,
-      price: this.formInput.price,
-      seller: this.user.username,
-      image: this.img,
-      //  this.formInput.imageURL,
-      acquiringType: this.formInput.acquiringType,
-      rentPeriod: this.formInput.rentPeriod,
-      description: this.formInput.description,
-      createdAt: new Date(),
-    };
-    console.log(pro); // Check if the input taken correctly
 
     let error = false; // Check if there is an error
 
@@ -72,6 +57,18 @@ export class CreateProductComponent {
     }
 
     if (!error) { // enter the if condition if there is no error
+      this.upload();
+      let pro = { // here i put the inputs i take and place them in pro
+        name: this.formInput.name,
+        price: this.formInput.price,
+        seller: this.user.username,
+        image: this.img,
+        //  this.formInput.imageURL,
+        acquiringType: this.formInput.acquiringType,
+        rentPeriod: this.formInput.rentPeriod,
+        description: this.formInput.description,
+        createdAt: new Date(),
+      };
       // there are two cases
       if (this.user.isAdmin === true) { // If the user is an admin, then the product will be created
         let self = this;
@@ -97,5 +94,29 @@ export class CreateProductComponent {
       alert('REQUEST FAILED: Please make sure you have all data written');
     }
   }
+
+
+  //         image uploader          //
+
+
+
+  upload(): any {
+    let self = this;
+    this.loading = true;
+    this.uploader.uploadAll();
+    this.uploader.onSuccessItem = (
+      item: any,
+      response: string,
+      status: number,
+      headers: any): any => {
+      let res: any = JSON.parse(response);
+      self.img = res.url;
+    };
+    this.uploader.onErrorItem =
+      function (fileItem, response, status, headers) {
+        // bad image
+      };
+  }
+
 }
 

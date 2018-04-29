@@ -19,7 +19,6 @@ export class MarketService {
   // gets the products in a page (pageNumber)
   // restrict the products to the ones following the delimiters given
   getMarketPage(entriesPerPage: number, pageNumber: number, limiters: any): Observable<any> {
-    console.log(JSON.stringify(limiters));
     let url = this.host + 'market/getMarketPage/' + entriesPerPage +
       '/' + pageNumber + '/' + JSON.stringify(limiters);
     return this.http.get(url).pipe(
@@ -29,7 +28,6 @@ export class MarketService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
-      console.error(error);
       return of(result as T);
     };
   }
