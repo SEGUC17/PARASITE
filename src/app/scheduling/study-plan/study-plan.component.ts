@@ -377,6 +377,27 @@ export class StudyPlanComponent implements OnInit {
       });
   }
 
+  saveChangesPublished(): void {
+    if (!(this.title && this.description && this.events.length)) {
+      this.toastrService.warning('A study plan needs a title, a description, and at least one event.');
+      return;
+    }
+
+    this.studyPlanService.editPublishedStudyPlan(this._id, new StudyPlan(
+      this.title,
+      this.events,
+      this.description
+    ))
+      .subscribe(res => {
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else {
+          this.toastrService.success(res.msg);
+          this.changed = false;
+        }
+      });
+  }
+
   // editor chnage handler
   onContentChanged(quill) {
     this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);

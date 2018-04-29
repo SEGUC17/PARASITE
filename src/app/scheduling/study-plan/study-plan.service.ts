@@ -91,6 +91,10 @@ export class StudyPlanService {
     return this.http.patch(environment.apiUrl + '/study-plan/editPersonalStudyPlan/' + username + '/' + studyPlanID, studyPlan);
   }
 
+  editPublishedStudyPlan(studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
+    return this.http.patch(environment.apiUrl + '/study-plan/editPublishedStudyPlan/' + studyPlanID, studyPlan);
+  }
+
   removePublishedStudyPlans(studyPlanId: any): Observable<any> {
     const self = this;
     return this.http.get(self.baseURL + self.removePublishedStudyPlansURL + studyPlanId)

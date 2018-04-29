@@ -21,7 +21,7 @@
           </a>
         </h2>
         <div class="row">
-          <div class="form-group col-md-4" *ngIf="editingTitle">
+          <div class="form-group col-md-8" *ngIf="editingTitle">
             <div class="form-line">
               <input type="text" class="form-control" name="newTitle" [(ngModel)]="newTitle" placeholder="New Title">
             </div>
@@ -124,9 +124,9 @@
       <div class="button-row">
         <button class="btn btn-primary" (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
         <button class="btn btn-primary" (click)="copy()" color="primary" *ngIf="!currIsChild">Copy</button>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="type === personal && profileUsername ? currUsername === profileUsername : true && !currIsChild">Assign</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="type === 'personal' && profileUsername ? currUsername === profileUsername : true && !currIsChild">Assign</button>
         <button class="btn btn-primary" (click)="unAssign()" color="primary" *ngIf="studyPlan.assigned">Unassign</button>
-        <button class="btn btn-primary" (click)="saveChangesPersonal()" color="primary" *ngIf="changed">Save Changes</button>
+        <button class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" color="primary" *ngIf="changed">Save Changes</button>
       </div>
     </div>
   </div>

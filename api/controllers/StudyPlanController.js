@@ -417,36 +417,12 @@ module.exports.editPublishedStudyPlan = function (req, res, next) {
             if (error) {
                 return next(error);
             }
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'Study plan updated successfully'
+            });
         });
     });
-
-    // StudyPlan.findByIdAndUpdate(
-    //     req.params.studyPlanID,
-    //     {
-    //         $set: {
-    //             'description': req.body.description,
-    //             'events': req.body.events,
-    //             'title': req.body.title
-    //         }
-    //     },
-    //     function (err, studyPlan) {
-    //         if (err) {
-    //             return next(err);
-    //         }
-
-    //         if (!studyPlan) {
-    //             return res.status(404).json({
-    //                 data: null,
-    //                 err: 'Study plan not found',
-    //                 msg: null
-    //             });
-    //         }
-
-    //         return res.status(200).json({
-    //             data: null,
-    //             err: null,
-    //             msg: 'Study plan updated successfully'
-    //         });
-    //     }
-    // );
 };
