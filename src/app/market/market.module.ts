@@ -20,6 +20,8 @@ MatSlideToggleModule, MatIconModule, MatRadioModule, MatChipsModule} from '@angu
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RequestDetailComponent } from './request-detail/request-detail.component';
 import { SharedModule } from '../shared/shared.module';
+import { ToastrService } from 'ngx-toastr';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -46,7 +48,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   providers: [MarketService, { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }],
-  entryComponents: [MarketComponent, ProductDetailComponent, RequestDetailComponent],
+  entryComponents: [MarketComponent, ProductDetailComponent, RequestDetailComponent, ToastrService
+  ],
   declarations: [MarketComponent, ProductDetailComponent, CreateProductComponent, RequestDetailComponent]
 })
 export class MarketModule { }
