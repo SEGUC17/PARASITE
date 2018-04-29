@@ -13,15 +13,19 @@
 
     },
     "CONTENT": {
+        "SHARED": {
+            "OUR_CONTENT": "المحتويات",
+            "POSTED_BY": "{{ creator }} :نشره",
+            "DASHBOARD": "الصفحة الرئيسية",
+            "CONTENT": "المحتويات"
+        },
         "LIST": {
             "ALL": "جميع الفئات",
             "ARABIC": "العربية",
             "BROWSE_CONTENT": "تصفح المحتويات",
-            "CONTENT": "المحتويات",
             "CATEGORY": "الفئة",
             "CATEGORIES": "الفئات",
             "CATEGORY_SPECIFIED": "{{ category }} :الفئة",
-            "DASHBOARD": "الصفحة الرئيسية",
             "ENGLISH": "الإنجليزية",
             "LANGUAGE": "اللغة",
             "LANGUAGE_SPECIFIED": {
@@ -30,8 +34,6 @@
             },
             "MY_CONTRIBUTIONS": "مساهماتي على الموقع",
             "NEXT": "التالى",
-            "OUR_CONTENT": "المحتويات",
-            "POSTED_BY": "{{ creator }} :نشره",
             "PREVIOUS": "السابق",
             "RATING": "التقييم",
             "RELEVANCE": "مدى الصلة",
@@ -46,6 +48,19 @@
             },
             "UPLOAD_DATE": "تاريخ التحميل",
             "WATCH_NOW": "شاهد الآن"
+        },
+        "VIEW": {
+            "COMMENTS": "{{ number }} :التعليقات",
+            "TAGS": "الإشارات",
+            "RECOMMENDED_CONTENT": {
+                "RECOMMENDED": "المحتويات",
+                "CONTENTS": "المقترحة"
+            },
+            "RATING": " :التقييم",
+            "BY": "نشره:",
+            "DELETE_FOREVER": "الحذف للأبد",
+            "EDIT": "edit",
+            "ADMIN_GO_BACK": "go back to content creation requests"
         }
     },
     "MARKET": {

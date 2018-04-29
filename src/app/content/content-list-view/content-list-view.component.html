@@ -2,7 +2,7 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>{{ 'CONTENT.LIST.OUR_CONTENT' | translate }}
+        <h2>{{ 'CONTENT.SHARED.OUR_CONTENT' | translate }}
           <small>{{ 'APP.NAWWAR' | translate }}</small>
         </h2>
       </div>
@@ -15,11 +15,11 @@
         <ul class="breadcrumb float-md-right">
           <li class="breadcrumb-item">
             <a>
-              <i class="zmdi zmdi-home"></i> {{ 'CONTENT.LIST.DASHBOARD' | translate }}</a>
+              <i class="zmdi zmdi-home"></i> {{ 'CONTENT.SHARED.DASHBOARD' | translate }}</a>
           </li>
           <li class="breadcrumb-item all-contents-item">
             <a (click)="changeCategoryAndSection('','')">
-              <i class="zmdi zmdi-folder"></i> {{ 'CONTENT.LIST.CONTENT' | translate }} </a>
+              <i class="zmdi zmdi-folder"></i> {{ 'CONTENT.SHARED.CONTENT' | translate }} </a>
           </li>
           <li *ngIf="selectedCategory !== ''" class="breadcrumb-item active">{{ selectedCategory }}</li>
           <li *ngIf="selectedSection !== ''" class="breadcrumb-item active">{{ selectedSection }}</li>
@@ -46,7 +46,7 @@
             <ul class="meta">
               <li *ngIf="content.creator">
                 <a routerLink="/profile/{{content.creator}}">
-                  <i class="zmdi zmdi-account col-blue"></i>{{ 'CONTENT.LIST.POSTED_BY' | translate: { creator: content.creator } }}</a>
+                  <i class="zmdi zmdi-account col-blue"></i>{{ 'CONTENT.SHARED.POSTED_BY' | translate: { creator: content.creator } }}</a>
               </li>
               <li *ngIf="content.category && content.section">
                 <a>

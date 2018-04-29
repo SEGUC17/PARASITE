@@ -13,15 +13,19 @@
 
     },
     "CONTENT": {
+        "SHARED": {
+            "OUR_CONTENT": "Our Contents",
+            "POSTED_BY": "Posted By: {{ creator }}",
+            "DASHBOARD": "dashboard",
+            "CONTENT": "contents"
+        },
         "LIST": {
             "ALL": "All",
             "ARABIC": "Arabic",
             "BROWSE_CONTENT": "Browse Content",
-            "CONTENT": "contents",
             "CATEGORY": "Category",
             "CATEGORIES": "Categories",
             "CATEGORY_SPECIFIED": "Category: {{ category }}",
-            "DASHBOARD": "dashboard",
             "ENGLISH": "English",
             "LANGUAGE": "Language",
             "LANGUAGE_SPECIFIED": {
@@ -30,8 +34,6 @@
             },
             "MY_CONTRIBUTIONS": "My Contributions",
             "NEXT": "Next",
-            "OUR_CONTENT": "Our Contents",
-            "POSTED_BY": "Posted By: {{ creator }}",
             "PREVIOUS": "Previous",
             "RATING": "Rating",
             "RELEVANCE": "Relevance",
@@ -46,6 +48,19 @@
             },
             "UPLOAD_DATE": "Upload Date",
             "WATCH_NOW": "Watch Now"
+        },
+        "VIEW": {
+            "COMMENTS": "Comments: {{ number }}",
+            "TAGS": "Tags",
+            "RECOMMENDED_CONTENT": {
+                "RECOMMENDED": "Recommended",
+                "CONTENTS": "Contents"
+            },
+            "RATING": "Rating: ",
+            "BY": "By: ",
+            "DELETE_FOREVER": "delete forever",
+            "EDIT": "edit",
+            "ADMIN_GO_BACK": "go back to content creation requests"
         }
     },
     "MARKET": {

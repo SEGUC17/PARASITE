@@ -8,6 +8,7 @@ import { User } from '../../auth/user';
 import { DiscussionService } from '../../discussion.service';
 import { VideoIdExtractorPipe } from '../video-id-extractor.pipe';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-view',
@@ -43,7 +44,8 @@ export class ContentViewComponent implements OnInit {
     private authService: AuthService,
     private discussionService: DiscussionService,
     private toasterService: ToastrService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
 
 

@@ -2,18 +2,18 @@
     <div class="block-header">
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
-                <h2>Our Content
-                    <small>Nawwar</small>
+                <h2>{{ 'CONTENT.SHARED.OUR_CONTENT' | translate }}
+                    <small>{{ 'APP.NAWWAR' | translate }}</small>
                 </h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
                 <ul class="breadcrumb float-md-right">
                     <li class="breadcrumb-item">
                         <a>
-                            <i class="zmdi zmdi-home"></i> dashboard</a>
+                            <i class="zmdi zmdi-home"></i> {{ 'CONTENT.SHARED.DASHBOARD' | translate }}</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a routerLink="/content/list">all contents</a>
+                        <a routerLink="/content/list">{{ 'CONTENT.SHARED.CONTENT' | translate }}</a>
                     </li>
                     <li *ngIf="content" class="breadcrumb-item active">{{ content.title.length > 10 ? content.title.slice(0,10) +'...' : content.title }}</li>
                 </ul>
@@ -28,9 +28,9 @@
                         <h3 class="m-t-0 m-b-5 mr-auto">{{ content.title }} </h3>
                         <div *ngIf="currentUser && content">
                             <div *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" class="flex-row">
-                                <i title="delete forever" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="deleteContentById(content._id)"
+                                <i title="{{ 'CONTENT.VIEW.DELETE_FOREVER' | translate }}" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="deleteContentById(content._id)"
                                     class="material-icons clickable-icon">delete</i>
-                                <i title="edit" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="redirectToContentEdit()"
+                                <i title="{{ 'CONTENT.VIEW.EDIT' | translate }}" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="redirectToContentEdit()"
                                     class="material-icons clickable-icon">edit</i>
                                 <i title="go back to content creation requests" *ngIf="currentUser.isAdmin && !content.approved" (click)="returnToContentRequests()"
                                     class="material-icons clickable-icon">assignment_late</i>
@@ -39,7 +39,7 @@
                         <ul class="row meta">
                             <li>
                                 <a routerLink="/profile/{{ content.creator }}">
-                                    <i class="zmdi zmdi-account col-blue"></i> Posted By: {{ content.creator }}</a>
+                                    <i class="zmdi zmdi-account col-blue"></i>{{ 'CONTENT.SHARED.POSTED_BY' | translate: { creator: content.creator } }}</a>
                             </li>
                             <li>
                                 <a>
@@ -47,12 +47,12 @@
                             </li>
                             <li>
                                 <a>
-                                    <i class="zmdi zmdi-comment-text col-blue"></i> Comments: {{ content.discussion.length }}</a>
+                                    <i class="zmdi zmdi-comment-text col-blue"></i> {{ 'CONTENT.VIEW.COMMENTS' | translate: { number: content.discussion.length } }}</a>
                             </li>
                             <li *ngIf="currentUser">
                                 <div *ngIf="currentUser.username" class="d-flex">
                                     <i class="zmdi zmdi-star mr-2"></i>
-                                    <div class="rating-meta">Rating:</div>
+                                    <div class="rating-meta">{{ 'CONTENT.VIEW.RATING' | translate }}</div>
                                     <app-rating class="rating-meta" [type]="'content'" [ratedId]="content._id" [inputRating]="content.rating.value"></app-rating>
                                 </div>
                             </li>
@@ -103,7 +103,7 @@
                                         <!--The Part responsible for comments-->
                                         <li *ngFor="let comment of comments; let i = index">
                                             <time class="cbp_tmtime" datetime="2017-11-04T03:45">
-                                                <span>{{comment.createdAt | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
+                                                <span>{{comment.createdAt*1000 | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
                                             </time>
                                             <div class="cbp_tmicon bg-info">
                                                 <i class="zmdi zmdi-label"></i>
@@ -164,7 +164,7 @@
                                                             </div>
                                                         </div>
                                                         <p class="ml-4 text-muted">{{reply.text}}</p>
-                                                        <div *ngIf = " j != comment.replies.length-1">
+                                                        <div *ngIf=" j != comment.replies.length-1">
                                                             <hr />
                                                         </div>
                                                     </div>
@@ -184,7 +184,8 @@
                 <div *ngIf="content" class="card">
                     <div class="header">
                         <h2>
-                            <strong>Recommended</strong> Content</h2>
+                            <strong>{{ 'CONTENT.VIEW.RECOMMENDED_CONTENT.RECOMMENDED' | translate }}</strong> {{ 'CONTENT.VIEW.RECOMMENDED_CONTENT.CONTENTS'
+                            | translate }}</h2>
                     </div>
                     <div class="body widget popular-post">
                         <ul *ngIf="recommendedContent" class="list-unstyled m-b-0">
@@ -196,7 +197,7 @@
                                     <h5 class="m-b-0">
                                         <a routerLink="/content/view/{{ contentItem._id }}">{{ contentItem.title }}</a>
                                     </h5>
-                                    <small class="author-name">By:
+                                    <small class="author-name">{{ 'CONTENT.VIEW.BY' | translate }}
                                         <a routerLink="/profile/{{ contentItem.creator }}">{{ contentItem.creator }}</a>
                                     </small>
                                     <small class="date"> {{ contentItem.touchDate | date }}</small>
@@ -208,7 +209,7 @@
                 <div *ngIf="content" class="card">
                     <div class="header">
                         <h2>
-                            <strong>Tags</strong>
+                            <strong>{{ 'CONTENT.VIEW.TAGS' | translate }}</strong>
                         </h2>
                     </div>
                     <div class="body widget tag-clouds">
