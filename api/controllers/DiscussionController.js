@@ -1,6 +1,10 @@
 /* eslint multiline-comment-style: ["error", "starred-block"] */
 /* eslint max-statements: ["error", 20] */
 /* eslint-disable eqeqeq */
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
+var moment = require('moment');
+
 
 module.exports.getComment = function (req, res) {
 
@@ -45,7 +49,7 @@ module.exports.getComment = function (req, res) {
     });
 };
 
-module.exports.postComment = function(req, res) {
+module.exports.postComment = function (req, res) {
 
     /*
      * Middleware function for creating a comment in
@@ -59,6 +63,11 @@ module.exports.postComment = function(req, res) {
     var isAdmin = user && user.isAdmin;
     var object = req.object;
     var isCreator = user && object.creator === user.username;
+    var type = 'content';
+    if (object.name) {
+        type = 'activity';
+    }
+
 
     if (!isVerified && !isAdmin && !isCreator) {
 
@@ -75,13 +84,49 @@ module.exports.postComment = function(req, res) {
         text: req.body.text
     });
 
-    object.save(function(err, obj) {
+    object.save(function (err, obj) {
         if (err) {
             return res.status(422).json({
                 data: null,
                 err: 'Comment can\'t be empty',
                 msg: null
             });
+        }
+        if (user.username != obj.creator) {
+
+
+            var notification = {
+                body: user.username + ' commented on your ' + type,
+                date: moment().toDate(),
+                itemId: object._id,
+                type: 'discussion'
+            };
+            User.findOneAndUpdate(
+                { username: object.creator },
+                {
+                    $push:
+                        { 'notifications': notification }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    console.log('add the notification');
+                    console.log(updatedUser.notifications);
+                    if (errr) {
+                        return res.status(402).json({
+                            data: null,
+                            err: 'error occurred during adding ' +
+                                'the notification'
+                        });
+                    }
+                    if (!updatedUser) {
+                        return res.status(404).json({
+                            data: null,
+                            err: null,
+                            msg: 'User not found.'
+                        });
+                    }
+                }
+            );
         }
 
         return res.status(201).json({
@@ -92,7 +137,7 @@ module.exports.postComment = function(req, res) {
     });
 };
 
-module.exports.postCommentReply = function(req, res, next) {
+module.exports.postCommentReply = function (req, res, next) {
 
     /*
      * Middleware for replying on comments
@@ -106,6 +151,10 @@ module.exports.postCommentReply = function(req, res, next) {
     var object = req.object;
     var isCreator = user && object.creator === user.username;
     var commentId = req.params.commentId;
+    var type = 'content';
+    if (object.name) {
+        type = 'activity';
+    }
 
     if (!isVerified && !isAdmin && !isCreator) {
 
@@ -140,6 +189,75 @@ module.exports.postCommentReply = function(req, res, next) {
                 err: 'reply can\'t be empty',
                 msg: null
             });
+        }
+        if (user.username != object.creator &&
+            object.creator != comment.creator) {
+            var notificationComment = {
+                body: user.username + ' replied to a comment on your ' + type,
+                date: moment().toDate(),
+                itemId: object._id,
+                type: 'discussion'
+            };
+            User.findOneAndUpdate(
+                { username: object.creator },
+                {
+                    $push:
+                        { 'notifications': notificationComment }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    console.log('add the notification');
+                    console.log(updatedUser.notifications);
+                    if (errr) {
+                        return res.status(402).json({
+                            data: null,
+                            err: 'error occurred during adding ' +
+                                'the notification'
+                        });
+                    }
+                    if (!updatedUser) {
+                        return res.status(404).json({
+                            data: null,
+                            err: null,
+                            msg: 'User not found.'
+                        });
+                    }
+                }
+            );
+        }
+        if (user.username != comment.creator) {
+            var notificationReply = {
+                body: user.username + ' replied to your comment on ' + type,
+                date: moment().toDate(),
+                itemId: object._id,
+                type: 'discussion'
+            };
+            User.findOneAndUpdate(
+                { username: comment.creator },
+                {
+                    $push:
+                        { 'notifications': notificationReply }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    console.log('add the notification');
+                    console.log(updatedUser.notifications);
+                    if (errr) {
+                        return res.status(402).json({
+                            data: null,
+                            err: 'error occurred during adding ' +
+                                'the notification'
+                        });
+                    }
+                    if (!updatedUser) {
+                        return res.status(404).json({
+                            data: null,
+                            err: null,
+                            msg: 'User not found.'
+                        });
+                    }
+                }
+            );
         }
 
         return res.status(201).json({

@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var CalendarEvent = mongoose.model('CalendarEvent');
 var StudyPlan = mongoose.model('StudyPlan');
 var User = mongoose.model('User');
-
+var moment = require('moment');
 
 module.exports.getPublishedStudyPlans = function (req, res, next) {
 
@@ -214,6 +214,40 @@ module.exports.assignStudyPlan = function (req, res, next) {
                         });
                     }
 
+                    var notification = {
+                        body: req.user.username + ' assigned you to' +
+                            newStudyPlan.title,
+                        date: moment().toDate(),
+                        itemId: newStudyPlan._id,
+                        type: 'study plan'
+                    };
+                    User.findOneAndUpdate(
+                        { username: req.params.username },
+                        {
+                            $push:
+                                { 'notifications': notification }
+                        }
+                        , { new: true },
+                        function (errr, updatedUser) {
+                            console.log('add the notification');
+                            console.log(updatedUser.notifications);
+                            if (errr) {
+                                return res.status(402).json({
+                                    data: null,
+                                    err: 'error occurred during adding ' +
+                                        'the notification'
+                                });
+                            }
+                            if (!updatedUser) {
+                                return res.status(404).json({
+                                    data: null,
+                                    err: null,
+                                    msg: 'User not found.'
+                                });
+                            }
+                        }
+                    );
+
                     return res.status(200).json({
                         data: null,
                         err: null,
@@ -252,6 +286,41 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                         err: 'User not found',
                         msg: null
                     });
+                }
+                if (!req.params.username === req.user.username) {
+                    var notification = {
+                        body: req.user.username + ' unassigned' +
+                            'you from a Study Plan',
+                        date: moment().toDate(),
+                        itemId: req.params.studyPlanID,
+                        type: 'study plan'
+                    };
+                    User.findOneAndUpdate(
+                        { username: req.params.username },
+                        {
+                            $push:
+                                { 'notifications': notification }
+                        }
+                        , { new: true },
+                        function (errr, updatedUser) {
+                            console.log('add the notification');
+                            console.log(updatedUser.notifications);
+                            if (errr) {
+                                return res.status(402).json({
+                                    data: null,
+                                    err: 'error occurred during adding ' +
+                                        'the notification'
+                                });
+                            }
+                            if (!updatedUser) {
+                                return res.status(404).json({
+                                    data: null,
+                                    err: null,
+                                    msg: 'User not found.'
+                                });
+                            }
+                        }
+                    );
                 }
 
                 return res.status(200).json({
