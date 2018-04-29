@@ -45,15 +45,6 @@ export class MarketComponent implements OnInit {
   // initializes the current pages in the market and user item
   // gets the products in the market and the products owned by the user)
   ngOnInit() {
-    $(function () {
-      // Taken from http://ionden.com/a/plugins/ion.rangeSlider/demo.html
-
-      $('#range').ionRangeSlider({
-        min: 100,
-        max: 1000,
-        from: 550
-      });
-    });
     // get logged in user info
     const self = this;
     const userDataColumns = ['username', 'isAdmin'];
@@ -124,6 +115,7 @@ export class MarketComponent implements OnInit {
 
   // opens the product details dialog
   showProductDetails(prod: any): void {
+    let self = this;
     if (prod) {
       if (this.products.indexOf(prod) !== -1) {
         let dialogRef = this.dialog.open(ProductDetailComponent, {
@@ -132,12 +124,20 @@ export class MarketComponent implements OnInit {
           panelClass: 'product-dialog',
           data: { product: prod, curUser: this.user.username, isAdmin: this.user.isAdmin }
         });
+        dialogRef.afterClosed().subscribe(result => {
+          self.getUserRequests();
+          self.firstPage();
+        });
       } else if (this.userRequests.indexOf(prod) !== -1) {
         let dialogRef = this.dialog.open(RequestDetailComponent, {
           width: '85%',
           height: '80%',
           panelClass: 'product-dialog',
           data: { product: prod, curUser: this.user.username }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          self.getUserRequests();
+          self.firstPage();
         });
       }
     }
