@@ -7,6 +7,7 @@ import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/user';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-content-list-view',
@@ -45,7 +46,7 @@ export class ContentListViewComponent implements OnInit {
   currentUser: User;
 
   constructor(private contentService: ContentService, private authService: AuthService,
-    private router: Router, private route: ActivatedRoute) { }
+    private router: Router, private route: ActivatedRoute, private toasterService: ToastrService) { }
 
   ngOnInit() {
     // scroll to the top
@@ -56,7 +57,11 @@ export class ContentListViewComponent implements OnInit {
     this.authService.getUserData(['username', 'avatar']).
       subscribe(function (user) {
         self.currentUser = user.data;
-      });
+      },
+        function (error) {
+          // user is not signed in
+          // do nothing
+        });
 
     // get the categories from the server
     this.getCategories();
@@ -142,6 +147,11 @@ export class ContentListViewComponent implements OnInit {
         // assign the retrieved contents to the contents array
         self.contents = retrievedContents.data.docs;
         self.totalNumberOfPages = retrievedContents.data.pages;
+      }, function (error) {
+        self.contents = [];
+        self.totalNumberOfPages = 0;
+        self.toasterService.
+          error('An error has occurred. Please check your network connection.', 'failure');
       });
   }
 
@@ -203,6 +213,9 @@ export class ContentListViewComponent implements OnInit {
       // update the contents array
       self.contents = retrievedContent;
       self.totalNumberOfPages = res.data.contents.pages;
+    }, function (error) {
+      self.contents = [];
+      self.totalNumberOfPages = 0;
     });
   }
 
