@@ -105,6 +105,10 @@ export class ProfileComponent implements OnInit {
   dPhone: string;
   dBirthday: Date;
   // ------------------------------------
+
+  // study plan delete modal
+  studyPlanIndex: number;
+
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute, private messageService: MessageService,
     private toastrService: ToastrService, private _datePipe: DatePipe) { }
@@ -444,11 +448,9 @@ export class ProfileComponent implements OnInit {
     this._ProfileService
       .deleteStudyPlan(plan._id)
       .subscribe(res => {
-        if (res.err) {
-          alert(res.err);
-        } else if (res.msg) {
+        if (res.msg) {
           this.studyPlans.splice(index, 1);
-          alert(res.msg);
+          this.toastrService.success(res.msg);
         }
       });
   }
