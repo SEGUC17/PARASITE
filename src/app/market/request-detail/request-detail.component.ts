@@ -36,16 +36,14 @@ export class RequestDetailComponent {
       }
       console.log(this.newData);
       this.marketService.updateRequest(this.newData, this.oldData._id, this.oldData.seller).subscribe(function (res) {
-        if (res.err) {
-          console.log('Something went wrong');
-        } else {
-          console.log('Success');
-          let _this = self;
-          Object.keys(self.newData).forEach(function (field: String) {
-            _this.oldData['' + field] = _this.newData['' + field];
-          });
-          self.toggleEditForm = false;
-        }
+        console.log('Success');
+        let _this = self;
+        Object.keys(self.newData).forEach(function (field: String) {
+          _this.oldData['' + field] = _this.newData['' + field];
+        });
+        self.toggleEditForm = false;
+      }, function (error) {
+
       });
     } else {
       let self = this;
