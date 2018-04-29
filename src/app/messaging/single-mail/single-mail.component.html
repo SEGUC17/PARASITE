@@ -2,15 +2,16 @@
         <div class="block-header">
           <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12">
-              <h2>View Email
-                <small>Welcome to sQuare</small>
-              </h2>
+              <h2>View Message</h2>
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12">
+                <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" title="Compose" (click)="openDialog()">
+                    <i class="zmdi zmdi-plus"></i>
+                  </button>
               <ul class="breadcrumb float-md-right">
-                <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> sQuare</a></li>
-                <li class="breadcrumb-item"><a href="javascript:void(0);">Inbox</a></li>
-                <li class="breadcrumb-item active">View Email</li>
+                <li class="breadcrumb-item"><a routerLink=""><i class="zmdi zmdi-home"></i> Dashboard</a></li>
+                <li class="breadcrumb-item"><a routerLink="/message">All Messages</a></li>
+                <li class="breadcrumb-item active">View</li>
               </ul>
             </div>
           </div>
@@ -82,7 +83,7 @@
                                         <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openForwardDialog()">
                                             <i class="material-icons">forward</i>
                                         </button>
-                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="deleteMessage()">
+                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openDeleteDialog()">
                                             <i class="material-icons">delete</i>
                                         </button>
                                         <button type="button" class="btn btn-neutral hidden-sm-down" (click)="block()">
@@ -90,10 +91,10 @@
                                         </button>
                                     </span>
                                   <p class="m-b-0">
-                                    <strong class="m-r-10">From:</strong>{{sender}}
+                                    <strong class="m-r-10">From:</strong><a routerLink={{profile1}}>{{senderDisplay}}</a>
                                   </p>
                                   <p class="m-b-0">
-                                      <strong class="m-r-10">To:</strong>{{recipient}}
+                                      <strong class="m-r-10">To:</strong><a routerLink={{profile2}}>{{recipientDisplay}}</a>
                                       <br/>
                                       <span class="text-muted text-sm">{{sentAt|date}}</span>
                                   </p>
@@ -161,6 +162,22 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-primary btn-round waves-effect" (click)="forward(); receiver.value=''">SEND</button>
                   <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
+                </div>
+              </div>
+        </div>
+      </div>
+   </div>
+
+   <div class="modal fade" id="delete" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div>
+            <div class="modal-content">
+                <div class="modal-body">
+                    Are you sure you want to delete this message?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger btn-round waves-effect" (click)="deleteMessage()" data-dismiss="modal">YES</button>
+                  <button type="button" class="btn btn-default btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
                 </div>
               </div>
         </div>

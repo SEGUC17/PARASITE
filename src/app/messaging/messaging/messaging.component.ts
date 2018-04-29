@@ -25,11 +25,24 @@ export class MessagingComponent implements OnInit {
   sent: any[];
   contacts: any[];
 
+  // send to contact
+  replyTo: string;
+  Body: String = '';
+  msg: any;
+  allisWell: Boolean = true;
+  UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
+  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
+
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog,
     private router: Router, private toastrService: ToastrService) { }
 
   openDialog(): void {
     $('#send').modal('show');
+  }
+
+  openReplyDialog(username: string): void {
+    this.replyTo = username;
+    $('#reply').modal('show');
   }
 
   ngOnInit() {
@@ -85,5 +98,34 @@ export class MessagingComponent implements OnInit {
 
    this.router.navigate(['/single-mail'], currMsg);
  }
+
+ reply(): void {
+  const self = this;
+
+  if (this.Body === '') {
+    this.toastrService.warning('You can\'t send an empty message.');
+  } else {
+     this.authService.getAnotherUserData(this.UserList, this.replyTo.toString()).subscribe((user)  => {
+      const list = user.data.blocked;
+      for ( let i = 0 ; i < user.data.blocked.length ; i++) {
+        if ( this.currentUser.username === list[i] ) {
+          console.log('blocked is:', list[i]);
+          this.toastrService.error('Sorry, you are blocked.');
+          this.allisWell = false;
+        } // end if
+      }// end for
+
+     // make a POST request using messaging service
+     if (this.allisWell === true) {
+      this.msg = {'body': this.Body, 'recipient': this.replyTo, 'sender': this.currentUser.username};
+      this.messageService.send(this.msg)
+       .subscribe(function(res) {
+         self.toastrService.success('Message was sent!');
+         self.getSent();
+       });
+     }// end if
+  });
+ }
+}
 
 }// end class

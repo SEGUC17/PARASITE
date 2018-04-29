@@ -24,6 +24,10 @@ export class SingleMailComponent implements OnInit {
   message: any;
   blockedUser: any;
   allIsWell: Boolean = true;
+  recipientDisplay: string;
+  senderDisplay: string;
+  profile1: string;
+  profile2: string;
 
   msg: any;
   allisWell: Boolean = true;
@@ -56,6 +60,17 @@ export class SingleMailComponent implements OnInit {
       self.currentUser = res.data;
       self.message = {'_id': self.id, 'body': self.body, 'recipient': self.recipient, 'sender': self.currentUser.username};
       self.getContacts();
+      if (self.recipient !== self.currentUser.username) {
+        self.senderDisplay = 'me';
+        self.recipientDisplay = self.recipient;
+        self.profile1 = '/profile/' + self.currentUser.username;
+        self.profile2 = '/profile/' + self.recipient;
+      } else {
+        self.recipientDisplay = 'me';
+        self.senderDisplay = self.sender;
+        self.profile1 = '/profile/' + self.sender;
+        self.profile2 = '/profile/' + self.currentUser.username;
+      }
     });
   }
 
@@ -81,6 +96,10 @@ export class SingleMailComponent implements OnInit {
 
   openForwardDialog(): void {
     $('#forward').modal('show');
+  }
+
+  openDeleteDialog(): void {
+    $('#delete').modal('show');
   }
 
   reply(): void {

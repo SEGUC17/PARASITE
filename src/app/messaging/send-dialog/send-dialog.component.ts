@@ -20,7 +20,6 @@ export class SendDialogComponent implements OnInit {
   user: any;
   allisWell: Boolean = true;
   msg: any;
-  sent: any[];
   currentUser: any; // currently logged in user
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
