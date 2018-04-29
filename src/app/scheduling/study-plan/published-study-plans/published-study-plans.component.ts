@@ -16,6 +16,7 @@ export class PublishedStudyPlansComponent implements OnInit {
   currUsername: string;
   profileUsername: string;
   currIsChild: boolean;
+  currIsAdmin: boolean;
   studyPlans: StudyPlan[];
   tempPlan: StudyPlan;
   numberOfElements: number;
@@ -30,9 +31,10 @@ export class PublishedStudyPlansComponent implements OnInit {
     private activatedRoute: ActivatedRoute, private toastrService: ToastrService) { }
 
   ngOnInit() {
-    this.authService.getUserData(['username', 'isChild']).subscribe(currUser => {
+    this.authService.getUserData(['username', 'isChild', 'isAdmin']).subscribe(currUser => {
       this.currUsername = currUser.data.username;
       this.currIsChild = currUser.data.isChild;
+      this.currIsAdmin = currUser.data.isAdmin;
       this.activatedRoute.params.subscribe((params) => {
         this.profileUsername = params.username;
       });

@@ -319,7 +319,7 @@ module.exports.deletePublishedStudyPlan = function (req, res, next) {
             });
         }
 
-        if (studyPlan.creator !== req.user.username) {
+        if (studyPlan.creator !== req.user.username && !req.user.isAdmin) {
             return res.status(401).json({
                 data: null,
                 err: 'Unauthorized to delete study plan',
