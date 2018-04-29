@@ -386,7 +386,7 @@
               <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#children" *ngIf="currIsOwner">Children</a>
               </li>
-             <li class="nav-item">
+             <li class="nav-item" *ngIf = "currIsOwner || visitedIsMyChild">
                 <a class="nav-link" data-toggle="tab" href="#studyplans">Study Plans</a>
               </li>
               <li class="nav-item" *ngIf="currIsOwner && currIsOfAge">
