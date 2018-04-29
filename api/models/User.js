@@ -42,9 +42,10 @@ var notificationSchema = mongoose.Schema({
             [
                 'activity',
                 'content',
+                'contributor',
+                'discussion',
                 'message',
-                'product',
-                'contributor'
+                'product'
             ],
         required: true,
         type: String
