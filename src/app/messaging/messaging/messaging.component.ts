@@ -24,6 +24,7 @@ export class MessagingComponent implements OnInit {
   inbox: any[];
   sent: any[];
   contacts: any[];
+  avatars: any[];
 
   // send to contact
   replyTo: string;
@@ -54,6 +55,7 @@ export class MessagingComponent implements OnInit {
       console.log(self.currentUser.username);
       console.log(self.currentUser._id);
       self.getInbox();
+      // self.getAvatars();
       self.getSent();
       self.getContacts();
     });
@@ -127,5 +129,14 @@ export class MessagingComponent implements OnInit {
   });
  }
 }
+
+/*getAvatars(): void {
+  for (let i = 0 ; i < this.inbox.length ; i++) {
+    this.authService.getAnotherUserData(['avatar'], this.inbox[i].sender.toString()).subscribe((user) => {
+      this.avatars.push(user.data.avatar);
+    });
+  }
+
+}*/
 
 }// end class
