@@ -3,5 +3,7 @@ export interface Notification {
     isRead?: Boolean;
     date: Date;
     body: string;
-    link : string;
+    itemId ?: string;
+    itemUsername ?: string;
+    type: string
 }

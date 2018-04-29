@@ -158,9 +158,14 @@
         <li class="dropdown notifications hidden-sm-down">
             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" (click)="getNotifications()">
                 <i class="zmdi zmdi-notifications"></i>
-                <span class="label-count">5</span> 
+                <span class="label-count">5</span>
                 <!-- number of unread notifications -->
             </a>
+            <div>
+                <button class="btn btn-raised btn-primary btn-round" (click) = "modifyNotification()" >
+                    make me read
+                </button>
+            </div>
             <ul class="dropdown-menu pullDown">
                 <li class="body">
                     <ul class="menu list-unstyled">
@@ -179,18 +184,19 @@
                         <a href="javascript:void(0);">View All</a>
                     </li>
             </ul>
-        </li>
-        <li class="float-right">
-            <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
-                <i class="zmdi zmdi-fullscreen"></i>
-            </a>
-            <a href="javascript:void(0);" class="btn_overlay hidden-sm-down">
-                <i class="zmdi zmdi-sort-amount-desc"></i>
-            </a>
-            <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active" class="mega-menu">
-                <i class="zmdi zmdi-power"></i>
-            </a>
-        </li>
+            </li>
+            <li class="float-right">
+                <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
+                    <i class="zmdi zmdi-fullscreen"></i>
+                </a>
+                <a href="javascript:void(0);" class="btn_overlay hidden-sm-down">
+                    <i class="zmdi zmdi-sort-amount-desc"></i>
+                </a>
+                <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active"
+                    class="mega-menu">
+                    <i class="zmdi zmdi-power"></i>
+                </a>
+            </li>
     </ul>
 </nav>
 

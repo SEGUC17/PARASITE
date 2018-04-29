@@ -152,11 +152,13 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                     msg: null
                 });
             }
+            // not tested
             var notification = {
                 body: 'Your request to publish the study plan is' +
-                req.body.respo,
+                    req.body.respo,
                 date: moment().toDate(),
-                type: 'contributer'
+                itemId: req.params.req.params.studyPlanId,
+                type: 'study plan'
             };
             User.findOneAndUpdate(
                 { username: updatedStudyPlanPubRequest.creator },
@@ -175,7 +177,15 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                                 'the notification'
                         });
                     }
+                    if (!updatedUser) {
+                        return res.status(404).json({
+                            data: null,
+                            err: null,
+                            msg: 'User not found.'
+                        });
+                    }
                 }
+
             );
 
             StudyPlan.findByIdAndUpdate(
@@ -360,7 +370,7 @@ module.exports.respondContentRequest = function (req, res, next) {
                 var notification = {
                     body: 'You request has been approved',
                     date: moment().toDate(),
-                    itemId: req.paramd.ContentId,
+                    itemId: req.params.ContentId,
                     type: 'content'
                 };
 
@@ -543,6 +553,13 @@ module.exports.VCRResponde = function (req, res, next) {
                                 data: null,
                                 err: 'error occurred during adding ' +
                                     'the notification'
+                            });
+                        }
+                        if (!updatedUser) {
+                            return res.status(404).json({
+                                data: null,
+                                err: null,
+                                msg: 'User not found.'
                             });
                         }
                     }

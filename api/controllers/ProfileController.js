@@ -95,6 +95,32 @@ module.exports.EditChildIndependence = function (req, res, next) {
           return err;
 
         }
+        var notification = {
+          body: 'You are now independant',
+          date: moment().toDate(),
+          itemId: updated._id,
+          type: 'link'
+        };
+        User.findOneAndUpdate(
+          { username: updated.username },
+          {
+            $push:
+              { 'notifications': notification }
+          }
+          , { new: true },
+          function (errr, updatedUser) {
+            console.log('add the notification');
+            console.log(updatedUser.notifications);
+            if (errr) {
+              return res.status(402).json({
+                data: null,
+                err: 'error occurred during adding ' +
+                  'the notification'
+              });
+            }
+          }
+        );
+
         res.status(200).json({
           data: user.isChild,
           err: null,
@@ -126,7 +152,7 @@ module.exports.requestUserValidation = function (req, res, next) {
 
   var reqObj = {
     status: 'pending',
-    email : req.user.email,
+    email: req.user.email,
     numberOfChildren: req.user.children.length,
     name: req.user.firstName + ' ' + req.user.lastName,
     image: req.user.avatar,
@@ -173,12 +199,21 @@ module.exports.requestUserValidation = function (req, res, next) {
 // adds the passed child to the user's children list
 // then ensure that isParent = true
 module.exports.linkAnotherParent = function (req, res, next) {
+  var notificationParent = {
+    body: 'You have been linked to' + req.body.child,
+    date: moment().toDate(),
+    itemUsername: req.body.child,
+    type: 'link'
+  };
 
   // var id = req.params.parentId;
   User.findByIdAndUpdate(
     req.params.parentId,
     {
-      $push: { children: req.body.child },
+      $push: {
+        children: req.body.child,
+        notifications: notificationParent
+      },
       $set: { isParent: true }
     }, { new: true },
     function (err, user) {
@@ -192,6 +227,31 @@ module.exports.linkAnotherParent = function (req, res, next) {
           msg: null
         });
       }
+      var notificationUser = {
+        body: 'You have been linked to ' + user.username,
+        date: moment().toDate(),
+        itemId: user._id,
+        type: 'link'
+      };
+      User.findOneAndUpdate(
+        { username: req.body.child },
+        {
+          $push:
+            { 'notifications': notificationUser }
+        }
+        , { new: true },
+        function (errr, updatedUser) {
+          console.log('add the notification');
+          console.log(updatedUser.notifications);
+          if (errr) {
+            return res.status(402).json({
+              data: null,
+              err: 'error occurred during adding ' +
+                'the notification'
+            });
+          }
+        }
+      );
 
       return res.status(200).json({
         data: user,
@@ -206,10 +266,21 @@ module.exports.linkAnotherParent = function (req, res, next) {
 // adds the passed child to the user's children list
 // then ensure that isParent = true
 module.exports.addAsAParent = function (req, res, next) {
+  var notification = {
+    body: req.body.child + 'added you as a parent',
+    date: moment().toDate(),
+    itemUsername: req.body.child,
+    type: 'link'
+  };
+
+
   User.findByIdAndUpdate(
     req.params.parentId,
     {
-      $push: { children: req.body.child },
+      $push: {
+        children: req.body.child,
+        notifications: notification
+      },
       $set: { isParent: true }
     }, { new: true },
     function (err, user) {
@@ -235,9 +306,23 @@ module.exports.addAsAParent = function (req, res, next) {
 
 // method that deletes the passed child from the selected parent's children list
 module.exports.unLinkChild = function (req, res, next) {
+  var notification = {
+    body: req.body.child + 'unlinked you',
+    date: moment().toDate(),
+    itemId: req.params.parentId,
+    type: 'link'
+  };
+
   User.findByIdAndUpdate(
     req.params.parentId,
-    { $pull: { children: { $in: [req.body.child] } } }, { new: true },
+    {
+      $pull: { children: { $in: [req.body.child] } },
+      $push: {
+        children: req.body.child,
+        notifications: notification
+      }
+    },
+    { new: true },
     function (err, user) {
       if (err) {
         return next(err);
@@ -320,6 +405,13 @@ module.exports.changePassword = function (req, res, next) {
 //author:Haidy
 
 module.exports.UnlinkIndependent = function (req, res, next) {
+  var notification = {
+    body: req.user.username + ' unlinked you',
+    date: moment().toDate(),
+    itemId: req.user._id,
+    type: 'link'
+  };
+
   // checking whether the signed-in user is independent
   if (req.user.isChild) {
     console.log(' is child');
@@ -359,7 +451,10 @@ module.exports.UnlinkIndependent = function (req, res, next) {
 
     User.findOneAndUpdate(
       { username: user.username },
-      { $pull: { children: { $in: [req.user.username] } } }, { new: true }
+      {
+        $pull: { children: { $in: [req.user.username] } },
+        $push: { notifications: notification }
+      }, { new: true }
     ).
       exec(function (error, updated) {
         if (error) {
@@ -368,6 +463,7 @@ module.exports.UnlinkIndependent = function (req, res, next) {
         console.log(updated.username);
         console.log(updated.children);
         console.log(req.user.username);
+
         res.status(200).json({
           data: updated.children,
           err: null,
@@ -502,42 +598,42 @@ module.exports.ChangeInfo = function (req, res, next) {
   });
 };
 
-module.exports.reportUser = function(req, res, next) {
+module.exports.reportUser = function (req, res, next) {
   Report.create(req.body, function (error) {
     if (error) {
-        return next(error);
+      return next(error);
     }
 
     return res.status(201).json({
-        data: req.body,
-        error: null,
-        msg: 'Report sent successfully'
+      data: req.body,
+      error: null,
+      msg: 'Report sent successfully'
     });
-});
+  });
 };
 
 module.exports.changeProfilePic = function (req, res, next) {
 
-          User.findByIdAndUpdate(
-            req.body.id,
-            { $set: { avatar: req.body.url } }, { new: true },
-            function (err, user3) {
-              if (err) {
-                return next(err);
-              }
-              if (!user3) {
-                return res.status(404).json({
-                  data: null,
-                  err: null,
-                  msg: 'User not found.'
-                });
-              }
+  User.findByIdAndUpdate(
+    req.body.id,
+    { $set: { avatar: req.body.url } }, { new: true },
+    function (err, user3) {
+      if (err) {
+        return next(err);
+      }
+      if (!user3) {
+        return res.status(404).json({
+          data: null,
+          err: null,
+          msg: 'User not found.'
+        });
+      }
 
-              return res.status(200).json({
-                data: user3,
-                err: null,
-                msg: 'Profile picture updated successfully.'
-              });
-            }
-          );
-        };
+      return res.status(200).json({
+        data: user3,
+        err: null,
+        msg: 'Profile picture updated successfully.'
+      });
+    }
+  );
+};

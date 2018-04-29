@@ -37,6 +37,10 @@ var notificationSchema = mongoose.Schema({
         trim: true,
         type: String
     },
+    itemUsername: {
+        trim: true,
+        type: String
+    },
     type: {
         enum:
             [
@@ -46,7 +50,8 @@ var notificationSchema = mongoose.Schema({
                 'discussion',
                 'message',
                 'product',
-                'study plan'
+                'study plan',
+                'link'
             ],
         required: true,
         type: String

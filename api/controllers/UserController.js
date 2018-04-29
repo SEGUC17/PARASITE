@@ -837,8 +837,23 @@ module.exports.resetPassword = function (req, res, next) {
     });
 };
 module.exports.modifyNotification = function (req, res) {
-    User.findOne(
-        { username: req.user },
+    var notifications = req.user.notifications;
+    var notification = notifications.filter(function (not) {
+
+        return not._id.equals(req.params.notificationId);
+    }).pop();
+
+
+    User.update(
+        {
+            _id: req.user._id,
+            notifications: {
+                $in:
+                [notification]
+            }
+        },
+            { $set: { 'type': 'balabizo' } },
+
         function (err, user) {
             if (err) {
                 throw err;
@@ -849,30 +864,47 @@ module.exports.modifyNotification = function (req, res) {
                     msg: 'User couldn\'t be found'
                 });
             }
+                // var newNotification = notifications.filter(function (not) {
 
-                var notification = user.notifications.filter(function (not) {
-                    return not._id === req.body.notificationId;
-                }).pop();
-                if (!notification) {
-                    return res.status(404).json({
-                        data: null,
-                        err: 'Notification doesn\'t exist',
-                        msg: null
-                    });
-                }
+                //     return not._id.equals(req.params.notificationId);
+                // }).pop();
 
-                user.notifications.id(req.body.notificationId).isRead =
-                req.body.isRead;
-                notification.isRead = req.body.isRead;
-                notification.save(function(errr) {
-                    if (err) {
-                        console.log(errr);
-                        throw errr;
-                    }
-                });
+                // if (!notification) {
+                //     return res.status(404).json({
+                //         data: null,
+                //         err: 'Notification doesn\'t exist',
+                //         msg: null
+                //     });
+                // }
+
+                // newNotification.isRead = req.body.isRead;
+
+                // // User.save(function(errr) {
+                // //     if (err) {
+                // //         console.log(errr);
+                // //         throw errr;
+                // //     }
+                // // });
+                // User.update(
+                //     {
+                //         _id: req.user._id,
+                //         notifications: {
+                //             $eleMatch:
+                //             { _id: req.params.notificationId }
+                //         }
+                //     },
+                //     { $set: { 'notifications.$.isRead': req.body.isRead } }
+                // );
+                // newNotification.save(function(errr, saved) {
+                //     if (errr) {
+                //         console.log(errr);
+                //     } else {
+                //         console.log('in save' + saved);
+                //     }
+                // });
 
                 return res.status(200).json({
-                    data: null,
+                    data: req.user.notifications,
                     err: null,
                     msg: 'Notification was set'
                 });

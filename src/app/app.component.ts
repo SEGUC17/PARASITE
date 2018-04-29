@@ -277,9 +277,11 @@ export class AppComponent implements OnInit {
       }
     });
   }
-  modifyNotification(notificationId, isRead: boolean): void {
+  modifyNotification(): void {
+    var notificationId = '5ae5e119149e482b5521c8df'
     let self = this;
-    this.authService.modifyNotification(notificationId, self.username, isRead).subscribe(function (res) {
+    this.authService.modifyNotification(notificationId, self.username, true).subscribe(function (res) {
+      console.log(res.data);
       self.getNotifications();
     });
 
