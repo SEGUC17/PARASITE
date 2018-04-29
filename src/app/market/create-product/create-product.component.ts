@@ -5,6 +5,8 @@ import { CreateProductRequest } from './createProductRequest';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MarketComponent } from '../market/market.component';
 import { AuthService } from '../../auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
@@ -13,7 +15,7 @@ import { AuthService } from '../../auth/auth.service';
 
 export class CreateProductComponent {
 
-  constructor(private marketService: MarketService, private authService: AuthService,
+  constructor(private marketService: MarketService,private toasterService: ToastrService, private authService: AuthService,
     public dialogRef: MatDialogRef<CreateProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
@@ -36,7 +38,9 @@ export class CreateProductComponent {
     if (url === 'imageFailedToUpload') {
       console.log('image upload failed');
       // TODO: handle image uploading failure
-      alert('image upload failed');
+      
+      self.toasterService.error('image upload failed', 'failure');
+
     } else {
       console.log('in vcC and its uploaded with url = ' + url);
 
@@ -94,7 +98,7 @@ export class CreateProductComponent {
       }
     } else {
       // If error then send an alert message
-      alert('REQUEST FAILED: Please make sure you have all data written');
+      self.toasterService.errpr('Please make sure you have all data written', 'failure');
     }
   }
 }

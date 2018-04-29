@@ -322,3 +322,34 @@ module.exports.editPrice = function (req, res, next) {
         });
     }
 };
+
+module.exports.deleteProduct = function (req, res, next) {
+    // if user is admin so allowed to delete any product from market 
+    // if user is not admin so he is only allowed to delete his own product 
+    if (req.user.isAdmin || req.user.username == req.body.product.seller) {
+
+        Product.deleteOne({ _id: req.body.product._id }, function (err) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(201).json({
+                data: null,
+                err: null,
+                msg: 'Product was deleted successfully.'
+            });
+            // TODO Notify user
+
+            // When user's product is deleted 
+        });
+    }
+    // if user not admin so is not allowed to delete except his own product
+    else {
+        res.status(403).json({
+            data: null,
+            err: 'You are not an admin to do that.',
+            msg: null
+        });
+
+    }
+};
