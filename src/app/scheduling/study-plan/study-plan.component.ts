@@ -153,6 +153,7 @@ export class StudyPlanComponent implements OnInit {
       // fetch routing data
       this.route.params.subscribe(params => {
         this.type = params.type;
+        console.log('type' + this.type);
         this._id = params.id;
         this.profileUsername = params.username;
       });
