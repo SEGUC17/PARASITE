@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { StudyPlan } from '../study-plan';
 import { StudyPlanService } from '../study-plan.service';
+import { AuthService } from '../../../auth/auth.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -21,106 +22,182 @@ import {
   addHours
 } from 'date-fns';
 
+declare const $: any;
+
 @Component({
   selector: 'app-study-plan-edit-view',
   templateUrl: './study-plan-edit-view.component.html',
   styleUrls: ['./study-plan-edit-view.component.scss']
 })
 export class StudyPlanEditViewComponent implements OnInit {
-  type: string;
-  _id: string;
-  username: string;
-  studyPlan: StudyPlan;
+
+  // study plan details
   title: string;
-  events: CalendarEvent[];
   description: string;
-  refresh: Subject<any> = new Subject();
-  private editor;
+  events: CalendarEvent[];
+
+  // current user info
+  username: string;
+
+  // editor
   public editorOut;
-  public editorContent = ``;
+  public editorContent;
   private editorOptions = {
     placeholder: 'Enter the description for your study plan here.'
   };
   separatorKeysCodes = [ENTER, COMMA, SPACE];
 
+  // Calendar API view control
+  view = 'month';
+  viewDate: Date = new Date();
+  activeDayIsOpen: Boolean = false;
+  refresh: Subject<any> = new Subject();
+
+  // datetime picker variables
+  createStart = new Date();
+  createEnd = new Date();
+  editStart = new Date();
+  editEnd = new Date();
+
+  // edit modal control
+  editIndex = 0;
+
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
-    private router: Router) { }
+    private router: Router, private _AuthService: AuthService) { }
 
   ngOnInit() {
-    this.studyPlan = {
-      creator: '',
-      description: '',
-      events: [],
-      title: ''
-    };
-    this.events = [];
-    this.route.params.subscribe(params => {
-      this.type = params.type;
-      this.username = params.username;
-      this._id = params.id;
+
+    // datetime pickers
+    $('.datetimepicker').bootstrapMaterialDatePicker({
+      format: 'dddd DD MMMM YYYY - hh:mm a',
+      shortTime: true,
+      clearButton: true,
+      weekStart: 6
     });
-    if (this.type === 'edit') {
-      if (this.username) {
-        this.studyPlanService.getPersonalStudyPlan(this.username, this._id)
-          .subscribe(res => {
-            this.studyPlan = res.data;
-            this.title = this.studyPlan.title;
-            this.events = this.studyPlan.events;
-            this.description = this.studyPlan.description;
-            this.editorContent = this.studyPlan.description;
-            for (let index = 0; index < this.events.length; index++) {
-              this.events[index].start = new Date(this.events[index].start);
-              this.events[index].end = new Date(this.events[index].end);
-            }
-          });
+
+    let self = this;
+
+    $('#createStart').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.createStart = date._d;
+        $('#createEnd').bootstrapMaterialDatePicker('setMinDate', date);
+      }
+    });
+
+    $('#createEnd').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.createEnd = date._d;
+        $('#createStart').bootstrapMaterialDatePicker('setMaxDate', date);
+      }
+    });
+
+    $('#editStart').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.editStart = date._d;
+        $('#editEnd').bootstrapMaterialDatePicker('setMinDate', date);
+      }
+    });
+
+    $('#editEnd').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.editEnd = date._d;
+        $('#editStart').bootstrapMaterialDatePicker('setMaxDate', date);
+      }
+    });
+
+    this.description = '';
+    this.editorContent = '';
+    this.events = [];
+
+    this._AuthService.getUserData(['username']).subscribe((resUser) => {
+      this.username = resUser.data.username;
+    });
+  }
+
+  // calendar header change handler
+  headerChange(): void {
+    const getStart: any = {
+      month: startOfMonth,
+      week: startOfWeek,
+      day: startOfDay
+    }[this.view];
+
+    const getEnd: any = {
+      month: endOfMonth,
+      week: endOfWeek,
+      day: endOfDay
+    }[this.view];
+
+    this.activeDayIsOpen = false;
+  }
+
+  // day click handler
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
       } else {
-        this.studyPlanService.getPublishedStudyPlan(this._id)
-          .subscribe(res => {
-            this.studyPlan = res.data;
-            this.title = this.studyPlan.title;
-            this.events = this.studyPlan.events;
-            this.description = this.studyPlan.description;
-            this.editorContent = this.studyPlan.description;
-            for (let index = 0; index < this.events.length; index++) {
-              this.events[index].start = new Date(this.events[index].start);
-              this.events[index].end = new Date(this.events[index].end);
-            }
-          });
+        this.activeDayIsOpen = true;
+        this.viewDate = date;
       }
     }
   }
 
-  createEvent(eventTitle: string, eventDescription: string, start: Date, end: Date) {
+  // new event creation handler
+  createEvent(eventTitle: string, eventDescription: string, eventStart: Date, eventEnd: Date) {
     this.events.push({
       title: eventTitle,
-      start: start,
-      end: end,
+      start: eventStart,
+      end: eventEnd,
       color: {
         primary: '#2196f3',
-        secondary: '#FAE3E3'
+        secondary: '#D1E8FF'
       },
+      draggable: false,
       meta: {
-        description: eventDescription
+        description: eventDescription ? eventDescription : ''
       }
     });
+
+    $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+
+    this.refresh.next();
   }
 
-  addEvent(): void {
-    this.events.push({
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: {
-        primary: '#2196f3',
-        secondary: '#FAE3E3'
-      },
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    });
+  // clear date pickers in event creation modal on cancellation
+  cancelCreate() {
+    $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+  }
+
+  // set date picker values to the values of the event to be edited
+  preEdit(index) {
+    $('#editStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editEnd').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editStart').bootstrapMaterialDatePicker('setDate', this.events[index].start);
+    $('#editEnd').bootstrapMaterialDatePicker('setDate', this.events[index].end);
+  }
+
+  // write updated event data
+  editEvent(editTitle, editDescription, editStart, editEnd) {
+    this.events[this.editIndex].title = editTitle;
+    this.events[this.editIndex].meta.description = editDescription;
+    this.events[this.editIndex].start = editStart;
+    this.events[this.editIndex].end = editEnd;
+
+    $('#editStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editEnd').bootstrapMaterialDatePicker('_onClearClick');
+
     this.refresh.next();
+  }
+
+  // delete corresponding event
+  delete(index) {
+    this.events.splice(index, 1);
   }
 
   create(): void {
@@ -128,11 +205,13 @@ export class StudyPlanEditViewComponent implements OnInit {
       alert('A Study Plan needs a title, a description, and at least one event.');
       return;
     }
-    this.studyPlan.title = this.title;
-    this.studyPlan.description = this.description;
-    this.studyPlan.events = this.events;
-    this.studyPlan.creator = this.username;
-    this.studyPlanService.createStudyPlan(this.studyPlan).subscribe(
+
+    let studyPlan = new StudyPlan(
+      this.title,
+      this.events,
+      this.description
+    );
+    this.studyPlanService.createStudyPlan(studyPlan).subscribe(
       res => {
         if (res.err) {
           alert(res.err);
@@ -142,28 +221,6 @@ export class StudyPlanEditViewComponent implements OnInit {
         }
       }
     );
-  }
-
-  saveChanges(): void {
-    if (!(this.title && this.description && this.events.length)) {
-      alert('A Study Plan needs a title, a description, and at least one event.');
-      return;
-    }
-
-    this.studyPlanService.editPersonalStudyPlan(this.username, this._id, new StudyPlan(
-      this.title,
-      this.username,
-      this.events,
-      this.description
-    ))
-      .subscribe(res => {
-        if (res.err) {
-          alert(res.err);
-        } else {
-          alert(res.msg);
-          this.router.navigate(['/profile/' + this.username]);
-        }
-      });
   }
 
   onContentChanged(quill) {

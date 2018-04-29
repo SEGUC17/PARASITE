@@ -24,21 +24,6 @@ import {
 // allow jquery
 declare const $: any;
 
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
-
 @Component({
   selector: 'app-study-plan',
   templateUrl: './study-plan.component.html',
@@ -65,7 +50,6 @@ export class StudyPlanComponent implements OnInit {
   description: string;
   editorContent: SafeHtml;
   events: CalendarEvent[];
-  createTitle = '';
   rating = 0;
 
   // copy utility
@@ -159,45 +143,47 @@ export class StudyPlanComponent implements OnInit {
       this.currIsChild = res.data.isChild;
       this.currIsAdmin = res.data.isAdmin;
       this.listOfChildren = res.data.children;
-    });
-    // fetch routing data
-    this.route.params.subscribe(params => {
-      this.type = params.type;
-      this._id = params.id;
-      this.profileUsername = params.username;
-    });
 
-    // fetch study plan according to its type
-    if (this.type === 'personal') {
-      this.studyPlanService.getPersonalStudyPlan(this.profileUsername, this._id)
-        .subscribe(res => {
-          this.studyPlan = res.data;
-          this.title = this.studyPlan.title;
-          this.events = this.studyPlan.events;
-          this.description = this.studyPlan.description;
-          this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
-          this.assignFunction = this.studyPlan.assigned ? this.unAssign : this.assign;
-          this.assignText = this.studyPlan.assigned ? 'Unassign' : 'Assign';
-          for (let index = 0; index < this.events.length; index++) {
-            this.events[index].start = new Date(this.events[index].start);
-            this.events[index].end = new Date(this.events[index].end);
-          }
-        });
-    } else {
-      this.studyPlanService.getPublishedStudyPlan(this._id)
-        .subscribe(res => {
-          this.studyPlan = res.data;
-          this.title = this.studyPlan.title;
-          this.events = this.studyPlan.events;
-          this.description = this.studyPlan.description;
-          this.rating = this.studyPlan.rating.value;
-          this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
-          for (let index = 0; index < this.events.length; index++) {
-            this.events[index].start = new Date(this.events[index].start);
-            this.events[index].end = new Date(this.events[index].end);
-          }
-        });
-    }
+      // fetch routing data
+      this.route.params.subscribe(params => {
+        this.type = params.type;
+        this._id = params.id;
+        this.profileUsername = params.username;
+      });
+
+      // fetch study plan according to its type
+      if (this.type === 'personal') {
+        this.studyPlanService.getPersonalStudyPlan(this.profileUsername, this._id)
+          .subscribe(resStudyPlan => {
+            this.studyPlan = resStudyPlan.data;
+            this.title = this.studyPlan.title;
+            this.events = this.studyPlan.events;
+            this.description = this.studyPlan.description;
+            this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
+            this.assignFunction = this.studyPlan.assigned ? this.unAssign : this.assign;
+            this.assignText = this.studyPlan.assigned ? 'Unassign' : 'Assign';
+            for (let index = 0; index < this.events.length; index++) {
+              this.events[index].start = new Date(this.events[index].start);
+              this.events[index].end = new Date(this.events[index].end);
+            }
+          });
+      } else {
+        this.studyPlanService.getPublishedStudyPlan(this._id)
+          .subscribe(resStudyPlan => {
+            this.studyPlan = resStudyPlan.data;
+            this.title = this.studyPlan.title;
+            this.events = this.studyPlan.events;
+            this.description = this.studyPlan.description;
+            this.rating = this.studyPlan.rating.value;
+            this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
+            for (let index = 0; index < this.events.length; index++) {
+              this.events[index].start = new Date(this.events[index].start);
+              this.events[index].end = new Date(this.events[index].end);
+            }
+          });
+      }
+
+    });
   }
 
   publish(): void {
@@ -363,7 +349,6 @@ export class StudyPlanComponent implements OnInit {
 
     this.studyPlanService.editPersonalStudyPlan(targetUser, this._id, new StudyPlan(
       this.title,
-      this.currUsername,
       this.events,
       this.description
     ))
