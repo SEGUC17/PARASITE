@@ -184,41 +184,41 @@ module.exports.postActivity = function (req, res) {
 };
 
 module.exports.deleteActivity = function (req, res) {
-  console.log('inside the delete activity');
-  var deletingUser = req.user;
+    console.log('inside the delete activity');
+    var deletingUser = req.user;
 
-  Activity.find({ _id: req.params.activityId }).
-  exec(function (err, result) {
-    // find the required activity to check on the deletor (xD).
-    if (err) {
-      throw err;
-    }
-    var activityCreator = result[0].creator;
-    if (activityCreator !== deletingUser.username && !deletingUser.isAdmin) {
-      res.status(401).json({
-        data: null,
-        err: null,
-        msg: 'reponse has been submitted'
-      });
-    } else {
-      Activity.remove({ _id: req.params.activityId }, function (err) {
-        if (err) {
-          return res.status(404).json({
-            data: null,
-            err: err,
-            message: 'cannot find this activity'
-          });
-        }
-        res.status(201).json({
-          data: null,
-          err: null,
-          message: 'Activity deleted successfully.'
+    Activity.find({ _id: req.params.activityId }).
+        exec(function (err, result) {
+            // find the required activity to check on the deletor (xD).
+            if (err) {
+                throw err;
+            }
+            var activityCreator = result[0].creator;
+            if (activityCreator !== deletingUser.username && !deletingUser.isAdmin) {
+                res.status(401).json({
+                    data: null,
+                    err: null,
+                    msg: 'reponse has been submitted'
+                });
+            } else {
+                Activity.remove({ _id: req.params.activityId }, function (err) {
+                    if (err) {
+                        return res.status(404).json({
+                            data: null,
+                            err: err,
+                            message: 'cannot find this activity'
+                        });
+                    }
+                    res.status(201).json({
+                        data: null,
+                        err: null,
+                        message: 'Activity deleted successfully.'
+                    });
+                });
+            }
+
+
         });
-      });
-    }
-
-
-  });
 };
 
 module.exports.reviewActivity = function (req, res) {
@@ -374,8 +374,50 @@ module.exports.editActivity = function (req, res, next) {
     });
 };
 
+module.exports.deleteActivity = function (req, res, next) {
 
-module.exports.isIndependent = function(req, res, next) {
+    /*
+     * Middleware for deleting an activity by admin or creator
+     *
+     * @author: Wessam
+     */
+
+    var activityId = req.params.activityId;
+    var user = req.user;
+
+    Activity.findById(activityId, function(err, activity) {
+        if (err) {
+            return next(err);
+        }
+        if (!activity) {
+            return res.status(404).json({
+                data: null,
+                err: 'Activity doesn\'t exist',
+                msg: null
+            });
+        }
+        if (!user.isAdmin && activity.creator == user.username) {
+            return res.status(403).json({
+                data: null,
+                err: 'You can\'t edit this activity',
+                msg: null
+            });
+        }
+        Activity.findOneAndRemove({ _id: activityId }, function(err2) {
+            if (err2) {
+                return next(err2);
+            }
+
+            return res.status(204).json({
+                data: null,
+                err: null,
+                msg: 'Activity deleted successfully'
+            });
+        });
+    });
+};
+
+module.exports.isIndependent = function (req, res, next) {
 
     /*
      * Middleware for making sure that the user is independent
@@ -394,7 +436,7 @@ module.exports.isIndependent = function(req, res, next) {
     return next();
 };
 
-module.exports.bookActivity = function(req, res, next) {
+module.exports.bookActivity = function (req, res, next) {
 
     /*
      * Middleware for booking activities for child or for self
@@ -409,7 +451,7 @@ module.exports.bookActivity = function(req, res, next) {
     var reqUser = req.user;
     var bookingUser = req.body.username;
 
-    Activity.findById(req.params.activityId, function(err, activity) {
+    Activity.findById(req.params.activityId, function (err, activity) {
         if (err) {
             return next(err);
         }
@@ -445,7 +487,7 @@ module.exports.bookActivity = function(req, res, next) {
                     new: true,
                     runValidators: true
                 },
-                function(err2, activity2) {
+                function (err2, activity2) {
                     if (err2) {
                         return next(err2);
                     }
