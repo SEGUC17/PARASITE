@@ -106,7 +106,7 @@ export class ProfileService {
   changeProfilePic(upload): any {
     return this.http.patch(this.changePPUrl, upload, httpOptions);
   }
-  
+
 
   deleteStudyPlan(studyPlanID: String): Observable<any> {
     return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + studyPlanID);
