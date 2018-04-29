@@ -1,14 +1,13 @@
 import { Component, OnInit, Input, Output, ChangeDetectionStrategy, EventEmitter, ViewChild, TemplateRef } from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
-import { CalendarComponent } from '../calendar/calendar.component';
 import { StudyPlan } from './study-plan';
-import { Rating } from './star-rating/rating';
 import { StudyPlanService } from './study-plan.service';
 import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../auth/auth.service';
-
+import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import {
   isSameMonth,
   isSameDay,
@@ -24,20 +23,8 @@ import {
   addHours
 } from 'date-fns';
 
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
+// allow jquery
+declare const $: any;
 
 @Component({
   selector: 'app-study-plan',
@@ -59,77 +46,155 @@ export class StudyPlanComponent implements OnInit {
   currIsAdmin: boolean;
   listOfChildren: any[];
 
-  // end of routing parameters
+  // study plan details
   studyPlan: StudyPlan;
-  tempStudyPlan: StudyPlan;
+  title: string;
   description: string;
-  editorContent: SafeHtml;
   events: CalendarEvent[];
+  rating = 0;
+
+  // editor
+  public editorOut;
+  public editorContent;
+  private editorOptions = {
+    placeholder: 'Enter the description for your study plan here.'
+  };
+  separatorKeysCodes = [ENTER, COMMA, SPACE];
+
+  // copy utility
+  tempStudyPlan: StudyPlan;
+
+  // Calendar API view control
+  view = 'month';
+  viewDate: Date = new Date();
+  activeDayIsOpen: Boolean = false;
+  refresh: Subject<any> = new Subject();
+
+  // datetime picker variables
+  createStart = new Date();
+  createEnd = new Date();
+  editStart = new Date();
+  editEnd = new Date();
+
+  // edit modal control
+  editIndex = 0;
+
+  // modification control
+  changed = false;
+  editingDescription = false;
+  editingTitle = false;
 
   // assign button binding
   assignFunction;
   assignText;
 
-  // Utility
-  refresh: Subject<any> = new Subject();
-
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
-    private router: Router, private _AuthService: AuthService) { }
+    private router: Router, private _AuthService: AuthService, private toastrService: ToastrService) { }
 
   ngOnInit() {
+
+    // datetime pickers
+    $('.datetimepicker').bootstrapMaterialDatePicker({
+      format: 'dddd DD MMMM YYYY - hh:mm a',
+      shortTime: true,
+      clearButton: true,
+      weekStart: 6
+    });
+
+    let self = this;
+
+    $('#createStart').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.createStart = date._d;
+        $('#createEnd').bootstrapMaterialDatePicker('setMinDate', date);
+      }
+    });
+
+    $('#createEnd').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.createEnd = date._d;
+        $('#createStart').bootstrapMaterialDatePicker('setMaxDate', date);
+      }
+    });
+
+    $('#editStart').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.editStart = date._d;
+        $('#editEnd').bootstrapMaterialDatePicker('setMinDate', date);
+      }
+    });
+
+    $('#editEnd').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.editEnd = date._d;
+        $('#editStart').bootstrapMaterialDatePicker('setMaxDate', date);
+      }
+    });
+
     this.studyPlan = {
       creator: '',
       description: '',
       events: [],
       title: '',
       rating: {
-        ratedId: '',
-        rating: 0,
-        type: 'studyPlan'
+        number: 0,
+        sum: 0,
+        value: 0
       }
     };
     this.description = '';
     this.editorContent = '';
     this.events = [];
+
+    // fetch current user data for control
     this._AuthService.getUserData(['username', 'isChild', 'isAdmin', 'children']).subscribe((res) => {
       this.currUsername = res.data.username;
       this.currIsChild = res.data.isChild;
       this.currIsAdmin = res.data.isAdmin;
       this.listOfChildren = res.data.children;
-    });
-    this.route.params.subscribe(params => {
-      this.type = params.type;
-      this._id = params.id;
-      this.profileUsername = params.username;
-    });
 
-    if (this.type === 'personal') {
-      this.studyPlanService.getPersonalStudyPlan(this.profileUsername, this._id)
-        .subscribe(res => {
-          this.studyPlan = res.data;
-          this.events = this.studyPlan.events;
-          this.description = this.studyPlan.description;
-          this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
-          this.assignFunction = this.studyPlan.assigned ? this.unAssign : this.assign;
-          this.assignText = this.studyPlan.assigned ? 'Unassign' : 'Assign';
-          for (let index = 0; index < this.events.length; index++) {
-            this.events[index].start = new Date(this.events[index].start);
-            this.events[index].end = new Date(this.events[index].end);
-          }
-        });
-    } else {
-      this.studyPlanService.getPublishedStudyPlan(this._id)
-        .subscribe(res => {
-          this.studyPlan = res.data;
-          this.events = this.studyPlan.events;
-          this.description = this.studyPlan.description;
-          this.editorContent = this.sanitizer.bypassSecurityTrustHtml(this.description);
-          for (let index = 0; index < this.events.length; index++) {
-            this.events[index].start = new Date(this.events[index].start);
-            this.events[index].end = new Date(this.events[index].end);
-          }
-        });
-    }
+      // fetch routing data
+      this.route.params.subscribe(params => {
+        this.type = params.type;
+        this._id = params.id;
+        this.profileUsername = params.username;
+      });
+
+      // fetch study plan according to its type
+      if (this.type === 'personal') {
+        this.studyPlanService.getPersonalStudyPlan(this.profileUsername, this._id)
+          .subscribe(resStudyPlan => {
+            this.studyPlan = resStudyPlan.data;
+            this.title = this.studyPlan.title;
+            this.events = this.studyPlan.events;
+            this.description = this.studyPlan.description;
+            this.editorContent = this.studyPlan.description;
+            this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
+            this.assignFunction = this.studyPlan.assigned ? this.unAssign : this.assign;
+            this.assignText = this.studyPlan.assigned ? 'Unassign' : 'Assign';
+            for (let index = 0; index < this.events.length; index++) {
+              this.events[index].start = new Date(this.events[index].start);
+              this.events[index].end = new Date(this.events[index].end);
+            }
+          });
+      } else {
+        this.studyPlanService.getPublishedStudyPlan(this._id)
+          .subscribe(resStudyPlan => {
+            this.studyPlan = resStudyPlan.data;
+            this.title = this.studyPlan.title;
+            this.events = this.studyPlan.events;
+            this.description = this.studyPlan.description;
+            this.editorContent = this.studyPlan.description;
+            this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
+            this.rating = this.studyPlan.rating.value;
+            for (let index = 0; index < this.events.length; index++) {
+              this.events[index].start = new Date(this.events[index].start);
+              this.events[index].end = new Date(this.events[index].end);
+            }
+          });
+      }
+
+    });
   }
 
   publish(): void {
@@ -142,11 +207,11 @@ export class StudyPlanComponent implements OnInit {
     this.studyPlan._id = undefined;
     this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
       res => {
-        if (res.msg === 'StudyPlan published successfully.') {
-          alert(res.msg);
-          this.router.navigate(['/published-study-plans']);
-        } else {
-          alert('An error occured while publishing the study plan, please try again.');
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success(res.msg);
+          this.router.navigate(['/scheduling/study-plan/published']);
         }
       });
   }
@@ -157,64 +222,185 @@ export class StudyPlanComponent implements OnInit {
     this.studyPlanService
       .createStudyPlan(this.tempStudyPlan)
       .subscribe(res => {
-        alert(res.msg);
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success('Study plan copied successfully');
+        }
       });
   }
 
   assign = function () {
     // this.studyPlan.assigned = true;
-      this.studyPlanService.assignStudyPlan(this.selectedUser, this._id).subscribe(
-        res => {
-          if (res.msg === 'Study plan assigned successfully') {
-            alert(res.msg);
-            this.refreshDocument();
-          } else {
-            alert('An error occured while assigning the study plan');
-          }
-        });
+    this.studyPlanService.assignStudyPlan(this.selectedUser, this._id).subscribe(
+      res => {
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success(res.msg);
+          this.studyPlan.assigned = true;
+        }
+      });
 
   };
 
   unAssign = function () {
     // this.studyPlan.assigned = false;
-      this.studyPlanService.unAssignStudyPlan(this.profileUsername, this._id).subscribe(
-        res => {
-          if (res.msg === 'Study plan unassigned successfully') {
-            alert(res.msg);
-            this.refreshDocument();
-          } else {
-            alert('An error occured while Unassigning the study plan from me');
-          }
-        });
+    this.studyPlanService.unAssignStudyPlan(this.profileUsername, this._id).subscribe(
+      res => {
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.toastrService.success(res.msg);
+          this.studyPlan.assigned = false;
+        }
+      });
   };
 
   edit(): void {
-    this.router.navigate(['/study-plan-edit/edit/' + this.studyPlan._id + '/' + this.profileUsername]);
+    this.router.navigate(['/scheduling/study-plan/edit/edit/' + this.studyPlan._id + '/' + this.profileUsername]);
   }
 
-  createEvent(eventTitle: string, eventDescription: string, start: Date, end: Date) {
+  // Calendar API control methods
+
+  // calendar header change handler
+  headerChange(): void {
+    const getStart: any = {
+      month: startOfMonth,
+      week: startOfWeek,
+      day: startOfDay
+    }[this.view];
+
+    const getEnd: any = {
+      month: endOfMonth,
+      week: endOfWeek,
+      day: endOfDay
+    }[this.view];
+
+    this.activeDayIsOpen = false;
+  }
+
+  // day click handler
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+        this.viewDate = date;
+      }
+    }
+  }
+
+  // new event creation handler
+  createEvent(eventTitle: string, eventDescription: string, eventStart: Date, eventEnd: Date) {
     this.events.push({
       title: eventTitle,
-      start: start,
-      end: end,
+      start: eventStart,
+      end: eventEnd,
       color: {
         primary: '#2196f3',
-        secondary: '#FAE3E3'
+        secondary: '#D1E8FF'
       },
-      draggable: true,
+      draggable: false,
       meta: {
-        description: eventDescription
+        description: eventDescription ? eventDescription : ''
       }
     });
 
-    console.log(start);
-    console.log(end);
+    $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+
+    this.changed = true;
+
+    this.refresh.next();
   }
-  refreshDocument() {
-    // Light refresh to show any changes
-    const self = this;
-    setTimeout(function () {
-      return self.refresh.next();
-    }, 0);
+
+  // clear date pickers in event creation modal on cancellation
+  cancelCreate() {
+    $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+  }
+
+  // set date picker values to the values of the event to be edited
+  preEdit(index) {
+    $('#editStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editEnd').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editStart').bootstrapMaterialDatePicker('setDate', this.events[index].start);
+    $('#editEnd').bootstrapMaterialDatePicker('setDate', this.events[index].end);
+  }
+
+  // write updated event data
+  editEvent(editTitle, editDescription, editStart, editEnd) {
+    this.events[this.editIndex].title = editTitle;
+    this.events[this.editIndex].meta.description = editDescription;
+    this.events[this.editIndex].start = editStart;
+    this.events[this.editIndex].end = editEnd;
+
+    $('#editStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editEnd').bootstrapMaterialDatePicker('_onClearClick');
+
+    this.changed = true;
+
+    this.refresh.next();
+  }
+
+  // delete corresponding event
+  delete(index) {
+    this.events.splice(index, 1);
+    this.changed = true;
+  }
+
+  saveChangesPersonal(): void {
+    if (!(this.title && this.description && this.events.length)) {
+      this.toastrService.warning('A study plan needs a title, a description, and at least one event.');
+      return;
+    }
+
+    let targetUser = this.profileUsername ? this.profileUsername : this.currUsername;
+
+    this.studyPlanService.editPersonalStudyPlan(targetUser, this._id, new StudyPlan(
+      this.title,
+      this.events,
+      this.description
+    ))
+      .subscribe(res => {
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else {
+          this.toastrService.success(res.msg);
+          this.changed = false;
+        }
+      });
+  }
+
+  saveChangesPublished(): void {
+    if (!(this.title && this.description && this.events.length)) {
+      this.toastrService.warning('A study plan needs a title, a description, and at least one event.');
+      return;
+    }
+
+    this.studyPlanService.editPublishedStudyPlan(this._id, new StudyPlan(
+      this.title,
+      this.events,
+      this.description
+    ))
+      .subscribe(res => {
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else {
+          this.toastrService.success(res.msg);
+          this.changed = false;
+        }
+      });
+  }
+
+  // editor chnage handler
+  onContentChanged(quill) {
+    this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
+    this.description = this.editorContent;
   }
 }

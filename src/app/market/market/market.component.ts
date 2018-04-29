@@ -58,7 +58,7 @@ export class MarketComponent implements OnInit {
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.user = res.data;
       if (!self.user) {
-        self.router.navigateByUrl('/content/view');
+        self.router.navigateByUrl('/auth/sign-in');
       } else {
         self.currentPageNumber = 1;
         self.firstPage();

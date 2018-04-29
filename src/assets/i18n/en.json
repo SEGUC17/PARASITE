@@ -1,0 +1,36 @@
+{
+    "APP": {
+        "NAWWAR": "Nawwar",
+        "CURRENT_LANGUAGE": "English"
+    },
+    "ACTIVITIES": {
+
+    },
+    "ADMIN": {
+
+    },
+    "AUTH": {
+
+    },
+    "CONTENT": {
+        "LIST": { "OUR_CONTENT": "Our Content"}
+    },
+    "MARKET": {
+
+    },
+    "MESSAGING": {
+
+    },
+    "PROFILE": {
+
+    },
+    "PSYCHOLOGIST": {
+
+    },
+    "SCHEDULING": {
+
+    },
+    "SEARCH": {
+
+    }
+}

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
 import { AuthService } from '../../auth/auth.service';
+declare const $: any;
 
 @Component({
   selector: 'app-activity',
@@ -13,13 +14,14 @@ export class ActivityComponent implements OnInit {
   /*
   @author: Wessam
   */
-  activities: Activity[];
+  activities: Activity[] = [];
+  detailedActivities: any[] = [];
   numberOfElements: Number;
   pageSize: Number;
   pageIndex: Number;
   canCreate: Boolean;
 
-  private createUrl = '/create-activity';
+  createUrl = '/create-activity';
   user = {
     isAdmin: false,
     verified: false,
@@ -37,6 +39,22 @@ export class ActivityComponent implements OnInit {
     this.getActivities(null);
   }
 
+  getDetailedActivities() {
+    this.detailedActivities = [] ;
+    let self = this;
+    for (let i = 0 ; i < this.activities.length ; i++) {
+      this.activityService.getActivity(this.activities[i]._id).subscribe(
+        res => {
+          if(!res.data.image){
+            res.data.image = 'https://res.cloudinary.com/nawwar/image/upload/v1524947811/default-activity-image.jpg';
+          }
+          this.detailedActivities.push(res.data);
+      });
+    }
+
+  }
+
+
   getActivities(event) {
     /*
       Getting the activities from the api
@@ -49,14 +67,19 @@ export class ActivityComponent implements OnInit {
     if (event) {
       page = event.pageIndex + 1;
     }
-    this.activityService.getActivities(page).subscribe(
-      res => this.updateLayout(res)
+    let self  = this;
+    this.activityService.getActivities(page).subscribe(function(res) {
+      self.updateLayout(res);
+      self.getDetailedActivities();
+      }
     );
     this.authService.getUserData(['isAdmin']).subscribe((user) => {
       this.user.isAdmin = user.data.isAdmin;
       this.user.verified = user.data.verified;
       this.canCreate = this.user.isAdmin || this.user.verified;
     });
+
+
   }
 
 
@@ -76,6 +99,13 @@ export class ActivityComponent implements OnInit {
         activity.image = 'assets/images/activity-view/default-activity-image.jpg';
       }
     }
+  }
+
+  showCreateActivityForm(): void {
+    $('#createModal').modal('show');
+  }
+  closeModal(): void {
+    document.getElementById('btn11').click();
   }
 
 

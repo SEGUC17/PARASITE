@@ -1,9 +1,12 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
 
+var that = this;
+
 // ---------------------- Requirements ---------------------- //
 var emailVerification = require('../utils/emails/email-verification');
 var config = require('../config/config');
+var generateString = require('../utils/generators/generate-string');
 var jwt = require('jsonwebtoken');
 var REGEX = require('../utils/validators/REGEX');
 var mongoose = require('mongoose');
@@ -154,7 +157,7 @@ module.exports.signUp = function (req, res, next) {
     // --- Check: Password Match --- //
     if (
         req.body.confirmPassword &&
-        newUser.password.length !== req.body.confirmPassword
+        newUser.password !== req.body.confirmPassword
     ) {
         return res.status(422).json({
             data: null,
@@ -198,7 +201,7 @@ module.exports.signUp = function (req, res, next) {
 
                 emailVerification.send(
                     user2.email,
-                    config.FRONTEND_URI + 'auth/verifyEmail/' + user2._id
+                    config.FRONTEND_URI + 'auth/verify-email/' + user2._id
                 );
 
                 return res.status(201).json({
@@ -372,6 +375,50 @@ module.exports.signInWithThirdPartyResponse = function (req, res, next) {
     });
 };
 
+module.exports.signInWithGoogle = function (req, res, next) {
+    User.findOneAndUpdate(
+        {
+            $or: [
+                { 'email': req.body.email },
+                { 'googleId': req.body.googleId }
+            ]
+        },
+        {
+            'email': req.body.email,
+            'googleId': req.body.googleId,
+            'isEmailVerified': true
+        },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (user) {
+                req.user = user;
+
+                return next();
+            }
+
+            var newUser = new User({
+                email: req.body.email,
+                firstName: req.body.firstName,
+                googleId: req.body.googleId,
+                isEmailVerified: true,
+                lastName: req.body.lastName,
+                password: generateString(12),
+                username: req.body.email
+            });
+
+            newUser.save(function (err2, user2) {
+                if (err2) {
+                    throw err2;
+                }
+                req.user = user2;
+
+                return next();
+            });
+        }
+    );
+};
+
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
     console.log('entered the signUpChild method');
@@ -538,7 +585,7 @@ module.exports.signUpChild = function (req, res, next) {
                 }
                 emailVerification.send(
                     user2.email,
-                    config.FRONTEND_URI + 'auth/verifyChildEmail/' + user2._id
+                    config.FRONTEND_URI + 'auth/verify-child-email/' + user2._id
                 );
 
                 // --- Variable Assign --- //
@@ -734,11 +781,10 @@ module.exports.forgotPassword = function (req, res, next) {
                 throw err;
             } else if (user) {
                 // user exists in database
-                console.log(user.firstName);
                 emailVerification.send(
                     user.email,
                     config.FRONTEND_URI +
-                    'auth/forgotPassword/resetpassword/' + user._id
+                    'auth/forgot-password/reset-password/' + user._id
                 );
 
                 return res.status(201).json({
