@@ -274,13 +274,16 @@ module.exports.getUserRequests = function (req, res, next) {
 };
 
 module.exports.updateRequest = function (req, res, next) {
+    // Ensure that the user is editing his own request
     if (req.user.username === req.params.username) {
 
+        // Delete of the sensitive data that can't be edited by the user
         delete req.body.createdAt;
         delete req.body.seller;
         delete req.body.__v;
         delete req.body._id;
 
+        // Update the request in the database
         ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err, updateRes) {
             if (err) {
                 return next(err);
@@ -293,6 +296,7 @@ module.exports.updateRequest = function (req, res, next) {
             });
         });
     } else {
+        // Send a 403 Unauthorized HTTP response
         return res.status(403).json({
             data: null,
             err: 'You can only edit your requests',
@@ -324,9 +328,9 @@ module.exports.editPrice = function (req, res, next) {
 };
 
 module.exports.deleteProduct = function (req, res, next) {
-    // if user is admin so allowed to delete any product from market 
-    // if user is not admin so he is only allowed to delete his own product 
-    if (req.user.isAdmin || req.user.username == req.body.product.seller) {
+    // if user is admin so allowed to delete any product from market
+    // if user is not admin so he is only allowed to delete his own product
+    if (req.user.isAdmin || req.user.username === req.body.product.seller) {
 
         Product.deleteOne({ _id: req.body.product._id }, function (err) {
             if (err) {
@@ -340,11 +344,10 @@ module.exports.deleteProduct = function (req, res, next) {
             });
             // TODO Notify user
 
-            // When user's product is deleted 
+            // When user's product is deleted
         });
-    }
-    // if user not admin so is not allowed to delete except his own product
-    else {
+    } else {
+        // if user not admin so is not allowed to delete except his own product
         res.status(403).json({
             data: null,
             err: 'You are not an admin to do that.',
