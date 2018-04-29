@@ -12,8 +12,12 @@
       <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
         <i class="zmdi zmdi-plus"></i>
       </button>
-      <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button"*ngIf="isCreator && !isBooked" (click)="openDialog()">
-        <i class="zmdi zmdi-edit"></i></button>
+      <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" *ngIf="isCreator && !isBooked" (click)="openDialog()">
+        <i class="zmdi zmdi-edit"></i>
+      </button>
+      <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" *ngIf="(isCreator || currentUser.isAdmin) && !isBooked" (click)="deleteActivity(activity)">
+        <i class="zmdi zmdi-delete"></i>
+      </button>
       <ul class="breadcrumb float-md-right">
         <li class="breadcrumb-item"><a routerLink="/dashboard"><i class="zmdi zmdi-home"></i> Dasboard</a></li>
         <li class="breadcrumb-item"><a routerLink="/activities"><i class="zmdi zmdi-home"></i> Activities</a></li>
@@ -124,7 +128,7 @@
                                 data-placement="bottom" title="Reply">
                           <i class="zmdi zmdi-mail-reply"></i>
                         </button>
-                        <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger" *ngIf="(comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === content.creator )"
+                        <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger" *ngIf="(comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === activity.creator )"
                                 (click)="onDelete(comment._id)" data-toggle="tooltip" data-placement="bottom" title="Delete Comment">
                           <i class="zmdi zmdi-delete "></i>
                         </button>

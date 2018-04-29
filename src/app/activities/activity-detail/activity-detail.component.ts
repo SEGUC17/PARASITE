@@ -270,15 +270,17 @@ username = '';
 
 
 
-EditActivity(activity) {
-  let id = this.route.snapshot.paramMap.get('id');
-  this.activityService.EditActivity(this.updatedActivity, id).subscribe(
-    res => {
-        console.log(res);
-    }
+  EditActivity(activity) {
+    let id = this.route.snapshot.paramMap.get('id');
+    this.activityService.EditActivity(this.updatedActivity, id).subscribe(
+      res => {
+          console.log(res);
+      }
 
-  );
-}
+    );
+  }
+
+
   uploaded(url: string) {
     if (url === 'imageFailedToUpload') {
       console.log('image upload failed');
@@ -288,4 +290,9 @@ EditActivity(activity) {
       // TODO: handle image uploading success and use the url to retrieve the image later
     }
   }
+
+  deleteActivity() {
+    this.activityService.deleteActivity(this.activity).subscribe();
+  }
+
 }
