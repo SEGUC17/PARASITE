@@ -45,7 +45,8 @@ var notificationSchema = mongoose.Schema({
                 'contributor',
                 'discussion',
                 'message',
-                'product'
+                'product',
+                'study plan'
             ],
         required: true,
         type: String
