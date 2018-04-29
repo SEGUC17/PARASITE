@@ -87,6 +87,16 @@ module.exports.getActivity = function (req, res, next) {
     }
 
     Activity.findById(activityId).
+        populate({
+            model: 'User',
+            path: 'discussion.creatorInfo',
+            select: 'avatar firstName lastName'
+        }).
+        populate({
+            model: 'User',
+            path: 'discussion.replies.creatorInfo',
+            select: 'avatar firstName lastName'
+        }).
         exec(function (err, activity) {
             if (err) {
                 return next(err);
