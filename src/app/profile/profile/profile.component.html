@@ -314,18 +314,20 @@
                     <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currCanBeParent && currIsOwner" routerLink= "/auth/child-sign-up">Create A Child Account</button>
                     <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge"
                       (click)="UnlinkMyself()">Unlink My Parent</button>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
-                      <span class="dropdown">
-                        <span class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Link To My Child</span>
+                    <span class="dropdown">
+                      <button class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
+                        <span>Link To My Child</span>
+                    </button>
+                        <!-- class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" -->
                         <ul class="dropdown-menu dropdown-menu-right">
                           <li *ngFor="let child of listOfUncommonChildren">
-                            <a (click)="addChild(child)">
+                            <a class = "dummyLink" (click)="addChild(child)">
                               <strong>{{child}}</strong>
                             </a>
                           </li>
                         </ul>
                       </span>
-                    </button>
+                    
                   </div>
                 </div>
               </div>
