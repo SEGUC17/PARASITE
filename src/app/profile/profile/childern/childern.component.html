@@ -68,6 +68,7 @@
             <thead>
               <th>Name</th>
               <th data-breakpoints="xs">Age</th>
+              <th></th>
             </thead>
            
             <tbody>
@@ -77,11 +78,13 @@
               
               <td>
                 <img [src]="x.avatar"  style="width:50px;height:50px" class="rounded-circle avatar" alt="">
-                <a  href= "/profile/{{x.username}}"> <p> </p>{{x.firstName}} {{x.lastName}}</a>
-               
+                <a  href= "/profile/{{x.username}}"> <p> </p>{{x.firstName}} {{x.lastName}}</a>               
               </td>
               <td >
                 <span class="phone" data-breakpoints="xs"><i class="zmdi zmdi-time m-r-10"></i>{{x.birthdate}}</span>
+              </td>
+              <td >
+                  <button class="btn btn-primary btn-round btn-simple" *ngIf = "isParent && currIsOwner" (click) = "removeChild(x.username)">Unlink</button>
               </td>
               <!--td>
                 <address><i class="zmdi zmdi-pin"></i>44 Shirley Ave. West Chicago, IL 60185</address>

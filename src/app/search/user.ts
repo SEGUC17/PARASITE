@@ -1,5 +1,6 @@
 export class User {
   address: String;
+  avatar: String;
   birthdate: Date;
   children: [String];
   educationLevel: String;

@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { StudyPlanComponent } from './study-plan/study-plan.component';
 import { PublishedStudyPlansComponent } from './study-plan/published-study-plans/published-study-plans.component';
-import { StudyPlanEditViewComponent } from './study-plan/study-plan-edit-view/study-plan-edit-view.component';
+import { StudyPlanCreateComponent } from './study-plan/study-plan-create/study-plan-create.component';
 const routes = [
   {
     path: 'schedule',
@@ -29,17 +29,8 @@ const routes = [
         component: StudyPlanComponent
       },
       {
-        path: 'edit',
-        children: [
-          {
-            path: ':type/:id',
-            component: StudyPlanEditViewComponent
-          },
-          {
-            path: ':type/:id/:username',
-            component: StudyPlanEditViewComponent
-          }
-        ]
+        path: 'create',
+        component: StudyPlanCreateComponent
       }
     ]
   }
