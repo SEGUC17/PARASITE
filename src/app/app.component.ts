@@ -1,8 +1,8 @@
 import { Component, ChangeDetectorRef, Renderer2, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './auth/auth.service';
-import { Router, NavigationStart ,NavigationEnd} from '@angular/router';
-import { Notification } from './notification'
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import { Notification } from './notification';
 import 'rxjs/add/operator/filter';
 declare const $: any;
 declare const jquery: any;
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   lastName: string;
   isAdmin: boolean;
   notifications: Notification[];
-  unread : number; // Number of unread notifications to display on top of icon
+  unread: number; // Number of unread notifications to display on top of icon
   links = [
     {
       url: '/content/list',
@@ -277,18 +277,18 @@ export class AppComponent implements OnInit {
       }
     });
   }
-  modifyNotification(notificationId, isRead:boolean): void {
+  modifyNotification(notificationId, isRead: boolean): void {
     let self = this;
-    this.authService.modifyNotification(notificationId, self.username, isRead).subscribe(function(res) {
+    this.authService.modifyNotification(notificationId, self.username, isRead).subscribe(function (res) {
       self.getNotifications();
     });
-    
+
   }
-  getNotifications():void {
+  getNotifications(): void {
     // console.log('getting notifications');
     let self = this;
     // self.notifications = [{ body : 'This ia a notification', link : 'fhbejdv' },{body : 'This ia a notification', link : 'fhbejdv' }] 
-    this.authService.getUserData(['notifications']).subscribe(function(res) {
+    this.authService.getUserData(['notifications']).subscribe(function (res) {
       self.notifications = res.data.notifications;
       console.log(res.data.notifications);
     })
