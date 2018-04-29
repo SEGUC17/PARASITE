@@ -26,6 +26,7 @@ export class ActivityDetailComponent implements OnInit {
   signedIn: boolean ;
   canBookFor: String[];
   bookingUser: String;
+  defaultPP: String = "assets/images/profile-view/defaultPP.png";
 
 
   currentUser = {

@@ -53,7 +53,7 @@
                   <span style="color: #ff5722; margin-right: 4px">{{ activity.price | currency: 'EGP'}}</span>
                   <button class="btn btn-primary btn-round btn-simple">Comment</button>
                   <div *ngIf="signedIn && !currentUser.isChild">
-                    <button class="btn btn-primary btn-round" [disabled]="!bookingUser"(click)="bookActivity()">Book For</button>
+                    <button class="btn btn-primary btn-round" [disabled]="!bookingUser" (click)="bookActivity()">Book For</button>
                     <select class="form-control-sm form-control btn-primary col-sm-2" [(ngModel)]="bookingUser">
                       <option *ngFor="let user of canBookFor" [ngValue]="user">{{user}}</option>
                     </select>
@@ -120,6 +120,9 @@
                   <span class="mt-2">{{comment.createdAt | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
                 </time>
                 <div class="cbp_tmicon bg-info">
+                  <div class="profile-image float-xs-left">
+                    <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
+                  </div>
                   <i class="zmdi zmdi-label"></i>
                 </div>
                 <div class="cbp_tmlabel">
@@ -166,6 +169,12 @@
                         </div>
                         <div class="col-md-6" align="end">
                           <small>
+                            <div class="cbp_tmicon bg-info">
+                              <div class="profile-image float-xs-left">
+                                <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
+                              </div>
+                              <i class="zmdi zmdi-label"></i>
+                            </div>
                             <span>
                               <button type="button" class="btn btn-icon btn-round btn-danger btn-xs" *ngIf="reply.creator === currentUser.username || comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === content.creator"
                                 (click)="onDeleteReply(comment._id,reply._id)" data-toggle="tooltip" data-placement="bottom"
