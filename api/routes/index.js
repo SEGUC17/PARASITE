@@ -163,9 +163,8 @@ module.exports = function (passport) {
   // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/auth/facebook', authFacebook, userController.signInWithThirdPartyResponse);
-  router.post('/auth/google', authFacebook, userController.signInWithThirdPartyResponse);
-  router.post('/auth/google/callback', authFacebook, userController.signInWithThirdPartyResponse);
+  router.post('/auth/facebook', isNotAuthenticated, authFacebook, userController.signInWithThirdPartyResponse);
+  router.post('/auth/google', isNotAuthenticated, userController.signInWithGoogle, userController.signInWithThirdPartyResponse);
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
   router.get('/verifyChildEmail/:id', userController.verifyChildEmail);

@@ -13,8 +13,17 @@ import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
 import { ToastrService, ToastrModule } from 'ngx-toastr';
 import { FacebookModule } from 'ngx-facebook';
+import {
+  GoogleApiModule,
+  GoogleApiService,
+  GoogleAuthService,
+  NgGapiClientConfig,
+  NG_GAPI_CONFIG,
+  GoogleApiConfig
+} from 'ng-gapi';
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/auth.service';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -36,7 +45,13 @@ import { AuthService } from './auth/auth.service';
       positionClass: 'toast-bottom-right',
       maxOpened: 3
     }),
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: {
+        client_id: environment.googleAppID,
+      }
+    })
   ],
   providers: [
     AuthService,

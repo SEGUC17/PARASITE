@@ -69,8 +69,6 @@ module.exports = function (passport) {
                         username: profile.emails[0].value
                     });
 
-                    console.log(newUser);
-
                     newUser.save(function (err2, user2) {
                         if (err2) {
                             return done(err2);
@@ -80,19 +78,6 @@ module.exports = function (passport) {
                     });
                 }
             );
-        }
-    ));
-
-    passport.use(new GoogleStrategy(
-        {
-            accessTokenField: 'accessToken',
-            callbackURL: config.BACKENDEND_URI + 'auth/google/callback',
-            clientID: SECRET.GOOGLE.ID,
-            clientSecret: SECRET.GOOGLE.PW,
-            refreshTokenField: 'refreshToken'
-        },
-        function (accessToken, refreshToken, profile, done) {
-            console.log(profile);
         }
     ));
 };
