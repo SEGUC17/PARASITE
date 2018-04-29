@@ -23,6 +23,7 @@ export class SingleMailComponent implements OnInit {
   id: any;
   message: any;
   blockedUser: any;
+  allIsWell: Boolean = true;
 
   msg: any;
   allisWell: Boolean = true;
@@ -156,19 +157,37 @@ deleteMessage(): void {
 // blocking the reciever of the message from messaging the current user again
 block(): void {
   const self = this;
-  // if the currentUser is the sender then the receipent is the person to block
+  //  if the currentUser is the sender then the receipent is the person to block
  if (this.recipient !== this.currentUser.username ) {
-    console.log('receipient is:' + this.recipient);
+   // console.log('receipient is:' + message.recipient);
     this.blockedUser = this.recipient;
     // else the recipient is the currentUser & the sender is the person to block
   } else {
-    console.log(this.sender);
+   // console.log(message.sender);
     this.blockedUser = this.sender;
-}
-  console.log('blocked user is:' + this.blockedUser);
+   // console.log('blocked user is:' + this.blockedUser);
+  }
+  if (this.blockedUser === this.currentUser.username ) {
+      this.toastrService.error('Sorry, you can\'t block yourself!');
+      this.allIsWell = false;
+  }
+
+ // console.log('blocklist is: ', this.currentUser.blocked);
+  for (let i = 0 ; i < this.currentUser.blocked.length; i++) {
+       if (this.currentUser.blocked[i] === this.blockedUser) {
+           self.toastrService.error('This user is already blocked!');
+           this.allIsWell = false;
+   //        console.log('all is not well, dup found: ', this.blockedUser);
+       }// end if
+  } // end for
+  if (this.allIsWell === true) {
+    this.currentUser.blocked.push(this.blockedUser);
   this.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
-  alert(res.msg);
+    if (res.msg) {
+      self.toastrService.success(res.msg);
+    }// end if
 });
+}// end if
 }// end method
 
 }
