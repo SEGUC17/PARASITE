@@ -453,10 +453,6 @@ export class ProfileComponent implements OnInit {
 
   }
 
-<<<<<<< HEAD
-  
-
-=======
   deleteStudyPlan(index): void {
     let plan = this.currIsOwner ? this.studyPlans[index] : this.vStudyPlans[index];
     this._ProfileService
@@ -468,6 +464,5 @@ export class ProfileComponent implements OnInit {
         }
       });
   }
->>>>>>> 110e267ac87ecf51e399744a37155526f146249b
 
 }
