@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef, Renderer2, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './auth/auth.service';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/filter';
 declare const $: any;
 declare const jquery: any;
@@ -65,8 +66,16 @@ export class AppComponent implements OnInit {
       icon: 'graduation-cap'
     }
   ];
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private router: Router, private authService: AuthService,
+    private translate: TranslateService) {
     const self = this;
+
+    // this fallback language if any translation is not found
+    translate.setDefaultLang('en');
+
+    // the language to use on load
+    translate.use('en');
+
     router.events
       .filter(function (event) {
         return event instanceof NavigationEnd;
@@ -273,5 +282,15 @@ export class AppComponent implements OnInit {
         return;
       }
     });
+  }
+
+  // method to change the website's language
+  changeLanguage(): void {
+    if (this.translate.currentLang === 'en') {
+      this.translate.use('ara');
+    } else {
+      this.translate.use('en');
+    }
+
   }
 }
