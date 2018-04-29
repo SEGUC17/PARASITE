@@ -62,6 +62,10 @@ export class AppComponent implements OnInit {
     {
       url: '/admin/category',
       name: 'Admin Category Control'
+    },
+    {
+      url: '/landing',
+      name: 'Landing'
     }
   ];
   constructor(private router: Router, private authService: AuthService) {

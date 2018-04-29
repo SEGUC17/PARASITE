@@ -26,6 +26,7 @@ import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
 import { ToastrService } from 'ngx-toastr';
+import { LandingModule } from './landing/landing.module';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { ToastrService } from 'ngx-toastr';
     LayoutModule,
     CommonModule,
     SharedModule,
-    AuthModule
+    AuthModule,
+    LandingModule
   ],
   providers: [
     {
