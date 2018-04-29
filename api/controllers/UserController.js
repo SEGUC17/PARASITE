@@ -1,9 +1,12 @@
 /* eslint-disable max-statements */
 /* eslint-disable complexity */
 
+var that = this;
+
 // ---------------------- Requirements ---------------------- //
 var emailVerification = require('../utils/emails/email-verification');
 var config = require('../config/config');
+var generateString = require('../utils/generators/generate-string');
 var jwt = require('jsonwebtoken');
 var REGEX = require('../utils/validators/REGEX');
 var mongoose = require('mongoose');
@@ -31,7 +34,6 @@ var generateJWTToken = function (id, time, callback) {
 };
 // ---------------------- End of "JWT Token Generator" ---------------------- //
 
-
 module.exports.signUp = function (req, res, next) {
 
     // --- Variable Assign --- //
@@ -52,32 +54,13 @@ module.exports.signUp = function (req, res, next) {
     var field = '';
     try {
 
-        field = 'Address';
-        isString(newUser.address ? newUser.address : '');
-
-        field = 'Birthdate';
-        isNotEmpty(newUser.birthdate);
-        isDate(newUser.birthdate);
-
-        field = 'Email';
-        isNotEmpty(newUser.email);
-        isString(newUser.email);
-
         field = 'First Name';
         isNotEmpty(newUser.firstName);
         isString(newUser.firstName);
 
-        field = 'Is Teacher';
-        isNotEmpty(newUser.isTeacher);
-        isBoolean(newUser.isTeacher);
-
         field = 'Last Name';
         isNotEmpty(newUser.lastName);
         isString(newUser.lastName);
-
-        field = 'Password';
-        isNotEmpty(newUser.password);
-        isString(newUser.password);
 
         field = 'Phone';
         isArray(newUser.phone ? newUser.phone : []);
@@ -85,9 +68,28 @@ module.exports.signUp = function (req, res, next) {
             isString(newUser.phone[index]);
         }
 
+        field = 'Address';
+        isString(newUser.address ? newUser.address : '');
+
+        field = 'Birthdate';
+        isNotEmpty(newUser.birthdate);
+        isDate(newUser.birthdate);
+
+        field = 'Is Teacher';
+        isNotEmpty(newUser.isTeacher);
+        isBoolean(newUser.isTeacher);
+
         field = 'Username';
         isNotEmpty(newUser.username);
         isString(newUser.username);
+
+        field = 'Email';
+        isNotEmpty(newUser.email);
+        isString(newUser.email);
+
+        field = 'Password';
+        isNotEmpty(newUser.password);
+        isString(newUser.password);
 
     } catch (err) {
         return res.status(422).json({
@@ -109,6 +111,18 @@ module.exports.signUp = function (req, res, next) {
         ? newUser.username.toLowerCase().trim()
         : newUser.username;
     // --- End of "Trimming & Lowering Cases"--- //
+
+    // --- Check: Phone Regex Match ---//
+    for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
+        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
+            return res.status(422).json({
+                data: null,
+                err: null,
+                msg: 'Phone Is Not Valid!'
+            });
+        }
+    }
+    // --- End of "Check: Phone Regex Match" ---//
 
     // --- Check: birthdate --- //
     if (new Date().getFullYear() - newUser.birthdate.getFullYear() < 13) {
@@ -140,17 +154,18 @@ module.exports.signUp = function (req, res, next) {
     }
     // --- End of "Check: Password Length" --- //
 
-    // --- Check: Phone Regex Match ---//
-    for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
-        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
-            return res.status(422).json({
-                data: null,
-                err: null,
-                msg: 'Phone Is Not Valid!'
-            });
-        }
+    // --- Check: Password Match --- //
+    if (
+        req.body.confirmPassword &&
+        newUser.password !== req.body.confirmPassword
+    ) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: 'Password & Confirm Password Do Not Match!'
+        });
     }
-    // --- End of "Check: Phone Regex Match" ---//
+    // --- End of "Check: Password Match" --- //
 
     // --- Check: Duplicate Username/Email --- //
     User.findOne(
@@ -186,7 +201,7 @@ module.exports.signUp = function (req, res, next) {
 
                 emailVerification.send(
                     user2.email,
-                    config.FRONTEND_URI + 'auth/verifyEmail/' + user2._id
+                    config.FRONTEND_URI + 'auth/verify-email/' + user2._id
                 );
 
                 return res.status(201).json({
@@ -199,6 +214,37 @@ module.exports.signUp = function (req, res, next) {
         }
     );
     // --- End of "Check: Duplicate Username/Email" --- //
+};
+
+module.exports.verifyChildEmail = function (req, res, next) {
+    console.log('entered the verification for child email');
+    User.findByIdAndUpdate(
+        req.params.id,
+        { 'isEmailVerified': true },
+        function (err, user) {
+            if (err) {
+                console.log('entered error');
+                throw err;
+            } else if (!user) {
+                console.log('entered error of not user');
+
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User Not Found!'
+                });
+            }
+            console.log('res is 200 ');
+            console.log('isEmailVerified : ', user.isEmailVerified);
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'Email Verification Is Successful!'
+            });
+        }
+    );
+
 };
 
 module.exports.verifyEmail = function (req, res, next) {
@@ -237,13 +283,13 @@ module.exports.signIn = function (req, res, next) {
     var field = '';
     try {
 
-        field = 'Password';
-        isNotEmpty(req.body.password);
-        isString(req.body.password);
-
         field = 'Username';
         isNotEmpty(req.body.username);
         isString(req.body.username);
+
+        field = 'Password';
+        isNotEmpty(req.body.password);
+        isString(req.body.password);
 
     } catch (err) {
         return res.status(422).json({
@@ -317,6 +363,61 @@ module.exports.signIn = function (req, res, next) {
 
 };
 
+module.exports.signInWithThirdPartyResponse = function (req, res, next) {
+    var time = '1d';
+    generateJWTToken(req.user._id, time, function (jwtToken) {
+        return res.status(200).json({
+            data: null,
+            err: null,
+            msg: 'Sign In Is Successful!',
+            token: jwtToken
+        });
+    });
+};
+
+module.exports.signInWithGoogle = function (req, res, next) {
+    User.findOneAndUpdate(
+        {
+            $or: [
+                { 'email': req.body.email },
+                { 'googleId': req.body.googleId }
+            ]
+        },
+        {
+            'email': req.body.email,
+            'googleId': req.body.googleId,
+            'isEmailVerified': true
+        },
+        function (err, user) {
+            if (err) {
+                throw err;
+            } else if (user) {
+                req.user = user;
+
+                return next();
+            }
+
+            var newUser = new User({
+                email: req.body.email,
+                firstName: req.body.firstName,
+                googleId: req.body.googleId,
+                isEmailVerified: true,
+                lastName: req.body.lastName,
+                password: generateString(12),
+                username: req.body.email
+            });
+
+            newUser.save(function (err2, user2) {
+                if (err2) {
+                    throw err2;
+                }
+                req.user = user2;
+
+                return next();
+            });
+        }
+    );
+};
 
 module.exports.signUpChild = function (req, res, next) {
     // to make the user a parent
@@ -476,18 +577,23 @@ module.exports.signUpChild = function (req, res, next) {
             //---end of duplicate checks--//
 
             //--hashing password--//
-            User.create(newUser, function (error) {
+            User.create(newUser, function (error, user2) {
                 if (error) {
                     //  console.log('entered if error');
 
                     return next(error);
                 }
+                emailVerification.send(
+                    user2.email,
+                    config.FRONTEND_URI + 'auth/verify-child-email/' + user2._id
+                );
 
                 // --- Variable Assign --- //
                 return res.status(201).json({
                     data: null,
                     error: null,
-                    msg: 'Child Successfully Signed Up!'
+                    msg: 'Child Sign Up is Successful!\n' +
+                        'Verification Mail Was Sent To Your Child\'s Email!'
                 });
             });
         }
@@ -665,28 +771,28 @@ module.exports.isUserExist = function (req, res, next) {
 };
 
 module.exports.forgotPassword = function (req, res, next) {
-    // password gets trimmed of spaces
+    // email input gets trimmed of spaces
     req.params.email = req.params.email.toLowerCase().trim();
-    // check if the user exits
+    // check is the user exists
     User.findOne(
         { email: req.params.email },
         function (err, user) {
             if (err) {
                 throw err;
             } else if (user) {
-                console.log(user.firstName);
+                // user exists in database
                 emailVerification.send(
-                user.email,
-                config.FRONTEND_URI +
-                 'auth/forgotPassword/resetpassword/' + user._id
+                    user.email,
+                    config.FRONTEND_URI +
+                    'auth/forgot-password/reset-password/' + user._id
                 );
 
-                 return res.status(201).json({
+                return res.status(201).json({
                     data: null,
                     err: null,
                     msg: 'An email was sent to the provided email'
                 });
-
+                // user does not exist
             } else if (!user) {
                 return res.status(404).json({
                     data: null,
@@ -701,31 +807,33 @@ module.exports.forgotPassword = function (req, res, next) {
 };
 
 module.exports.resetPassword = function (req, res, next) {
-   
-    User.findById({ '_id': req.params.id }, function(err, user) {
+    // User identified by ID
+    User.findById({ '_id': req.params.id }, function (err, user) {
         if (err) {
             return next(err);
         } else if (user) {
-            Encryption.hashPassword('12345678910', function (errors, hash) {
+            // new password gets hashed
+            Encryption.hashPassword(req.body.newpw, function (errors, hash) {
                 if (errors) {
                     return next(errors);
                 }
-            User.findByIdAndUpdate(
-                { '_id': req.params.id },
-                { 'password': hash }, function (error) {
-                    if (error) {
-                        return next(error);
+                // new hashed password replaces old one
+                User.findByIdAndUpdate(
+                    { '_id': req.params.id },
+                    { 'password': hash }, function (error) {
+                        if (error) {
+                            return next(error);
+                        }
                     }
-                }
-            );
+                );
 
-                        return res.status(200).json({
-                        data: null,
-                        err: null,
-                        msg: 'User password was reset successfully.'
-                    });
-               });
-            }
-         });
-        };
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'User password was reset successfully.'
+                });
+            });
+        }
+    });
+};
 

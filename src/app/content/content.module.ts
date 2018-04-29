@@ -18,11 +18,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { SafeResourceUrlPipe } from './safe-resource-url.pipe';
+import { SafeResourceUrlPipe } from '../../pipe/safe-resource-url.pipe';
 import { VideoIdExtractorPipe } from './video-id-extractor.pipe';
-import { SafeHtmlPipe } from './safe-html.pipe';
-import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
-import { AdminModule } from '../admin/admin.module';
+import { SafeHtmlPipe } from '../../pipe/safe-html.pipe';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -31,7 +29,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
-
+import { DiscussionService } from '../discussion.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -53,15 +52,20 @@ import { ToastrService } from 'ngx-toastr';
     MatSidenavModule,
     MatExpansionModule,
     MatSelectModule,
-    AdminModule,
     MatRadioModule,
     InfiniteScrollModule,
     SharedModule,
     MatListModule,
     MatDividerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    TranslateModule.forChild()
   ],
-  providers: [ContentService, ToastrService, VideoIdExtractorPipe],
+  providers: [
+    ContentService,
+    DiscussionService,
+    ToastrService,
+    VideoIdExtractorPipe
+  ],
   declarations: [
     ContentEditComponent,
     ContentListViewComponent,

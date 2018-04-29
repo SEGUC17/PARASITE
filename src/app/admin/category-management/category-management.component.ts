@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from '../../admin.service';
+import { AdminService } from '../admin.service';
 import { ContentService } from '../../content/content.service';
-import { Category } from '../../content/category';
+import { Category } from '../../../interfaces/category';
 
 @Component({
   selector: 'app-category-management',

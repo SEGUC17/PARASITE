@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
 import { Inject } from '@angular/core';
-import { Category } from '../category';
+import { Category } from '../../../interfaces/category';
 import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/user';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-list-view',
@@ -45,7 +46,7 @@ export class ContentListViewComponent implements OnInit {
   currentUser: User;
 
   constructor(private contentService: ContentService, private authService: AuthService,
-    private router: Router, private route: ActivatedRoute) { }
+    private router: Router, private route: ActivatedRoute, private translate: TranslateService) { }
 
   ngOnInit() {
     // scroll to the top

@@ -58,6 +58,10 @@ export class ActivityService {
     return this.http.put<any>( this.unverifiedActivitiesUrl, activity );
   }
 
+  deleteActivity(activity: any): Observable<any> {
+    return this.http.delete(this.activitiesUrl + '/' + activity._id);
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {

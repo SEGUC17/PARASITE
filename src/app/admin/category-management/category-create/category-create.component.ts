@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AdminService } from '../../../admin.service';
-import { Category } from '../../../content/category';
+import { AdminService } from '../../admin.service';
+import { Category } from '../../../../interfaces/category';
 import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-category-create',

@@ -8,7 +8,9 @@ import { AuthService } from '../../auth/auth.service';
 import { CloudinaryOptions, CloudinaryUploader } from 'ng2-cloudinary';
 import { CloudinaryCredentials } from '../../variables';
 import { MAT_INPUT_VALUE_ACCESSOR } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
 declare const $: any;
+
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
@@ -17,7 +19,7 @@ declare const $: any;
 
 export class CreateProductComponent {
 
-  constructor(private marketService: MarketService, private authService: AuthService,
+  constructor(private marketService: MarketService, private toasterService: ToastrService, private authService: AuthService,
     public dialogRef: MatDialogRef<CreateProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
 
@@ -44,7 +46,6 @@ export class CreateProductComponent {
   createProduct(product: any) {
 
     // this.user = this.authService.getUser(); // here i get the currently logged in user
-
 
     let error = false; // Check if there is an error
 
@@ -91,7 +92,8 @@ export class CreateProductComponent {
       }
     } else {
       // If error then send an alert message
-      alert('REQUEST FAILED: Please make sure you have all data written');
+      let self = this;
+      self.toasterService.error('Please make sure you have all data written', 'failure');
     }
   }
 

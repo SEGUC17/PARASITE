@@ -27,7 +27,6 @@ export class ForgotPasswordComponent implements OnInit {
     if (re.test(email)) {
     this._AuthService.forgotPassword(email).subscribe(function(res) {
       console.log(email);
-      alert(res.msg);
     });
   } else {
       alert('Kindly provide a valid email address');
@@ -35,20 +34,5 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
   }
-  /*ChangePassword(pws): void {
-    if (!(pws.newpw === pws.confirmpw)) {
-      alert('New and confirmed passwords do not match!');
 
-
-    } else if ((pws.newpw.length < 8)) {
-      alert('Password should be more than 8 characters');
-    } else {
-      console.log(this.email);
-      this._AuthService.ChangePassword(this.email, pws).subscribe(function (res) {
-        console.log(res.msg);
-        alert(res.msg);
-      });
-    }
- }
- */
 }

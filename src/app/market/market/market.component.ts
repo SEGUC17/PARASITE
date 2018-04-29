@@ -7,10 +7,12 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { Product } from '../Product';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule, MatButtonModule } from '@angular/material';
 import { Router } from '@angular/router';
 import { CreateProductComponent } from '../create-product/create-product.component';
 import { AuthService } from '../../auth/auth.service';
 import { RequestDetailComponent } from '../request-detail/request-detail.component';
+
 declare const $: any;
 declare const swal: any;
 declare const ionRangeSlider: any;
@@ -37,7 +39,8 @@ export class MarketComponent implements OnInit {
   filter = 'Name';
   isChecked = false;
   constructor(public dialog: MatDialog, public router: Router,
-    private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) { }
+    private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) {
+  }
 
   // initializes the current pages in the market and user item
   // gets the products in the market and the products owned by the user)
@@ -57,7 +60,7 @@ export class MarketComponent implements OnInit {
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.user = res.data;
       if (!self.user) {
-        self.router.navigate(['/']);
+        self.router.navigateByUrl('/auth/sign-in');
       } else {
         self.currentPageNumber = 1;
         self.firstPage();
