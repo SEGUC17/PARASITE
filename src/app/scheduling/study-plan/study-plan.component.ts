@@ -216,7 +216,7 @@ export class StudyPlanComponent implements OnInit {
           alert(res.err);
         } else {
           alert(res.msg);
-          this.router.navigate(['/published-study-plans']);
+          this.router.navigate(['/scheduling/study-plan/published']);
         }
       });
   }
