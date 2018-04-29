@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Tags = mongoose.model('Tag').schema;
 
 var newsfeedSchema = mongoose.Schema({
+    contentID: String,
     metadata: {
         activityDate: Date,
         description: String,
@@ -19,7 +20,7 @@ var newsfeedSchema = mongoose.Schema({
         ],
         required: true,
         type: String
-    }
+    },
 }, {
         capped: {
             max: 10000,
