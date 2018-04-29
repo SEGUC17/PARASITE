@@ -9,11 +9,11 @@
             <div class="col-lg-5 col-md-6 col-sm-12">
                 <ul class="breadcrumb float-md-right">
                     <li class="breadcrumb-item">
-                        <a routerLink="/dashboard">
+                        <a>
                             <i class="zmdi zmdi-home"></i> dashboard</a>
                     </li>
                     <li class="breadcrumb-item">
-                        <a routerLink="/content-list-view">all contents</a>
+                        <a routerLink="/content/list">all contents</a>
                     </li>
                     <li *ngIf="content" class="breadcrumb-item active">{{ content.title.length > 10 ? content.title.slice(0,10) +'...' : content.title }}</li>
                 </ul>
@@ -38,7 +38,7 @@
                         </div>
                         <ul class="row meta">
                             <li>
-                                <a href="/profile/{{ content.creator }}">
+                                <a routerLink="/profile/{{ content.creator }}">
                                     <i class="zmdi zmdi-account col-blue"></i> Posted By: {{ content.creator }}</a>
                             </li>
                             <li>
@@ -113,7 +113,7 @@
                                                     <div class="col-md-6 ">
                                                         <div class="inner-content">
                                                             <h2>
-                                                                <a href="profile/{{comment.creator}}">{{comment.creator}}</a>
+                                                                <a routerLink="profile/{{comment.creator}}">{{comment.creator}}</a>
                                                             </h2>
                                                         </div>
                                                     </div>
@@ -148,7 +148,7 @@
                                                         <div class="row">
                                                             <div class="col-md-6">
                                                                 <h2>
-                                                                    <a href="profile/{{comment.creator}}">{{reply.creator}}</a>
+                                                                    <a routerLink="profile/{{comment.creator}}">{{reply.creator}}</a>
                                                                 </h2>
                                                             </div>
                                                             <div class="col-md-6" align="end">
@@ -194,10 +194,10 @@
                                 </div>
                                 <div class="text-box col-8 p-l-0">
                                     <h5 class="m-b-0">
-                                        <a href="/content-view/{{ contentItem._id }}">{{ contentItem.title }}</a>
+                                        <a routerLink="/content/view/{{ contentItem._id }}">{{ contentItem.title }}</a>
                                     </h5>
                                     <small class="author-name">By:
-                                        <a href="/profile/{{ contentItem.creator }}">{{ contentItem.creator }}</a>
+                                        <a routerLink="/profile/{{ contentItem.creator }}">{{ contentItem.creator }}</a>
                                     </small>
                                     <small class="date"> {{ contentItem.touchDate | date }}</small>
                                 </div>
@@ -214,7 +214,7 @@
                     <div class="body widget tag-clouds">
                         <ul class="list-unstyled m-b-0">
                             <li *ngFor="let tag of content.tags">
-                                <a routerLink="/content-list-view/{{ tag }}" class="tag badge badge-primary">{{ tag }}</a>
+                                <a routerLink="/content/list/{{ tag }}" class="tag badge badge-primary">{{ tag }}</a>
                             </li>
                         </ul>
                     </div>
