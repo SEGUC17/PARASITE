@@ -381,7 +381,7 @@
           </div>
         </div>
         <div class="col-lg-8 col-md-12">
-          <div class="card bg-dark">
+          <div *ngIf = "currIsOwner || visitedIsMyChild" class="card bg-dark">
             <ul class="nav nav-tabs">
               <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#children" *ngIf="currIsOwner">Children</a>
