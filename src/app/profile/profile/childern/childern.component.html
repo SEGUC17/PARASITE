@@ -7,6 +7,7 @@
               <th data-breakpoints="xs"><i class="zmdi zmdi-face m-r-14"></i> </th>
               <th data-breakpoints="xs"> Age</th>
               <th data-breakpoints="xs">Learning Score</th>
+              <th></th>
             </thead>
            
             <tbody>
@@ -15,8 +16,8 @@
             <tr *ngFor="let child of singleArray ">
               
               <td style="width:230px;height:50px">
-                <a  href= "/profile/{{x.username}}"><img [src]="x.avatar"  style="width:50px;height:50px" class="rounded-circle avatar" alt=""></a>
-                <strong><a  href= "/profile/{{x.username}}"> <p> </p>{{child.firstName}} {{child.lastName}}</a></strong>
+                <a  href= "/profile/{{child.username}}"><img [src]="child.avatar"  style="width:50px;height:50px" class="rounded-circle avatar" alt=""></a>
+                <strong><a  href= "/profile/{{child.username}}"> <p> </p>{{child.firstName}} {{child.lastName}}</a></strong>
               </td>
         
               <td>
@@ -25,7 +26,9 @@
               <td >
                   <span class="phone"><i class="zmdi zmdi-flash m-r-10"></i>{{child.learningScore}} Points</span>
               </td>
-            
+              <td >
+                <button class="btn btn-primary btn-round btn-simple" *ngIf = "isParent && currIsOwner" (click) = "removeChild(child.username)">Unlink</button>
+            </td>            
             </tr>
           
       

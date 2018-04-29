@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ProfileService } from '../../profile.service';
 import { AuthService } from './../../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-childern',
   templateUrl: './childern.component.html',
@@ -13,10 +14,15 @@ export class ChildernComponent implements OnInit {
   childrenList: string[];
 childListIsFilled: boolean;
   username: string;
+  id: any;
+  vUsername: string;
+  isParent: boolean;
+  currIsOwner = false;
+  birthdate: Date;
   singleArray: [{avatar: string, firstName: string,
     lastName: string, birthdate: Number , username: string , learningScore: Number}];
   constructor (private profileService: ProfileService,
-     private authService: AuthService , private activatedRoute: ActivatedRoute) { }
+     private authService: AuthService , private activatedRoute: ActivatedRoute , private toaster: ToastrService) { }
 
   ngOnInit() {
     this.childListIsFilled = true;
@@ -24,6 +30,19 @@ childListIsFilled: boolean;
      birthdate: 0 , username: '' , learningScore: 0}];
     this.getChildern();
 
+    this.authService.getUserData(['username', '_id', 'isParent']).subscribe((user) => {
+      this.activatedRoute.params.subscribe((params: Params) => {
+        // getting the visited username
+        this.vUsername = params.username;
+      });
+  this.id = user.data._id;
+  this.isParent = user.data.isParent;
+
+  if (!this.vUsername || this.vUsername === this.username) {
+    this.currIsOwner = true;
+    this.vUsername = this.username;
+  }
+    });
 
  } // Heidi
 
@@ -36,6 +55,7 @@ childListIsFilled: boolean;
 }
   getChildern() {
     let username;
+    let id;
     let self = this;
     this.authService.getUserData(['username']).
     subscribe(function (res) {
@@ -65,7 +85,6 @@ childListIsFilled: boolean;
   if (!result.data.avatar) {
     result.data.avatar = 'assets/images/defaultProfilePic.png';
    }
-
         self.singleArray.push({
                              avatar: result.data.avatar,
                              firstName: result.data.firstName,
@@ -81,4 +100,26 @@ childListIsFilled: boolean;
     });
   });
 });
-} }
+}
+removeChild(child): void { // removes the child from the list of children of the currently logged in user
+  let ChildBirthdate: Date;
+  let age;
+  let object = {
+    child: child
+  };
+  const self = this;
+  // getting the birthdate of the child to get his/her age;
+    this.authService.getAnotherUserData(['_id', 'birthdate'], child).subscribe(((user) => {
+     age = this.calculateAge(user.data.birthdate);
+
+if ( age < 13) {
+  self.toaster.error('You can only unlink children 13 or above');
+}
+if ( age >= 13) {
+this.profileService.Unlink(object, this.id).subscribe(function (res) {
+    self.toaster.success(res.msg);
+});
+}
+}));
+}
+}

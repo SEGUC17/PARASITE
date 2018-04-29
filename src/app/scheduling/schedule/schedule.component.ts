@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, ChangeDetectionStrategy,
-   EventEmitter, ViewChild, TemplateRef, HostListener } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, ChangeDetectionStrategy,
+  EventEmitter, ViewChild, TemplateRef, HostListener
+} from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
@@ -20,6 +22,9 @@ import {
   addHours
 } from 'date-fns';
 
+// allow jquery
+declare const $: any;
+
 
 @Component({
   selector: 'app-schedule',
@@ -29,8 +34,6 @@ import {
 })
 export class ScheduleComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
-  view = 'month';
-  viewDate: Date = new Date();
   events: CalendarEvent[] = [];
   selectedEvent = {
     title: 'New event',
@@ -47,8 +50,20 @@ export class ScheduleComponent implements OnInit {
     },
     meta: {}
   };
+  // Calendar API view control
+  view = 'month';
+  viewDate: Date = new Date();
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
+
+  // datetime picker variables
+  createStart = new Date();
+  createEnd = new Date();
+  editStart = new Date();
+  editEnd = new Date();
+
+  // edit modal control
+  editIndex = 0;
   editing = false;
 
   // Users
@@ -89,7 +104,7 @@ export class ScheduleComponent implements OnInit {
       this.loggedInUser.isChild = user.data.isChild;
       this.loggedInUser.children = user.data.children;
       if (!this.profileUser) {
-        this.route.params.subscribe( params => {
+        this.route.params.subscribe(params => {
           this.profileUser = params.username;
           if (!this.profileUser) {
             this.profileUser = this.loggedInUser.username;
@@ -99,11 +114,49 @@ export class ScheduleComponent implements OnInit {
       this.fetchAndDisplay();
     });
 
+    // datetime pickers
+    $('.datetimepicker').bootstrapMaterialDatePicker({
+      format: 'dddd DD MMMM YYYY - hh:mm a',
+      shortTime: true,
+      clearButton: true,
+      weekStart: 6
+    });
+
+    let self = this;
+
+    $('#createStart').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.createStart = date._d;
+        $('#createEnd').bootstrapMaterialDatePicker('setMinDate', date);
+      }
+    });
+
+    $('#createEnd').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.createEnd = date._d;
+        $('#createStart').bootstrapMaterialDatePicker('setMaxDate', date);
+      }
+    });
+
+    $('#editStart').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.editStart = date._d;
+        $('#editEnd').bootstrapMaterialDatePicker('setMinDate', date);
+      }
+    });
+
+    $('#editEnd').bootstrapMaterialDatePicker().on('beforeChange', function (e, date) {
+      if (date) {
+        self.editEnd = date._d;
+        $('#editStart').bootstrapMaterialDatePicker('setMaxDate', date);
+      }
+    });
+
   }
 
 
   // Automatically save changes of page close/change
-  @HostListener('window:beforeunload', [ '$event' ])
+  @HostListener('window:beforeunload', ['$event'])
   unloadHandler(event) {
     this.saveScheduleChanges();
   }
@@ -174,52 +227,68 @@ export class ScheduleComponent implements OnInit {
     this.modalData = { event, action };
   }
 
+  // new event creation handler
+  createEvent(eventTitle: string, eventDescription: string, eventStart: Date, eventEnd: Date) {
+    if (eventStart) {
+      this.events.push({
+        title: eventTitle,
+        start: eventStart,
+        end: eventEnd,
+        color: {
+          primary: '#2196f3',
+          secondary: '#D1E8FF'
+        },
+        draggable: false,
+        meta: {
+          description: eventDescription ? eventDescription : ''
+        }
+      });
+    } else {
+      alert('Failed to create event: Event must have a start date');
+    }
 
-  // NOTE: Legacy function, kept temporarily
-  addEventTemp(): void {
-    // Add a new event
-    this.events.push({
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: {
-        primary: '#ad2121',
-        secondary: '#FAE3E3'
-      },
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    });
+    $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+
+
     this.refreshDocument();
   }
 
-  // Add single new event
-  addEvent(title: string, description: string, start: Date, end: Date, color: any): void {
-    // Default value for color (Transparent)
-    if (!color) {
-      color = '#FFFFFF00';
+  // clear date pickers in event creation modal on cancellation
+  cancelCreate() {
+    $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+  }
+
+  // set date picker values to the values of the event to be edited
+  preEdit(index) {
+    $('#editStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editEnd').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editStart').bootstrapMaterialDatePicker('setDate', this.events[index].start);
+    $('#editEnd').bootstrapMaterialDatePicker('setDate', this.events[index].end);
+  }
+
+  // write updated event data
+  editEvent(editTitle, editDescription, editStart, editEnd) {
+    if (editStart) {
+      this.events[this.editIndex].title = editTitle;
+      this.events[this.editIndex].meta.description = editDescription;
+      this.events[this.editIndex].start = editStart;
+      this.events[this.editIndex].end = editEnd;
+    } else {
+      alert('Failed to Edit event: Event must have a start date');
     }
-    const newEvent = {
-      title: title,
-      start: new Date(start),
-      end: new Date(end),
-      color: {
-        primary: color,
-        secondary: '#BEBEBE'
-      },
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      meta: {
-        description: description
-      }
-    };
-    this.events.push(newEvent);
-    // this.scheduleService.addEvent(this.profileUser, newEvent).subscribe();
+
+    $('#editStart').bootstrapMaterialDatePicker('_onClearClick');
+    $('#editEnd').bootstrapMaterialDatePicker('_onClearClick');
+
+
+    this.refreshDocument();
+  }
+
+  // delete corresponding event
+  delete(index) {
+    this.events.splice(index, 1);
     this.refreshDocument();
   }
 
