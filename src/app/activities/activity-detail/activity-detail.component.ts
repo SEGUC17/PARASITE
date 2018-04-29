@@ -7,6 +7,7 @@ import { ActivityEditComponent } from '../activity-edit/activity-edit.component'
 import { DiscussionService } from '../../discussion.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-activity-detail',
@@ -73,7 +74,8 @@ username = '';
     public dialog: MatDialog,
     private discussionService: DiscussionService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -282,13 +284,28 @@ username = '';
 
 
   uploaded(url: string) {
+    let id = this.route.snapshot.paramMap.get('id');
     if (url === 'imageFailedToUpload') {
-      console.log('image upload failed');
-      // TODO: handle image uploading failure
+      this.toastrService.error('Image upload failed');
+    } else if (url === 'noFileToUpload') {
+      this.toastrService.error('Please select a photo');
     } else {
-      console.log('in vcC and its uploaded with url = ' + url);
+      let upload = {
+        image: url
+      };
+      this.activityService.EditActivityImage(upload, id).subscribe((res) => {
+        if (res.data) {
+          this.toastrService.success('Activity image uploaded successfully');
+          this.activity.image = res.data;
+        } else {
+          this.toastrService.error('Image upload failed');
+        }
+      });
       // TODO: handle image uploading success and use the url to retrieve the image later
     }
+    document.getElementById('closeModal').click();
+    document.focus();
+
   }
 
   deleteActivity() {

@@ -34,7 +34,10 @@
         <div class="body col-white">
           <div class="row">
             <div class="col-lg-3 col-md-4 col-12">
-              <div class="profile-image float-md-right"> <img [src]="activity.image" alt=""> </div>
+              <div class="profile-image float-md-right"> <img [src]="activity.image" alt=""> 
+               <a *ngIf="isCreator && !isBooked" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right">
+                <i class="zmdi zmdi-edit"></i>
+              </a> </div>
             </div>
             <div class="col-lg-9 col-md-8 col-12">
               <h4 class="m-t-0 m-b-0">{{activity.name}}</h4>
@@ -175,6 +178,21 @@
               <!--....................................-->
             </ul>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="title" id="defaultModalLabel">Activity Image</h4>
+        </div>
+        <div class="modal-body">
+          <app-image-uploader (ImageUploaded)="uploaded($event)"></app-image-uploader>
+          <button id="closeModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" style="float:right">Cancel</button>
         </div>
       </div>
     </div>
