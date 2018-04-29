@@ -19,13 +19,11 @@ export class StudyPlanListViewComponent implements OnInit {
   currIsChild: boolean;
   studyPlans: StudyPlan[];
   tempPlan: StudyPlan;
-  numberOfElements: Number;
-  pageSize: Number;
-  pageIndex: Number;
+  numberOfElements: number;
+  noPages: number;
+  pageSize: number;
+  pageIndex: number;
   color: string;
-  availableColors = [
-    { name: 'assigned', color: '' }
-  ];
 
   // Utility
   refresh: Subject<any> = new Subject();
@@ -38,36 +36,59 @@ export class StudyPlanListViewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getStudyPlans();
-  }
-
-  getStudyPlans(pageEvent?: PageEvent) {
     this.authService.getUserData(['username', 'isChild']).subscribe(currUser => {
       this.currUsername = currUser.data.username;
       this.currIsChild = currUser.data.isChild;
       this.activatedRoute.params.subscribe((params) => {
         this.profileUsername = params.username;
       });
-      if (this.type === 'published') {
-        // to retreive the pages one by one the number has to be passed to the call each time incremented by one
-        // event occurs at the loading of the pages each time so if there is an event indx is incremented by one
-        // else its a one as we are at the start of loading the published plans
-        this.studyPlanService.getPublishedStudyPlans(pageEvent ? pageEvent.pageIndex + 1 : 1).subscribe(res => this.updateLayout(res));
-      } else if (this.type === 'personal') {
-        if (!this.profileUsername || this.currUsername === this.profileUsername) {
-          this.authService.getUserData(['studyPlans']).subscribe(res => this.studyPlans = res.data.studyPlans);
-        } else {
-          this.authService.getAnotherUserData(['studyPlans'], this.profileUsername).subscribe(res => this.studyPlans = res.data.studyPlans);
-        }
-      }
+    });
+    this.getStudyPlans(1);
+  }
+
+  getStudyPlans(index) {
+    // to retreive the pages one by one the number has to be passed to the call each time incremented by one
+    // event occurs at the loading of the pages each time so if there is an event indx is incremented by one
+    // else its a one as we are at the start of loading the published plans
+    let self = this;
+    this.studyPlanService.getPublishedStudyPlans(index).subscribe(function (res) {
+      self.updateLayout(res);
     });
   }
 
   updateLayout(res) {
     this.studyPlans = res.data.docs;
-    this.numberOfElements = res.data.total;
-    this.pageSize = res.data.limit;
-    this.pageIndex = res.data.pageIndex;
+    this.numberOfElements = Number(res.data.total);
+    this.noPages = Number(res.data.pages);
+    this.pageSize = Number(res.data.limit);
+    this.pageIndex = Number(res.data.page);
+  }
+
+  // calculate the number of pages to display in pagination
+  getPaginationRange(): any {
+
+    let pageNumbers = [];
+    let counter = 1;
+
+    if (this.pageIndex < 3) {
+      // we are in page 1 or 2
+      while (counter < 6 && counter <= this.noPages) {
+        pageNumbers.push(counter);
+        counter += 1;
+      }
+    } else {
+      // we are in a page greater than 2
+      pageNumbers.push(this.pageIndex - 2);
+      pageNumbers.push(this.pageIndex - 1);
+      pageNumbers.push(this.pageIndex);
+      if (this.pageIndex + 1 <= this.noPages) {
+        pageNumbers.push(this.pageIndex + 1);
+      }
+      if (this.pageIndex + 2 <= this.noPages) {
+        pageNumbers.push(this.pageIndex + 2);
+      }
+    }
+    return pageNumbers;
   }
 
   refreshDocument() {
@@ -80,20 +101,16 @@ export class StudyPlanListViewComponent implements OnInit {
 
   delete(index): void {
     let plan = this.studyPlans[index];
+    this.studyPlanService
+      .deletePublishedStudyPlan(plan._id)
+      .subscribe(res => {
+        if (res.err) {
+          alert(res.err);
+        } else if (res.msg) {
+          this.studyPlans.splice(index, 1);
+          alert(res.msg);
+        }
+      });
 
-    if (this.type === 'published') {
-      this.studyPlanService
-        .deletePublishedStudyPlan(plan._id)
-        .subscribe(res => {
-          if (res.err) {
-            alert(res.err);
-          } else if (res.msg) {
-            this.studyPlans.splice(index, 1);
-            alert(res.msg);
-          }
-        });
-    }
-
-    this.refreshDocument();
   }
 }

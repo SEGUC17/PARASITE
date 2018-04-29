@@ -16,34 +16,50 @@
     </div>
   </div> -->
 <!-- <div class="container-fluid"> -->
-  <div class="card">
-    <div class="body">
-      <div *ngIf="type === 'personal' && (!this.profileUsername || this.currUsername == this.profileUsername) && !currIsChild">
-        <a class="btn btn-primary" routerLink="/study-plan-edit/create/new/{{currUsername}}" color="primary" style="float: right;">Create A New Study Plan</a>
-        <br />
-        <br />
-        <br />
-      </div>
-      <mat-paginator *ngIf="type === 'published'" [length]="numberOfElements" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="getStudyPlans($event)"></mat-paginator>
-      <div class="row">
-        <div class="card" [ngClass]="{'col-3': type === 'published', 'col-4': type === 'personal'}" *ngFor="let studyPlan of studyPlans; let index = index">
-          <div class="header">
-            <h2>
-              <span class="badge badge-info float-right" *ngIf="studyPlan.assigned && type === 'personal'">Assigned</span>
-              <span class="badge badge-info float-right" *ngIf="studyPlan.creator === this.currUsername && type === 'published'">Mine</span>
-              <strong>{{studyPlan.title}}</strong>
-              <br/> {{studyPlan.creator}}
-            </h2>
-          </div>
-          <div class="body">
-            <p>
-              <a class="btn btn-primary" routerLink="/scheduling/study-plan/{{type}}/{{studyPlan._id}}/{{ this.type === 'personal' ? (this.profileUsername ? this.profileUsername : this.currUsername) : '' }}">View</a>
-              <button class="btn btn-primary" (click)="delete(index)" color="primary" *ngIf="(this.type === 'personal' || studyPlan.creator === this.currUsername) && !currIsChild">Delete</button>
-            </p>
-          </div>
+<div class="card">
+  <div class="header">
+    <ul class="pagination pagination-custom float-right">
+      <li class="page-item">
+        <a class="page-link" aria-label="Previous" [ngClass]="{'btn-is-disabled': pageIndex - 1 <= 0}" (click)="getStudyPlans(pageIndex - 1)">
+          <span aria-hidden="true">
+            <i class="zmdi zmdi-chevron-left" aria-hidden="true"></i>
+          </span>
+        </a>
+      </li>
+
+      <li class="page-item" [ngClass]="{'active': pageNumberForPagination === pageIndex}" *ngFor="let pageNumberForPagination of getPaginationRange()">
+        <button class="page-link" (click)="getStudyPlans(pageNumberForPagination)">{{ pageNumberForPagination }}</button>
+      </li>
+
+      <li class="page-item">
+        <a class="page-link" aria-label="Next" [ngClass]="{'btn-is-disabled': pageIndex + 1 > noPages}" (click)="getStudyPlans(pageIndex + 1)">
+          <span aria-hidden="true">
+            <i class="zmdi zmdi-chevron-right" aria-hidden="true"></i>
+          </span>
+        </a>
+      </li>
+    </ul>
+    <br />
+  </div>
+  <div class="body">
+    <div class="row">
+      <div class="card col-3" *ngFor="let studyPlan of studyPlans; let index = index">
+        <div class="header">
+          <h2>
+            <span class="badge badge-mine float-right" *ngIf="studyPlan.creator === this.currUsername">Mine</span>
+            <strong>{{studyPlan.title}}</strong>
+            <br/> {{studyPlan.creator}}
+          </h2>
+        </div>
+        <div class="body">
+          <p>
+            <a class="btn btn-primary" routerLink="/scheduling/study-plan/{{type}}/{{studyPlan._id}}">View</a>
+            <button class="btn btn-primary" (click)="delete(index)" color="primary" *ngIf="studyPlan.creator === this.currUsername && !currIsChild">Delete</button>
+          </p>
         </div>
       </div>
     </div>
   </div>
+</div>
 <!-- </div> -->
 <!-- </section> -->
