@@ -6,7 +6,7 @@ import { Inject } from '@angular/core';
 import { SendDialogComponent } from '../send-dialog/send-dialog.component';
 import { ReplyDialogComponent } from '../reply-dialog/reply-dialog.component';
 import { ForwardDialogComponent } from '../forward-dialog/forward-dialog.component';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
 import { SingleMailComponent } from '../single-mail/single-mail.component';
 import { Router } from '@angular/router';

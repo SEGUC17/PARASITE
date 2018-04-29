@@ -4,15 +4,40 @@ import { ContentEditComponent } from './content-edit/content-edit.component';
 import { ContentListViewComponent } from './content-list-view/content-list-view.component';
 import { ContentViewComponent } from './content-view/content-view.component';
 const routes = [
-  { path: 'content-edit', component: ContentEditComponent },
-  { path: 'content-edit/:id', component: ContentEditComponent },
-  { path: 'content-list-view', component: ContentListViewComponent },
-  { path: 'content-list-view/:tag', component: ContentListViewComponent },
-  { path: 'content-view/:id', component: ContentViewComponent }
+  {
+    path: 'list',
+    children: [
+      {
+        path: '',
+        component: ContentListViewComponent
+      },
+      {
+        path: ':tag',
+        component: ContentListViewComponent
+      }
+    ]
+  },
+  {
+    path: 'view/:id',
+    component: ContentViewComponent
+  },
+  {
+    path: 'edit',
+    children: [
+      {
+        path: '',
+        component: ContentEditComponent
+      },
+      {
+        path: ':id',
+        component: ContentEditComponent,
+      }
+    ]
+  }
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forChild(routes)
   ],
   exports: [
     RouterModule

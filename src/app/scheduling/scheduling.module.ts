@@ -2,11 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { StudyPlanComponent } from './study-plan/study-plan.component';
-import { ScheduleRoutingModule } from './schedule-routing.module';
+import { SchedulingRoutingModule } from './scheduling-routing.module';
 import { CalendarModule } from 'angular-calendar';
 import { StudyPlanService } from './study-plan/study-plan.service';
 import { ScheduleService } from './schedule/schedule.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarHeaderComponent } from './calendar-header/calendar-header.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,13 +29,13 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { CalendarComponent } from './calendar/calendar.component';
 import { SharedModule } from '../shared/shared.module';
+import { AdminService } from '../admin/admin.service';
 
 
 @NgModule({
   imports: [
-    ScheduleRoutingModule,
+    SchedulingRoutingModule,
     CommonModule,
-    BrowserAnimationsModule,
     CalendarModule.forRoot(),
     MatCardModule,
     MatButtonModule,
@@ -70,6 +69,10 @@ import { SharedModule } from '../shared/shared.module';
     ScheduleComponent,
     StudyPlanListViewComponent
   ],
-  providers: [StudyPlanService, ScheduleService]
+  providers: [
+    StudyPlanService,
+    ScheduleService,
+    AdminService
+  ]
 })
-export class ScheduleModule { }
+export class SchedulingModule { }

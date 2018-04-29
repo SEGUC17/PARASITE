@@ -24,13 +24,10 @@ export class SendDialogComponent implements OnInit {
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
 
-  constructor(public dialogRef: MatDialogRef<SendDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService,
+  constructor(private messageService: MessageService, private authService: AuthService,
     private toastrService: ToastrService) { }
 
-  onNoClick(): void {
-      this.dialogRef.close();
-  }
+
 
   ngOnInit() {
     const self = this;

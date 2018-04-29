@@ -7,8 +7,6 @@ import { MessageService } from './messaging.service';
 import { AuthService } from '../auth/auth.service';
 import { MatTableModule, MatTab, MatTabsModule, MatDialogModule, MatButtonModule, MatCardModule, MatListModule } from '@angular/material';
 import { SendDialogComponent } from './send-dialog/send-dialog.component';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material';
@@ -27,8 +25,6 @@ import { ToastrService } from 'ngx-toastr';
     MatTableModule,
     MatTabsModule,
     MatIconModule,
-    BrowserModule,
-    BrowserAnimationsModule,
     MatDialogModule,
     MatInputModule,
     MatButtonModule,

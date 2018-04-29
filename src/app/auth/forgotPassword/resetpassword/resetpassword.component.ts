@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
 
 @Component({
   selector: 'app-resetpassword',
@@ -13,9 +15,9 @@ export class ResetPasswordComponent implements OnInit {
           newpw : '',
           confirmpw : ''
   };
-  
 
-  constructor(private _AuthService: AuthService, private _ActivatedRoute: ActivatedRoute) { }
+  constructor(private _AuthService: AuthService, private _ActivatedRoute: ActivatedRoute,
+              private _toastr: ToastrService) { }
 
   ngOnInit() {
   }
@@ -23,19 +25,17 @@ export class ResetPasswordComponent implements OnInit {
   reset(pws: any) {
     const self = this;
     if (!(pws.newpw === pws.confirmpw)) {
-      alert('New and confirmed passwords do not match!');
+      self._toastr.warning('New and confirmed passwords do not match!');
 
     } else if ((pws.newpw.length < 8)) {
-      alert('Password should be more than 8 characters');
+      self._toastr.warning('Password should be more than 8 characters');
     } else {
     this._ActivatedRoute.params.subscribe(function (params) {
       self._AuthService.resetPassword(params['id'], pws ).subscribe(function (res) {
-          alert(res.msg);
+          self._toastr.success(res.msg);
 
       });
     });
    }
   }
-
-
 }

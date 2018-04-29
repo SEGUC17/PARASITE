@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Category } from '../../../content/category';
+import { AdminService } from '../../admin.service';
+import { Category } from '../../../../interfaces/category';
 import { ToastrService } from 'ngx-toastr';
-import { Section } from '../../../content/section';
-import { AdminService } from '../../../admin.service';
+import { Section } from '../../../../interfaces/section';
 
 @Component({
   selector: 'app-section-create',
