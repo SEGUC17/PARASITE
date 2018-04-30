@@ -27,13 +27,14 @@
                                     <ngx-loading-bar [includeBar]="false"></ngx-loading-bar>
                                 </div>
                             </div>
-                            <div [ngClass]="'form-group mb-1'+(video.invalid && (video.touched || video.dirty) ? ' has-danger': '')">
+                            <div [ngClass]="'form-group mb-1'+(video.errors?.pattern && (video.touched || video.dirty) ? ' has-danger': '')">
                                 <label>Youtube Video</label>
-                                <input [ngClass]="'form-control' +(video.invalid && (video.touched || video.dirty) ? ' form-control-danger': '')" pattern="/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/"
+                                <input [ngClass]="'form-control' +(video.errors?.pattern && (video.touched || video.dirty) ? ' form-control-danger': '')"
+                                    pattern="http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?"
                                     [(ngModel)]="videoInput" #video="ngModel" name="video" placeholder="Video link goes here"
                                     (blur)="getSafeUrl()">
                             </div>
-                            <small *ngIf="video.invalid && (video.touched || video.dirty)" class="text-danger">Video link is invalid</small>
+                            <small *ngIf="video.errors?.pattern && (video.touched || video.dirty)" class="text-danger">Video link is invalid</small>
                             <div class="form-group">
                                 <label>Type
                                     <span class="text-danger">*</span>
@@ -96,7 +97,7 @@
                 <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="content.body" name="body"></quill-editor>
             </mat-step>
             <mat-step label="Preview and Submit">
-                <small [hidden]="contentEditForm.valid" class="btn btn-primary"class="text-danger">Please fill all the requried fields </small>
+                <small [hidden]="contentEditForm.valid" class="btn btn-primary" class="text-danger">Please fill all the requried fields </small>
                 <button [disabled]="!contentEditForm.valid" class="btn btn-primary" (click)="onSubmit()">Submit</button>
                 <div class="col-lg-8 col-md-12">
                     <div *ngIf="content" class="card single_post">

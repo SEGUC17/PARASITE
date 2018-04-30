@@ -46,8 +46,6 @@ export class ContentEditComponent implements OnInit {
     category: '',
     discussion: [],
     section: '',
-    creatorAvatarLink: 'https://i.pinimg.com/originals/81/8a/74/818a7421837fabbce3cac4726b217df6.jpg',
-    creatorProfileLink: 'https://www.facebook.com/Prog0X1',
     image: '',
     tags: [],
     title: '',
@@ -64,6 +62,15 @@ export class ContentEditComponent implements OnInit {
     private toasterService: ToastrService,
     private route: ActivatedRoute,
     private router: Router) {
+    const self = this;
+    this.authService.getUserData(['username']).subscribe(function (res) {
+      if (Array.isArray(res)) {
+        self.authService.setToken(null);
+        self.toasterService.error('Please sign in first', 'failure');
+        self.router.navigateByUrl('/auth/sign-in');
+        return;
+      }
+    });
   }
 
   // Handle tag input on content edit
@@ -75,6 +82,9 @@ export class ContentEditComponent implements OnInit {
 
     // Remove a tag on backspace
     if (event.keyCode === BACKSPACE) {
+      if (this.chipInput) {
+        return;
+      }
       this.content.tags.splice(-1, 1);
       return;
     }
@@ -110,15 +120,16 @@ export class ContentEditComponent implements OnInit {
   // create content
   createContent(): void {
     const self = this;
+    console.log(self.content);
     self.contentService.createContent(self.content).subscribe(function (contentRes) {
       if (!contentRes) {
         return;
       }
       if (contentRes.data.content) {
-        self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
+        self.router.navigateByUrl('/content/view/' + contentRes.data.content._id);
         return;
       }
-      self.router.navigateByUrl('/content-view/' + contentRes.data._id);
+      self.router.navigateByUrl('/content/view/' + contentRes.data._id);
     });
   }
 
@@ -208,12 +219,12 @@ export class ContentEditComponent implements OnInit {
 
 
   ngOnInit() {
-    const contentID = this.route.snapshot.params.id;
+    const self = this;
+    const contentID = self.route.snapshot.params.id;
     if (contentID) {
-      this.isUpdate = true;
-      this.initUpdateView(contentID);
+      self.isUpdate = true;
+      self.initUpdateView(contentID);
     }
-    this.getCategories();
+    self.getCategories();
   }
-
 }
