@@ -28,10 +28,10 @@
                         <h3 class="m-t-0 m-b-5 mr-auto">{{ content.title }} </h3>
                         <div *ngIf="currentUser && content">
                             <div *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" class="flex-row">
-                                <i title="{{ 'CONTENT.VIEW.DELETE_FOREVER' | translate }}" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="deleteContentById(content._id)"
-                                    class="material-icons clickable-icon">delete</i>
-                                <i title="{{ 'CONTENT.VIEW.EDIT' | translate }}" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)" (click)="redirectToContentEdit()"
-                                    class="material-icons clickable-icon">edit</i>
+                                <i title="{{ 'CONTENT.VIEW.DELETE_FOREVER' | translate }}" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)"
+                                    (click)="deleteContentById(content._id)" class="material-icons clickable-icon">delete</i>
+                                <i title="{{ 'CONTENT.VIEW.EDIT' | translate }}" *ngIf="currentUser.isAdmin || (currentUser.username === content.creator)"
+                                    (click)="redirectToContentEdit()" class="material-icons clickable-icon">edit</i>
                                 <i title="{{ 'CONTENT.VIEW.ADMIN_GO_BACK' | translate }}" *ngIf="currentUser.isAdmin && !content.approved" (click)="returnToContentRequests()"
                                     class="material-icons clickable-icon">assignment_late</i>
                             </div>
@@ -62,7 +62,7 @@
                         <div class="container">
                             <div class="video-container">
                                 <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
-                                    <div class="embed-responsive-item" id="player"></div>
+                                    <app-youtube-player [videoId]="content.video | videoIdExtractor" (change)="onPlayerStateChange($event)"></app-youtube-player>
                                 </div>
                             </div>
                             <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
@@ -83,7 +83,8 @@
                                             <div class="cbp_tmlabel empty">
                                                 <span>
                                                     <div class="form-group  w-80">
-                                                        <input type="text" class="form-control" id="inputArea" placeholder="{{'CONTENT.VIEW.' + somePlaceholder | translate }}" #commentInput [(ngModel)]="changingComment">
+                                                        <input type="text" class="form-control" id="inputArea" placeholder="{{'CONTENT.VIEW.' + somePlaceholder | translate }}" #commentInput
+                                                            [(ngModel)]="changingComment">
                                                     </div>
                                                 </span>
                                                 <div align="end">

@@ -33,6 +33,8 @@ import { DiscussionService } from '../discussion.service';
 import { FileUploadModule } from 'ng2-file-upload';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { YoutubePlayerComponent } from './youtube-player/youtube-player.component';
+import { YoutubeApiService } from './youtube-api.service';
 
 
 
@@ -53,8 +55,8 @@ import { TranslateModule } from '@ngx-translate/core';
   providers: [
     ContentService,
     DiscussionService,
-    ToastrService,
-    VideoIdExtractorPipe
+    VideoIdExtractorPipe,
+    YoutubeApiService
   ],
   declarations: [
     ContentEditComponent,
@@ -62,7 +64,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ContentViewComponent,
     SafeResourceUrlPipe,
     SafeHtmlPipe,
-    VideoIdExtractorPipe
+    VideoIdExtractorPipe,
+    YoutubePlayerComponent
   ]
 })
 export class ContentModule { }

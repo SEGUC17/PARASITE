@@ -73,10 +73,6 @@ export class ContentViewComponent implements OnInit {
       self.comments = retrievedContent.data.discussion;
       if (self.content) {
         self.getRecommendedContent();
-        if (self.content.video) {
-          self.initYoutubeAPI();
-          self.initContentVideo();
-        }
       }
     }, function (error) {
       if (error.status === 404) {
@@ -216,28 +212,6 @@ export class ContentViewComponent implements OnInit {
     });
 
   }
-
-  initYoutubeAPI() {
-    const apiScriptTag = document.createElement('script');
-    apiScriptTag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(apiScriptTag, firstScriptTag);
-  }
-
-  initContentVideo() {
-    const self = this;
-    this.videoId = this.videoIdExtractorPipe.transform(this.content.video);
-    window['onYouTubeIframeAPIReady'] = function (event) {
-      self.YT = window['YT'];
-      self.player = new window['YT'].Player('player', {
-        videoId: self.videoId,
-        events: {
-          'onStateChange': self.onPlayerStateChange.bind(self)
-        }
-      });
-    };
-  }
-
   onPlayerStateChange(event) {
     const self = this;
     if (event.data === window['YT'].PlayerState.ENDED) {
@@ -246,10 +220,7 @@ export class ContentViewComponent implements OnInit {
           return;
         }
         self.toasterService.success(res.msg, 'success');
-        console.log(self.toasterService.previousToastMessage);
       });
     }
   }
-
-
 }
