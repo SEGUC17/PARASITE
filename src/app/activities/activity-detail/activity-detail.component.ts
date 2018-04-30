@@ -305,6 +305,8 @@ username = '';
 
   deleteActivity() {
     this.activityService.deleteActivity(this.activity).subscribe();
+    this.router.navigate([`activities`]);
+
   }
 
   bookActivity() {
