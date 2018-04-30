@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
 import { ActivityService } from '../activity.service';
 import { Activity, ActivityCreate, ActivityEdit } from '../activity';
 import { ActivatedRoute } from '@angular/router';
@@ -76,7 +78,8 @@ username = '';
     public dialog: MatDialog,
     private discussionService: DiscussionService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {

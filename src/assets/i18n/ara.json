@@ -4,33 +4,29 @@
         "CURRENT_LANGUAGE": "العربية"
     },
     "ACTIVITIES": {
-        
+        "CREATE": {
+            "ACTIVITY_DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية"
+        },
+        "LIST": {
+            "ACTIVITIES": "النشاطات",
+            "ACTIVITY": "النشاط",
+            "LATEST_ACTIVITY": "أحدث نشاط",
+            "WELCOME_MESSAGE": "اهلاً فى قسم النشاطات",
+            "READ_MORE": "اقرأ المزيد",
+            "CLOSE": "أغلق"
+        }
     },
-    "ADMIN": {
-
-    },
-    "AUTH": {
-
-    },
+    "ADMIN": {},
+    "AUTH": {},
     "CONTENT": {
-        "LIST": { "OUR_CONTENT": "المحتويات"}
+        "LIST": {
+            "OUR_CONTENT": "المحتويات"
+        }
     },
-    "MARKET": {
-
-    },
-    "MESSAGING": {
-
-    },
-    "PROFILE": {
-
-    },
-    "PSYCHOLOGIST": {
-
-    },
-    "SCHEDULING": {
-
-    },
-    "SEARCH": {
-        
-    }
+    "MARKET": {},
+    "MESSAGING": {},
+    "PROFILE": {},
+    "PSYCHOLOGIST": {},
+    "SCHEDULING": {},
+    "SEARCH": {}
 }

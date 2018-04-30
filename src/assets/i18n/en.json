@@ -4,7 +4,17 @@
         "CURRENT_LANGUAGE": "English"
     },
     "ACTIVITIES": {
-
+        "CREATE":{
+            "ACTIVITY_DATE_ERROR": "From date can't be after to date"
+        },
+        "LIST":{
+            "ACTIVITIES": "Activities",
+            "ACTIVITY": "Activity",
+            "LATEST_ACTIVITY": "Latest Activity",
+            "WELCOME_MESSAGE": "Welcome to activities",
+            "READ_MORE": "Read more..",
+            "CLOSE": "Close"
+        }
     },
     "ADMIN": {
 
