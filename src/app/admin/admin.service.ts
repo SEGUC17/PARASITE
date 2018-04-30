@@ -23,6 +23,7 @@ export class AdminService {
   private respondContentRequestURL = 'admin/RespondContentRequest/';
   private respondContentStatusURL = 'admin/RespondContentStatus/';
   private getContent = 'admin/getContent/';
+  private URL = 'http://localhost:3000/api/admin/';
   private addContributionPtsURL = 'admin/addContPts';
   private reportUrl = 'admin/getReports';
   private deleteReportUrl = this.baseURL + 'admin/DeleteReport';
@@ -49,7 +50,7 @@ export class AdminService {
       @author: MAHER.
       gets the requests.
    */
-    return this.http.get(this.baseURL + 'VerifiedContributerRequests/' + FilterBy);
+    return this.http.get(this.baseURL + 'admin/VerifiedContributerRequests/' + FilterBy);
   }
 
   viewPendingContReqs(res, idea, create, edit): any {

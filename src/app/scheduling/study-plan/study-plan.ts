@@ -3,7 +3,7 @@ import { CalendarEvent } from 'calendar-utils';
 export class StudyPlan {
     _id?: string;
     title: string;
-    creator: string;
+    creator?: string;
     events: CalendarEvent[];
     description: string;
     assigned?: boolean;
@@ -14,9 +14,8 @@ export class StudyPlan {
         value: number
     };
 
-    constructor(title: string, creator: string, events: CalendarEvent[], description: string) {
+    constructor(title: string, events: CalendarEvent[], description: string) {
         this.title = title;
-        this.creator = creator;
         this.events = events;
         this.description = description;
     }

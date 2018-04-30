@@ -1,4 +1,22 @@
-.container {
-    margin-top: 1%;
-    max-width: 1400px;
+.badge-mine {
+    border-color:#49c5b6;
+    color:#49c5b6
+}
+
+@mixin opacity($opacity) {
+    opacity: $opacity;
+    $opacity-ie: $opacity * 100;
+    filter: alpha(opacity=$opacity-ie); //IE8
+}
+
+.btn-is-disabled {
+    pointer-events: none; /* Disables the button completely. Better than just cursor: default; */
+    @include opacity(0.7);
+}
+
+.pagination.pagination-custom .page-item.active>.page-link,
+.pagination.pagination-custom .page-item.active>.page-link:focus,
+.pagination.pagination-custom .page-item.active>.page-link:hover {
+    background-color: #49c5b6;
+    border-color: #49c5b6;
 }

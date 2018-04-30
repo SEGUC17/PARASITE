@@ -3,47 +3,35 @@
     <ul class="breadcrumb float-right">
       <li class="breadcrumb-item">
         <a routerLink="/dashboard">
-          <i class="zmdi zmdi-home"></i> Nawwar</a>
+          <i class="zmdi zmdi-home"></i>sQuare</a>
       </li>
       <li class="breadcrumb-item">
-        <a routerLink="{{ type === 'personal' ? '/profile/' + profileUsername : '/published-study-plans' }}">
-          <i class="{{ type === 'personal' ? 'zmdi zmdi-account-circle' : 'zmdi zmdi-graduation-cap' }}">
-          </i>{{ type === 'personal' ? ' ' + profileUsername : ' Study Plans' }}</a>
+        <a routerLink="/profile/{{ profileUsername }}">
+          <i class="zmdi zmdi-account-circle">
+          </i>{{ username }}</a>
       </li>
-      <li class="breadcrumb-item active">{{ studyPlan.title }}</li>
+      <li class="breadcrumb-item active">Study Plan Creation</li>
     </ul>
     <div class="row">
       <div class="col-lg-6">
-        <h2>
-          {{ title }}
-          <a class="clickable col-md-12 col-lg-4 col-xl-4" *ngIf="!editingTitle" (click)="editingTitle = true">
-            <i class="zmdi zmdi-edit"></i>
-          </a>
-        </h2>
-        <div class="row">
-          <div class="form-group col-md-8" *ngIf="editingTitle">
-            <div class="form-line">
-              <input type="text" class="form-control" name="newTitle" [(ngModel)]="newTitle" placeholder="New Title">
+        <div class="header">
+          <form id="titleForm" method="POST">
+            <div class="form-group">
+              <div class="form-line">
+                <input type="text" class="form-control col-md-6" name="title" [(ngModel)]="title" placeholder="Title" required>
+              </div>
             </div>
-          </div>
-          <div>
-            <a class="clickable" *ngIf="editingTitle" (click)="title = newTitle; editingTitle = flase; changed = true;">
-              <i class="zmdi zmdi-check zmdi-hc-2x"></i>
-            </a>
-          </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-
   <div class="container-fluid">
-    <app-rating type="studyPlan" [(ratedId)]="_id" [(inputRating)]="rating" *ngIf="type === 'published'"></app-rating>
     <div class="card">
       <div class="row">
-
         <div class="col-md-12 col-lg-4 col-xl-4">
           <div class="body">
-            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="!currIsChild && (type === 'personal' || (currUsername === studyPlan.creator || currIsAdmin))">Add Event</button>
+            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal">Add Event</button>
             <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
               aria-controls="collapseExample">
               <i class="zmdi zmdi-chevron-down"></i>
@@ -100,62 +88,32 @@
         </div>
 
       </div>
-    </div>
-    <!-- <hr/> -->
-    <div class="card">
+      <hr/>
       <div class="header">
         <h2>
-          <a class="clickable float-right" *ngIf="!editingDescription" (click)="editingDescription = true">
-            <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
-          </a>
-          <a class="clickable float-right" *ngIf="editingDescription" (click)="editingDescription = false; changed = true;">
-            <i class="zmdi zmdi-check zmdi-hc-2x"></i>
-          </a>
-          <strong>Description</strong>
+          <strong>Description Editor</strong>
         </h2>
       </div>
-      <div class="body" *ngIf="editingDescription">
+      <div class="body">
         <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="editorContent" name="editorContent" (change)="onContentChanged($event)"></quill-editor>
       </div>
-      <div class="body" *ngIf="!editingDescription">
+      <hr/>
+      <div class="header">
+        <h2>
+          <strong>Description Preview</strong>
+        </h2>
+      </div>
+      <div class="body">
         <div class="ql-editor preview" [innerHTML]="editorOut"></div>
       </div>
       <hr/>
-      <div class="button-row">
-        <button class="btn btn-primary" (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
-        <button class="btn btn-primary" (click)="copy()" color="primary" *ngIf="!currIsChild">Copy</button>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="type === 'personal' && profileUsername ? currUsername === profileUsername : true && !currIsChild">Assign</button>
-        <button class="btn btn-primary" (click)="unAssign()" color="primary" *ngIf="studyPlan.assigned">Unassign</button>
-        <button class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" color="primary" *ngIf="changed">Save Changes</button>
-      </div>
+      <button class="btn btn-primary col align-self-center" (click)="create()">
+        Create
+      </button>
     </div>
   </div>
 </section>
 
-<div class="modal fade" id="assignFunction" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="title" id="defaultModalLabel">Assign</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <span class="reset">
-            <input type="text" [(ngModel)]="selectedUser" name="assignFunctionTarget" list="userList">
-            <datalist id="userList">
-              <option>{{ profileUsername }}</option>
-              <option *ngFor="let child of listOfChildren">{{child}}</option>
-            </datalist>
-          </span>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" (click)="assign()" data-dismiss="modal">Assign</button>
-        <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Event Creation Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog">
