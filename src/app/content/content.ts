@@ -4,8 +4,6 @@ export interface Content {
     body: string;
     category: string;
     creator?: string;
-    creatorAvatarLink: string;
-    creatorProfileLink: string;
     image?: string;
     language: string;
     section: string;
