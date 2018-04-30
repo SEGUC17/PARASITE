@@ -65,28 +65,29 @@
             "OUR_CONTENT": "Our Contents",
             "POSTED_BY": "Posted By: {{ creator }}",
             "DASHBOARD": "dashboard",
-            "CONTENT": "contents"
+            "CONTENT": "contents",
+            "ARABIC": "Arabic",
+            "ENGLISH": "English",
+            "LANGUAGE": "Language",
+            "NEXT": "Next",
+            "CATEGORY": "Category",
+            "SECTION": "Section",
+            "TAGS": "Tags"
         },
         "LIST": {
             "ALL": "All",
-            "ARABIC": "Arabic",
             "BROWSE_CONTENT": "Browse Content",
-            "CATEGORY": "Category",
             "CATEGORIES": "Categories",
             "CATEGORY_SPECIFIED": "Category: {{ category }}",
-            "ENGLISH": "English",
-            "LANGUAGE": "Language",
             "LANGUAGE_SPECIFIED": {
                 "ENGLISH": "Language: english",
                 "ARABIC": "Language: arabic"
             },
             "MY_CONTRIBUTIONS": "My Contributions",
-            "NEXT": "Next",
             "PREVIOUS": "Previous",
             "RATING": "Rating",
             "RELEVANCE": "Relevance",
             "SEARCH": "Search...",
-            "SECTION": "Section",
             "SECTION_SPECIFIED": "Section: {{ section }}",
             "SORT_BY": "Sort By",
             "SORT_BY_SPECIFIED": {
@@ -99,7 +100,6 @@
         },
         "VIEW": {
             "COMMENTS": "Comments: {{ number }}",
-            "TAGS": "Tags",
             "RECOMMENDED_CONTENT": {
                 "RECOMMENDED": "Recommended",
                 "CONTENTS": "Contents"
@@ -114,6 +114,30 @@
             "REPLY_BUTTON": "Reply",
             "LEAVE_A_COMMENT": "Leave a comment",
             "LEAVE_A_REPLY": "Leave a reply"
+        },
+        "EDIT": {
+            "CREATE_CONTENT": "Create Content",
+            "GENERAL_INFO": "General Information About Your Content",
+            "TITLE": "Title",
+            "TITLE_IS_REQUIRED": "Title is required",
+            "THUMBNAIL_IMAGE": "Thumbnail Image",
+            "YOUTUBE_VIDEO":"Youtube Video",
+            "VIDEO_LINK_INVALID": "Video link is invalid",
+            "TYPE": "Type",
+            "RESOURCE": "Resource",
+            "IDEA": "Idea",
+            "FILL_ALL": "Please fill all the requried fields",
+            "SUBMIT": "Submit",
+            "TITLE_PLACEHOLDER": "* Enter the title of the content",
+            "VIDEO_LINK_PLACEHOLDER": "Video Link...",
+            "TYPE_PLACEHOLDER": "Content Type...",
+            "LANGUAGE_PLACEHOLDER": "Choose a language...",
+            "CATEGORY_PLACEHOLDER": "Choose a category...",
+            "SECTION_PLACEHOLDER": "Choose a section...",
+            "TAG_PLACEHOLDER": "New tag ...",
+            "CATEGORY_INVALID": "Please choose a valid cagtegory first.",
+            "SECTION_REQUIRED": "Section is required.",
+            "CATEGORY_REQUIRED": "Category is required."
         }
     },
     "MARKET": {

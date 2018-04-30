@@ -74,7 +74,7 @@
             <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
           </li>
           <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
-            <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">{{ 'CONTENT.LIST.NEXT' | translate }}</a>
+            <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">{{ 'CONTENT.SHARED.NEXT' | translate }}</a>
           </li>
         </ul>
       </div>
@@ -124,17 +124,17 @@
                     {{ 'CONTENT.LIST.RATING' | translate }}
                   </label>
                 </div>
-                <h5>{{ 'CONTENT.LIST.LANGUAGE' | translate }}</h5>
+                <h5>{{ 'CONTENT.SHARED.LANGUAGE' | translate }}</h5>
                 <div class="radio">
                   <input type="radio" name="languageButtonGroup" id="radio4" value="english" [(ngModel)]="contentLanguage">
                   <label for="radio4">
-                    {{ 'CONTENT.LIST.ENGLISH' | translate }}
+                    {{ 'CONTENT.SHARED.ENGLISH' | translate }}
                   </label>
                 </div>
                 <div class="radio">
                   <input type="radio" name="languageButtonGroup" id="radio5" value="arabic" [(ngModel)]="contentLanguage">
                   <label for="radio5">
-                    {{ 'CONTENT.LIST.ARABIC' | translate }}
+                    {{ 'CONTENT.SHARED.ARABIC' | translate }}
                   </label>
                 </div>
               </form>
