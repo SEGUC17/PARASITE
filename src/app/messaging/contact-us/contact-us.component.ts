@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService} from '../messaging.service';
+import { MessageService } from '../messaging.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../auth/auth.service';
 
 
 @Component({
@@ -13,35 +14,55 @@ import { ToastrService } from 'ngx-toastr';
 
 
 export class ContactUsComponent implements OnInit {
-  constructor(private _MessageService: MessageService, private _Toastr: ToastrService ) { }
+  public msg: any = {
+  body: '',
+  recipient: '',
+  sender: ''
+  };
+  response: any;
+
+
+  // ---flags -- //
+  user;
+  visitor;
+
+
+  constructor(private _MessageService: MessageService,
+
+    private _Toastr: ToastrService,
+
+    private _AuthService: AuthService) { }
+
+
 
   ngOnInit() {
+    const self = this;
+    const userDataColumns = ['username'];
+    this._AuthService.getUserData(userDataColumns).subscribe(function(response) {
+      if (!(response.msg === 'Data Retrieval Is Successful!')) {
+        self.visitor = true;
+
+      } else {
+        self.msg.sender = response.data.username;
+        self.user = true;
+      }
+    });
+
   }
+  contact_us() {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-contact_us(): void {
-  const self = this;
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  const reciepient = '';
-  const msg = (<HTMLInputElement> document.getElementById('msg')).value;
-  const sender = (<HTMLInputElement> document.getElementById('from')).value;
-
-  const toSend = {
-    body: msg,
-    recipient: '',
-    sender: sender
-   };
-  if (msg === '') {
-  self._Toastr.warning('Cannot send an empty message!');
-  console.log(msg);
-  } else if (sender === '') {
-  self._Toastr.warning('You  need to specifiy an email');
-
-  } else if (!(re.test(sender))) {
-      self._Toastr.warning('please provide a proper email address!');
+    const self = this;
+    if (self.msg.body === '') {
+      self._Toastr.warning('Cannot send an empty message');
+    }  else if (self.visitor === true && (!(re.test(self.msg.sender))))  {
+      self._Toastr.warning('You need to provide an email!');
     } else {
-      self._MessageService.contactus(toSend).subscribe(function(res) {
+      this._MessageService.contactus(self.msg).subscribe(function(res){
         self._Toastr.success(res.msg);
-   });
+      });
+    }
   }
+
 }
-}
+

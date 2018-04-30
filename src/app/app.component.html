@@ -242,6 +242,10 @@
             <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" routerLinkActive="active" class="mega-menu">
                 <i class="zmdi zmdi-power"></i>
             </a>
+        <a title= "contact us" href="#largeModal" data-toggle="modal" data-target="#largeModal">
+                <i class="material-icons">contact_mail</i>
+        </a>
+            
         </li>
     </ul>
 </nav>
@@ -280,3 +284,21 @@
     </aside>
 </div>
 <router-outlet></router-outlet>
+
+<section>
+        <div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header"> 
+                  <h4 class="title" id="defaultModalLabel">Contact Nawwar</h4>
+              </div>
+              <div class="modal-body"> 
+                    <app-contact-us></app-contact-us>
+
+              </div>
+              
+      </div>
+      </div>
+      </div>
+      
+      </section>

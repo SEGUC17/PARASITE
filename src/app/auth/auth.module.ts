@@ -19,7 +19,6 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignOutComponent } from './sign-out/sign-out.component';
-import { ContactUsComponent } from '../messaging/contact-us/contact-us.component';
 import { VerifyChildEmailComponent } from './verify-child-email/verify-child-email.component';
 import { ChildSignupComponent } from './child-signup/child-signup.component';
 
@@ -40,6 +39,6 @@ import { ChildSignupComponent } from './child-signup/child-signup.component';
   ],
   declarations: [ForgotPasswordComponent, ResetPasswordComponent,
      VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent,
-      ContactUsComponent, VerifyChildEmailComponent, ChildSignupComponent]
+      VerifyChildEmailComponent, ChildSignupComponent]
 })
 export class AuthModule { }
