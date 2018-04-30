@@ -12,6 +12,7 @@ import { AuthService } from '../../auth/auth.service';
 import { CloudinaryOptions, CloudinaryUploader } from 'ng2-cloudinary';
 import { CloudinaryCredentials } from '../../variables';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 declare const $: any;
 @Component({
   selector: 'app-content-edit',
@@ -34,7 +35,7 @@ export class ContentEditComponent implements OnInit {
     [{ 'direction': 'rtl' }],
   ];
   private editorOptions: Object = {
-    placeholder: 'insert content here',
+    placeholder: (this.translate.currentLang === 'ara') ? 'أدخل المحتوى هنا' : 'insert content here',
     modules: {
       toolbar: this.toolbarOptions
     }
@@ -61,7 +62,8 @@ export class ContentEditComponent implements OnInit {
     private authService: AuthService,
     private toasterService: ToastrService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private translate: TranslateService) {
     const self = this;
     this.authService.getUserData(['username']).subscribe(function (res) {
       if (Array.isArray(res)) {

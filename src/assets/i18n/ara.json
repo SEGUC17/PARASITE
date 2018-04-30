@@ -7,6 +7,16 @@
         
     },
     "ADMIN": {
+        "ADMIN_CONTROL": {
+            "CONTENTS_MANAGEMENT": "إدارة المحتويات",
+            "CATEGORY_MANAGEMENT": "إدارة الفئات",
+            "PRODUCTS_MANAGEMENT": "إدارة المنتجات",
+            "PSYCHOLOGISTS_MANAGEMENT": "إدارة الخبراء النفسيين",
+            "STUDY_PLANS_MANAGEMENT": "إدارة الخطط الدراسية",
+            "ACTIVITIES_MANAGEMENT": "إدارة الأنشطة",
+            "VERIFIED_CONTRIBUTORS_MANAGEMENT": "إدارة الأنشطة الموثقة",
+            "REPORTS": "البلاغات"
+        },
         "CATEGORY_MANAGEMENT": {
             "SHARED": {
                 "CATEGORY_NAME": "اسم الفئة",
@@ -39,7 +49,12 @@
             }
         },
         "VIEW_CONTENT_REQUESTS": {
-
+            "NO_REQUESTS_HERE": "عذرا، لم  تصل طلبات إنشاء محتويات بعد",
+            "FILTER_REQUESTS": "تصفية الطلبات حسب",
+            "IDEA": "فكرة",
+            "RESOURCE": "مورد تعليمي",
+            "EDIT": "تحديث",
+            "CREATE": "إنشاء"
         }
     },
     "AUTH": {
@@ -50,28 +65,29 @@
             "OUR_CONTENT": "المحتويات",
             "POSTED_BY": "{{ creator }} :نشره",
             "DASHBOARD": "الصفحة الرئيسية",
-            "CONTENT": "المحتويات"
+            "CONTENT": "المحتويات",
+            "ARABIC": "العربية",
+            "NEXT": "التالى",
+            "ENGLISH": "الإنجليزية",
+            "LANGUAGE": "اللغة",
+            "CATEGORY": "الفئة",
+            "SECTION": "القسم",
+            "TAGS": "الإشارات"
         },
         "LIST": {
             "ALL": "جميع الفئات",
-            "ARABIC": "العربية",
             "BROWSE_CONTENT": "تصفح المحتويات",
-            "CATEGORY": "الفئة",
             "CATEGORIES": "الفئات",
             "CATEGORY_SPECIFIED": "{{ category }} :الفئة",
-            "ENGLISH": "الإنجليزية",
-            "LANGUAGE": "اللغة",
             "LANGUAGE_SPECIFIED": {
                 "ENGLISH": "اللغة: الإنجليزية",
                 "ARABIC": "اللغة: العربية"
             },
             "MY_CONTRIBUTIONS": "مساهماتي على الموقع",
-            "NEXT": "التالى",
             "PREVIOUS": "السابق",
             "RATING": "التقييم",
             "RELEVANCE": "مدى الصلة",
             "SEARCH": "...البحث",
-            "SECTION": "القسم",
             "SECTION_SPECIFIED": "{{ section }} :القسم",
             "SORT_BY": "التصنيف بحسب",
             "SORT_BY_SPECIFIED": {
@@ -84,7 +100,6 @@
         },
         "VIEW": {
             "COMMENTS": "{{ number }} :التعليقات",
-            "TAGS": "الإشارات",
             "RECOMMENDED_CONTENT": {
                 "RECOMMENDED": "المحتويات",
                 "CONTENTS": "المقترحة"
@@ -99,6 +114,35 @@
             "REPLY_BUTTON": "الرد",
             "LEAVE_A_COMMENT": "اترك تعليقا",
             "LEAVE_A_REPLY": "اترك ردًّا"
+        },
+        "EDIT": {
+            "CREATE_CONTENT": "إنشاء محتوى",
+            "GENERAL_INFO": "معلومات عامة حول المحتوى الخاص بك",
+            "TITLE": "العنوان",
+            "TITLE_IS_REQUIRED": "العنوان مطلوب",
+            "THUMBNAIL_IMAGE": "الصورة",
+            "YOUTUBE_VIDEO":"فيديو يوتيوب",
+            "VIDEO_LINK_INVALID": ".رابط الفيديو غير صحيح",
+            "TYPE": "النوع",
+            "RESOURCE": "مورد تعليمي",
+            "IDEA": "فكرة",
+            "FILL_ALL": "يرجى ملء جميع البيانات المطلوبة",
+            "SUBMIT": "إنشاء",
+            "TITLE_PLACEHOLDER": "أدخل عنوان المحتوى*",
+            "VIDEO_LINK_PLACEHOLDER": "...رابط الفيديو",
+            "TYPE_PLACEHOLDER": "...نوع المحتوى",
+            "LANGUAGE_PLACEHOLDER": "...اختر لغة",
+            "CATEGORY_PLACEHOLDER": "...اختر فئة",
+            "SECTION_PLACEHOLDER": "...اختر القسم",
+            "TAG_PLACEHOLDER": "...إشارة جديدة",
+            "CATEGORY_INVALID": ".الرجاء اختيار فئة صالحة أولاً",
+            "SECTION_REQUIRED": "القسم مطلوب",
+            "CATEGORY_REQUIRED": "الفئة مطلوبة",
+            "STEPPER": {
+                "CONTENT_DATA": "بيانات المحتوى",
+                "CONTENT_DESCRIPTION": "وصف أو مضمون المحتوى",
+                "REVIEW_AND_SUBMIT": "المراجعة والإنشاء"
+            }
         }
     },
     "MARKET": {
