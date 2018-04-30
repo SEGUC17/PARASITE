@@ -6,7 +6,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
-import {  DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 
 declare const swal: any;
@@ -289,15 +289,15 @@ export class ProfileComponent implements OnInit {
 
   ChangePassword(pws: any): void {
     const self = this;
-     if ((pws.newpw.length < 8)) {
+    if ((pws.newpw.length < 8)) {
       self.toastrService.warning('Password should be at least 8 characters.');
     } else if (!(pws.newpw === pws.confirmpw)) {
       self.toastrService.warning('New and confirmed passwords do not match!');
 
     } else {
       this._ProfileService.changePassword(this.id, pws).subscribe(function (res) {
-        if(res.msg === 'User password updated successfully.'){
-        self.toastrService.success(res.msg);
+        if (res.msg === 'User password updated successfully.') {
+          self.toastrService.success(res.msg);
         }
       });
 
@@ -465,8 +465,9 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteStudyPlan(index): void {
+    let targetUser = this.currIsOwner ? this.username : this.vUsername;
     this._ProfileService
-      .deleteStudyPlan(this.studyPlans[index]._id)
+      .deleteStudyPlan(targetUser, this.studyPlans[index]._id)
       .subscribe(res => {
         if (res.err) {
           this.toastrService.error(res.err);

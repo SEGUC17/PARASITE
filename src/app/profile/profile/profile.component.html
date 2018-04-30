@@ -553,11 +553,12 @@
             <div role="tabpanel" class="tab-pane" id="children">
               <app-childern></app-childern>
             </div>
+            <!-- Study Plans Tab -->
             <div role="tabpanel" class="tab-pane" id="studyplans">
               <div class="card">
                 <div class="body">
                   <div *ngIf="!currIsChild && currIsOwner">
-                    <a class="btn btn-primary" routerLink="/scheduling/study-plan/create" color="primary" style="float: right;">Create A New Study Plan</a>
+                    <a class="btn btn-primary" routerLink="/scheduling/study-plan/create" style="float: right;">Create A New Study Plan</a>
                     <br />
                     <br />
                     <br />
@@ -574,7 +575,7 @@
                       <div class="body">
                         <p>
                           <a class="btn btn-primary" routerLink="/scheduling/study-plan/personal/{{ studyPlan._id }}/{{ currIsOwner ? username : vUsername }}">View</a>
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#studyPlanDeleteModal" (click)="studyPlanIndex = index" color="primary" *ngIf="currIsOwner">Delete</button>
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#studyPlanDeleteModal" (click)="studyPlanIndex = index">Delete</button>
                         </p>
                       </div>
                     </div>
@@ -582,6 +583,7 @@
                 </div>
               </div>
             </div>
+            <!-- End of Study Plans Tab -->
           </div>
         </div>
       </div>

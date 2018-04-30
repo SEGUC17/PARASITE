@@ -253,6 +253,9 @@ export class StudyPlanComponent implements OnInit {
         } else if (res.msg) {
           this.toastrService.success(res.msg);
           this.studyPlan.assigned = false;
+          if (this.profileUsername && this.profileUsername !== this.currUsername) {
+            this.router.navigate(['/profile/' + this.profileUsername]);
+          }
         }
       });
   };
