@@ -2,60 +2,60 @@
     <form #contentEditForm="ngForm">
         <mat-vertical-stepper class="edit-stepper">
             <mat-step label="Content Data">
-                <button class="btn" matStepperNext>Next</button>
+                <button class="btn" matStepperNext>{{ 'CONTENT.SHARED.NEXT' | translate }}</button>
                 <div class="offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-1">
                     <div class="card">
                         <div class="header">
                             <h2>
-                                <strong>Create Content</strong>
+                                <strong>{{ 'CONTENT.EDIT.CREATE_CONTENT' | translate }}</strong>
                             </h2>
-                            <small class="text-mute">General info about your content</small>
+                            <small class="text-mute">{{ 'CONTENT.EDIT.GENERAL_INFO' | translate }}</small>
                         </div>
                         <div class="body">
                             <div [ngClass]="'form-group mb-1'+(title.invalid && (title.touched || title.dirty) ? ' has-danger': '')">
-                                <label>Title
+                                <label>{{ 'CONTENT.EDIT.TITLE' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" [ngClass]="'form-control' +(title.invalid && (title.touched || title.dirty) ? ' form-control-danger': '')"
-                                    required [(ngModel)]="content.title" name="title" #title="ngModel" placeholder="* Enter the title of the content">
+                                    required [(ngModel)]="content.title" name="title" #title="ngModel" placeholder="{{ 'CONTENT.EDIT.TITLE_PLACEHOLDER' | translate }}">
                             </div>
-                            <small *ngIf="title.invalid && (title.touched || title.dirty)" class="text-danger">Title is required</small>
+                            <small *ngIf="title.invalid && (title.touched || title.dirty)" class="text-danger">{{ 'CONTENT.EDIT.TITLE_IS_REQUIRED' | translate }}</small>
                             <div class="form-group">
-                                <label>Thumbnail Image</label>
+                                <label>{{ 'CONTENT.EDIT.THUMBNAIL_IMAGE' | translate }}</label>
                                 <input id="fileInput" class="form-control" type="file" ng2FileSelect [uploader]="uploader" (change)="uploadImage()" accept="image/*;capture=camera">
                                 <div *ngIf="loading">
                                     <ngx-loading-bar [includeBar]="false"></ngx-loading-bar>
                                 </div>
                             </div>
                             <div [ngClass]="'form-group mb-1'+(video.errors?.pattern && (video.touched || video.dirty) ? ' has-danger': '')">
-                                <label>Youtube Video</label>
+                                <label>{{ 'CONTENT.EDIT.YOUTUBE_VIDEO' | translate }}</label>
                                 <input [ngClass]="'form-control' +(video.errors?.pattern && (video.touched || video.dirty) ? ' form-control-danger': '')"
                                     pattern="http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?"
-                                    [(ngModel)]="videoInput" #video="ngModel" name="video" placeholder="Video link goes here"
+                                    [(ngModel)]="videoInput" #video="ngModel" name="video" placeholder="{{ 'CONTENT.EDIT.VIDEO_LINK_PLACEHOLDER' | translate }}"
                                     (blur)="getSafeUrl()">
                             </div>
-                            <small *ngIf="video.errors?.pattern && (video.touched || video.dirty)" class="text-danger">Video link is invalid</small>
+                            <small *ngIf="video.errors?.pattern && (video.touched || video.dirty)" class="text-danger">{{ 'CONTENT.EDIT.VIDEO_LINK_INVALID' | translate }}</small>
                             <div class="form-group">
-                                <label>Type
+                                <label>{{ 'CONTENT.EDIT.TYPE' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control" placeholder="content type..." required #content.type name="type" [(ngModel)]="content.type">
-                                    <option value="resource">Resource</option>
-                                    <option value="idea">Idea</option>
+                                <select class="form-control" required #content.type name="type" [(ngModel)]="content.type">
+                                    <option value="resource">{{ 'CONTENT.EDIT.RESOURCE' | translate }}</option>
+                                    <option value="idea">{{ 'CONTENT.EDIT.IDEA' | translate }}</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Language
+                                <label>{{ 'CONTENT.SHARED.LANGUAGE' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control" placeholder="content language..." required #content.language name="language" [(ngModel)]="content.language"
+                                <select class="form-control" required #content.language name="language" [(ngModel)]="content.language"
                                     required>
-                                    <option value="english">English</option>
-                                    <option value="arabic">Arabic</option>
+                                    <option value="english">{{ 'CONTENT.SHARED.ENGLISH' | translate }}</option>
+                                    <option value="arabic">{{ 'CONTENT.SHARED.ARABIC' | translate }}</option>
                                 </select>
                             </div>
                             <div [ngClass]="'form-group mb-1'+(category.invalid && (category.touched || category.dirty) ? ' has-danger': '')">
-                                <label>Category
+                                <label>{{ 'CONTENT.SHARED.CATEGORY' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select [ngClass]="'form-control' +(category.invalid && (category.touched || category.dirty) ? ' form-control-danger': '')"
@@ -66,26 +66,26 @@
                                     </option>
                                 </select>
                             </div>
-                            <small class="text-danger" *ngIf="category.invalid && (category.touched || category.dirty)">Category is required</small>
+                            <small class="text-danger" *ngIf="category.invalid && (category.touched || category.dirty)">{{ 'CONTENT.EDIT.CATEGORY_REQUIRED' | translate }}</small>
                             <div [ngClass]="'form-group mb-1'+(section.invalid && (section.touched || section.dirty) ? ' has-danger': '')">
-                                <label>Section
+                                <label>{{ 'CONTENT.SHARED.SECTION' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <select [ngClass]="'form-control' +(section.invalid && (section.touched || section.dirty) ? ' form-control-danger': '')"
-                                    placeholder="Section..." required name="section" #section="ngModel" [(ngModel)]="content.section">
+                                    required name="section" #section="ngModel" [(ngModel)]="content.section">
                                     <option *ngFor="let section of requiredSections" [value]="section.name">
                                         {{section.name}}
                                     </option>
                                 </select>
                             </div>
-                            <small class="text-danger" *ngIf="section.invalid && (section.touched || section.dirty) && category.invalid">Please choose a valid cagtegory first</small>
-                            <small class="text-danger" *ngIf="section.invalid && (section.touched || section.dirty) && category.valid">Section is required</small>
+                            <small class="text-danger" *ngIf="section.invalid && (section.touched || section.dirty) && category.invalid">{{ 'CONTENT.EDIT.CATEGORY_INVALID' | translate }}</small>
+                            <small class="text-danger" *ngIf="section.invalid && (section.touched || section.dirty) && category.valid">{{ 'CONTENT.EDIT.SECTION_REQUIRED' | translate }}</small>
                             <div class="form-group">
-                                <label>Tags</label>
+                                <label>{{ 'CONTENT.SHARED.TAGS' | translate }}</label>
                                 <label *ngFor="let tag of content.tags">
                                     <a class="tag badge badge-default">{{tag}}</a>
                                 </label>
-                                <input class="form-control" [(ngModel)]="chipInput" placeholder="New tag ..." name="tags" (keyup)="onTagInput($event)" (blur)="onTagInput($event)"
+                                <input class="form-control" [(ngModel)]="chipInput" placeholder="{{ 'CONTENT.EDIT.TAG_PLACEHOLDER' | translate }}" name="tags" (keyup)="onTagInput($event)" (blur)="onTagInput($event)"
                                 />
                             </div>
                         </div>
@@ -93,12 +93,12 @@
                 </div>
             </mat-step>
             <mat-step label="Content Description">
-                <button class="btn" matStepperNext>Next</button>
+                <button class="btn" matStepperNext>{{ 'CONTENT.SHARED.NEXT' | translate }}</button>
                 <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="content.body" name="body"></quill-editor>
             </mat-step>
             <mat-step label="Preview and Submit">
-                <small [hidden]="contentEditForm.valid" class="btn btn-primary" class="text-danger">Please fill all the requried fields </small>
-                <button [disabled]="!contentEditForm.valid" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+                <small [hidden]="contentEditForm.valid" class="btn btn-primary" class="text-danger">{{ 'CONTENT.EDIT.FILL_ALL' | translate }}</small>
+                <button [disabled]="!contentEditForm.valid" class="btn btn-primary" (click)="onSubmit()">{{ 'CONTENT.EDIT.SUBMIT' | translate }}</button>
                 <div class="col-lg-8 col-md-12">
                     <div *ngIf="content" class="card single_post">
                         <div class="body">
