@@ -28,19 +28,21 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let req of Requests; let i = index">
-                  <td>{{i}}</td>
-                  <td style="width: 5%; height: 5%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
-                  <td (click)="onNameClick(req)">{{req.name}}</td>
-                  <td class="hidden-xs">{{req.createdAt | date:'yyyy-MM-dd HH:mm': 'locale'}}</td>
-                                                                                                            <!--TODO: test the date-->
-                  <td>{{req.email}}</td>
-                  <td>{{req.numberOfChildren}}</td>
-                  <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
-                    <i class="zmdi zmdi-check"></i>
-                  </button>
-                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
-                      <i class="zmdi zmdi-close"></i>
-                    </button></td>
+                  <span *ngIf="Requests[i]">
+                    <td>{{i}}</td>
+                    <td style="width: 5%; height: 5%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
+                    <td (click)="onNameClick(req)">{{req.name}}</td>
+                    <td class="hidden-xs">{{req.createdAt*1000 | date:'yyyy-MM-dd HH:mm': 'locale'}}</td>
+                                                                                                              <!--TODO: test the date-->
+                    <td>{{req.email}}</td>
+                    <td>{{req.numberOfChildren}}</td>
+                    <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
+                      <i class="zmdi zmdi-check"></i>
+                    </button>
+                      <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
+                        <i class="zmdi zmdi-close"></i>
+                      </button></td>
+                  </span>
                 </tr>
                 </tbody>
               </table>
@@ -62,18 +64,21 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let req of Requests; let i = index">
-                  <td>{{i}}</td>
-                  <td style="width: 10%; height: 10%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
-                  <td><a href="javascript:void(0);" (click)="onNameClick(req)">{{req.name}}</a></td>
-                  <td class="hidden-xs">{{req.createdAt | date:'yyyy-MM-dd HH:mm': 'locale'}}</td>
-                  <td>{{req.email}}</td>
-                  <td>{{req.numberOfChildren}}</td>
-                  <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
-                    <i class="zmdi zmdi-check"></i>
-                  </button>
-                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
-                      <i class="zmdi zmdi-close"></i>
-                    </button></td>
+                  <span *ngIf="Requests[i]">
+                    <td>{{i}}</td>
+                    <td style="width: 5%; height: 5%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
+                    <td (click)="onNameClick(req)">{{req.name}}</td>
+                    <td class="hidden-xs">{{req.createdAt*1000 | date:'yyyy-MM-dd HH:mm': 'locale'}}</td>
+                    <!--TODO: test the date-->
+                    <td>{{req.email}}</td>
+                    <td>{{req.numberOfChildren}}</td>
+                    <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
+                      <i class="zmdi zmdi-check"></i>
+                    </button>
+                      <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
+                        <i class="zmdi zmdi-close"></i>
+                      </button></td>
+                  </span>
                 </tr>
                 </tbody>
               </table>
@@ -95,18 +100,21 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let req of Requests; let i = index">
-                  <td>{{i}}</td>
-                  <td style="width: 10%; height: 10%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
-                  <td (click)="onNameClick(req)">{{req.name}}</td>
-                  <td class="hidden-xs">{{req.createdAt | date:'yyyy-MM-dd HH:mm': 'locale'}}</td>
-                  <td>{{req.email}}</td>
-                  <td>{{req.numberOfChildren}}</td>
-                  <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
-                    <i class="zmdi zmdi-check"></i>
-                  </button>
-                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
-                      <i class="zmdi zmdi-close"></i>
-                    </button></td>
+                  <span *ngIf="Requests[i]">
+                    <td>{{i}}</td>
+                    <td style="width: 5%; height: 5%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
+                    <td (click)="onNameClick(req)">{{req.name}}</td>
+                    <td class="hidden-xs">{{req.createdAt*1000 | date:'yyyy-MM-dd HH:mm': 'locale'}}</td>
+                  <!--TODO: test the date-->
+                    <td>{{req.email}}</td>
+                    <td>{{req.numberOfChildren}}</td>
+                    <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
+                      <i class="zmdi zmdi-check"></i>
+                    </button>
+                      <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
+                        <i class="zmdi zmdi-close"></i>
+                      </button></td>
+                  </span>
                 </tr>
                 </tbody>
               </table>

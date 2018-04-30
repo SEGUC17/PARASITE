@@ -132,23 +132,15 @@ module.exports.requestUserValidation = function (req, res, next) {
     image: req.user.avatar,
     creator: req.user._id
   };
-  // dummy request obj for testing.
-  // var reqObj = {
-  //     status: 'pending',
-  //     bio: 'machine learning, AI, Art, Music, Philosophy',
-  //     name: 'Ahmed Khaled',
-  //     AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
-  //     ProfileLink: 'profilemaher.com',
-  //     image: 'imageMaher.com',
-  //     creator: '5ac12591a813a63e419ebce5'
-  // }
+
+
   VCRSchema.create(reqObj, function (err, next) {
     // insert the request to the database.
     if (err) {
       console.log('duplicate key');
       if (err.message.startsWith('E11000 duplicate key error')) {
         // if request already existed
-        return res.status(400).json({
+        return res.status(409).json({
           err: null,
           msg: 'the request already submitted',
           data: null
