@@ -32,6 +32,7 @@ import { ToastrService } from 'ngx-toastr';
 import { DiscussionService } from '../discussion.service';
 import { FileUploadModule } from 'ng2-file-upload';
 import { LoadingBarModule } from '@ngx-loading-bar/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -46,7 +47,8 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
     MatChipsModule,
     SharedModule,
     FileUploadModule,
-    LoadingBarModule.forRoot()
+    LoadingBarModule.forRoot(),
+    TranslateModule.forChild()
   ],
   providers: [
     ContentService,

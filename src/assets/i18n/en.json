@@ -1,0 +1,89 @@
+{
+    "APP": {
+        "NAWWAR": "Nawwar",
+        "CURRENT_LANGUAGE": "English"
+    },
+    "ACTIVITIES": {
+
+    },
+    "ADMIN": {
+
+    },
+    "AUTH": {
+
+    },
+    "CONTENT": {
+        "SHARED": {
+            "OUR_CONTENT": "Our Contents",
+            "POSTED_BY": "Posted By: {{ creator }}",
+            "DASHBOARD": "dashboard",
+            "CONTENT": "contents"
+        },
+        "LIST": {
+            "ALL": "All",
+            "ARABIC": "Arabic",
+            "BROWSE_CONTENT": "Browse Content",
+            "CATEGORY": "Category",
+            "CATEGORIES": "Categories",
+            "CATEGORY_SPECIFIED": "Category: {{ category }}",
+            "ENGLISH": "English",
+            "LANGUAGE": "Language",
+            "LANGUAGE_SPECIFIED": {
+                "ENGLISH": "Language: english",
+                "ARABIC": "Language: arabic"
+            },
+            "MY_CONTRIBUTIONS": "My Contributions",
+            "NEXT": "Next",
+            "PREVIOUS": "Previous",
+            "RATING": "Rating",
+            "RELEVANCE": "Relevance",
+            "SEARCH": "Search...",
+            "SECTION": "Section",
+            "SECTION_SPECIFIED": "Section: {{ section }}",
+            "SORT_BY": "Sort By",
+            "SORT_BY_SPECIFIED": {
+                "RATING": "Sort By: Rating",
+                "RELEVANCE": "Sort By: Relevance",
+                "UPLOAD DATE": "Sort By: Upload Date"
+            },
+            "UPLOAD_DATE": "Upload Date",
+            "WATCH_NOW": "Watch Now"
+        },
+        "VIEW": {
+            "COMMENTS": "Comments: {{ number }}",
+            "TAGS": "Tags",
+            "RECOMMENDED_CONTENT": {
+                "RECOMMENDED": "Recommended",
+                "CONTENTS": "Contents"
+            },
+            "RATING": "Rating: ",
+            "BY": "By: ",
+            "DELETE_FOREVER": "delete forever",
+            "EDIT": "edit",
+            "ADMIN_GO_BACK": "go back to content creation requests",
+            "NOW": "Now",
+            "COMMENT_BUTTON": "Comment",
+            "REPLY_BUTTON": "Reply",
+            "LEAVE_A_COMMENT": "Leave a comment",
+            "LEAVE_A_REPLY": "Leave a reply"
+        }
+    },
+    "MARKET": {
+
+    },
+    "MESSAGING": {
+
+    },
+    "PROFILE": {
+
+    },
+    "PSYCHOLOGIST": {
+
+    },
+    "SCHEDULING": {
+
+    },
+    "SEARCH": {
+
+    }
+}
