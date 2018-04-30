@@ -22,7 +22,6 @@ export class ActivityDetailComponent implements OnInit {
   // comments: any[];
   changingComment: any = '';
   somePlaceholder: any = 'write a comment ...';
-  comment: any = 'comment';
   viewedReplies: boolean[];
   isReplying: boolean ;
   commentReplyingOn: any;
