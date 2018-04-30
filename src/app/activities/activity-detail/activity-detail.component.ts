@@ -22,6 +22,7 @@ export class ActivityDetailComponent implements OnInit {
   // comments: any[];
   changingComment: any = '';
   somePlaceholder: any = 'write a comment ...';
+  comment: any = 'comment';
   viewedReplies: boolean[];
   isReplying: boolean ;
   commentReplyingOn: any;
@@ -88,6 +89,14 @@ username = '';
     self.getActivity();
     self.refreshComments(true);
 
+    this.translate.get('ACTIVITIES.DETAIL.WRITE_COMMENT').subscribe((res: string) => {
+     this.somePlaceholder = res;
+    });
+    this.translate.onLangChange.subscribe((event: any) => {
+      this.translate.get('ACTIVITIES.DETAIL.WRITE_COMMENT').subscribe((res: string) => {
+        this.somePlaceholder = res;
+      });
+    });
     this.authService.getUserData(['username']).subscribe(function (res) {
       this.username = res.data.username;
       console.log('booked? ' + self.isBooked);

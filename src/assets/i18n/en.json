@@ -23,8 +23,10 @@
             "FROM": "from",
             "TO": "to",
             "COMMENT": "Comment",
+            "REPLY": "Reply",
             "BOOK_FOR": "Book for",
-            "DESCRIPTION": "Description"
+            "DESCRIPTION": "Description",
+            "WRITE_COMMENT": "leave a comment..."
         }
     },
     "ADMIN": {

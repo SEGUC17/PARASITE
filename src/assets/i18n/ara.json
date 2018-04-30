@@ -23,8 +23,10 @@
             "FROM": "من",
             "TO": "الى",
             "COMMENT": "اضف تعليق",
+            "REPLY": "اضف رد",
             "BOOK_FOR": "احجز لـ",
-            "DESCRIPTION": "الشرح"
+            "DESCRIPTION": "الشرح",
+            "WRITE_COMMENT": "...اترك تعليق"
         }
     },
     "ADMIN": {},

@@ -44,8 +44,8 @@
               <div class="col-lg-9 col-md-8 col-12">
                 <h4 class="m-t-0 m-b-0">{{activity.name}}</h4>
                 <span class="job_post">{{ 'ACTIVITIES.LIST.ACTIVITY' | translate }}</span>
-                <p>{{ 'ACTIVITIES.DETAIL.FROM' | translate }} : {{activity.fromDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}} {{ 'ACTIVITIES.DETAIL.TO' | translate }} : {{activity.toDateTime | date:'yyyy-MM-dd
-                  HH:mm': 'locale'}}</p>
+                <p>{{ 'ACTIVITIES.DETAIL.FROM' | translate }} : {{activity.fromDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}
+                  {{ 'ACTIVITIES.DETAIL.TO' | translate }} : {{activity.toDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}</p>
                 <div>
                   <span style="color: #ff5722; margin-right: 4px">{{ activity.price | currency: 'EGP'}}</span>
                   <button class="btn btn-primary btn-round btn-simple">{{ 'ACTIVITIES.DETAIL.COMMENT' | translate }}</button>
@@ -99,9 +99,16 @@
                   </span>
                   <div align="end">
                     <span>
-                      <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
-                        {{(!isReplying)?"Comment":"Reply"}}
-                      </button>
+                      <div *ngIf="!isReplying; else elseTemplate">
+                        <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
+                          {{ 'ACTIVITIES.DETAIL.COMMENT' | translate }}
+                        </button>
+                      </div>
+                        <ng-template #elseTemplate>
+                          <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
+                            {{ 'ACTIVITIES.DETAIL.REPLY' | translate }}
+                          </button>
+                        </ng-template>
                       <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary" data-toggle="tooltip" data-placement="bottom"
                         title="Cancel" (click)="cancelReplying()">
                         <i class="zmdi zmdi-close zmdi-hc-lg"></i>
@@ -117,7 +124,7 @@
                   <span class="mt-2">{{comment.createdAt | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
                 </time>
                 <div class="cbp_tmicon">
-                    <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
+                  <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
                   <i class="zmdi zmdi-label"></i>
                 </div>
                 <div class="cbp_tmlabel">
