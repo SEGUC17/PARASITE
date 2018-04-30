@@ -126,16 +126,18 @@
       <div class="row justify-content-around">
         <button class="btn btn-primary" (click)="publish()" *ngIf="type === 'personal' && !currIsChild && (profileUsername ? currUsername === profileUsername : true)">Publish</button>
         <button class="btn btn-primary" (click)="copy()" *ngIf="!currIsChild && (type === 'published' || profileUsername ? currUsername === profileUsername : true)">Copy</button>
-        <div class="dropup">
-          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" *ngIf="type === 'personal' && profileUsername ? currUsername === profileUsername : true && !currIsChild">
+        <div class="dropup" *ngIf="type === 'personal' && (profileUsername ? currUsername === profileUsername : true) && !currIsChild">
+          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
             Assign
           </button>
           <div class="dropdown-menu up">
-            <a class="dropdown-item" href="javascript:void(0);" (click)="assign(currUsername)">{{ currUsername }}</a>
+            <a class="dropdown-item" href="javascript:void(0);" (click)="assign(currUsername)">myself</a>
+            <div class="dropdown-divider"></div>
+            <h5 class="dropdown-header" *ngIf="listOfChildren.length > 0">Children</h5>
             <a class="dropdown-item" href="javascript:void(0);" (click)="assign(child)" *ngFor="let child of listOfChildren">{{ child }}</a>
           </div>
         </div>
-        <button class="btn btn-primary" (click)="unAssign()" *ngIf="studyPlan.assigned">Unassign</button>
+        <button class="btn btn-primary" (click)="unAssign()" *ngIf="type === 'personal' && studyPlan.assigned && !currIsChild">Unassign</button>
         <button class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" *ngIf="changed">Save Changes</button>
       </div>
     </div>

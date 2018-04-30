@@ -199,9 +199,10 @@ module.exports.assignStudyPlan = function (req, res, next) {
                 });
             }
             newStudyPlan.assigned = true;
+            newStudyPlan._id = mongoose.Types.ObjectId();
             User.findOneAndUpdate(
                 { username: req.params.username },
-                { $push: { 'studyPlans': newStudyPlan } },
+                { $addToSet: { 'studyPlans': newStudyPlan } },
                 function (err, child) {
                     if (err) {
                         return next(err);
