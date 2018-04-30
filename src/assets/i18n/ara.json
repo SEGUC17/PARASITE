@@ -17,6 +17,14 @@
             "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
             "READ_MORE": "اقرأ المزيد",
             "CLOSE": "أغلق"
+        },
+        "DETAIL": {
+            "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
+            "FROM": "من",
+            "TO": "الى",
+            "COMMENT": "اضف تعليق",
+            "BOOK_FOR": "احجز لـ",
+            "DESCRIPTION": "الشرح"
         }
     },
     "ADMIN": {},

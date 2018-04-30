@@ -3,8 +3,8 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>Activity
-          <small>Welcome to Activity</small>
+        <h2>{{ 'ACTIVITIES.LIST.ACTIVITY' | translate }}
+          <small>{{ 'ACTIVITIES.DETAIL.WELCOME_MESSAGE' | translate }}</small>
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
@@ -23,7 +23,7 @@
           </li>
           <li class="breadcrumb-item">
             <a routerLink="/activities">
-              <i class="zmdi zmdi-home"></i> Activities</a>
+              <i class="zmdi zmdi-home"></i> {{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}</a>
           </li>
           <li class="breadcrumb-item active">{{activity.name}}</li>
         </ul>
@@ -43,14 +43,14 @@
               </div>
               <div class="col-lg-9 col-md-8 col-12">
                 <h4 class="m-t-0 m-b-0">{{activity.name}}</h4>
-                <span class="job_post">Activity</span>
-                <p>from : {{activity.fromDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}} to : {{activity.toDateTime | date:'yyyy-MM-dd
+                <span class="job_post">{{ 'ACTIVITIES.LIST.ACTIVITY' | translate }}</span>
+                <p>{{ 'ACTIVITIES.DETAIL.FROM' | translate }} : {{activity.fromDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}} {{ 'ACTIVITIES.DETAIL.TO' | translate }} : {{activity.toDateTime | date:'yyyy-MM-dd
                   HH:mm': 'locale'}}</p>
                 <div>
                   <span style="color: #ff5722; margin-right: 4px">{{ activity.price | currency: 'EGP'}}</span>
-                  <button class="btn btn-primary btn-round btn-simple">Comment</button>
+                  <button class="btn btn-primary btn-round btn-simple">{{ 'ACTIVITIES.DETAIL.COMMENT' | translate }}</button>
                   <div *ngIf="signedIn && !currentUser.isChild">
-                    <button class="btn btn-primary btn-round" [disabled]="!bookingUser" (click)="bookActivity()">Book For</button>
+                    <button class="btn btn-primary btn-round" [disabled]="!bookingUser" (click)="bookActivity()">{{ 'ACTIVITIES.DETAIL.BOOK_FOR' | translate }}</button>
                     <select class="form-control-sm form-control btn-primary col-sm-2" [(ngModel)]="bookingUser">
                       <option *ngFor="let user of canBookFor" [ngValue]="user">{{user}}</option>
                     </select>
@@ -70,7 +70,7 @@
   <div class="col-lg-12 col-md-12">
     <div class="card">
       <div class="body">
-        <h4>Description :</h4>
+        <h4>{{ 'ACTIVITIES.DETAIL.DESCRIPTION' | translate }}</h4>
         {{activity.description}}
       </div>
     </div>
