@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CloudinaryOptions, CloudinaryUploader } from 'ng2-cloudinary';
-import { CloudinaryCredentials } from '../../variables';
+import { CloudinaryCredentials } from '../variables';
 
 
 

@@ -24,16 +24,20 @@ import {
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/auth.service';
 import { environment } from '../environments/environment';
+import { ImageUploaderComponent } from './image-uploader/image-uploader.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ImageUploaderComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FileUploadModule,
     CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule,

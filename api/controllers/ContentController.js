@@ -377,12 +377,10 @@ module.exports.createContent = function (req, res, next) {
         req.body.body &&
         req.body.category &&
         req.body.section &&
-        req.body.creator &&
         typeof req.body.title === 'string' &&
         typeof req.body.body === 'string' &&
         typeof req.body.category === 'string' &&
-        typeof req.body.section === 'string' &&
-        typeof req.body.creator === 'string';
+        typeof req.body.section === 'string';
 
     if (!valid) {
         return res.status(422).json({

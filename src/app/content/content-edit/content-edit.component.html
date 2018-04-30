@@ -2,78 +2,119 @@
     <form #contentEditForm="ngForm">
         <mat-vertical-stepper class="edit-stepper">
             <mat-step label="Content Data">
-                <button mat-button matStepperNext>Next</button>
-                <mat-card class="offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-1">
-                    <mat-form-field class="meta-input" hintLabel="Enter the title of the content">
-                        <input matInput required [(ngModel)]="content.title" name="title" placeholder="The title goes here">
-                    </mat-form-field>
-                    <mat-form-field class="meta-input" hintLabel="Enter a link of the image of the content if exists">
-                        <mat-icon matPrefix>link</mat-icon>
-                        <input matInput [(ngModel)]="content.image" #content.image name="image" placeholder="Image link goes here">
-                    </mat-form-field>
-                    <mat-form-field class="meta-input" hintLabel="Enter a link of the main video (Youtube) of the content if exists">
-                        <mat-icon matPrefix>link</mat-icon>
-                        <input matInput [(ngModel)]="videoInput" #content.video name="video" placeholder="Video link goes here" (blur)="getSafeUrl()">
-                    </mat-form-field>
-                    <mat-form-field class="meta-input" hintLabel="Enter the type of content">
-                        <mat-select placeholder="content type..." required #content.type name="type" [(ngModel)]="content.type">
-                            <mat-option value="resource">Resource</mat-option>
-                            <mat-option value="idea">Idea</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field class="meta-input" hintLabel="Enter the language of content">
-                        <mat-select placeholder="content language..." required #content.language name="language" [(ngModel)]="content.language" required>
-                            <mat-option value="english">English</mat-option>
-                            <mat-option value="arabic">Arabic</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field class="meta-input" hintLabel="Enter the category of choice here">
-                        <mat-select placeholder="Category..." required name="category" [(ngModel)]="content.category" (ngModelChange)="getSections()">
-                            <mat-option *ngFor="let category of categories" [value]="category.name">
-                                {{category.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field class="meta-input" hintLabel="Enter a section from your category of choice">
-                        <mat-select placeholder="Section..." required name="section" [(ngModel)]="content.section">
-                            <mat-option *ngFor="let section of requiredSections" [value]="section.name">
-                                {{section.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field class="meta-input" hintLabel="Enter tags so that your content reaches more people">
-                        <mat-chip-list #tagList>
-                            <mat-chip *ngFor="let tag of content.tags" [selectable]="true" [removable]="true" (remove)="remove(tag)">
-                                {{tag}}
-                                <mat-icon matChipRemove>cancel</mat-icon>
-                            </mat-chip>
-                            <input placeholder="New tag ..." name="tags" [matChipInputFor]="tagList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                                [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)" (blur)="add($event)" />
-                        </mat-chip-list>
-
-                    </mat-form-field>
-                </mat-card>
-            </mat-step>
-            <mat-step label="Content Description">
-                <button mat-button matStepperNext>Next</button>
-                <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="content.body" name="body"></quill-editor>
-            </mat-step>
-            <mat-step label="Content Preview">
-                <button mat-button matStepperNext>Next</button>
-                <div class="container">
-                    <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>
+                <button class="btn" matStepperNext>Next</button>
+                <div class="offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-1">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                <strong>Create Content</strong>
+                            </h2>
+                            <small class="text-mute">General info about your content</small>
+                        </div>
+                        <div class="body">
+                            <div [ngClass]="'form-group mb-1'+(title.invalid && (title.touched || title.dirty) ? ' has-danger': '')">
+                                <label>Title
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" [ngClass]="'form-control' +(title.invalid && (title.touched || title.dirty) ? ' form-control-danger': '')"
+                                    required [(ngModel)]="content.title" name="title" #title="ngModel" placeholder="* Enter the title of the content">
+                            </div>
+                            <small *ngIf="title.invalid && (title.touched || title.dirty)" class="text-danger">Title is required</small>
+                            <div class="form-group">
+                                <label>Thumbnail Image</label>
+                                <input id="fileInput" class="form-control" type="file" ng2FileSelect [uploader]="uploader" (change)="uploadImage()" accept="image/*;capture=camera">
+                                <div *ngIf="loading">
+                                    <ngx-loading-bar [includeBar]="false"></ngx-loading-bar>
+                                </div>
+                            </div>
+                            <div [ngClass]="'form-group mb-1'+(video.invalid && (video.touched || video.dirty) ? ' has-danger': '')">
+                                <label>Youtube Video</label>
+                                <input [ngClass]="'form-control' +(video.invalid && (video.touched || video.dirty) ? ' form-control-danger': '')" pattern="/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/"
+                                    [(ngModel)]="videoInput" #video="ngModel" name="video" placeholder="Video link goes here"
+                                    (blur)="getSafeUrl()">
+                            </div>
+                            <small *ngIf="video.invalid && (video.touched || video.dirty)" class="text-danger">Video link is invalid</small>
+                            <div class="form-group">
+                                <label>Type
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control" placeholder="content type..." required #content.type name="type" [(ngModel)]="content.type">
+                                    <option value="resource">Resource</option>
+                                    <option value="idea">Idea</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Language
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control" placeholder="content language..." required #content.language name="language" [(ngModel)]="content.language"
+                                    required>
+                                    <option value="english">English</option>
+                                    <option value="arabic">Arabic</option>
+                                </select>
+                            </div>
+                            <div [ngClass]="'form-group mb-1'+(category.invalid && (category.touched || category.dirty) ? ' has-danger': '')">
+                                <label>Category
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select [ngClass]="'form-control' +(category.invalid && (category.touched || category.dirty) ? ' form-control-danger': '')"
+                                    placeholder="Category..." required name="category" #category="ngModel" [(ngModel)]="content.category"
+                                    (ngModelChange)="getSections()">
+                                    <option *ngFor="let category of categories" [value]="category.name">
+                                        {{category.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <small class="text-danger" *ngIf="category.invalid && (category.touched || category.dirty)">Category is required</small>
+                            <div [ngClass]="'form-group mb-1'+(section.invalid && (section.touched || section.dirty) ? ' has-danger': '')">
+                                <label>Section
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <select [ngClass]="'form-control' +(section.invalid && (section.touched || section.dirty) ? ' form-control-danger': '')"
+                                    placeholder="Section..." required name="section" #section="ngModel" [(ngModel)]="content.section">
+                                    <option *ngFor="let section of requiredSections" [value]="section.name">
+                                        {{section.name}}
+                                    </option>
+                                </select>
+                            </div>
+                            <small class="text-danger" *ngIf="section.invalid && (section.touched || section.dirty) && category.invalid">Please choose a valid cagtegory first</small>
+                            <small class="text-danger" *ngIf="section.invalid && (section.touched || section.dirty) && category.valid">Section is required</small>
+                            <div class="form-group">
+                                <label>Tags</label>
+                                <label *ngFor="let tag of content.tags">
+                                    <a class="tag badge badge-default">{{tag}}</a>
+                                </label>
+                                <input class="form-control" [(ngModel)]="chipInput" placeholder="New tag ..." name="tags" (keyup)="onTagInput($event)" (blur)="onTagInput($event)"
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <h1 class="title">{{content.title}}</h1>
-                    <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
                 </div>
             </mat-step>
-            <mat-step label="Submit">
-                <mat-card class="offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-5">
-                    <h1 class="text-center" *ngIf="contentEditForm.form.valid">All Is Well.</h1>
-                    <h1 class="text-center" *ngIf="!contentEditForm.form.valid">Something is wrong</h1>
-                    <button class="center" mat-button [hidden]="!contentEditForm.form.valid" (click)="onSubmit()">Submit</button>
-                </mat-card>
+            <mat-step label="Content Description">
+                <button class="btn" matStepperNext>Next</button>
+                <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="content.body" name="body"></quill-editor>
+            </mat-step>
+            <mat-step label="Preview and Submit">
+                <small [hidden]="contentEditForm.valid" class="btn btn-primary"class="text-danger">Please fill all the requried fields </small>
+                <button [disabled]="!contentEditForm.valid" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+                <div class="col-lg-8 col-md-12">
+                    <div *ngIf="content" class="card single_post">
+                        <div class="body">
+                            <h3 class="m-t-0 m-b-5 mr-auto">{{ content.title }} </h3>
+                        </div>
+                        <div class="body">
+                            <div class="container">
+                                <div class="video-container">
+                                    <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
+                                        <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                                <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </mat-step>
         </mat-vertical-stepper>
     </form>
