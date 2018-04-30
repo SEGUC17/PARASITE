@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from '../messaging.service';
+import { MessageService } from '../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
-import { AuthService } from '../../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 
 @Component({
@@ -58,7 +58,7 @@ export class ContactUsComponent implements OnInit {
     }  else if (self.visitor === true && (!(re.test(self.msg.sender))))  {
       self._Toastr.warning('You need to provide an email!');
     } else {
-      this._MessageService.contactus(self.msg).subscribe(function(res){
+      this._MessageService.contactus(self.msg).subscribe(function(res) {
         self._Toastr.success(res.msg);
       });
     }
