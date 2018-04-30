@@ -155,7 +155,7 @@
                 </li>
             </ul>
         </li>
-        <li class="dropdown notifications hidden-sm-down">
+        <li class="dropdown notifications hidden-sm-down" *ngIf="username">
             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" (click)="getNotifications()">
                 <i class="zmdi zmdi-notifications"></i>
                 <span class="label-count">{{unreadNotificationsNumber}}</span>
@@ -167,6 +167,32 @@
                             <div *ngIf="not.isRead">
                                 <a href={{not.link}}>
                                     <div class="media">
+                                        <div *ngIf="not.type ===  message ">
+                                            <i class="zmdi zmdi-email"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  content ">
+                                            <i class="zmdi zmdi-book"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  product ">
+                                            <i class="zmdi zmdi-shopping-cart"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  study_plan ">
+                                            <i class="zmdi zmdi-graduation-cap"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  activity ">
+                                            <i class="zmdi zmdi-run"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  link ">
+                                            <i class="zmdi zmdi-link"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  contributer ">
+                                            <i class="material-icons">verified_user</i>
+                                        </div>
+                                        <div *ngIf="not.type ===  discussion ">
+                                                <i class="zmdi zmdi-comments"></i>
+                                            </div>
+    
+
                                         <div class="media-body">
                                             <span class="time"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
                                             <span class="message"> {{not.body}} </span>
@@ -174,17 +200,41 @@
                                     </div>
                                 </a>
                             </div>
-                            <div *ngIf="!not.isRead" class = "bg-dark">
-                                    <a href={{not.link}}>
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <span class="time col-primary"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
-                                                <span class="message text-muted col-white"> {{not.body}} </span>
-                                            </div>
+                            <div *ngIf="!not.isRead" class="bg-dark">
+                                <a href={{not.link}}>
+                                    <div class="media">
+                                        <div *ngIf="not.type ===  message ">
+                                            <i class="zmdi zmdi-email"></i>
                                         </div>
-                                    </a>
-                                </div>
-    
+                                        <div *ngIf="not.type ===  content ">
+                                            <i class="zmdi zmdi-book"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  product ">
+                                            <i class="zmdi zmdi-shopping-cart"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  study_plan ">
+                                            <i class="zmdi zmdi-graduation-cap"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  activity ">
+                                            <i class="zmdi zmdi-run"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  link ">
+                                            <i class="zmdi zmdi-link"></i>
+                                        </div>
+                                        <div *ngIf="not.type ===  contributer ">
+                                            <i class="material-icons">verified_user</i>
+                                        </div>
+                                        <div *ngIf="not.type ===  discussion ">
+                                            <i class="zmdi zmdi-comments"></i>
+                                        </div>
+                                        <div class="media-body">
+                                            <span class="time col-primary"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
+                                            <span class="message text-muted col-white"> {{not.body}} </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
                         </li>
                     </ul>
                     <li class="footer">

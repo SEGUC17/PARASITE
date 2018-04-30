@@ -22,6 +22,15 @@ export class AppComponent implements OnInit {
   isAdmin: boolean;
   notifications: Notification[];
   unreadNotificationsNumber: number; // Number of unread notifications to display on top of icon
+  discussion : String = "discussion";
+  message : String = "message";
+  link : String = "link";
+  study_plan : String = "study plan";
+  product : String = "product";
+  content : String = "content";
+  activity : String = "activity";
+  contributer : String = "contributer";
+  
   links = [
     {
       url: '/content/list',
