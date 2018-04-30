@@ -35,7 +35,7 @@ export class ContentEditComponent implements OnInit {
     [{ 'direction': 'rtl' }],
   ];
   private editorOptions: Object = {
-    placeholder: 'insert content here',
+    placeholder: (this.translate.currentLang === 'ara') ? 'أدخل المحتوى هنا' : 'insert content here',
     modules: {
       toolbar: this.toolbarOptions
     }
