@@ -11,7 +11,7 @@
             "SHARED": {
                 "CATEGORY_NAME": "اسم الفئة",
                 "CATEGORY_ICON_LINK": "رابط أيقونة الفئة",
-                "PREVIEW": ":العرض المسبق للفئة",
+                "PREVIEW": ":العرض المسبق",
                 "SUBMIT_BUTTON": "اتمام",
                 "VISIBLE_LOCATION": ".سيتم عرض التغييرات الخاصة بك في صفحة البحث عن المحتويات",
                 "SECTION_NAME": "اسم القسم",
