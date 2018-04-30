@@ -412,8 +412,6 @@ module.exports.VCRResponde = function (req, res, next) {
           }
         }
       );
-
-
       var userId = null;
       VCRmodel.find({_id: req.params.targetId}).exec(function (err, result) {
         // find the _id of the Approved/Disapproved User
@@ -421,7 +419,7 @@ module.exports.VCRResponde = function (req, res, next) {
         if (err) {
           throw err;
         }
-        userId = result[0].creator;
+        userId = result[0].creator[0];
         var response = req.body.responce;
 
         userModel.findOneAndUpdate(
@@ -438,9 +436,6 @@ module.exports.VCRResponde = function (req, res, next) {
             });
           }
         );
-
-
-
       });
     } else {
         // if not Admin.

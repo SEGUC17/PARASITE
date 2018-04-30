@@ -28,7 +28,6 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let req of Requests; let i = index">
-                  <span *ngIf="Requests[i]">
                     <td>{{i}}</td>
                     <td style="width: 5%; height: 5%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
                     <td (click)="onNameClick(req)">{{req.name}}</td>
@@ -36,13 +35,14 @@
                                                                                                               <!--TODO: test the date-->
                     <td>{{req.email}}</td>
                     <td>{{req.numberOfChildren}}</td>
-                    <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
-                      <i class="zmdi zmdi-check"></i>
-                    </button>
+                    <td>
+                      <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
+                        <i class="zmdi zmdi-check"></i>
+                      </button>
                       <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
                         <i class="zmdi zmdi-close"></i>
-                      </button></td>
-                  </span>
+                      </button>
+                    </td>
                 </tr>
                 </tbody>
               </table>
@@ -64,7 +64,6 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let req of Requests; let i = index">
-                  <span *ngIf="Requests[i]">
                     <td>{{i}}</td>
                     <td style="width: 5%; height: 5%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
                     <td (click)="onNameClick(req)">{{req.name}}</td>
@@ -72,13 +71,11 @@
                     <!--TODO: test the date-->
                     <td>{{req.email}}</td>
                     <td>{{req.numberOfChildren}}</td>
-                    <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
-                      <i class="zmdi zmdi-check"></i>
-                    </button>
+                    <td>
                       <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
                         <i class="zmdi zmdi-close"></i>
-                      </button></td>
-                  </span>
+                      </button>
+                    </td>
                 </tr>
                 </tbody>
               </table>
@@ -100,7 +97,6 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let req of Requests; let i = index">
-                  <span *ngIf="Requests[i]">
                     <td>{{i}}</td>
                     <td style="width: 5%; height: 5%" (click)="onNameClick(req)"><div class="media-object"><img [src]="req.image" alt="" class="rounded-circle"></div></td>
                     <td (click)="onNameClick(req)">{{req.name}}</td>
@@ -108,13 +104,11 @@
                   <!--TODO: test the date-->
                     <td>{{req.email}}</td>
                     <td>{{req.numberOfChildren}}</td>
-                    <td>  <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
-                      <i class="zmdi zmdi-check"></i>
-                    </button>
-                      <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="Reject(req)">
-                        <i class="zmdi zmdi-close"></i>
-                      </button></td>
-                  </span>
+                    <td>
+                      <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="Accept(req)">
+                        <i class="zmdi zmdi-check"></i>
+                      </button>
+                    </td>
                 </tr>
                 </tbody>
               </table>

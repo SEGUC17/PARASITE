@@ -74,7 +74,7 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
     var self = this;
     this._adminService.respondToContributerValidationRequest(request._id, 'disapproved').subscribe(function (res) {
       self.viewVCRs(self.filter);
-    });;
+    });
 
 
   }

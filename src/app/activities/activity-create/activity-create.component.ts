@@ -21,7 +21,7 @@ export class ActivityCreateComponent implements OnInit {
   public activity: ActivityCreate = {
     name: '',
     description: '',
-    price: 0,
+    price: null,
     fromDateN: null,
     toDateN: null,
     fromDateTime: null,
