@@ -2,18 +2,33 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { StudyPlan } from './study-plan';
-import { Rating } from './star-rating/rating';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { RequestOptions, Headers } from '@angular/http';
 import { Options } from 'selenium-webdriver';
 import { environment } from '../../../environments/environment';
+import { catchError } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
+import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class StudyPlanService {
+  private baseURL = environment.apiUrl;
+  private removePublishedStudyPlansURL = 'admin/removePublishedStudyPlan/';
 
+  constructor(private http: HttpClient, private toasterService: ToastrService) { }
 
-  constructor(private http: HttpClient) { }
+  // general error handler
+  private handleError<T>(operation = 'operation', result?: T) {
+    const self = this;
+    return function (error: any): Observable<T> {
+      if (error.error.msg) {
+        self.toasterService.error(error.error.msg, operation + ' failed');
+      }
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
+  }
 
   getPersonalStudyPlan(username: String, studyPlanID: String): Observable<any> {
     return this.http.get(environment.apiUrl + 'study-plan/getPersonalStudyPlan/' + username + '/' + studyPlanID);
@@ -49,10 +64,11 @@ export class StudyPlanService {
     return this.http.patch(environment.apiUrl + 'study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
   }
 
-  deleteStudyPlan(studyPlanID: String): Observable<any> {
-    return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + studyPlanID);
+  // moved to profile
+  // deleteStudyPlan(studyPlanID: String): Observable<any> {
+  //   return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + studyPlanID);
 
-  }
+  // }
 
   deletePublishedStudyPlan(studyPlanID: String): Observable<any> {
     return this.http.delete(environment.apiUrl + 'study-plan/deletePublishedStudyPlan/' + studyPlanID);
@@ -73,5 +89,19 @@ export class StudyPlanService {
 
   editPersonalStudyPlan(username: String, studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
     return this.http.patch(environment.apiUrl + '/study-plan/editPersonalStudyPlan/' + username + '/' + studyPlanID, studyPlan);
+  }
+
+  editPublishedStudyPlan(studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
+    return this.http.patch(environment.apiUrl + '/study-plan/editPublishedStudyPlan/' + studyPlanID, studyPlan);
+  }
+
+  removePublishedStudyPlans(studyPlanId: any): Observable<any> {
+    const self = this;
+    return this.http.get(self.baseURL + self.removePublishedStudyPlansURL + studyPlanId)
+      .pipe(
+        catchError(
+          self.handleError('removePublishedStudyPlan', [])
+        )
+      );
   }
 }

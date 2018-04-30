@@ -19,11 +19,6 @@ var app = express();
 app.set(config.SECRET);
 // -------------------------- End of "Dependancies" --------------------- //
 
-//middleware
-// Disabling etag for testing
-// @author: Wessam
-app.disable('etag');
-
 // Create link to Angular build directory
 var distDir = path.join(__dirname, '/dist/');
 app.use(express.static(distDir));
@@ -41,9 +36,14 @@ app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/api', router);
+
 // -------------------------- End of "Middleware" ----------------------- //
 
 // -------------------------- Error Handlers ---------------------------- //
+
+app.get('/*', function(req, res) {
+  res.sendFile('index.html', { root: distDir });
+});
 // 500 internal server error handler
 app.use(function (err, req, res, next) {
   console.log(err);

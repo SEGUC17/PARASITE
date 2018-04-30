@@ -95,7 +95,8 @@ describe('Report user', function () {
                                                 property('reason').
                                                 eql('8atata');
                                             Response.body.data.should.have.
-                                                property('reportedPerson').eql('bora3i');
+                                                property('reportedPerson').
+                                                eql('bora3i');
                                             Response.body.data.should.have.
                                                 property('reporter').
                                                 eql('snickers123');

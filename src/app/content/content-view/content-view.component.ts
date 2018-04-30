@@ -29,8 +29,6 @@ export class ContentViewComponent implements OnInit {
   somePlaceholder: String = 'Leave a comment';
   showReplies: String = 'Show replies';
   hideReplies: String = 'Hide replies';
-  Comment: String = 'Comment';
-  Reply: String = 'Reply';
   isReplying: boolean;
   commentReplyingOn: any;
   public YT: any;
@@ -132,7 +130,7 @@ export class ContentViewComponent implements OnInit {
     let self = this;
     let element = document.getElementById('target');
     element.scrollIntoView();
-    let input = document.getElementById('input');
+    let input = document.getElementById('inputArea');
     self.somePlaceholder = 'leave a reply';
     input.focus();
     this.isReplying = true;
@@ -171,7 +169,7 @@ export class ContentViewComponent implements OnInit {
   cancel() {
     this.changingComment = '';
     this.isReplying = false;
-    let input = document.getElementById('input');
+    let input = document.getElementById('inputArea');
     this.somePlaceholder = 'leave a comment';
     input.blur();
 
