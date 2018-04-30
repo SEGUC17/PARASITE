@@ -48,7 +48,6 @@
             "RENTPERIOD":"rent period if exists",
             "IMG":"Product's Picture",
             "CREATEPRODUCT":"Add a Product"
-
         },
         "PROD_DETAIL": {},
         "REQ_DETAIL": {}
