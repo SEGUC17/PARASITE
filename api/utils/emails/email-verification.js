@@ -3,15 +3,15 @@
 // https://nodemailer.com/about/
 // https://www.codementor.io/joshuaaroke/sending-html-message-in-nodejs-express-9i3d3uhjr
 
-var config = require('../../config/config');
+var secret = require('../secret');
 var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({
     auth: {
-        pass: config.EMAIL_PW,
-        user: config.EMAIL_ID
+        pass: secret.EMAIL.PW,
+        user: secret.EMAIL.ID
     },
-    service: 'gmail'
+    service: secret.EMAIL.SERVICE
 });
 
 module.exports.send = function (email, link) {

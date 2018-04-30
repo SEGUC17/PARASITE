@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatSnackBar } from '@angular/material';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -46,9 +47,10 @@ export class AddPsychRequestComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
 
-  constructor(private RequestService: PsychologistService,
-              public snackBar: MatSnackBar,
-              public dialogRef: MatDialogRef<AddPsychRequestComponent>) {
+  constructor(
+    private RequestService: PsychologistService,
+    private toasterService: ToastrService,
+    public dialogRef: MatDialogRef<AddPsychRequestComponent>) {
 
   }
 
@@ -61,16 +63,12 @@ export class AddPsychRequestComponent implements OnInit {
 
     /* check if any of the required fields are empty, if yes notify user he should fill them*/
     if (this.emailFormControl.hasError('required') || this.firstNameFormControl.hasError('required')
-        || this.lastNameFormControl.hasError('required')) {
-            this.snackBar.open('Please fill all the required fields', '', {
-              duration: 1500
-            });
+      || this.lastNameFormControl.hasError('required')) {
+      this.toasterService.error('Please fill all the required fields', 'failure');
     } else if (this.emailFormControl.hasError('email')) {
       // if the emil user provided is not the in correct format
       // notify user he should enter a valid email
-      this.snackBar.open('Please enter a valid email address!', '', {
-        duration: 1500
-      });
+      this.toasterService.error('Please enter a valid email address!', 'failure');
     } else {
       let req = this.request;
       if (this.daysOff.value === null) {
@@ -92,14 +90,10 @@ export class AddPsychRequestComponent implements OnInit {
       this.RequestService.addRequest(req).subscribe(function (res) {
         if (res.err != null) {
           /* if an error returned notify the user to try again */
-          self.snackBar.open('Something went wrong, please try again.', '', {
-            duration: 2500
-          });
+          self.toasterService.error('Something went wrong, please try again.', 'failure');
         } else {
           /* everything went great!! notify the user it was a success. */
-          self.snackBar.open(res.msg, '', {
-            duration: 2300
-          });
+          self.toasterService.success(res.msg, 'success');
 
           /* close dialog */
           self.dialogRef.close();
