@@ -15,7 +15,7 @@ body {
   header.masthead {
     position: relative;
     background-color: #343a40;
-    background: url("/assets/images/landing/bg-masthead.jpg") no-repeat center center;
+    background: url("/assets/images/landing/Nawwar.png") no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -36,6 +36,7 @@ body {
   
   header.masthead h1 {
     font-size: 2rem;
+    color: #212529;
   }
   
   @media (min-width: 768px) {
@@ -101,7 +102,7 @@ body {
   .call-to-action {
     position: relative;
     background-color: #343a40;
-    background: url("/assets/images/landing/bg-masthead.jpg") no-repeat center center;
+    background: url("/assets/images/landing/footer.jpeg") no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
