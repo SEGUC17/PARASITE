@@ -573,10 +573,8 @@
                         </h2>
                       </div>
                       <div class="body">
-                        <p>
                           <a class="btn btn-primary" routerLink="/scheduling/study-plan/personal/{{ studyPlan._id }}/{{ currIsOwner ? username : vUsername }}">View</a>
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#studyPlanDeleteModal" (click)="studyPlanIndex = index">Delete</button>
-                        </p>
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#studyPlanDeleteModal" (click)="studyPlanIndex = index" *ngIf="!currIsChild">Delete</button>
                       </div>
                     </div>
                   </div>
