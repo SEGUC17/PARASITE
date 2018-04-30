@@ -35,7 +35,20 @@
             "NO_PROD_REQ": "No product requests. All clean.",
             "MY_PRODS": "My Products"
         },
-        "CREATE": {},
+        "CREATE": { 
+            "INFO": "Product's Information",
+            "DESCRIPTION": "Products description" ,
+            "NAME": "Product's name",
+            "PRICE": "Price $",
+            "AQUIRE":"Product is up for",
+            "SELL":"sell",
+            "RENT": "rent",
+            "SELLRENT":"rent/sell",
+            "RENTPERIOD":"rent period if exists",
+            "IMG":"Product's Picture",
+            "CREATEPRODUCT":"Add a Product"
+
+        },
         "PROD_DETAIL": {},
         "REQ_DETAIL": {}
     },

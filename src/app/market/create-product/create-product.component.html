@@ -1,49 +1,54 @@
-<h1 mat-dialog-title style="font-size: 35px; font-weight: bold">Product's Information</h1>
+<h1 mat-dialog-title style="font-size: 35px; font-weight: bold">{{'MARKET.CREATE.INFO' | translate}}</h1>
 
-<form #createproduct="ngForm">
-  <div class="row clearfix">
-    <div class="card col-lg-8 col-m-8 col-sm-8 col-12">
-      <div class="form-group form-float">
-        <input type="text" class="form-control" placeholder="Product's name" name="name" id="name" hintLabel="Prdouct's name " [(ngModel)]="formInput.name">
-      </div>
-      <div>
-
+  <form #createproduct="ngForm"> 
+    <div class="row clearfix">
+      <div class="card col-lg-8 col-m-8 col-sm-12">
         <div class="form-group form-float">
-          <textarea name="address" cols="30" rows="3" placeholder="Products description" name="description" id="description" [(ngModel)]="formInput.description"
-            class="form-control no-resize" required></textarea>
+          <input type="text" class="form-control email" placeholder="{{'MARKET.CREATE.NAME' | translate}}"  name="name" id="name" hintLabel="Product's name" [(ngModel)]="formInput.name">
         </div>
-      </div>
-      <div>
-        <div class="col-lg-3 col-md-6">
-          <div class="input-group">
-            <input type="number" class="form-control money-dollar" placeholder="Price $" name="price" id="price" [(ngModel)]="formInput.price"
-              class="form-control">
+        <div>
+
+          <div class="form-group form-float">
+            <textarea name="address" cols="30" rows="3" placeholder="{{'MARKET.CREATE.DESCRIPTION' | translate}}" name="description" id="description" [(ngModel)]="formInput.description"
+              class="form-control no-resize" required></textarea>
+          </div>
+        </div>
+        <div>
+          <div class="col-lg-3 col-md-6">
+            <div class="input-group">
+              <input type="number" class="form-control money-dollar" placeholder="{{'MARKET.CREATE.PRICE' | translate}}" type="number" name="price" id="price" [(ngModel)]="formInput.price"
+                class="example-right-align">
+            </div>
+          </div>
+        </div>
+        <div> 
+          <div class="col-lg-3 col-md-6">
+            <select class="form-control show-tick" placeholder="{{'MARKET.CREATE.AQUIRE' | translate}}" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
+              <option>sell</option>
+              <option>rent</option>
+              <option>rent/sell</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <div class="form-group form-float">
+            <input type="text" class="form-control email" placeholder="{{'MARKET.CREATE.RENTPERIOD' | translate}}" type="number" name="rentPeriod" id="rentPeriod"
+              [(ngModel)]="formInput.rentPeriod">
           </div>
         </div>
       </div>
-      <div>
-        <div class="col-lg-3 col-md-6">
-          <select class="form-control show-tick" placeholder="Product is up for" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
-            <option>sell</option>
-            <option>rent</option>
-            <option>rent/sell</option>
-          </select>
-        </div>
-      </div>
-      <div>
-        <div class="form-group form-float">
-          <input type="text" class="form-control" placeholder="rent period if exists" type="number" name="rentPeriod" id="rentPeriod"
-            [(ngModel)]="formInput.rentPeriod">
-        </div>
+      <div class="col-lg-4 col-m-4 col-sm-12">
+        <img src={{img}} onerror="this.src='assets/images/market-view/product.jpg'" alt="{{'MARKET.CREATE.IMG' | translate}}" />
+          <app-image-uploader (ImageUploaded) = "uploaded($event)"></app-image-uploader>
+
+
+        <button style="margin-top:30px;float:right;width:50%;background:#3f51b5; color:white" (click)="createProduct()">{{'MARKET.CREATE.CREATEPRODUCT' | translate}}</button>
       </div>
     </div>
-    <div class="col-lg-4 col-m-4 col-sm-4 col-12">
-      <img src="# " onerror="this.src='assets/images/market-view/product.jpg'" alt="Product's Picture" id="pic">
-      <input type="file" ng2FileSelect [uploader]="uploader" accept="image/*;capture=camera" onchange="this.readURL(this);" id="picLoader" name="picLoader">
+  </form>
 
-      <!-- <button style="margin-top:30px;float:right;width:50%;background:#3f51b5; color:white" (click)="createProduct()">Create Product</button> -->
-      <button class="btn btn-default btn-simple btn-round waves-effect" style="width:75%;" (click)="createProduct()">Create Product</button>
 
-    </div>
-  </div>
-</form>
+
+
+
+
