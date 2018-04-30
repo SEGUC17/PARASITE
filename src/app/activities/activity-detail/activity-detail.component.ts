@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
 import { ActivityService } from '../activity.service';
 import { Activity, ActivityCreate, ActivityEdit } from '../activity';
 import { ActivatedRoute } from '@angular/router';
@@ -20,6 +22,7 @@ export class ActivityDetailComponent implements OnInit {
   // comments: any[];
   changingComment: any = '';
   somePlaceholder: any = 'write a comment ...';
+  comment: any = 'comment';
   viewedReplies: boolean[];
   isReplying: boolean ;
   commentReplyingOn: any;
@@ -76,7 +79,8 @@ username = '';
     public dialog: MatDialog,
     private discussionService: DiscussionService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -85,6 +89,14 @@ username = '';
     self.getActivity();
     self.refreshComments(true);
 
+    this.translate.get('ACTIVITIES.DETAIL.WRITE_COMMENT').subscribe((res: string) => {
+     this.somePlaceholder = res;
+    });
+    this.translate.onLangChange.subscribe((event: any) => {
+      this.translate.get('ACTIVITIES.DETAIL.WRITE_COMMENT').subscribe((res: string) => {
+        this.somePlaceholder = res;
+      });
+    });
     this.authService.getUserData(['username']).subscribe(function (res) {
       this.username = res.data.username;
       console.log('booked? ' + self.isBooked);
