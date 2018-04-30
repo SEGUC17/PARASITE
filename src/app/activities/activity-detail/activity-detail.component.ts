@@ -23,9 +23,9 @@ export class ActivityDetailComponent implements OnInit {
   changingComment: any = '';
   somePlaceholder: any = 'write a comment ...';
   viewedReplies: boolean[];
-  isReplying: boolean ;
+  isReplying: boolean;
   commentReplyingOn: any;
-  signedIn: boolean ;
+  signedIn: boolean;
   canBookFor: String[];
   bookingUser: String;
   defaultPP: String = "assets/images/profile-view/defaultPP.png";
@@ -39,22 +39,22 @@ export class ActivityDetailComponent implements OnInit {
     isChild: true
 
   };
- // updatedActivity: ActivityCreate;
-isCreator = false ;
-isBooked = true;
-username = '';
- public updatedActivity: ActivityEdit = {
-  name: '',
-  description: null,
-  bookedBy: null,
-  price: null,
+  // updatedActivity: ActivityCreate;
+  isCreator = false;
+  isBooked = true;
+  username = '';
+  public updatedActivity: ActivityEdit = {
+    name: '',
+    description: null,
+    bookedBy: null,
+    price: null,
 
-  fromDateTime: null,
-  toDateTime: null,
+    fromDateTime: null,
+    toDateTime: null,
 
-  image: null,
-  creator: null,
-};
+    image: null,
+    creator: null,
+  };
 
   activity: Activity = {
     _id: '',
@@ -89,7 +89,7 @@ username = '';
     self.refreshComments(true);
 
     this.translate.get('ACTIVITIES.DETAIL.WRITE_COMMENT').subscribe((res: string) => {
-     this.somePlaceholder = res;
+      this.somePlaceholder = res;
     });
     this.translate.onLangChange.subscribe((event: any) => {
       this.translate.get('ACTIVITIES.DETAIL.WRITE_COMMENT').subscribe((res: string) => {
@@ -113,18 +113,18 @@ username = '';
       'avatar',
       'children',
       'isChild'
-    ]).subscribe(function(res) {
-        if (typeof res.data === 'undefined') {
-          self.signedIn = false;
-        } else {
-          self.currentUser = res.data;
-          self.signedIn = true;
-          self.canBookFor = res.data.children;
-          self.canBookFor.push(res.data.username);
-        }
-        console.log('signed in : ' + self.signedIn );
-        console.log(res);
+    ]).subscribe(function (res) {
+      if (typeof res.data === 'undefined') {
+        self.signedIn = false;
+      } else {
+        self.currentUser = res.data;
+        self.signedIn = true;
+        self.canBookFor = res.data.children;
+        self.canBookFor.push(res.data.username);
       }
+      console.log('signed in : ' + self.signedIn);
+      console.log(res);
+    }
     );
 
   }
@@ -149,7 +149,7 @@ username = '';
 
   onDelete(i: any) {
     let self = this;
-    this.discussionService.deleteCommentOnActivity(this.activity._id, i).subscribe(function(err) {
+    this.discussionService.deleteCommentOnActivity(this.activity._id, i).subscribe(function (err) {
       if (err) {
         console.log(err);
       }
@@ -184,7 +184,7 @@ username = '';
         self.canBookFor =
           self.canBookFor.filter(user => res.data.bookedBy.indexOf(user) < 0);
         if (this.activity.bookedBy.length < 1) { self.isBooked = false; }
-      if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
+        if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
         if (!this.activity.image) {
           this.activity.image = 'assets/images/activity-view/default-activity-image.jpg';
         }
@@ -226,14 +226,14 @@ username = '';
         this.activity._id,
         this.commentReplyingOn,
         self.changingComment).subscribe(function (err) {
-        if (err.msg !== 'reply created successfully') {
-          console.log('err in posting');
+          if (err.msg !== 'reply created successfully') {
+            console.log('err in posting');
+            self.refreshComments(false);
+          }
+          console.log('no error elhamdulla ');
           self.refreshComments(false);
-        }
-        console.log('no error elhamdulla ');
-        self.refreshComments(false);
-        self.changingComment = '';
-      });
+          self.changingComment = '';
+        });
     } else {
       let self = this;
       this.discussionService.postCommentOnActivity(this.activity._id, self.changingComment).subscribe(function (err) {
@@ -256,16 +256,17 @@ username = '';
 
   openDialog(): void {
     let from = new Date(this.activity.fromDateTime).toJSON();
-    let to   = new Date(this.activity.toDateTime).toJSON();
-  let   dialogRef = this.dialog.open(ActivityEditComponent, {
-    width: '700px',
-    height: '520px',
-    hasBackdrop: false,
-      data: { name: this.activity.name, price : this.activity.price  ,
-         description: this.activity.description ,
-         fromDateTime: from.substr(0, from.length - 1)
-         , toDateTime : to.substr(0, to.length - 1)
-        }
+    let to = new Date(this.activity.toDateTime).toJSON();
+    let dialogRef = this.dialog.open(ActivityEditComponent, {
+      width: '700px',
+      height: '520px',
+      hasBackdrop: false,
+      data: {
+        name: this.activity.name, price: this.activity.price,
+        description: this.activity.description,
+        fromDateTime: from.substr(0, from.length - 1)
+        , toDateTime: to.substr(0, to.length - 1)
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -276,7 +277,7 @@ username = '';
       this.updatedActivity.toDateTime = new Date(result.toDateTime).getTime();
       console.log('from' + this.updatedActivity.fromDateTime);
       console.log('to' + this.updatedActivity.toDateTime);
-       this.EditActivity(this.updatedActivity);
+      this.EditActivity(this.updatedActivity);
     });
   }
 
@@ -286,7 +287,7 @@ username = '';
     let id = this.route.snapshot.paramMap.get('id');
     this.activityService.EditActivity(this.updatedActivity, id).subscribe(
       res => {
-          console.log(res);
+        console.log(res);
       }
 
     );
@@ -310,7 +311,15 @@ username = '';
   }
 
   bookActivity() {
-    this.activityService.bookActivity(this.activity, {username: this.bookingUser}).subscribe();
+    this.activityService.bookActivity(this.activity, { username: this.bookingUser }).subscribe(
+      res => {
+        console.log(this.canBookFor);
+        var index = this.canBookFor.indexOf(this.bookingUser);
+        this.canBookFor.splice(index, 1);
+        console.log(this.canBookFor);
+        this.bookingUser = null;
+      }
+    );
   }
 
 
