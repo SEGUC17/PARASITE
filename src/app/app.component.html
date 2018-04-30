@@ -156,7 +156,7 @@
             </ul>
         </li>
         <li class="dropdown notifications hidden-sm-down" *ngIf="username">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" (click)="getNotifications()">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                 <i class="zmdi zmdi-notifications"></i>
                 <span class="label-count">{{unreadNotificationsNumber}}</span>
             </a>
@@ -188,11 +188,9 @@
                                         <div *ngIf="not.type ===  contributer ">
                                             <i class="material-icons">verified_user</i>
                                         </div>
-                                        <div *ngIf="not.type ===  discussion ">
-                                                <i class="zmdi zmdi-comments"></i>
-                                            </div>
-    
-
+                                        <div *ngIf="not.type ===  discussionA || not.type === discussionC">
+                                            <i class="zmdi zmdi-comments"></i>
+                                        </div>
                                         <div class="media-body">
                                             <span class="time"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
                                             <span class="message"> {{not.body}} </span>
@@ -258,7 +256,7 @@
 </nav>
 
 <!-- Left Sidebar -->
-<div>
+<div >
     <aside id="leftsidebar" class="sidebar">
         <div class="menu">
             <ul class="list">
@@ -269,12 +267,13 @@
                                 <img [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
                             </a>
                         </div>
-                        <div class="detail">
+                        <div class="detail" *ngIf="username">
                             <h4 *ngIf="username">{{firstName + ' ' + lastName}}</h4>
                             <a routerLink="/scheduling/schedule" title="My Schedule">
                                 <i class="zmdi zmdi-calendar"></i>
                             </a>
-                            <a routerLink="/message" title="Inbox">
+                            <a href="javascript:void(0);" title="Inbox">
+                                <span class="label-count mb-3">{{unreadNotificationsNumberMessages}}</span>
                                 <i class="zmdi zmdi-email"></i>
                             </a>
                         </div>

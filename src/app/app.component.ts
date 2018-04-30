@@ -5,6 +5,7 @@ import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { Notification } from './notification';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/filter';
+import { not } from '@angular/compiler/src/output/output_ast';
 declare const $: any;
 declare const jquery: any;
 declare const screenfull: any;
@@ -22,7 +23,9 @@ export class AppComponent implements OnInit {
   isAdmin: boolean;
   notifications: Notification[];
   unreadNotificationsNumber: number; // Number of unread notifications to display on top of icon
-  discussion : String = "discussion";
+  unreadNotificationsNumberMessages: number;
+  discussionC : String = "discussion content";
+  discussionA : String = "discussion activity";
   message : String = "message";
   link : String = "link";
   study_plan : String = "study plan";
@@ -271,7 +274,6 @@ export class AppComponent implements OnInit {
     }); // End of use strict
 
     this.isSignedIn();
-    this.getNotifications();
   }
 
   isSignedIn(): void {
@@ -283,6 +285,7 @@ export class AppComponent implements OnInit {
       self.firstName = res.data.firstName;
       self.lastName = res.data.lastName;
       self.isAdmin = res.data.isAdmin;
+      self.getNotifications();
     }, function (error) {
       console.log(error);
       if (error.status === 401) {
@@ -305,19 +308,52 @@ export class AppComponent implements OnInit {
 
   }
   getNotifications(): void {
-    // console.log('getting notifications');
     let self = this;
-    // self.notifications = [{ body : 'This ia a notification', link : 'fhbejdv' },{body : 'This ia a notification', link : 'fhbejdv' }] 
     this.authService.getUserData(['notifications']).subscribe(function (res) {
-      self.notifications = res.data.notifications;
+      // all notification except of type message 
+      var retrievednotifications = res.data.notifications.filter(function(notMessage) {
+        return notMessage.type != 'message';
+      });
       console.log(res.data.notifications);
-      var unreadNots = self.notifications.filter(function (notRead) {
+    // all notification that aren't read (not messages)
+      var unreadNots = res.data.notifications.filter(function (notRead) {
         return notRead.isRead === false;
       });
+      // unread notifications number
       self.unreadNotificationsNumber = unreadNots.length;
+
+      // all notifications that are of type message and aren't read
+      var messagesNotifications = res.data.notifications.filter(function(messageNotification) {
+        return messageNotification.type === 'message' && messageNotification.isRead === false;
+      });
+      // unread messages number
+      self.unreadNotificationsNumberMessages = messagesNotifications.length;
+    
+      for(let i = 0 ; i < retrievednotifications.length ; i++) {
+        let type = retrievednotifications[i].type;
+        let itemId = retrievednotifications[i].itemId;
+        let itemUsername = retrievednotifications[i].itemUsername;
+        ///////////// all profile must be usernamesss
+        if ((type == 'link' || type == 'contributer' ) && itemUsername) {
+          retrievednotifications[i].link = '/profile/'+retrievednotifications[i].itemUsername;
+        }
+        else if ((type === 'activity' || type === 'discussion activity' ) && itemId) {
+          retrievednotifications[i].link = '/activities/'+retrievednotifications[i].itemId;
+        }
+        else if ((type === 'content' || type === 'discussion content' )&& itemId) {
+          retrievednotifications[i].link = '/content/view/'+retrievednotifications[i].itemId;
+        }
+        else if (type === 'study plan' && itemId) {
+          retrievednotifications[i].link = '/study-plan/published/'+retrievednotifications[i].itemId;
+        } 
+        //donot need id in market
+        else if (type === 'product' && itemId) {
+          retrievednotifications[i].link = '/market';
+        }
+      }
+      self.notifications = retrievednotifications;
     })
   }
-
 
   // method to change the website's language
   changeLanguage(): void {

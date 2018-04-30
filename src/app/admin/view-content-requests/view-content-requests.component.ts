@@ -62,7 +62,7 @@ export class ViewContentRequestsComponent implements OnInit {
     let wantedCols: string[] = ['contributionScore'];
     self._authService.getAnotherUserData(wantedCols, username).subscribe(function (res) {
       console.log('old contribution score is ' + res.data.contributionScore);
-      self._adminService.respondContentRequest('approved', Rid, Cid, true, username, res.data.contributionScore).subscribe(function (res1) {
+      self._adminService.respondContentRequest('approved', Rid, Cid, true, res.data.contributionScore).subscribe(function (res1) {
         self.viewPendingContReqs();
       });
     });
@@ -75,7 +75,7 @@ export class ViewContentRequestsComponent implements OnInit {
     if (update === 'update') {
       isUpdate = true;
     }
-    self._adminService.respondContentRequest('disapproved', Rid, Cid, false, 'NotNeededHere', 0).subscribe(function (res1) {
+    self._adminService.respondContentRequest('disapproved', Rid, Cid, false, 0).subscribe(function (res1) {
       self.viewPendingContReqs();
       self._authService.getUserData(['username']).subscribe(function (res) {
         self.showPromptMessage(creator, res.data.username, isUpdate);
@@ -89,6 +89,9 @@ export class ViewContentRequestsComponent implements OnInit {
       });
   }
   showPromptMessage(creator, sender, isUpdate): any {
+    // creator is the content creator
+    //sender in the currently logged in admin
+    // isUpdate : false if create
     let self = this;
     swal({
       title: 'Want to send a message to ' + creator + '?',

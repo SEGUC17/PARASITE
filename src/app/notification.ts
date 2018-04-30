@@ -5,5 +5,6 @@ export interface Notification {
     body: string;
     itemId ?: string;
     itemUsername ?: string;
-    type: string
+    type: string;
+    link?: string;
 }
