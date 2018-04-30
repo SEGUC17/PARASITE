@@ -85,26 +85,42 @@ module.exports.EditChildIndependence = function (req, res, next) {
     }
 
     // if the previous conditions are false then child is changed successefuly
-    var notification = {
-      body: 'You are now independant',
-      date: moment().toDate(),
-      itemUsername: user.username,
-      type: 'link'
-    };
-
 
     User.update(
       user,
-      {
-        $set: { isChild: false },
-        $push: { 'notifications': notification }
-      }
+      { $set: { isChild: false } }
     ).
       exec(function (error, updated) {
         if (err) {
           return err;
 
         }
+        var notification = {
+          body: 'You are now independant',
+          date: moment().toDate(),
+          itemUsername: user.username,
+          type: 'link'
+        };
+        User.findOneAndUpdate(
+          { username: updated.username },
+          {
+            $push:
+              { 'notifications': notification }
+          }
+          , { new: true },
+          function (errr, updatedUser) {
+            console.log('add the notification');
+            console.log(updatedUser.notifications);
+            if (errr) {
+              return res.status(402).json({
+                data: null,
+                err: 'error occurred during adding ' +
+                  'the notification'
+              });
+            }
+          }
+        );
+
         res.status(200).json({
           data: user.isChild,
           err: null,
@@ -142,15 +158,23 @@ module.exports.requestUserValidation = function (req, res, next) {
     image: req.user.avatar,
     creator: req.user._id
   };
-
-
+  // dummy request obj for testing.
+  // var reqObj = {
+  //     status: 'pending',
+  //     bio: 'machine learning, AI, Art, Music, Philosophy',
+  //     name: 'Ahmed Khaled',
+  //     AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
+  //     ProfileLink: 'profilemaher.com',
+  //     image: 'imageMaher.com',
+  //     creator: '5ac12591a813a63e419ebce5'
+  // }
   VCRSchema.create(reqObj, function (err, next) {
     // insert the request to the database.
     if (err) {
       console.log('duplicate key');
       if (err.message.startsWith('E11000 duplicate key error')) {
         // if request already existed
-        return res.status(409).json({
+        return res.status(400).json({
           err: null,
           msg: 'the request already submitted',
           data: null
@@ -203,17 +227,17 @@ module.exports.linkAnotherParent = function (req, res, next) {
           msg: null
         });
       }
-      var notificationChild = {
+      var notificationUser = {
         body: 'You have been linked to ' + user.username,
         date: moment().toDate(),
-        itemUsername: user.username,
+        itemId: user._id,
         type: 'link'
       };
       User.findOneAndUpdate(
         { username: req.body.child },
         {
           $push:
-            { 'notifications': notificationChild }
+            { 'notifications': notificationUser }
         }
         , { new: true },
         function (errr, updatedUser) {
@@ -243,11 +267,12 @@ module.exports.linkAnotherParent = function (req, res, next) {
 // then ensure that isParent = true
 module.exports.addAsAParent = function (req, res, next) {
   var notification = {
-    body: req.body.child + ' added you as a parent',
+    body: req.body.child + 'added you as a parent',
     date: moment().toDate(),
     itemUsername: req.body.child,
     type: 'link'
   };
+
 
   User.findByIdAndUpdate(
     req.params.parentId,
@@ -282,9 +307,9 @@ module.exports.addAsAParent = function (req, res, next) {
 // method that deletes the passed child from the selected parent's children list
 module.exports.unLinkChild = function (req, res, next) {
   var notification = {
-    body: req.body.child + ' unlinked you',
+    body: req.body.child + 'unlinked you',
     date: moment().toDate(),
-    itemUsername: req.body.child,
+    itemId: req.params.parentId,
     type: 'link'
   };
 
@@ -383,7 +408,7 @@ module.exports.UnlinkIndependent = function (req, res, next) {
   var notification = {
     body: req.user.username + ' unlinked you',
     date: moment().toDate(),
-    itemUsername: req.user.username,
+    itemId: req.user._id,
     type: 'link'
   };
 
