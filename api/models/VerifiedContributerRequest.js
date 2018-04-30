@@ -13,15 +13,15 @@ var VCRSchema = mongoose.Schema({
       type: String,
       unique: true
     },
+
     email: {
-      lowercase: true,
-      match: REGEX.MAIL_REGEX,
-      required: true,
-      trim: true,
-      type: String,
-      unique: true
+        lowercase: true,
+        match: REGEX.MAIL_REGEX,
+        required: true,
+        trim: true,
+        type: String,
+        unique: true
     },
-    numberOfChildren: { type: Number },
     image: {
         trim: false,
         type: String
@@ -30,6 +30,7 @@ var VCRSchema = mongoose.Schema({
         required: true,
         type: String
     },
+    numberOfChildren: { type: Number },
     status: {
         enum: [
             'pending',

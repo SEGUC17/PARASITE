@@ -12,6 +12,7 @@ import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
 
 
+
 declare const swal: any;
 declare const $: any;
 @Component({
@@ -35,7 +36,6 @@ export class ProfileComponent implements OnInit {
   currCanBeParent = false;
   currHasPP = false;
   currIsAdmin = false;
-
   visitedIsParent = false;
   visitedIsChild = false;
   visitedIsMyChild = false;
@@ -57,8 +57,6 @@ export class ProfileComponent implements OnInit {
   email: string;
   address: string;
   phone: [string];
-  schedule: any;
-  studyPlans: any;
   birthday: Date;
   listOfChildren: any[];
   verified: Boolean = false;
@@ -79,8 +77,6 @@ export class ProfileComponent implements OnInit {
   vEmail: string;
   vAddress: string;
   vPhone: [string];
-  vSchedule: any;
-  vStudyPlans: any;
   vBirthday: Date;
   vListOfChildren: any[];
   vVerified: Boolean = false;
@@ -94,7 +90,7 @@ export class ProfileComponent implements OnInit {
   personalInfo: Boolean;
   // ----------- Other Lists ------------
   listOfUncommonChildren: any[];
-  listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
+  listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username',
     'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'isAdmin'];
   vListOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'email',
     'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username', 'isAdmin'];
@@ -108,6 +104,9 @@ export class ProfileComponent implements OnInit {
   dPhone: string;
   dBirthday: Date;
   // ------------------------------------
+
+  // profile user's study plans
+  studyPlans: any;
 
   // study plan delete modal
   studyPlanIndex: number;
@@ -141,8 +140,6 @@ export class ProfileComponent implements OnInit {
       this.address = user.data.address;
       this.age = this.calculateAge(user.data.birthdate);
       this.phone = user.data.phone;
-      this.schedule = user.data.schedule;
-      this.studyPlans = user.data.studyPlans;
       this.listOfChildren = user.data.children;
       this.verified = user.data.verified;
       this.id = user.data._id;
@@ -222,8 +219,23 @@ export class ProfileComponent implements OnInit {
           // Getting the list of uncommon children
           this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
 
+          // fetching study plans
+          if (this.visitedIsMyChild) {
+            this._AuthService.getAnotherUserData(['studyPlans'], this.vUsername).subscribe(resStudyPlans => {
+              this.studyPlans = resStudyPlans.data.studyPlans;
+            });
+          }
+
         }));
       }
+
+      // fetching study plan
+      if (this.currIsOwner) {
+        this._AuthService.getUserData(['studyPlans']).subscribe(resStudyPlans => {
+          this.studyPlans = resStudyPlans.data.studyPlans;
+        });
+      }
+
     });
 
   }
@@ -286,15 +298,16 @@ export class ProfileComponent implements OnInit {
 
   ChangePassword(pws: any): void {
     const self = this;
-    if (!(pws.newpw === pws.confirmpw)) {
+    if ((pws.newpw.length < 8)) {
+      self.toastrService.warning('Password should be at least 8 characters.');
+    } else if (!(pws.newpw === pws.confirmpw)) {
       self.toastrService.warning('New and confirmed passwords do not match!');
 
-
-    } else if ((pws.newpw.length < 8)) {
-      self.toastrService.warning('Password should be at least 8 characters.');
     } else {
       this._ProfileService.changePassword(this.id, pws).subscribe(function (res) {
-        self.toastrService.success(res.msg);
+        if (res.msg === 'User password updated successfully.') {
+          self.toastrService.success(res.msg);
+        }
       });
 
     }
@@ -303,7 +316,7 @@ export class ProfileComponent implements OnInit {
     const self = this;
     this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
       self.toastrService.success(res.msg);
-//      alert(res.msg);
+      //      alert(res.msg);
 
     }));
     // getting the visited profile username and passing it to service method to add it to the patch request
@@ -314,8 +327,8 @@ export class ProfileComponent implements OnInit {
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
       console.log(res.msg);
       const self = this;
-       self.toastrService.success(res.msg);
-//      alert(res.msg);
+      self.toastrService.success(res.msg);
+      //      alert(res.msg);
 
       if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
     }));
@@ -344,7 +357,7 @@ export class ProfileComponent implements OnInit {
 
     } else {
       self.toastrService.error('Please enter a valid email address');
-//      alert('Please enter a valid email address');
+      //      alert('Please enter a valid email address');
     }
   }
 
@@ -370,7 +383,7 @@ export class ProfileComponent implements OnInit {
 
     } else {
       self.toastrService.error('Please enter a valid email address');
-//      alert('Please enter a valid email address');
+      //      alert('Please enter a valid email address');
     }
   }
 
@@ -461,9 +474,9 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteStudyPlan(index): void {
-    let plan = this.currIsOwner ? this.studyPlans[index] : this.vStudyPlans[index];
+    let targetUser = this.currIsOwner ? this.username : this.vUsername;
     this._ProfileService
-      .deleteStudyPlan(plan._id)
+      .deleteStudyPlan(targetUser, this.studyPlans[index]._id)
       .subscribe(res => {
         if (res.err) {
           this.toastrService.error(res.err);

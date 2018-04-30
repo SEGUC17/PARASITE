@@ -103,7 +103,7 @@
                                         <!--The Part responsible for comments-->
                                         <li *ngFor="let comment of comments; let i = index">
                                             <time class="cbp_tmtime" datetime="2017-11-04T03:45">
-                                                <span>{{comment.createdAt | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
+                                                <span>{{comment.createdAt*1000 | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
                                             </time>
                                             <div class="cbp_tmicon bg-info">
                                                 <i class="zmdi zmdi-label"></i>

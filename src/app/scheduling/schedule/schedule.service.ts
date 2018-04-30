@@ -22,8 +22,8 @@ export class ScheduleService {
   scheduleActivity(username: String, activity: any): Observable<any> {
     const newEvent = {
       color: {
-        primary: '#000000',
-        secondary: '#BEBEBE'
+        primary: '#2196f3',
+        secondary: '#D1E8FF'
       },
       start: activity.fromDateTime,
       end: activity.toDateTime,
@@ -39,7 +39,7 @@ export class ScheduleService {
 
   }
 
-  addEvent(username: String, newEvent: CalendarEvent): Observable<any> {
+  addEvent(username: String, newEvent: any): Observable<any> {
     return this.http.put(environment.apiUrl + 'schedule/addEvent/' + username, newEvent);
 
   }

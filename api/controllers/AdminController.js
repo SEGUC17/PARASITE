@@ -150,6 +150,42 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                     msg: null
                 });
             }
+            // not tested
+            var notification = {
+                body: 'Your request to publish the study plan is' +
+                    req.body.respo,
+                date: moment().toDate(),
+                itemId: req.params.studyPlanId,
+                type: 'study plan'
+            };
+            User.findOneAndUpdate(
+                { username: updatedStudyPlanPubRequest.creator },
+                {
+                    $push:
+                        { 'notifications': notification }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    console.log('add the notification');
+                    console.log(updatedUser.notifications);
+                    if (errr) {
+                        return res.status(402).json({
+                            data: null,
+                            err: 'error occurred during adding ' +
+                                'the notification'
+                        });
+                    }
+                    if (!updatedUser) {
+                        return res.status(404).json({
+                            data: null,
+                            err: null,
+                            msg: 'User not found.'
+                        });
+                    }
+                }
+
+            );
+
             StudyPlan.findByIdAndUpdate(
                 req.params.studyPlanId,
                 {
@@ -319,11 +355,38 @@ module.exports.respondContentRequest = function (req, res, next) {
                             console.log(errUsr);
                         }
                         // if not found return error
-                        if (!User) {
+                        if (!user) {
                             return res.status(404).json({
                                 data: null,
                                 err: 'User not found',
                                 msg: null
+                            });
+                        }
+                    }
+                );
+
+                var notification = {
+                    body: 'You request has been approved',
+                    date: moment().toDate(),
+                    itemId: req.params.ContentId,
+                    type: 'content'
+                };
+
+                User.findOneAndUpdate(
+                    { username: req.body.userName },
+                    {
+                        $push:
+                            { 'notifications': notification }
+                    }
+                    , { new: true },
+                    function (err, updatedUser) {
+                        console.log('add the notification');
+                        console.log(updatedUser.notifications);
+                        if (err) {
+                            return res.status(402).json({
+                                data: null,
+                                err: 'error occurred during adding ' +
+                                    'the notification'
                             });
                         }
                     }
@@ -400,6 +463,7 @@ module.exports.getVCRs = function (req, res, next) {
 
 
 module.exports.VCRResponde = function (req, res, next) {
+    var notification = null;
     // Checks if Admin
     if (req.user.isAdmin) {
       // Update the request with the given responce.
@@ -461,42 +525,42 @@ module.exports.getReports = function (req, res, next) {
     });
 };
 
-module.exports.banUser = function(req, res, next) {
+module.exports.banUser = function (req, res, next) {
     User.findOneAndUpdate(
-      { username: req.params.username },
-      { $set: { isBanned: true } }, { new: true },
-      function (err, user) {
-        if (err) {
-          return next(err);
-        }
-        if (!user) {
-          return res.status(404).json({
-            data: null,
-            err: null,
-            msg: 'User not found.'
-          });
-        }
+        { username: req.params.username },
+        { $set: { isBanned: true } }, { new: true },
+        function (err, user) {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User not found.'
+                });
+            }
 
-        return res.status(200).json({
-          data: user,
-          err: null,
-          msg: 'User banned successfully'
-        });
-      }
+            return res.status(200).json({
+                data: user,
+                err: null,
+                msg: 'User banned successfully'
+            });
+        }
     );
-  };
+};
 
-  module.exports.deleteReport = function(req, res, next) {
+module.exports.deleteReport = function (req, res, next) {
     Report.remove({ _id: req.params.reportId }).
-    exec(function (removeError) {
-        if (removeError) {
-            return next(removeError);
-        }
-        res.status(200).json({
-            data: null,
-            err: null,
-            msg: 'Report was deleted successfully'
+        exec(function (removeError) {
+            if (removeError) {
+                return next(removeError);
+            }
+            res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'Report was deleted successfully'
+            });
         });
-    });
-  };
+};
 
