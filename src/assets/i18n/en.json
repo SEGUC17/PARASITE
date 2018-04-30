@@ -137,7 +137,12 @@
             "TAG_PLACEHOLDER": "New tag ...",
             "CATEGORY_INVALID": "Please choose a valid cagtegory first.",
             "SECTION_REQUIRED": "Section is required.",
-            "CATEGORY_REQUIRED": "Category is required."
+            "CATEGORY_REQUIRED": "Category is required.",
+            "STEPPER": {
+                "CONTENT_DATA": "Content Data",
+                "CONTENT_DESCRIPTION": "Content Body or Description",
+                "REVIEW_AND_SUBMIT": "Review and Submit"
+            }
         }
     },
     "MARKET": {

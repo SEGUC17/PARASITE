@@ -137,7 +137,12 @@
             "TAG_PLACEHOLDER": "...إشارة جديدة",
             "CATEGORY_INVALID": ".الرجاء اختيار فئة صالحة أولاً",
             "SECTION_REQUIRED": "القسم مطلوب",
-            "CATEGORY_REQUIRED": "الفئة مطلوبة"
+            "CATEGORY_REQUIRED": "الفئة مطلوبة",
+            "STEPPER": {
+                "CONTENT_DATA": "بيانات المحتوى",
+                "CONTENT_DESCRIPTION": "وصف أو مضمون المحتوى",
+                "REVIEW_AND_SUBMIT": "المراجعة والإنشاء"
+            }
         }
     },
     "MARKET": {

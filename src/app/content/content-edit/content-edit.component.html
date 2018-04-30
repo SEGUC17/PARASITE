@@ -1,7 +1,7 @@
 <section class="content">
     <form #contentEditForm="ngForm">
         <mat-vertical-stepper class="edit-stepper">
-            <mat-step label="Content Data">
+            <mat-step label="{{ 'CONTENT.EDIT.STEPPER.CONTENT_DATA' | translate }}">
                 <button class="btn" matStepperNext>{{ 'CONTENT.SHARED.NEXT' | translate }}</button>
                 <div class="offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-1">
                     <div class="card">
@@ -92,11 +92,11 @@
                     </div>
                 </div>
             </mat-step>
-            <mat-step label="Content Description">
+            <mat-step label="{{ 'CONTENT.EDIT.STEPPER.CONTENT_DESCRIPTION' | translate }}">
                 <button class="btn" matStepperNext>{{ 'CONTENT.SHARED.NEXT' | translate }}</button>
                 <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="content.body" name="body"></quill-editor>
             </mat-step>
-            <mat-step label="Preview and Submit">
+            <mat-step label="{{ 'CONTENT.EDIT.STEPPER.REVIEW_AND_SUBMIT' | translate }}">
                 <small [hidden]="contentEditForm.valid" class="btn btn-primary" class="text-danger">{{ 'CONTENT.EDIT.FILL_ALL' | translate }}</small>
                 <button [disabled]="!contentEditForm.valid" class="btn btn-primary" (click)="onSubmit()">{{ 'CONTENT.EDIT.SUBMIT' | translate }}</button>
                 <div class="col-lg-8 col-md-12">
