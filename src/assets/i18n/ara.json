@@ -5,13 +5,16 @@
     },
     "ACTIVITIES": {
         "CREATE": {
-            "ACTIVITY_DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية"
+            "ACTIVITY_DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
+            "CREATE_ACTIVITY": "اضافة نشاط",
+            "REQUIRED_FIELDS": "الخانات المطلوبة",
+            "SUBMIT": "اضافة"
         },
         "LIST": {
-            "ACTIVITIES": "النشاطات",
+            "ACTIVITIES": "الانشطة",
             "ACTIVITY": "النشاط",
             "LATEST_ACTIVITY": "أحدث نشاط",
-            "WELCOME_MESSAGE": "اهلاً فى قسم النشاطات",
+            "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
             "READ_MORE": "اقرأ المزيد",
             "CLOSE": "أغلق"
         }
