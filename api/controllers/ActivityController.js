@@ -89,7 +89,16 @@ module.exports.getActivity = function (req, res, next) {
     }
 
     Activity.findById(activityId).
-        populate('bookedBy').
+        populate({
+            model: 'User',
+            path: 'discussion.creatorInfo',
+            select: 'avatar firstName lastName'
+        }).
+        populate({
+            model: 'User',
+            path: 'discussion.replies.creatorInfo',
+            select: 'avatar firstName lastName'
+        }).
         exec(function (err, activity) {
             if (err) {
                 return next(err);
@@ -186,6 +195,7 @@ module.exports.postActivity = function (req, res) {
 };
 
 module.exports.deleteActivity = function (req, res) {
+<<<<<<< HEAD
     console.log('inside the delete activity');
     var deletingUser = req.user;
 
@@ -222,6 +232,43 @@ module.exports.deleteActivity = function (req, res) {
                 }
             );
             }
+=======
+  var deletingUser = req.user;
+
+  Activity.find({_id: req.params.activityId}).exec(function (err, result) {
+    // find the required activity to check on the deletor (xD).
+    if (err) {
+      throw err;
+    }
+
+    var activityCreator = result[0].creator;
+
+    if (activityCreator !== deletingUser.username && !deletingUser.isAdmin) {
+      res.status(401).json({
+        data: null,
+        err: null,
+        msg: 'you can\'t delete this activity'
+      });
+
+    } else {
+
+      Activity.remove({_id: req.params.activityId}, function (err) {
+        if (err) {
+          return res.status(404).json({
+            data: null,
+            err: err,
+            message: 'cannot find this activity'
+          });
+        }
+        res.status(201).json({
+          data: null,
+          err: null,
+          message: 'Activity deleted successfully.'
+        });
+      });
+
+    }
+>>>>>>> activities
 
 
         });
@@ -415,6 +462,48 @@ module.exports.editActivity = function (req, res, next) {
     });
 };
 
+module.exports.deleteActivity2 = function (req, res, next) {
+
+    /*
+     * Middleware for deleting an activity by admin or creator
+     *
+     * @author: Wessam
+     */
+
+    var activityId = req.params.activityId;
+    var user = req.user;
+
+    Activity.findById(activityId, function(err, activity) {
+        if (err) {
+            return next(err);
+        }
+        if (!activity) {
+            return res.status(404).json({
+                data: null,
+                err: 'Activity doesn\'t exist',
+                msg: null
+            });
+        }
+        if (!user.isAdmin && activity.creator == user.username) {
+            return res.status(403).json({
+                data: null,
+                err: 'You can\'t edit this activity',
+                msg: null
+            });
+        }
+        Activity.findOneAndRemove({ _id: activityId }, function(err2) {
+            if (err2) {
+                return next(err2);
+            }
+
+            return res.status(204).json({
+                data: null,
+                err: null,
+                msg: 'Activity deleted successfully'
+            });
+        });
+    });
+};
 
 module.exports.isIndependent = function (req, res, next) {
 

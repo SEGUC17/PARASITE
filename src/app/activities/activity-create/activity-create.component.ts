@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
 import { ActivityComponent } from '../activity/activity.component';
+
 declare const $: any;
 
 @Component({
@@ -30,7 +33,8 @@ export class ActivityCreateComponent implements OnInit {
   constructor(
     private router: Router,
     private activityService: ActivityService,
-    private activityComponent: ActivityComponent
+    private activityComponent: ActivityComponent,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {

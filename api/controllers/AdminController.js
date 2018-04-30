@@ -22,8 +22,6 @@ module.exports.viewPendingContReqs = function (req, res, next) {
             }
             // if not admin return error
             if (!req.user.isAdmin) {
-                console.log(req.user.isAdmin);
-
                 return res.status(403).json({
                     data: null,
                     err: 'Unauthorized action',
@@ -458,17 +456,16 @@ module.exports.VCRResponde = function (req, res, next) {
     };
 
     if (req.user.isAdmin) {
-        // Update the request with the given responce.
-        VCRmodel.update(
-            { _id: req.params.targetId },
-            { $set: { status: req.body.responce } }, { new: false },
-            function (err) {
-                if (err) {
-                    throw err;
-                }
-            }
-        );
-
+      // Update the request with the given responce.
+      VCRmodel.update(
+        { _id: req.params.targetId },
+        { $set: { status: req.body.responce } }, { new: false },
+        function (err) {
+          if (err) {
+            throw err;
+          }
+        }
+      );
 
         var userId = null;
         VCRmodel.find({ _id: req.params.targetId }).
@@ -528,7 +525,7 @@ module.exports.VCRResponde = function (req, res, next) {
                     }
                 );
 
-            });
+      });
     } else {
         // if not Admin.
         res.status(403).json({

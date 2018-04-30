@@ -62,12 +62,21 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   }
 
   Accept(request) { // Accepted by Admin.
-    this._adminService.respondToContributerValidationRequest(request._id, 'approved');
-
+    console.log(request);
+    var self = this;
+    this._adminService.respondToContributerValidationRequest(request._id, 'approved').subscribe(function (res) {
+      self.viewVCRs(self.filter);
+    });
   }
 
   Reject(request) { // rejected by Admin.
-    this._adminService.respondToContributerValidationRequest(request._id, 'disapproved');
+    console.log(request);
+    var self = this;
+    this._adminService.respondToContributerValidationRequest(request._id, 'disapproved').subscribe(function (res) {
+      self.viewVCRs(self.filter);
+    });;
+
+
   }
 
 }
