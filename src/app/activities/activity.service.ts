@@ -62,9 +62,6 @@ export class ActivityService {
     return this.http.delete(this.activitiesUrl + '/' + activity._id);
   }
 
-  bookActivity(activity: any, body: any): Observable<any> {
-    return this.http.post<any>(this.activitiesUrl + '/' + activity._id + '/book', body);
-  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {

@@ -83,7 +83,6 @@ module.exports.postComment = function (req, res) {
     object.discussion.push({
         $sort: { createdAt: -1 },
         creator: user.username,
-        creatorInfo: user._id,
         text: req.body.text
     });
 
@@ -184,7 +183,6 @@ module.exports.postCommentReply = function (req, res, next) {
     comment.replies.push({
         $sort: { createdAt: -1 },
         creator: user.username,
-        creatorInfo: user._id,
         text: req.body.text
     });
 

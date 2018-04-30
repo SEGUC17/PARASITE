@@ -34,7 +34,7 @@
   <div class="card singel-post"  style="margin : 0px">
     <form class="activity-form" (ngSubmit)="createActivity()" #activityForm="ngForm">
       <div class="header"  >
-        <h3 class="text-primary" style="color:primary">{{ 'ACTIVITIES.CREATE.CREATE_ACTIVITY' | translate }}</h3>
+        <h3 class="text-primary" style="color:primary">Create activity</h3>
         <ul class="header-dropdown">
           <li class="remove">
             <a role="button" (click)="close()" ><i class="zmdi zmdi-close"></i></a>
@@ -76,17 +76,17 @@
               </div>
             </div>
           </fieldset>
-          <span> <small> {{ 'ACTIVITIES.CREATE.REQUIRED_FIELDS' | translate }} *</small></span>
+          <span> <small> Required fields *</small></span>
           <div align="right">
             <button class="btn btn-primary hidden-sm-down float-right m-l-10" id="btn"
-            [disabled]="!activityForm.form.valid || activity.toDateN <= activity.fromDateN" (click)="createActivity()">{{ 'ACTIVITIES.CREATE.SUBMIT' | translate }}</button>
+            [disabled]="!activityForm.form.valid || activity.toDateN <= activity.fromDateN" (click)="createActivity()">Submit</button>
           </div>
           <br>
           <br>
           <div
             [hidden]="!activity.toDateN || !activity.fromDateN || activity.toDateN > activity.fromDateN"
             class="alert alert-danger">
-            {{ 'ACTIVITIES.CREATE.ACTIVITY_DATE_ERROR' | translate }}
+            From date can't be after to date
           </div>
         </div>
       </div>

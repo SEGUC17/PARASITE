@@ -7,10 +7,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { catchError } from 'rxjs/operators';
-
 
 
 declare const swal: any;
@@ -250,13 +246,8 @@ export class ProfileComponent implements OnInit {
     //     image: 'imageMaher.com',
     //     creator: '5ac12591a813a63e419ebce5'
     // }
-    var self = this;
-    this._ProfileService.makeContributerValidationRequest({}).pipe(
-      catchError(this.handleError('evalRequest', 'duplicate'))
-    ).subscribe(function (res) {
-      if(res !== 'duplicate' ) {
-        self.toastrService.success('request submitted');
-      }
+    this._ProfileService.makeContributerValidationRequest({}).subscribe(function (res) {
+      // console.log(res);
     });
   }
 
@@ -487,11 +478,4 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    var self = this;
-    return function (error: any): Observable<T> {
-      self.toastrService.error(error.error.msg);
-      return of(result as T);
-    };
-  }
 }

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-
 import { ActivityService } from '../activity.service';
 import { Activity, ActivityCreate, ActivityEdit } from '../activity';
 import { ActivatedRoute } from '@angular/router';
@@ -22,22 +20,18 @@ export class ActivityDetailComponent implements OnInit {
   // comments: any[];
   changingComment: any = '';
   somePlaceholder: any = 'write a comment ...';
-  comment: any = 'comment';
   viewedReplies: boolean[];
   isReplying: boolean ;
   commentReplyingOn: any;
   signedIn: boolean ;
-  canBookFor: String[];
-  bookingUser: String;
-  defaultPP: String = "assets/images/profile-view/defaultPP.png";
+
 
 
   currentUser = {
     isAdmin: false,
     verified: false,
     avatar: null,
-    username: 'Mohamed Maher',
-    isChild: true
+    username: 'Mohamed Maher'
 
   };
  // updatedActivity: ActivityCreate;
@@ -79,8 +73,7 @@ username = '';
     public dialog: MatDialog,
     private discussionService: DiscussionService,
     private router: Router,
-    private authService: AuthService,
-    private translate: TranslateService
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -89,20 +82,19 @@ username = '';
     self.getActivity();
     self.refreshComments(true);
 
-    this.translate.get('ACTIVITIES.DETAIL.WRITE_COMMENT').subscribe((res: string) => {
-     this.somePlaceholder = res;
-    });
-    this.translate.onLangChange.subscribe((event: any) => {
-      this.translate.get('ACTIVITIES.DETAIL.WRITE_COMMENT').subscribe((res: string) => {
-        this.somePlaceholder = res;
-      });
-    });
     this.authService.getUserData(['username']).subscribe(function (res) {
       this.username = res.data.username;
       console.log('booked? ' + self.isBooked);
       console.log('creator? ' + self.isCreator);
     });
   }
+
+  testForDiscussion() {
+    console.log('printing the date here');
+    console.log(new Date(this.activity.discussion[0].createdAt).getTime());
+    console.log('after date');
+  }
+
 
   getCurrentUser() {
     let self = this;
@@ -111,17 +103,14 @@ username = '';
       'isAdmin',
       'firstName',
       'lastName',
-      'avatar',
-      'children',
-      'isChild'
+      'avatar'
     ]).subscribe(function(res) {
         if (typeof res.data === 'undefined') {
           self.signedIn = false;
         } else {
           self.currentUser = res.data;
           self.signedIn = true;
-          self.canBookFor = res.data.children;
-          self.canBookFor.push(res.data.username);
+
         }
         console.log('signed in : ' + self.signedIn );
         console.log(res);
@@ -182,8 +171,6 @@ username = '';
       res => {
         this.activity = res.data;
         this.updatedActivity = res.data;
-        self.canBookFor =
-          self.canBookFor.filter(user => res.data.bookedBy.indexOf(user) < 0);
         if (this.activity.bookedBy.length < 1) { self.isBooked = false; }
       if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
         if (!this.activity.image) {
@@ -307,11 +294,5 @@ username = '';
   deleteActivity() {
     this.activityService.deleteActivity(this.activity).subscribe();
   }
-
-  bookActivity() {
-    this.activityService.bookActivity(this.activity, {username: this.bookingUser}).subscribe();
-  }
-
-
 
 }

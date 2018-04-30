@@ -10,7 +10,6 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { TranslateModule } from '@ngx-translate/core';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivityComponent } from './activity/activity.component';
@@ -38,13 +37,11 @@ import { SharedModule } from '../shared/shared.module';
     MatListModule,
     MatDialogModule,
     MatTooltipModule,
-    SharedModule,
-    TranslateModule.forChild()
+    SharedModule
   ],
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent],
   entryComponents: [ActivityEditComponent],
   providers: [ActivityService, DiscussionService , { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] }],
-  exports: [ActivityCreateComponent ]
+    { provide: MAT_DIALOG_DATA, useValue: [] }]
 })
 export class ActivitiesModule { }
