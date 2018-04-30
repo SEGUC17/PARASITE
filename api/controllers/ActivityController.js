@@ -323,7 +323,7 @@ module.exports.prepareActivity = function (req, res, next) {
 
 // Author: Heidi
 module.exports.editActivity = function (req, res, next) {
-    console.log('current :' + req.user);
+
     var Status = 'pending';
     if (req.user.isAdmin) {
         Status = 'verified';
@@ -468,7 +468,7 @@ module.exports.bookActivity = function(req, res, next) {
 };
 
 module.exports.editActivityImage = function (req, res, next) {
-    console.log('current :' + req.user);
+
     var Status = 'pending';
     if (req.user.isAdmin) {
         Status = 'verified';
@@ -495,7 +495,7 @@ module.exports.editActivityImage = function (req, res, next) {
                 msg: 'no edition allowed'
             });
         }
-        // updating activity
+        // updating activity image
         Activity.findByIdAndUpdate(
             req.params.activityId,
              { $set: { image: req.body.image } }, { new: true }
