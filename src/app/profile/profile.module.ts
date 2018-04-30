@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from '../messaging/messaging.service';
 import { SharedModule } from '../shared/shared.module';
+import { DirectMessagingComponent } from './profile/direct-messaging/direct-messaging.component';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     CommonModule
   ],
-  declarations: [ProfileComponent, ChildernComponent],
+  declarations: [ProfileComponent, ChildernComponent, DirectMessagingComponent],
   providers: [
     ProfileService, ToastrService, MessageService
   ]
