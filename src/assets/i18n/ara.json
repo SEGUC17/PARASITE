@@ -4,7 +4,19 @@
         "CURRENT_LANGUAGE": "العربية"
     },
     "ACTIVITIES": {
+        "EDIT":{
+            "EDIT_ACTIVITY": "تعديل النشاط",
+            "ACTIVITY_NAME": "الاسم",
+            "START_DATE":"تاريخ النهاية",
+            "END_DATE":"تاريخ البداية",
+            "PRICE":"السعر",
+            "DESCRIPTION":"الوصف",
+            "CANCEL":"الغاء",
+            "SAVE_CHANGES":"حفظ التغييرات",
+            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+            "ACTIVITY_IMAGE":"صورة النشاط"
         
+        }
     },
     "ADMIN": {
 
