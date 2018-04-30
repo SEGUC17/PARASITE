@@ -7,6 +7,16 @@
 
     },
     "ADMIN": {
+        "ADMIN_CONTROL": {
+            "CONTENTS_MANAGEMENT": "Content Requests",
+            "CATEGORY_MANAGEMENT": "Category Management",
+            "PRODUCTS_MANAGEMENT": "Product Requests",
+            "PSYCHOLOGISTS_MANAGEMENT": "Psychologist Requests",
+            "STUDY_PLANS_MANAGEMENT": "Study Plan Publishing Requests",
+            "ACTIVITIES_MANAGEMENT": "Unverified Activities",
+            "VERIFIED_CONTRIBUTORS_MANAGEMENT": "Verified Contributor Requests",
+            "REPORTS": "Reports"
+        },
         "CATEGORY_MANAGEMENT": {
             "SHARED": {
                 "CATEGORY_NAME": "Category Name",
@@ -39,8 +49,12 @@
             }
         },
         "VIEW_CONTENT_REQUESTS": {
-            "NO_REQUESTS_HERE": "No Requests Here"
-
+            "NO_REQUESTS_HERE": "Sorry, No Requests Arrived Yet",
+            "FILTER_REQUESTS": "Filter Requests",
+            "IDEA": "IDEA",
+            "RESOURCE": "RESOURCE",
+            "EDIT": "EDIT",
+            "CREATE": "CREATE"
         }
     },
     "AUTH": {

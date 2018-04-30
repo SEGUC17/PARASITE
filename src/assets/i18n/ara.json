@@ -7,6 +7,16 @@
         
     },
     "ADMIN": {
+        "ADMIN_CONTROL": {
+            "CONTENTS_MANAGEMENT": "إدارة المحتويات",
+            "CATEGORY_MANAGEMENT": "إدارة الفئات",
+            "PRODUCTS_MANAGEMENT": "إدارة المنتجات",
+            "PSYCHOLOGISTS_MANAGEMENT": "إدارة الخبراء النفسيين",
+            "STUDY_PLANS_MANAGEMENT": "إدارة الخطط الدراسية",
+            "ACTIVITIES_MANAGEMENT": "إدارة الأنشطة",
+            "VERIFIED_CONTRIBUTORS_MANAGEMENT": "إدارة الأنشطة الموثقة",
+            "REPORTS": "البلاغات"
+        },
         "CATEGORY_MANAGEMENT": {
             "SHARED": {
                 "CATEGORY_NAME": "اسم الفئة",
@@ -39,7 +49,12 @@
             }
         },
         "VIEW_CONTENT_REQUESTS": {
-
+            "NO_REQUESTS_HERE": "عذرا، لم  تصل طلبات إنشاء محتويات بعد",
+            "FILTER_REQUESTS": "تصفية الطلبات حسب",
+            "IDEA": "فكرة",
+            "RESOURCE": "مورد تعليمي",
+            "EDIT": "تحديث",
+            "CREATE": "إنشاء"
         }
     },
     "AUTH": {
