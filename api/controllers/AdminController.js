@@ -22,8 +22,6 @@ module.exports.viewPendingContReqs = function (req, res, next) {
             }
             // if not admin return error
             if (!req.user.isAdmin) {
-                console.log(req.user.isAdmin);
-
                 return res.status(403).json({
                     data: null,
                     err: 'Unauthorized action',
@@ -403,67 +401,47 @@ module.exports.getVCRs = function (req, res, next) {
 
 module.exports.VCRResponde = function (req, res, next) {
     // Checks if Admin
-    console.log('in bakend');
-    console.log('in bakend');
     if (req.user.isAdmin) {
-        // Update the request with the given responce.
-        VCRmodel.update(
-            { _id: req.params.targetId },
-            { $set: { status: req.body.responce } }, { new: false },
-            function (err) {
-                if (err) {
-                    throw err;
-                }
+      // Update the request with the given responce.
+      VCRmodel.update(
+        {_id: req.params.targetId},
+        {$set: {status: req.body.responce}}, {new: false},
+        function (err) {
+          if (err) {
+            throw err;
+          }
+        }
+      );
+
+
+      var userId = null;
+      VCRmodel.find({_id: req.params.targetId}).exec(function (err, result) {
+        // find the _id of the Approved/Disapproved User
+        // to change his Verified state.
+        if (err) {
+          throw err;
+        }
+        userId = result[0].creator;
+        var response = req.body.responce;
+
+        userModel.findOneAndUpdate(
+          {_id: userId}, {$set: {verified: (response === 'approved')}},
+          {new: true},
+          function (error, resp) {
+            if (error) {
+              throw error;
             }
+            res.status(200).json({
+              data: resp,
+              err: null,
+              msg: 'reponse has been submitted'
+            });
+          }
         );
 
 
-        var userId = null;
-        VCRmodel.find({ _id: req.params.targetId }).
-            exec(function (err, result) {
-                // find the _id of the Approved/Disapproved User
-                // to change his Verified state.
-                if (err) {
-                    throw err;
-                }
-                userId = result[0].creator;
-                if (req.body.responce === 'approved') {
 
-                    // Updating verified by Approved.
-                    userModel.update(
-                        { _id: userId }, { $set: { verified: true } },
-                        { new: true },
-                        function (error, resp) {
-                            if (error) {
-                                throw error;
-                            }
-                            res.status(200).json({
-                                data: null,
-                                err: null,
-                                msg: 'reponse has been submitted'
-                            });
-                        }
-                    );
-                }
-                if (req.body.responce === 'disapproved') {
-                    // Updating verified by disapproved.
-                    userModel.update(
-                        { _id: userId }, { $set: { verified: false } },
-                        { new: true },
-                        function (error, resp) {
-                            if (error) {
-                                throw error;
-                            }
-                            res.status(200).json({
-                                data: null,
-                                err: null,
-                                msg: 'reponse has been submitted'
-                            });
-                        }
-                    );
-                }
-
-            });
+      });
     } else {
         // if not Admin.
         res.status(403).json({
