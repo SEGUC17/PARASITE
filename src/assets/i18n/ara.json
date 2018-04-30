@@ -9,28 +9,33 @@
     "ADMIN": {
         "CATEGORY_MANAGEMENT": {
             "SHARED": {
-                "CATEGORY_NAME": "Category Name",
-                "CATEGORY_ICON_LINK": "Category Icon Link",
-                "PREVIEW": "Preview:",
-                "SUBMIT_BUTTON": "Submit"
+                "CATEGORY_NAME": "اسم الفئة",
+                "CATEGORY_ICON_LINK": "رابط أيقونة الفئة",
+                "PREVIEW": ":العرض المسبق للفئة",
+                "SUBMIT_BUTTON": "اتمام",
+                "VISIBLE_LOCATION": ".سيتم عرض التغييرات الخاصة بك في صفحة البحث عن المحتويات",
+                "SECTION_NAME": "اسم القسم",
+                "SECTION_ICON_LINK": "رابط أيقونة القسم"
             },
             "CATEGORY_CREATE": {
-
+                "CREATE_CATEGORY": "إنشاء فئة"
             },
             "CATEGORY_DELETE": {
-
+                "DELETE_CATEGORY": "حذف فئة",
+                "WARNING_MESSAGE": ".سيؤدي هذا إلى حذف جميع المحتويات الموجودة في هذه الفئة"
             },
             "CATEGORY_UPDATE": {
-
+                "UPDATE_CATEGORY": "تحديث فئة"
             },
             "SECTION_CREATE": {
-
+                "CREATE_SECTION": "إنشاء قسم"
             },
             "SECTION_DELETE": {
-
+                "DELETE_SECTION": "حذف قسم",
+                "WARNING_MESSAGE": ".سيؤدي هذا إلى حذف كل المحتويات في هذا القسم"
             },
             "SECTION_UPDATE": {
-
+                "UPDATE_SECTION": "تحديث قسم"
             }
         },
         "VIEW_CONTENT_REQUESTS": {

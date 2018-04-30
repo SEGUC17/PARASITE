@@ -12,27 +12,30 @@
                 "CATEGORY_NAME": "Category Name",
                 "CATEGORY_ICON_LINK": "Category Icon Link",
                 "PREVIEW": "Preview:",
-                "SUBMIT_BUTTON": "Submit"
+                "SUBMIT_BUTTON": "Submit",
+                "VISIBLE_LOCATION": "Your changes will be viewed in the content search page.",
+                "SECTION_NAME": "Section Name",
+                "SECTION_ICON_LINK": "Section Icon Link"
             },
             "CATEGORY_CREATE": {
-                "CREATE_CATEGORY": "Create Category",
-                "VISIBLE_LOCATION": "Your changes will be viewed in the content search page"
-
+                "CREATE_CATEGORY": "Create Category"
             },
             "CATEGORY_DELETE": {
-
+                "DELETE_CATEGORY": "Delete Category",
+                "WARNING_MESSAGE": "This will delete all the contents in this category."
             },
             "CATEGORY_UPDATE": {
-
+                "UPDATE_CATEGORY": "Update Category"
             },
             "SECTION_CREATE": {
-
+                "CREATE_SECTION": "Create Section"
             },
             "SECTION_DELETE": {
-
+                "DELETE_SECTION": "Delete Section",
+                "WARNING_MESSAGE": "This will delete all the contents in this section."
             },
             "SECTION_UPDATE": {
-
+                "UPDATE_SECTION": "Update Section"
             }
         },
         "VIEW_CONTENT_REQUESTS": {
