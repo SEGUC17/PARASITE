@@ -12,6 +12,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angu
 import { FormControl, Validators } from '@angular/forms';
 import { Psychologist } from '../psychologist/psychologist';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 declare const swal: any;
 
 @Component({
@@ -22,6 +23,7 @@ declare const swal: any;
 })
 export class PsychologistComponent implements OnInit {
 
+  ar: boolean;
   psychologists: any[];
   admin: boolean;
   idInput = new FormControl();
@@ -38,11 +40,15 @@ export class PsychologistComponent implements OnInit {
   selectedAddress: string;
   currentPageNumber: number;
   totalNumberOfPages = 0;
+
   constructor(private psychologistService: PsychologistService,
     private toasterService: ToastrService,
     private authService: AuthService,
     private router: Router,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private translate: TranslateService) {
+    }
+
   formInput = <any>{};
 
   // load psychologists from the db
@@ -168,7 +174,6 @@ export class PsychologistComponent implements OnInit {
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       if (res.data) {
         self.admin = res.data.isAdmin;
-        self.getPsychologists();
       }
       self.currentPageNumber = 1;
       self.getPsychologists();

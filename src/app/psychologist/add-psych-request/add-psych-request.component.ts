@@ -22,7 +22,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class AddPsychRequestComponent implements OnInit {
   request: PsychologistRequest;
 
-  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
+  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
   /* form controls for each input form field */
   firstNameFormControl = new FormControl('', [
