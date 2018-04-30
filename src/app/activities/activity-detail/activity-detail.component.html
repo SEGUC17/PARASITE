@@ -92,7 +92,7 @@
                   <span class="large mt-2">Now</span>
                 </time>
                 <div class="cbp_tmicon">
-                  <img class="media-object rounded-circle" [src]="currentUser.avatar" alt="">
+                  <img class="media-object rounded-circle" [src]="currentUser.avatar || defaultPP" alt="">
                 </div>
                 <div class="cbp_tmlabel empty">
                   <span>
@@ -119,10 +119,8 @@
                 <time style="width: 20%;" class="cbp_tmtime" datetime="2017-11-04T03:45">
                   <span class="mt-2">{{comment.createdAt | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
                 </time>
-                <div class="cbp_tmicon bg-info">
-                  <div class="profile-image float-xs-left">
+                <div class="cbp_tmicon">
                     <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
-                  </div>
                   <i class="zmdi zmdi-label"></i>
                 </div>
                 <div class="cbp_tmlabel">
