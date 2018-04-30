@@ -55,7 +55,7 @@ export class SingleMailComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['_id', 'username', 'isChild', 'blocked'];
+    const userDataColumns = ['_id', 'username', 'isChild', 'blocked', 'avatar'];
     // get info of logged in user
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
@@ -105,8 +105,9 @@ export class SingleMailComponent implements OnInit {
 
   reply(): void {
     const self = this;
-
+     this.allisWell = true;
     if (this.Body === '') {
+      this.allisWell = false;
       this.toastrService.warning('You can\'t send an empty message.');
     } else {
        this.authService.getAnotherUserData(this.UserList, this.sender.toString()).subscribe((user)  => {
@@ -122,9 +123,11 @@ export class SingleMailComponent implements OnInit {
        // make a POST request using messaging service
        if (this.allisWell === true) {
         if (this.recipient !== this.currentUser.username ) {
-          this.msg = {'body': this.Body, 'recipient': this.recipient, 'sender': this.currentUser.username};
+          this.msg = {'avatar': this.currentUser.avatar, 'body': this.Body,
+          'recipient': this.recipient, 'sender': this.currentUser.username};
         } else {
-          this.msg = {'body': this.Body, 'recipient': this.sender, 'sender': this.currentUser.username};
+          this.msg = {'avatar': this.currentUser.avatar, 'body': this.Body,
+           'recipient': this.sender, 'sender': this.currentUser.username};
       }
         this.messageService.send(this.msg)
          .subscribe(function(res) {
@@ -137,8 +140,9 @@ export class SingleMailComponent implements OnInit {
 
 forward(): void {
   const self = this;
-
+ this.allisWell = true;
   if (this.Recipient === '') {
+    this.allisWell = false;
     this.toastrService.warning('Please specify a recipient.');
   } else {
   // create a message object with the info the user entered

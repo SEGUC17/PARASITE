@@ -25,7 +25,7 @@ export class MessagingComponent implements OnInit {
   sent: any[];
   contacts: any[];
   avatars: any[];
-
+  flag: Boolean = true;
   // send to contact
   replyTo: string;
   Body: String = '';
@@ -48,7 +48,7 @@ export class MessagingComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['_id', 'username', 'isChild'];
+    const userDataColumns = ['_id', 'username', 'isChild', 'avatar'];
     // get info of logged in user
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
@@ -87,19 +87,9 @@ export class MessagingComponent implements OnInit {
   });
 }
 
- setMessage(message): void {
-   let currMsg: any = {
-     queryParams: {
-       'body': message.body,
-       'recipient': message.recipient,
-       'sender': message.sender,
-       'sentAt': message.sentAt,
-       'id': message._id
-     }
-   };
 
-   this.router.navigate(['/single-mail'], currMsg);
- }
+
+
 
  reply(): void {
   const self = this;
@@ -119,7 +109,7 @@ export class MessagingComponent implements OnInit {
 
      // make a POST request using messaging service
      if (this.allisWell === true) {
-      this.msg = {'body': this.Body, 'recipient': this.replyTo, 'sender': this.currentUser.username};
+      this.msg = {'avatar': this.currentUser.avatar, 'body': this.Body, 'recipient': this.replyTo, 'sender': this.currentUser.username};
       this.messageService.send(this.msg)
        .subscribe(function(res) {
          self.toastrService.success('Message was sent!');
@@ -129,14 +119,4 @@ export class MessagingComponent implements OnInit {
   });
  }
 }
-
-/*getAvatars(): void {
-  for (let i = 0 ; i < this.inbox.length ; i++) {
-    this.authService.getAnotherUserData(['avatar'], this.inbox[i].sender.toString()).subscribe((user) => {
-      this.avatars.push(user.data.avatar);
-    });
-  }
-
-}*/
-
 }// end class

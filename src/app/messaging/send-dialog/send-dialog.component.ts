@@ -30,7 +30,7 @@ export class SendDialogComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['username'];
+    const userDataColumns = ['username', 'avatar'];
     // getting username of logged in user
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
@@ -51,7 +51,7 @@ export class SendDialogComponent implements OnInit {
         self.toastrService.warning('You can\'t send an empty message.');
       } else {
         // create a message object with the info the user entered
-        this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.currentUser.username};
+        this.msg = {'avatar': this.currentUser.avatar, 'body': this.Body, 'recipient': this.Receiver, 'sender': this.currentUser.username};
 
         // retrieveing the reciepient's info as an object
         this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user)  => {
