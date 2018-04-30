@@ -497,34 +497,6 @@ module.exports.VCRResponde = function (req, res, next) {
                         }
                     );
                 }
-
-                User.findOneAndUpdate(
-                    { _id: userId },
-                    {
-                        $push:
-                            { 'notifications': notification }
-                    }
-                    , { new: true },
-                    function (errr, updatedUser) {
-                        console.log('add the notification');
-                        console.log(updatedUser.notifications);
-                        if (err) {
-                            return res.status(402).json({
-                                data: null,
-                                err: 'error occurred during adding ' +
-                                    'the notification'
-                            });
-                        }
-                        if (!updatedUser) {
-                            return res.status(404).json({
-                                data: null,
-                                err: null,
-                                msg: 'User not found.'
-                            });
-                        }
-                    }
-                );
-
       });
     } else {
         // if not Admin.

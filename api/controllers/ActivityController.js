@@ -195,47 +195,9 @@ module.exports.postActivity = function (req, res) {
 };
 
 module.exports.deleteActivity = function (req, res) {
-<<<<<<< HEAD
-    console.log('inside the delete activity');
-    var deletingUser = req.user;
-
-    Activity.find({ _id: req.params.activityId }).
-        exec(function (err, result) {
-            // find the required activity to check on the deletor (xD).
-            if (err) {
-                throw err;
-            }
-            var activityCreator = result[0].creator;
-            if (activityCreator !== deletingUser.username &&
-                !deletingUser.isAdmin) {
-                res.status(401).json({
-                    data: null,
-                    err: null,
-                    msg: 'reponse has been submitted'
-                });
-            } else {
-                Activity.remove(
-                    { _id: req.params.activityId },
-                    function (errr) {
-                    if (errr) {
-                        return res.status(404).json({
-                            data: null,
-                            err: errr,
-                            message: 'cannot find this activity'
-                        });
-                    }
-                    res.status(201).json({
-                        data: null,
-                        err: null,
-                        message: 'Activity deleted successfully.'
-                    });
-                }
-            );
-            }
-=======
   var deletingUser = req.user;
 
-  Activity.find({_id: req.params.activityId}).exec(function (err, result) {
+  Activity.find({ _id: req.params.activityId }).exec(function (err, result) {
     // find the required activity to check on the deletor (xD).
     if (err) {
       throw err;
@@ -252,11 +214,11 @@ module.exports.deleteActivity = function (req, res) {
 
     } else {
 
-      Activity.remove({_id: req.params.activityId}, function (err) {
-        if (err) {
+      Activity.remove({ _id: req.params.activityId }, function (errr) {
+        if (errr) {
           return res.status(404).json({
             data: null,
-            err: err,
+            err: errr,
             message: 'cannot find this activity'
           });
         }
@@ -268,7 +230,6 @@ module.exports.deleteActivity = function (req, res) {
       });
 
     }
->>>>>>> activities
 
 
         });
@@ -366,6 +327,13 @@ module.exports.reviewActivity = function (req, res) {
                             data: null,
                             err: null,
                             msg: 'User not found.'
+                        });
+                    }
+                    if (!updatedUser.isAdmin) {
+                        return res.status(999).json({
+                            data: null,
+                            err: null,
+                            msg: 'redundant notification'
                         });
                     }
                 }
