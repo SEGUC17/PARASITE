@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { CreateProductComponent } from '../create-product/create-product.component';
 import { AuthService } from '../../auth/auth.service';
 import { RequestDetailComponent } from '../request-detail/request-detail.component';
+import { TranslateService } from '@ngx-translate/core';
 
 declare const $: any;
 declare const swal: any;
@@ -39,7 +40,8 @@ export class MarketComponent implements OnInit {
   filter = 'Name';
   isChecked = false;
   constructor(public dialog: MatDialog, public router: Router,
-    private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) {
+    private marketService: MarketService, private authService: AuthService,
+    @Inject(DOCUMENT) private document: Document, private translate: TranslateService) {
   }
 
   // initializes the current pages in the market and user item

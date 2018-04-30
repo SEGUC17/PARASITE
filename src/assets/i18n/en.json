@@ -3,34 +3,45 @@
         "NAWWAR": "Nawwar",
         "CURRENT_LANGUAGE": "English"
     },
-    "ACTIVITIES": {
-
-    },
-    "ADMIN": {
-
-    },
-    "AUTH": {
-
-    },
+    "ACTIVITIES": {},
+    "ADMIN": {},
+    "AUTH": {},
     "CONTENT": {
-        "LIST": { "OUR_CONTENT": "Our Content"}
+        "LIST": {
+            "OUR_CONTENT": "Our Content"
+        }
     },
     "MARKET": {
-
+        "MAIN": {
+            "MARKET": "Marketplace",
+            "CAPTION": "Buy, sell or rent unwanted stuff",
+            "PATH": "Market",
+            "LABEL": "Products",
+            "LABEL_REQ": "My Pending Products",
+            "PROD_SEARCH": "Product",
+            "PRICE_SEARCH": "Price",
+            "LATEST": "Latest first",
+            "CHEAPEST": "Cheapest first",
+            "NAME": "Name",
+            "PRICE": "Price",
+            "SORT": "Sort",
+            "SEARCH_BAR": "Search...",
+            "SELLER": "Sold by: {{ seller }}",
+            "SEARCH_PRICE": "{{ price }} EGP",
+            "SORT_TYPE": "Sorted by: {{ sort }}",
+            "PREV": "Previous",
+            "NEXT": "Next",
+            "NO_PROD_FOUND": "Sorry No products found.",
+            "NO_PROD_REQ": "No product requests. All clean.",
+            "MY_PRODS": "My Products"
+        },
+        "CREATE": {},
+        "PROD_DETAIL": {},
+        "REQ_DETAIL": {}
     },
-    "MESSAGING": {
-
-    },
-    "PROFILE": {
-
-    },
-    "PSYCHOLOGIST": {
-
-    },
-    "SCHEDULING": {
-
-    },
-    "SEARCH": {
-
-    }
+    "MESSAGING": {},
+    "PROFILE": {},
+    "PSYCHOLOGIST": {},
+    "SCHEDULING": {},
+    "SEARCH": {}
 }

@@ -3,34 +3,45 @@
         "NAWWAR": "نوَّر",
         "CURRENT_LANGUAGE": "العربية"
     },
-    "ACTIVITIES": {
-        
-    },
-    "ADMIN": {
-
-    },
-    "AUTH": {
-
-    },
+    "ACTIVITIES": {},
+    "ADMIN": {},
+    "AUTH": {},
     "CONTENT": {
-        "LIST": { "OUR_CONTENT": "المحتويات"}
+        "LIST": {
+            "OUR_CONTENT": "المحتويات"
+        }
     },
     "MARKET": {
-
+        "MAIN": {
+            "MARKET": "السوق",
+            "CAPTION": "اشتر، بع، أو قم بتأجير ما لا تحتاجه",
+            "PATH": "السوق",
+            "LABEL": "المنتجات",
+            "LABEL_REQ": "الطلبات الحالية",
+            "PROD_SEARCH": "منتج",
+            "PRICE_SEARCH": "السعر",
+            "LATEST": "الأحدث أولاً",
+            "CHEAPEST": "الأرخص أولاً",
+            "NAME": "اسم المنتج",
+            "PRICE": "سعر المنتج",
+            "SORT": "رتب المنتجات",
+            "SEARCH_BAR": "...بحث",
+            "SELLER": "{{ seller }} :البائع",
+            "SEARCH_PRICE": "جنيهاً {{ price }}",
+            "SORT_TYPE": "{{ sort }} :الترتيب عن طريق",
+            "PREV": "السابق",
+            "NEXT": "التالي",
+            "NO_PROD_FOUND": ".عذراً، لم نجد أي منتجات",
+            "NO_PROD_REQ": "ليس لديك أي طلبات لإضافة منتجات إلى سوق",
+            "MY_PRODS": "منتجاتي"
+        },
+        "CREATE": {},
+        "PROD_DETAIL": {},
+        "REQ_DETAIL": {}
     },
-    "MESSAGING": {
-
-    },
-    "PROFILE": {
-
-    },
-    "PSYCHOLOGIST": {
-
-    },
-    "SCHEDULING": {
-
-    },
-    "SEARCH": {
-        
-    }
+    "MESSAGING": {},
+    "PROFILE": {},
+    "PSYCHOLOGIST": {},
+    "SCHEDULING": {},
+    "SEARCH": {}
 }

@@ -3,6 +3,7 @@ import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angu
 import { FormsModule } from '@angular/forms';
 import { MarketService } from '../market.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-request-detail',
@@ -21,7 +22,7 @@ export class RequestDetailComponent {
   newData = <any>{};
 
   constructor(private marketService: MarketService, public dialogRef: MatDialogRef<RequestDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private notify: ToastrService) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private notify: ToastrService, private translate: TranslateService) {
     // Store the old data of the product
     this.oldData = data.product;
     // Set the image of the form

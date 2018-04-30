@@ -5,6 +5,7 @@ import { Product } from '../Product';
 import { MarketService } from '../market.service';
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-product-detail',
@@ -23,7 +24,7 @@ export class ProductDetailComponent {
   user: any;
   constructor(private marketService: MarketService, private toasterService: ToastrService, private authService: AuthService,
     public dialogRef: MatDialogRef<ProductDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private translate: TranslateService) {
     let self = this;
     self.oldData = data.product;
     self.product = data.product;

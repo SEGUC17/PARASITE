@@ -14,6 +14,7 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RequestDetailComponent } from './request-detail/request-detail.component';
 import { SharedModule } from '../shared/shared.module';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ import { ToastrService } from 'ngx-toastr';
     MatIconModule,
     MatButtonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    TranslateModule.forChild()
   ],
   providers: [ToastrService, MarketService, { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }],

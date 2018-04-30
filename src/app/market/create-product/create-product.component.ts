@@ -9,6 +9,7 @@ import { CloudinaryOptions, CloudinaryUploader } from 'ng2-cloudinary';
 import { CloudinaryCredentials } from '../../variables';
 import { MAT_INPUT_VALUE_ACCESSOR } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 declare const $: any;
 
 @Component({
@@ -21,7 +22,7 @@ export class CreateProductComponent {
 
   constructor(private marketService: MarketService, private toasterService: ToastrService, private authService: AuthService,
     public dialogRef: MatDialogRef<CreateProductComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private translate: TranslateService) {
 
     const userDataColumns = ['username', 'isAdmin']; // The two attributes we need from the current user
     let self = this;
