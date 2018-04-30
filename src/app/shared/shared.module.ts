@@ -11,6 +11,6 @@ import { ToastrModule } from 'ngx-toastr';
     StarRatingModule.forRoot()
   ],
   declarations: [RatingComponent, ImageUploaderComponent, FileSelectDirective],
-  exports: [RatingComponent, StarRatingModule, ImageUploaderComponent]
+  exports: [RatingComponent, StarRatingModule, ImageUploaderComponent, FileSelectDirective]
 })
 export class SharedModule { }

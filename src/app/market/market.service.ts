@@ -4,6 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { environment } from '../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +16,7 @@ export class MarketService {
 
   host: String = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toasterService: ToastrService) { }
 
   // gets the products in a page (pageNumber)
   // restrict the products to the ones following the delimiters given
@@ -51,6 +53,10 @@ export class MarketService {
   editPrice(product: any, username: String): Observable<any> {
     return this.http.patch<any>(this.host + 'productrequest/editPrice/' + product._id + '/' + username , product, httpOptions);
   }
+
+  deleteProduct(req:any): Observable<any> {
+    return this.http.patch<any>(this.host + 'productrequest/deleteProduct', req, httpOptions);
+  }   
 
   // Send updated request to Database
   updateRequest(updatedReq: any, _id: String, username: String): Observable<any> {

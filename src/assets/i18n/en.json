@@ -3,20 +3,55 @@
         "NAWWAR": "Nawwar",
         "CURRENT_LANGUAGE": "English"
     },
-    "ACTIVITIES": {
-
-    },
-    "ADMIN": {
-
-    },
-    "AUTH": {
-
-    },
+    "ACTIVITIES": {},
+    "ADMIN": {},
+    "AUTH": {},
     "CONTENT": {
-        "LIST": { "OUR_CONTENT": "Our Content"}
+        "LIST": {
+            "OUR_CONTENT": "Our Content"
+        }
     },
     "MARKET": {
 
+        "MAIN": {
+            "MARKET": "Marketplace",
+            "CAPTION": "Buy, sell or rent unwanted stuff",
+            "PATH": "Market",
+            "LABEL": "Products",
+            "LABEL_REQ": "My Pending Products",
+            "PROD_SEARCH": "Product",
+            "PRICE_SEARCH": "Price",
+            "LATEST": "Latest first",
+            "CHEAPEST": "Cheapest first",
+            "NAME": "Name",
+            "PRICE": "Price",
+            "SORT": "Sort",
+            "SEARCH_BAR": "Search...",
+            "SELLER": "Sold by: {{ seller }}",
+            "SEARCH_PRICE": "{{ price }} EGP",
+            "SORT_TYPE": "Sorted by: {{ sort }}",
+            "PREV": "Previous",
+            "NEXT": "Next",
+            "NO_PROD_FOUND": "Sorry No products found.",
+            "NO_PROD_REQ": "No product requests. All clean.",
+            "MY_PRODS": "My Products"
+        },
+        "CREATE": { 
+            "INFO": "Product's Information",
+            "DESCRIPTION": "Products description" ,
+            "NAME": "Product's name",
+            "PRICE": "Price $",
+            "AQUIRE":"Product is up for",
+            "SELL":"sell",
+            "RENT": "rent",
+            "SELLRENT":"rent/sell",
+            "RENTPERIOD":"rent period if exists",
+            "IMG":"Product's Picture",
+            "CREATEPRODUCT":"Add a Product"
+
+        },
+        "PROD_DETAIL": {},
+        "REQ_DETAIL": {}
     },
     "MESSAGING": {
 
