@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
-        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="canCreate" type="button" (click)="showCreateActivityForm()">
+        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="user.verified" type="button" (click)="showCreateActivityForm()">
                                                                                                                           <!--TODO: redirect to create Page-->
           <i class="zmdi zmdi-plus"></i>
         </button>

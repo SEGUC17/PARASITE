@@ -92,13 +92,6 @@ username = '';
     });
   }
 
-  testForDiscussion() {
-    console.log('printing the date here');
-    console.log(new Date(this.activity.discussion[0].createdAt).getTime());
-    console.log('after date');
-  }
-
-
   getCurrentUser() {
     let self = this;
     this.authService.getUserData([
@@ -177,7 +170,7 @@ username = '';
       res => {
         this.activity = res.data;
         this.updatedActivity = res.data;
-        self.canBookFor = 
+        self.canBookFor =
           self.canBookFor.filter(user => res.data.bookedBy.indexOf(user) < 0);
         if (this.activity.bookedBy.length < 1) { self.isBooked = false; }
       if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
@@ -306,5 +299,7 @@ username = '';
   bookActivity() {
     this.activityService.bookActivity(this.activity, {username: this.bookingUser}).subscribe();
   }
+
+
 
 }

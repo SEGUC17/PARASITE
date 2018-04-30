@@ -8,9 +8,6 @@
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
-        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
-          <i class="zmdi zmdi-plus"></i>
-        </button>
         <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" *ngIf="isCreator && !isBooked"
           (click)="openDialog()">
           <i class="zmdi zmdi-edit"></i>
@@ -203,6 +200,9 @@
     </div>
   </div>
 </section>
+
+
+
 <!--<div class="container">-->
 <!--<div class="comment-container">-->
 <!--<h1> Comments :</h1>-->

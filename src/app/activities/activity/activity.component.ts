@@ -26,7 +26,7 @@ export class ActivityComponent implements OnInit {
     isAdmin: false,
     verified: false,
     AvatarLink: null,
-    username: 'Mohamed Maher'
+    username: ''
 
   };
 
@@ -73,7 +73,7 @@ export class ActivityComponent implements OnInit {
       self.getDetailedActivities();
       }
     );
-    this.authService.getUserData(['isAdmin']).subscribe((user) => {
+    this.authService.getUserData(['isAdmin', 'verified']).subscribe((user) => {
       this.user.isAdmin = user.data.isAdmin;
       this.user.verified = user.data.verified;
       this.canCreate = this.user.isAdmin || this.user.verified;

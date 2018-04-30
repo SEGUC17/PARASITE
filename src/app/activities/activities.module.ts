@@ -42,6 +42,7 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent],
   entryComponents: [ActivityEditComponent],
   providers: [ActivityService, DiscussionService , { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] }]
+    { provide: MAT_DIALOG_DATA, useValue: [] }],
+  exports: [ActivityCreateComponent ]
 })
 export class ActivitiesModule { }
