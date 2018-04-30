@@ -1,0 +1,7 @@
+  <label><strong>To:</strong></label>
+  <span class="badge bg-cyan">{{gazar}}</span>
+  <div class="form-group form-float">
+      <textarea #textarea class="form-control" placeholder="Enter Your Message Here" style="height:350px;" [(ngModel)]="Body"></textarea>
+  </div>
+<button type="button" class="btn btn-primary btn-round waves-effect" (click)="reply(); textarea.value=''">SEND</button>
+<button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>

@@ -273,7 +273,7 @@
           <ul class="breadcrumb float-md-right">
             <li class="breadcrumb-item">
               <a routerLink="/dashboard">
-                <i class="zmdi zmdi-home"></i> sQuare</a>
+                <i class="zmdi zmdi-home"></i> Dashboard</a>
             </li>
             <li class="breadcrumb-item active">Profile</li>
           </ul>
@@ -303,7 +303,7 @@
                     <i class="material-icons">verified_user</i> {{currIsOwner? (currIsAdmin? 'Admin' : '' ) : (visitedIsAdmin? 'Admin' : '' ) }}</a>
                   <p>{{currIsOwner? address : vAddress}}</p>
                   <div>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf = "!currIsOwner">Message</button>
+                    <button class="btn btn-primary btn-round btn-simple" data-toggle="modal" data-target="#directMessageModal" *ngIf = "!currIsOwner">Message</button>
                     <button class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent"
                       (click)="linkToParent()">Add As A Parent</button>
                     <button class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild"
@@ -621,3 +621,14 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="directMessageModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <app-direct-messaging [receipient] = "vUsername"></app-direct-messaging>
+        </div>
+      </div>
+    </div>
+  </div>
