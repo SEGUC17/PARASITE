@@ -28,6 +28,17 @@ var tagController = require('../controllers/TagController');
 module.exports = function (passport) {
 
   // --------------------- Authentication Checkers --------------- //
+  var authFacebook = function (req, res, next) {
+    passport.authenticate('facebook-token', { session: false }, function (err, user, info) {
+      if (err) {
+        return next(err);
+      }
+      req.user = user;
+
+      return next();
+    })(req, res, next);
+  };
+
   var optionalAuthentication = function (req, res, next) {
     passport.authenticate('jwt', { session: false }, function (err, user, info) {
       if (err) {
@@ -124,6 +135,7 @@ module.exports = function (passport) {
   );
   router.put('/unverifiedActivities', isAuthenticated, ActivityController.reviewActivity);
   router.patch('/activities/:activityId/EditActivity', isAuthenticated, ActivityController.editActivity);
+  router.delete('/activities/:activityId/', isAuthenticated, ActivityController.deleteActivity);
   // ------------- psychologist's requests Controller ------------- //
   router.get('/psychologist/search/:limiters', isAuthenticated, psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
@@ -151,8 +163,11 @@ module.exports = function (passport) {
   // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
+  router.post('/auth/facebook', isNotAuthenticated, authFacebook, userController.signInWithThirdPartyResponse);
+  router.post('/auth/google', isNotAuthenticated, userController.signInWithGoogle, userController.signInWithThirdPartyResponse);
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
+  router.get('/verifyChildEmail/:id', userController.verifyChildEmail);
   router.post('/signIn', isNotAuthenticated, userController.signIn);
   router.get('/isSignedIn', isNotAuthenticated, isAuthenticated);
   router.post('/childsignup', isAuthenticated, userController.signUpChild);
@@ -168,13 +183,13 @@ module.exports = function (passport) {
   router.get('/study-plan/getPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.getPersonalStudyPlan);
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan', isAuthenticated, studyPlanController.createStudyPlan);
-  router.patch('/study-plan/rateStudyPlan/:studyPlanID/:rating', studyPlanController.rateStudyPlan);
   router.post('/study-plan/PublishStudyPlan', isAuthenticated, studyPlanController.publishStudyPlan);
   router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
-  router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deletePublishedStudyPlan);
+  router.delete('/study-plan/deletePublishedStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deletePublishedStudyPlan);
   router.patch('/study-plan/assignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.assignStudyPlan);
   router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.unAssignStudyPlan);
   router.patch('/study-plan/editPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.editPersonalStudyPlan);
+  router.patch('/study-plan/editPublishedStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.editPublishedStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //
@@ -199,6 +214,9 @@ module.exports = function (passport) {
   );
   router.get('/admin/getReports', isAuthenticated, adminController.getReports);
 
+  router.patch('/admin/DeleteReport/:reportId', isAuthenticated, adminController.deleteReport);
+  router.patch('/admin/BanUser/:username', isAuthenticated, adminController.banUser);
+
   // --------------End Of Admin Contoller ---------------------- //
   // -------------------- Profile Module Endpoints ------------------//
 
@@ -213,6 +231,7 @@ module.exports = function (passport) {
   router.patch('/profile/changeChildInfo', profileController.changeChildInfo);
   router.patch('/profile/ChangeInfo/:id', profileController.ChangeInfo);
   router.post('/profile/ReportUser', isAuthenticated, profileController.reportUser);
+  router.patch('/profile/ChangeProfilePic', isAuthenticated, profileController.changeProfilePic);
 
 
   // ------------------- End of Profile module Endpoints-----------//
@@ -406,7 +425,7 @@ module.exports = function (passport) {
   // Registered user contacts admins
   router.post('/contactus', messageController.contactAdmin);
     //Unblocking users
-    router.patch('/message/unblock/:blocked', messageController.unBlock);
+    router.patch('/message/unblock/:id', messageController.unBlock);
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//

@@ -6,6 +6,7 @@ import { of } from 'rxjs/observable/of';
 import { Content } from './content';
 import { MatSnackBar } from '@angular/material';
 import { environment } from '../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable()
@@ -13,7 +14,7 @@ export class ContentService {
 
   endpoint: String = environment.apiUrl;
 
-  constructor(private http: HttpClient, private snackBar: MatSnackBar) { }
+  constructor(private http: HttpClient, private toasterService: ToastrService) { }
 
   getContentById(id: any): Observable<any> {
     const self = this;
@@ -49,7 +50,7 @@ export class ContentService {
       pageSize + '/' + pageNumber + '/categorization?category=' + category +
       '&section=' + section)
       .pipe(
-        catchError(self.handleError('getContentByCreator', []))
+        catchError(self.handleError('Getting contributions', []))
       );
   }
 
@@ -57,7 +58,7 @@ export class ContentService {
     const self = this;
     return this.http.get(self.endpoint + 'content/category')
       .pipe(
-        catchError(self.handleError('getCategories', []))
+        catchError(self.handleError('Loading page', []))
       );
   }
 
@@ -66,7 +67,7 @@ export class ContentService {
     const self = this;
     return this.http.delete(self.endpoint + 'content/' + contentId)
       .pipe(
-        catchError(self.handleError('deleteContent', []))
+        catchError(self.handleError('Deleting content', []))
       );
   }
   // get search page from server
@@ -93,7 +94,7 @@ export class ContentService {
       searchQuery + '&category=' + selectedCategory + '&section=' + selectedSection
       + '&sort=' + sortResultsBy + '&language=' + contentLanguage)
       .pipe(
-        catchError(self.handleError('getSearchPage', []))
+        catchError(self.handleError('Retrieving content', []))
       );
   }
 
@@ -112,9 +113,7 @@ export class ContentService {
     const self = this;
     return function (error: any): Observable<T> {
 
-      self.snackBar.open(operation + ' failed. Please try again later.', 'Undo', {
-        duration: 3000
-      });
+      self.toasterService.error(operation + ' failed, please try again', 'failure');
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };

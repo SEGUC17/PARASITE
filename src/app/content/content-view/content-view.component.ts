@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
 import { ActivatedRoute } from '@angular/router';
-import { AdminService } from '../../admin.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../auth/user';
@@ -30,8 +29,6 @@ export class ContentViewComponent implements OnInit {
   somePlaceholder: String = 'Leave a comment';
   showReplies: String = 'Show replies';
   hideReplies: String = 'Hide replies';
-  Comment: String = 'Comment';
-  Reply: String = 'Reply';
   isReplying: boolean;
   commentReplyingOn: any;
   public YT: any;
@@ -43,7 +40,6 @@ export class ContentViewComponent implements OnInit {
     private contentService: ContentService,
     private route: ActivatedRoute,
     private videoIdExtractorPipe: VideoIdExtractorPipe,
-    private adminService: AdminService,
     private authService: AuthService,
     private discussionService: DiscussionService,
     private toasterService: ToastrService,
@@ -134,7 +130,7 @@ export class ContentViewComponent implements OnInit {
     let self = this;
     let element = document.getElementById('target');
     element.scrollIntoView();
-    let input = document.getElementById('input');
+    let input = document.getElementById('inputArea');
     self.somePlaceholder = 'leave a reply';
     input.focus();
     this.isReplying = true;
@@ -173,7 +169,7 @@ export class ContentViewComponent implements OnInit {
   cancel() {
     this.changingComment = '';
     this.isReplying = false;
-    let input = document.getElementById('input');
+    let input = document.getElementById('inputArea');
     this.somePlaceholder = 'leave a comment';
     input.blur();
 

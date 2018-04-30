@@ -2,11 +2,16 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>Our Content
+        <h2>{{ 'CONTENT.LIST.OUR_CONTENT' | translate }}
           <small>Nawwar</small>
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
+        <a routerLink="/content/edit" class="hidden-sm-down float-right m-l-10">
+          <button class="btn btn-primary btn-round btn-icon">
+            <i class="zmdi zmdi-plus m-t--10"></i>
+          </button>
+        </a>
         <ul class="breadcrumb float-md-right">
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">
@@ -36,7 +41,7 @@
         <div *ngFor="let content of contents" class="card single_post">
           <div class="body">
             <h3 *ngIf="content.title" class="m-t-0 m-b-5">
-              <a routerLink="/content-view/{{content._id}}">{{ content.title }}</a>
+              <a routerLink="/content/view/{{content._id}}">{{ content.title }}</a>
             </h3>
             <ul class="meta">
               <li *ngIf="content.creator">
@@ -57,7 +62,7 @@
               <span *ngFor="let tag of getFirstTenTags(content.tags)" class="badge badge-info btn-round">{{tag}}</span>
             </div>
             <div>
-              <a routerLink="/content-view/{{content._id}}" title="Watch Now" class="btn btn-round btn-info">Watch Now</a>
+              <a routerLink="/content/view/{{content._id}}" title="Watch Now" class="btn btn-round btn-info">Watch Now</a>
             </div>
           </div>
         </div>
@@ -172,7 +177,9 @@
                     </div>
                     <div id="{{'collapse' + category._id}}" class="panel-collapse collapse in" role="tabpanel" [attr.aria-labelledby]="'heading' + category._id">
                       <div class="panel-body list-group">
-                        <button *ngFor="let section of category.sections" type="button" class="list-group-item section-button" (click)="changeCategoryAndSection(category.name,section.name)">{{ section.name }}<img [src]="section.iconLink" width="32px" height="32px" style="float: right;"></button>
+                        <button *ngFor="let section of category.sections" type="button" class="list-group-item section-button" (click)="changeCategoryAndSection(category.name,section.name)">{{ section.name }}
+                          <img [src]="section.iconLink" width="32px" height="32px" style="float: right;">
+                        </button>
                       </div>
                     </div>
                   </div>

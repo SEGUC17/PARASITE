@@ -1,0 +1,36 @@
+{
+    "APP": {
+        "NAWWAR": "نوَّر",
+        "CURRENT_LANGUAGE": "العربية"
+    },
+    "ACTIVITIES": {
+        
+    },
+    "ADMIN": {
+
+    },
+    "AUTH": {
+
+    },
+    "CONTENT": {
+        "LIST": { "OUR_CONTENT": "المحتويات"}
+    },
+    "MARKET": {
+
+    },
+    "MESSAGING": {
+
+    },
+    "PROFILE": {
+
+    },
+    "PSYCHOLOGIST": {
+
+    },
+    "SCHEDULING": {
+
+    },
+    "SEARCH": {
+        
+    }
+}

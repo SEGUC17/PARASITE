@@ -1,66 +1,76 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
-import { ContentModule } from './content/content.module';
-import { MessagingModule } from './messaging/messaging.module';
-import { ProfileModule } from './profile/profile.module';
-import { SearchModule } from './search/search.module';
-import { AuthModule } from './auth/auth.module';
-import { AppComponent } from './app.component';
-import { ActivitiesModule } from './activities/activities.module';
-import { ScheduleModule } from './schedule/schedule.module';
-import { PsychologistModule } from './psychologist/psychologist.module';
-import { AuthService } from './auth/auth.service';
-import { MarketModule } from './market/market.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AdminModule } from './admin/admin.module';
-import { ChildsignupModule } from './childsignup/childsignup.module';
 import { CalendarModule } from 'angular-calendar';
 import { HttpClientModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { LayoutModule } from '@angular/cdk/layout';
 import { AuthInterceptor } from './auth-interceptor';
-import { ChildsignupComponent } from './childsignup/childsignup.component';
 import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
-import { ToastrService } from 'ngx-toastr';
 import { LandingModule } from './landing/landing.module';
+import { ToastrService, ToastrModule } from 'ngx-toastr';
+import { FacebookModule } from 'ngx-facebook';
+import {
+  GoogleApiModule,
+  GoogleApiService,
+  GoogleAuthService,
+  NgGapiClientConfig,
+  NG_GAPI_CONFIG,
+  GoogleApiConfig
+} from 'ng-gapi';
+import { AppComponent } from './app.component';
+import { AuthService } from './auth/auth.service';
+import { environment } from '../environments/environment';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
 
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ChildsignupComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    AdminModule,
-    ProfileModule,
-    SearchModule,
-    ContentModule,
-    AuthModule,
-    ScheduleModule,
-    PsychologistModule,
-    MarketModule,
-    ActivitiesModule,
-    MessagingModule,
     AppRoutingModule,
-    ChildsignupModule,
     BrowserAnimationsModule,
     CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule,
-    AuthModule,
     LayoutModule,
     CommonModule,
     SharedModule,
-    AuthModule,
-    LandingModule
+    LandingModule,
+    ToastrModule.forRoot({
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+      maxOpened: 3
+    }),
+    FacebookModule.forRoot(),
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: {
+        client_id: environment.googleAppID,
+      }
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
+    AuthService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,

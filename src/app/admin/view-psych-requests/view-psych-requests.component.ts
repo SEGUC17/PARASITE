@@ -4,7 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { PsychologistRequest } from '../../psychologist/PsychologistRequest';
-import { MatSnackBar } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-view-psych-requests',
@@ -23,7 +23,7 @@ export class ViewPsychRequestsComponent implements OnInit {
   constructor(private service: PsychRequestsService,
     private authService: AuthService,
     private router: Router,
-    public snackBar: MatSnackBar) {
+    public toasterService: ToastrService) {
 
     let self = this;
     self.state = 'add';
@@ -61,7 +61,7 @@ export class ViewPsychRequestsComponent implements OnInit {
   filter(reqs: any[]): void {
     this.addRequests = [];
     this.editRequests = [];
-    for (let i = 0, j = 0, h = 0 ; i < reqs.length ; i++ ) {
+    for (let i = 0, j = 0, h = 0; i < reqs.length; i++) {
       if (reqs[i].type === 'add') {
         this.addRequests[j++] = reqs[i];
       } else if (reqs[i].type === 'edit') {
@@ -99,16 +99,12 @@ export class ViewPsychRequestsComponent implements OnInit {
       if (res.err === null) {
         // If a 200 OK is received, remove the request from the view
         self.requests = self.removeElement(self.requests, index);
-        self.snackBar.open(res.msg, '', {
-          duration: 2000
-        });
+        self.toasterService.success(res.msg, 'success');
       } else {
-        self.snackBar.open('Request was not found.', '', {
-                duration: 2000
-              });
-              self.getRequests();
-              console.log(self.state);
-              self.loadRequests(self.state);
+        self.toasterService.error('Request was not found.', 'failure');
+        self.getRequests();
+        console.log(self.state);
+        self.loadRequests(self.state);
       }
     });
   }
@@ -126,15 +122,11 @@ export class ViewPsychRequestsComponent implements OnInit {
       if (res.err === null) {
         // If a 200 OK is received, remove the request from the view
         self.requests = self.removeElement(self.requests, index);
-        self.snackBar.open(res.msg, '', {
-          duration: 2000
-        });
+        self.toasterService.success(res.msg, 'success');
       } else {
-        self.snackBar.open('Request was not found.', '', {
-                duration: 2000
-              });
-              self.getRequests();
-              self.loadRequests(self.state);
+        self.toasterService.error('Request was not found.', 'failure');
+        self.getRequests();
+        self.loadRequests(self.state);
       }
     });
   }
