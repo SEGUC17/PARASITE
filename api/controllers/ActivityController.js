@@ -540,3 +540,37 @@ module.exports.bookActivity = function (req, res, next) {
         }
     });
 };
+
+var addActivityEvent = function(targetUser, activity) {
+    var event = {
+        color: {
+            primary: '#FF0000',
+            secondary: '#D1E8FF'
+        },
+        draggable: false,
+        end: activity.toDateTime,
+        meta: {
+             activityId: activity._id,
+             type: 'Activity',
+             url: '/activities/' + activity._id
+            },
+            resizable: {
+                afterEnd: false,
+                beforeStart: false
+              },
+        start: activity.fromDateTime,
+        title: activity.name
+      };
+    User.findOneAndUpdate(
+        { username: targetUser },
+        { $push: { 'schedule': event } }, { new: true },
+        function (err, user) {
+            if (err) {
+                return err;
+            }
+            if (!user) {
+                return 'user not found';
+            }
+        }
+    );
+};
