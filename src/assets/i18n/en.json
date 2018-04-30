@@ -39,6 +39,7 @@
             }
         },
         "VIEW_CONTENT_REQUESTS": {
+            "NO_REQUESTS_HERE": "No Requests Here"
 
         }
     },
