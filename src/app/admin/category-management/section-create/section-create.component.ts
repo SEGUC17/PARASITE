@@ -3,6 +3,7 @@ import { AdminService } from '../../admin.service';
 import { Category } from '../../../../interfaces/category';
 import { ToastrService } from 'ngx-toastr';
 import { Section } from '../../../../interfaces/section';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-section-create',
@@ -12,7 +13,11 @@ import { Section } from '../../../../interfaces/section';
 export class SectionCreateComponent implements OnInit {
   @Input() inputCategories: Category[];
   categories: Category[];
-  constructor(private toasterService: ToastrService, private adminService: AdminService) { }
+  constructor(
+    private toasterService: ToastrService,
+    private adminService: AdminService,
+    private translate: TranslateService
+  ) { }
   selectedCategory: Category;
   selectedSection = {
     section: '',

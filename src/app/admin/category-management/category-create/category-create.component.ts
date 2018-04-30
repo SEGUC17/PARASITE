@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { AdminService } from '../../admin.service';
 import { Category } from '../../../../interfaces/category';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-category-create',
   templateUrl: './category-create.component.html',
@@ -14,7 +15,10 @@ export class CategoryCreateComponent implements OnInit {
   };
   @Input() inputCategories: Category[];
   categories: Category[];
-  constructor(private adminService: AdminService, private toasterService: ToastrService) { }
+  constructor(
+    private adminService: AdminService,
+    private toasterService: ToastrService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     this.categories = this.inputCategories;
