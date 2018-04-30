@@ -27,11 +27,14 @@ import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
 import { ToastrService } from 'ngx-toastr';
 import { FacebookModule } from 'ngx-facebook';
+import { ContactUsComponent } from './messaging/contact-us/contact-us.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChildsignupComponent
+    ChildsignupComponent,
+    ContactUsComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,7 @@ import { FacebookModule } from 'ngx-facebook';
     CommonModule,
     SharedModule,
     AuthModule,
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
   ],
   providers: [
     {

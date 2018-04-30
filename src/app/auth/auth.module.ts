@@ -20,7 +20,6 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignOutComponent } from './sign-out/sign-out.component';
-import { ContactUsComponent } from '../messaging/contact-us/contact-us.component';
 import { VerifyChildEmailComponent } from './verify-child-email/verify-child-email.component';
 
 @NgModule({
@@ -39,6 +38,6 @@ import { VerifyChildEmailComponent } from './verify-child-email/verify-child-ema
     MatSelectModule
   ],
   declarations: [ForgotPasswordComponent, ResetPasswordComponent,
-     VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent, ContactUsComponent, VerifyChildEmailComponent]
+     VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent, VerifyChildEmailComponent]
 })
 export class AuthModule { }
