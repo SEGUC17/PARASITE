@@ -23,9 +23,9 @@ export class AppComponent implements OnInit {
   isAdmin: boolean;
   notifications: Notification[];
   unreadNotificationsNumber: number; // Number of unread notifications to display on top of icon
-  unreadNotificationsNumberMessages: number;
-  discussionC : String = "discussion content";
-  discussionA : String = "discussion activity";
+  unreadNotificationsNumberMessages: number; // Number of unread messages to display on top of icon
+  discussion_C : String = "discussion content";
+  discussion_A : String = "discussion activity";
   message : String = "message";
   link : String = "link";
   study_plan : String = "study plan";
@@ -314,7 +314,6 @@ export class AppComponent implements OnInit {
       var retrievednotifications = res.data.notifications.filter(function(notMessage) {
         return notMessage.type != 'message';
       });
-      console.log(res.data.notifications);
     // all notification that aren't read (not messages)
       var unreadNots = res.data.notifications.filter(function (notRead) {
         return notRead.isRead === false;
@@ -333,6 +332,7 @@ export class AppComponent implements OnInit {
         let type = retrievednotifications[i].type;
         let itemId = retrievednotifications[i].itemId;
         let itemUsername = retrievednotifications[i].itemUsername;
+        console.log(type);
         ///////////// all profile must be usernamesss
         if ((type == 'link' || type == 'contributer' ) && itemUsername) {
           retrievednotifications[i].link = '/profile/'+retrievednotifications[i].itemUsername;
@@ -351,7 +351,10 @@ export class AppComponent implements OnInit {
           retrievednotifications[i].link = '/market';
         }
       }
-      self.notifications = retrievednotifications;
+      console.log(retrievednotifications);
+      self.notifications = retrievednotifications.reverse();
+      console.log(self.notifications);
+
     })
   }
 

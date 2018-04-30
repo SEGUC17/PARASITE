@@ -63,10 +63,12 @@ module.exports.postComment = function (req, res) {
     var isAdmin = user && user.isAdmin;
     var object = req.object;
     var isCreator = user && object.creator === user.username;
+    var distype = 'discussion content';
     var type = 'content';
     var title = object.title;
     if (object.name) {
         type = 'activity';
+        distype = 'discussion activity';
         title = object.name;
     }
 
@@ -100,7 +102,7 @@ module.exports.postComment = function (req, res) {
                 ' ' + title,
                 date: moment().toDate(),
                 itemId: object._id,
-                type: 'discussion ' + type
+                type: distype
             };
             User.findOneAndUpdate(
                 { username: object.creator },
@@ -153,8 +155,10 @@ module.exports.postCommentReply = function (req, res, next) {
     var isCreator = user && object.creator === user.username;
     var commentId = req.params.commentId;
     var type = 'content';
+    var distype = 'discussion content';
     var title = object.title;
     if (object.name) {
+        distype = 'discussion activity';
         type = 'activity';
         title = object.name;
     }
@@ -206,7 +210,7 @@ module.exports.postCommentReply = function (req, res, next) {
                 ' ' + title,
                 date: moment().toDate(),
                 itemId: object._id,
-                type: 'discussion ' + type
+                type: distype
             };
             User.findOneAndUpdate(
                 { username: object.creator },
@@ -242,7 +246,7 @@ module.exports.postCommentReply = function (req, res, next) {
                 ' ' + title,
                 date: moment().toDate(),
                 itemId: object._id,
-                type: 'discussion ' + type
+                type: distype
             };
             User.findOneAndUpdate(
                 { username: comment.creator },
