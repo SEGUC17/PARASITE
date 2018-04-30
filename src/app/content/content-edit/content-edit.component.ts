@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
+import { ENTER, COMMA, SPACE, BACKSPACE } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import { ContentService } from '../content.service';
@@ -9,6 +9,10 @@ import { Section } from '../../../interfaces/section';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Category } from '../../../interfaces/category';
 import { AuthService } from '../../auth/auth.service';
+import { CloudinaryOptions, CloudinaryUploader } from 'ng2-cloudinary';
+import { CloudinaryCredentials } from '../../variables';
+import { ToastrService } from 'ngx-toastr';
+declare const $: any;
 @Component({
   selector: 'app-content-edit',
   templateUrl: './content-edit.component.html',
@@ -20,57 +24,81 @@ export class ContentEditComponent implements OnInit {
   public videoInput: string;
   public categories: Category[];
   public requiredSections: Section[];
+  public loading: any = false;
+  public chipInput: any = '';
+  private toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote'],
+    [{ 'header': '1' }, { 'header': '2' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],
+    [{ 'direction': 'rtl' }],
+  ];
   private editorOptions: Object = {
-    placeholder: 'insert content here'
+    placeholder: 'insert content here',
+    modules: {
+      toolbar: this.toolbarOptions
+    }
   };
-  separatorKeysCodes = [ENTER, COMMA, SPACE];
+
+  separatorKeysCodes = [ENTER, COMMA, SPACE, BACKSPACE];
   public content: Content = {
-    body: `<h1>Nawwar :D<h1>`,
+    body: '',
     category: '',
     discussion: [],
     section: '',
-    creator: '',
-    creatorAvatarLink: 'https://i.pinimg.com/originals/81/8a/74/818a7421837fabbce3cac4726b217df6.jpg',
-    creatorProfileLink: 'https://www.facebook.com/Prog0X1',
     image: '',
     tags: [],
     title: '',
     touchDate: new Date(),
     type: 'resource',
-    language: ''
+    language: 'english'
   };
+  uploader: CloudinaryUploader = new CloudinaryUploader(
+    new CloudinaryOptions({ cloudName: CloudinaryCredentials.cloudName, uploadPreset: CloudinaryCredentials.uploadPreset })
+  );
   constructor(private sanitizer: DomSanitizer,
     private contentService: ContentService,
     private authService: AuthService,
+    private toasterService: ToastrService,
     private route: ActivatedRoute,
     private router: Router) {
+    const self = this;
+    this.authService.getUserData(['username']).subscribe(function (res) {
+      if (Array.isArray(res)) {
+        self.authService.setToken(null);
+        self.toasterService.error('Please sign in first', 'failure');
+        self.router.navigateByUrl('/auth/sign-in');
+        return;
+      }
+    });
   }
 
-  // Add a tag chip event handler
-  add(event: MatChipInputEvent): void {
-    let input = event.input;
-    let value = event.value;
+  // Handle tag input on content edit
+  onTagInput(event: KeyboardEvent): void {
+    // IF the recorded key event is not a target one, ignore the event
+    if (!this.separatorKeysCodes.includes(event.keyCode)) {
+      return;
+    }
+
+    // Remove a tag on backspace
+    if (event.keyCode === BACKSPACE) {
+      if (this.chipInput) {
+        return;
+      }
+      this.content.tags.splice(-1, 1);
+      return;
+    }
 
     // Add tag
-    if ((value || '').trim()) {
-      this.content.tags.push(value.trim());
+    if ((this.chipInput || '').trim()) {
+      this.content.tags.push(this.chipInput.trim());
     }
 
     // Reset the input value
-    if (input) {
-      input.value = '';
+    if (this.chipInput) {
+      this.chipInput = '';
     }
   }
-
-  // Remove a tag
-  remove(tag: any): void {
-    let index = this.content.tags.indexOf(tag);
-
-    if (index >= 0) {
-      this.content.tags.splice(index, 1);
-    }
-  }
-
 
   // on content edit form submit
   onSubmit(): void {
@@ -82,9 +110,6 @@ export class ContentEditComponent implements OnInit {
     }
     // get username of the registered user
     this.authService.getUserData(['username']).subscribe(function (authRes) {
-      self.content.creator = authRes.data.username;
-      // create content for for that registered user
-
       if (self.isUpdate) {
         self.updateContent();
       } else {
@@ -95,16 +120,16 @@ export class ContentEditComponent implements OnInit {
   // create content
   createContent(): void {
     const self = this;
+    console.log(self.content);
     self.contentService.createContent(self.content).subscribe(function (contentRes) {
-      // TODO: (Universal Error Handler/ Modal Errors)
       if (!contentRes) {
         return;
       }
       if (contentRes.data.content) {
-        self.router.navigateByUrl('/content-view/' + contentRes.data.content._id);
+        self.router.navigateByUrl('/content/view/' + contentRes.data.content._id);
         return;
       }
-      self.router.navigateByUrl('/content-view/' + contentRes.data._id);
+      self.router.navigateByUrl('/content/view/' + contentRes.data._id);
     });
   }
 
@@ -112,7 +137,6 @@ export class ContentEditComponent implements OnInit {
   updateContent(): void {
     const self = this;
     self.contentService.updateContent(self.content).subscribe(function (contentRes) {
-      // TODO: (Universal Error Handler/ Modal Errors)
       if (!contentRes || !contentRes.data) {
         return;
       }
@@ -169,12 +193,38 @@ export class ContentEditComponent implements OnInit {
 
   }
 
-  ngOnInit() {
-    const contentID = this.route.snapshot.params.id;
-    if (contentID) {
-      this.isUpdate = true;
-      this.initUpdateView(contentID);
+  uploadImage() {
+    let self = this;
+    if (this.uploader.queue.length > 0) {
+      this.loading = true;
+      this.uploader.uploadAll();
+      this.uploader.onSuccessItem = (
+        item: any,
+        response: string,
+        status: number,
+        headers: any): any => {
+        let res: any = JSON.parse(response);
+        this.loading = false;
+        self.content.image = res.url;
+      };
+      this.uploader.onErrorItem =
+        function (fileItem, response, status, headers) {
+          // console.info('onErrorItem', fileItem, response, status, headers);
+          self.toasterService.error('failed to upload image, please try again', 'failure');
+        };
+    } else {
+      self.toasterService.error('No file supplied to upload', 'failure');
     }
-    this.getCategories();
+  }
+
+
+  ngOnInit() {
+    const self = this;
+    const contentID = self.route.snapshot.params.id;
+    if (contentID) {
+      self.isUpdate = true;
+      self.initUpdateView(contentID);
+    }
+    self.getCategories();
   }
 }

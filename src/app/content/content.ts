@@ -3,9 +3,7 @@ export interface Content {
     approved?: Boolean;
     body: string;
     category: string;
-    creator: string;
-    creatorAvatarLink: string;
-    creatorProfileLink: string;
+    creator?: string;
     image?: string;
     language: string;
     section: string;

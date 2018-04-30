@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { Router } from '@angular/router';
-import { ImageUploaderComponent } from '../../shared/image-uploader/image-uploader.component';
+import { ImageUploaderComponent } from '../../image-uploader/image-uploader.component';
 
 @Component({
   selector: 'app-view-verified-contributer-requests',
