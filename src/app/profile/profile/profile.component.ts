@@ -325,9 +325,9 @@ let self =this;
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
   if (res.msg.indexOf('Successefully')>-1) 
   { self.visitedIsMyParent = false;     
-     self.translate.get('PROFILE.TOASTER.UNLINK_INDEPENDENT_FAIL').subscribe(
+     self.translate.get('PROFILE.TOASTER.UNLINK_INDEPENDENT').subscribe(
     function(translation) {
-      self.toastrService.error(translation);
+      self.toastrService.success(translation);
     }); ;}
     }));
   }
