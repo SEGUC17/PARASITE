@@ -106,6 +106,7 @@ export class MessagingComponent implements OnInit {
 
         // make a POST request using messaging service
         if (this.allisWell === true) {
+          console.log(user.data.avatar);
           this.msg = {'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
           'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
           console.log(this.msg);

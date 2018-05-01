@@ -65,6 +65,7 @@ export class SingleMailComponent implements OnInit {
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
       self.getContacts();
+      console.log(self.contacts);
       if (self.recipient !== self.currentUser.username) {
         self.senderDisplay = 'me';
         self.recipientDisplay = self.recipient;
@@ -93,6 +94,7 @@ export class SingleMailComponent implements OnInit {
     const self = this;
     this.messageService.getContacts(this.currentUser.username).subscribe(function (contacts) {
       self.contacts = contacts.data;
+      console.log(self.contacts);
     });
   }
 
@@ -121,6 +123,15 @@ export class SingleMailComponent implements OnInit {
     const self = this;
     this.allisWell = true;
 
+
+    if ( self.replyTo.match(/\S+@\S+\.\S+/) && self.Body !== '') {
+      this.msg = {'body': this.Body, 'recipient': this.replyTo,
+        'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
+      this.messageService.send(self.msg)
+      .subscribe(function(res) {
+        self.toastrService.success('Message was sent!');
+      });
+    }// end if
     if (this.Body === '') {
       this.allisWell = false;
       this.toastrService.warning('You can\'t send an empty message.');
@@ -137,7 +148,7 @@ export class SingleMailComponent implements OnInit {
         }// end for
 
        // make a POST request using messaging service
-       if (this.allisWell === true) {
+       if (this.allisWell === true && !self.replyTo.match(/\S+@\S+\.\S+/)) {
         this.msg = {'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
         'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
         this.messageService.send(this.msg)
@@ -145,6 +156,7 @@ export class SingleMailComponent implements OnInit {
            self.toastrService.success('Message was sent!');
          });
        }// end if
+ 
     });
    }
 }
