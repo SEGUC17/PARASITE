@@ -328,6 +328,13 @@ let self =this;
     const self = this;
     console.log(new Date(info.birthdate) <= new Date());
     if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
+      this.vUsername = info.username;
+      this.vFirstName = info.firstName;
+      this.vLastName = info.lastName;
+      this.vAddress = info.address;
+      this.vPhone = [info.phone];
+      this.vBirthdayView = this._datePipe.transform(info.birthdate, 'MM/dd/yyyy');;
+      this.vEmail = info.email;
       this._ProfileService.changeChildinfo(info).subscribe(function (res) {
         self.toastrService.success(res.msg);
         // alert(res.msg);
@@ -354,6 +361,13 @@ let self =this;
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
     if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
+      this.username = info.username;
+      this.firstName = info.firstName;
+      this.lastName = info.lastName;
+      this.address = info.address;
+      this.phone = [info.phone];
+      this.birthdayView = this._datePipe.transform(info.birthdate, 'MM/dd/yyyy');;
+      this.email = info.email;
       this._ProfileService.ChangeInfo(this.id, info).subscribe(function (res) {
         self.toastrService.success(res.msg);
         // alert(res.msg);
@@ -437,6 +451,7 @@ let self =this;
         url: url
       };
       // console.log('in vcC and its uploaded with url = '+ url);
+      this.avatar = upload.url;
       this._ProfileService.changeProfilePic(upload).subscribe((res) => {
         if (res.data) {
           this.toastrService.success('Profile picture changed successfully');
