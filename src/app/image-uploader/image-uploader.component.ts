@@ -1,6 +1,6 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CloudinaryOptions, CloudinaryUploader } from 'ng2-cloudinary';
-import { CloudinaryCredentials } from '../../variables';
+import { CloudinaryCredentials } from '../variables';
 
 
 
@@ -37,6 +37,7 @@ export class ImageUploaderComponent implements OnInit {
   //
 
   @Output() ImageUploaded = new EventEmitter<string>();
+  @Input() brWanted: Boolean = true;
 
   uploader: CloudinaryUploader = new CloudinaryUploader(
     new CloudinaryOptions({ cloudName: CloudinaryCredentials.cloudName, uploadPreset: CloudinaryCredentials.uploadPreset })

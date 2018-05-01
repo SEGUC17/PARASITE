@@ -43,8 +43,6 @@ export class DirectMessagingComponent implements OnInit {
   @Input()
   set receipient(receipent: string) {
     this.gazar = receipent;
-    console.log(receipent);
-    console.log(this.gazar);
 
   }
 
@@ -93,7 +91,6 @@ export class DirectMessagingComponent implements OnInit {
         this.list = user.data.blocked;
         for ( let i = 0 ; i < user.data.blocked.length ; i++) {
           if ( this.currentUser.username === this.list[i] ) {
-            console.log('blocked is:', this.list[i]);
             this.toastrService.error('Sorry, you are blocked.');
             this.allisWell = false;
           } // end if
