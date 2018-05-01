@@ -180,7 +180,13 @@
         },
         "PROD_DETAIL": {
             "PROD_INFO": "Product Information:",
-            "CREATED_AT": "Created at: {{ date }}"
+            "CREATED_AT": "Created at: {{ date }}",
+            "ACQUIRE": "Acquire",
+            "EGP": "EGP",
+            "ACQTYPERENT": "This item is for rent",
+            "ACQTYPESELL": "This item is for sale",
+            "ACQTYPEBOTH": "This item is for rent and sale",
+            "DAYS": "Up to {{ days }} days"
         },
         "REQ_DETAIL": {
 

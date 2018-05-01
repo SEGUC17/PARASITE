@@ -3,9 +3,7 @@
         "NAWWAR": "نوَّر",
         "CURRENT_LANGUAGE": "العربية"
     },
-    "ACTIVITIES": {
-        
-    },
+    "ACTIVITIES": {},
     "ADMIN": {
         "ADMIN_CONTROL": {
             "CONTENTS_MANAGEMENT": "إدارة المحتويات",
@@ -57,9 +55,7 @@
             "CREATE": "إنشاء"
         }
     },
-    "AUTH": {
-
-    },
+    "AUTH": {},
     "CONTENT": {
         "SHARED": {
             "OUR_CONTENT": "المحتويات",
@@ -121,7 +117,7 @@
             "TITLE": "العنوان",
             "TITLE_IS_REQUIRED": "العنوان مطلوب",
             "THUMBNAIL_IMAGE": "الصورة",
-            "YOUTUBE_VIDEO":"فيديو يوتيوب",
+            "YOUTUBE_VIDEO": "فيديو يوتيوب",
             "VIDEO_LINK_INVALID": ".رابط الفيديو غير صحيح",
             "TYPE": "النوع",
             "RESOURCE": "مورد تعليمي",
@@ -171,40 +167,64 @@
         },
         "CREATE": {
             "INFO": "معلومات عن المنتج",
-            "DESCRIPTION": "شرح المنتج" ,
+            "DESCRIPTION": "شرح المنتج",
             "NAME": "اسم المنتج",
             "PRICE": "سعر المنتج",
-            "AQUIRE":"هذا المنتج معروض لل",
-            "SELL":"للبيع",
+            "AQUIRE": "هذا المنتج معروض لل",
+            "SELL": "للبيع",
             "RENT": "للإيجار",
-            "SELLRENT":"للبيع و الإيجار",
-            "RENTPERIOD":"فترة الإيجار",
-            "IMG":"صورة المنتج",
-            "CREATEPRODUCT":"إضافة منتج"
+            "SELLRENT": "للبيع و الإيجار",
+            "RENTPERIOD": "فترة الإيجار",
+            "IMG": "صورة المنتج",
+            "CREATEPRODUCT": "إضافة منتج"
         },
         "PROD_DETAIL": {
             "PROD_INFO": "تفاصيل المنتج",
-            "CREATED_AT": "{{ date }} تمت إضافته"
+            "CREATED_AT": "{{ date }} تمت إضافته",
+            "ACQUIRE": "احصل على المنتج",
+            "EGP": "جنيهاً",
+            "ACQTYPERENT": "هذا المنتج للإيجار",
+            "ACQTYPESELL": "هذا المنتج للبيع",
+            "ACQTYPEBOTH": "هذا المنتج للإيجار و البيع",
+            "DAYS": "يوم {{ days }} بحد أقصى"
         },
         "REQ_DETAIL": {}
     },
-    "MESSAGING": {
-
-    },
-    "PROFILE": {
-
-    },
+    "MESSAGING": {},
+    "PROFILE": {},
     "PSYCHOLOGIST": {
-        "TITLE": { "VERIFIED_PSYCHS": "خبراء نفسيين", "SUB": "لأننا نهتم بالصحة النفسية لطفلك", "NAWWAR": "نوَّر" },
-        "INFO": { "PHONE": "الهاتف", "EMAIL": "البريد الإلكتروني", "DAYSOFF": "أيام العطلة", "PRICE": "الحد اﻷعلى للسعر",
-                  "ADD": "العنوان", "EDIT": "تعديل", "DELETE": "مسح" },
-        "DAYS": { "SAT": "السبت", "SUN": "اﻷحد", "MON": "الاثنين", "TUE": "الثلاثاء", "WED": "اﻷربعاء", "THU": "الخميس", "FRI": "الجمعة", "NO DAYS OFF": "لا يوجد"  },
-        "FILTERS": { "NAME_SEARCH": "...البحث باﻷسم", "ADD_SEARCH": "...البحث بالعنوان", "SORT_BY": "الترتيب بحسب", "CHEAPEST": "اﻷرخص", "A-Z": "اﻷبجدية" }
+        "TITLE": {
+            "VERIFIED_PSYCHS": "خبراء نفسيين",
+            "SUB": "لأننا نهتم بالصحة النفسية لطفلك",
+            "NAWWAR": "نوَّر"
+        },
+        "INFO": {
+            "PHONE": "الهاتف",
+            "EMAIL": "البريد الإلكتروني",
+            "DAYSOFF": "أيام العطلة",
+            "PRICE": "الحد اﻷعلى للسعر",
+            "ADD": "العنوان",
+            "EDIT": "تعديل",
+            "DELETE": "مسح"
+        },
+        "DAYS": {
+            "SAT": "السبت",
+            "SUN": "اﻷحد",
+            "MON": "الاثنين",
+            "TUE": "الثلاثاء",
+            "WED": "اﻷربعاء",
+            "THU": "الخميس",
+            "FRI": "الجمعة",
+            "NO DAYS OFF": "لا يوجد"
+        },
+        "FILTERS": {
+            "NAME_SEARCH": "...البحث باﻷسم",
+            "ADD_SEARCH": "...البحث بالعنوان",
+            "SORT_BY": "الترتيب بحسب",
+            "CHEAPEST": "اﻷرخص",
+            "A-Z": "اﻷبجدية"
+        }
     },
-    "SCHEDULING": {
-
-    },
-    "SEARCH": {
-        
-    }
+    "SCHEDULING": {},
+    "SEARCH": {}
 }

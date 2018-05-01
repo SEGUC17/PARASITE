@@ -2,15 +2,15 @@
   <div class="modal-body">
     <!-- Title -->
     <div class="row">
-        <div class="col">
-          <h2 class="title" id="largeModalLabel" style="word-break: break-all;">{{data.product.name}}</h2>
-        </div>
-        <div class="col-2" *ngIf="this.user && this.user.username==this.product.seller">
-          <button (click)="this.deleteProduct()" class="btn btn-danger btn-round btn-icon hidden-sm-down float-right m-l-10" type="button">
-            <i class="zmdi zmdi-delete"></i>
-          </button>
-        </div>
+      <div class="col">
+        <h2 class="title" id="largeModalLabel" style="word-break: break-all;">{{data.product.name}}</h2>
       </div>
+      <div class="col-2" *ngIf="this.user && this.user.username==this.product.seller">
+        <button (click)="this.deleteProduct()" class="btn btn-danger btn-round btn-icon hidden-sm-down float-right m-l-10" type="button">
+          <i class="zmdi zmdi-delete"></i>
+        </button>
+      </div>
+    </div>
     <!-- Body -->
     <div class="row" width="100%">
       <!-- Image -->
@@ -23,10 +23,10 @@
 
         <!-- Price -->
         <p *ngSwitchCase="false" style="font-size:20px; color: #3f51b5">{{data.product.price}}
-          <span style="font-size: 15px; color: #3f51b5"> EGP</span>
+          <span style="font-size: 15px; color: #3f51b5"> {{ 'MARKET.PROD_DETAIL.EGP' | translate }}</span>
           <button mat-icon-button *ngIf="data.product.seller == data.curUser" (click)="this.editPrice()">
             <mat-icon>edit</mat-icon>
-          </button>  
+          </button>
         </p>
         <!-- Edit Data -->
         <div *ngSwitchCase="true" class="input-group" style="width: 40%">
@@ -36,7 +36,7 @@
           <input type="number" name="price" id="price" [(ngModel)]="formInput.price" class="form-control money-dollar">
           <button mat-icon-button *ngIf="data.product.seller == data.curUser" (click)="this.editPrice()">
             <mat-icon>edit</mat-icon>
-          </button>  
+          </button>
         </div>
 
         <li>
@@ -47,8 +47,10 @@
         </div>
 
         <li>
-          <span style="font-weight: bold">For {{data.product.acquiringType}}</span>
-          <span *ngIf="data.product.rentPeriod">: {{data.product.rentPeriod}} days</span>
+          <span *ngIf="data.product.acquiringType === 'rent'" style="font-weight: bold">{{'MARKET.PROD_DETAIL.ACQTYPERENT' | translate}}</span>
+          <span *ngIf="data.product.acquiringType === 'sell'" style="font-weight: bold">{{'MARKET.PROD_DETAIL.ACQTYPESELL' | translate}}</span>
+          <span *ngIf="data.product.acquiringType === 'rent/sell'" style="font-weight: bold">{{'MARKET.PROD_DETAIL.ACQTYPEBOTH' | translate}}</span>
+          <span *ngIf="data.product.rentPeriod">{{'MARKET.PROD_DETAIL.' | translate: days{data.product.rentPeriod} }}</span>
         </li>
 
         <li>
@@ -60,15 +62,14 @@
           <span style="font-weight: bold">Shipping to: </span>
         </li>
 
-        <small class="date text-muted col-6">Created at: {{data.product.createdAt | date}} {{ 'MARKET.PROD_DETAIL.CREATED_AT' | translate: {date: data.product.createdAt} }}</small>
-
+        <small class="date text-muted col-6">{{ 'MARKET.PROD_DETAIL.CREATED_AT' | translate: {date: data.product.createdAt | date} }}</small>
       </div>
     </div>
   </div>
 
   <!-- Button -->
   <div *ngIf="data.product.seller !== data.curUser" style="max-height: 20%; text-align: right">
-    <button class="btn btn-default btn-simple btn-round waves-effect" style="width:50%;">Acquire</button>
+    <button class="btn btn-default btn-simple btn-round waves-effect" style="width:50%;">{{ 'MARKET.PROD_DETAIL.ACQUIRE' | translate }}</button>
   </div>
 
 </form>
