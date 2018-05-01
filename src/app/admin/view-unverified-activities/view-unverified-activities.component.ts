@@ -94,6 +94,9 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     this.activityService.reviewActivity(activity).subscribe(
       res => {
         this.getActivities(this.pageIndex);
+        this.translate.get('ACTIVITIES.REVIEW.ACCEPT').subscribe(
+          res => this.toaster.success(res)
+        );
       }
     );
   }
@@ -105,6 +108,9 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     this.activityService.reviewActivity(activity).subscribe(function (res) {
       self.showPromptMessage(activity.creator, self.user.username);
       self.getActivities(this.pageIndex);
+      self.translate.get('ACTIVITIES.REVIEW.REJECT').subscribe(
+        res => self.toaster.success(res)
+      );
     });
   }
 

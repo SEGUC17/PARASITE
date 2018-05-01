@@ -44,7 +44,7 @@
             "WRITE_COMMENT": "leave a comment...",
             "BOOK_SUCCESS": "Booked successfully"
         },
-        "EDIT":{
+        "EDIT": {
             "EDIT_ACTIVITY": "Edit Activity",
             "ACTIVITY_NAME": "Name",
             "START_DATE":"Start date",
@@ -59,7 +59,10 @@
             "PRICE_PLACEHOLDER":"Price",
             "DESCRIPTION_PLACEHOLDER":"Description",
             "ACTIVITY_IMAGE":"Change activity image "
-            
+        },
+        "REVIEW": {
+            "ACCEPT": "Activitiy accepted successfully",
+            "REJECT": "Activity rejected successfully"
         }
     },
     "ADMIN": {

@@ -44,7 +44,7 @@
             "WRITE_COMMENT": "...اترك تعليق",
             "BOOK_SUCCESS": "....تم الحجز بنجاح"
         },
-        "EDIT":{
+        "EDIT": {
             "EDIT_ACTIVITY": "تعديل النشاط",
             "ACTIVITY_NAME": "الاسم",
             "START_DATE":"تاريخ النهاية",
@@ -55,7 +55,10 @@
             "SAVE_CHANGES":"حفظ التغييرات",
             "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
             "ACTIVITY_IMAGE":"تغيير صورة النشاط"
-        
+        },
+        "REVIEW": {
+            "ACCEPT": "تم قبول النشاط",
+            "REJECT": "تم رفض النشاط"
         }
     },
     "ADMIN": {
