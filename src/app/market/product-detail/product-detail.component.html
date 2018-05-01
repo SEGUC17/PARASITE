@@ -50,26 +50,21 @@
           <span *ngIf="data.product.acquiringType === 'rent'" style="font-weight: bold">{{'MARKET.PROD_DETAIL.ACQTYPERENT' | translate}}</span>
           <span *ngIf="data.product.acquiringType === 'sell'" style="font-weight: bold">{{'MARKET.PROD_DETAIL.ACQTYPESELL' | translate}}</span>
           <span *ngIf="data.product.acquiringType === 'rent/sell'" style="font-weight: bold">{{'MARKET.PROD_DETAIL.ACQTYPEBOTH' | translate}}</span>
-          <span *ngIf="data.product.rentPeriod">{{'MARKET.PROD_DETAIL.' | translate: days{data.product.rentPeriod} }}</span>
+          <span *ngIf="data.product.rentPeriod" style="font-weight: bold">{{'MARKET.PROD_DETAIL.DAYS' | translate: {days: data.product.rentPeriod} }}</span>
         </li>
 
         <li>
-          <span style="font-weight: bold">Sold by: </span>
+          <span style="font-weight: bold">{{ 'MARKET.PROD_DETAIL.SOLD' | translate }}</span>
           <a routerLink="profile/{{data.product.seller}}">{{data.product.seller}}</a>
         </li>
-
-        <li>
-          <span style="font-weight: bold">Shipping to: </span>
-        </li>
-
         <small class="date text-muted col-6">{{ 'MARKET.PROD_DETAIL.CREATED_AT' | translate: {date: data.product.createdAt | date} }}</small>
       </div>
     </div>
-  </div>
 
-  <!-- Button -->
-  <div *ngIf="data.product.seller !== data.curUser" style="max-height: 20%; text-align: right">
-    <button class="btn btn-default btn-simple btn-round waves-effect" style="width:50%;">{{ 'MARKET.PROD_DETAIL.ACQUIRE' | translate }}</button>
-  </div>
+    <!-- Button -->
+    <div *ngIf="data.product.seller !== data.curUser" style="max-height: 20%; text-align: right">
+      <button class="btn btn-default btn-simple btn-round waves-effect" style="width:50%;">{{ 'MARKET.PROD_DETAIL.ACQUIRE' | translate }}</button>
+    </div>
 
+  </div>
 </form>

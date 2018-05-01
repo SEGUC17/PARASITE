@@ -186,10 +186,12 @@
             "ACQTYPERENT": "This item is for rent",
             "ACQTYPESELL": "This item is for sale",
             "ACQTYPEBOTH": "This item is for rent and sale",
-            "DAYS": "Up to {{ days }} days"
+            "DAYS": "Up to {{ days }} days",
+            "SOLD": "Sold by: "
         },
         "REQ_DETAIL": {
-
+            "PROD_NAME": "Product's name",
+            "ACQTYPELABEL": "Acquiring type: "
         }
     },
     "MESSAGING": {},

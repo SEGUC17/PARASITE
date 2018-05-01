@@ -186,9 +186,13 @@
             "ACQTYPERENT": "هذا المنتج للإيجار",
             "ACQTYPESELL": "هذا المنتج للبيع",
             "ACQTYPEBOTH": "هذا المنتج للإيجار و البيع",
-            "DAYS": "يوم {{ days }} بحد أقصى"
+            "DAYS": "{{ days }} لمدة من الأيام أقصاها",
+            "SOLD": " :اسم البائع" 
         },
-        "REQ_DETAIL": {}
+        "REQ_DETAIL": {
+            "PROD_NAME": "اسم المنتج",
+            "ACQTYPELABEL": ":نوع الشراء"
+        }
     },
     "MESSAGING": {},
     "PROFILE": {},
