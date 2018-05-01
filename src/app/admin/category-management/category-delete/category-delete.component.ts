@@ -3,6 +3,7 @@ import { AdminService } from '../../admin.service';
 import { Category } from '../../../../interfaces/category';
 import { ToastrService } from 'ngx-toastr';
 import { ContentService } from '../../../content/content.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-category-delete',
@@ -20,7 +21,8 @@ export class CategoryDeleteComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private toasterService: ToastrService,
-    private contentService: ContentService
+    private contentService: ContentService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
