@@ -4,7 +4,7 @@
         <div class="m-t-30">
             <img class="zmdi-hc-spin" src="assets/images/favicon.ico" width="48" height="48" alt="sQuare">
         </div>
-        <p>Please wait...</p>
+        <p>{{ 'APP.LOADING_MESSAGE' | translate}}</p>
     </div>
 </div>
 <div class="overlay_menu">
@@ -125,8 +125,8 @@
 <!-- Overlay For Sidebars -->
 <div class="overlay"></div>
 <!-- Top Bar -->
-<nav class="navbar">
-    <ul class="nav navbar-nav navbar-left">
+<nav class="navbar col-lg-12 col-md-12 mr-4">
+    <ul class="nav navbar-nav navbar-left ">
         <li>
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="bars"></a>
@@ -142,107 +142,151 @@
                 <i class="zmdi zmdi-arrow-right"></i>
             </a>
         </li>
-        <li class="dropdown app_menu">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                <i class="zmdi zmdi-apps"></i>
-            </a>
-            <ul class="dropdown-menu pullDown">
-                <li *ngFor="let link of links">
-                    <a [routerLink]="link.url">
-                       <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                        <span>{{link.name}}</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="dropdown notifications hidden-sm-down">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+
+
+        <li class="dropdown notifications hidden-sm-down" *ngIf="username">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" (click)="getNotifications()">
                 <i class="zmdi zmdi-notifications"></i>
-                <span class="label-count">5</span>
+                <span *ngIf = "unreadNotificationsNumber != 0" class="label-count">{{unreadNotificationsNumber}}</span>
             </a>
             <ul class="dropdown-menu pullDown">
                 <li class="body">
                     <ul class="menu list-unstyled">
-                        <li>
-                            <a href="javascript:void(0);">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <span class="name">Alexander
-                                            <span class="time">35min ago</span>
-                                        </span>
-                                        <span class="message">Contrary to popular belief, Lorem Ipsum random</span>
-                                    </div>
+                        <li *ngFor="let not of notifications">
+                            <span (click)="modifyNotification(not._id,true)">
+                                <!-- read notifications normal bg -->
+                                <div *ngIf="not.isRead">
+
+                                    <a routerLink={{not.link}}>
+                                        <div class="media">
+                                            <div *ngIf="not.type ===  message ">
+                                                <i class="zmdi zmdi-email"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  content ">
+                                                <i class="zmdi zmdi-book"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  product ">
+                                                <i class="zmdi zmdi-shopping-cart"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  study_plan ">
+                                                <i class="zmdi zmdi-graduation-cap"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  activity ">
+                                                <i class="zmdi zmdi-run"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  link ">
+                                                <i class="zmdi zmdi-link"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  contributer ">
+                                                <i class="zmdi zmdi-shield-check"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  discussion_A || not.type ===  discussion_C ">
+                                                <i class="zmdi zmdi-comments"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="col-md-12">
+                                                    <span class="message">
+                                                        <strong>
+                                                            {{not.body}}
+                                                        </strong>
+                                                    </span>
+                                                    <div class="row">
+                                                        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                                                        <div class="col-lg-10 col-md-10 col-sm-10" align="right">
+
+                                                            <span class="time text-muted">
+                                                                <small> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }}
+                                                                </small>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <span class="name">Grayson
-                                            <span class="time">1hr ago</span>
-                                        </span>
-                                        <span class="message">There are many variations of passages</span>
-                                    </div>
+                                <!-- unread notifications dark bg-->
+                                <div *ngIf="!not.isRead" style = "background-color: #63c6b6">
+                                    <a routerLink={{not.link}}>
+                                        <div class="media">
+                                            <div *ngIf="not.type ===  message ">
+                                                <i class="zmdi zmdi-email" style = "color:black" ></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  content ">
+                                                <i class="zmdi zmdi-book" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  product ">
+                                                <i class="zmdi zmdi-shopping-cart" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  study_plan ">
+                                                <i class="zmdi zmdi-graduation-cap" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  activity ">
+                                                <i class="zmdi zmdi-run" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  link ">
+                                                <i class="zmdi zmdi-link" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  contributer ">
+                                                <i class="zmdi zmdi-shield-check" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  discussion_A || not.type ===  discussion_C ">
+                                                <i class="zmdi zmdi-comments  col-dark" style = "color:black"></i>
+                                            </div>
+                                            <div class="media-body ">
+                                                <div class="col-md-12">
+                                                    <span class="message col-white">
+                                                        <strong> {{not.body}}
+                                                        </strong>
+                                                    </span>
+                                                    <div class="row">
+                                                        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                                                        <div class="col-lg-10 col-md-10 col-sm-10" align="right">
+                                                            <span class="time text-muted" style = "color:black">
+                                                                <small> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }}
+                                                                </small>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <span class="name">Sophia
-                                            <span class="time">31min ago</span>
-                                        </span>
-                                        <span class="message">There are many variations of passages of Lorem Ipsum</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="alert alert-warning m-b-0" href="javascript:void(0);">
-                                <strong>Alex Anistor</strong>
-                                <br>
-                                <small>Testing functionality...</small>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <span class="name">Isabella
-                                            <span class="time">35min ago</span>
-                                        </span>
-                                        <span class="message">There are many variations of passages</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="alert alert-info m-b-0" href="javascript:void(0);">
-                                <strong>Alicia Adell</strong>
-                                <br>
-                                <small>Reviewing last changes...</small>
-                            </a>
+                            </span>
                         </li>
                     </ul>
-                </li>
-                <li class="footer">
-                    <a href="javascript:void(0);">View All</a>
-                </li>
+                    <!-- <li class="footer">
+                        <a href="javascript:void(0);">View All</a>
+                    </li> -->
             </ul>
-        </li>
-        <li class="float-right">
-            <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
-                <i class="zmdi zmdi-fullscreen"></i>
-            </a>
-            <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
-                <i class="zmdi zmdi-globe"></i>
-            </a>
-            <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active" class="mega-menu">
-                <i class="zmdi zmdi-power"></i>
-            </a>
-        </li>
+            </li>
+            <li class="dropdown app_menu">
+                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                    <i class="zmdi zmdi-apps"></i>
+                </a>
+                <ul class="dropdown-menu pullDown">
+                    <li *ngFor="let link of links">
+                        <a [routerLink]="link.url">
+                            <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                            <span>{{link.name}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="float-right">
+                <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
+                    <i class="zmdi zmdi-fullscreen"></i>
+                </a>
+                <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
+                    <i class="zmdi zmdi-globe"></i>
+                </a>
+                <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active"
+                    class="mega-menu">
+                    <i class="zmdi zmdi-power"></i>
+                </a>
+            </li>
     </ul>
 </nav>
 
@@ -258,13 +302,18 @@
                                 <img [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
                             </a>
                         </div>
-                        <div class="detail">
+                        <div class="detail" *ngIf="username">
                             <h4 *ngIf="username">{{firstName + ' ' + lastName}}</h4>
                             <a routerLink="/scheduling/schedule" title="My Schedule">
                                 <i class="zmdi zmdi-calendar"></i>
                             </a>
                             <a routerLink="/message" title="Inbox">
-                                <i class="zmdi zmdi-email"></i>
+                                <span (click)="onMessageIconClick()">
+                                    <span *ngIf = "unreadNotificationsNumberMessages != 0" class="bg-white label-count">
+                                        <strong style = "color:black" >*</strong>
+                                    </span>
+                                    <i class="zmdi zmdi-email"></i>
+                                </span>
                             </a>
                         </div>
                     </div>
@@ -272,7 +321,7 @@
                 <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin ">
                     <a [routerLink]="link.url">
                        <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                        <span>{{link.name}}</span>
+                        <span>{{ link.name | translate }}</span>
                     </a>
                 </li>
             </ul>

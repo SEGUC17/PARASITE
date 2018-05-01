@@ -138,7 +138,7 @@ module.exports = function (passport) {
   router.delete('/activities/:activityId/', isAuthenticated, ActivityController.deleteActivity);
   router.patch('/activities/:activityId/EditActivityImage', isAuthenticated, ActivityController.editActivityImage);
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist/search/:limiters', isAuthenticated, psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
   router.delete('/psychologist/delete/:id', optionalAuthentication, psychCtrl.deletePsychologist);
   router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
@@ -158,8 +158,9 @@ module.exports = function (passport) {
   router.get('/productrequest/getUserRequests/:username', isAuthenticated, productCtrl.getUserRequests);
   router.patch('/productrequest/getUserRequests/:id', isAuthenticated, productCtrl.updateRequest);
   router.patch('/productrequest/editPrice/:id/:username', isAuthenticated, productCtrl.editPrice);
+  router.patch('/productrequest/deleteProduct',isAuthenticated, productCtrl.deleteProduct);
 
-  router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
+   router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
 
   // --------------End Of Product Contoller ---------------------- //
 
@@ -177,6 +178,7 @@ module.exports = function (passport) {
   router.get('/dupCheck/:usernameOrEmail', userController.isUserExist);
   router.get('/forgotPassword/:email', userController.forgotPassword);
   router.patch('/forgotPassword/resetpassword/:id', userController.resetPassword);
+  router.patch('/modifyNotification/:notificationId', isAuthenticated, userController.modifyNotification);
   // ---------------------- End of User Controller --------------- //
 
   //-------------------- Study Plan Endpoints ------------------//
@@ -185,7 +187,7 @@ module.exports = function (passport) {
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan', isAuthenticated, studyPlanController.createStudyPlan);
   router.post('/study-plan/PublishStudyPlan', isAuthenticated, studyPlanController.publishStudyPlan);
-  router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
+  router.delete('/study-plan/deleteStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
   router.delete('/study-plan/deletePublishedStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deletePublishedStudyPlan);
   router.patch('/study-plan/assignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.assignStudyPlan);
   router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.unAssignStudyPlan);

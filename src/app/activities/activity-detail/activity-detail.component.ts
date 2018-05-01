@@ -8,7 +8,8 @@ import { DiscussionService } from '../../discussion.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService} from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
+
 @Component({
   selector: 'app-activity-detail',
   templateUrl: './activity-detail.component.html',
@@ -22,10 +23,12 @@ export class ActivityDetailComponent implements OnInit {
   changingComment: any = '';
   somePlaceholder: any = 'write a comment ...';
   viewedReplies: boolean[];
-  isReplying: boolean ;
+  isReplying: boolean;
   commentReplyingOn: any;
-  signedIn: boolean ;
-
+  signedIn: boolean;
+  canBookFor: String[];
+  bookingUser: String;
+  defaultPP: String = 'assets/images/profile-view/defaultPP.png';
 
 
   currentUser = {
@@ -35,22 +38,22 @@ export class ActivityDetailComponent implements OnInit {
     username: 'Mohamed Maher'
 
   };
- // updatedActivity: ActivityCreate;
-isCreator = false ;
-isBooked = true;
-username = '';
- public updatedActivity: ActivityEdit = {
-  name: '',
-  description: null,
-  bookedBy: null,
-  price: null,
+  // updatedActivity: ActivityCreate;
+  isCreator = false;
+  isBooked = true;
+  username = '';
+  public updatedActivity: ActivityEdit = {
+    name: '',
+    description: null,
+    bookedBy: null,
+    price: null,
 
-  fromDateTime: null,
-  toDateTime: null,
+    fromDateTime: null,
+    toDateTime: null,
 
-  image: null,
-  creator: null,
-};
+    image: null,
+    creator: null,
+  };
 
   activity: Activity = {
     _id: '',
@@ -75,8 +78,8 @@ username = '';
     private discussionService: DiscussionService,
     private router: Router,
     private authService: AuthService,
-    private toastrService: ToastrService,
     private translate: TranslateService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -85,6 +88,14 @@ username = '';
     self.getActivity();
     self.refreshComments(true);
 
+    this.translate.get('ACTIVITIES.DETAIL.WRITE_COMMENT').subscribe((res: string) => {
+      this.somePlaceholder = res;
+    });
+    this.translate.onLangChange.subscribe((event: any) => {
+      this.translate.get('ACTIVITIES.DETAIL.WRITE_COMMENT').subscribe((res: string) => {
+        this.somePlaceholder = res;
+      });
+    });
     this.authService.getUserData(['username']).subscribe(function (res) {
       this.username = res.data.username;
       console.log('booked? ' + self.isBooked);
@@ -106,18 +117,21 @@ username = '';
       'isAdmin',
       'firstName',
       'lastName',
-      'avatar'
-    ]).subscribe(function(res) {
-        if (typeof res.data === 'undefined') {
-          self.signedIn = false;
-        } else {
-          self.currentUser = res.data;
-          self.signedIn = true;
-
-        }
-        console.log('signed in : ' + self.signedIn );
-        console.log(res);
+      'avatar',
+      'children',
+      'isChild'
+    ]).subscribe(function (res) {
+      if (typeof res.data === 'undefined') {
+        self.signedIn = false;
+      } else {
+        self.currentUser = res.data;
+        self.signedIn = true;
+        self.canBookFor = res.data.children;
+        self.canBookFor.push(res.data.username);
       }
+      console.log('signed in : ' + self.signedIn);
+      console.log(res);
+    }
     );
 
   }
@@ -142,7 +156,7 @@ username = '';
 
   onDelete(i: any) {
     let self = this;
-    this.discussionService.deleteCommentOnActivity(this.activity._id, i).subscribe(function(err) {
+    this.discussionService.deleteCommentOnActivity(this.activity._id, i).subscribe(function (err) {
       if (err) {
         console.log(err);
       }
@@ -173,9 +187,13 @@ username = '';
     this.activityService.getActivity(id).subscribe(
       res => {
         this.activity = res.data;
+        this.activity.discussion = this.activity.discussion.reverse();
+        for (let i = 0 ; i < this.activity.discussion.length; i++) {
+          this.activity.discussion[i].replies = this.activity.discussion[i].replies.reverse();
+        }
         this.updatedActivity = res.data;
         if (this.activity.bookedBy.length < 1) { self.isBooked = false; }
-      if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
+        if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
         if (!this.activity.image) {
           this.activity.image = 'assets/images/activity-view/default-activity-image.jpg';
         }
@@ -217,14 +235,14 @@ username = '';
         this.activity._id,
         this.commentReplyingOn,
         self.changingComment).subscribe(function (err) {
-        if (err.msg !== 'reply created successfully') {
-          console.log('err in posting');
+          if (err.msg !== 'reply created successfully') {
+            console.log('err in posting');
+            self.refreshComments(false);
+          }
+          console.log('no error elhamdulla ');
           self.refreshComments(false);
-        }
-        console.log('no error elhamdulla ');
-        self.refreshComments(false);
-        self.changingComment = '';
-      });
+          self.changingComment = '';
+        });
     } else {
       let self = this;
       this.discussionService.postCommentOnActivity(this.activity._id, self.changingComment).subscribe(function (err) {
@@ -247,16 +265,17 @@ username = '';
 
   openDialog(): void { // author: Heidi
     let from = new Date(this.activity.fromDateTime).toJSON();
-    let to   = new Date(this.activity.toDateTime).toJSON(); // converting dates to match datetime-local
-  let   dialogRef = this.dialog.open(ActivityEditComponent, {
-    width: '700px',
-    height: '520px',
-    hasBackdrop: false,
-      data: { name: this.activity.name, price : this.activity.price  ,
-         description: this.activity.description ,
-         fromDateTime: from.substr(0, from.length - 1)
-         , toDateTime : to.substr(0, to.length - 1)
-        }
+    let to = new Date(this.activity.toDateTime).toJSON();
+    let dialogRef = this.dialog.open(ActivityEditComponent, {
+      width: '700px',
+      height: '520px',
+      hasBackdrop: false,
+      data: {
+        name: this.activity.name, price: this.activity.price,
+        description: this.activity.description,
+        fromDateTime: from.substr(0, from.length - 1)
+        , toDateTime: to.substr(0, to.length - 1)
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -277,7 +296,7 @@ username = '';
     let id = this.route.snapshot.paramMap.get('id');
     this.activityService.EditActivity(this.updatedActivity, id).subscribe(
       res => {
-          console.log(res);
+        console.log(res);
       }
 
     );
@@ -326,6 +345,25 @@ username = '';
 
   deleteActivity() {
     this.activityService.deleteActivity(this.activity).subscribe();
+    this.router.navigate([`activities`]);
+
   }
+
+  bookActivity() {
+    this.activityService.bookActivity(this.activity, { username: this.bookingUser }).subscribe(
+      res => {
+        console.log(this.canBookFor);
+        let index = this.canBookFor.indexOf(this.bookingUser);
+        this.canBookFor.splice(index, 1);
+        console.log(this.canBookFor);
+        this.bookingUser = null;
+        this.translate.get('ACTIVITIES.DETAIL.BOOK_SUCCESS').subscribe((res: string) => {
+          this.toastrService.success(res);
+        });
+      }
+    );
+  }
+
+
 
 }

@@ -14,4 +14,5 @@ export interface Content {
     update?: string;
     video?: string;
     discussion: any[];
+    rating?: any;
 }

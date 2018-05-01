@@ -63,10 +63,10 @@ export class AdminService {
       );
   }
 
-  respondContentRequest(response, rid, cid, cresponse, username, oldscore): any {
+  respondContentRequest(response, rid, cid, cresponse, oldscore): any {
     const self = this;
     return this.http.patch<any>(this.baseURL + this.respondContentRequestURL + rid + '/' + cid,
-      { str: response, approved: cresponse, userName: username, oldScore: oldscore })
+      { str: response, approved: cresponse, oldScore: oldscore })
       .pipe(
         catchError(
           self.handleError('respondContentRequest', [])
@@ -107,7 +107,7 @@ export class AdminService {
     return this.http.patch<any>(self.baseURL + self.respondStudyPlanPublishRequestURL + id + '/' + sid, respo)
       .pipe(
         catchError(
-          self.handleError('respondContentRequest', [])
+          self.handleError('respondStudyPlanPublishReqs', [])
         )
       );
   }
