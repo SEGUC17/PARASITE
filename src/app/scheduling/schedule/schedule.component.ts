@@ -1,7 +1,6 @@
 import {
   Component, OnInit, Input, Output, ChangeDetectionStrategy,
-  EventEmitter, ViewChild, TemplateRef, HostListener
-} from '@angular/core';
+  EventEmitter, ViewChild, TemplateRef} from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
@@ -35,21 +34,6 @@ declare const $: any;
 export class ScheduleComponent implements OnInit {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
   events: CalendarEvent[] = [];
-  selectedEvent = {
-    title: 'New event',
-    start: startOfDay(new Date()),
-    end: endOfDay(new Date()),
-    color: {
-      primary: '#ad2121',
-      secondary: '#FAE3E3'
-    },
-    draggable: true,
-    resizable: {
-      beforeStart: true,
-      afterEnd: true
-    },
-    meta: {}
-  };
   // Calendar API view control
   view = 'month';
   viewDate: Date = new Date();
@@ -154,13 +138,6 @@ export class ScheduleComponent implements OnInit {
 
   }
 
-
-  // Automatically save changes of page close/change
-  @HostListener('window:beforeunload', ['$event'])
-  unloadHandler(event) {
-    this.saveScheduleChanges();
-  }
-
   fetchAndDisplay() {
     // Retrieving schedule from database and displaying it
     const self = this;
@@ -229,20 +206,21 @@ export class ScheduleComponent implements OnInit {
 
   // new event creation handler
   createEvent(eventTitle: string, eventDescription: string, eventStart: Date, eventEnd: Date) {
+    const newEvent = {
+      title: eventTitle,
+      start: eventStart,
+      end: eventEnd,
+      color: {
+        primary: '#2196f3',
+        secondary: '#D1E8FF'
+      },
+      draggable: false,
+      meta: {
+        description: eventDescription ? eventDescription : ''
+      }
+    };
     if (eventStart) {
-      this.events.push({
-        title: eventTitle,
-        start: eventStart,
-        end: eventEnd,
-        color: {
-          primary: '#2196f3',
-          secondary: '#D1E8FF'
-        },
-        draggable: false,
-        meta: {
-          description: eventDescription ? eventDescription : ''
-        }
-      });
+      this.events.push(newEvent);
     } else {
       alert('Failed to create event: Event must have a start date');
     }
@@ -251,6 +229,7 @@ export class ScheduleComponent implements OnInit {
     $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
 
 
+    this.scheduleService.addEvent(this.profileUser, newEvent).subscribe();
     this.refreshDocument();
   }
 
@@ -283,6 +262,7 @@ export class ScheduleComponent implements OnInit {
     $('#editEnd').bootstrapMaterialDatePicker('_onClearClick');
 
 
+    this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
     this.refreshDocument();
   }
 
@@ -300,19 +280,8 @@ export class ScheduleComponent implements OnInit {
     }, 0);
   }
 
-  saveScheduleChanges() {
-    // Save changes to schedule into database
-    const indexChild = this.loggedInUser.children.indexOf(this.profileUser);
-    if ((this.profileUser === this.loggedInUser.username) || (!(this.loggedInUser.isChild) && indexChild !== -1)) {
-      this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
-    }
-    this.editing = false;
-    this.refreshDocument();
-  }
-
   cancel() {
     // Cancel changes, refresh schedule from database
-    this.editing = false;
     this.fetchAndDisplay();
     this.refreshDocument();
   }

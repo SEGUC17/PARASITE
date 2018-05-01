@@ -1,9 +1,26 @@
-.button-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-
 .clickable {
   cursor: pointer
+}
+
+.container {
+  margin-top: 1%;
+  max-width: 1400px;
+}
+
+.preview {
+  word-wrap: break-word;
+  overflow-y: auto;
+  text-align: justify;
+}
+
+.text-editor {
+  overflow-y: auto;
+  min-height: 90%;
+  max-height: 90%;
+  margin-left: 4%;
+}
+
+.up {
+  bottom:100% !important;
+  top:auto !important;
 }

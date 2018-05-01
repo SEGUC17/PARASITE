@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 var CalendarEvent = mongoose.model('CalendarEvent');
 var StudyPlan = mongoose.model('StudyPlan');
 var User = mongoose.model('User');
-
+var moment = require('moment');
 
 module.exports.getPublishedStudyPlans = function (req, res, next) {
 
@@ -199,9 +199,10 @@ module.exports.assignStudyPlan = function (req, res, next) {
                 });
             }
             newStudyPlan.assigned = true;
+            newStudyPlan._id = mongoose.Types.ObjectId();
             User.findOneAndUpdate(
                 { username: req.params.username },
-                { $push: { 'studyPlans': newStudyPlan } },
+                { $addToSet: { 'studyPlans': newStudyPlan } },
                 function (err, child) {
                     if (err) {
                         return next(err);
@@ -213,6 +214,40 @@ module.exports.assignStudyPlan = function (req, res, next) {
                             msg: null
                         });
                     }
+
+                    var notification = {
+                        body: req.user.username + ' assigned you to' +
+                            newStudyPlan.title,
+                        date: moment().toDate(),
+                        itemId: newStudyPlan._id,
+                        type: 'study plan'
+                    };
+                    User.findOneAndUpdate(
+                        { username: req.params.username },
+                        {
+                            $push:
+                                { 'notifications': notification }
+                        }
+                        , { new: true },
+                        function (errr, updatedUser) {
+                            console.log('add the notification');
+                            console.log(updatedUser.notifications);
+                            if (errr) {
+                                return res.status(402).json({
+                                    data: null,
+                                    err: 'error occurred during adding ' +
+                                        'the notification'
+                                });
+                            }
+                            if (!updatedUser) {
+                                return res.status(404).json({
+                                    data: null,
+                                    err: null,
+                                    msg: 'User not found.'
+                                });
+                            }
+                        }
+                    );
 
                     return res.status(200).json({
                         data: null,
@@ -233,8 +268,7 @@ module.exports.assignStudyPlan = function (req, res, next) {
 
 module.exports.unAssignStudyPlan = function (req, res, next) {
     var indexChild = req.user.children.indexOf(req.params.username);
-    if ((req.params.username === req.user.username ||
-        indexChild >= 0) && !req.user.isChild) {
+    if (req.params.username === req.user.username && !req.user.isChild) {
         User.findOneAndUpdate(
             {
                 'studyPlans._id': req.params.studyPlanID,
@@ -261,6 +295,66 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                 });
             }
         );
+    } else if (indexChild >= 0) {
+        User.findOneAndUpdate(
+            { username: req.params.username },
+            { $pull: { studyPlans: { _id: req.params.studyPlanID } } },
+            function (err, user) {
+                if (err) {
+                    return next(err);
+                }
+
+                if (!user) {
+                    return res.status(404).json({
+                        data: null,
+                        err: 'User not found',
+                        msg: null
+                    });
+                }
+                // Start of notification
+                var notification = {
+                    body: req.user.username + ' unassigned' +
+                        'you from a Study Plan',
+                    date: moment().toDate(),
+                    itemId: req.params.studyPlanID,
+                    type: 'study plan'
+                };
+                User.findOneAndUpdate(
+                    { username: req.params.username },
+                    {
+                        $push:
+                            { 'notifications': notification }
+                    }
+                    , { new: true },
+                    function (errr, updatedUser) {
+                        console.log('add the notification');
+                        console.log(updatedUser.notifications);
+                        if (errr) {
+                            return res.status(402).json({
+                                data: null,
+                                err: 'error occurred during adding ' +
+                                    'the notification'
+                            });
+                        }
+                        if (!updatedUser) {
+                            return res.status(404).json({
+                                data: null,
+                                err: null,
+                                msg: 'User not found.'
+                            });
+                        }
+                    }
+                );
+
+                // End of notification
+
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'Study plan unassigned successfully'
+                });
+            }
+        );
     } else {
         return res.status(401).json({
             data: null,
@@ -271,38 +365,42 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
 };
 
 module.exports.deleteStudyPlan = function (req, res, next) {
-    if (req.user.isChild) {
+
+    var indexChild = req.user.children.indexOf(req.params.username);
+    if ((req.params.username === req.user.username ||
+        indexChild >= 0) && !req.user.isChild) {
+        User.findOneAndUpdate(
+            { username: req.params.username },
+            { $pull: { studyPlans: { _id: req.params.studyPlanID } } },
+            function (err, user) {
+                if (err) {
+                    return next(err);
+                }
+
+                if (!user) {
+                    return res.status(404).json({
+                        data: null,
+                        err: 'User not found',
+                        msg: null
+                    });
+                }
+
+                return res.status(202).json({
+                    data: null,
+                    err: null,
+                    msg: 'Study plan deleted successfully'
+                });
+
+            }
+        );
+
+    } else {
         return res.status(401).json({
             data: null,
             err: 'Unauthorized to delete study plan',
             msg: null
         });
     }
-    User.findOneAndUpdate(
-        { username: req.user.username },
-        { $pull: { studyPlans: { _id: req.params.studyPlanID } } },
-        function (err, user) {
-            if (err) {
-                return next(err);
-            }
-
-            if (!user) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'User not found',
-                    msg: null
-                });
-            }
-
-            return res.status(202).json({
-                data: null,
-                err: null,
-                msg: 'Study plan deleted successfully'
-            });
-
-        }
-    );
-
 };
 
 module.exports.deletePublishedStudyPlan = function (req, res, next) {
@@ -319,7 +417,7 @@ module.exports.deletePublishedStudyPlan = function (req, res, next) {
             });
         }
 
-        if (studyPlan.creator !== req.user.username) {
+        if (studyPlan.creator !== req.user.username && !req.user.isAdmin) {
             return res.status(401).json({
                 data: null,
                 err: 'Unauthorized to delete study plan',
@@ -383,4 +481,46 @@ module.exports.editPersonalStudyPlan = function (req, res, next) {
             });
         }
     );
+};
+
+module.exports.editPublishedStudyPlan = function (req, res, next) {
+    StudyPlan.findById(req.params.studyPlanID, function (err, studyPlan) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!studyPlan) {
+            return res.status(404).json({
+                data: null,
+                err: 'Study plan not found',
+                msg: null
+            });
+        }
+
+        if (req.user.username !== studyPlan.creator &&
+            !req.user.isAdmin) {
+            return res.status(401).json({
+                data: null,
+                err: 'Unauthorized',
+                msg: null
+            });
+        }
+
+        studyPlan.creator = req.user.isAdmin ? studyPlan.creator : req.user;
+        studyPlan.description = req.body.description;
+        studyPlan.events = req.body.events;
+        studyPlan.title = req.body.title;
+
+        studyPlan.save(function (error) {
+            if (error) {
+                return next(error);
+            }
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'Study plan updated successfully'
+            });
+        });
+    });
 };

@@ -19,7 +19,10 @@ var replySchema = Schema({
          type: String,
          required: true
      },
-
+     creatorInfo: {
+         type: Schema.Types.ObjectId,
+         ref: 'User'
+     },
      text: {
          type: String,
          required: true,
@@ -42,7 +45,10 @@ var commentSchema = Schema({
         type: String,
         required: true
     },
-
+    creatorInfo: {
+        type: Schema.Types.ObjectId,
+        ref: 'Ingredient'
+    },
     text: {
         type: String,
         required: true,

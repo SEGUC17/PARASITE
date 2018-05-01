@@ -176,6 +176,7 @@ module.exports = function (passport) {
   router.get('/dupCheck/:usernameOrEmail', userController.isUserExist);
   router.get('/forgotPassword/:email', userController.forgotPassword);
   router.patch('/forgotPassword/resetpassword/:id', userController.resetPassword);
+  router.patch('/modifyNotification/:notificationId', isAuthenticated, userController.modifyNotification);
   // ---------------------- End of User Controller --------------- //
 
   //-------------------- Study Plan Endpoints ------------------//
@@ -184,11 +185,12 @@ module.exports = function (passport) {
   router.get('/study-plan/getPublishedStudyPlan/:studyPlanID', studyPlanController.getPublishedStudyPlan);
   router.patch('/study-plan/createStudyPlan', isAuthenticated, studyPlanController.createStudyPlan);
   router.post('/study-plan/PublishStudyPlan', isAuthenticated, studyPlanController.publishStudyPlan);
-  router.delete('/study-plan/deleteStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
+  router.delete('/study-plan/deleteStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.deleteStudyPlan);
   router.delete('/study-plan/deletePublishedStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.deletePublishedStudyPlan);
   router.patch('/study-plan/assignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.assignStudyPlan);
   router.patch('/study-plan/unAssignStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.unAssignStudyPlan);
   router.patch('/study-plan/editPersonalStudyPlan/:username/:studyPlanID', isAuthenticated, studyPlanController.editPersonalStudyPlan);
+  router.patch('/study-plan/editPublishedStudyPlan/:studyPlanID', isAuthenticated, studyPlanController.editPublishedStudyPlan);
   //------------------- End of Study Plan Endpoints-----------//
 
   // -------------- Admin Contoller ---------------------- //

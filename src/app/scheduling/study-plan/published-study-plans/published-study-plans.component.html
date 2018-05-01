@@ -1,21 +1,89 @@
 <section class="content">
     <div class="block-header">
+        <ul class="breadcrumb float-right">
+            <li class="breadcrumb-item">
+                <a routerLink="/dashboard">
+                    <i class="zmdi zmdi-home"></i> Nawwar</a>
+            </li>
+            <li class="breadcrumb-item">
+                <i class="zmdi zmdi-graduation-cap"></i>
+                Study Plans
+            </li>
+        </ul>
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12">
-                <h2>Study Plans</h2>
-                <ul class="breadcrumb p-l-0 p-b-0 ">
-                    <li class="breadcrumb-item">
-                        <a routerLink="/dashboard">
-                            <i class="zmdi zmdi-home"></i>sQuare</a>
-                    </li>
-                    <li class="breadcrumb-item">
-                        <i class="zmdi zmdi-graduation-cap">
-                        </i> Study Plans</li>
-                </ul>
+                <h2>
+                    <i class="zmdi zmdi-graduation-cap"></i>
+                    Study Plans
+                </h2>
             </div>
         </div>
     </div>
     <div class="container-fluid">
-        <app-study-plan-list-view [(type)]="type"></app-study-plan-list-view>
+        <div class="card">
+            <div class="header">
+                <h2>
+                    <strong> Study Plans</strong>
+                </h2>
+                <ul class="pagination pagination-custom float-right">
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Previous" [ngClass]="{'btn-is-disabled': pageIndex - 1 <= 0}" (click)="getStudyPlans(pageIndex - 1)">
+                            <span aria-hidden="true">
+                                <i class="zmdi zmdi-chevron-left" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </li>
+
+                    <li class="page-item" [ngClass]="{'active': pageNumberForPagination === pageIndex}" *ngFor="let pageNumberForPagination of getPaginationRange()">
+                        <button class="page-link" (click)="getStudyPlans(pageNumberForPagination)">{{ pageNumberForPagination }}</button>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" aria-label="Next" [ngClass]="{'btn-is-disabled': pageIndex + 1 > noPages}" (click)="getStudyPlans(pageIndex + 1)">
+                            <span aria-hidden="true">
+                                <i class="zmdi zmdi-chevron-right" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+                <br />
+            </div>
+            <div class="body">
+                <div class="row">
+                    <div class="card col-3" *ngFor="let studyPlan of studyPlans; let index = index">
+                        <div class="header">
+                            <h2>
+                                <span class="badge badge-mine float-right" *ngIf="studyPlan.creator === this.currUsername">Mine</span>
+                                <strong>{{studyPlan.title}}</strong>
+                                <br/> {{studyPlan.creator}}
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <a class="btn btn-primary" routerLink="/scheduling/study-plan/{{type}}/{{studyPlan._id}}">View</a>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" (click)="deleteIndex = index" color="primary"
+                                *ngIf="(studyPlan.creator === this.currUsername && !currIsChild) || currIsAdmin">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
+
+<!-- Study Plan Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="title" id="defaultModalLabel">Delete Event</h4>
+            </div>
+            <div class="modal-body">
+                <li>Are you sure you want to delete this event?</li>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="delete(deleteIndex)">Delete</button>
+                <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

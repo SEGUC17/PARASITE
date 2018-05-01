@@ -22,8 +22,6 @@ module.exports.viewPendingContReqs = function (req, res, next) {
             }
             // if not admin return error
             if (!req.user.isAdmin) {
-                console.log(req.user.isAdmin);
-
                 return res.status(403).json({
                     data: null,
                     err: 'Unauthorized action',
@@ -152,6 +150,42 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                     msg: null
                 });
             }
+            // not tested
+            var notification = {
+                body: 'Your request to publish the study plan is' +
+                    req.body.respo,
+                date: moment().toDate(),
+                itemId: req.params.studyPlanId,
+                type: 'study plan'
+            };
+            User.findOneAndUpdate(
+                { username: updatedStudyPlanPubRequest.creator },
+                {
+                    $push:
+                        { 'notifications': notification }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    console.log('add the notification');
+                    console.log(updatedUser.notifications);
+                    if (errr) {
+                        return res.status(402).json({
+                            data: null,
+                            err: 'error occurred during adding ' +
+                                'the notification'
+                        });
+                    }
+                    if (!updatedUser) {
+                        return res.status(404).json({
+                            data: null,
+                            err: null,
+                            msg: 'User not found.'
+                        });
+                    }
+                }
+
+            );
+
             StudyPlan.findByIdAndUpdate(
                 req.params.studyPlanId,
                 {
@@ -321,11 +355,38 @@ module.exports.respondContentRequest = function (req, res, next) {
                             console.log(errUsr);
                         }
                         // if not found return error
-                        if (!User) {
+                        if (!user) {
                             return res.status(404).json({
                                 data: null,
                                 err: 'User not found',
                                 msg: null
+                            });
+                        }
+                    }
+                );
+
+                var notification = {
+                    body: 'You request has been approved',
+                    date: moment().toDate(),
+                    itemId: req.params.ContentId,
+                    type: 'content'
+                };
+
+                User.findOneAndUpdate(
+                    { username: req.body.userName },
+                    {
+                        $push:
+                            { 'notifications': notification }
+                    }
+                    , { new: true },
+                    function (err, updatedUser) {
+                        console.log('add the notification');
+                        console.log(updatedUser.notifications);
+                        if (err) {
+                            return res.status(402).json({
+                                data: null,
+                                err: 'error occurred during adding ' +
+                                    'the notification'
                             });
                         }
                     }
@@ -402,68 +463,44 @@ module.exports.getVCRs = function (req, res, next) {
 
 
 module.exports.VCRResponde = function (req, res, next) {
+    var notification = null;
     // Checks if Admin
-    console.log('in bakend');
-    console.log('in bakend');
     if (req.user.isAdmin) {
-        // Update the request with the given responce.
-        VCRmodel.update(
-            { _id: req.params.targetId },
-            { $set: { status: req.body.responce } }, { new: false },
-            function (err) {
-                if (err) {
-                    throw err;
-                }
+      // Update the request with the given responce.
+      VCRmodel.update(
+        {_id: req.params.targetId},
+        {$set: {status: req.body.responce}}, {new: false},
+        function (err) {
+          if (err) {
+            throw err;
+          }
+        }
+      );
+      var userId = null;
+      VCRmodel.find({_id: req.params.targetId}).exec(function (err, result) {
+        // find the _id of the Approved/Disapproved User
+        // to change his Verified state.
+        if (err) {
+          throw err;
+        }
+        userId = result[0].creator[0];
+        var response = req.body.responce;
+
+        userModel.findOneAndUpdate(
+          {_id: userId}, {$set: {verified: (response === 'approved')}},
+          {new: true},
+          function (error, resp) {
+            if (error) {
+              throw error;
             }
-        );
-
-
-        var userId = null;
-        VCRmodel.find({ _id: req.params.targetId }).
-            exec(function (err, result) {
-                // find the _id of the Approved/Disapproved User
-                // to change his Verified state.
-                if (err) {
-                    throw err;
-                }
-                userId = result[0].creator;
-                if (req.body.responce === 'approved') {
-
-                    // Updating verified by Approved.
-                    userModel.update(
-                        { _id: userId }, { $set: { verified: true } },
-                        { new: true },
-                        function (error, resp) {
-                            if (error) {
-                                throw error;
-                            }
-                            res.status(200).json({
-                                data: null,
-                                err: null,
-                                msg: 'reponse has been submitted'
-                            });
-                        }
-                    );
-                }
-                if (req.body.responce === 'disapproved') {
-                    // Updating verified by disapproved.
-                    userModel.update(
-                        { _id: userId }, { $set: { verified: false } },
-                        { new: true },
-                        function (error, resp) {
-                            if (error) {
-                                throw error;
-                            }
-                            res.status(200).json({
-                                data: null,
-                                err: null,
-                                msg: 'reponse has been submitted'
-                            });
-                        }
-                    );
-                }
-
+            res.status(200).json({
+              data: resp,
+              err: null,
+              msg: 'reponse has been submitted'
             });
+          }
+        );
+      });
     } else {
         // if not Admin.
         res.status(403).json({
@@ -488,42 +525,42 @@ module.exports.getReports = function (req, res, next) {
     });
 };
 
-module.exports.banUser = function(req, res, next) {
+module.exports.banUser = function (req, res, next) {
     User.findOneAndUpdate(
-      { username: req.params.username },
-      { $set: { isBanned: true } }, { new: true },
-      function (err, user) {
-        if (err) {
-          return next(err);
-        }
-        if (!user) {
-          return res.status(404).json({
-            data: null,
-            err: null,
-            msg: 'User not found.'
-          });
-        }
+        { username: req.params.username },
+        { $set: { isBanned: true } }, { new: true },
+        function (err, user) {
+            if (err) {
+                return next(err);
+            }
+            if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User not found.'
+                });
+            }
 
-        return res.status(200).json({
-          data: user,
-          err: null,
-          msg: 'User banned successfully'
-        });
-      }
+            return res.status(200).json({
+                data: user,
+                err: null,
+                msg: 'User banned successfully'
+            });
+        }
     );
-  };
+};
 
-  module.exports.deleteReport = function(req, res, next) {
+module.exports.deleteReport = function (req, res, next) {
     Report.remove({ _id: req.params.reportId }).
-    exec(function (removeError) {
-        if (removeError) {
-            return next(removeError);
-        }
-        res.status(200).json({
-            data: null,
-            err: null,
-            msg: 'Report was deleted successfully'
+        exec(function (removeError) {
+            if (removeError) {
+                return next(removeError);
+            }
+            res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'Report was deleted successfully'
+            });
         });
-    });
-  };
+};
 

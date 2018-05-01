@@ -298,12 +298,12 @@
                 </div>
                 <div class="col-lg-9 col-md-8 col-12">
                   <h4 class="m-t-0 m-b-0">
-                    <strong>{{currIsOwner? firstName : vFirstName}}</strong>{{currIsOwner? lastName : vLastName}}</h4>
+                    <strong>{{currIsOwner? firstName : vFirstName}}</strong> {{currIsOwner? lastName : vLastName}}</h4>
                   <a class="job_post" href="javascript:void(0);" *ngIf="(currIsOwner && currIsAdmin) || visitedIsAdmin">
                     <i class="material-icons">verified_user</i> {{currIsOwner? (currIsAdmin? 'Admin' : '' ) : (visitedIsAdmin? 'Admin' : '' ) }}</a>
                   <p>{{currIsOwner? address : vAddress}}</p>
                   <div>
-                    <button class="btn btn-primary btn-round btn-simple">Message</button>
+                    <button class="btn btn-primary btn-round btn-simple" *ngIf = "!currIsOwner">Message</button>
                     <button class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent"
                       (click)="linkToParent()">Add As A Parent</button>
                     <button class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild"
@@ -311,21 +311,23 @@
                     <button class="btn btn-primary btn-round btn-simple" *ngIf="currIsOwner && !currIsChild && !verified && currIsOfAge" (click)="requestContributerValidation()">Be A Verified Contributor</button>
                     <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currIsOfAge && !currIsOwner && visitedIsOfAge"
                       (click)="reportPopUp()">Report</button>
-                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currCanBeParent && currIsOwner">Create A Child Account</button>
+                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currCanBeParent && currIsOwner" routerLink= "/auth/child-sign-up">Create A Child Account</button>
                     <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge"
                       (click)="UnlinkMyself()">Unlink My Parent</button>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
-                      <span class="dropdown">
-                        <span class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Link To My Child</span>
+                    <span class="dropdown">
+                      <button class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
+                        <span>Link To My Child</span>
+                    </button>
+                        <!-- class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" -->
                         <ul class="dropdown-menu dropdown-menu-right">
                           <li *ngFor="let child of listOfUncommonChildren">
-                            <a (click)="addChild(child)">
+                            <a class = "dummyLink" (click)="addChild(child)">
                               <strong>{{child}}</strong>
                             </a>
                           </li>
                         </ul>
                       </span>
-                    </button>
+                    
                   </div>
                 </div>
               </div>
@@ -381,7 +383,7 @@
           </div>
         </div>
         <div class="col-lg-8 col-md-12">
-          <div class="card bg-dark">
+          <div *ngIf = "currIsOwner || visitedIsMyChild" class="card bg-dark">
             <ul class="nav nav-tabs">
               <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#children" *ngIf="currIsOwner">Children</a>
@@ -468,7 +470,7 @@
                 </div>
               </div>
               <!-- Personal Info -->
-              <div class="row clearfix" *ngIf = "currIsOwner">
+              <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                   <div class="card">
                     <div class="header">
@@ -551,17 +553,18 @@
             <div role="tabpanel" class="tab-pane" id="children">
               <app-childern></app-childern>
             </div>
+            <!-- Study Plans Tab -->
             <div role="tabpanel" class="tab-pane" id="studyplans">
               <div class="card">
                 <div class="body">
                   <div *ngIf="!currIsChild && currIsOwner">
-                    <a class="btn btn-primary" routerLink="/scheduling/study-plan/edit/create/new/{{username}}" color="primary" style="float: right;">Create A New Study Plan</a>
+                    <a class="btn btn-primary" routerLink="/scheduling/study-plan/create" style="float: right;">Create A New Study Plan</a>
                     <br />
                     <br />
                     <br />
                   </div>
                   <div class="row">
-                    <div class="card col-4" *ngFor="let studyPlan of (currIsOwner ? studyPlans : vStudyPlans); let index = index">
+                    <div class="card col-4" *ngFor="let studyPlan of studyPlans; let index = index">
                       <div class="header">
                         <h2>
                           <span class="badge badge-assigned float-right" *ngIf="studyPlan.assigned">Assigned</span>
@@ -570,16 +573,15 @@
                         </h2>
                       </div>
                       <div class="body">
-                        <p>
                           <a class="btn btn-primary" routerLink="/scheduling/study-plan/personal/{{ studyPlan._id }}/{{ currIsOwner ? username : vUsername }}">View</a>
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#studyPlanDeleteModal" (click)="studyPlanIndex = index" color="primary" *ngIf="!currIsChild">Delete</button>
-                        </p>
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#studyPlanDeleteModal" (click)="studyPlanIndex = index" *ngIf="!currIsChild">Delete</button>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+            <!-- End of Study Plans Tab -->
           </div>
         </div>
       </div>

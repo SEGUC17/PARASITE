@@ -1,32 +1,37 @@
 <section class="content page-calendar">
-
   <div class="block-header">
+    <ul class="breadcrumb float-right">
+      <li class="breadcrumb-item">
+        <a routerLink="/dashboard">
+          <i class="zmdi zmdi-home"></i>sQuare</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="/profile/{{ profileUsername }}">
+          <i class="zmdi zmdi-account-circle">
+          </i>{{ username }}</a>
+      </li>
+      <li class="breadcrumb-item active">Study Plan Creation</li>
+    </ul>
     <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
-        <h2>Schedule</h2>
-        <ul class="breadcrumb p-l-0 p-b-0 ">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">
-              <i class="zmdi zmdi-home"></i>Nawwar</a>
-          </li>
-          <li class="breadcrumb-item">
-            <a routerLink="{{ '/profile/' + profileUser }}">
-              <i class="{{ 'zmdi zmdi-account-circle' }}">
-              </i> {{ profileUser }}</a>
-          </li>
-          <li class="breadcrumb-item active">Schedule</li>
-        </ul>
+      <div class="col-lg-6">
+        <div class="header">
+          <form id="titleForm" method="POST">
+            <div class="form-group">
+              <div class="form-line">
+                <input type="text" class="form-control col-md-6" name="title" [(ngModel)]="title" placeholder="Title" required>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-
   <div class="container-fluid">
     <div class="card">
       <div class="row">
-
         <div class="col-md-12 col-lg-4 col-xl-4">
           <div class="body">
-            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="!loggedInUser.isChild">Add Event</button>
+            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal">Add Event</button>
             <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
               aria-controls="collapseExample">
               <i class="zmdi zmdi-chevron-down"></i>
@@ -42,18 +47,19 @@
                 </div>
                 <div class="col-10">
                   <h6>{{ event.title }}</h6>
-                  <p>{{ event.meta && event.meta.description ? event.meta.description : 'No Description...' }}</p>
+                  <p>{{ event.meta && event.meta.description ? event.meta.description : 'N/A' }}</p>
                   <div class="float-right">
-                    <a class="clickable col-md-12 col-lg-4 col-xl-4" data-toggle="modal" data-target="#editModal" (click)="preEdit(index); editIndex = index; editTitle = event.title; editStart = event.start; editEnd = event.end; editDescription = event.meta && event.meta.description ? event.meta.description : '';"
-                      *ngIf="!loggedInUser.isChild">
+                    <a class="clickable col-md-12 col-lg-4 col-xl-4" data-toggle="modal" data-target="#editModal" (click)="preEdit(index); editIndex = index; editTitle = event.title; editStart = event.start; editEnd = event.end; editDescription = event.meta && event.meta.description ? event.meta.description : '';">
                       <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
                     </a>
-                    <a class="clickable col-md-12 col-lg-4 col-xl-4" (click)="delete(index)" *ngIf="!loggedInUser.isChild">
+                    <a class="clickable col-md-12 col-lg-4 col-xl-4" (click)="delete(index)">
                       <i class="zmdi zmdi-delete zmdi-hc-2x"></i>
                     </a>
                   </div>
-                  <address *ngIf="event.meta && event.meta.url">
-                    <a class="zmdi zmdi-link" routerLink={{event.meta.url}}><span style="font-size:70%"> Go to {{event.meta.type}}</span></a></address>
+                  <address>
+                    <i class="zmdi zmdi-pin"></i>
+                    Mars
+                  </address>
                 </div>
 
               </div>
@@ -80,11 +86,35 @@
             </div>
           </div>
         </div>
+
       </div>
+      <hr/>
+      <div class="header">
+        <h2>
+          <strong>Description Editor</strong>
+        </h2>
+      </div>
+      <div class="body">
+        <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="editorContent" name="editorContent" (change)="onContentChanged($event)"></quill-editor>
+      </div>
+      <hr/>
+      <div class="header">
+        <h2>
+          <strong>Description Preview</strong>
+        </h2>
+      </div>
+      <div class="body">
+        <div class="ql-editor preview" [innerHTML]="editorOut"></div>
+      </div>
+      <hr/>
+      <button class="btn btn-primary col align-self-center" (click)="create()">
+        Create
+      </button>
     </div>
   </div>
-
 </section>
+
+
 <!-- Event Creation Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

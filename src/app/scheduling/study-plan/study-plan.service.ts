@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { StudyPlan } from './study-plan';
-import { Rating } from './star-rating/rating';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { RequestOptions, Headers } from '@angular/http';
@@ -58,38 +57,26 @@ export class StudyPlanService {
     post request with the required studyPlan to be published in the body of the request with the route specified in the index.js
     */
     return this.http.post(environment.apiUrl + 'study-plan/PublishStudyPlan', studyPlan);
-
   }
-
-  rateStudyPlan(studyPlanID: String, rating: Number): Observable<any> {
-    return this.http.patch(environment.apiUrl + 'study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
-  }
-
-  // moved to profile
-  // deleteStudyPlan(studyPlanID: String): Observable<any> {
-  //   return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + studyPlanID);
-
-  // }
 
   deletePublishedStudyPlan(studyPlanID: String): Observable<any> {
     return this.http.delete(environment.apiUrl + 'study-plan/deletePublishedStudyPlan/' + studyPlanID);
-
   }
 
   assignStudyPlan(username: String, studyPlanID: String): Observable<any> {
-
     return this.http.patch(environment.apiUrl + 'study-plan/assignStudyPlan/' + username + '/' + studyPlanID, {});
-
   }
 
   unAssignStudyPlan(username: String, studyPlanID: String): Observable<any> {
-
     return this.http.patch(environment.apiUrl + 'study-plan/unAssignStudyPlan/' + username + '/' + studyPlanID, {});
-
   }
 
   editPersonalStudyPlan(username: String, studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
     return this.http.patch(environment.apiUrl + '/study-plan/editPersonalStudyPlan/' + username + '/' + studyPlanID, studyPlan);
+  }
+
+  editPublishedStudyPlan(studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
+    return this.http.patch(environment.apiUrl + '/study-plan/editPublishedStudyPlan/' + studyPlanID, studyPlan);
   }
 
   removePublishedStudyPlans(studyPlanId: any): Observable<any> {
