@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MessageService } from '../messaging/messaging.service';
 import { SharedModule } from '../shared/shared.module';
 import { DirectMessagingComponent } from './profile/direct-messaging/direct-messaging.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { DirectMessagingComponent } from './profile/direct-messaging/direct-mess
     MatDatepickerModule,
     MatButtonToggleModule,
     SharedModule,
-    CommonModule
+    CommonModule,
+    TranslateModule.forChild()
   ],
   declarations: [ProfileComponent, ChildernComponent, DirectMessagingComponent],
   providers: [

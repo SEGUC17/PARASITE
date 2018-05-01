@@ -4,6 +4,8 @@ import { AuthService } from '../../../auth/auth.service';
 import {ActivatedRoute} from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+
 declare const $: any;
 
 @Component({
@@ -50,7 +52,7 @@ export class DirectMessagingComponent implements OnInit {
   Recipient: String = '';
 
   constructor(private messageService: MessageService, private authService: AuthService, private route: ActivatedRoute,
-    public dialog: MatDialog, private toastrService: ToastrService) {
+    public dialog: MatDialog, private toastrService: ToastrService, private translate: TranslateService) {
   }
 
   ngOnInit() {
