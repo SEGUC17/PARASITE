@@ -9,6 +9,7 @@ var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
 var moment = require('moment');
 var Tag = mongoose.model('Tag');
+var Newsfeed = mongoose.model('Newsfeed');
 
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
@@ -329,6 +330,38 @@ var handleAdminCreate = function (req, res, next) {
                         msg: null
                     });
                 }
+            }
+        );
+        Tag.findOne(
+            { 'name': content.category },
+            function (errFind, tag) {
+                if (errFind) {
+                    return next(errFind);
+                }
+                if (!tag) {
+                    return res.status(404).json({
+                        data: null,
+                        err: 'tag not found',
+                        msg: null
+                    });
+                }
+                var post = {
+                    contentID: content._id,
+                    metadata: {
+                        activityDate: content.touchDate,
+                        description: content.body,
+                        image: content.image,
+                        title: content.title
+                    },
+                    tags: [tag],
+                    type: 'c'
+                };
+                Newsfeed.create(post, function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                });
+
             }
         );
 

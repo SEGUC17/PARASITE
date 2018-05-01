@@ -18,8 +18,10 @@ module.exports.addToNewsfeed = function (data) {
 };
 
 module.exports.getPosts = function (req, res) {
+    console.log(req.body.tags);
+    // tags: { $in: { name: req.body.tags } }
     Newsfeed.paginate(
-        { tags: { $in: { name: req.body.tags } } },
+        {},
         {
             limit: Number(req.params.entriesPerPage),
             page: Number(req.params.pageNumber)
@@ -28,6 +30,7 @@ module.exports.getPosts = function (req, res) {
             if (err) {
                 return err;
             }
+            console.log(posts);
             res.status(200).json({
                 data: posts,
                 err: null,

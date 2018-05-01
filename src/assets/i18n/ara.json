@@ -178,6 +178,18 @@
 
     },
     "SEARCH": {
+        "CONNECTING_PARENTS":"تواصل اولياء الامور",
+        "REACH_OUT_TO_OTHER_PARENTS": "صل نفسك باولياء امور اخرين",
+        "THANAWYA_AMMA": "ثانوية عامة",
+        "IG": "IG",
+        "AMERICAN DIPLOMA": "American Diploma",
+        "USERNAME": "اسم المستخدم",
+        "LOCATION": "العنوان",
+        "LEVEL_OF_EDUCATION": "الصف الدراسي",
+        "SYSTEM_OF_EDUCATION": "نظام التعليم",
+        "REMOVE_ALL_TAGS": "احذف جميع الاشارات",
+        "PREVIOUS": "السابق",
+        "NEXT": "التالى"
         
     },
     "LANDING":{

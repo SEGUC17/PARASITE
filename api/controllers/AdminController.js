@@ -325,8 +325,7 @@ module.exports.respondContentRequest = function (req, res, next) {
                                     contentID: content._id,
                                     metadata: {
                                         activityDate: content.touchDate,
-                                        description: content.body.
-                                        substring(0, 150),
+                                        description: content.body,
                                         image: content.image,
                                         title: content.title
                                     },

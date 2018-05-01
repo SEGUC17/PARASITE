@@ -52,11 +52,12 @@ export class NewsfeedComponent implements OnInit {
     // scroll to the top
     window.scrollTo(0, 0);
     const self = this;
-    self.newsfeedService.getNewsfeedPage(self.tags, self.entriesPerPage,
+    self.newsfeedService.getNewsfeedPage([], self.entriesPerPage,
       self.currentPageNumber)
       .subscribe(function (posts) {
         self.totalNumberOfPages = posts.data.pages;
         self.posts = posts.data.docs;
+        console.log(self.posts);
       });
   }
 
