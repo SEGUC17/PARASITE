@@ -62,7 +62,12 @@ export class ProfileComponent implements OnInit {
   birthdayView: string;
 
   // -------------------------------------
-
+  educationalSystem: string = 'Educational System';
+  educationalLevel: string = 'Educational Level';
+  vEducationalSystem: string = 'Educational System';
+  vEducationalLevel: string = 'Educational Level';
+  vSystems: any[] = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
+  vLevels: any[] = ['KG', 'Primary School', 'Middle School', 'High School'];
   // ---------Visited User Info-----------
   vUser: any;
   vAvatar: string;
@@ -87,9 +92,9 @@ export class ProfileComponent implements OnInit {
   // ----------- Other Lists ------------
   listOfUncommonChildren: any[];
   listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username',
-    'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'isAdmin'];
+    'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'isAdmin', 'educationSystem', 'educationLevel'];
   vListOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'email',
-    'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username', 'isAdmin'];
+    'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username', 'isAdmin', 'educationSystem', 'educationLevel'];
   // ------------------------------------
   // ------------ edited values ---------
   dFirstName: string;
@@ -144,6 +149,8 @@ export class ProfileComponent implements OnInit {
       this.currIsParent = user.data.isParent;
       this.birthday = user.data.birthdate;
       this.birthdayView = this._datePipe.transform(user.data.birthdate, 'MM/dd/yyyy');
+      this.educationalSystem = user.data.educationSystem;
+      this.educationalLevel = user.data.educationLevel;
       this.dFirstName = this.firstName;
       this.dLastName = this.lastName;
       this.dAddress = this.address;
@@ -186,6 +193,8 @@ export class ProfileComponent implements OnInit {
           this.vAge = this.calculateAge(this.vBirthday);
           this.vVerified = info.data.verified;
           this.vId = info.data._id;
+          this.vEducationalSystem = info.data.educationSystem;
+          this.vEducationalLevel = info.data.educationLevel;
           this.visitedIsParent = info.data.isParent;
           this.visitedIsChild = info.data.isChild;
           this.visitedIsAdmin = info.data.isAdmin;
@@ -372,7 +381,9 @@ let self =this;
       address: (<HTMLInputElement>document.getElementById('dAddress')).value,
       phone: (<HTMLInputElement>document.getElementById('dPhone')).value,
       birthdate: (<HTMLInputElement>document.getElementById('dBirthday')).value,
-      email: (<HTMLInputElement>document.getElementById('dEmail')).value
+      email: (<HTMLInputElement>document.getElementById('dEmail')).value,
+      educationLevel: this.educationalLevel,
+      educationSystem: this.educationalSystem
     };
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
@@ -552,6 +563,14 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
     //       this.toastrService.success(res.msg);
     //     }
     //   });
+  }
+  systemIs(system) {
+    this.educationalSystem = system;
+    this.vEducationalSystem = system;
+  }
+  levelIs(level) {
+    this.educationalLevel = level;
+    this.vEducationalLevel = level;
   }
 
 }
