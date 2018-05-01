@@ -32,7 +32,8 @@ export class SearchControlComponent implements OnInit {
   separatorKeysCodes = [ENTER, COMMA];
 
 
-  constructor(private searchService: SearchService) { }
+  constructor(private searchService: SearchService,
+              private translate: TranslateService) { }
 
   firstPage(): void {
     const self = this;
