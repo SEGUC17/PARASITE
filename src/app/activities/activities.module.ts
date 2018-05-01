@@ -21,6 +21,7 @@ import { ActivityDetailComponent } from './activity-detail/activity-detail.compo
 import { ActivityEditComponent } from './activity-edit/activity-edit.component';
 import { DiscussionService } from '../discussion.service';
 import { SharedModule } from '../shared/shared.module';
+import { ToastrService } from 'ngx-toastr';
 
 
 @NgModule({
@@ -42,7 +43,9 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent],
   entryComponents: [ActivityEditComponent],
   providers: [ActivityService, DiscussionService , { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] }],
+    { provide: MAT_DIALOG_DATA, useValue: [] },
+    ToastrService
+  ],
   exports: [ActivityCreateComponent ]
 })
 export class ActivitiesModule { }
