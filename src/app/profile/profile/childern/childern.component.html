@@ -66,8 +66,8 @@
         <div class="body table-responsive">
           <table class="table m-b-0 c_list">
             <thead>
-              <th>Name</th>
-              <th data-breakpoints="xs">Age</th>
+              <th>{{'PROFILE.CHILDREN.NAME' | translate}}</th>
+              <th data-breakpoints="xs">{{'PROFILE.PROFILE.AGE' | translate}}</th>
               <th></th>
             </thead>
            
@@ -84,7 +84,7 @@
                 <span class="phone" data-breakpoints="xs"><i class="zmdi zmdi-time m-r-10"></i>{{x.birthdate}}</span>
               </td>
               <td >
-                  <button class="btn btn-primary btn-round btn-simple" *ngIf = "isParent && currIsOwner" (click) = "removeChild(x.username)">Unlink</button>
+                  <button class="btn btn-primary btn-round btn-simple" *ngIf = "isParent && currIsOwner" (click) = "removeChild(x.username)">{{'PROFILE.CHILDREN.UNLINK' | translate}}</button>
               </td>
               <!--td>
                 <address><i class="zmdi zmdi-pin"></i>44 Shirley Ave. West Chicago, IL 60185</address>

@@ -8,8 +8,6 @@ import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
 import {  DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-
-
 declare const swal: any;
 declare const $: any;
 @Component({
@@ -112,7 +110,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute, private messageService: MessageService,
-    private toastrService: ToastrService, private _datePipe: DatePipe, private translate: TranslateService) { }
+    private toastrService: ToastrService, private _datePipe: DatePipe, private translate: TranslateService ) { }
 
   ngOnInit() {
 

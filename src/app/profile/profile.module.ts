@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MessageService } from '../messaging/messaging.service';
 import { SharedModule } from '../shared/shared.module';
 import { DirectMessagingComponent } from './profile/direct-messaging/direct-messaging.component';
+import { TranslateModule } from '@ngx-translate/core';
 import { ImageUploaderComponent } from '../image-uploader/image-uploader.component';
 import { FileUploadModule } from 'ng2-file-upload';
 
@@ -32,6 +33,7 @@ import { FileUploadModule } from 'ng2-file-upload';
     MatButtonToggleModule,
     SharedModule,
     CommonModule,
+    TranslateModule.forChild(),
     FileUploadModule
   ],
   declarations: [ProfileComponent, ChildernComponent, DirectMessagingComponent, ImageUploaderComponent],
