@@ -105,8 +105,8 @@ export class ContentEditComponent implements OnInit {
   onSubmit(): void {
     const self = this;
     if (this.authService.getToken() === '') {
-      // TODO: (Universal Error Handler/ Modal Errors)
-      console.log('Please sign in first');
+      self.toasterService.error('please sign in first', 'failure');
+      self.router.navigateByUrl('/auth/sign-in');
       return;
     }
     // get username of the registered user
@@ -121,7 +121,6 @@ export class ContentEditComponent implements OnInit {
   // create content
   createContent(): void {
     const self = this;
-    console.log(self.content);
     self.contentService.createContent(self.content).subscribe(function (contentRes) {
       if (!contentRes) {
         return;
@@ -183,7 +182,8 @@ export class ContentEditComponent implements OnInit {
       self.categories = res.data;
       self.contentService.getContentById(contentID).subscribe(function (contentResponse) {
         if (!contentResponse) {
-          console.log('couldn\'t find the content');
+          self.toasterService.error('couldn\'t retrieve content, please try again', 'failure');
+          self.router.navigateByUrl('/content/list');
           return;
         }
         self.isUpdate = true;
