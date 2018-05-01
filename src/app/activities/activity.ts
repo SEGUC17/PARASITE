@@ -11,12 +11,12 @@ export class Activity {
     description : String;
     bookedBy : [String]; // userIds
     price : Number;
-    status : String;
-    fromDateTime : Date;
-    toDateTime : Date;
-    createdAt : Date;
-    updatedAt : Date;
-    image : String;
+    status: String;
+    fromDateTime: Date;
+    toDateTime: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    image: String;
     discussion: any[];
     creator: String;
 }

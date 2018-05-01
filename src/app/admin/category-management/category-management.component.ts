@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { ContentService } from '../../content/content.service';
 import { Category } from '../../../interfaces/category';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-category-management',
@@ -10,7 +11,11 @@ import { Category } from '../../../interfaces/category';
 })
 export class CategoryManagementComponent implements OnInit {
   categories: Category[];
-  constructor(private adminservice: AdminService, private contentService: ContentService) { }
+  constructor(
+    private adminservice: AdminService,
+    private contentService: ContentService,
+    private translate: TranslateService
+  ) { }
   // retrieve all categories from server
   getCategories(): void {
     const self = this;

@@ -86,9 +86,9 @@ module.exports.EditChildIndependence = function (req, res, next) {
 
     // if the previous conditions are false then child is changed successefuly
 
-    User.update(
-      user,
-      { $set: { isChild: false } }
+    User.findOneAndUpdate(
+      { username: req.params.username },
+      { $set: { isChild: false } }, { new: true }
     ).
       exec(function (error, updated) {
         if (err) {
@@ -126,13 +126,10 @@ module.exports.requestUserValidation = function (req, res, next) {
 
   var reqObj = {
     status: 'pending',
-    bio: status + ', @' + req.user.username +
-      ',\n' + req.user.email + ', Number of Children : ' +
-      req.user.children.length,
+    email: req.user.email,
+    numberOfChildren: req.user.children.length,
     name: req.user.firstName + ' ' + req.user.lastName,
-    AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
-    ProfileLink: 'localhost:4200/profile/' + req.user.username,
-    image: 'src of an image',
+    image: req.user.avatar,
     creator: req.user._id
   };
   // dummy request obj for testing.
@@ -325,8 +322,7 @@ module.exports.changePassword = function (req, res, next) {
 module.exports.UnlinkIndependent = function (req, res, next) {
   // checking whether the signed-in user is independent
   if (req.user.isChild) {
-    console.log(' is child');
-    console.log(req.user);
+
 
     return res.
       status(403).
@@ -347,8 +343,7 @@ module.exports.UnlinkIndependent = function (req, res, next) {
     // checking if the username in the params is a parent to the logged in user
 
     if (user.children.indexOf(req.user.username) < 0) {
-      console.log('not linked');
-      console.log(req.user);
+
 
       return res.
         status(403).
@@ -368,9 +363,8 @@ module.exports.UnlinkIndependent = function (req, res, next) {
         if (error) {
           return error;
         }
-        console.log(updated.username);
-        console.log(updated.children);
-        console.log(req.user.username);
+
+
         res.status(200).json({
           data: updated.children,
           err: null,
@@ -519,27 +513,28 @@ module.exports.reportUser = function(req, res, next) {
 });
 };
 
-module.exports.banUser = function(req, res, next) {
-  User.findByIdAndUpdate(
-    req.params.userId,
-    { $set: { isBanned: true } }, { new: true },
-    function (err, user) {
-      if (err) {
-        return next(err);
-      }
-      if (!user) {
-        return res.status(404).json({
-          data: null,
-          err: null,
-          msg: 'User not found.'
-        });
-      }
+module.exports.changeProfilePic = function (req, res, next) {
 
-      return res.status(200).json({
-        data: user,
-        err: null,
-        msg: 'Info updated successfully.'
-      });
-    }
-  );
-};
+          User.findByIdAndUpdate(
+            req.body.id,
+            { $set: { avatar: req.body.url } }, { new: true },
+            function (err, user3) {
+              if (err) {
+                return next(err);
+              }
+              if (!user3) {
+                return res.status(404).json({
+                  data: null,
+                  err: null,
+                  msg: 'User not found.'
+                });
+              }
+
+              return res.status(200).json({
+                data: user3,
+                err: null,
+                msg: 'Profile picture updated successfully.'
+              });
+            }
+          );
+        };

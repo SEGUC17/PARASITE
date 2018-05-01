@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
+import { ActivityComponent } from '../activity/activity.component';
+import { ToastrService } from 'ngx-toastr';
+declare const $: any;
 
 @Component({
   selector: 'app-activity-create',
@@ -27,7 +30,9 @@ export class ActivityCreateComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private activityComponent: ActivityComponent,
+    private  toastrService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -45,9 +50,31 @@ export class ActivityCreateComponent implements OnInit {
     this.activityService.postActivities(this.activity).subscribe(
       res => {
           console.log(res);
+          this.close();
           this.router.navigate([`activities/${res.data._id}`]);
       }
     );
+  }
+
+  close(): void {
+    /* close dialog */
+    this.activityComponent.closeModal();
+  }
+
+  uploaded(url: string) {
+
+    if (url === 'imageFailedToUpload') {
+      this.toastrService.error('Image upload failed');
+    } else if (url === 'noFileToUpload') {
+      this.toastrService.error('Please select a photo');
+    } else {
+      this.activity.image = url;
+      if (url !== null) {
+      this.toastrService.success('photo selected'); }
+      }
+      // TODO: handle image uploading success and use the url to retrieve the image later
+
+
   }
 
 }

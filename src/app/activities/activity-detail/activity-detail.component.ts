@@ -2,13 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
 import { Activity, ActivityCreate, ActivityEdit } from '../activity';
 import { ActivatedRoute } from '@angular/router';
-import { Inject} from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {ActivityEditComponent} from '../activity-edit/activity-edit.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ActivityEditComponent } from '../activity-edit/activity-edit.component';
 import { DiscussionService } from '../../discussion.service';
 import { Router } from '@angular/router';
-import {AuthService} from '../../auth/auth.service';
-
+import { AuthService } from '../../auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-activity-detail',
@@ -75,7 +74,8 @@ username = '';
     public dialog: MatDialog,
     private discussionService: DiscussionService,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
@@ -86,16 +86,17 @@ username = '';
 
     this.authService.getUserData(['username']).subscribe(function (res) {
       this.username = res.data.username;
-     // console.log('current: ' + this.currentUser.username );
       console.log('booked? ' + self.isBooked);
       console.log('creator? ' + self.isCreator);
-// if (this.updatedActivity.creator.equal(this.username)) { this.isCreator = true; }
-
-  });
-  // if ( this.updatedActivity.bookedBy.length < 1) {
-  // this.isNotBooked = true;
- // }
+    });
   }
+
+  testForDiscussion() {
+    console.log('printing the date here');
+    console.log(new Date(this.activity.discussion[0].createdAt).getTime());
+    console.log('after date');
+  }
+
 
   getCurrentUser() {
     let self = this;
@@ -131,7 +132,7 @@ username = '';
     let self = this;
     let element = document.getElementById('target');
     element.scrollIntoView();
-    let input = document.getElementById('input');
+    let input = document.getElementById('inputArea');
     self.somePlaceholder = 'leave a reply';
     input.focus();
     this.isReplying = true;
@@ -179,7 +180,7 @@ username = '';
         }
       }
     );
-    console.log(this.activity.fromDateTime);
+
   }
 
 
@@ -192,6 +193,8 @@ username = '';
         this.viewedReplies.push(false);
       }
     }
+
+
   }
 
   showReply(i: number) {
@@ -236,13 +239,14 @@ username = '';
 
   cancelReplying() {
     this.isReplying = false;
+    this.somePlaceholder = 'write a comment ...';
   }
 
 
 
-  openDialog(): void {
+  openDialog(): void { // author: Heidi
     let from = new Date(this.activity.fromDateTime).toJSON();
-    let to   = new Date(this.activity.toDateTime).toJSON();
+    let to   = new Date(this.activity.toDateTime).toJSON(); // converting dates to match datetime-local
   let   dialogRef = this.dialog.open(ActivityEditComponent, {
     width: '700px',
     height: '520px',
@@ -260,30 +264,52 @@ username = '';
       this.updatedActivity.description = result.description;
       this.updatedActivity.fromDateTime = new Date(result.fromDateTime).getTime();
       this.updatedActivity.toDateTime = new Date(result.toDateTime).getTime();
-      console.log('from' + this.updatedActivity.fromDateTime);
-      console.log('to' + this.updatedActivity.toDateTime);
+     // taking new values from dialog , assigning them to updatedActivity
+     // and passing it to EditActivity method
        this.EditActivity(this.updatedActivity);
     });
   }
 
 
 
-EditActivity(activity) {
-  let id = this.route.snapshot.paramMap.get('id');
-  this.activityService.EditActivity(this.updatedActivity, id).subscribe(
-    res => {
-        console.log(res);
-    }
+  EditActivity(activity) {
+    let id = this.route.snapshot.paramMap.get('id');
+    this.activityService.EditActivity(this.updatedActivity, id).subscribe(
+      res => {
+          console.log(res);
+      }
 
-  );
-}
+    );
+  }
+
+
   uploaded(url: string) {
+    let id = this.route.snapshot.paramMap.get('id');
     if (url === 'imageFailedToUpload') {
-      console.log('image upload failed');
-      // TODO: handle image uploading failure
+      this.toastrService.error('Image upload failed');
+    } else if (url === 'noFileToUpload') {
+      this.toastrService.error('Please select a photo');
     } else {
-      console.log('in vcC and its uploaded with url = ' + url);
+      let upload = {
+        image: url
+      };
+      this.activityService.EditActivityImage(upload, id).subscribe((res) => {
+        if (res.data) {
+          this.toastrService.success('Activity image uploaded successfully');
+          this.activity.image = res.data;
+        } else {
+          this.toastrService.error('Image upload failed');
+        }
+      });
       // TODO: handle image uploading success and use the url to retrieve the image later
     }
+    document.getElementById('closeModal').click();
+    document.focus();
+
   }
+
+  deleteActivity() {
+    this.activityService.deleteActivity(this.activity).subscribe();
+  }
+
 }

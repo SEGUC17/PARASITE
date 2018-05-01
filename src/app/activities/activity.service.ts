@@ -58,6 +58,10 @@ export class ActivityService {
     return this.http.put<any>( this.unverifiedActivitiesUrl, activity );
   }
 
+  deleteActivity(activity: any): Observable<any> {
+    return this.http.delete(this.activitiesUrl + '/' + activity._id);
+  }
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {
@@ -69,5 +73,7 @@ export class ActivityService {
   EditActivity(activity: ActivityEdit, id: any) {
     return this.http.patch( this.activitiesUrl + '/' + id + '/EditActivity', activity);
   }
-
+  EditActivityImage(upload , id): any {
+    return this.http.patch( this.activitiesUrl + '/' + id + '/EditActivityImage', upload);
+  }
 }

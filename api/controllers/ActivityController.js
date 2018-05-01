@@ -183,6 +183,44 @@ module.exports.postActivity = function (req, res) {
     });
 };
 
+module.exports.deleteActivity = function (req, res) {
+  console.log('inside the delete activity');
+  var deletingUser = req.user;
+
+  Activity.find({ _id: req.params.activityId }).
+  exec(function (err, result) {
+    // find the required activity to check on the deletor (xD).
+    if (err) {
+      throw err;
+    }
+    var activityCreator = result[0].creator;
+    if (activityCreator !== deletingUser.username && !deletingUser.isAdmin) {
+      res.status(401).json({
+        data: null,
+        err: null,
+        msg: 'reponse has been submitted'
+      });
+    } else {
+      Activity.remove({ _id: req.params.activityId }, function (err) {
+        if (err) {
+          return res.status(404).json({
+            data: null,
+            err: err,
+            message: 'cannot find this activity'
+          });
+        }
+        res.status(201).json({
+          data: null,
+          err: null,
+          message: 'Activity deleted successfully.'
+        });
+      });
+    }
+
+
+  });
+};
+
 module.exports.reviewActivity = function (req, res) {
 
     /*
@@ -285,7 +323,7 @@ module.exports.prepareActivity = function (req, res, next) {
 
 // Author: Heidi
 module.exports.editActivity = function (req, res, next) {
-    console.log('current :' + req.user);
+
     var Status = 'pending';
     if (req.user.isAdmin) {
         Status = 'verified';
@@ -426,5 +464,51 @@ module.exports.bookActivity = function(req, res, next) {
                 msg: null
             });
         }
+    });
+};
+
+module.exports.editActivityImage = function (req, res, next) {
+
+    var Status = 'pending';
+    if (req.user.isAdmin) {
+        Status = 'verified';
+    }
+    // finding activity by id
+    Activity.findById(req.params.activityId).exec(function (err, activity) {
+        if (err) {
+            return next(err);
+
+        }
+        // only activity creator can edit his/her own activity
+        if (!(activity.creator == req.user.username)) {
+            return res.status(403).send({
+                data: null,
+                err: null,
+                msg: 'Action not allowed'
+            });
+        }
+        // if status is booked already it cannot be edited
+        if (activity.bookedBy.length > 0) {
+            return res.status(403).send({
+                data: null,
+                err: null,
+                msg: 'no edition allowed'
+            });
+        }
+        // updating activity image
+        Activity.findByIdAndUpdate(
+            req.params.activityId,
+             { $set: { image: req.body.image } }, { new: true }
+            ).exec(function (error, updatedActivity) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).send({
+                data: updatedActivity.image,
+                err: null,
+                msg: 'image is updated'
+            });
+        });
     });
 };

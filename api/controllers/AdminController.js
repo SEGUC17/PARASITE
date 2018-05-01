@@ -163,9 +163,9 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                     }
                 },
                 { new: true },
-                function (err1, studyPlan) {
-                    if (err1) {
-                        console.log(err1);
+                function (error, studyPlan) {
+                    if (error) {
+                        return next(error);
                     }
                     if (!studyPlan) {
                         return res.status(404).json({
@@ -440,6 +440,8 @@ module.exports.getVCRs = function (req, res, next) {
 
 module.exports.VCRResponde = function (req, res, next) {
     // Checks if Admin
+    console.log('in bakend');
+    console.log('in bakend');
     if (req.user.isAdmin) {
         // Update the request with the given responce.
         VCRmodel.update(
@@ -522,3 +524,43 @@ module.exports.getReports = function (req, res, next) {
         });
     });
 };
+
+module.exports.banUser = function(req, res, next) {
+    User.findOneAndUpdate(
+      { username: req.params.username },
+      { $set: { isBanned: true } }, { new: true },
+      function (err, user) {
+        if (err) {
+          return next(err);
+        }
+        if (!user) {
+          return res.status(404).json({
+            data: null,
+            err: null,
+            msg: 'User not found.'
+          });
+        }
+
+        return res.status(200).json({
+          data: user,
+          err: null,
+          msg: 'User banned successfully'
+        });
+      }
+    );
+  };
+
+  module.exports.deleteReport = function(req, res, next) {
+    Report.remove({ _id: req.params.reportId }).
+    exec(function (removeError) {
+        if (removeError) {
+            return next(removeError);
+        }
+        res.status(200).json({
+            data: null,
+            err: null,
+            msg: 'Report was deleted successfully'
+        });
+    });
+  };
+

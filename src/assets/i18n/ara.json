@@ -1,0 +1,186 @@
+{
+    "APP": {
+        "NAWWAR": "نوَّر",
+        "CURRENT_LANGUAGE": "العربية"
+    },
+    "ACTIVITIES": {
+        "EDIT":{
+            "EDIT_ACTIVITY": "تعديل النشاط",
+            "ACTIVITY_NAME": "الاسم",
+            "START_DATE":"تاريخ النهاية",
+            "END_DATE":"تاريخ البداية",
+            "PRICE":"السعر",
+            "DESCRIPTION":"الوصف",
+            "CANCEL":"الغاء",
+            "SAVE_CHANGES":"حفظ التغييرات",
+            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+            "ACTIVITY_IMAGE":"تغيير صورة النشاط"
+        
+        }
+    },
+    "ADMIN": {
+        "ADMIN_CONTROL": {
+            "CONTENTS_MANAGEMENT": "إدارة المحتويات",
+            "CATEGORY_MANAGEMENT": "إدارة الفئات",
+            "PRODUCTS_MANAGEMENT": "إدارة المنتجات",
+            "PSYCHOLOGISTS_MANAGEMENT": "إدارة الخبراء النفسيين",
+            "STUDY_PLANS_MANAGEMENT": "إدارة الخطط الدراسية",
+            "ACTIVITIES_MANAGEMENT": "إدارة الأنشطة",
+            "VERIFIED_CONTRIBUTORS_MANAGEMENT": "إدارة الأنشطة الموثقة",
+            "REPORTS": "البلاغات"
+        },
+        "CATEGORY_MANAGEMENT": {
+            "SHARED": {
+                "CATEGORY_NAME": "اسم الفئة",
+                "CATEGORY_ICON_LINK": "رابط أيقونة الفئة",
+                "PREVIEW": ":العرض المسبق",
+                "SUBMIT_BUTTON": "اتمام",
+                "VISIBLE_LOCATION": ".سيتم عرض التغييرات الخاصة بك في صفحة البحث عن المحتويات",
+                "SECTION_NAME": "اسم القسم",
+                "SECTION_ICON_LINK": "رابط أيقونة القسم"
+            },
+            "CATEGORY_CREATE": {
+                "CREATE_CATEGORY": "إنشاء فئة"
+            },
+            "CATEGORY_DELETE": {
+                "DELETE_CATEGORY": "حذف فئة",
+                "WARNING_MESSAGE": ".سيؤدي هذا إلى حذف جميع المحتويات الموجودة في هذه الفئة"
+            },
+            "CATEGORY_UPDATE": {
+                "UPDATE_CATEGORY": "تحديث فئة"
+            },
+            "SECTION_CREATE": {
+                "CREATE_SECTION": "إنشاء قسم"
+            },
+            "SECTION_DELETE": {
+                "DELETE_SECTION": "حذف قسم",
+                "WARNING_MESSAGE": ".سيؤدي هذا إلى حذف كل المحتويات في هذا القسم"
+            },
+            "SECTION_UPDATE": {
+                "UPDATE_SECTION": "تحديث قسم"
+            }
+        },
+        "VIEW_CONTENT_REQUESTS": {
+            "NO_REQUESTS_HERE": "عذرا، لم  تصل طلبات إنشاء محتويات بعد",
+            "FILTER_REQUESTS": "تصفية الطلبات حسب",
+            "IDEA": "فكرة",
+            "RESOURCE": "مورد تعليمي",
+            "EDIT": "تحديث",
+            "CREATE": "إنشاء"
+        }
+    },
+    "AUTH": {
+
+    },
+    "CONTENT": {
+        "SHARED": {
+            "OUR_CONTENT": "المحتويات",
+            "POSTED_BY": "{{ creator }} :نشره",
+            "DASHBOARD": "الصفحة الرئيسية",
+            "CONTENT": "المحتويات",
+            "ARABIC": "العربية",
+            "NEXT": "التالى",
+            "ENGLISH": "الإنجليزية",
+            "LANGUAGE": "اللغة",
+            "CATEGORY": "الفئة",
+            "SECTION": "القسم",
+            "TAGS": "الإشارات"
+        },
+        "LIST": {
+            "ALL": "جميع الفئات",
+            "BROWSE_CONTENT": "تصفح المحتويات",
+            "CATEGORIES": "الفئات",
+            "CATEGORY_SPECIFIED": "{{ category }} :الفئة",
+            "LANGUAGE_SPECIFIED": {
+                "ENGLISH": "اللغة: الإنجليزية",
+                "ARABIC": "اللغة: العربية"
+            },
+            "MY_CONTRIBUTIONS": "مساهماتي على الموقع",
+            "PREVIOUS": "السابق",
+            "RATING": "التقييم",
+            "RELEVANCE": "مدى الصلة",
+            "SEARCH": "...البحث",
+            "SECTION_SPECIFIED": "{{ section }} :القسم",
+            "SORT_BY": "التصنيف بحسب",
+            "SORT_BY_SPECIFIED": {
+                "RATING": "التصنيف بحسب: التقييم",
+                "RELEVANCE": "التصنيف بحسب: مدى الصلة",
+                "UPLOAD DATE": "التصنيف بحسب: تاريخ التحميل"
+            },
+            "UPLOAD_DATE": "تاريخ التحميل",
+            "WATCH_NOW": "شاهد الآن"
+        },
+        "VIEW": {
+            "COMMENTS": "{{ number }} :التعليقات",
+            "RECOMMENDED_CONTENT": {
+                "RECOMMENDED": "المحتويات",
+                "CONTENTS": "المقترحة"
+            },
+            "RATING": " :التقييم",
+            "BY": "نشره:",
+            "DELETE_FOREVER": "الحذف للأبد",
+            "EDIT": "تعديل",
+            "ADMIN_GO_BACK": "العودة إلى تقييم الطلبات",
+            "NOW": "الآن",
+            "COMMENT_BUTTON": "التعليق",
+            "REPLY_BUTTON": "الرد",
+            "LEAVE_A_COMMENT": "اترك تعليقا",
+            "LEAVE_A_REPLY": "اترك ردًّا"
+        },
+        "EDIT": {
+            "CREATE_CONTENT": "إنشاء محتوى",
+            "GENERAL_INFO": "معلومات عامة حول المحتوى الخاص بك",
+            "TITLE": "العنوان",
+            "TITLE_IS_REQUIRED": "العنوان مطلوب",
+            "THUMBNAIL_IMAGE": "الصورة",
+            "YOUTUBE_VIDEO":"فيديو يوتيوب",
+            "VIDEO_LINK_INVALID": ".رابط الفيديو غير صحيح",
+            "TYPE": "النوع",
+            "RESOURCE": "مورد تعليمي",
+            "IDEA": "فكرة",
+            "FILL_ALL": "يرجى ملء جميع البيانات المطلوبة",
+            "SUBMIT": "إنشاء",
+            "TITLE_PLACEHOLDER": "أدخل عنوان المحتوى*",
+            "VIDEO_LINK_PLACEHOLDER": "...رابط الفيديو",
+            "TYPE_PLACEHOLDER": "...نوع المحتوى",
+            "LANGUAGE_PLACEHOLDER": "...اختر لغة",
+            "CATEGORY_PLACEHOLDER": "...اختر فئة",
+            "SECTION_PLACEHOLDER": "...اختر القسم",
+            "TAG_PLACEHOLDER": "...إشارة جديدة",
+            "CATEGORY_INVALID": ".الرجاء اختيار فئة صالحة أولاً",
+            "SECTION_REQUIRED": "القسم مطلوب",
+            "CATEGORY_REQUIRED": "الفئة مطلوبة",
+            "STEPPER": {
+                "CONTENT_DATA": "بيانات المحتوى",
+                "CONTENT_DESCRIPTION": "وصف أو مضمون المحتوى",
+                "REVIEW_AND_SUBMIT": "المراجعة والإنشاء"
+            }
+        }
+    },
+    "MARKET": {
+
+    },
+    "MESSAGING": {
+
+    },
+    "PROFILE": { 
+        "CHILDREN":{    "UNLINK":"حذف",
+                          "AGE":"العمر" ,
+                        "LEARNING_SCORE":"نقاط التعلم",
+                        "POINTS":"نقطة"
+                        }
+
+},
+    "PSYCHOLOGIST": {
+
+    },
+    "SCHEDULING": {
+
+    },
+    "SEARCH": {
+        
+    },
+    "LANDING":{
+        
+    }
+}

@@ -11,14 +11,31 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AuthInterceptor } from './auth-interceptor';
 import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
+import { LandingModule } from './landing/landing.module';
 import { ToastrService, ToastrModule } from 'ngx-toastr';
 import { FacebookModule } from 'ngx-facebook';
+import {
+  GoogleApiModule,
+  GoogleApiService,
+  GoogleAuthService,
+  NgGapiClientConfig,
+  NG_GAPI_CONFIG,
+  GoogleApiConfig
+} from 'ng-gapi';
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/auth.service';
+import { environment } from '../environments/environment';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient } from '@angular/common/http';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,12 +48,26 @@ import { AuthService } from './auth/auth.service';
     LayoutModule,
     CommonModule,
     SharedModule,
+    LandingModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',
       maxOpened: 3
     }),
-    FacebookModule.forRoot()
+    FacebookModule.forRoot(),
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: {
+        client_id: environment.googleAppID,
+      }
+    }),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     AuthService,

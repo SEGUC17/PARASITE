@@ -86,7 +86,7 @@ module.exports.deleteMessage = function(req, res, next) {
  module.exports.block = function(req, res, next) {
    var blocked = req.params.blocked;
    //  console.log('username of blocked: ', blocked);
-    console.log('CONT. ID of user is: ', req.body._id);
+   // console.log('CONT. ID of user is: ', req.body._id);
      User.findByIdAndUpdate(
        req.body._id, { $push: { 'blocked': blocked } },
       { new: true }, function (err, updatedob) {
@@ -99,7 +99,7 @@ module.exports.deleteMessage = function(req, res, next) {
               req.body.username + 'Blocked is: ' + blocked
           });
       }
-      console.log('status is 200');
+ //     console.log('status is 200');
 
       return res.status(200).json({
        data: updatedob,
@@ -134,14 +134,12 @@ module.exports.getRecentlyContacted = function(req, res, next) {
 };
 
 module.exports.contactAdmin = function (req, res, next) {
-  console.log('in here');
  User.find({ 'isAdmin': true }, function (err, users) {
     if (err) {
       return next(err);
     } else if (users) {
       for (var num = 0; num < users.length; num += 1) {
         req.body.recipient = users[num].username;
-        console.log(users[num].firstName);
         Message.create(
         req.body
       , function(error, posted) {
@@ -161,42 +159,32 @@ module.exports.contactAdmin = function (req, res, next) {
   });
  };
 
-module.exports.unBlock = function(req, res, next) {
-    var blockedUser = req.params.blocked;
-  //  console.log('username of blocked: ', blocked);
-  // console.log('unBlock CONT. ID of user is: ', req.body._id);
-    User.findById(
-      req.body._id,
-     { new: true }, function (err, updatedob) {
-     if (err) {
-           console.log('entered the error stage of update');
+ //modified unBlock method (correct version)
+ module.exports.unBlock = function (req, res, next) {
+  var ID = req.params.id;
+  //var array =req.body.data.blocked;
+ // console.log('req.body.data',req.body.data.blocked );
+  //console.log('unBlock CONT. ID of user is: ', req.params.id);
+  //console.log('blocklist is ', req.body);
 
-         return res.status(402).json({
-             data: null,
-             msg: 'error occurred during unblocking the user'
-         });
-     }
-    
-    else {
-       updatedob=req.body;
-       //   console.log('id of updatedob: ', updatedob._id);
-         // console.log('username of updatedob: ', updatedob.username);
+  User.findByIdAndUpdate(
+    ID, { $set: { 'blocked': req.body } },
+    { new: true }, function (err, updatedob) {
+      if (err) {
+          // console.log('entered the error stage of update');
 
-          for(let i=0; i<req.body.blocked.length; i++)
-             {
-                 if(req.body.blocked[i] == blockedUser)
-                 {
-                   console.log('this user is no longer blocked');
-                   req.body.blocked[i].remove();
-                 }//end if
-             }// end for 
-       
-     return res.status(200).json({
-      data: updatedob,
-      err: null,
-      msg: 'This user is no longer blocked'
-     });
-    }//end else
-    }//end function
-);
+        return res.status(402).json({
+          data: null,
+          msg: 'error occurred during unblocking the user'
+        });
+      }
+
+        return res.status(200).json({
+          data: updatedob,
+          err: null,
+          msg: 'This user is no longer blocked'
+        });
+    }
+    // end function
+  );
 };

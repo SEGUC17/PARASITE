@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { environment } from '../../environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -17,7 +18,7 @@ export class MessageService {
 
   url: String = environment.apiUrl ;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private toastrService: ToastrService) { }
 
 
   // making a POST request to send a message
@@ -53,5 +54,8 @@ export class MessageService {
     return this.http.post<any> (this.url + 'contactus', toSend, httpOptions);
 
   }
+  unBLock(userId: any, list: any):  Observable<any> {
+    return this.http.patch(this.url + `message/unblock/${userId}`, list, httpOptions);
+    }
 
 }
