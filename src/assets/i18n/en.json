@@ -16,10 +16,12 @@
     },
     "ACTIVITIES": {
         "CREATE": {
-            "ACTIVITY_DATE_ERROR": "From date can't be after to date",
+            "DATE_ERROR": "From date can't be after to date",
             "CREATE_ACTIVITY": "Create Activity",
             "REQUIRED_FIELDS": "Required Fields",
-            "SUBMIT": "Submit"
+            "SUBMIT": "Submit",
+            "FORM_FILL_ERROR" : "Please fill the form correctly",
+            "TAGS": "Tags"
         },
         "LIST": {
             "ACTIVITIES": "Activities",
@@ -41,6 +43,23 @@
             "DESCRIPTION": "Description",
             "WRITE_COMMENT": "leave a comment...",
             "BOOK_SUCCESS": "Booked successfully"
+        },
+        "EDIT":{
+            "EDIT_ACTIVITY": "Edit Activity",
+            "ACTIVITY_NAME": "Name",
+            "START_DATE":"Start date",
+            "END_DATE":"End date",
+            "PRICE":"Price",
+            "DESCRIPTION":"Description",
+            "CANCEL":"Cancel",
+            "SAVE_CHANGES":"Save Changes",
+            "ACTIVITY_NAME_PLACEHOLDER": "ACtivity Name",
+            "START_DATE_PLACEHOLDER":"Start date",
+            "END_DATE_PLACEHOLDER":"End date",
+            "PRICE_PLACEHOLDER":"Price",
+            "DESCRIPTION_PLACEHOLDER":"Description",
+            "ACTIVITY_IMAGE":"Change activity image "
+            
         }
     },
     "ADMIN": {
@@ -201,7 +220,13 @@
     "MESSAGING": {
 
     },
-    "PROFILE": {
+    "PROFILE": { 
+                "CHILDREN":{    "UNLINK":"Unlink",
+                                "AGE":"Age" ,
+                                "LEARNING_SCORE":"Learning Score",
+                                "POINTS":"Points"
+                    
+                                }
 
     },
     "PSYCHOLOGIST": {
