@@ -1,9 +1,9 @@
 <section class="content file_manager">
-  <div class="block-header">
+  <div class="block-header" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
     <div class="row">
       <div class="col-lg-7 col-md-5 col-8">
-        <h2>
-          <i class="zmdi zmdi-shopping-cart"></i>
+        <h2 style="font-size:25px" [align]="translate.currentLang === 'ara'? 'right': null" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+          <i class="zmdi zmdi-shopping-cart" style="margin-left:3px" [style.float]="translate.currentLang === 'ara'? 'right': null"></i>
           {{'MARKET.MAIN.MARKET' | translate}}
           <small>{{'MARKET.MAIN.CAPTION' | translate}}</small>
         </h2>
@@ -12,7 +12,8 @@
         <button class="btn btn-primary btn-round btn-icon hidden-sm-down float-right m-l-10" type="button" (click)="goToCreate()">
           <i class="zmdi zmdi-plus"></i>
         </button>
-        <ul class="breadcrumb float-md-right">
+        <ul class="breadcrumb float-md-right" [dir]="translate.currentLang === 'ara'? 'rtl': null"
+        [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">
               <i class="zmdi zmdi-home"></i> {{'APP.NAWWAR' | translate}}</a>
@@ -25,13 +26,13 @@
   <div class="container-fluid">
     <div class="row clearfix">
       <div class="col-lg-12">
-        <div class="card bg-dark">
+        <div class="card bg-dark" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
           <ul class="nav nav-tabs">
             <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" href="#products">{{'MARKET.MAIN.LABEL' | translate}}</a>
+              <a class="nav-link active" data-toggle="tab" href="#products" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >{{'MARKET.MAIN.LABEL' | translate}}</a>
             </li>
             <li class="nav-item" *ngIf="!this.user || !this.user.isAdmin">
-              <a class="nav-link" data-toggle="tab" href="#requests">{{'MARKET.MAIN.LABEL_REQ' | translate}}</a>
+              <a class="nav-link" data-toggle="tab" href="#requests" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >{{'MARKET.MAIN.LABEL_REQ' | translate}}</a>
             </li>
           </ul>
         </div>
@@ -40,20 +41,20 @@
 
             <div class="row clearfix">
               <div class="col-lg-12">
-                <div class="card action_bar">
+                <div class="card action_bar" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                   <div class="body">
                     <div class="row clearfix">
                       <div class="col-lg-8 col-md-6 col-12">
-                        <div class="input-group search" *ngIf="filter=='Name'">
-                          <input type="text" class="form-control" placeholder="{{'MARKET.MAIN.SEARCH_BAR' | translate}}" [(ngModel)]="writtenName">
+                        <div class="input-group search" *ngIf="filter=='Name'" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                          <input type="text" class="form-control" placeholder="{{'MARKET.MAIN.SEARCH_BAR' | translate}}" [(ngModel)]="writtenName" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >
                           <span class="input-group-addon">
                             <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyName()">
                               <i class="zmdi zmdi-search"></i> {{'MARKET.MAIN.PROD_SEARCH' | translate}}
                             </button>
                           </span>
                         </div>
-                        <div div class="input-group search" *ngIf="filter=='Price'">
-                          <input type="number" class="form-control" placeholder="" [(ngModel)]="writtenPrice">
+                        <div div class="input-group search" *ngIf="filter=='Price'" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                          <input type="number" class="form-control" placeholder="" [(ngModel)]="writtenPrice" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >
 
                           <span class="input-group-addon">
                             <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyPrice()">
@@ -64,26 +65,26 @@
                         <div *ngIf="filter=='Sort'">
                           <div class="radio">
                             <input type="radio" name="radio1" id="radio1" value="option1" checked="" (click)="applySort('latest')">
-                            <label for="radio1">
-                              {{'MARKET.MAIN.LATEST' | translate}}
+                            <label for="radio1" style="margin-right: 20px">
+                              <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"> {{'MARKET.MAIN.LATEST' | translate}} </p>
                             </label>
                             <input type="radio" name="radio1" id="radio2" value="option2" (click)="applySort('cheapest')">
                             <label for="radio2">
-                              {{'MARKET.MAIN.CHEAPEST' | translate}}
+                              <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"> {{'MARKET.MAIN.CHEAPEST' | translate}} </p>
                             </label>
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-2 col-md-2 col-8">
+                      <div class="col-lg-3 col-md-2 col-8">
                         <div class="checkbox inlineblock">
                           <input id="myProducts" type="checkbox" [(ngModel)]="isChecked" (click)="applySeller()">
                           <label for="myProducts">
-                              {{'MARKET.MAIN.MY_PRODS' | translate}}
+                              <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"> {{'MARKET.MAIN.MY_PRODS' | translate}} </p>
                           </label>
                         </div>
                       </div>
                       <div class="col-lg-1 col-md-1 col-1 text-right">
-                        <div class="btn-group hidden-sm-down" role="group">
+                        <div class="btn-group hidden-sm-down" role="group" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                           <div class="btn-group">
                             <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <i class="zmdi zmdi-label"></i>
@@ -125,11 +126,12 @@
                       <div class="image">
                         <img src={{product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
                       </div>
-                      <div class="file-name">
-                        <p class="m-b-5 text-muted">{{product.name}}</p>
-                        <small>{{'MARKET.MAIN.SEARCH_PRICE' | translate: {price: product.price} }}
-                          <span class="date text-muted">{{product.createdAt | date}}</span>
-                        </small>
+                      <div class="file-name" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                        <p class="m-b-5 text-muted" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{product.name}}</p>
+                        <div class="row">
+                          <small class="col-6" style="width:fit-content" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >{{'MARKET.MAIN.SEARCH_PRICE' | translate: {price: product.price} }}</small>
+                          <small class="date text-muted col-6" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{product.createdAt | date}}</small>
+                        </div>
                       </div>
                     </a>
                   </div>
@@ -163,7 +165,7 @@
                       <div class="image">
                         <img src={{product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
                       </div>
-                      <div class="file-name">
+                      <div class="file-name" [align]="translate.currentLang === 'ara'? 'right': null">
                         <p class="m-b-5 text-muted">{{product.name}}</p>
                         <small>{{'MARKET.MAIN.SEARCH_PRICE' | translate: {price: product.price} }}</small>
                         <p class="date text-muted">{{product.createdAt | date}}</p>
