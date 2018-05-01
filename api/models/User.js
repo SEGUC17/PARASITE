@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 var mongoosePaginate = require('mongoose-paginate');
 var REGEX = require('../utils/validators/REGEX');
 var encryption = require('../utils/encryption/encryption');
+var mongooseRandom = require('mongoose-simple-random');
 // -------------------------- End of "Requiremenets" --------------------- //
 
 
@@ -232,7 +233,9 @@ userSchema.methods.comparePasswords = function (password, next) {
 // -------------------------- End of "Compare Password" ------------------ //
 
 
-// -------------------------- Models ------------------------------------- //
+// --------------------------  Models ------------------------------------- //
+
+userSchema.plugin(mongooseRandom);
 userSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('User', userSchema, 'users');
 // -------------------------- End of "Models" ---------------------------- //

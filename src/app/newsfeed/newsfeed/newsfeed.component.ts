@@ -32,6 +32,7 @@ export class NewsfeedComponent implements OnInit {
       } else {
         self.newsfeedService.getPeople().subscribe(function (people) {
           self.people = people.data;
+          console.log(self.people);
         });
         // self.tags = self.user.interests;
         self.tags = [{name: 'math'}, {name: 'physics'}, {name: 'high school'}];

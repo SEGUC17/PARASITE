@@ -43,16 +43,22 @@ module.exports.updateContentPost = function (content) {
     );
 };
 module.exports.findRandomFive = function (req, res, next) {
-    User.findRandom.limit(5).exec(function (err, users) {
-        if (err) {
-            return next(err);
+    User.findRandom(
+        { isParent: true },
+        {},
+        { limit: 5 },
+        function (randomError, users) {
+            if (randomError) {
+                return next(randomError);
+            }
+
+            return res.status(200).json({
+                data: users,
+                err: null,
+                msg: 'Users are retrieved successfully'
+            });
         }
-        res.status(200).json({
-            data: users,
-            err: null,
-            msg: 'Users are retrieved successfully'
-        });
-    });
+    );
 };
 
 module.exports.getPosts = function (req, res) {
