@@ -20,20 +20,20 @@ var StudyPlanPublishreqschema = mongoose.Schema({
     status: {
         default: 'pending',
         enum: [
-               'approved',
-               'disapproved',
-               'pending'
-       ],
-           type: String
-       },
+            'approved',
+            'disapproved',
+            'pending'
+        ],
+        type: String
+    },
     studyPlanID: {
-    type: [
-        {
-        ref: 'StudyPlan',
-        type: Schema.Types.ObjectId
-        }
-    ]
-        },
+        type: [
+            {
+                ref: 'StudyPlan',
+                type: Schema.Types.ObjectId
+            }
+        ]
+    },
     title: {
         trim: true,
         type: String

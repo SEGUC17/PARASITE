@@ -1,9 +1,3 @@
-.button-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-  }
-
 .clickable {
   cursor: pointer
 }
@@ -24,4 +18,9 @@
   min-height: 90%;
   max-height: 90%;
   margin-left: 4%;
+}
+
+.up {
+  bottom:100% !important;
+  top:auto !important;
 }

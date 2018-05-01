@@ -43,13 +43,15 @@
 
         <div class="col-md-12 col-lg-4 col-xl-4">
           <div class="body">
-            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="!currIsChild && (type === 'personal' || (currUsername === studyPlan.creator || currIsAdmin))">Add Event</button>
+            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)">Add Event</button>
             <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
               aria-controls="collapseExample">
               <i class="zmdi zmdi-chevron-down"></i>
             </button>
             <div class="collapse-xs collapse-sm collapse" id="open-events">
-              <hr>
+              <br *ngIf="currIsChild || (type === 'published' && currUsername !== studyPlan.creator && !currIsAdmin)" />
+              <br *ngIf="currIsChild || (type === 'published' && currUsername !== studyPlan.creator && !currIsAdmin)" />
+              <hr *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)" />
               <div class="event-name b-primary row" *ngFor="let event of events; let index = index">
                 <div class="col-2 text-center">
                   <h4>{{ event.start | date:'dd' }}
@@ -120,42 +122,27 @@
       <div class="body" *ngIf="!editingDescription">
         <div class="ql-editor preview" [innerHTML]="editorOut"></div>
       </div>
-      <hr/>
-      <div class="button-row">
-        <button class="btn btn-primary" (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
-        <button class="btn btn-primary" (click)="copy()" color="primary" *ngIf="!currIsChild">Copy</button>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="type === 'personal' && profileUsername ? currUsername === profileUsername : true && !currIsChild">Assign</button>
-        <button class="btn btn-primary" (click)="unAssign()" color="primary" *ngIf="studyPlan.assigned">Unassign</button>
-        <button class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" color="primary" *ngIf="changed">Save Changes</button>
+      <hr />
+      <div class="row justify-content-around">
+        <button class="btn btn-primary" (click)="publish()" *ngIf="type === 'personal' && !currIsChild && (profileUsername ? currUsername === profileUsername : true)">Publish</button>
+        <button class="btn btn-primary" (click)="copy()" *ngIf="!currIsChild && (type === 'published' || profileUsername ? currUsername === profileUsername : true)">Copy</button>
+        <div class="dropup" *ngIf="type === 'personal' && (profileUsername ? currUsername === profileUsername : true) && !currIsChild">
+          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            Assign
+          </button>
+          <div class="dropdown-menu up">
+            <a class="dropdown-item" href="javascript:void(0);" (click)="assign(currUsername)">myself</a>
+            <div class="dropdown-divider"></div>
+            <h5 class="dropdown-header" *ngIf="listOfChildren.length > 0">Children</h5>
+            <a class="dropdown-item" href="javascript:void(0);" (click)="assign(child)" *ngFor="let child of listOfChildren">{{ child }}</a>
+          </div>
+        </div>
+        <button class="btn btn-primary" (click)="unAssign()" *ngIf="type === 'personal' && studyPlan.assigned && !currIsChild">Unassign</button>
+        <button class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" *ngIf="changed">Save Changes</button>
       </div>
     </div>
   </div>
 </section>
-
-<div class="modal fade" id="assignFunction" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="title" id="defaultModalLabel">Assign</h4>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <span class="reset">
-            <input type="text" [(ngModel)]="selectedUser" name="assignFunctionTarget" list="userList">
-            <datalist id="userList">
-              <option>{{ profileUsername }}</option>
-              <option *ngFor="let child of listOfChildren">{{child}}</option>
-            </datalist>
-          </span>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" (click)="assign()" data-dismiss="modal">Assign</button>
-        <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Event Creation Modal -->
 <div class="modal fade" id="createModal" tabindex="-1" role="dialog">
