@@ -40,14 +40,11 @@
         </div>
 
         <li>
-          <span style="font-weight: bold">Product Information:</span>
+          <span style="font-weight: bold">{{ 'MARKET.PROD_DETAIL.PROD_INFO' | translate }}</span>
         </li>
         <div style="word-wrap: break-word;">
           {{data.product.description}}
         </div>
-        <li>
-          <span style="font-weight: bold">Created At: </span> {{data.product.createdAt | date }}
-        </li>
 
         <li>
           <span style="font-weight: bold">For {{data.product.acquiringType}}</span>
@@ -62,6 +59,8 @@
         <li>
           <span style="font-weight: bold">Shipping to: </span>
         </li>
+
+        <small class="date text-muted col-6">Created at: {{data.product.createdAt | date}} {{ 'MARKET.PROD_DETAIL.CREATED_AT' | translate: {date: data.product.createdAt} }}</small>
 
       </div>
     </div>

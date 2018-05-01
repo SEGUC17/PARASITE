@@ -182,7 +182,10 @@
             "IMG":"صورة المنتج",
             "CREATEPRODUCT":"إضافة منتج"
         },
-        "PROD_DETAIL": {},
+        "PROD_DETAIL": {
+            "PROD_INFO": "تفاصيل المنتج",
+            "CREATED_AT": "{{ date }} تمت إضافته"
+        },
         "REQ_DETAIL": {}
     },
     "MESSAGING": {
