@@ -8,7 +8,6 @@ import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
 import {  DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-
 declare const swal: any;
 declare const $: any;
 @Component({
