@@ -3,9 +3,7 @@
         "NAWWAR": "Nawwar",
         "CURRENT_LANGUAGE": "English"
     },
-    "ACTIVITIES": {
-
-    },
+    "ACTIVITIES": {},
     "ADMIN": {
         "ADMIN_CONTROL": {
             "CONTENTS_MANAGEMENT": "Content Requests",
@@ -57,9 +55,7 @@
             "CREATE": "CREATE"
         }
     },
-    "AUTH": {
-
-    },
+    "AUTH": {},
     "CONTENT": {
         "SHARED": {
             "OUR_CONTENT": "Our Contents",
@@ -121,7 +117,7 @@
             "TITLE": "Title",
             "TITLE_IS_REQUIRED": "Title is required",
             "THUMBNAIL_IMAGE": "Thumbnail Image",
-            "YOUTUBE_VIDEO":"Youtube Video",
+            "YOUTUBE_VIDEO": "Youtube Video",
             "VIDEO_LINK_INVALID": "Video link is invalid",
             "TYPE": "Type",
             "RESOURCE": "Resource",
@@ -146,7 +142,6 @@
         }
     },
     "MARKET": {
-
         "MAIN": {
             "MARKET": "Marketplace",
             "CAPTION": "Buy, sell or rent unwanted stuff",
@@ -170,41 +165,82 @@
             "NO_PROD_REQ": "No product requests. All clean.",
             "MY_PRODS": "My Products"
         },
-        "CREATE": { 
+        "CREATE": {
             "INFO": "Product's Information",
-            "DESCRIPTION": "Products description" ,
+            "DESCRIPTION": "Products description",
             "NAME": "Product's name",
-            "PRICE": "Price $",
-            "AQUIRE":"Product is up for",
-            "SELL":"sell",
-            "RENT": "rent",
-            "SELLRENT":"rent/sell",
-            "RENTPERIOD":"rent period if exists",
-            "IMG":"Product's Picture",
-            "CREATEPRODUCT":"Add a Product"
+            "PRICE": "Price EGP",
+            "AQUIRE": "Product is up for",
+            "SELL": "Sale",
+            "RENT": "Rent",
+            "SELLRENT": "Rent/Sale",
+            "RENTPERIOD": "Rent period (if exists)",
+            "IMG": "Product's Picture",
+            "CREATEPRODUCT": "Add Product"
         },
-        "PROD_DETAIL": {},
-        "REQ_DETAIL": {}
+        "PROD_DETAIL": {
+            "PROD_INFO": "Product Information:",
+            "CREATED_AT": "Created at: {{ date }}",
+            "ACQUIRE": "Acquire",
+            "EGP": "EGP",
+            "ACQTYPERENT": "This item is for rent",
+            "ACQTYPESELL": "This item is for sale",
+            "ACQTYPEBOTH": "This item is for rent and sale",
+            "DAYS": "Up to {{ days }} days",
+            "SOLD": "Sold by: "
+        },
+        "REQ_DETAIL": {
+            "PROD_NAME": "Product's name",
+            "ACQTYPELABEL": "Acquiring type: "
+        }
     },
-    "MESSAGING": {
-
-    },
-    "PROFILE": {
-
-    },
+    "MESSAGING": {},
+    "PROFILE": {},
     "PSYCHOLOGIST": {
-        "TITLE": { "VERIFIED_PSYCHS": "Psychologists", "SUB": "Because your child mental health matters", "NAWWAR": "Nawwar"  },
-        "INFO": { "PHONE": "Phone", "EMAIL": "Email", "DAYSOFF": "Days Off", "PRICE": "Maximum Price Range",
-                  "ADD": "Address", "EDIT": "Edit This", "DELETE": "Delete This" },
-        "DAYS": { "SAT": "Sat", "SUN": "Sun", "MON": "Mon", "TUE": "Tue", "WED": "Wed", "THU": "Thu", "FRI": "Fri", "NO DAYS OFF": "No Days Off" },
-        "FILTERS": { "NAME_SEARCH": "Search by Name...", "ADD_SEARCH": "Search by Address...", "SORT_BY": "Sort By", "CHEAPEST": "Cheapest", "A-Z": "Alphabetical" },
-        "POPUP": { "TITLE": "Contact Information", "F_NAME": "First Name *", "L_NAME": "Last Name *", "EMAIL": "Email *", "ADD": "Address...", "REQUIRED": "Required Fields *", "NOT_REQUIRED": "You don't have to fill on all fields, just fill the ones you wish to edit.", "SUBMIT": "Submit",
-                   "NOTE": "Note", "NOTE_BODY": "If our admins accepted your request your contact Information will be added to our psychologists address book and an email with an ID will be sent to you, with this ID only you can later edit or delete your information." }
+        "TITLE": {
+            "VERIFIED_PSYCHS": "Psychologists",
+            "SUB": "Because your child mental health matters",
+            "NAWWAR": "Nawwar"
+        },
+        "INFO": {
+            "PHONE": "Phone",
+            "EMAIL": "Email",
+            "DAYSOFF": "Days Off",
+            "PRICE": "Maximum Price Range",
+            "ADD": "Address",
+            "EDIT": "Edit This",
+            "DELETE": "Delet This"
+        },
+        "DAYS": {
+            "SAT": "Sat",
+            "SUN": "Sun",
+            "MON": "Mon",
+            "TUE": "Tue",
+            "WED": "Wed",
+            "THU": "Thu",
+            "FRI": "Fri",
+            "NO DAYS OFF": "No Days Off"
+        },
+        "FILTERS": {
+            "NAME_SEARCH": "Search by Name...",
+            "ADD_SEARCH": "Search by Address...",
+            "SORT_BY": "Sort By",
+            "CHEAPEST": "Cheapest",
+            "A-Z": "Alphabetical"
+        },
+        "POPUP": {
+            "TITLE": "Contact Information",
+            "F_NAME": "First Name *",
+            "L_NAME": "Last Name *",
+            "EMAIL": "Email *",
+            "ADD": "Address...",
+            "REQUIRED": "Required Fields *",
+            "NOT_REQUIRED": "You don't have to fill on all fields, just fill the ones you wish to edit.",
+            "SUBMIT": "Submit",
+            "NOTE": "Note",
+            "NOTE_BODY": "If our admins accepted your request your contact Information will be added to our psychologists address book and an email with an ID will be sent to you, with this ID only you can later edit or delete your information."
+        }
     },
-    "SCHEDULING": {
-
-    },
-    "SEARCH": {
-
-    }
+    "SCHEDULING": {},
+    "SEARCH": {}
 }
