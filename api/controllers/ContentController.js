@@ -23,38 +23,39 @@ module.exports.getContentById = function (req, res, next) {
 
     // find and send the content
     Content.findById(req.params.id).
-    populate({
-      model: 'User',
-      path: 'discussion.creatorInfo',
-      select: 'avatar firstName lastName'
-    }).
-    populate({
-      model: 'User',
-      path: 'discussion.replies.creatorInfo',
-      select: 'avatar firstName lastName'
-    }).exec(function (err, content) {
-        if (err) {
-            return next(err);
-        }
+        populate({
+            model: 'User',
+            path: 'discussion.creatorInfo',
+            select: 'avatar firstName lastName'
+        }).
+        populate({
+            model: 'User',
+            path: 'discussion.replies.creatorInfo',
+            select: 'avatar firstName lastName'
+        }).
+        exec(function (err, content) {
+            if (err) {
+                return next(err);
+            }
 
-        // content id did not match anything
-        if (!content) {
-            return res.status(404).json({
-                data: null,
-                err: 'The requested content was not found.',
-                msg: null
+            // content id did not match anything
+            if (!content) {
+                return res.status(404).json({
+                    data: null,
+                    err: 'The requested content was not found.',
+                    msg: null
+                });
+            }
+
+            // content was found successfully
+
+            return res.status(200).json({
+                data: content,
+                err: null,
+                msg: 'Content was retrieved successfully'
             });
-        }
 
-        // content was found successfully
-
-        return res.status(200).json({
-            data: content,
-            err: null,
-            msg: 'Content was retrieved successfully'
         });
-
-    });
 
 };
 
@@ -535,6 +536,7 @@ var handleNonAdminUpdate = function (req, res, next) {
 module.exports.updateContent = function (req, res, next) {
     delete req.body.approved;
     delete req.body.v;
+    delete req.body.rating;
     req.body.touchDate = moment().toDate();
     req.body.creator = req.user.username;
     if (req.user.isAdmin) {

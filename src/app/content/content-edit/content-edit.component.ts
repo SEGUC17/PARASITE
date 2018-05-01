@@ -142,6 +142,7 @@ export class ContentEditComponent implements OnInit {
       }
       if (contentRes.data.content) {
         self.router.navigateByUrl('/content/view/' + contentRes.data.content._id);
+        return;
       }
       self.router.navigateByUrl('/content/view/' + contentRes.data._id);
     });

@@ -73,7 +73,7 @@ export class ContentViewComponent implements OnInit {
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
       self.comments = retrievedContent.data.discussion;
-      console.log(self.comments[self.comments.length-1]);
+      console.log(self.comments[self.comments.length - 1]);
       if (self.content) {
         self.getRecommendedContent();
       }
@@ -182,7 +182,7 @@ export class ContentViewComponent implements OnInit {
 
   // admin or owner user of content wishes to edit the content
   redirectToContentEdit(): void {
-    this.router.navigateByUrl('/content-edit/' + this.content._id);
+    this.router.navigateByUrl('/content/edit/' + this.content._id);
   }
 
   // retrieve the recommended content related to the content the user is viewing
