@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var Activity = mongoose.model('Activity');
+var User = mongoose.model('User');
+var moment = require('moment');
 
 /* eslint max-statements: ["error", 20] */
 /* eslint multiline-comment-style: ["error", "starred-block"] */
@@ -184,41 +186,45 @@ module.exports.postActivity = function (req, res) {
 };
 
 module.exports.deleteActivity = function (req, res) {
-  console.log('inside the delete activity');
-  var deletingUser = req.user;
+    console.log('inside the delete activity');
+    var deletingUser = req.user;
 
-  Activity.find({ _id: req.params.activityId }).
-  exec(function (err, result) {
-    // find the required activity to check on the deletor (xD).
-    if (err) {
-      throw err;
-    }
-    var activityCreator = result[0].creator;
-    if (activityCreator !== deletingUser.username && !deletingUser.isAdmin) {
-      res.status(401).json({
-        data: null,
-        err: null,
-        msg: 'reponse has been submitted'
-      });
-    } else {
-      Activity.remove({ _id: req.params.activityId }, function (err) {
-        if (err) {
-          return res.status(404).json({
-            data: null,
-            err: err,
-            message: 'cannot find this activity'
-          });
-        }
-        res.status(201).json({
-          data: null,
-          err: null,
-          message: 'Activity deleted successfully.'
+    Activity.find({ _id: req.params.activityId }).
+        exec(function (err, result) {
+            // find the required activity to check on the deletor (xD).
+            if (err) {
+                throw err;
+            }
+            var activityCreator = result[0].creator;
+            if (activityCreator !== deletingUser.username &&
+                !deletingUser.isAdmin) {
+                res.status(401).json({
+                    data: null,
+                    err: null,
+                    msg: 'reponse has been submitted'
+                });
+            } else {
+                Activity.remove(
+                    { _id: req.params.activityId },
+                    function (errr) {
+                    if (errr) {
+                        return res.status(404).json({
+                            data: null,
+                            err: errr,
+                            message: 'cannot find this activity'
+                        });
+                    }
+                    res.status(201).json({
+                        data: null,
+                        err: null,
+                        message: 'Activity deleted successfully.'
+                    });
+                }
+            );
+            }
+
+
         });
-      });
-    }
-
-
-  });
 };
 
 module.exports.reviewActivity = function (req, res) {
@@ -283,6 +289,39 @@ module.exports.reviewActivity = function (req, res) {
                     msg: null
                 });
             }
+            // Not tested cause I cant make an activity if I'm not admin
+            if (newStatus === 'verified') {
+            var notification = {
+                body: 'Your new activity was accepted & is now posted.',
+                date: moment().toDate(),
+                itemId: activityId,
+                type: 'activity'
+            };
+            User.findOneAndUpdate(
+                { username: activity.creator },
+                {
+                    $push:
+                        { 'notifications': notification }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    if (errr) {
+                        return res.status(402).json({
+                            data: null,
+                            err: 'error occurred during adding ' +
+                                'the notification'
+                        });
+                    }
+                    if (!updatedUser) {
+                        return res.status(404).json({
+                            data: null,
+                            err: null,
+                            msg: 'User not found.'
+                        });
+                    }
+                }
+            );
+        }
             res.status(200).send({
                 data: activity,
                 err: null,
@@ -323,7 +362,7 @@ module.exports.prepareActivity = function (req, res, next) {
 
 // Author: Heidi
 module.exports.editActivity = function (req, res, next) {
-    console.log('current :' + req.user);
+
     var Status = 'pending';
     if (req.user.isAdmin) {
         Status = 'verified';
@@ -375,7 +414,7 @@ module.exports.editActivity = function (req, res, next) {
 };
 
 
-module.exports.isIndependent = function(req, res, next) {
+module.exports.isIndependent = function (req, res, next) {
 
     /*
      * Middleware for making sure that the user is independent
@@ -394,7 +433,7 @@ module.exports.isIndependent = function(req, res, next) {
     return next();
 };
 
-module.exports.bookActivity = function(req, res, next) {
+module.exports.bookActivity = function (req, res, next) {
 
     /*
      * Middleware for booking activities for child or for self
@@ -409,7 +448,7 @@ module.exports.bookActivity = function(req, res, next) {
     var reqUser = req.user;
     var bookingUser = req.body.username;
 
-    Activity.findById(req.params.activityId, function(err, activity) {
+    Activity.findById(req.params.activityId, function (err, activity) {
         if (err) {
             return next(err);
         }
@@ -445,9 +484,44 @@ module.exports.bookActivity = function(req, res, next) {
                     new: true,
                     runValidators: true
                 },
-                function(err2, activity2) {
+                function (err2, activity2) {
                     if (err2) {
                         return next(err2);
+                    }
+                    if (req.user.username != activity2.creator) {
+                        var notification = {
+                            body: req.user.username + ' booked your activity ' +
+                            activity2.name,
+                            date: moment().toDate(),
+                            itemId: req.params.activityId,
+                            type: 'activity'
+                        };
+                        User.findOneAndUpdate(
+                            { username: activity2.creator },
+                            {
+                                $push:
+                                    { 'notifications': notification }
+                            }
+                            , { new: true },
+                            function (errr, updatedUser) {
+                                console.log('add the notification');
+                                console.log(updatedUser.notifications);
+                                if (errr) {
+                                    return res.status(402).json({
+                                        data: null,
+                                        err: 'error occurred during adding ' +
+                                            'the notification'
+                                    });
+                                }
+                                if (!updatedUser) {
+                                    return res.status(404).json({
+                                        data: null,
+                                        err: null,
+                                        msg: 'User not found.'
+                                    });
+                                }
+                            }
+                        );
                     }
 
                     return res.status(201).json({
@@ -464,5 +538,51 @@ module.exports.bookActivity = function(req, res, next) {
                 msg: null
             });
         }
+    });
+};
+
+module.exports.editActivityImage = function (req, res, next) {
+
+    var Status = 'pending';
+    if (req.user.isAdmin) {
+        Status = 'verified';
+    }
+    // finding activity by id
+    Activity.findById(req.params.activityId).exec(function (err, activity) {
+        if (err) {
+            return next(err);
+
+        }
+        // only activity creator can edit his/her own activity
+        if (!(activity.creator == req.user.username)) {
+            return res.status(403).send({
+                data: null,
+                err: null,
+                msg: 'Action not allowed'
+            });
+        }
+        // if status is booked already it cannot be edited
+        if (activity.bookedBy.length > 0) {
+            return res.status(403).send({
+                data: null,
+                err: null,
+                msg: 'no edition allowed'
+            });
+        }
+        // updating activity image
+        Activity.findByIdAndUpdate(
+            req.params.activityId,
+             { $set: { image: req.body.image } }, { new: true }
+            ).exec(function (error, updatedActivity) {
+            if (err) {
+                return next(err);
+            }
+
+            return res.status(200).send({
+                data: updatedActivity.image,
+                err: null,
+                msg: 'image is updated'
+            });
+        });
     });
 };

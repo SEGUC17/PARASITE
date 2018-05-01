@@ -3,6 +3,7 @@ import { AuthService } from '../auth.service';
 import { User } from '../user';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,7 +21,8 @@ export class SignInComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private toastrService: ToastrService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -31,7 +33,11 @@ export class SignInComponent implements OnInit {
     self.authService.signIn(this.user).subscribe(function (res) {
       if (res.msg === 'Sign In Is Successful!') {
         self.authService.setToken(res.token);
-        self.toastrService.success(res.msg, 'Welcome!');
+        self.translate.get('AUTH.TOASTER.SIGN_IN_SUCCESSFULL').subscribe(
+          function (translation) {
+            self.toastrService.success(translation);
+          }
+        );
         self.router.navigateByUrl('/content/list');
       }
     });

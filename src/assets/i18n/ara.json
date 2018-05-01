@@ -4,7 +4,19 @@
         "CURRENT_LANGUAGE": "العربية"
     },
     "ACTIVITIES": {
+        "EDIT":{
+            "EDIT_ACTIVITY": "تعديل النشاط",
+            "ACTIVITY_NAME": "الاسم",
+            "START_DATE":"تاريخ النهاية",
+            "END_DATE":"تاريخ البداية",
+            "PRICE":"السعر",
+            "DESCRIPTION":"الوصف",
+            "CANCEL":"الغاء",
+            "SAVE_CHANGES":"حفظ التغييرات",
+            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+            "ACTIVITY_IMAGE":"تغيير صورة النشاط"
         
+        }
     },
     "ADMIN": {
         "ADMIN_CONTROL": {
@@ -99,6 +111,15 @@
             "ENTER_NEW_PASSWORD_PLACEHOLDER": "أدخل كلمة مرور جديدة",
             "ENTER_NEW_PASSWORD_CONFIRM_PLACEHOLDER": "تأكيد كلمة المرور الجديدة",
             "RESET_BUTTON": "إعادة التعيين"
+        },
+        "TOASTER": {
+            "SIGN_UP_SUCCESSFULL": "الاشتراك ناجح؛ تم إرسال رسالة إنشاء الحساب إلى بريدك الإلكتروني",
+            "SIGN_IN_SUCCESSFULL": "تسجيل الدخول ناجح! أهلا بك",
+            "NOT_MATCH_WARNING": "كلمة المرور والتأكيد غير متطابقين",
+            "PASSWORD_LENGTH_WARNING": "يجب أن تكون كلمة المرور أكثر من 8 أحرف",
+            "SIGN_OUT_SUCCESSFULL": "تسجيل الخروج ناجح! إلى اللقاء",
+            "VALID_EMAIL_WARNING": "يرجى تقديم عنوان بريد إلكتروني صالح",
+            "CHILD_SIGN_UP_SUCCESSFULL": "تسجيل الطفل تمَّ بنجاح! تم إرسال رسالة تحقق إلى بريدك الإلكتروني"
         }
     },
     "CONTENT": {
@@ -192,9 +213,14 @@
     "MESSAGING": {
 
     },
-    "PROFILE": {
+    "PROFILE": { 
+        "CHILDREN":{    "UNLINK":"حذف",
+                          "AGE":"العمر" ,
+                        "LEARNING_SCORE":"نقاط التعلم",
+                        "POINTS":"نقطة"
+                        }
 
-    },
+},
     "PSYCHOLOGIST": {
 
     },
@@ -202,6 +228,9 @@
 
     },
     "SEARCH": {
+        
+    },
+    "LANDING":{
         
     }
 }

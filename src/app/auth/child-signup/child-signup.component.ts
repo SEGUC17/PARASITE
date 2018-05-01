@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { AuthService } from '../auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 declare const $: any;
 
@@ -14,7 +15,7 @@ declare const $: any;
 })
 export class ChildSignupComponent implements OnInit {
   constructor(private location: Location, private authService: AuthService,
-    private toastrService: ToastrService, private router: Router) { }
+    private toastrService: ToastrService, private router: Router, private translate: TranslateService) { }
   Firstname: String = '';
   Lastname: String = '';
   Username: String = '';
@@ -65,7 +66,11 @@ const self = this;
       self.authService.childSignUp(this.User).subscribe(function (res) {
          this.Div3 = true;
          if ( res.msg ) {
-            self.toastrService.success(res.msg);
+          self.translate.get('AUTH.TOASTER.CHILD_SIGN_UP_SUCCESSFULL').subscribe(
+            function (translation) {
+              self.toastrService.success(translation);
+            }
+          );
         //    self.router.navigate(['/']);
            }
        });
