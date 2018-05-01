@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Newsfeed = mongoose.model('Newsfeed');
+var User = mongoose.model('User');
 
 module.exports.addToNewsfeed = function (data) {
     switch (data.type) {
@@ -15,6 +16,26 @@ module.exports.addToNewsfeed = function (data) {
             break;
         default: return -1;
     }
+};
+
+module.exports.findRandomFive = function (req, res, next) {
+    var fields = { isParent: true };
+    var options = {
+        count: 5,
+        limit: 5,
+        skip: 10
+    };
+    User.findRandom(fields, options, function (err, users) {
+        if (err) {
+            return next(err);
+        }
+
+        res.status(200).json({
+            data: users,
+            err: null,
+            msg: 'Users are retrieved successfully'
+        });
+    });
 };
 
 module.exports.getPosts = function (req, res) {
