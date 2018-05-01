@@ -172,6 +172,14 @@
             "TO": "to",
             "TYPE_MSG": "Enter your message here.."
 
+        },
+        "MAIL": {
+            "VIEW": "View Message",
+            "CREATE": "Create Message",
+            "ALL_MSGS": "All Messages",
+            "_VIEW": "View",
+            "DELETE": "Are you sure you want to delete this message?",
+            "FROM": "From:"
         }
 
     },
