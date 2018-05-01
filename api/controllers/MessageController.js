@@ -178,12 +178,7 @@ module.exports.getRecentlyContacted = function (req, res, next) {
 };
 
 module.exports.contactAdmin = function (req, res, next) {
-<<<<<<< HEAD
  User.find({ 'isAdmin': true }, function (err, users) {
-=======
-  console.log('in here');
-  User.find({ 'isAdmin': true }, function (err, users) {
->>>>>>> activities
     if (err) {
       return next(err);
     } else if (users) {
