@@ -9,13 +9,15 @@ import { MatButtonModule } from '@angular/material';
 import { SingleMailComponent } from '../single-mail/single-mail.component';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService} from '@ngx-translate/core';
+
 declare const $: any;
 
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
   styleUrls: ['./messaging.component.scss'],
-  providers: [MessageService, AuthService, ToastrService]
+  providers: [MessageService, AuthService, ToastrService, TranslateService]
 })
 
 export class MessagingComponent implements OnInit {
@@ -35,7 +37,7 @@ export class MessagingComponent implements OnInit {
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog,
-    private router: Router, private toastrService: ToastrService) { }
+    private router: Router, private toastrService: ToastrService, private _TranslateService: TranslateService) { }
 
   openDialog(): void {
     $('#send').modal('show');
@@ -55,6 +57,7 @@ export class MessagingComponent implements OnInit {
       self.getInbox();
       self.getSent();
       self.getContacts();
+      console.log(self.contacts);
     });
   }
 
@@ -85,6 +88,7 @@ export class MessagingComponent implements OnInit {
 }
 
   setMessage(message: any): void {
+    this.messageService.read(message).subscribe();
     this.messageService.setMessage(message);
   }
 
@@ -109,7 +113,6 @@ export class MessagingComponent implements OnInit {
           console.log(user.data.avatar);
           this.msg = {'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
           'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
-          console.log(this.msg);
           this.messageService.send(this.msg)
           .subscribe(function(res) {
             self.toastrService.success('Message was sent!');

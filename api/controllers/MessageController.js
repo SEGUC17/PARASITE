@@ -133,16 +133,16 @@ module.exports.getRecentlyContacted = function(req, res, next) {
     {
       // group records by recipient and most recent sentAt date
       $group: {
-      _id: '$recipient',
-     sentAt: { $max: '$sentAt' }
+        _id: '$recipient',
+        recipientAvatar: { $addToSet: '$recipientAvatar' },
+        sentAt: { $max: '$sentAt' }
     }
-  },
+   },
    // order records descendingly by sentAt
-    { $sort: { sentAt: -1 } },
-    // get the first 5 elements
-    { $limit: 5 }
-   ]).
-   exec(function(err, users) {
+   { $sort: { sentAt: -1 } },
+   // get the first 5 elements
+   { $limit: 5 }
+  ]).exec(function(err, users) {
     if (err) {
       return next(err);
     }
@@ -212,3 +212,23 @@ module.exports.contactAdmin = function (req, res, next) {
     // end function
   );
 };
+
+module.exports.markAsRead = function(req, res, next) {
+  Message.findByIdAndUpdate(
+    req.body._id, { $set: { 'state': false } },
+    { new: true }, function (err, result) {
+      if (err) {
+        return res.status(402).json({
+          data: null,
+          msg: 'error'
+        });
+      }
+
+      return res.status(200).json({
+        data: result,
+        err: null,
+        msg: 'Message is read'
+      });
+    }
+  );
+ };

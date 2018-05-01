@@ -6,11 +6,14 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 import { MatInputModule } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService} from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-send-dialog',
   templateUrl: './send-dialog.component.html',
-  styleUrls: ['./send-dialog.component.scss']
+  styleUrls: ['./send-dialog.component.scss'],
+  providers: [ToastrService, TranslateService]
 })
 
 export class SendDialogComponent implements OnInit {
@@ -25,7 +28,7 @@ export class SendDialogComponent implements OnInit {
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
   constructor(private messageService: MessageService, private authService: AuthService,
-    private toastrService: ToastrService) { }
+    private toastrService: ToastrService, private _TranslateService: TranslateService) { }
 
 
   ngOnInit() {

@@ -2,16 +2,16 @@
             <div class="block-header">
               <div class="row">
                 <div class="col-lg-7 col-md-6 col-sm-12">
-                    <h2 [style.text-align]="translate.currentLang == 'ara'? 'right': null">Your Messages</h2>
+                    <h2 [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">{{ 'MESSAGING.MESSAGING.TITLE' | translate }}</h2>
                 </div>
-                <div class="col-lg-5 col-md-6 col-sm-12">
+                <div class="col-lg-5 col-md-6 col-sm-12" [style.direction]="_TranslateService.currentLang === 'ara'? 'scaleX(-1)': null">
                     <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" title="Compose" (click)="openDialog()">
                         <!-- <i class="zmdi zmdi-create"></i> -->
                         <i class="material-icons">create</i>
                       </button>
-                  <ul class=" breadcrumb float-md-right">
-                    <li class="breadcrumb-item"><a routerLink="/content/edit"><i class="zmdi zmdi-home"></i> Dashboard</a></li>
-                    <li class="breadcrumb-item active">Messages</li>
+                  <ul class=" breadcrumb float-md-right" [style.transform]="_TranslateService.currentLang === 'ara'? 'scaleX(-1)': null" >
+                    <li class="breadcrumb-item"><a routerLink="/content/edit"><i class="zmdi zmdi-home"></i> {{ 'MESSAGING.MESSAGING.DASHBOARD' | translate }}</a></li>
+                    <li class="breadcrumb-item active">{{ 'MESSAGING.MESSAGING.SUB_TITLE' | translate }}</li>
                   </ul>
                 </div>
               </div>
@@ -22,7 +22,7 @@
                       <div class="card">
                         <div class="header">
                           <h2>
-                            <strong>Recently Contacted <i class="material-icons">people</i></strong>
+                            <strong>{{ 'MESSAGING.MESSAGING.RECENTLY_CONTACTED' | translate }}<i class="material-icons">people</i></strong>
                           </h2>
                         </div>
                         <div *ngIf="!contacts.length">
@@ -30,7 +30,7 @@
                               <table class="table m-b-0 c_list">
                                 <tbody>
                                   <tr>
-                                    <p>You haven't contacted anyone yet.</p><a href="javascript:void(0);" (click)="openDialog()">Start a conversation?</a>
+                                    <p>{{ 'MESSAGING.MESSAGING.NO_CONTACT' | translate }}</p><a href="javascript:void(0);" (click)="openDialog()">{{ 'MESSAGING.MESSAGING.START_CONVO' | translate }}</a>
                                   </tr>
                                 </tbody>
                               </table>
@@ -52,9 +52,9 @@
                                    </li>
                                    <span class="caret"></span>
                                    <ul class="dropdown-menu dropdown-menu-top pullDown">
-                                      <li><a href="javascript:void(0);" (click)="openReplyDialog(contact._id)"><small style="color:#FF5722; font-size:16px;">Message</small></a></li>
+                                      <li><a href="javascript:void(0);" (click)="openReplyDialog(contact._id)"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.SEND_MSG' | translate }}</small></a></li>
                                       <li role="separator" class="divider"></li>
-                                      <li><a routerLink="/profile/{{contact._id}}"><small style="color:#FF5722; font-size:16px;">View Profile</small></a></li>
+                                      <li><a routerLink="/profile/{{contact._id}}"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.VIEW_PROFILE' | translate }}</small></a></li>
                                     </ul>
                                   </div>
                                 </ul></a>
@@ -67,8 +67,8 @@
                   </div>
                   <div>
                     <ul class="nav nav-tabs" role="tablist">
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#inbox"> <i class="zmdi zmdi-inbox"></i> INBOX </a></li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sent"><i class="zmdi zmdi-email"></i> SENT </a></li>
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#inbox"> <i class="zmdi zmdi-inbox"></i> {{ 'MESSAGING.MESSAGING.INBOX' | translate }} </a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#sent"><i class="zmdi zmdi-email"></i> {{ 'MESSAGING.MESSAGING.SENT' | translate }} </a></li>
                     </ul>
                   </div>
                     <!-- Tab panes -->
@@ -80,12 +80,13 @@
                                         <p>
                                           <br/>
                                           <br/>
-                                          No messages yet.
+                                          {{ 'MESSAGING.MESSAGING.NO_MSGS' | translate }}
                                         </p>
                                       </div>
                                       <ul class="mail_list list-group list-unstyled">
                                         <div *ngFor="let message of inbox">
-                                        <li class="list-group-item">
+                                        <div *ngIf="message.state">
+                                        <li class="list-group-item unread">
                                           <div class="media">
                                             <div class="pull-left">
                                               <!-- <div class="controls">
@@ -99,13 +100,37 @@
                                             </div>
                                             <div class="media-body">
                                               <div class="media-heading">
-                                                <a (click)="setMessage(message)" routerLink="/message/single-mail" class="m-r-10"><small style="font-size:18px;">{{message.sender}}</small></a>
+                                                <a (click)="setMessage(message)" routerLink="/message/single-mail" class="m-r-10"><strong style="font-size:18px;">{{message.sender}}</strong></a>
                                                 <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{message.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
                                               </div>
                                               <p class="msg" class="p">{{message.body}}</p>
                                             </div>
                                           </div>
                                          </li>
+                                         </div>
+                                         <div *ngIf="!message.state">
+                                            <li class="list-group-item">
+                                              <div class="media">
+                                                <div class="pull-left">
+                                                  <!-- <div class="controls">
+                                                    <div class="checkbox">
+                                                      <input type="checkbox" id="basic_checkbox_1">
+                                                      <label for="basic_checkbox_1"></label>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="favourite text-muted hidden-sm-down" data-toggle="active"><i class="zmdi zmdi-star-outline"></i></a>
+                                                  </div> -->
+                                                  <div class="thumb hidden-sm-down m-r-20"> <img src= {{message.senderAvatar}} class="rounded-circle" alt=""> </div>
+                                                </div>
+                                                <div class="media-body">
+                                                  <div class="media-heading">
+                                                    <a (click)="setMessage(message)" routerLink="/message/single-mail" class="m-r-10"><small style="font-size:18px;">{{message.sender}}</small></a>
+                                                    <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{message.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
+                                                  </div>
+                                                  <p class="msg" class="p">{{message.body}}</p>
+                                                </div>
+                                              </div>
+                                             </li>
+                                             </div>
                                         </div>
                                       </ul>
                                     </div>
@@ -118,12 +143,13 @@
                                             <p>
                                               <br/>
                                               <br/>
-                                              No messages yet.
+                                              {{ 'MESSAGING.MESSAGING.NO_MSGS' | translate }}
                                             </p>
                                           </div>
                                       <ul class="mail_list list-group list-unstyled">
                                         <div *ngFor="let msg of sent">
-                                        <li class="list-group-item">
+                                        <div *ngIf="msg.state">
+                                        <li class="list-group-item unread">
                                           <div class="media">
                                             <div class="pull-left">
                                               <!-- <div class="controls">
@@ -137,13 +163,37 @@
                                             </div>
                                             <div class="media-body">
                                               <div class="media-heading">
-                                                <a (click)="setMessage(msg)" routerLink="/message/single-mail" class="m-r-10"><small style="font-size:18px;">{{msg.recipient}}</small></a>
+                                                <a (click)="setMessage(msg)" routerLink="/message/single-mail" class="m-r-10"><strong style="font-size:18px;">{{msg.recipient}}</strong></a>
                                                 <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{msg.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
                                               </div>
                                               <p class="msg" class="p">{{msg.body}}</p>
                                             </div>
                                           </div>
                                          </li>
+                                         </div>
+                                         <div *ngIf="!msg.state">
+                                            <li class="list-group-item">
+                                              <div class="media">
+                                                <div class="pull-left">
+                                                  <!-- <div class="controls">
+                                                    <div class="checkbox">
+                                                      <input type="checkbox" id="basic_checkbox_1">
+                                                      <label for="basic_checkbox_1"></label>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="favourite text-muted hidden-sm-down" data-toggle="active"><i class="zmdi zmdi-star-outline"></i></a>
+                                                  </div> -->
+                                                  <div class="thumb hidden-sm-down m-r-20"> <img src= {{msg.recipientAvatar}} class="rounded-circle" alt=""> </div>
+                                                </div>
+                                                <div class="media-body">
+                                                  <div class="media-heading">
+                                                    <a (click)="setMessage(msg)" routerLink="/message/single-mail" class="m-r-10"><small style="font-size:18px;">{{msg.recipient}}</small></a>
+                                                    <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{msg.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
+                                                  </div>
+                                                  <p class="msg" class="p">{{msg.body}}</p>
+                                                </div>
+                                              </div>
+                                             </li>
+                                          </div>
                                         </div>
                                       </ul>
                                     </div>
@@ -166,18 +216,18 @@
                       <div>
                           <div class="modal-content">
                               <div class="modal-header">
-                                  <h4 class="title" id="defaultModalLabel">Reply</h4>
+                                  <h4 class="title" id="defaultModalLabel">{{ 'MESSAGING.MESSAGING.REPLY' | translate }}</h4>
                               </div>
                               <div class="modal-body">
-                                  <label><strong>To:</strong></label>
+                                  <label><strong>{{ 'MESSAGING.DIALOG.TO' | translate }}</strong></label>
                                   <span class="badge bg-cyan">{{replyTo}}</span>
                                   <div class="form-group form-float">
-                                      <textarea #textarea class="form-control" placeholder="Enter Your Message Here" style="height:350px;" [(ngModel)]="Body"></textarea>
+                                      <textarea #textarea class="form-control" placeholder="{{ 'MESSAGING.DIALOG.TYPE_MSG' | translate }}" style="height:350px;" [(ngModel)]="Body"></textarea>
                                   </div>
                               </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-primary btn-round waves-effect" (click)="reply(); textarea.value=''">SEND</button>
-                                <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
+                                <button type="button" class="btn btn-primary btn-round waves-effect" (click)="reply(); textarea.value=''">{{ 'MESSAGING.MESSAGING.SEND' | translate }}</button>
+                                <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">{{ 'MESSAGING.MESSAGING.CANCEL' | translate }}</button>
                               </div>
                             </div>
                       </div>

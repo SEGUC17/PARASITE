@@ -30,7 +30,7 @@ var userSchema = mongoose.Schema({
         type: String
     },
     avatar: {
-        default: '../../../assets/images/profile-view/defaultProfilePic.png',
+        default: '../../../assets/images/defaultProfilePic.png',
         type: String
     },
     birthdate: Date,
