@@ -167,6 +167,7 @@ export class StudyPlanComponent implements OnInit {
             this.studyPlan = resStudyPlan.data;
             this.title = this.studyPlan.title;
             this.events = this.studyPlan.events;
+            this.viewDate = this.events[0].start;
             this.description = this.studyPlan.description;
             this.editorContent = this.studyPlan.description;
             this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
@@ -183,6 +184,7 @@ export class StudyPlanComponent implements OnInit {
             this.studyPlan = resStudyPlan.data;
             this.title = this.studyPlan.title;
             this.events = this.studyPlan.events;
+            this.viewDate = this.events[0].start;
             this.description = this.studyPlan.description;
             this.editorContent = this.studyPlan.description;
             this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
