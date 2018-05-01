@@ -85,7 +85,8 @@
                                       </div>
                                       <ul class="mail_list list-group list-unstyled">
                                         <div *ngFor="let message of inbox">
-                                        <li class="list-group-item">
+                                        <div *ngIf="message.state">
+                                        <li class="list-group-item unread">
                                           <div class="media">
                                             <div class="pull-left">
                                               <!-- <div class="controls">
@@ -99,13 +100,37 @@
                                             </div>
                                             <div class="media-body">
                                               <div class="media-heading">
-                                                <a (click)="setMessage(message)" routerLink="/message/single-mail" class="m-r-10"><small style="font-size:18px;">{{message.sender}}</small></a>
+                                                <a (click)="setMessage(message)" routerLink="/message/single-mail" class="m-r-10"><strong style="font-size:18px;">{{message.sender}}</strong></a>
                                                 <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{message.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
                                               </div>
                                               <p class="msg" class="p">{{message.body}}</p>
                                             </div>
                                           </div>
                                          </li>
+                                         </div>
+                                         <div *ngIf="!message.state">
+                                            <li class="list-group-item">
+                                              <div class="media">
+                                                <div class="pull-left">
+                                                  <!-- <div class="controls">
+                                                    <div class="checkbox">
+                                                      <input type="checkbox" id="basic_checkbox_1">
+                                                      <label for="basic_checkbox_1"></label>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="favourite text-muted hidden-sm-down" data-toggle="active"><i class="zmdi zmdi-star-outline"></i></a>
+                                                  </div> -->
+                                                  <div class="thumb hidden-sm-down m-r-20"> <img src= {{message.senderAvatar}} class="rounded-circle" alt=""> </div>
+                                                </div>
+                                                <div class="media-body">
+                                                  <div class="media-heading">
+                                                    <a (click)="setMessage(message)" routerLink="/message/single-mail" class="m-r-10"><small style="font-size:18px;">{{message.sender}}</small></a>
+                                                    <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{message.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
+                                                  </div>
+                                                  <p class="msg" class="p">{{message.body}}</p>
+                                                </div>
+                                              </div>
+                                             </li>
+                                             </div>
                                         </div>
                                       </ul>
                                     </div>
@@ -123,7 +148,8 @@
                                           </div>
                                       <ul class="mail_list list-group list-unstyled">
                                         <div *ngFor="let msg of sent">
-                                        <li class="list-group-item">
+                                        <div *ngIf="msg.state">
+                                        <li class="list-group-item unread">
                                           <div class="media">
                                             <div class="pull-left">
                                               <!-- <div class="controls">
@@ -137,13 +163,37 @@
                                             </div>
                                             <div class="media-body">
                                               <div class="media-heading">
-                                                <a (click)="setMessage(msg)" routerLink="/message/single-mail" class="m-r-10"><small style="font-size:18px;">{{msg.recipient}}</small></a>
+                                                <a (click)="setMessage(msg)" routerLink="/message/single-mail" class="m-r-10"><strong style="font-size:18px;">{{msg.recipient}}</strong></a>
                                                 <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{msg.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
                                               </div>
                                               <p class="msg" class="p">{{msg.body}}</p>
                                             </div>
                                           </div>
                                          </li>
+                                         </div>
+                                         <div *ngIf="!msg.state">
+                                            <li class="list-group-item">
+                                              <div class="media">
+                                                <div class="pull-left">
+                                                  <!-- <div class="controls">
+                                                    <div class="checkbox">
+                                                      <input type="checkbox" id="basic_checkbox_1">
+                                                      <label for="basic_checkbox_1"></label>
+                                                    </div>
+                                                    <a href="javascript:void(0);" class="favourite text-muted hidden-sm-down" data-toggle="active"><i class="zmdi zmdi-star-outline"></i></a>
+                                                  </div> -->
+                                                  <div class="thumb hidden-sm-down m-r-20"> <img src= {{msg.recipientAvatar}} class="rounded-circle" alt=""> </div>
+                                                </div>
+                                                <div class="media-body">
+                                                  <div class="media-heading">
+                                                    <a (click)="setMessage(msg)" routerLink="/message/single-mail" class="m-r-10"><small style="font-size:18px;">{{msg.recipient}}</small></a>
+                                                    <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{msg.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
+                                                  </div>
+                                                  <p class="msg" class="p">{{msg.body}}</p>
+                                                </div>
+                                              </div>
+                                             </li>
+                                          </div>
                                         </div>
                                       </ul>
                                     </div>

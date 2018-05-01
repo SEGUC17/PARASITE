@@ -426,6 +426,9 @@ module.exports = function (passport) {
   router.post('/contactus', messageController.contactAdmin);
     //Unblocking users
     router.patch('/message/unblock/:id', messageController.unBlock);
+
+  // Mark a message as read
+  router.patch('/message/read', messageController.markAsRead);
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//

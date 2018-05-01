@@ -212,3 +212,23 @@ module.exports.contactAdmin = function (req, res, next) {
     // end function
   );
 };
+
+module.exports.markAsRead = function(req, res, next) {
+  Message.findByIdAndUpdate(
+    req.body._id, { $set: { 'state': false } },
+    { new: true }, function (err, result) {
+      if (err) {
+        return res.status(402).json({
+          data: null,
+          msg: 'error'
+        });
+      }
+
+      return res.status(200).json({
+        data: result,
+        err: null,
+        msg: 'Message is read'
+      });
+    }
+  );
+ };
