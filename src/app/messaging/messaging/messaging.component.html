@@ -4,12 +4,12 @@
                 <div class="col-lg-7 col-md-6 col-sm-12">
                     <h2 [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">{{ 'MESSAGING.MESSAGING.TITLE' | translate }}</h2>
                 </div>
-                <div class="col-lg-5 col-md-6 col-sm-12" [style.direction]="_TranslateService.currentLang === 'ara'? 'scaleX(-1)': null">
+                <div class="col-lg-5 col-md-6 col-sm-12" [style.transform]="_TranslateService.currentLang === 'ara'?  'right': null">
                     <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" title="Compose" (click)="openDialog()">
                         <!-- <i class="zmdi zmdi-create"></i> -->
                         <i class="material-icons">create</i>
                       </button>
-                  <ul class=" breadcrumb float-md-right" [style.transform]="_TranslateService.currentLang === 'ara'? 'scaleX(-1)': null" >
+                  <ul class=" breadcrumb float-md-right" [style.direction]="_TranslateService.currentLang === 'ara'?  'right': null" >
                     <li class="breadcrumb-item"><a routerLink="/content/edit"><i class="zmdi zmdi-home"></i> {{ 'MESSAGING.MESSAGING.DASHBOARD' | translate }}</a></li>
                     <li class="breadcrumb-item active">{{ 'MESSAGING.MESSAGING.SUB_TITLE' | translate }}</li>
                   </ul>
@@ -21,7 +21,7 @@
                     <div class="col-lg-12">
                       <div class="card">
                         <div class="header">
-                          <h2>
+                          <h2 [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                             <strong>{{ 'MESSAGING.MESSAGING.RECENTLY_CONTACTED' | translate }}<i class="material-icons">people</i></strong>
                           </h2>
                         </div>

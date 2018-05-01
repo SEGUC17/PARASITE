@@ -1,14 +1,14 @@
 <section class="content inbox">
         <div class="block-header">
           <div class="row">
-            <div class="col-lg-7 col-md-6 col-sm-12">
+            <div class="col-lg-7 col-md-6 col-sm-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
               <h2>{{ 'MESSAGING.MAIL.VIEW' | translate }}</h2>
             </div>
-            <div class="col-lg-5 col-md-6 col-sm-12">
+            <div class="col-lg-5 col-md-6 col-sm-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                 <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" title="Compose" (click)="openDialog()">
                     <i class="material-icons">create</i>
                   </button>
-              <ul class="breadcrumb float-md-right">
+              <ul class="breadcrumb float-md-right" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                 <li class="breadcrumb-item"><a routerLink="/content/edit"><i class="zmdi zmdi-home"></i>{{ 'MESSAGING.MESSAGING.DASHBOARD' | translate }}</a></li>
                 <li class="breadcrumb-item"><a routerLink="/message">{{ 'MESSAGING.MAIL.ALL_MSGS' | translate }}</a></li>
                 <li class="breadcrumb-item active">{{ 'MESSAGING.MAIL._VIEW' | translate }}</li>
@@ -54,7 +54,7 @@
                                          <ul class="dropdown-menu dropdown-menu-top pullDown">
                                             <li><a id="contact" href="javascript:void(0);" (click)="openReplyDialog(contact._id)"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.TITLE' | translate }}</small></a></li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a routerLink="/profile/{{contact._id}}"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.VIEW_PROFILE' | translate }}</small></a></li>
+                                            <li><a routerLink="/profile/{{contact._id}}"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.VIEW_PROFILE' | translate }}</small></a></li>'scaleX(-1)': null
                                           </ul>
                                         </div>
                                       </ul></a>
@@ -62,7 +62,7 @@
                                 </tbody>
                               </table>
                             </div>
-                          </div>
+                          </div>  
                         </div>
                       </div>
           <div class="row clearfix">
@@ -70,13 +70,13 @@
               <div class="card" style="margin-top:20px;">
                 <div class="body">
                   <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12" [style.text-align]="_TranslateService.transform == 'ara'? 'right': null">
                             <div class="media">
                               <div class="float-left">
                                 <div class="m-r-20"> <img class="rounded" src= {{avatarDisplay}} width="70" alt=""> </div>
                               </div>
                               <div class="media-body">
-                                    <span class="float-right">
+                                    <span class="float-right" >
                                         <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openReplyDialog(recipient)">
                                             <i class="material-icons">reply</i>
                                         </button>
