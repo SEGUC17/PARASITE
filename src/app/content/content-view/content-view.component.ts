@@ -55,7 +55,7 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     window.scrollTo(0, 0);
     // retrieve the user data
-    this.authService.getUserData(['username', 'isAdmin']).
+    this.authService.getUserData(['username', 'isAdmin', 'avatar', 'verified']).
       subscribe(function (user) {
         self.currentUser = user.data;
       }, function (error) {
@@ -73,6 +73,7 @@ export class ContentViewComponent implements OnInit {
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
       self.comments = retrievedContent.data.discussion;
+      console.log(self.comments[self.comments.length-1]);
       if (self.content) {
         self.getRecommendedContent();
       }
@@ -212,7 +213,7 @@ export class ContentViewComponent implements OnInit {
   onPlayerStateChange(event) {
     const self = this;
     if (event.data === window['YT'].PlayerState.ENDED) {
-      this.contentService.addLearningScore(self.content._id).subscribe(function (res) {
+      this.contentService.addLearningScore(self.content._id, self.content.video).subscribe(function (res) {
         if (!res) {
           return;
         }
