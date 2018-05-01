@@ -90,8 +90,15 @@
         "FORGOT_PASSWORD": {
             "FORGOT_PASSWORD": "هل نسيت كلمة المرور؟",
             "EMAIL_PLACEHOLDER": "أدخل البريد الإلكتروني",
-            "SUBMIT": "اتمام",
+            "SUBMIT": "إتمام",
             "PROMPT": "أدخل بريدك الإلكتروني أدناه لإعادة تعيين كلمة المرور الخاصة بك"
+        },
+        "RESET_PASSWORD": {
+            "RESET_PASSWORD": "إعادة تعيين كلمة المرور",
+            "PROMPT": "أدخل كلمة المرور الجديدة لتسجيل الدخول مرة أخرى",
+            "ENTER_NEW_PASSWORD_PLACEHOLDER": "أدخل كلمة مرور جديدة",
+            "ENTER_NEW_PASSWORD_CONFIRM_PLACEHOLDER": "تأكيد كلمة المرور الجديدة",
+            "RESET_BUTTON": "إعادة التعيين"
         }
     },
     "CONTENT": {

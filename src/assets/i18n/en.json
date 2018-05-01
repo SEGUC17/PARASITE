@@ -92,6 +92,13 @@
             "EMAIL_PLACEHOLDER": "Enter Email",
             "SUBMIT": "SUBMIT",
             "PROMPT": "Enter your e-mail address below to reset your password."
+        },
+        "RESET_PASSWORD": {
+            "RESET_PASSWORD": "Reset Password",
+            "PROMPT": "Enter your new password to login back to Nawwar!",
+            "ENTER_NEW_PASSWORD_PLACEHOLDER": "Enter New Password",
+            "ENTER_NEW_PASSWORD_CONFIRM_PLACEHOLDER": "Confirm New Password",
+            "RESET_BUTTON": "RESET"
         }
     },
     "CONTENT": {

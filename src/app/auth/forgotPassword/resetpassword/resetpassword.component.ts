@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class ResetPasswordComponent implements OnInit {
   };
 
   constructor(private _AuthService: AuthService, private _ActivatedRoute: ActivatedRoute,
-              private _toastr: ToastrService) { }
+              private _toastr: ToastrService, private translate: TranslateService) { }
 
   ngOnInit() {
   }
