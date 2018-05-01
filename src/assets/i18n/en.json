@@ -102,7 +102,11 @@
         },
         "TOASTER": {
             "SIGN_UP_SUCCESSFULL": "Sign Up Is Successful!\nVerification Mail Was Sent To Your Email!",
-            "SIGN_IN_SUCCESSFULL": "Sign In Is Successful! Welcome!"
+            "SIGN_IN_SUCCESSFULL": "Sign In Is Successful! Welcome!",
+            "NOT_MATCH_WARNING": "New and confirmed passwords do not match!",
+            "PASSWORD_LENGTH_WARNING": "Password should be more than 8 characters",
+            "SIGN_OUT_SUCCESSFUL": "Sign Out Is Successful! Good Bye!",
+            "VALID_EMAIL_WARNING": "Kindly provide a valid email address"
         }
     },
     "CONTENT": {

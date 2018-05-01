@@ -102,7 +102,11 @@
         },
         "TOASTER": {
             "SIGN_UP_SUCCESSFULL": "الاشتراك ناجح؛ تم إرسال رسالة إنشاء الحساب إلى بريدك الإلكتروني",
-            "SIGN_IN_SUCCESSFULL": "تسجيل الدخول ناجح! أهلا بك"
+            "SIGN_IN_SUCCESSFULL": "تسجيل الدخول ناجح! أهلا بك",
+            "NOT_MATCH_WARNING": "كلمة المرور والتأكيد غير متطابقين",
+            "PASSWORD_LENGTH_WARNING": "يجب أن تكون كلمة المرور أكثر من 8 أحرف",
+            "SIGN_OUT_SUCCESSFULL": "تسجيل الخروج ناجح! إلى اللقاء",
+            "VALID_EMAIL_WARNING": "يرجى تقديم عنوان بريد إلكتروني صالح"
         }
     },
     "CONTENT": {
