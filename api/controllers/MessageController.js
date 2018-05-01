@@ -35,7 +35,6 @@ User.findOne({username: req.body.sender}, function (err, user) {
     if (err) {
       return next(err);
     }
-
     // return response message
     return res.status(200).json({
       data: msg,
@@ -150,6 +149,7 @@ module.exports.getRecentlyContacted = function(req, res, next) {
 };
 
 module.exports.contactAdmin = function (req, res, next) {
+  console.log('entered backend method');
  User.find({ 'isAdmin': true }, function (err, users) {
     if (err) {
       return next(err);

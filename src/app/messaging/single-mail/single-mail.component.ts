@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../messaging.service';
 import { AuthService } from '../../auth/auth.service';
 import {ActivatedRoute} from '@angular/router';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs/Subscription';
+import { OnDestroy } from '@angular/core';
 declare const $: any;
 
 @Component({
@@ -20,12 +21,16 @@ export class SingleMailComponent implements OnInit {
   recipient: string;
   body: string;
   sentAt: any;
-  id: any;
+  senderAvatar: string;
+  recipientAvatar: string;
   message: any;
   blockedUser: any;
   allIsWell: Boolean = true;
+  otherUser: string;
+
   recipientDisplay: string;
   senderDisplay: string;
+  avatarDisplay: string;
   profile1: string;
   profile2: string;
 
@@ -33,7 +38,7 @@ export class SingleMailComponent implements OnInit {
   allisWell: Boolean = true;
   list: any [];
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
-  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
+  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
   // reply
   Body: String = '';
@@ -43,34 +48,43 @@ export class SingleMailComponent implements OnInit {
   Recipient: String = '';
 
   constructor(private messageService: MessageService, private authService: AuthService, private route: ActivatedRoute,
-    public dialog: MatDialog, private toastrService: ToastrService) {
-    this.route.queryParams.subscribe(params => {
-      this.sender = params['sender'];
-      this.recipient = params['recipient'];
-      this.body = params['body'];
-      this.sentAt = params['sentAt'];
-      this.id = params['id'];
-  });
-  }
+    private toastrService: ToastrService) {}
 
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['_id', 'username', 'isChild', 'blocked'];
+    this.message = this.messageService.getMessage();
+    this.sender = this.message.sender;
+    this.recipient = this.message.recipient;
+    this.body = this.message.body;
+    this.sentAt = this.message.sentAt;
+    this.senderAvatar = this.message.senderAvatar;
+    this.recipientAvatar = this.message.recipientAvatar;
+
+    const userDataColumns = ['_id', 'username', 'isChild', 'blocked', 'avatar'];
     // get info of logged in user
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
-      self.message = {'_id': self.id, 'body': self.body, 'recipient': self.recipient, 'sender': self.currentUser.username};
       self.getContacts();
       if (self.recipient !== self.currentUser.username) {
         self.senderDisplay = 'me';
         self.recipientDisplay = self.recipient;
+        self.avatarDisplay = self.recipientAvatar;
         self.profile1 = '/profile/' + self.currentUser.username;
         self.profile2 = '/profile/' + self.recipient;
       } else {
-        self.recipientDisplay = 'me';
-        self.senderDisplay = self.sender;
-        self.profile1 = '/profile/' + self.sender;
-        self.profile2 = '/profile/' + self.currentUser.username;
+        if (self.sender === self.recipient) {
+          self.senderDisplay = 'me';
+          self.recipientDisplay = 'me';
+          self.avatarDisplay = self.recipientAvatar;
+          self.profile1 = '/profile/' + self.currentUser.username;
+          self.profile2 = '/profile/' + self.currentUser.username;
+        } else {
+          self.recipientDisplay = 'me';
+          self.senderDisplay = self.sender;
+          self.avatarDisplay = self.senderAvatar;
+          self.profile1 = '/profile/' + self.sender;
+          self.profile2 = '/profile/' + self.currentUser.username;
+        }
       }
     });
   }
@@ -86,12 +100,12 @@ export class SingleMailComponent implements OnInit {
     $('#send').modal('show');
   }
 
-  openReplyDialog(): void {
-    if (this.recipient !== this.currentUser.username ) {
-      this.replyTo = this.recipient;
-    } else {
-      this.replyTo = this.sender;
-  }
+  openReplyDialog(user: any): void {
+    if (user !== this.currentUser.username ) {
+        this.replyTo = user;
+      } else {
+        this.replyTo = this.sender;
+    }
     $('#reply').modal('show');
   }
 
@@ -105,11 +119,13 @@ export class SingleMailComponent implements OnInit {
 
   reply(): void {
     const self = this;
+    this.allisWell = true;
 
     if (this.Body === '') {
       this.toastrService.warning('You can\'t send an empty message.');
+      this.allisWell = false;
     } else {
-       this.authService.getAnotherUserData(this.UserList, this.sender.toString()).subscribe((user)  => {
+       this.authService.getAnotherUserData(this.UserList, this.replyTo.toString()).subscribe((user)  => {
         this.list = user.data.blocked;
         for ( let i = 0 ; i < user.data.blocked.length ; i++) {
           if ( this.currentUser.username === this.list[i] ) {
@@ -121,11 +137,9 @@ export class SingleMailComponent implements OnInit {
 
        // make a POST request using messaging service
        if (this.allisWell === true) {
-        if (this.recipient !== this.currentUser.username ) {
-          this.msg = {'body': this.Body, 'recipient': this.recipient, 'sender': this.currentUser.username};
-        } else {
-          this.msg = {'body': this.Body, 'recipient': this.sender, 'sender': this.currentUser.username};
-      }
+        this.msg = {'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
+        'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
+        console.log(this.msg);
         this.messageService.send(this.msg)
          .subscribe(function(res) {
            self.toastrService.success('Message was sent!');
@@ -137,14 +151,17 @@ export class SingleMailComponent implements OnInit {
 
 forward(): void {
   const self = this;
+  this.allisWell = true;
 
   if (this.Recipient === '') {
     this.toastrService.warning('Please specify a recipient.');
+    this.allisWell = false;
   } else {
-  // create a message object with the info the user entered
-  this.msg = {'body': this.body, 'recipient': this.Recipient, 'sender': this.currentUser.username};
-
   this.authService.getAnotherUserData(this.UserList, this.Recipient.toString()).subscribe((user)  => {
+    if (!user.data) {
+      self.allisWell = false;
+      self.toastrService.error('Please enter a valid username.');
+    } else {
     this.list = user.data.blocked;
     for ( let i = 0 ; i < user.data.blocked.length ; i++) {
       if ( this.currentUser.username === this.list[i] ) {
@@ -156,12 +173,16 @@ forward(): void {
 
     // make a POST request using messaging service
     if (this.allisWell === true) {
+      // create a message object with the info the user entered
+      this.msg = {'body': this.body, 'recipient': this.Recipient, 'recipientAvatar': user.data.avatar,
+      'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
       this.messageService.send(this.msg)
       .subscribe(function(res) {
         self.toastrService.success('Message was sent!');
       });
     }// end if
-  });
+  }
+});
 }
 }
 
@@ -176,7 +197,6 @@ deleteMessage(): void {
 
 // blocking the reciever of the message from messaging the current user again
 block(): void {
-  console.log('entered');
   const self = this;
   //  if the currentUser is the sender then the receipent is the person to block
  if (this.recipient !== this.currentUser.username ) {
@@ -203,7 +223,6 @@ block(): void {
        }// end if
   } // end for
   if (this.allIsWell === true) {
-    console.log('ENTERED');
     this.currentUser.blocked.push(this.blockedUser);
   this.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
     if (res.msg) {

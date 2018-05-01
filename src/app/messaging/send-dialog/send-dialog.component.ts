@@ -16,13 +16,13 @@ import { ToastrService } from 'ngx-toastr';
 export class SendDialogComponent implements OnInit {
 
   Body: String = '';
-  Receiver: String = '' ;
+ Receiver: String = '';
   user: any;
-  allisWell: Boolean = true;
+  allisWell: boolean;
   msg: any;
   currentUser: any; // currently logged in user
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
-  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
+  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
   constructor(private messageService: MessageService, private authService: AuthService,
     private toastrService: ToastrService) { }
@@ -30,7 +30,7 @@ export class SendDialogComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['username'];
+    const userDataColumns = ['username', 'avatar'];
     // getting username of logged in user
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
@@ -39,16 +39,20 @@ export class SendDialogComponent implements OnInit {
 
   send(): void {
     const self = this;
+    this.allisWell = true;
     // notify user if recipient field is empty
-    if (this.Receiver === '') {
+    if (self.Receiver === '') {
+      self.allisWell = false;
       self.toastrService.warning('Please specify a recipient.');
     } else {
       // notify user if message body is empty
-      if (this.Body === '') {
+      if (self.Body === '') {
+        self.allisWell = false;
         self.toastrService.warning('You can\'t send an empty message.');
       } else {
         // create a message object with the info the user entered
-        this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.currentUser.username};
+        self.msg = {'body': self.Body, 'recipient': self.Receiver, 'recipientAvatar': '',
+        'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
 
         // retrieveing the reciepient's info as an object
         this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user)  => {
@@ -67,6 +71,7 @@ export class SendDialogComponent implements OnInit {
             }// end for
 
             if ( self.allisWell === true) {
+              self.msg.recipientAvatar = user.data.avatar;
               self.messageService.send(this.msg)
               .subscribe(function(res) {
                 self.toastrService.success('Message was sent!');
@@ -75,8 +80,8 @@ export class SendDialogComponent implements OnInit {
           }
         });
 
-        if ( this.Receiver.match(/\S+@\S+\.\S+/)) {
-          this.messageService.send(this.msg)
+        if ( self.Receiver.match(/\S+@\S+\.\S+/)) {
+          this.messageService.send(self.msg)
           .subscribe(function(res) {
             self.toastrService.success('Message was sent!');
           });

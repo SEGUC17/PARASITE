@@ -6,6 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs/Subject';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -15,10 +16,10 @@ const httpOptions = {
 
 @Injectable()
 export class MessageService {
-
+  private static message: any;
   url: String = environment.apiUrl;
 
-constructor(private http: HttpClient, private toastrService: ToastrService) { }
+  constructor(private http: HttpClient, private toastrService: ToastrService) { }
 
 
   // making a POST request to send a message
@@ -54,5 +55,13 @@ constructor(private http: HttpClient, private toastrService: ToastrService) { }
         return this.http.post<any>(this.url + 'message/contactus', toSend, httpOptions);
 
   }
+
+ setMessage(msg: any): void {
+   MessageService.message = msg;
+ }
+
+ getMessage(): any {
+   return MessageService.message;
+ }
 
 }

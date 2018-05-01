@@ -19,6 +19,7 @@ export class ContactUsComponent implements OnInit {
   }
 
 contact_us(): void {
+  console.log('entered method');
   const self = this;
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const reciepient = '';

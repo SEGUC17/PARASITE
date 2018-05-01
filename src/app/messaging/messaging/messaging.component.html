@@ -45,7 +45,7 @@
                                   <li class="list-group-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <div class="media">
                                       <div class="pull-left">
-                                        <div class="thumb hidden-sm-down m-r-20"> <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle" alt=""> </div>
+                                        <div class="thumb hidden-sm-down m-r-20"> <img src={{contact.recipientAvatar}} class="rounded-circle" alt=""> </div>
                                         <small style="color:black; font-size:15px;">{{contact._id}}</small>
                                       </div>
                                       </div>
@@ -95,11 +95,11 @@
                                                 </div>
                                                 <a href="javascript:void(0);" class="favourite text-muted hidden-sm-down" data-toggle="active"><i class="zmdi zmdi-star-outline"></i></a>
                                               </div> -->
-                                              <div class="thumb hidden-sm-down m-r-20"> <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle" alt=""> </div>
+                                              <div class="thumb hidden-sm-down m-r-20"> <img src={{message.senderAvatar}} class="rounded-circle" alt=""> </div>
                                             </div>
                                             <div class="media-body">
                                               <div class="media-heading">
-                                                <a (click)="setMessage(message)" routerLink="" class="m-r-10"><small style="font-size:18px;">{{message.sender}}</small></a>
+                                                <a (click)="setMessage(message)" routerLink="/single-mail" class="m-r-10"><small style="font-size:18px;">{{message.sender}}</small></a>
                                                 <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{message.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
                                               </div>
                                               <p class="msg" class="p">{{message.body}}</p>
@@ -110,7 +110,7 @@
                                       </ul>
                                     </div>
                                   </div>
-                        </div>
+                                </div>
                         <div role="tabpanel" class="tab-pane" id="sent">
                             <div class="row clearfix">
                                     <div class="col-md-12 col-lg-12 col-xl-12">
@@ -133,11 +133,11 @@
                                                 </div>
                                                 <a href="javascript:void(0);" class="favourite text-muted hidden-sm-down" data-toggle="active"><i class="zmdi zmdi-star-outline"></i></a>
                                               </div> -->
-                                              <div class="thumb hidden-sm-down m-r-20"> <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle" alt=""> </div>
+                                              <div class="thumb hidden-sm-down m-r-20"> <img src={{msg.recipientAvatar}} class="rounded-circle" alt=""> </div>
                                             </div>
                                             <div class="media-body">
                                               <div class="media-heading">
-                                                <a (click)="setMessage(msg)" routerLink="" class="m-r-10"><small style="font-size:18px;">{{msg.recipient}}</small></a>
+                                                <a (click)="setMessage(msg)" routerLink="/single-mail" class="m-r-10"><small style="font-size:18px;">{{msg.recipient}}</small></a>
                                                 <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{msg.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
                                               </div>
                                               <p class="msg" class="p">{{msg.body}}</p>

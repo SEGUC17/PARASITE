@@ -38,26 +38,26 @@
                                 </div>
                             <div class="body table-responsive">
                               <table class="table table-hover m-b-0 c_list">
-                                <!-- <thead>
-                                <tr>
-                                  <th>Recently Contacted</th>
-                                </tr>
-                                </thead> -->
                                 <tbody *ngFor="let contact of contacts">
                                 <tr>
-                                  <ul class="mail_list list-group list-unstyled">
-                                      <div>
-                                      <a href="#"><li class="list-group-item">
-                                        <div class="media">
-                                          <div class="pull-left">
-                                            <div class="thumb hidden-sm-down m-r-20"> <img src="../../../assets/images/profile-view/defaultPP.png" class="rounded-circle" alt=""> </div>
-                                            <small style="color:black;">{{contact._id}}</small>
-                                          </div>
-                                          </div>
-                                       </li>
-                                      </a>
-                                      </div>
-                                    </ul>
+                                    <a href=""><ul class="mail_list list-group list-unstyled">
+                                        <div>
+                                        <li class="list-group-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          <div class="media">
+                                            <div class="pull-left">
+                                              <div class="thumb hidden-sm-down m-r-20"> <img src={{contact.avatar}} class="rounded-circle" alt=""> </div>
+                                              <small style="color:black; font-size:15px;">{{contact._id}}</small>
+                                            </div>
+                                            </div>
+                                         </li>
+                                         <span class="caret"></span>
+                                         <ul class="dropdown-menu dropdown-menu-top pullDown">
+                                            <li><a id="contact" href="javascript:void(0);" (click)="openReplyDialog(contact._id)"><small style="color:#FF5722; font-size:16px;">Message</small></a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li><a routerLink="/profile/{{contact._id}}"><small style="color:#FF5722; font-size:16px;">View Profile</small></a></li>
+                                          </ul>
+                                        </div>
+                                      </ul></a>
                                   </tr>
                                 </tbody>
                               </table>
@@ -73,11 +73,11 @@
                     <div class="col-md-12">
                             <div class="media">
                               <div class="float-left">
-                                <div class="m-r-20"> <img class="rounded" src="../../../assets/images/profile-view/defaultPP.png" width="70" alt=""> </div>
+                                <div class="m-r-20"> <img class="rounded" src={{avatarDisplay}} width="70" alt=""> </div>
                               </div>
                               <div class="media-body">
                                     <span class="float-right">
-                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openReplyDialog()">
+                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openReplyDialog(recipient)">
                                             <i class="material-icons">reply</i>
                                         </button>
                                         <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openForwardDialog()">
@@ -136,7 +136,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary btn-round waves-effect" (click)="reply(); textarea.value=''">SEND</button>
+                  <button type="button" class="btn btn-primary btn-round waves-effect" (click)="reply(); textarea.value='';">SEND</button>
                   <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
                 </div>
               </div>
@@ -183,4 +183,3 @@
         </div>
       </div>
    </div>
-
