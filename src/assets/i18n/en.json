@@ -110,7 +110,10 @@
             "IDEA": "IDEA",
             "RESOURCE": "RESOURCE",
             "EDIT": "EDIT",
-            "CREATE": "CREATE"
+            "CREATE": "CREATE",
+            "ACCEPT": "Accept",
+            "REJECT": "Reject",
+            "VIEW_DETAILS":"View Details"
         }
     },
     "AUTH": {
@@ -199,6 +202,16 @@
                 "CONTENT_DESCRIPTION": "Content Body or Description",
                 "REVIEW_AND_SUBMIT": "Review and Submit"
             }
+        },
+        "TOASTER": {
+            "SIGN_IN_FIRST": "Please sign in first",
+            "COULD_NOT_RETRIEVE": "Couldn't retrieve content, please try again",
+            "FAILED_UPLOAD_IMAGE": "Failed to upload image, please try again",
+            "FAILED_NO_FILE_SUPPLIED": "No file supplied to upload",
+            "NOT_FOUND": "The requested content could not be found",
+            "ALREADY_WATCHED": "This video is already watched before, no more learning points are added.",
+            "LEARNING_POINTS_ADDED": "You just got 10 more learning points! Your score is: ",
+            "CONNECTION_ERROR": "An error has occurred. Please check your network connection."
         }
     },
     "MARKET": {

@@ -182,6 +182,10 @@ export class ActivityDetailComponent implements OnInit {
     this.activityService.getActivity(id).subscribe(
       res => {
         this.activity = res.data;
+        this.activity.discussion = this.activity.discussion.reverse();
+        for(var i = 0 ; i < this.activity.discussion.length; i++) {
+          this.activity.discussion[i].replies = this.activity.discussion[i].replies.reverse();
+        }
         this.updatedActivity = res.data;
         self.canBookFor =
           self.canBookFor.filter(user => res.data.bookedBy.indexOf(user) < 0);
