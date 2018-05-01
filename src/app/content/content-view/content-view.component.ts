@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../auth/user';
@@ -9,6 +9,7 @@ import { DiscussionService } from '../../discussion.service';
 import { VideoIdExtractorPipe } from '../video-id-extractor.pipe';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-content-view',
@@ -51,8 +52,8 @@ export class ContentViewComponent implements OnInit {
 
 
   ngOnInit() {
-    window.scrollTo(0, 0);
     const self = this;
+    window.scrollTo(0, 0);
     // retrieve the user data
     this.authService.getUserData(['username', 'isAdmin', 'avatar', 'verified']).
       subscribe(function (user) {
@@ -85,14 +86,14 @@ export class ContentViewComponent implements OnInit {
 
   // admin is done with reviewing the content, send him back to his page
   returnToContentRequests(): void {
-    this.router.navigate(['admin']);
+    this.router.navigate(['/admin/content-req']);
   }
 
   // delete Content function
   deleteContentById(id: any): void {
     const self = this;
     this.contentService.deleteContentById(id).subscribe(function (retrievedContent) {
-      self.router.navigate(['/content-list-view']);
+      self.router.navigate(['/content/list']);
     });
   }
 
@@ -103,16 +104,13 @@ export class ContentViewComponent implements OnInit {
     }
     if (!isEmpty(inputtext)) {
       if (this.isReplying) {
-        console.log('replying');
         this.discussionService.postReplyOnCommentOnContent(
           this.content._id,
           this.commentReplyingOn,
           self.changingComment).subscribe(function (err) {
             if (err.msg !== 'reply created successfully') {
-              console.log('err in posting');
               self.refreshComments(false);
             }
-            console.log('no error elhamdulla ');
             self.refreshComments(false);
             self.changingComment = '';
             let input = document.getElementById('input');
@@ -121,10 +119,8 @@ export class ContentViewComponent implements OnInit {
 
           });
       } else {
-        console.log('commenting');
         this.discussionService.postCommentOnContent(this.content._id, self.changingComment).subscribe(function (err) {
           if (err.msg === 'reply created successfully') {
-            console.log('err in posting');
           }
           self.refreshComments(false);
           self.changingComment = '';
