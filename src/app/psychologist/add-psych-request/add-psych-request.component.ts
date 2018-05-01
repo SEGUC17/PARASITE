@@ -6,6 +6,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+declare const $: any;
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -55,6 +56,8 @@ export class AddPsychRequestComponent implements OnInit {
   }
 
   ngOnInit() {
+    $('.mat-dialog-container').css('padding', '0px');
+    $('.mat-dialog-container').css('height', 'fit-content');
   }
 
   /* called when user clicks on submit button */

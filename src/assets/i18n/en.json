@@ -195,10 +195,11 @@
     "PSYCHOLOGIST": {
         "TITLE": { "VERIFIED_PSYCHS": "Psychologists", "SUB": "Because your child mental health matters", "NAWWAR": "Nawwar"  },
         "INFO": { "PHONE": "Phone", "EMAIL": "Email", "DAYSOFF": "Days Off", "PRICE": "Maximum Price Range",
-                  "ADD": "Address", "EDIT": "Edit This", "DELETE": "Delet This" },
+                  "ADD": "Address", "EDIT": "Edit This", "DELETE": "Delete This" },
         "DAYS": { "SAT": "Sat", "SUN": "Sun", "MON": "Mon", "TUE": "Tue", "WED": "Wed", "THU": "Thu", "FRI": "Fri", "NO DAYS OFF": "No Days Off" },
         "FILTERS": { "NAME_SEARCH": "Search by Name...", "ADD_SEARCH": "Search by Address...", "SORT_BY": "Sort By", "CHEAPEST": "Cheapest", "A-Z": "Alphabetical" },
-        "POPUP": { "TITLE": "Contact Information", "ADD_SEARCH": "Search by Address...", "SORT_BY": "Sort By", "CHEAPEST": "Cheapest", "A-Z": "Alphabetical" }
+        "POPUP": { "TITLE": "Contact Information", "F_NAME": "First Name *", "L_NAME": "Last Name *", "EMAIL": "Email *", "ADD": "Address...", "REQUIRED": "Required Fields *", "NOT_REQUIRED": "You don't have to fill on all fields, just fill the ones you wish to edit.", "SUBMIT": "Submit",
+                   "NOTE": "Note", "NOTE_BODY": "If our admins accepted your request your contact Information will be added to our psychologists address book and an email with an ID will be sent to you, with this ID only you can later edit or delete your information." }
     },
     "SCHEDULING": {
 

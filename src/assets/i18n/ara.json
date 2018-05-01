@@ -196,8 +196,9 @@
         "INFO": { "PHONE": "الهاتف", "EMAIL": "البريد الإلكتروني", "DAYSOFF": "أيام العطلة", "PRICE": "الحد اﻷعلى للسعر",
                   "ADD": "العنوان", "EDIT": "تعديل", "DELETE": "مسح" },
         "DAYS": { "SAT": "السبت", "SUN": "اﻷحد", "MON": "الاثنين", "TUE": "الثلاثاء", "WED": "اﻷربعاء", "THU": "الخميس", "FRI": "الجمعة", "NO DAYS OFF": "لا يوجد"  },
-        "FILTERS": { "NAME_SEARCH": "Search by Name...", "ADD_SEARCH": "Search by Address...", "SORT_BY": "Sort By", "CHEAPEST": "Cheapest", "A-Z": "Alphabetical" },
-        "POPUP": { "TITLE": "بيانات شخصية", "ADD_SEARCH": "Search by Address...", "SORT_BY": "Sort By", "CHEAPEST": "Cheapest", "A-Z": "Alphabetical" }
+        "FILTERS": { "NAME_SEARCH": "...البحث باﻷسم", "ADD_SEARCH": "...البحث بالعنوان", "SORT_BY": "الترتيب بحسب", "CHEAPEST": "اﻷرخص", "A-Z": "اﻷبجدية" },
+        "POPUP": { "TITLE": "بيانات شخصية", "F_NAME": "الإسم *", "L_NAME": "اللقب *", "EMAIL": "البريد اﻹلكتروني *", "ADD": "العنوان...", "REQUIRED": "البيانات الضرورية *", "NOT_REQUIRED": "ليس عليك كتابة جميع البيانات، املأ فقط البيانات التي تود تعديلها.", "SUBMIT": "اتمام" ,
+                   "NOTE": "ملحوظة", "NOTE_BODY": "اذا تم الموافقة على هذا الطلب من قبل احد المشرفين على الموقع سيتم ارسال رقم تسلسلي اليك عبر بريدك الالكتروني، يمكنك لاحقاً تعديل بياناتك او مسحها بواسطة هذا الرقم." }
     },
     "SCHEDULING": {
 
