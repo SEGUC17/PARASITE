@@ -22,6 +22,8 @@ import { ActivityDetailComponent } from './activity-detail/activity-detail.compo
 import { ActivityEditComponent } from './activity-edit/activity-edit.component';
 import { DiscussionService } from '../discussion.service';
 import { SharedModule } from '../shared/shared.module';
+import { ImageUploaderComponent } from '../image-uploader/image-uploader.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -39,9 +41,10 @@ import { SharedModule } from '../shared/shared.module';
     MatDialogModule,
     MatTooltipModule,
     SharedModule,
+    FileUploadModule,
     TranslateModule.forChild()
   ],
-  declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent],
+  declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent, ImageUploaderComponent],
   entryComponents: [ActivityEditComponent],
   providers: [ActivityService, DiscussionService , { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }]
