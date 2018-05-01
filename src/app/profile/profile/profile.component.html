@@ -351,6 +351,12 @@
                 <small class="text-muted">{{'PROFILE.PROFILE.EMAIL' | translate}} </small>
                 <p>{{currIsOwner? email : vEmail}}</p>
                 <hr>
+                <small *ngIf="currIsChild || visitedIsMyChild" class="text-muted">Educational System</small>
+                <p *ngIf="currIsChild || visitedIsMyChild">{{currIsOwner? educationalSystem : vEducationalSystem}}</p>
+                <hr *ngIf="currIsChild || visitedIsMyChild">
+                <small *ngIf="currIsChild || visitedIsMyChild" class="text-muted">Educational Level</small>
+                <p *ngIf="currIsChild || visitedIsMyChild">{{currIsOwner? educationalLevel : vEducationalLevel}}</p>
+                <hr *ngIf="currIsChild || visitedIsMyChild">
                 <small class="text-muted">{{'PROFILE.PROFILE.PHONE' | translate}} </small>
                 <p>{{currIsOwner? phone : vPhone}}</p>
                 <hr>
@@ -426,6 +432,26 @@
                             <div class="form-group">
                               <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{vEmail}} disabled>
                             </div>
+                            <label for="dEducationSystem">Education System</label> <br/>
+                            <div id="dEducationSystem" class="btn-group hidden-sm-down">
+                              <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{currIsOwner? educationalSystem : vEducationalSystem}}<span class="caret"></span> </button>
+                              <ul class="dropdown-menu dropdown-menu-right pullDown">
+                                  <li *ngFor="let system of vSystems" (click)="systemIs(system)">
+                                    <a href="javascript:void(0);">{{system}}</a>
+                                  </li>
+                              </ul>
+                            </div>
+                            <br/>
+                            <label for="dEducationLevel">Education Level</label> <br/>
+                            <div id="dEducationSystem" class="btn-group hidden-sm-down">
+                              <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{currIsOwner? educationalLevel : vEducationalLevel}}<span class="caret"></span> </button>
+                              <ul class="dropdown-menu dropdown-menu-right pullDown">
+                                  <li *ngFor="let level of vLevels" (click)="levelIs(level)">
+                                    <a href="javascript:void(0);">{{level}}</a>
+                                  </li>
+                              </ul>
+                            </div>
+                            <br/>
                             <label for="dAddress">{{'PROFILE.PROFILE.ADDRESS' |translate}}</label>
                             <div class="form-group">
                               <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{vAddress}}>
