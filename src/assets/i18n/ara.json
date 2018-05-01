@@ -1,12 +1,92 @@
 {
     "APP": {
         "NAWWAR": "نوَّر",
-        "CURRENT_LANGUAGE": "العربية"
+        "CURRENT_LANGUAGE": "العربية",
+        "LOADING_MESSAGE": "...يرجى الانتظار",
+        "CONTENT": "المحتويات",
+        "PROFILE": "الصفحة الشخصية",
+        "MESSAGING": "الرسائل",
+        "MARKET": "السوق",
+        "PSYCHOLOGISTS": "الخبراء النفسيين",
+        "ACTIVITIES": "الأنشطة",
+        "ADMIN": "إدارة الموقع",
+        "CONNECT_PARENTS": "التواصل",
+        "STUDY_PLANS": "الخطط الدراسية",
+        "CHANGE_LANGUAGE": "تغيير اللغة"
     },
     "ACTIVITIES": {
-        
+    "CREATE": {
+        "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
+        "CREATE_ACTIVITY": "اضافة نشاط",
+        "REQUIRED_FIELDS": "الخانات المطلوبة",
+        "SUBMIT": "اضافة",
+        "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
+        "TAGS": "إشارات"
+    },
+    "LIST": {
+        "ACTIVITIES": "الانشطة",
+        "ACTIVITY": "النشاط",
+        "LATEST_ACTIVITY": "أحدث نشاط",
+        "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
+        "READ_MORE": "اقرأ المزيد",
+        "CLOSE": "أغلق",
+        "COMMENTS": "التعليقات",
+        "POSTED_BY": "قام بالنشر",
+        "PREV": "الصفحة السابقة",
+        "NEXT": "الصفحة التالية"
+    },
+    "DETAIL": {
+        "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
+        "FROM": "من",
+        "TO": "الى",
+        "COMMENT": "اضف تعليق",
+        "REPLY": "اضف رد",
+        "BOOK_FOR": "احجز لـ",
+        "DESCRIPTION": "الشرح",
+        "WRITE_COMMENT": "...اترك تعليق",
+        "BOOK_SUCCESS": "....تم الحجز بنجاح"
+    },
+    "EDIT": {
+        "EDIT_ACTIVITY": "تعديل النشاط",
+        "ACTIVITY_NAME": "الاسم",
+        "START_DATE":"تاريخ النهاية",
+        "END_DATE":"تاريخ البداية",
+        "PRICE":"السعر",
+        "DESCRIPTION":"الوصف",
+        "CANCEL":"الغاء",
+        "SAVE_CHANGES":"حفظ التغييرات",
+        "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+        "ACTIVITY_IMAGE":"تغيير صورة النشاط"
+    },
+    "REVIEW": {
+        "ACCEPT": "تم قبول النشاط",
+        "REJECT": "تم رفض النشاط",
+        "ACCEPT_BTN": "قبول",
+        "REJECT_BTN": "رفض"
+    }
     },
     "ADMIN": {
+        "VIEW_REPORTS": {
+            "BAN": "حظر",
+            "USER": "المستخدم",
+            "REPORTS": "البلاغات",
+            "REPORTED_arabic": "تم الإبلاغ عن",
+            "REPORTED": "بواسطة",
+            "DELETE": "حذف",
+            "REASON": "السبب:",
+            "MSG": "أدخل اسم المستخدم ليتم حظره"
+        },
+        "VIEW_UNVERIFIED_ACTIVITIES": {
+            "LABEL": "الأنشطة",
+            "WELCOME": "مرحبًا بك في الأنشطة",
+            "LATEST": "آخر",
+            "ACTIVITY": "نشاط",
+            "POSTED_BY": "منشور من طرف:",
+            "COMMENTS": "تعليقات:",
+            "READ_MORE": "اقرأ أكثر",
+            "ACCEPT": "قبول",
+            "REJECT": "رفض"
+        },
         "ADMIN_CONTROL": {
             "CONTENTS_MANAGEMENT": "إدارة المحتويات",
             "CATEGORY_MANAGEMENT": "إدارة الفئات",
@@ -54,26 +134,14 @@
             "IDEA": "فكرة",
             "RESOURCE": "مورد تعليمي",
             "EDIT": "تحديث",
-            "CREATE": "إنشاء"
+            "CREATE": "إنشاء",
+            "ACCEPT": "قبول",
+            "REJECT": "رفض",
+            "VIEW_DETAILS":"عرض التفاصيل"
         }
     },
-    "AUTH": {
-
-    },
+    "AUTH": {},
     "CONTENT": {
-        "SHARED": {
-            "OUR_CONTENT": "المحتويات",
-            "POSTED_BY": "{{ creator }} :نشره",
-            "DASHBOARD": "الصفحة الرئيسية",
-            "CONTENT": "المحتويات",
-            "ARABIC": "العربية",
-            "NEXT": "التالى",
-            "ENGLISH": "الإنجليزية",
-            "LANGUAGE": "اللغة",
-            "CATEGORY": "الفئة",
-            "SECTION": "القسم",
-            "TAGS": "الإشارات"
-        },
         "LIST": {
             "ALL": "جميع الفئات",
             "BROWSE_CONTENT": "تصفح المحتويات",
@@ -121,7 +189,7 @@
             "TITLE": "العنوان",
             "TITLE_IS_REQUIRED": "العنوان مطلوب",
             "THUMBNAIL_IMAGE": "الصورة",
-            "YOUTUBE_VIDEO":"فيديو يوتيوب",
+            "YOUTUBE_VIDEO": "فيديو يوتيوب",
             "VIDEO_LINK_INVALID": ".رابط الفيديو غير صحيح",
             "TYPE": "النوع",
             "RESOURCE": "مورد تعليمي",
@@ -143,10 +211,71 @@
                 "CONTENT_DESCRIPTION": "وصف أو مضمون المحتوى",
                 "REVIEW_AND_SUBMIT": "المراجعة والإنشاء"
             }
+        },
+        "TOASTER": {
+            "SIGN_IN_FIRST": "برجاء تسجيل الدخول أولا",
+            "COULD_NOT_RETRIEVE": "لم يتم العثور على المحتوى؛ برجاء المحاولة لاحقًا",
+            "FAILED_UPLOAD_IMAGE": "لم ينجح تحميل الصورة ، يرجى المحاولة مرة أخرى",
+            "FAILED_NO_FILE_SUPPLIED": "يرجى تقديم ملف للتحميل",
+            "NOT_FOUND": "لم يتم العثور على المحتوى؛ برجاء المحاولة لاحقًا",
+            "ALREADY_WATCHED": "لقد شاهدت هذا الفيديو من قبل. لم تتم إضافة المزيد من نقاط التعلم",
+            "LEARNING_POINTS_ADDED": "لقد حصلت للتو على 10 نقاط تعلم إضافية! نتيجتك",
+            "CONNECTION_ERROR": "حدث خطأ. يرجى التحقق من اتصالك بالشبكة"
+
         }
     },
     "MARKET": {
-
+        "MAIN": {
+            "MARKET": "السوق",
+            "CAPTION": "اشتر، بع، أو قم بتأجير ما لا تحتاجه",
+            "PATH": "السوق",
+            "LABEL": "المنتجات",
+            "LABEL_REQ": "الطلبات الحالية",
+            "PROD_SEARCH": "منتج",
+            "PRICE_SEARCH": "السعر",
+            "LATEST": "الأحدث أولاً",
+            "CHEAPEST": "الأرخص أولاً",
+            "NAME": "اسم المنتج",
+            "PRICE": "سعر المنتج",
+            "SORT": "رتب المنتجات",
+            "SEARCH_BAR": "...بحث",
+            "SELLER": "{{ seller }} :البائع",
+            "SEARCH_PRICE": "ج.م {{ price }}",
+            "SORT_TYPE": "{{ sort }} :الترتيب عن طريق",
+            "PREV": "السابق",
+            "NEXT": "التالي",
+            "NO_PROD_FOUND": ".عذراً، لم نجد أي منتجات",
+            "NO_PROD_REQ": "ليس لديك أي طلبات لإضافة منتجات إلى سوق",
+            "MY_PRODS": "منتجاتي"
+        },
+        "CREATE": {
+            "INFO": "معلومات عن المنتج",
+            "DESCRIPTION": "شرح المنتج",
+            "NAME": "اسم المنتج",
+            "PRICE": "سعر المنتج",
+            "AQUIRE": "هذا المنتج معروض لل",
+            "SELL": "للبيع",
+            "RENT": "للإيجار",
+            "SELLRENT": "للبيع و الإيجار",
+            "RENTPERIOD": "فترة الإيجار",
+            "IMG": "صورة المنتج",
+            "CREATEPRODUCT": "إضافة منتج"
+        },
+        "PROD_DETAIL": {
+            "PROD_INFO": "تفاصيل المنتج",
+            "CREATED_AT": " تمت إضافته {{ date }}",
+            "ACQUIRE": "احصل على المنتج",
+            "EGP": "جنيهاً",
+            "ACQTYPERENT": "هذا المنتج للإيجار",
+            "ACQTYPESELL": "هذا المنتج للبيع",
+            "ACQTYPEBOTH": "هذا المنتج للإيجار و البيع",
+            "DAYS": "{{ days }} يوم بحد اقصى",
+            "SOLD": " :اسم البائع"
+        },
+        "REQ_DETAIL": {
+            "PROD_NAME": "اسم المنتج",
+            "ACQTYPELABEL": ":نوع الشراء"
+        }
     },
     "MESSAGING": {
         "MESSAGING": {
@@ -197,15 +326,118 @@
         }
     },
     "PROFILE": {
-
+        "PROFILE": {
+            "NAWWAR": "نوَّر",
+            "DASHBOARD": "الصفحه الرئيسيه",
+            "MY_PROFILE": "الصفحه الشخصيه",
+            "MESSAGE": "إرسال رساله",
+            "CHILDREN": "أطفالى",
+            "STUDY_PLANS": "الخطط الدراسيه",
+            "SETTINGS": "الإعدادات",
+            "ABOUT": "عن المستخدم",
+            "ADD-AS-PARENT": "أضفه كولى أمرى",
+            "MAKE_INDEPENDENT": "إجعلى مستقلا",
+            "BE_VERIFIED_CONTRIBUTOR": "مشارك موثق",
+            "CREATE_CHILD_ACCOUNT": "إنشاء حساب جديد لطفلى",
+            "UNLINK_MY_PARENT": "إلغاء الإرتباط",
+            "LINK_TO_CHILD": "إضافه طفلى للمستخدم",
+            "EMAIL": "البريد الإلكترونى:",
+            "PHONE": "الهاتف:",
+            "BIRTHDATE": "تاريخ الميلاد:",
+            "AGE": "العمر",
+            "MY_CHILE": "طفلى",
+            "CHILD_INFO": "بيانات",
+            "SECURITY": "الأمان",
+            "CHANGE_PASSWORD": "تغيير كلمه السر",
+            "CPASSWORD": "كلمه السر الحاليه",
+            "NPASSWORD": "كلمه السر الجديده",
+            "CNPASSWORD": "تأكيد كلمه السر الجديده",
+            "PERSONAL": "الشخصيه",
+            "MY_INFO": "بياناتى",
+            "FIRST_NAME": "الإسم الأول",
+            "LAST_NAME": "الإسم الأخير",
+            "USERNAME": "إسم المستخدم",
+            "EDIT_EMAIL": "البريد الإلكترونى",
+            "ADDRESS": "العنوان",
+            "EDIT_BD": "تاريخ الميلاد",
+            "EDIT_PHONE": "الهانف",
+            "SAVE_CHANGES": "حفظ التغيرات",
+            "MESSAGES_BLOCK": "الممنوعين من مراسلى",
+            "BLOCK_LIST": "قائمه",
+            "CREATE_STUDY_PALN": "إنشاء خطه دراسيه جديدة",
+            "PROFILE_PIC": "تحميل الصوره الشخصيه",
+            "CANCEL": "إلغاء",
+            "DELETE_EVENT": "حذف الحدث",
+            "DELE_EVENT_CONF": "هل انت متأكد من أنك تريد حذف هذا الحدث ؟",
+            "DELETE": "حذف",
+            "ASSIGNED": "تعين",
+            "VIEW": "عرض",
+            "UNBLOCK": "رفع الحظر",
+            "REPORT": "إبلاغ عن المستخدم"
+        },
+        "DIRECT_MSG": {
+            "TO": "إلى:",
+            "SEND": "إرسال",
+            "MSG": "أدخل رسالتك هنا"
+        },
+        "CHILDREN": {
+            "NAME": "الإسم",
+            "AGE":"العمر" ,
+            "UNLINK": "إزاله من قائمتى",
+            "LEARNING_SCORE":"نقاط التعلم",
+            "POINTS":"نقطة"
+        }
     },
+    
+    "PROFILE": {},
     "PSYCHOLOGIST": {
-
+        "TITLE": {
+            "VERIFIED_PSYCHS": "خبراء نفسيين",
+            "SUB": "لأننا نهتم بالصحة النفسية لطفلك",
+            "NAWWAR": "نوَّر"
+        },
+        "INFO": {
+            "PHONE": "الهاتف",
+            "EMAIL": "البريد الإلكتروني",
+            "DAYSOFF": "أيام العطلة",
+            "PRICE": "الحد اﻷعلى للسعر",
+            "ADD": "العنوان",
+            "EDIT": "تعديل",
+            "DELETE": "مسح"
+        },
+        "DAYS": {
+            "SAT": "السبت",
+            "SUN": "اﻷحد",
+            "MON": "الاثنين",
+            "TUE": "الثلاثاء",
+            "WED": "اﻷربعاء",
+            "THU": "الخميس",
+            "FRI": "الجمعة",
+            "NO DAYS OFF": "لا يوجد"
+        },
+        "FILTERS": {
+            "NAME_SEARCH": "...البحث باﻷسم",
+            "ADD_SEARCH": "...البحث بالعنوان",
+            "SORT_BY": "الترتيب بحسب",
+            "CHEAPEST": "اﻷرخص",
+            "A-Z": "اﻷبجدية"
+        },
+        "POPUP": {
+            "TITLE": "بيانات شخصية",
+            "F_NAME": "الإسم *",
+            "L_NAME": "اللقب *",
+            "EMAIL": "البريد اﻹلكتروني *",
+            "ADD": "العنوان...",
+            "REQUIRED": "البيانات الضرورية *",
+            "NOT_REQUIRED": "ليس عليك كتابة جميع البيانات، املأ فقط البيانات التي تود تعديلها.",
+            "SUBMIT": "اتمام",
+            "NOTE": "ملحوظة",
+            "NOTE_BODY": "اذا تم الموافقة على هذا الطلب من قبل احد المشرفين على الموقع سيتم ارسال رقم تسلسلي اليك عبر بريدك الالكتروني، يمكنك لاحقاً تعديل بياناتك او مسحها بواسطة هذا الرقم."
+        }
     },
-    "SCHEDULING": {
+    "SCHEDULING": {},
+    "SEARCH": {},
+    "LANDING":{
 
-    },
-    "SEARCH": {
-        
     }
 }

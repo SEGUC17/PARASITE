@@ -39,6 +39,9 @@ export class ContactUsComponent implements OnInit {
     const self = this;
     const userDataColumns = ['username'];
     this._AuthService.getUserData(userDataColumns).subscribe(function(response) {
+      if (response.msg === 'User Is Not Signed In!') {
+          self.visitor = true;
+      }
       if (!(response.msg === 'Data Retrieval Is Successful!')) {
         self.visitor = true;
 

@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivityComponent } from './activity/activity.component';
@@ -20,7 +22,8 @@ import { ActivityCreateComponent } from './activity-create/activity-create.compo
 import { ActivityDetailComponent } from './activity-detail/activity-detail.component';
 import { ActivityEditComponent } from './activity-edit/activity-edit.component';
 import { DiscussionService } from '../discussion.service';
-import { SharedModule } from '../shared/shared.module';
+import { ImageUploaderComponent } from '../image-uploader/image-uploader.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -37,11 +40,13 @@ import { SharedModule } from '../shared/shared.module';
     MatListModule,
     MatDialogModule,
     MatTooltipModule,
-    SharedModule
+    FileUploadModule,
+    TranslateModule.forChild()
   ],
-  declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent],
+  declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent, ImageUploaderComponent],
   entryComponents: [ActivityEditComponent],
   providers: [ActivityService, DiscussionService , { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] }]
+    { provide: MAT_DIALOG_DATA, useValue: [] }, ToastrService, ImageUploaderComponent],
+  exports: [ActivityCreateComponent ]
 })
 export class ActivitiesModule { }

@@ -1,91 +1,93 @@
-<section class="content blog-page">
-  <div class="block-header">
+<section class="content blog-page" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+  <div class="block-header" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
     <div class="row">
-      <div class="col-lg-7 col-md-5 col-8">
-        <h2>
-          <i class="material-icons">people</i>
-          Verified psychologists
-          <small>Because your child mental health matters.</small>
+      <div class="col-lg-7 col-md-5 col-8" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+        <h2 style="font-size:25px" [align]="translate.currentLang === 'ara'? 'right': null" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+          <i class="material-icons" id="iconn" style="margin-left:3px" [style.float]="translate.currentLang === 'ara'? 'right': null">people</i>
+          {{ 'PSYCHOLOGIST.TITLE.VERIFIED_PSYCHS' | translate }}
+          <small>{{ 'PSYCHOLOGIST.TITLE.SUB' | translate }}</small>
         </h2>
       </div>
-      <div class="col-lg-5 col-md-6 col-sm-12">
-        <button class="btn btn-primary btn-round btn-icon hidden-sm-down float-right m-l-10" type="button" (click)="addRequestForm()">
+      <div class="col-lg-5 col-md-6 col-sm-12" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+        <button id="btnn" class="btn btn-primary btn-round btn-icon hidden-sm-down float-right m-l-10" type="button" (click)="addRequestForm()">
           <i class="zmdi zmdi-plus"></i>
         </button>
-        <ul class="breadcrumb float-md-right">
+        <ul class="breadcrumb float-md-right" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">
-              <i class="zmdi zmdi-home"></i> Nawwar</a>
+              <i class="zmdi zmdi-home" style="margin-left:3px"></i>{{ 'PSYCHOLOGIST.TITLE.NAWWAR' | translate }}</a>
           </li>
-          <li class="breadcrumb-item active">Our psychologists</li>
+          <li class="breadcrumb-item active">{{ 'PSYCHOLOGIST.TITLE.VERIFIED_PSYCHS' | translate }}</li>
         </ul>
       </div>
     </div>
   </div>
-  <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+  <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
     [scrollWindow]="false">
     <div class="row">
       <div class="container-fluid">
-        <div class="card-deck">
+        <div class="card-deck" id="cards">
           <div class="card-deck col-lg-9 col-md-12">
             <div class="col-lg-6 col-md-12" *ngFor="let psych of psychologists; let i = index;">
               <div class="card single_post clearfix js-sweetalert" style="margin-bottom: 5px">
                 <div class="header">
+                  <span >
+                  <h2 style="font-size:25px" [align]="translate.currentLang === 'ara'? 'right': null">
+                    <strong>{{psych.firstName}} {{psych.lastName}}</strong>
+                  </h2>
+                  </span>
                   <ul class="header-dropdown">
                     <li class="dropdown">
                       <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                         aria-expanded="false">
                         <i class="zmdi zmdi-more"></i>
                       </a>
-                      <ul class="dropdown-menu dropdown-menu-right">
+                      <ul class="dropdown-menu dropdown-menu-right" >
                         <li>
-                          <a [routerLink]="" (click)="showEditPrompt(i)">Edit this information</a>
+                          <a [routerLink]="" (click)="showEditPrompt(i)">{{ 'PSYCHOLOGIST.INFO.EDIT' | translate }}</a>
                         </li>
                         <li>
-                          <a [routerLink]="" (click)="showDeletePrompt(i)">Delete This information</a>
+                          <a [routerLink]="" (click)="showDeletePrompt(i)">{{ 'PSYCHOLOGIST.INFO.DELETE' | translate }}</a>
                         </li>
                       </ul>
                   </ul>
                 </div>
-                <div class="body">
-                  <div align="center">
-                    <span style="font-size:28px" class="m-t-0 m-b-5 text-primary">
-                      <strong>{{psych.firstName}} {{psych.lastName}}</strong>
-                    </span>
-                  </div>
-                  <div class="body text-secondary" style="font-size:15px">
+                <div class="body" style="padding-top:0px">
+                  <div class="body text-secondary" style="font-size:15px" dir="auto">
                     <div class="row">
-                      <i class="zmdi zmdi-local-phone" style="margin-right:3%"> </i>
+                      <i class="zmdi zmdi-local-phone" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  style="margin-right:3%"> </i>
                       <span>
-                        <strong> Phone</strong> {{psych.phone}}</span>
+                        <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.PHONE' | translate }}</strong> {{psych.phone}}</span>
                     </div>
                     <div class="row">
                       <i class="zmdi zmdi-email" style="margin-right:3%"> </i>
                       <span>
-                        <strong> Email</strong> {{psych.email}}</span>
+                        <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.EMAIL' | translate }}</strong> {{psych.email}}</span>
                     </div>
                     <div class="row">
                       <i class="zmdi zmdi-calendar-close" style="margin-right:3%"> </i>
                       <span>
-                        <strong> Days off </strong>
+                        <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> 
+                          {{ 'PSYCHOLOGIST.INFO.DAYSOFF' | translate }}
+                        </strong>
                       </span>
                     </div>
-                    <div>
-                      <span *ngFor="let day of psych.daysOff" class="badge badge-default">{{day}}</span>
+                    <div [style.height]="translate.currentLang === 'ara'? '20px': null" [style.margin-right]="translate.currentLang === 'ara'? '5px': null">
+                      <span *ngFor="let day of psych.daysOff" class="badge badge-default" [style.float]="translate.currentLang === 'ara'? 'right': null"> {{ 'PSYCHOLOGIST.DAYS.' + day.toUpperCase() | translate }}</span>
                     </div>
                     <br>
                     <div class="row">
                       <i class="zmdi zmdi-money-box" style="margin-right:3%"> </i>
                       <span>
-                        <strong> Maximum Price Range</strong> {{psych.priceRange}}</span>
+                        <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.PRICE' | translate }}</strong> {{psych.priceRange}}</span>
                     </div>
                     <div class="row">
                       <i class="zmdi zmdi-home" style="margin-right:3%"> </i>
                       <span>
-                        <strong> Adress </strong>
+                        <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.ADD' | translate }}</strong>
                       </span>
                     </div>
-                    <div style="height:70px">
+                    <div style="height:70px"  [align]="translate.currentLang === 'ara'? 'right': null">
                       <span>{{psych.address}}</span>
                     </div>
                   </div>
@@ -94,30 +96,36 @@
             </div>
           </div>
           <div class="col-lg-3 col-md-12 right-box">
-            <mat-card class="card">
+            <div class="card">
               <div class="body search">
+                <div>
                 <div class="input-group m-b-0">
-                  <input type="text" class="form-control" placeholder="Search by name" [(ngModel)]="writtenSearch">
+                  <input type="text" class="form-control" [style.text-align]="translate.currentLang === 'ara'? 'right': null" 
+                  placeholder="{{ 'PSYCHOLOGIST.FILTERS.NAME_SEARCH' | translate }}" [(ngModel)]="writtenSearch">
                   <span class="input-group-addon" (click)="this.applySearch()">
                     <i class="zmdi zmdi-search"></i>
                   </span>
                 </div>
                 <br>
                 <div class="input-group m-b-0">
-                  <input type="text" class="form-control" placeholder="Search by address" [(ngModel)]="writtenAddress">
+                  <input type="text" class="form-control" [style.text-align]="translate.currentLang === 'ara'? 'right': null" 
+                  placeholder="{{ 'PSYCHOLOGIST.FILTERS.ADD_SEARCH' | translate }}" [(ngModel)]="writtenAddress">
                   <span class="input-group-addon" (click)="this.applyAddress()">
                     <i class="zmdi zmdi-search"></i>
                   </span>
                 </div>
                 <br>
-                <h6>Sort By</h6>
-                <div class="radio" *ngFor="let s of sorts">
-                  <input id="sort_{{s}}" style="margin-right: 3px" (click)="applySort(s)" [value]='s' type="radio" name="sort_{{S}}" [(ngModel)]="sort">
-                  <label for="sort_{{s}}">
-                    {{s}}
-                  </label>
                 </div>
-                <mat-chip-list>
+                <div>
+                  <h6 [align]="translate.currentLang === 'ara'? 'right': null">{{ 'PSYCHOLOGIST.FILTERS.SORT_BY' | translate }}</h6>
+                  <div class="radio" *ngFor="let s of sorts" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                    <input  id="sort_{{s}}" style="margin-right: 3px" (click)="applySort(s)" [value]='s' type="radio" name="sort_{{S}}" [(ngModel)]="sort">
+                    <label for="sort_{{s}}">
+                       <p  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.padding-right]="translate.currentLang === 'ara'? '20px': null"> {{ 'PSYCHOLOGIST.FILTERS.' + s.toUpperCase() | translate }} </p>
+                    </label>
+                  </div>
+                </div>
+                <mat-chip-list  [style.float]="translate.currentLang === 'ara'? 'right': null">
                   <mat-chip *ngIf="this.selectedAddress" [removable]=true (remove)="remove('address')">
                     {{this.selectedAddress}}
                     <mat-icon matChipRemove>cancel</mat-icon>
@@ -125,15 +133,26 @@
                   <mat-chip [removable]=true (remove)="remove('search')" *ngIf="this.selectedSearch">{{this.selectedSearch}}
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
-                  <mat-chip [removable]=true (remove)="remove('sort')" *ngIf="this.sort">{{this.sort}}
+                  <mat-chip [removable]=true (remove)="remove('sort')" *ngIf="this.sort"> {{ 'PSYCHOLOGIST.FILTERS.' + this.sort.toUpperCase() | translate }}
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
 
                 </mat-chip-list>
               </div>
-            </mat-card>
+            </div>
           </div>
         </div>
+        <ul *ngIf="totalNumberOfPages>1" class="pagination pagination-primary">
+          <li *ngIf="currentPageNumber>1" class="page-item">
+            <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">Previous</a>
+          </li>
+          <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
+            <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
+          </li>
+          <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
+            <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">Next</a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

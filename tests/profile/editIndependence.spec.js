@@ -5,7 +5,7 @@ var User = mongoose.model('User');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 var should = chai.should();
-//var d ate= new Date("October 13, 2014 11:13:00");
+
 chai.use(chaiHttp);
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
