@@ -36,8 +36,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ProfileImageUploaderComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
