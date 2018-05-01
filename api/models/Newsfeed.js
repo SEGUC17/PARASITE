@@ -16,7 +16,10 @@ var newsfeedSchema = mongoose.Schema({
             type: String
         }
     },
-    tags: [Tags],
+    tags: {
+        type: [Tags],
+        unique: false
+    },
     type: {
         enum: [
             'a',

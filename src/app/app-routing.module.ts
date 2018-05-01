@@ -41,10 +41,6 @@ const routes = [
     loadChildren: 'app/psychologist/psychologist.module#PsychologistModule'
   },
   {
-    path: 'scheduling',
-    loadChildren: 'app/scheduling/scheduling.module#SchedulingModule'
-  },
-  {
     path: 'search',
     loadChildren: 'app/search/search.module#SearchModule'
   },
