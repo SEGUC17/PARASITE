@@ -209,9 +209,21 @@
     </div>
   </div>
 </section>
-
-
-
+<section>
+  <div class="modal fade" id="defaultModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="title" id="defaultModalLabel">{{ 'ACTIVITIES.EDIT.ACTIVITY_IMAGE' | translate }}</h4>
+        </div>
+        <div class="modal-body">
+          <app-image-uploader (ImageUploaded)="uploaded($event)"></app-image-uploader>
+          <button id="closeModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" style="float:right">{{ 'ACTIVITIES.EDIT.CANCEL' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <!--<div class="container">-->
 <!--<div class="comment-container">-->
 <!--<h1> Comments :</h1>-->

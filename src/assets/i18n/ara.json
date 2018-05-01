@@ -42,6 +42,19 @@
             "DESCRIPTION": "الشرح",
             "WRITE_COMMENT": "...اترك تعليق",
             "BOOK_SUCCESS": "....تم الحجز بنجاح"
+        },
+        "EDIT":{
+            "EDIT_ACTIVITY": "تعديل النشاط",
+            "ACTIVITY_NAME": "الاسم",
+            "START_DATE":"تاريخ النهاية",
+            "END_DATE":"تاريخ البداية",
+            "PRICE":"السعر",
+            "DESCRIPTION":"الوصف",
+            "CANCEL":"الغاء",
+            "SAVE_CHANGES":"حفظ التغييرات",
+            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+            "ACTIVITY_IMAGE":"تغيير صورة النشاط"
+        
         }
     },
     "ADMIN": {
@@ -189,9 +202,14 @@
     "MESSAGING": {
 
     },
-    "PROFILE": {
+    "PROFILE": { 
+        "CHILDREN":{    "UNLINK":"حذف",
+                          "AGE":"العمر" ,
+                        "LEARNING_SCORE":"نقاط التعلم",
+                        "POINTS":"نقطة"
+                        }
 
-    },
+},
     "PSYCHOLOGIST": {
 
     },

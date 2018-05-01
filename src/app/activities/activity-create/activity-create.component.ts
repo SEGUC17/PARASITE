@@ -54,7 +54,7 @@ export class ActivityCreateComponent implements OnInit {
       @author: Wessam
     */
    if (!check) {
-     this.translate.get('ACTIVITIES.CREATE.FORM_FILL_ERROR').subscribe(
+     this.translate.get('ACTIVITIES.CREATE. ').subscribe(
        res => this.toaster.error(res)
      );
    } else if (this.activity.toDateN <= this.activity.fromDateN) {

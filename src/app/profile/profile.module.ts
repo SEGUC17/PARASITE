@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from '../messaging/messaging.service';
 import { SharedModule } from '../shared/shared.module';
-
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   imports: [
     ProfileRoutingModule,
@@ -28,7 +28,8 @@ import { SharedModule } from '../shared/shared.module';
     MatDatepickerModule,
     MatButtonToggleModule,
     SharedModule,
-    CommonModule
+    CommonModule,
+    TranslateModule.forChild()
   ],
   declarations: [ProfileComponent, ChildernComponent],
   providers: [

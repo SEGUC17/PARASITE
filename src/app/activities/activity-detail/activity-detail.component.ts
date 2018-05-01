@@ -256,7 +256,7 @@ export class ActivityDetailComponent implements OnInit {
 
 
 
-  openDialog(): void {
+  openDialog(): void { // author: Heidi
     let from = new Date(this.activity.fromDateTime).toJSON();
     let to = new Date(this.activity.toDateTime).toJSON();
     let dialogRef = this.dialog.open(ActivityEditComponent, {
@@ -277,9 +277,9 @@ export class ActivityDetailComponent implements OnInit {
       this.updatedActivity.description = result.description;
       this.updatedActivity.fromDateTime = new Date(result.fromDateTime).getTime();
       this.updatedActivity.toDateTime = new Date(result.toDateTime).getTime();
-      console.log('from' + this.updatedActivity.fromDateTime);
-      console.log('to' + this.updatedActivity.toDateTime);
-      this.EditActivity(this.updatedActivity);
+     // taking new values from dialog , assigning them to updatedActivity
+     // and passing it to EditActivity method
+       this.EditActivity(this.updatedActivity);
     });
   }
 
@@ -297,13 +297,28 @@ export class ActivityDetailComponent implements OnInit {
 
 
   uploaded(url: string) {
+    let id = this.route.snapshot.paramMap.get('id');
     if (url === 'imageFailedToUpload') {
-      console.log('image upload failed');
-      // TODO: handle image uploading failure
+      this.toastrService.error('Image upload failed');
+    } else if (url === 'noFileToUpload') {
+      this.toastrService.error('Please select a photo');
     } else {
-      console.log('in vcC and its uploaded with url = ' + url);
+      let upload = {
+        image: url
+      };
+      this.activityService.EditActivityImage(upload, id).subscribe((res) => {
+        if (res.data) {
+          this.toastrService.success('Activity image uploaded successfully');
+          this.activity.image = res.data;
+        } else {
+          this.toastrService.error('Image upload failed');
+        }
+      });
       // TODO: handle image uploading success and use the url to retrieve the image later
     }
+    document.getElementById('closeModal').click();
+    document.focus();
+
   }
 
   deleteActivity() {
