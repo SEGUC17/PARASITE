@@ -180,6 +180,12 @@
                 "CONTENT_DESCRIPTION": "Content Body or Description",
                 "REVIEW_AND_SUBMIT": "Review and Submit"
             }
+        },
+        "TOASTER": {
+            "SIGN_IN_FIRST": "Please sign in first",
+            "COULD_NOT_RETRIEVE": "Couldn't retrieve content, please try again",
+            "FAILED_UPLOAD_IMAGE": "Failed to upload image, please try again",
+            "FAILED_NO_FILE_SUPPLIED": "No file supplied to upload"
         }
     },
     "MARKET": {

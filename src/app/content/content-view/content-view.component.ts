@@ -181,7 +181,7 @@ export class ContentViewComponent implements OnInit {
 
   // admin or owner user of content wishes to edit the content
   redirectToContentEdit(): void {
-    this.router.navigateByUrl('/content-edit/' + this.content._id);
+    this.router.navigateByUrl('/content/edit/' + this.content._id);
   }
 
   // retrieve the recommended content related to the content the user is viewing
