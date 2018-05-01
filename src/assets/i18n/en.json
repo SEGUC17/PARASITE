@@ -149,6 +149,38 @@
 
     },
     "MESSAGING": {
+        "MESSAGING": {
+            "TITLE": "Your Messages",
+            "SUB_TITLE": "Messages",
+            "DASHBOARD": "Dashboard",
+            "RECENTLY_CONTACTED": "Recently Contacted",
+            "NO_CONTACT": "You haven't contacted anyone yet",
+            "START_CONVO": "Start a conversation?",
+            "MSG": "Message",
+            "VIEW_PROFILE": "View Profile",
+            "INBOX": "INBOX",
+            "SENT": "SENT",
+            "NO_MSGS": "No messages yet",
+            "SEND": "Send",
+            "CANCEL": "Cancel",
+            "SEND_MSG": "Send Message",
+            "REPLY": "Reply"
+
+        },
+        "DIALOG": {
+            "NEW_MSG": "New Message",
+            "TO": "to",
+            "TYPE_MSG": "Enter your message here.."
+
+        },
+        "MAIL": {
+            "VIEW": "View Message",
+            "CREATE": "Create Message",
+            "ALL_MSGS": "All Messages",
+            "_VIEW": "View",
+            "DELETE": "Are you sure you want to delete this message?",
+            "FROM": "From:"
+        }
 
     },
     "PROFILE": {

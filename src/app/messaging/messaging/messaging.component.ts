@@ -9,13 +9,15 @@ import { MatButtonModule } from '@angular/material';
 import { SingleMailComponent } from '../single-mail/single-mail.component';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService} from '@ngx-translate/core';
+
 declare const $: any;
 
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
   styleUrls: ['./messaging.component.scss'],
-  providers: [MessageService, AuthService, ToastrService]
+  providers: [MessageService, AuthService, ToastrService, TranslateService]
 })
 
 export class MessagingComponent implements OnInit {
@@ -55,6 +57,7 @@ export class MessagingComponent implements OnInit {
       self.getInbox();
       self.getSent();
       self.getContacts();
+      console.log(self.contacts);
     });
   }
 

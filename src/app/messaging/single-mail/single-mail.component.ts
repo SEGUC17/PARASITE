@@ -5,13 +5,14 @@ import {ActivatedRoute} from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
 import { OnDestroy } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 declare const $: any;
 
 @Component({
   selector: 'app-single-mail',
   templateUrl: './single-mail.component.html',
   styleUrls: ['./single-mail.component.scss'],
-  providers: [MessageService, AuthService]
+  providers: [MessageService, AuthService, TranslateService]
 })
 export class SingleMailComponent implements OnInit {
 
@@ -48,7 +49,7 @@ export class SingleMailComponent implements OnInit {
   Recipient: String = '';
 
   constructor(private messageService: MessageService, private authService: AuthService, private route: ActivatedRoute,
-    private toastrService: ToastrService) {}
+    private toastrService: ToastrService, private _TranslateService: TranslateService) {}
 
   ngOnInit() {
     const self = this;
