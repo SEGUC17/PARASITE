@@ -66,12 +66,11 @@ export class ContentEditComponent implements OnInit {
     private translate: TranslateService) {
     const self = this;
     this.authService.getUserData(['username']).subscribe(function (res) {
-      if (Array.isArray(res)) {
-        self.authService.setToken(null);
-        self.toasterService.error('Please sign in first', 'failure');
-        self.router.navigateByUrl('/auth/sign-in');
-        return;
-      }
+      return;
+    }, function (err) {
+      self.authService.setToken(null);
+      self.toasterService.error('Please sign in first', 'failure');
+      self.router.navigateByUrl('/auth/sign-in');
     });
   }
 
