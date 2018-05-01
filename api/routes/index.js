@@ -55,8 +55,6 @@ module.exports = function (passport) {
       if (err) {
         return next(err);
       } else if (!user) {
-        console.log('not user');
-
         return res.status(401).json({
           data: null,
           error: null,
@@ -74,8 +72,6 @@ module.exports = function (passport) {
       if (err) {
         return next(err);
       } else if (user) {
-        console.log('is user');
-        
         return res.status(403).json({
           data: null,
           error: null,

@@ -14,11 +14,15 @@ import { SharedModule } from './shared/shared.module';
 import { ToastrService, ToastrModule } from 'ngx-toastr';
 import { FacebookModule } from 'ngx-facebook';
 import { AppComponent } from './app.component';
-import { AuthService } from './auth/auth.service';
+import { AuthService} from './auth/auth.service';
 import { MessageService } from './messaging/messaging.service';
+import { ContactUsComponent} from './contact-us/contact-us.component';
+
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ContactUsComponent
   ],
   imports: [
     BrowserModule,
@@ -40,14 +44,15 @@ import { MessageService } from './messaging/messaging.service';
   ],
   providers: [
     AuthService,
-    MessageService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
     },
     RatingService,
-    ToastrService
+    ToastrService,
+    MessageService
+
   ],
   bootstrap: [AppComponent]
 })

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from '@angular/router';
 import { AppComponent } from './app.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 const routes = [
   {
@@ -19,6 +20,10 @@ const routes = [
   {
     path: 'auth',
     loadChildren: 'app/auth/auth.module#AuthModule'
+  },
+  {
+    path: 'contact-us',
+    component: ContactUsComponent
   },
   {
     path: 'content',
