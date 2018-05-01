@@ -86,6 +86,12 @@
             "SIGN_IN_CAPS": "تسجيل الدخول",
             "FORGOT_PASSWORD": "هل نسيتَ كلمة المرور؟",
             "JOIN_US": "انضم إلينا"
+        },
+        "FORGOT_PASSWORD": {
+            "FORGOT_PASSWORD": "هل نسيت كلمة المرور؟",
+            "EMAIL_PLACEHOLDER": "أدخل البريد الإلكتروني",
+            "SUBMIT": "اتمام",
+            "PROMPT": "أدخل بريدك الإلكتروني أدناه لإعادة تعيين كلمة المرور الخاصة بك"
         }
     },
     "CONTENT": {

@@ -86,6 +86,12 @@
             "SIGN_IN_CAPS": "SIGN IN",
             "FORGOT_PASSWORD": "Forgot Password?",
             "JOIN_US": "Join Us!"
+        },
+        "FORGOT_PASSWORD": {
+            "FORGOT_PASSWORD": "Forgot Password?",
+            "EMAIL_PLACEHOLDER": "Enter Email",
+            "SUBMIT": "SUBMIT",
+            "PROMPT": "Enter your e-mail address below to reset your password."
         }
     },
     "CONTENT": {
