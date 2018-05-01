@@ -51,8 +51,7 @@ module.exports.getActivities = function (req, res, next) {
         filter,
         {
             limit: 10,
-            page: pageN,
-            select: { discussion: 0 }
+            page: pageN
         },
         function (err, activities) {
             if (err) {
