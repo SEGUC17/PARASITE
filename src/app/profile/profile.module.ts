@@ -11,7 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from '../messaging/messaging.service';
 import { SharedModule } from '../shared/shared.module';
+import { DirectMessagingComponent } from './profile/direct-messaging/direct-messaging.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { ProfileImageUploaderComponent } from '../profile-image-uploader/profile-image-uploader.component';
+import { FileUploadModule } from 'ng2-file-upload';
+
 @NgModule({
   imports: [
     ProfileRoutingModule,
@@ -29,9 +33,10 @@ import { TranslateModule } from '@ngx-translate/core';
     MatButtonToggleModule,
     SharedModule,
     CommonModule,
-    TranslateModule.forChild()
+    TranslateModule.forChild(),
+    FileUploadModule
   ],
-  declarations: [ProfileComponent, ChildernComponent],
+  declarations: [ProfileComponent, ChildernComponent, DirectMessagingComponent, ProfileImageUploaderComponent],
   providers: [
     ProfileService, ToastrService, MessageService
   ]

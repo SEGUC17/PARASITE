@@ -4,7 +4,7 @@ import { ActivityService } from '../../activities/activity.service';
 import { Activity } from '../../activities/activity';
 import { apiUrl } from '../../variables';
 import { AuthService } from '../../auth/auth.service';
-import {MessageService} from "../../messaging/messaging.service";
+import { MessageService } from "../../messaging/messaging.service";
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 

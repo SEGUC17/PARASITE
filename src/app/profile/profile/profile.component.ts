@@ -6,9 +6,8 @@ import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
-import { DatePipe } from '@angular/common';
-
-
+import {  DatePipe } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 declare const swal: any;
 declare const $: any;
 @Component({
@@ -109,7 +108,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute, private messageService: MessageService,
-    private toastrService: ToastrService, private _datePipe: DatePipe) { }
+    private toastrService: ToastrService, private _datePipe: DatePipe, private translate: TranslateService ) { }
 
   ngOnInit() {
 
@@ -117,7 +116,8 @@ export class ProfileComponent implements OnInit {
       format: 'MM DD YYYY',
       time: false,
       clearButton: false,
-      weekStart: 1
+      weekStart: 1,
+      maxDate: new Date()
     });
 
 
@@ -341,15 +341,23 @@ let self =this;
     };
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
-    if (re.test(info.email)) {
+    console.log(new Date(info.birthdate) <= new Date());
+    if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
+      this.vUsername = info.username;
+      this.vFirstName = info.firstName;
+      this.vLastName = info.lastName;
+      this.vAddress = info.address;
+      this.vPhone = [info.phone];
+      this.vBirthdayView = this._datePipe.transform(info.birthdate, 'MM/dd/yyyy');;
+      this.vEmail = info.email;
       this._ProfileService.changeChildinfo(info).subscribe(function (res) {
         self.toastrService.success(res.msg);
         // alert(res.msg);
       });
 
     } else {
-      self.toastrService.error('Please enter a valid email address');
-      //      alert('Please enter a valid email address');
+      self.toastrService.error('Please enter a valid birthdate');
+//      alert('Please enter a valid email address');
     }
   }
 
@@ -367,15 +375,22 @@ let self =this;
     console.log(info);
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
-    if (re.test(info.email)) {
+    if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
+      this.username = info.username;
+      this.firstName = info.firstName;
+      this.lastName = info.lastName;
+      this.address = info.address;
+      this.phone = [info.phone];
+      this.birthdayView = this._datePipe.transform(info.birthdate, 'MM/dd/yyyy');;
+      this.email = info.email;
       this._ProfileService.ChangeInfo(this.id, info).subscribe(function (res) {
         self.toastrService.success(res.msg);
         // alert(res.msg);
       });
 
     } else {
-      self.toastrService.error('Please enter a valid email address');
-      //      alert('Please enter a valid email address');
+      self.toastrService.error('Please enter a valid birthdate');
+//      alert('Please enter a valid email address');
     }
   }
 
@@ -451,6 +466,7 @@ let self =this;
         url: url
       };
       // console.log('in vcC and its uploaded with url = '+ url);
+      this.avatar = upload.url;
       this._ProfileService.changeProfilePic(upload).subscribe((res) => {
         if (res.data) {
           this.toastrService.success('Profile picture changed successfully');
@@ -466,17 +482,17 @@ let self =this;
   }
 
   deleteStudyPlan(index): void {
-    let targetUser = this.currIsOwner ? this.username : this.vUsername;
-    this._ProfileService
-      .deleteStudyPlan(targetUser, this.studyPlans[index]._id)
-      .subscribe(res => {
-        if (res.err) {
-          this.toastrService.error(res.err);
-        } else if (res.msg) {
-          this.studyPlans.splice(index, 1);
-          this.toastrService.success(res.msg);
-        }
-      });
+    // let targetUser = this.currIsOwner ? this.username : this.vUsername;
+    // this._ProfileService
+    //   .deleteStudyPlan(targetUser, this.studyPlans[index]._id)
+    //   .subscribe(res => {
+    //     if (res.err) {
+    //       this.toastrService.error(res.err);
+    //     } else if (res.msg) {
+    //       this.studyPlans.splice(index, 1);
+    //       this.toastrService.success(res.msg);
+    //     }
+    //   });
   }
 
 }
