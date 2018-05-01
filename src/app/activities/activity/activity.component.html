@@ -2,21 +2,23 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>Activities
-          <small>Welcome to Activities</small>
+        <h2>{{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}
+          <small>{{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}</small>
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
-        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="canCreate" type="button" (click)="showCreateActivityForm()">
-                                                                                                                          <!--TODO: redirect to create Page-->
+        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="user.verified || user.isAdmin"
+          type="button" (click)="showCreateActivityForm()">
+          <!--TODO: redirect to create Page-->
           <i class="zmdi zmdi-plus"></i>
         </button>
+
         <ul class="breadcrumb float-md-right">
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">
               <i class="zmdi zmdi-home"></i>Dashboard</a>
           </li>
-          <li class="breadcrumb-item active">Activities</li>
+          <li class="breadcrumb-item active">{{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}</li>
         </ul>
       </div>
     </div>
@@ -27,50 +29,69 @@
         <div class="card single_post">
           <div class="header">
             <h2>
-              <strong>Latest</strong> Activity</h2>
+              <strong>{{ 'ACTIVITIES.LIST.LATEST_ACTIVITY' | translate }}</strong>
+            </h2>
           </div>
           <div class="body">
             <h2 class="m-t-0 m-b-5" style="color: #242424;">
-              <small><a style="color: #242424; max-width: 100%" routerLink="/activities/{{activity._id}}">{{activity.name}}</a></small>
+              <small>
+                <a style="color: #242424; max-width: 100%" routerLink="/activities/{{activity._id}}">{{activity.name}}</a>
+              </small>
             </h2>
 
-              <span class="col-md-9">
+            <span class="col-md-9">
 
-                <i class="zmdi zmdi-account col-blue" style="margin-right: 5px;"></i><span style="font-style: italic; color: #959595;">Posted By: {{activity.creator}}</span>
-              </span>
-              <span class="col-md-5">
-                <i class="zmdi zmdi-comment-text col-blue" style="margin-right: 5px;"></i><span style="margin-right: 3px; font-style: italic; color: #959595;">Comments: {{activity.discussion.length}}</span>
-              </span>
+              <i class="zmdi zmdi-account col-blue" style="margin-right: 5px;"></i>
+              <span style="font-style: italic; color: #959595;">{{ 'ACTIVITIES.LIST.POSTED_BY' | translate }} {{activity.creator}}</span>
+            </span>
+            <span class="col-md-5">
+              <i class="zmdi zmdi-comment-text col-blue" style="margin-right: 5px;"></i>
+              <span style="margin-right: 3px; font-style: italic; color: #959595;">{{ 'ACTIVITIES.LIST.COMMENTS' | translate }} {{activity.discussion.length}}</span>
+            </span>
           </div>
           <div class="body">
             <div class="img-post col-sm-13 m-b-15">
-              <div class="activity-image" style.background="url({{activity.image}})" ></div>
+              <div class="activity-image" style.background="url({{activity.image}})"></div>
 
             </div>
             <p>{{activity.description}}</p>
-            <a routerLink="/activities/{{activity._id}}" title="read more" class="btn btn-round btn-info">Read More</a>
+            <a routerLink="/activities/{{activity._id}}" title="read more" class="btn btn-round btn-info">{{ 'ACTIVITIES.LIST.READ_MORE' | translate }}</a>
           </div>
         </div>
       </div>
     </div>
+    <ul *ngIf="totalNumberOfPages > 1" class="pagination pagination-primary">
+      <li *ngIf="pageIndex>1" class="page-item">
+        <a class="page-link" (click)="getActivities(this.pageIndex - 1)">Previous</a>
+      </li>
+      <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
+        <a class="page-link" (click)="getActivities(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
+      </li>
+    
+    
+      <li *ngIf="pageIndex<totalNumberOfPages" class="page-item">
+        <a class="page-link" (click)="getActivities(this.pageIndex + 1)">Next</a>
+      </li>
+    </ul>
+
   </div>
 
 
   <!--<mat-paginator [length]="numberOfElements" [pageSize]="pageSize" [pageIndex]="pageIndex" (page)="pageEvent = getActivities($event)">-->
   <!--</mat-paginator>-->
   <!--<div id="creation" *ngIf="canCreate">-->
-    <!--<a class="btn btn-primary" href="{{createUrl}}">Create Activity</a>-->
+  <!--<a class="btn btn-primary" href="{{createUrl}}">Create Activity</a>-->
   <!--</div>-->
   <!--<div class="activities-container">-->
-    <!--<mat-card *ngFor="let activity of activities" class="activity-card">-->
-      <!--<a routerLink="/activities/{{activity._id}}">-->
-        <!--<h3 id="activities-header">{{ activity.name }}</h3>-->
-        <!--<img mat-card-lg-image [src]="activity.image" />-->
-      <!--</a>-->
-      <!--<p class="time">From: {{ activity.fromDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>-->
-      <!--<p class="time">To: {{ activity.toDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>-->
-      <!--<p class="price">{{ activity.price | currency: 'EGP'}}</p>-->
-    <!--</mat-card>-->
+  <!--<mat-card *ngFor="let activity of activities" class="activity-card">-->
+  <!--<a routerLink="/activities/{{activity._id}}">-->
+  <!--<h3 id="activities-header">{{ activity.name }}</h3>-->
+  <!--<img mat-card-lg-image [src]="activity.image" />-->
+  <!--</a>-->
+  <!--<p class="time">From: {{ activity.fromDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>-->
+  <!--<p class="time">To: {{ activity.toDateTime | date:'yyyy-MM-dd HH:mm:ss': 'locale'}}</p>-->
+  <!--<p class="price">{{ activity.price | currency: 'EGP'}}</p>-->
+  <!--</mat-card>-->
 
   <!--</div>-->
 
@@ -83,7 +104,7 @@
     </div>
 
     <div class="modal-footer" style="display: none;">
-      <button type="button" class="btn btn-default" id="btn11" data-dismiss="modal">Close</button>
+      <button type="button" class="btn btn-default" id="btn11" data-dismiss="modal">{{ 'ACTIITY.LIST.CLOSE' | translate }}</button>
     </div>
   </div>
 </div>
@@ -96,52 +117,52 @@
 
 <!--</div>-->
 <!--<div class="col-lg-5 col-md-6 col-sm-12">-->
-  <!--<button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="canCreate" type="button" (click)="showCreateActivityForm()">-->
-    <!--&lt;!&ndash;TODO: redirect to create Page&ndash;&gt;-->
-    <!--<i class="zmdi zmdi-plus"></i>-->
-  <!--</button>-->
-  <!--<ul class="breadcrumb float-md-right">-->
-    <!--<li class="breadcrumb-item">-->
-      <!--<a routerLink="/dashboard">-->
-        <!--<i class="zmdi zmdi-home"></i>Dashboard</a>-->
-    <!--</li>-->
-    <!--<li class="breadcrumb-item active">Activities</li>-->
-  <!--</ul>-->
+<!--<button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="canCreate" type="button" (click)="showCreateActivityForm()">-->
+<!--&lt;!&ndash;TODO: redirect to create Page&ndash;&gt;-->
+<!--<i class="zmdi zmdi-plus"></i>-->
+<!--</button>-->
+<!--<ul class="breadcrumb float-md-right">-->
+<!--<li class="breadcrumb-item">-->
+<!--<a routerLink="/dashboard">-->
+<!--<i class="zmdi zmdi-home"></i>Dashboard</a>-->
+<!--</li>-->
+<!--<li class="breadcrumb-item active">Activities</li>-->
+<!--</ul>-->
 <!--</div>-->
 <!--</div>-->
 <!--</div>-->
 <!--<div class="container-fluid">-->
-  <!--<div class="row clearfix">-->
-    <!--<div *ngFor="let activity of detailedActivities" class="col-lg-4 col-md-12">-->
-      <!--<div class="card single_post">-->
-        <!--<div class="header">-->
-          <!--<h2>-->
-            <!--<strong>Latest</strong> Activity</h2>-->
-        <!--</div>-->
-        <!--<div class="body">-->
-          <!--<h2 class="m-t-0 m-b-5" style="color: #242424;">-->
-            <!--<small><a style="color: #242424; max-width: 100%" routerLink="/activities/{{activity._id}}">{{activity.name}}</a></small>-->
-          <!--</h2>-->
+<!--<div class="row clearfix">-->
+<!--<div *ngFor="let activity of detailedActivities" class="col-lg-4 col-md-12">-->
+<!--<div class="card single_post">-->
+<!--<div class="header">-->
+<!--<h2>-->
+<!--<strong>Latest</strong> Activity</h2>-->
+<!--</div>-->
+<!--<div class="body">-->
+<!--<h2 class="m-t-0 m-b-5" style="color: #242424;">-->
+<!--<small><a style="color: #242424; max-width: 100%" routerLink="/activities/{{activity._id}}">{{activity.name}}</a></small>-->
+<!--</h2>-->
 
-          <!--<span class="col-md-9">-->
+<!--<span class="col-md-9">-->
 
-                <!--<i class="zmdi zmdi-account col-blue" style="margin-right: 5px;"></i><span style="font-style: italic; color: #959595;">Posted By: {{activity.creator}}</span>-->
-              <!--</span>-->
-          <!--<span class="col-md-5">-->
-                <!--<i class="zmdi zmdi-comment-text col-blue" style="margin-right: 5px;"></i><span style="margin-right: 3px; font-style: italic; color: #959595;">Comments: {{activity.discussion.length}}</span>-->
-              <!--</span>-->
-        <!--</div>-->
-        <!--<div class="body">-->
-          <!--<div class="img-post col-sm-13 m-b-15">-->
-            <!--<div class="activity-image" style.background="url({{activity.image}})" ></div>-->
+<!--<i class="zmdi zmdi-account col-blue" style="margin-right: 5px;"></i><span style="font-style: italic; color: #959595;">Posted By: {{activity.creator}}</span>-->
+<!--</span>-->
+<!--<span class="col-md-5">-->
+<!--<i class="zmdi zmdi-comment-text col-blue" style="margin-right: 5px;"></i><span style="margin-right: 3px; font-style: italic; color: #959595;">Comments: {{activity.discussion.length}}</span>-->
+<!--</span>-->
+<!--</div>-->
+<!--<div class="body">-->
+<!--<div class="img-post col-sm-13 m-b-15">-->
+<!--<div class="activity-image" style.background="url({{activity.image}})" ></div>-->
 
-          <!--</div>-->
-          <!--<p>{{activity.description}}</p>-->
-          <!--<a routerLink="/activities/{{activity._id}}" title="read more" class="btn btn-round btn-info">Read More</a>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
+<!--</div>-->
+<!--<p>{{activity.description}}</p>-->
+<!--<a routerLink="/activities/{{activity._id}}" title="read more" class="btn btn-round btn-info">Read More</a>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 <!--</div>-->
 
 
@@ -166,26 +187,7 @@
 <!--</section>-->
 
 <!--<div class="modal" id="createModal" tabindex="-1" role="dialog">-->
-  <!--<div class="modal-dialog modal-lg" role="document">-->
-    <!--<div>-->
-      <!--<app-activity-create></app-activity-create>-->
-    <!--</div>-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<!--<div class="modal-dialog modal-lg" role="document">-->
+<!--<div>-->
+<!--<app-activity-create></app-activity-create>-->
+<!--</div>-->

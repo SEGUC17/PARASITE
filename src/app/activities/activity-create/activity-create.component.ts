@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ImageUploaderComponent } from '../../image-uploader/image-uploader.component';
+import { ToastrService } from 'ngx-toastr';
+import { ENTER, COMMA, SPACE, BACKSPACE } from '@angular/cdk/keycodes';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
 import { ActivityComponent } from '../activity/activity.component';
-import { ToastrService } from 'ngx-toastr';
+
 declare const $: any;
 
 @Component({
@@ -16,44 +20,60 @@ export class ActivityCreateComponent implements OnInit {
     author: Wessam
   */
 
+  brInput: Boolean = false;
+  chipInput = '';
   public activity: ActivityCreate = {
     name: '',
     description: '',
-    price: 0,
+    price: null,
     fromDateN: null,
     toDateN: null,
     fromDateTime: null,
     toDateTime: null,
     image: null,
+    tags: [],
     discussion: []
   };
+  separatorKeysCodes = [ENTER, COMMA, SPACE, BACKSPACE];
 
   constructor(
     private router: Router,
     private activityService: ActivityService,
     private activityComponent: ActivityComponent,
-    private  toastrService: ToastrService
+    private translate: TranslateService,
+    private imageUploader: ImageUploaderComponent,
+    private toaster: ToastrService
   ) { }
 
   ngOnInit() {
   }
 
-  createActivity() {
+  createActivity(check: Boolean) {
     /*
       Creating a new activity after converting the dates to
       unix timestamp
 
       @author: Wessam
     */
+   if (!check) {
+     this.translate.get('ACTIVITIES.CREATE. ').subscribe(
+       res => this.toaster.error(res)
+     );
+   } else if (this.activity.toDateN <= this.activity.fromDateN) {
+     this.translate.get('ACTIVITIES.CREATE.DATE_ERROR').subscribe(
+       res => this.toaster.error(res)
+     );
+   } else {
     this.activity.fromDateTime = new Date(this.activity.fromDateN).getTime();
     this.activity.toDateTime = new Date(this.activity.toDateN).getTime();
     this.activityService.postActivities(this.activity).subscribe(
       res => {
-          console.log(res);
-          this.close();
-          this.router.navigate([`activities/${res.data._id}`]);
+        console.log(res);
+        this.close();
+        this.router.navigate([`activities/${res.data._id}`]);
       }
     );
+  }
   }
 
   close(): void {
@@ -62,19 +82,41 @@ export class ActivityCreateComponent implements OnInit {
   }
 
   uploaded(url: string) {
-
     if (url === 'imageFailedToUpload') {
-      this.toastrService.error('Image upload failed');
-    } else if (url === 'noFileToUpload') {
-      this.toastrService.error('Please select a photo');
+      this.translate.get('ACTIVITIES.CREATE.FAILED_TO_UPLOADs').subscribe(
+        res => this.toaster.error(res)
+      );
     } else {
       this.activity.image = url;
-      if (url !== null) {
-      this.toastrService.success('photo selected'); }
+    }
+    console.log(this.activity);
+  }
+
+  // Handle tag input on content edit
+  onTagInput(event: KeyboardEvent): void {
+    // IF the recorded key event is not a target one, ignore the event
+    if (!this.separatorKeysCodes.includes(event.keyCode)) {
+      return;
+    }
+
+    // Remove a tag on backspace
+    if (event.keyCode === BACKSPACE) {
+      if (this.chipInput) {
+        return;
       }
-      // TODO: handle image uploading success and use the url to retrieve the image later
+      this.activity.tags.splice(-1, 1);
+      return;
+    }
 
+    // Add tag
+    if ((this.chipInput || '').trim()) {
+      this.activity.tags.push(this.chipInput.trim());
+    }
 
+    // Reset the input value
+    if (this.chipInput) {
+      this.chipInput = '';
+    }
   }
 
 }
