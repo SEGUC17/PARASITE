@@ -10,6 +10,7 @@ var User = mongoose.model('User');
 var moment = require('moment');
 var Tag = mongoose.model('Tag');
 var Newsfeed = mongoose.model('Newsfeed');
+var newsfeedController = require('../controllers/NewsfeedController');
 
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
@@ -480,14 +481,16 @@ var handleAdminUpdate = function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            newsfeedController.updateContentPost(req.body);
 
             return res.status(200).json({
                 data: updatedContent,
                 err: null,
-                mesg: 'retrieved the content successfully'
+                msg: 'retrieved the content successfully'
             });
         }
     );
+
 };
 
 var handleNonAdminUpdate = function (req, res, next) {

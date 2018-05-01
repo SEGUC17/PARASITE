@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { NewsfeedService } from '../newsfeed.service';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-newsfeed',
   templateUrl: './newsfeed.component.html',
@@ -17,7 +17,8 @@ export class NewsfeedComponent implements OnInit {
   tags: any[];
   user: any;
   constructor(public router: Router,
-    private newsfeedService: NewsfeedService, private authService: AuthService) {
+    private newsfeedService: NewsfeedService, private authService: AuthService,
+    private translate: TranslateService) {
   }
 
   ngOnInit() {

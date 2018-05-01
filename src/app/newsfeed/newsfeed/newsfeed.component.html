@@ -2,17 +2,18 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>Newsfeed
-          <small>Welcome to Nawwar</small>
+        <h2>{{ 'NEWSFEED.NEWSFEED' | translate }}
+          <small>{{ 'NEWSFEED.WELCOME_TO_NAWWAR' | translate }}</small>
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
         <ul class="breadcrumb float-md-right">
           <li class="breadcrumb-item">
             <a routerLink="/">
-              <i class="zmdi zmdi-home"></i> Nawwar</a>
+              <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate}}
+            </a>
           </li>
-          <li class="breadcrumb-item active">Newsfeed</li>
+          <li class="breadcrumb-item active">{{ 'NEWSFEED.NEWSFEED' | translate }}</li>
         </ul>
       </div>
     </div>
@@ -27,14 +28,13 @@
               <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}">{{post.metadata.title}}</a>
             </h3>
             <ul class="meta">
-
               <li *ngIf="post.type=='a'">
                 <a href="/activities/{{post.contentID}}">
-                  <i class="zmdi zmdi-run col-blue"></i>Posted on {{post.metadata.activityDate | date}}</a>
+                  <i class="zmdi zmdi-run col-blue"></i>{{ 'NEWSFEED.POSTED_ON' | translate }} {{post.metadata.activityDate | date}}</a>
               </li>
               <li *ngIf="post.type=='c'">
                 <a href="/content/view/{{post.contentID}}">
-                  <i class="zmdi zmdi-book col-blue"></i>Posted on {{post.metadata.activityDate | date}}</a>
+                  <i class="zmdi zmdi-book col-blue"></i>{{ 'NEWSFEED.POSTED_ON' | translate }} {{post.metadata.activityDate | date}}</a>
               </li>
               <li>
                 <a href="/newsfeed">
@@ -47,20 +47,20 @@
               <img src={{post.metadata.image}} alt="Awesome Image" width="100%">
             </div>
             <div *ngIf="post.metadata.description" class="ql-editor preview text" [innerHTML]="post.metadata.description | safeHtml"></div>
-            <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}" title="read more" class="btn btn-round btn-info">Read More</a>
-            <a *ngIf="post.type=='a'" routerLink="/activities/{{post.contentID}}" title="read more" class="btn btn-round btn-info">Read More</a>
+            <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
+            <a *ngIf="post.type=='a'" routerLink="/activities/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
 
           </div>
         </div>
         <ul *ngIf="totalNumberOfPages>1" class="pagination pagination-primary">
           <li *ngIf="currentPageNumber>1" class="page-item">
-            <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">Previous</a>
+            <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">{{ 'NEWSFEED.PREVIOUS' | translate }}</a>
           </li>
           <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
             <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
           </li>
           <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
-            <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">Next</a>
+            <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">{{ 'NEWSFEED.NEXT' | translate }}</a>
           </li>
         </ul>
       </div>
@@ -68,13 +68,13 @@
         <div class="card">
           <div class="header">
             <h2>
-              <strong>Interests</strong>
+              <strong>{{ 'NEWSFEED.INTERESTS' | translate }}</strong>
             </h2>
           </div>
           <div class="body widget tag-clouds">
             <ul class="list-unstyled m-b-0">
               <li>
-                <a href="/newsfeed" class="tag badge badge-default">tag</a>
+                <a href="/newsfeed" class="tag badge badge-default">{{ 'NEWSFEED.TAG' | translate }}</a>
               </li>
             </ul>
           </div>
@@ -82,7 +82,7 @@
         <div class="card bg-dark">
           <div class="header">
             <h2>
-              <strong>Other Parents</strong>
+              <strong>{{ 'NEWSFEED.OTHER_PARENTS' | translate }}</strong>
             </h2>
           </div>
           <div class="body widget popular-post">
@@ -92,28 +92,30 @@
                   <div class="carousel-inner" role="listbox">
                     <div class="single_post carousel-item-active">
                       <a href="/search">
-                      <div class="img-post m-b-5">
-                        <img src="assets/images/newsfeed/connectToMore.png" alt="Awesome Image">
-                      </div>
-                        <i class="zmdi zmdi-accounts col-blue"></i>Connect to people</a>
+                        <div class="img-post m-b-5">
+                          <img src="assets/images/newsfeed/connectToMore.png" alt="Awesome Image">
+                        </div>
+                        <i class="zmdi zmdi-accounts col-blue"></i>
+                        <p class="m-b-0 col-white">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</p>
+                      </a>
                     </div>
                     <div class="single_post carousel-item" *ngFor="let person of people">
-                        <a href="/profile/{{person.username}}">
+                      <a href="/profile/{{person.username}}">
                         <div class="img-post m-b-5">
                           <img src={{person.avatar}} alt="Awesome Image">
                         </div>
-                          <p class="m-b-0 col-white">{{person.firstName}} {{person.lastName}}</p>
-                          <small class="text-muted">{{person.username}}</small>
-                        </a>
-                      </div>
+                        <p class="m-b-0 col-white">{{person.firstName}} {{person.lastName}}</p>
+                        <small class="text-muted">{{person.username}}</small>
+                      </a>
+                    </div>
                   </div>
                   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
+                    <span class="sr-only">{{ 'NEWSFEED.PREVIOUS' | translate }}</span>
                   </a>
                   <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
+                    <span class="sr-only">{{ 'NEWSFEED.NEXT' | translate }}</span>
                   </a>
                 </div>
               </div>
@@ -125,5 +127,4 @@
       </div>
     </div>
   </div>
-
 </section>

@@ -357,7 +357,7 @@ module.exports.respondContentRequest = function (req, res, next) {
                             console.log(errUsr);
                         }
                         // if not found return error
-                        if (!User) {
+                        if (!user) {
                             return res.status(404).json({
                                 data: null,
                                 err: 'User not found',

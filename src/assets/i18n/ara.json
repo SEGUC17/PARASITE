@@ -194,5 +194,17 @@
     },
     "LANDING":{
         
+    },
+    "NEWSFEED":{
+        "NEWSFEED": "اخر الأخبار",
+        "WELCOME_TO_NAWWAR": "اهلاً بكم فى نوٌر",
+        "POSTED_ON": "نشر فى",
+        "PREVIOUS": "السابق",
+        "NEXT": "التالى",
+        "INTERESTS": "الاهتمامات",
+        "TAG": "اشاره",
+        "OTHER_PARENTS": "اولياء الامور الاخرين",
+        "READ_MORE": "اقرأ المزيد",
+        "CONNECT_TO_MORE": "تواصل مع المزيد"
     }
 }

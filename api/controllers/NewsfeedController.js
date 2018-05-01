@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Newsfeed = mongoose.model('Newsfeed');
 var User = mongoose.model('User');
-
+var Tag = mongoose.model('Tag');
 module.exports.addToNewsfeed = function (data) {
     switch (data.type) {
         case 'a':
@@ -18,8 +18,31 @@ module.exports.addToNewsfeed = function (data) {
     }
 };
 
+module.exports.updateContentPost = function (content) {
+    Tag.findOne(
+        { 'name': content.category },
+        function (err, tag) {
+            if (tag && !err) {
+                Newsfeed.findOneAndUpdate(
+                    { contentID: content._id },
+                    {
+                        $set: {
+                            metadata: {
+                                activityDate: content.touchDate,
+                                description: content.body,
+                                image: content.image,
+                                title: content.title
+                            },
+                            tags: [tag]
+                        }
+                    }
+                );
+            }
+
+        }
+    );
+};
 module.exports.findRandomFive = function (req, res, next) {
-    console.log('here');
     User.findRandom.limit(5).exec(function (err, users) {
         if (err) {
             return next(err);

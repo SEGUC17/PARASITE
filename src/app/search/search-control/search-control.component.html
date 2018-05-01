@@ -1,4 +1,4 @@
-<section class="content search-control">
+<section class="content search-control" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
     <div class="block-header">
       <div class="row">
         <div class="col-lg-7 col-md-6 col-sm-12">
@@ -7,7 +7,7 @@
           </h2>
         </div>
         <div class="col-lg-5 col-md-6 col-sm-12">
-          <ul class="breadcrumb float-md-right">
+          <ul class="breadcrumb" [style.float]="translate.currentLang === 'ara'? 'left': 'right'">
             <li class="breadcrumb-item">
               <a routerLink="/dashboard">
                 <i class="zmdi zmdi-home"></i> {{'APP.NAWWAR'| translate}} </a>
@@ -75,7 +75,7 @@
           </div>
         </div>
       </div>
-      <span class="input-group-addon">
+      <span class="input-group-addon" style="padding:0px">
         <button class="btn btn-primary btn-round btn-sm" type="button" (click) = "removeTags()">
           <i class="zmdi zmdi-search"></i> {{'SEARCH.REMOVE_ALL_TAGS'|translate}}
         </button>

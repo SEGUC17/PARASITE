@@ -200,5 +200,17 @@
     },
     "LANDING":{
         
+    },
+    "NEWSFEED":{
+        "NEWSFEED": "Newsfeed",
+        "WELCOME_TO_NAWWAR": "Welcome to Nawwar",
+        "POSTED_ON": "Posted on",
+        "PREVIOUS": "Previous",
+        "NEXT": "Next",
+        "INTERESTS": "Interests",
+        "TAG": "tag",
+        "OTHER_PARENTS": "Other Parents",
+        "READ_MORE": "Read More",
+        "CONNECT_TO_MORE": "Connect to more"
     }
 }
