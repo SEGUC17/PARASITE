@@ -20,6 +20,8 @@ import { RequestDetailComponent } from './request-detail/request-detail.componen
 import { SharedModule } from '../shared/shared.module';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateModule } from '@ngx-translate/core';
+import { FileUploadModule } from 'ng2-file-upload';
+import { ImageUploaderComponent } from '../image-uploader/image-uploader.component';
 
 @NgModule({
   imports: [
@@ -28,6 +30,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MarketRoutingModule,
     MatDialogModule,
     SharedModule,
+    FileUploadModule,
     MatPaginatorModule,
     MatIconModule,
     MatButtonModule,
@@ -38,6 +41,6 @@ import { TranslateModule } from '@ngx-translate/core';
   providers: [ToastrService, MarketService, { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }],
   entryComponents: [MarketComponent, ProductDetailComponent, RequestDetailComponent],
-  declarations: [MarketComponent, ProductDetailComponent, CreateProductComponent, RequestDetailComponent]
+  declarations: [MarketComponent, ProductDetailComponent, CreateProductComponent, RequestDetailComponent, ImageUploaderComponent]
 })
 export class MarketModule { }

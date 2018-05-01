@@ -90,6 +90,15 @@ export class PsychologistComponent implements OnInit {
   // show a pop-up for non-Admin users to enter his ID when attempting to edit some information
   showEditPrompt(i): void {
     const self = this;
+    let title_ = 'Are you sure this is you!';
+    let body_ = 'If you want to edit this information please enter your ID here';
+    let place_holder_ = 'Request ID...';
+
+    if (this.translate.currentLang === 'ara') {
+      title_ = 'متأكد ان هذه بياناتك ؟';
+      body_ = 'لو كنت تريد تعديل بياناتك ادخل رقمك التسلسلي';
+      place_holder_ = 'رقمك التسلسلي...';
+    }
 
     if (this.admin) {
       // in case of an admin editing..edit directly without request the ID
@@ -97,13 +106,13 @@ export class PsychologistComponent implements OnInit {
     } else {
       // for normal users show swal with input field to enter ID
       swal({
-        title: 'Are you sure this is you!',
-        text: 'If you want to edit this information please enter your ID here',
+        title: title_,
+        text: body_,
         type: 'input',
         showCancelButton: true,
         closeOnConfirm: false,
         animation: 'slide-from-top',
-        inputPlaceholder: 'Request ID..'
+        inputPlaceholder: place_holder_
       }, function (inputValue) {
         if (inputValue === false) { return false; }
         if (!(inputValue === self.psychologists[i]._id)) {
@@ -120,29 +129,50 @@ export class PsychologistComponent implements OnInit {
   // show a pop-up for non-Admin users to enter his ID when attempting to delete some information
   showDeletePrompt(i): void {
     const self = this;
+    let title_ = 'Are you sure this is you!';
+    let body_ = 'If you want to delete this information please enter your ID here';
+    let confirm_title_ = 'Are you sure you want to delete your information?';
+    let place_holder_ = 'Request ID...';
+    let error_ = 'The Id you entered does\'t match with this information, try again';
+
+    if (this.translate.currentLang === 'ara') {
+      title_ = 'متأكد ان هذه بياناتك ؟';
+      body_ = 'لو كنت تريد مسح بياناتك ادخل رقمك التسلسلي';
+      place_holder_ = 'رقمك التسلسلي...';
+      error_ = 'الرقم الذي ادخلته غير مطابق للبيانات التي اخترتها، حاول مجددا';
+      confirm_title_ = 'متاكد انك تريد مسح البيانات ؟';
+    }
+
     if (this.admin) {
       // in case of an admin editing..delete directly without request the ID
-      self.deletePsychologist(i);
+      swal({
+        type: 'warning',
+        title: confirm_title_,
+        showCancelButton: true,
+      }, function () {
+        // close alert and delete the data he's deleting
+        self.deletePsychologist(i);
+      });
     } else {
       // for normal users show swal with input field to enter ID
       swal({
-        title: 'Are you sure this is you!',
-        text: 'If you want to delete this information please enter your ID here',
+        title: title_,
+        text: body_,
         type: 'input',
         showCancelButton: true,
         closeOnConfirm: false,
         animation: 'slide-from-top',
-        inputPlaceholder: 'Request ID..'
+        inputPlaceholder: place_holder_
       }, function (inputValue) {
         if (inputValue === false) { return false; }
         if (!(inputValue === self.psychologists[i]._id)) {
           // user entered incorrect ID
-          swal.showInputError('The Id you entered does\'t match with this information, try again'); return false;
+          swal.showInputError(error_); return false;
         } else {
           // ID is correct confirm deletion
           swal({
             type: 'warning',
-            title: 'Are you sure you want to delete your information?',
+            title: confirm_title_,
             showCancelButton: true,
           }, function () {
             // close alert and delete the data he's deleting

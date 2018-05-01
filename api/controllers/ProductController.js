@@ -377,12 +377,12 @@ module.exports.deleteProduct = function (req, res, next) {
                 err: null,
                 msg: 'Product was deleted successfully.'
             });
-            // TODO Notify user
+            // TODO: Notify user
 
             // When user's product is deleted
         });
     } else {
-        // if user not admin so is not allowed to delete except his own product
+        // Otherwise, an Unauthorised response is sent
         res.status(403).json({
             data: null,
             err: 'You are not an admin to do that.',

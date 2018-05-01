@@ -28,7 +28,7 @@ export class ProductDetailComponent {
     let self = this;
     self.oldData = data.product;
     self.product = data.product;
-    const userDataColumns = ['username'];
+    const userDataColumns = ['username', 'isAdmin'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.user = res.data;
     });
@@ -71,29 +71,26 @@ export class ProductDetailComponent {
 
   deleteProduct(): void {
     let self = this;
-    const userDataColumns = ['isAdmin'];
+    const userDataColumns = ['isAdmin', 'username'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
-      self.user = res.data;
+      self.user.isAdmin = res.data.isAdmin;
+      self.user.username = res.data.username;
       if (self.user.isAdmin || self.user.username === self.product.seller) {
         const req = {
           product: {
             _id: self.product._id,
-            acquiringType: self.product.acquiringType,
-            createdAt: self.product.createdAt,
-            description: self.product.description,
-            image: self.product.image,
-            name: self.product.name,
-            price: self.formInput.price,
-            rentPeriod: self.product.rentPeriod,
             seller: self.product.seller
           }
         };
+        let _this = self;
         self.marketService.deleteProduct(req).subscribe(function (res1) {
-          if (res1.err == null) {
-            console.log(res1.err);
+          if (res1.err) {
+            _this.toasterService.error(res1.err);
+          } else {
+            _this.toasterService.success(res1.msg);
+            _this.dialogRef.close();
           }
         });
-        self.dialogRef.close();
       }
     });
     // check if user is admin so he can delete any product

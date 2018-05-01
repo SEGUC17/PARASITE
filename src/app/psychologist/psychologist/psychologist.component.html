@@ -1,19 +1,18 @@
 <section class="content blog-page" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-  <div class="block-header">
+  <div class="block-header" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
     <div class="row">
-      <div class="col-lg-7 col-md-5 col-8">
+      <div class="col-lg-7 col-md-5 col-8" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
         <h2 style="font-size:25px" [align]="translate.currentLang === 'ara'? 'right': null" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
           <i class="material-icons" id="iconn" style="margin-left:3px" [style.float]="translate.currentLang === 'ara'? 'right': null">people</i>
           {{ 'PSYCHOLOGIST.TITLE.VERIFIED_PSYCHS' | translate }}
           <small>{{ 'PSYCHOLOGIST.TITLE.SUB' | translate }}</small>
         </h2>
       </div>
-      <div class="col-lg-5 col-md-6 col-sm-12">
+      <div class="col-lg-5 col-md-6 col-sm-12" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
         <button id="btnn" class="btn btn-primary btn-round btn-icon hidden-sm-down float-right m-l-10" type="button" (click)="addRequestForm()">
           <i class="zmdi zmdi-plus"></i>
         </button>
-        <ul class="breadcrumb float-md-right" [dir]="translate.currentLang === 'ara'? 'rtl': null"
-        [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+        <ul class="breadcrumb float-md-right" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">
               <i class="zmdi zmdi-home" style="margin-left:3px"></i>{{ 'PSYCHOLOGIST.TITLE.NAWWAR' | translate }}</a>
@@ -23,7 +22,7 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()"
+  <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
     [scrollWindow]="false">
     <div class="row">
       <div class="container-fluid">
@@ -33,7 +32,7 @@
               <div class="card single_post clearfix js-sweetalert" style="margin-bottom: 5px">
                 <div class="header">
                   <span >
-                  <h2 style="font-size:25px" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [align]="translate.currentLang === 'ara'? 'right': null" >
+                  <h2 style="font-size:25px" [align]="translate.currentLang === 'ara'? 'right': null">
                     <strong>{{psych.firstName}} {{psych.lastName}}</strong>
                   </h2>
                   </span>
@@ -43,7 +42,7 @@
                         aria-expanded="false">
                         <i class="zmdi zmdi-more"></i>
                       </a>
-                      <ul class="dropdown-menu dropdown-menu-right" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >
+                      <ul class="dropdown-menu dropdown-menu-right" >
                         <li>
                           <a [routerLink]="" (click)="showEditPrompt(i)">{{ 'PSYCHOLOGIST.INFO.EDIT' | translate }}</a>
                         </li>
@@ -53,10 +52,10 @@
                       </ul>
                   </ul>
                 </div>
-                <div class="body" style="padding-top:0px" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                <div class="body" style="padding-top:0px">
                   <div class="body text-secondary" style="font-size:15px" dir="auto">
                     <div class="row">
-                      <i class="zmdi zmdi-local-phone" style="margin-right:3%"> </i>
+                      <i class="zmdi zmdi-local-phone" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  style="margin-right:3%"> </i>
                       <span>
                         <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.PHONE' | translate }}</strong> {{psych.phone}}</span>
                     </div>
@@ -98,7 +97,7 @@
           </div>
           <div class="col-lg-3 col-md-12 right-box">
             <div class="card">
-              <div class="body search" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+              <div class="body search">
                 <div>
                 <div class="input-group m-b-0">
                   <input type="text" class="form-control" [style.text-align]="translate.currentLang === 'ara'? 'right': null" 
@@ -122,7 +121,7 @@
                   <div class="radio" *ngFor="let s of sorts" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                     <input  id="sort_{{s}}" style="margin-right: 3px" (click)="applySort(s)" [value]='s' type="radio" name="sort_{{S}}" [(ngModel)]="sort">
                     <label for="sort_{{s}}">
-                       <p  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"> {{ 'PSYCHOLOGIST.FILTERS.' + s.toUpperCase() | translate }} </p>
+                       <p  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.padding-right]="translate.currentLang === 'ara'? '20px': null"> {{ 'PSYCHOLOGIST.FILTERS.' + s.toUpperCase() | translate }} </p>
                     </label>
                   </div>
                 </div>

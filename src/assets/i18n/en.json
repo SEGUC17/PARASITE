@@ -34,8 +34,8 @@
         "POSTED_BY": "Posted by :",
         "PREV": "Previous",
         "NEXT": "Next"
-    },
-    "DETAIL": {
+      },
+      "DETAIL": {
         "WELCOME_MESSAGE": "Welcome to the activity",
         "FROM": "from",
         "TO": "to",
@@ -45,8 +45,8 @@
         "DESCRIPTION": "Description",
         "WRITE_COMMENT": "leave a comment...",
         "BOOK_SUCCESS": "Booked successfully"
-    },
-    "EDIT": {
+      },
+      "EDIT": {
         "EDIT_ACTIVITY": "Edit Activity",
         "ACTIVITY_NAME": "Name",
         "START_DATE": "Start date",
@@ -61,13 +61,13 @@
         "PRICE_PLACEHOLDER": "Price",
         "DESCRIPTION_PLACEHOLDER": "Description",
         "ACTIVITY_IMAGE": "Change activity image "
-    },
-    "REVIEW": {
+      },
+      "REVIEW": {
         "ACCEPT": "Activitiy accepted successfully",
         "REJECT": "Activity rejected successfully",
         "ACCEPT_BTN": "Accept",
         "REJECT_BTN": "Reject"
-    }
+      }
     },
     "ADMIN": {
         "VIEW_REPORTS": {
@@ -298,69 +298,70 @@
         }
     },
     "MESSAGING": {},
+    
     "PROFILE": {
         "CHILDREN": {
-          "UNLINK": "Unlink",
-          "AGE": "Age",
-          "LEARNING_SCORE": "Learning Score",
-          "POINTS": "Points"
+        "UNLINK": "Unlink",
+        "AGE": "Age",
+        "LEARNING_SCORE": "Learning Score",
+        "POINTS": "Points"
         },
         "PROFILE": {
-          "NAWWAR": "Nawwar",
-          "DASHBOARD": "Dashboard",
-          "MY_PROFILE": "Profile",
-          "MESSAGE": "Message",
-          "CHILDREN": "Children",
-          "STUDY_PLANS": "Study Plans",
-          "SETTINGS": "Settings",
-          "ABOUT": "About",
-          "ADD-AS-PARENT": "Add As A Parent",
-          "MAKE_INDEPENDENT": "Make Independent",
-          "BE_VERIFIED_CONTRIBUTOR": "Be A Verified Contributor",
-          "CREATE_CHILD_ACCOUNT": "Create A Child Account",
-          "UNLINK_MY_PARENT": "Unlink My Parent",
-          "LINK_TO_CHILD": "Link To My Child",
-          "EMAIL": "Email address:",
-          "PHONE": "Phone:",
-          "BIRTHDATE": "Birth Date:",
-          "AGE": "Age:",
-          "MY_CHILE": "Child",
-          "CHILD_INFO": "Info",
-          "PERSONAL": "Personal",
-          "MY_INFO": "Info",
-          "SECURITY": "Security",
-          "CHANGE_PASSWORD": "Change Password",
-          "CPASSWORD": "Your Current Password",
-          "NPASSWORD": "New Password",
-          "CNPASSWORD": "Confirm New Password",
-          "FIRST_NAME": "First Name",
-          "LAST_NAME": "Last Name",
-          "USERNAME": "Username",
-          "EDIT_EMAIL": "Email",
-          "ADDRESS": "Address",
-          "EDIT_BD": "Birthdate",
-          "EDIT_PHONE": "Phone",
-          "SAVE_CHANGES": "Save Changes",
-          "MESSAGES_BLOCK": "Messages Block",
-          "BLOCK_LIST": "List",
-          "CREATE_STUDY_PALN": "Create A New Study Plan",
-          "PROFILE_PIC": "Profile picture upload",
-          "CANCEL": "Cancel",
-          "DELETE_EVENT": "Delete Event",
-          "DELE_EVENT_CONF": "Are you sure you want to delete this event?",
-          "DELETE": "Delete",
-          "ASSIGNED": "Assigned",
-          "VIEW": "View",
-          "UNBLOCK": "Unblock",
-          "REPORT": "Report"
+        "NAWWAR": "Nawwar",
+        "DASHBOARD": "Dashboard",
+        "MY_PROFILE": "Profile",
+        "MESSAGE": "Message",
+        "CHILDREN": "Children",
+        "STUDY_PLANS": "Study Plans",
+        "SETTINGS": "Settings",
+        "ABOUT": "About",
+        "ADD-AS-PARENT": "Add As A Parent",
+        "MAKE_INDEPENDENT": "Make Independent",
+        "BE_VERIFIED_CONTRIBUTOR": "Be A Verified Contributor",
+        "CREATE_CHILD_ACCOUNT": "Create A Child Account",
+        "UNLINK_MY_PARENT": "Unlink My Parent",
+        "LINK_TO_CHILD": "Link To My Child",
+        "EMAIL": "Email address:",
+        "PHONE": "Phone:",
+        "BIRTHDATE": "Birth Date:",
+        "AGE": "Age:",
+        "MY_CHILE": "Child",
+        "CHILD_INFO": "Info",
+        "PERSONAL": "Personal",
+        "MY_INFO": "Info",
+        "SECURITY": "Security",
+        "CHANGE_PASSWORD": "Change Password",
+        "CPASSWORD": "Your Current Password",
+        "NPASSWORD": "New Password",
+        "CNPASSWORD": "Confirm New Password",
+        "FIRST_NAME": "First Name",
+        "LAST_NAME": "Last Name",
+        "USERNAME": "Username",
+        "EDIT_EMAIL": "Email",
+        "ADDRESS": "Address",
+        "EDIT_BD": "Birthdate",
+        "EDIT_PHONE": "Phone",
+        "SAVE_CHANGES": "Save Changes",
+        "MESSAGES_BLOCK": "Messages Block",
+        "BLOCK_LIST": "List",
+        "CREATE_STUDY_PALN": "Create A New Study Plan",
+        "PROFILE_PIC": "Profile picture upload",
+        "CANCEL": "Cancel",
+        "DELETE_EVENT": "Delete Event",
+        "DELE_EVENT_CONF": "Are you sure you want to delete this event?",
+        "DELETE": "Delete",
+        "ASSIGNED": "Assigned",
+        "VIEW": "View",
+        "UNBLOCK": "Unblock",
+        "REPORT": "Report"
         },
         "DIRECT_MSG": {
-          "TO": "To:",
-          "SEND": "SEND",
-          "MSG": "Enter Your Message Here"
+        "TO": "To:",
+        "SEND": "SEND",
+        "MSG": "Enter Your Message Here"
         }
-    
-      },
+
+    },
     "PSYCHOLOGIST": {
         "TITLE": {
             "VERIFIED_PSYCHS": "Psychologists",

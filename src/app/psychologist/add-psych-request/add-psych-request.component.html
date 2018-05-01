@@ -1,7 +1,7 @@
-<div class="container-fluid">
-	<div class="col-lg-12">
-		<div class="card" style="height:max-content; width:100%">
-			<div class="header">
+<div class="container-fluid" style="margin:0px; padding:0px">
+	<div class="col-lg-12" style="margin:0px; padding:0px">
+		<div class="card" style="height:max-content; width:100%; margin:0px; padding:0px">
+			<div class="header" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
 				<ul class="header-dropdown">
 					<li class="remove">
 						<a role="button" class="boxs-close" (click)="close()" ><i class="zmdi zmdi-close"></i></a>
@@ -9,54 +9,54 @@
 				</ul>
 			</div>
 			<div align="left">
-				<div class="body">
-					<h3 class="text-primary" style="color:primary">Contact Information</h3>
+				<div class="body" [align]="translate.currentLang === 'ara'? 'right': null" dir="auto">
+					<h3 class="text-primary" style="color:primary">{{ 'PSYCHOLOGIST.POPUP.TITLE' | translate }}</h3>
 					<fieldset>
 						<div class="form-group form-float">
-							<input type="text" class="form-control" placeholder="First Name *" name="firstName" id="psychFirstName" 
+							<input type="text" class="form-control" placeholder="{{ 'PSYCHOLOGIST.POPUP.F_NAME' | translate }}" name="firstName" id="psychFirstName" 
 							[formControl]="firstNameFormControl" [(ngModel)]="value" required>
 						</div>
 						<div class="form-group form-float">
-								<input type="text" class="form-control" placeholder="Last Name *" name="lastName" id="psychLastName" 
+								<input type="text" class="form-control" placeholder="{{ 'PSYCHOLOGIST.POPUP.L_NAME' | translate }}" name="lastName" id="psychLastName" 
 								[formControl]="lastNameFormControl" [(ngModel)]="value1" required>
 						</div>
 						<div class="form-group form-float">
-							<input type="text" class="form-control" placeholder="Phone Number"  id="psychPhoneNumber" name="confirm" 
+							<input type="text" class="form-control" placeholder="{{ 'PSYCHOLOGIST.INFO.PHONE' | translate }}"  id="psychPhoneNumber" name="confirm" 
 							[formControl]="phoneFormControl" [(ngModel)]="value2">
 						</div>
 						<div class="form-group form-float">
-						  <input type="email" class="form-control required" placeholder="Email *" name="email"
+						  <input type="email" class="form-control required" placeholder="{{ 'PSYCHOLOGIST.POPUP.EMAIL' | translate }}" name="email"
 						  [formControl]="emailFormControl" required>
 						</div>
 						<div class="row">
 							<div class="col-sm-6">
-								<mat-select class="form-control" placeholder="Days Off" [formControl]="daysOff" multiple >
-									<mat-option *ngFor="let day of daysOfWeek" [value]="day">{{day}}</mat-option>
+								<mat-select class="form-control" placeholder="{{ 'PSYCHOLOGIST.INFO.DAYSOFF' | translate }}" [formControl]="daysOff" multiple >
+									<mat-option *ngFor="let day of daysOfWeek" [value]="day">{{ 'PSYCHOLOGIST.DAYS.' + day.toUpperCase() | translate }}</mat-option>
 								</mat-select>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group form-float">
-									<input type="number" class="form-control" placeholder="Maximum Price Range:" id="psychPriceRange" 
+									<input type="number" class="form-control" placeholder="{{ 'PSYCHOLOGIST.INFO.PRICE' | translate }}" id="psychPriceRange" 
 									[formControl]="priceFormControl" [(ngModel)]="value5">
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-control">
-								<textarea rows="2" maxlength="120" class="form-control no-resize" placeholder="Address..."
+								<textarea rows="2" maxlength="120" class="form-control no-resize" placeholder="{{ 'PSYCHOLOGIST.POPUP.ADD' | translate }}"
 								id="psychAddress" [formControl]="addFormControl" [(ngModel)]="value3" style="font-size:15px"></textarea>
 							</div>
 						</div>
 					</fieldset>
-					<span> <small> Required fields *</small></span>
-					<div align="right">
-						<button class="btn btn-primary hidden-sm-down float-right m-l-10" id="btn" (click)="submitReq()">Submit</button>
+					<span> <small>{{ 'PSYCHOLOGIST.POPUP.REQUIRED' | translate }}</small></span>
+					<div>
+						<button [style.float]="translate.currentLang === 'ara'? 'left': 'right'" class="btn btn-primary hidden-sm-down m-l-10" id="btn" (click)="submitReq()">{{ 'PSYCHOLOGIST.POPUP.SUBMIT' | translate }}</button>
 					</div>
 				</div>
 				<hr>
-				<div class="col-md-12">
-					<h5>Note</h5>
-					<p>If our admins accepted your request your contact Information will be added to our psychologists address book and an email with an ID will be sent to you, with this ID only you can later edit or delete your informatio.</p>
+				<div class="col-md-12" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
+					<h5 dir="auto">{{ 'PSYCHOLOGIST.POPUP.NOTE' | translate }}</h5>
+					<p dir="auto">{{ 'PSYCHOLOGIST.POPUP.NOTE_BODY' | translate }}</p>
 				</div>
 			</div>
 		</div>
