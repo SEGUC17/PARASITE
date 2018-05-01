@@ -16,7 +16,9 @@
             "LATEST_ACTIVITY": "Latest Activity",
             "WELCOME_MESSAGE": "Welcome to activities",
             "READ_MORE": "Read more..",
-            "CLOSE": "Close"
+            "CLOSE": "Close",
+            "COMMENTS": "Comments :",
+            "POSTED_BY": "Posted by :"
         },
         "DETAIL": {
             "WELCOME_MESSAGE": "Welcome to the activity",
