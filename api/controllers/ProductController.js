@@ -3,11 +3,8 @@
 var mongoose = require('mongoose');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
-<<<<<<< HEAD
-=======
 var User = mongoose.model('User');
 var moment = require('moment');
->>>>>>> activities
 
 var limits = function (toFind) {
 
