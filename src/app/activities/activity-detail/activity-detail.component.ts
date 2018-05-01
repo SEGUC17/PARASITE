@@ -81,7 +81,7 @@ export class ActivityDetailComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private translate: TranslateService,
-    private toastrService: ToastrService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {

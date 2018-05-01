@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { ImageUploaderComponent } from '../../image-uploader/image-uploader.component';
+import { ToastrService } from 'ngx-toastr';
 
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
 import { ActivityComponent } from '../activity/activity.component';
-import { ToastrService } from 'ngx-toastr';
+
 declare const $: any;
 
 @Component({
@@ -34,8 +36,9 @@ export class ActivityCreateComponent implements OnInit {
     private router: Router,
     private activityService: ActivityService,
     private activityComponent: ActivityComponent,
-    private toaster: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private imageUploader: ImageUploaderComponent,
+    private toaster: ToastrService
   ) { }
 
   ngOnInit() {
@@ -57,9 +60,9 @@ export class ActivityCreateComponent implements OnInit {
     this.activity.toDateTime = new Date(this.activity.toDateN).getTime();
     this.activityService.postActivities(this.activity).subscribe(
       res => {
-          console.log(res);
-          this.close();
-          this.router.navigate([`activities/${res.data._id}`]);
+        console.log(res);
+        this.close();
+        this.router.navigate([`activities/${res.data._id}`]);
       }
     );
   }
@@ -68,6 +71,17 @@ export class ActivityCreateComponent implements OnInit {
   close(): void {
     /* close dialog */
     this.activityComponent.closeModal();
+  }
+
+  uploaded(url: string) {
+    if (url === 'imageFailedToUpload') {
+      this.translate.get('ACTIVITIES.CREATE.FAILED_TO_UPLOADs').subscribe(
+        res => this.toaster.error(res)
+      );
+    } else {
+      this.activity.image = url;
+    }
+    console.log(this.activity);
   }
 
 }
