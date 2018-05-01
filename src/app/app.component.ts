@@ -369,8 +369,10 @@ export class AppComponent implements OnInit {
   changeLanguage(): void {
     if (this.translate.currentLang === 'en') {
       this.translate.use('ara');
+      $('body').addClass('rtl');
     } else {
       this.translate.use('en');
+      $('body').removeClass('rtl');
     }
 
   }

@@ -314,8 +314,8 @@
                     <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currCanBeParent && currIsOwner" routerLink= "/auth/child-sign-up">{{'PROFILE.PROFILE.CREATE_CHILD_ACCOUNT' | translate}}</button>
                     <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge"
                       (click)="UnlinkMyself()">{{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}}</button>
-                    <span class="dropdown">
-                      <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
+                    <span class="dropdown" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                      <button class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
                         <span>{{'PROFILE.PROFILE.LINK_TO_CHILD' | translate}}</span>
                     </button>
                         <!-- class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" -->
@@ -625,7 +625,7 @@
 <div class="modal fade" id="directMessageModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-body">
+        <div class="modal-body"[style.text-align]="translate.currentLang === 'ara'? 'right': null">
           <app-direct-messaging [receipient] = "vUsername"></app-direct-messaging>
         </div>
       </div>

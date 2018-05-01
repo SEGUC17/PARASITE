@@ -1,4 +1,4 @@
-  <label><strong>{{'PROFILE.DIRECT_MSG.TO' | translate}}</strong></label>
+  <label [style.text-align]="translate.currentLang === 'ara'? 'right': null"><strong>{{'PROFILE.DIRECT_MSG.TO' | translate}}</strong></label>
   <span class="badge bg-cyan">{{gazar}}</span>
   <div class="form-group form-float">
       <textarea #textarea class="form-control" placeholder="{{'PROFILE.DIRECT_MSG.MSG' | translate }}" style="height:350px;" [(ngModel)]="Body"></textarea>
