@@ -20,6 +20,44 @@ var calendarEventSchema = mongoose.model('CalendarEvent').schema;
 var studyPlanSchema = mongoose.model('StudyPlan').schema;
 // -------------------------- End of "Variables Dependancies" ------------ //
 
+var notificationSchema = mongoose.Schema({
+    body: {
+        required: true,
+        type: String
+    },
+    date: {
+        default: Date.now,
+        type: Date
+    },
+    isRead: {
+        default: false,
+        type: Boolean
+    },
+    itemId: {
+        trim: true,
+        type: String
+    },
+    itemUsername: {
+        trim: true,
+        type: String
+    },
+    type: {
+        enum:
+            [
+                'activity',
+                'content',
+                'contributor',
+                'discussion content',
+                'discussion activity',
+                'message',
+                'product',
+                'study plan',
+                'link'
+            ],
+        required: true,
+        type: String
+    }
+});
 
 // -------------------------- Schemas ------------------------------------ //
 var userSchema = mongoose.Schema({
@@ -48,12 +86,12 @@ var userSchema = mongoose.Schema({
         type: Number
     },
     educationLevel: {
-      default: '',
-      type: String
+        default: '',
+        type: String
     },
     educationSystem: {
-      default: '',
-      type: String
+        default: '',
+        type: String
     },
     email: {
         lowercase: true,
@@ -120,6 +158,12 @@ var userSchema = mongoose.Schema({
         default: 0,
         type: Number
     },
+    notifications: {
+        default: [],
+        type: [notificationSchema]
+    },
+    //To-do : put max length
+
     password: String,
     phone: {
         match: REGEX.PHONE_REGEX,
@@ -189,3 +233,4 @@ userSchema.methods.comparePasswords = function (password, next) {
 userSchema.plugin(mongoosePaginate);
 module.exports = mongoose.model('User', userSchema, 'users');
 // -------------------------- End of "Models" ---------------------------- //
+

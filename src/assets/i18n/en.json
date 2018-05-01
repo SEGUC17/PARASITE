@@ -4,7 +4,23 @@
         "CURRENT_LANGUAGE": "English"
     },
     "ACTIVITIES": {
-
+        "EDIT":{
+            "EDIT_ACTIVITY": "Edit Activity",
+            "ACTIVITY_NAME": "Name",
+            "START_DATE":"Start date",
+            "END_DATE":"End date",
+            "PRICE":"Price",
+            "DESCRIPTION":"Description",
+            "CANCEL":"Cancel",
+            "SAVE_CHANGES":"Save Changes",
+            "ACTIVITY_NAME_PLACEHOLDER": "ACtivity Name",
+            "START_DATE_PLACEHOLDER":"Start date",
+            "END_DATE_PLACEHOLDER":"End date",
+            "PRICE_PLACEHOLDER":"Price",
+            "DESCRIPTION_PLACEHOLDER":"Description",
+            "ACTIVITY_IMAGE":"Change activity image "
+            
+        }
     },
     "ADMIN": {
         "ADMIN_CONTROL": {
@@ -192,7 +208,13 @@
     "MESSAGING": {
 
     },
-    "PROFILE": {
+    "PROFILE": { 
+                "CHILDREN":{    "UNLINK":"Unlink",
+                                "AGE":"Age" ,
+                                "LEARNING_SCORE":"Learning Score",
+                                "POINTS":"Points"
+                    
+                                }
 
     },
     "PSYCHOLOGIST": {
@@ -203,5 +225,8 @@
     },
     "SEARCH": {
 
+    },
+    "LANDING":{
+        
     }
 }
