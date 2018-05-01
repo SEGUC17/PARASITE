@@ -129,21 +129,28 @@ export class SingleMailComponent implements OnInit {
         'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
       this.messageService.send(self.msg)
       .subscribe(function(res) {
-        self.toastrService.success('Message was sent!');
+        this._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
+          self.toastrService.success(translation);
+
+        });
       });
     }// end if
 
     if (this.Body === '') {
       this.allisWell = false;
-      this.toastrService.warning('You can\'t send an empty message.');
+      this._TranslateService.get('MESSAGING.TOASTR.EMPTY_MSG').subscribe(function(translation) {
+        self.toastrService.warning(translation);
+
+      });
       this.allisWell = false;
     } else {
        this.authService.getAnotherUserData(this.UserList, this.replyTo.toString()).subscribe((user)  => {
         this.list = user.data.blocked;
         for ( let i = 0 ; i < user.data.blocked.length ; i++) {
           if ( this.currentUser.username === this.list[i] ) {
-            console.log('blocked is:', this.list[i]);
-            this.toastrService.error('Sorry, you are blocked.');
+            this._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function(translation) {
+             self.toastrService.error(translation);
+            });
             this.allisWell = false;
           } // end if
         }// end for
@@ -154,7 +161,11 @@ export class SingleMailComponent implements OnInit {
         'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
         this.messageService.send(this.msg)
          .subscribe(function(res) {
-           self.toastrService.success('Message was sent!');
+
+          self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
+          self.toastrService.success(translation);
+
+        });
          });
        }// end if
     });
@@ -167,19 +178,22 @@ forward(): void {
 
   if (this.Recipient === '') {
     this.allisWell = false;
-    this.toastrService.warning('Please specify a recipient.');
-    this.allisWell = false;
+    self._TranslateService.get('MESSAGING.TOASTR.ENTER_RECIPIENT').subscribe(function(translation){
+      self.toastrService.warning(translation);
+    });     this.allisWell = false;
   } else {
   this.authService.getAnotherUserData(this.UserList, this.Recipient.toString()).subscribe((user)  => {
     if (!user.data) {
       self.allisWell = false;
-      self.toastrService.error('Please enter a valid username.');
-    } else {
+      this._TranslateService.get('MESSAGING.TOASTR.VALID_NAME').subscribe(function(translation) {
+        self.toastrService.error(translation);
+      });    } else {
     this.list = user.data.blocked;
     for ( let i = 0 ; i < user.data.blocked.length ; i++) {
       if ( this.currentUser.username === this.list[i] ) {
-        console.log('blocked is:', this.list[i]);
-        this.toastrService.error('Sorry, you are blocked.');
+        this._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function(translation) {
+          self.toastrService.error(translation);
+        });
         this.allisWell = false;
       } // end if
     }// end for
@@ -191,7 +205,10 @@ forward(): void {
       'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
       this.messageService.send(this.msg)
       .subscribe(function(res) {
-        self.toastrService.success('Message was sent!');
+        self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
+          self.toastrService.success(translation);
+
+        });
       });
     }// end if
   }
@@ -204,7 +221,10 @@ deleteMessage(): void {
   const self = this;
   // make DELETE request using messaging service
   this.messageService.deleteMessage(this.message).subscribe(function (res) {
-    self.toastrService.success('Message was deleted');
+    self._TranslateService.get('MESSAGING.TOASTR.MSG_DELETED').subscribe(function(translation) {
+      self.toastrService.success(translation);
+
+    });
   });
 }
 
@@ -213,33 +233,36 @@ block(): void {
   const self = this;
   //  if the currentUser is the sender then the receipent is the person to block
  if (this.recipient !== this.currentUser.username ) {
-   console.log('receipient is:' + this.recipient);
     this.blockedUser = this.recipient;
     // else the recipient is the currentUser & the sender is the person to block
   } else {
-   console.log(this.sender);
     this.blockedUser = this.sender;
-   console.log('blocked user is:' + this.blockedUser);
   }
   if (this.blockedUser === this.currentUser.username ) {
-      this.toastrService.error('Sorry, you can\'t block yourself!');
+    self._TranslateService.get('MESSAGING.TOASTR.BLOCK_SELF').subscribe(function(translation) {
+      self.toastrService.error(translation);
+    });
       this.allIsWell = false;
   }
 
-  console.log('blocklist from currentUser: ', this.currentUser.blocked);
 
   for (let i = 0 ; i < this.currentUser.blocked.length; i++) {
        if (this.currentUser.blocked[i] === this.blockedUser) {
-           self.toastrService.error('This user is already blocked!');
+         self._TranslateService.get('MESSAGING.TOASTR.ALREADY_BLOCKED').subscribe(function(translation) {
+          self.toastrService.error(translation);
+
+         });
            this.allIsWell = false;
-   console.log('all is not well, dup found: ', this.blockedUser);
        }// end if
   } // end for
   if (this.allIsWell === true) {
     this.currentUser.blocked.push(this.blockedUser);
-  this.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
+  self.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
     if (res.msg) {
-      self.toastrService.success(res.msg);
+      this.translate.get('MESSAGING.TOASTR.BLOCK').subscribe(function(translation) {
+        self.toastrService.success(translation);
+
+      });
     }// end if
 });
 }// end if

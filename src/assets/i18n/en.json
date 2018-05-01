@@ -164,12 +164,12 @@
             "SEND": "Send",
             "CANCEL": "Cancel",
             "SEND_MSG": "Send Message",
-            "REPLY": "Reply"
+            "REPLY": "Message"
 
         },
         "DIALOG": {
             "NEW_MSG": "New Message",
-            "TO": "to",
+            "TO": "To:",
             "TYPE_MSG": "Enter your message here.."
 
         },
@@ -179,7 +179,20 @@
             "ALL_MSGS": "All Messages",
             "_VIEW": "View",
             "DELETE": "Are you sure you want to delete this message?",
-            "FROM": "From:"
+            "FROM": "From:",
+            "FORWARD": "Forward",
+            "YES": "Yes"
+        },
+        "TOASTR": {
+            "EMPTY_MSG": "You can't send an empty message.",
+            "BLOCKED": "Sorry, you are blocked.",
+            "MSG_SENT": "Message was sent!",
+            "ENTER_RECIPIENT": "Please specify a recipient.",
+            "VALID_NAME": "Please enter a valid username.",
+            "SEND_SELF": "You can't send a message to yourself",
+            "ALREADY_BLOCKED": "This user is already blocked",
+            "BLOCK": "User blocked successfully!",
+            "MSG_DELETED": "Message deleted!"
         }
 
     },

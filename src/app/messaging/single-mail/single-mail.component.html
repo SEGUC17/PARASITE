@@ -52,9 +52,9 @@
                                          </li>
                                          <span class="caret"></span>
                                          <ul class="dropdown-menu dropdown-menu-top pullDown">
-                                            <li><a id="contact" href="javascript:void(0);" (click)="openReplyDialog(contact._id)"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.TITLE' | translate }}</small></a></li>
+                                            <li><a id="contact" href="javascript:void(0);" (click)="openReplyDialog(contact._id)"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.SEND_MSG' | translate }}</small></a></li>
                                             <li role="separator" class="divider"></li>
-                                            <li><a routerLink="/profile/{{contact._id}}"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.VIEW_PROFILE' | translate }}</small></a></li>'scaleX(-1)': null
+                                            <li><a routerLink="/profile/{{contact._id}}"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.VIEW_PROFILE' | translate }}</small></a></li>
                                           </ul>
                                         </div>
                                       </ul></a>
@@ -126,10 +126,10 @@
         <div>
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="title" id="defaultModalLabel">Reply</h4>
+                    <h4 class="title" id="defaultModalLabel">{{ 'MESSAGING.MESSAGING.REPLY' | translate }}</h4>
                 </div>
                 <div class="modal-body">
-                    <label><strong>To:</strong></label>
+                    <label><strong>{{ 'MESSAGING.DIALOG.TO' | translate }}</strong></label>
                     <span class="badge bg-cyan">{{replyTo}}</span>
                     <div class="form-group form-float">
                         <textarea #textarea class="form-control" placeholder="{{ 'MESSAGING.DIALOG.TYPE_MSG' | translate }}" style="height:350px;" [(ngModel)]="Body"></textarea>
@@ -149,7 +149,7 @@
         <div>
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="title" id="defaultModalLabel">Forward</h4>
+                    <h4 class="title" id="defaultModalLabel">{{ 'MESSAGING.MAIL.FORWARD' | translate }}</h4>
                 </div>
                 <div class="modal-body">
                     <div class="form-group form-float">
@@ -176,8 +176,8 @@
                     {{ 'MESSAGING.MAIL.DELETE' | translate }}
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger btn-round waves-effect" (click)="deleteMessage()" data-dismiss="modal">YES</button>
-                  <button type="button" class="btn btn-default btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
+                  <button type="button" class="btn btn-danger btn-round waves-effect" (click)="deleteMessage()" data-dismiss="modal">{{ 'MESSAGING.MAIL.YES' | translate }}</button>
+                  <button type="button" class="btn btn-default btn-simple btn-round waves-effect" data-dismiss="modal">{{ 'MESSAGING.MESSAGING.CANCEL' | translate }}</button>
                 </div>
               </div>
         </div>

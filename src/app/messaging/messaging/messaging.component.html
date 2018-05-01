@@ -37,34 +37,35 @@
                              </div>
                         </div>
                         <div class="body table-responsive">
-                        <table class="table table-hover m-b-0 c_list">
-                            <tbody *ngFor="let contact of contacts">
-                            <tr>
-                              <a href=""><ul class="mail_list list-group list-unstyled">
-                                  <div>
-                                  <li class="list-group-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <div class="media">
-                                      <div class="pull-left">
-                                        <div class="thumb hidden-sm-down m-r-20"> <img src= {{contact.recipientAvatar}} class="rounded-circle" alt=""> </div>
-                                        <small style="color:black; font-size:15px;">{{contact._id}}</small>
+                            <table class="table table-hover m-b-0 c_list">
+                              <tbody *ngFor="let contact of contacts">
+                              <tr>
+                                  <a href=""><ul class="mail_list list-group list-unstyled">
+                                      <div>
+                                      <li class="list-group-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <div class="media">
+                                          <div class="pull-left">
+                                            <div class="thumb hidden-sm-down m-r-20"> <img src= {{contact.recipientAvatar}} class="rounded-circle" alt=""> </div>
+                                            <small style="color:black; font-size:15px;">{{contact._id}}</small>
+                                          </div>
+                                          </div>
+                                       </li>
+                                       <span class="caret"></span>
+                                       <ul class="dropdown-menu dropdown-menu-top pullDown">
+                                          <li><a id="contact" href="javascript:void(0);" (click)="openReplyDialog(contact._id)"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.SEND_MSG' | translate }}</small></a></li>
+                                          <li role="separator" class="divider"></li>
+                                          <li><a routerLink="/profile/{{contact._id}}"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.VIEW_PROFILE' | translate }}</small></a></li>
+                                        </ul>
                                       </div>
-                                      </div>
-                                   </li>
-                                   <span class="caret"></span>
-                                   <ul class="dropdown-menu dropdown-menu-top pullDown">
-                                      <li><a href="javascript:void(0);" (click)="openReplyDialog(contact._id)"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.SEND_MSG' | translate }}</small></a></li>
-                                      <li role="separator" class="divider"></li>
-                                      <li><a routerLink="/profile/{{contact._id}}"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.VIEW_PROFILE' | translate }}</small></a></li>
-                                    </ul>
-                                  </div>
-                                </ul></a>
-                            </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                                    </ul></a>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
                       </div>
                     </div>
                   </div>
+                </div>
                   <div>
                     <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#inbox"> <i class="zmdi zmdi-inbox"></i> {{ 'MESSAGING.MESSAGING.INBOX' | translate }} </a></li>
@@ -200,7 +201,6 @@
                                   </div>
                               </div>
                             </div>
-                        </div>
                  </section>
 
                  <div class="modal fade" id="send" tabindex="-1" role="dialog">
