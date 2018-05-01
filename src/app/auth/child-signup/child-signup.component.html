@@ -65,7 +65,7 @@
   
   
                       <div class="input-group">
-                        <input type="date" [(ngModel)]=Birthdate placeholder="Birthdate" class="form-control" />
+                        <input  id="birthdate" type="text"  placeholder="Birthdate" class="form-control datetimepicker"/>
                         <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                       </div>
                       <div class="input-group">
@@ -94,6 +94,22 @@
                               <input type="password" [(ngModel)]=ConfirmPassword placeholder="Confirm Password" class="form-control" />
                               <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
                             </div>
+                        <div>
+                            <div class="btn-group hidden-sm-down">
+                              <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational System<span class="caret"></span> </button>
+                              <ul class="dropdown-menu dropdown-menu-right pullDown">
+                                  <option href="javascript:void(0);" *ngFor="let system of systems" [value]="system" (click)="systemIs(system)" [(ngModel)]= "Educational_system">{{system}}</option>
+
+                              </ul>
+                            </div>
+
+                            <div class="btn-group hidden-sm-down">
+                              <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational Level<span class="caret"></span> </button>
+                              <ul class="dropdown-menu dropdown-menu-right pullDown">
+                                  <option href="javascript:void(0);" *ngFor="let level of levels" [value]="level" (click)="levelIs(level)" [(ngModel)]= "Educational_level">{{level}}</option>
+                              </ul>
+                            </div>
+                          </div>
                             <div class="checkbox">
                                 <input id="terms" type="checkbox">
                                 <label for="terms">

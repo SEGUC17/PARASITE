@@ -30,26 +30,46 @@ export class ChildSignupComponent implements OnInit {
   AllisWell: Boolean = true;
   User: any;
   private done = false;
-
+  Educational_level: String = '';
+  Educational_system: String = '';
+systems: any = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
+levels: any = ['KG', 'Primary School', 'Middle School', 'High School'];
 
   ngOnInit() {
+const self = this;
+    $('.datetimepicker').bootstrapMaterialDatePicker({
+      clearButton: true,
+      format: 'DD MMMM YYYY',
+      maxDate: new Date(),
+      shortTime: true,
+      time: false
+    });
 
+    $('#birthdate').bootstrapMaterialDatePicker().on('change', function (event, date) {
+      if (date) {
+        self.Birthdate = date._d;
+      }
+    });
   }
 
   register(): void {
+    const self = this;
     if (this.AllisWell) {
-      this.User = { 'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
-      'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone, 'address': this.Address};
-      const self = this;
+   //   console.log('birthdate: ', self.Birthdate);
+    //  console.log('educationSystem ', self.Educational_system);
+    //  console.log('educationLevel ', self.Educational_level );
+            this.User = { 'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
+      'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone,
+       'address': this.Address, 'educationLevel': self.Educational_level, 'educationSystem': self.Educational_system};
       self.authService.childSignUp(this.User).subscribe(function (res) {
          this.Div3 = true;
          if ( res.msg ) {
             self.toastrService.success(res.msg);
-            self.router.navigate(['/']);
+        //    self.router.navigate(['/']);
            }
        });
     }// end if
-     this.location.back();
+   //  this.location.back();
   }// end method
 
 
@@ -75,5 +95,19 @@ export class ChildSignupComponent implements OnInit {
     this.done = true;
   }
 
+  systemIs(sys): void {
+    const self = this;
+  //  console.log('entered sys meth');
+        self.Educational_system = sys;
+        self.toastrService.success('Education System selected ', sys );
+    //    console.log(self.Educational_system);
+  }
 
+  levelIs(lev): void {
+    const self = this;
+  //  console.log('entered lev meth');
+        self.Educational_level = lev;
+        self.toastrService.success('Eduacation Level selected ', lev);
+    //    console.log(self.Educational_level);
+  }
 }
