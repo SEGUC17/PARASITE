@@ -321,7 +321,7 @@ export class AppComponent implements OnInit {
         return notMessage.type != 'message';
       });
     // all notification that aren't read (not messages)
-      var unreadNots = res.data.notifications.filter(function (notRead) {
+      var unreadNots = retrievednotifications.filter(function (notRead) {
         return notRead.isRead === false;
       });
       // unread notifications number
@@ -358,13 +358,15 @@ export class AppComponent implements OnInit {
           retrievednotifications[i].link = '/scheduling/study-plan/personal/'+ itemId;
         } 
         //donot need id in market
-        else if (type === 'product' && itemId) {
+        else if (type === 'product') {
           retrievednotifications[i].link = '/market';
         }
+        else {
+          // if not any of these cases got to landing page
+          retrievednotifications[i].link = '/';
+        }
       }
-      console.log(retrievednotifications);
       self.notifications = retrievednotifications.reverse();
-      console.log(self.notifications);
 
     })
   }

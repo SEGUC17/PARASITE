@@ -216,7 +216,7 @@ module.exports.assignStudyPlan = function (req, res, next) {
                     }
 
                     var notification = {
-                        body: req.user.username + ' assigned you to' +
+                        body: req.user.username + ' assigned you to ' +
                             newStudyPlan.title,
                         date: moment().toDate(),
                         itemId: newStudyPlan._id,
@@ -314,7 +314,7 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                 }
                 // Start of notification
                 var notification = {
-                    body: req.user.username + ' unassigned' +
+                    body: req.user.username + ' unassigned ' +
                         'you from a Study Plan',
                     date: moment().toDate(),
                     type: 'study plan'
