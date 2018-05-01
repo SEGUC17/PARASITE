@@ -47,12 +47,16 @@ export class SendDialogComponent implements OnInit {
     // notify user if recipient field is empty
     if (self.Receiver === '') {
       self.allisWell = false;
-      self.toastrService.warning('Please specify a recipient.');
+      this._TranslateService.get('MESSAGING.TOASTR.ENTER_RECIPIENT').subscribe(function(translation){
+        self.toastrService.warning(translation);
+      });
     } else {
       // notify user if message body is empty
       if (self.Body === '') {
         self.allisWell = false;
-        self.toastrService.warning('You can\'t send an empty message.');
+        this._TranslateService.get('MESSAGING.TOASTR.EMPTY_MSG').subscribe(function(translation) {
+          self.toastrService.warning(translation);
+        });
       } else {
         // create a message object with the info the user entered
         self.msg = {'body': self.Body, 'recipient': self.Receiver, 'recipientAvatar': '',
@@ -62,14 +66,16 @@ export class SendDialogComponent implements OnInit {
         this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user)  => {
           if (!user.data) {
             self.allisWell = false;
-            self.toastrService.error('Please enter a valid username.');
+            this._TranslateService.get('MESSAGING.TOASTR.VALID_NAME').subscribe(function(translation) {
+              self.toastrService.error(translation);
+            });
           } else {
-            console.log('length of array is: ', user.data.blocked.length);
             const list = user.data.blocked;
             for ( let i = 0 ; i < user.data.blocked.length ; i++) {
               if ( self.currentUser.username === list[i] ) {
-                console.log('blocked is:', list[i]);
-                self.toastrService.error('Sorry, you are blocked.');
+                this._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function(translation) {
+                  self.toastrService.error(translation);
+                });
                 self.allisWell = false;
               } // end if
             }// end for
@@ -78,7 +84,9 @@ export class SendDialogComponent implements OnInit {
               self.msg.recipientAvatar = user.data.avatar;
               self.messageService.send(this.msg)
               .subscribe(function(res) {
-                self.toastrService.success('Message was sent!');
+                self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
+                    self.toastrService.success(translation);
+                });
               });
             }// end if
           }
@@ -87,7 +95,10 @@ export class SendDialogComponent implements OnInit {
         if ( self.Receiver.match(/\S+@\S+\.\S+/)) {
           this.messageService.send(self.msg)
           .subscribe(function(res) {
-            self.toastrService.success('Message was sent!');
+            this._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
+              self.toastrService.success(translation);
+
+            });
           });
         }// end if
       }// end 2nd else

@@ -37,7 +37,7 @@ export class MessagingComponent implements OnInit {
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog,
-    private router: Router, private toastrService: ToastrService) { }
+    private router: Router, private toastrService: ToastrService, private _translate: TranslateService) { }
 
   openDialog(): void {
     $('#send').modal('show');
@@ -95,14 +95,21 @@ export class MessagingComponent implements OnInit {
     const self = this;
 
     if (this.Body === '') {
-      this.toastrService.warning('You can\'t send an empty message.');
+      self._translate.get('MESSAGING.TOASTR.EMPTY_MSG').subscribe(function(translation) {
+        self.toastrService.warning(translation);
+
+      });
     } else {
       this.authService.getAnotherUserData(this.UserList, this.replyTo.toString()).subscribe((user)  => {
         const list = user.data.blocked;
         for ( let i = 0 ; i < user.data.blocked.length ; i++) {
           if ( this.currentUser.username === list[i] ) {
             console.log('blocked is:', list[i]);
-            this.toastrService.error('Sorry, you are blocked.');
+            console.log('it prints!');
+            self._translate.get('MESSAGING.TOASTR.BLOCKED').subscribe(function(translation) {
+              self.toastrService.error(translation);
+
+            });
             this.allisWell = false;
           } // end if
         }// end for
@@ -115,7 +122,10 @@ export class MessagingComponent implements OnInit {
           console.log(this.msg);
           this.messageService.send(this.msg)
           .subscribe(function(res) {
-            self.toastrService.success('Message was sent!');
+            self._translate.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
+              self.toastrService.success(translation);
+
+            })
             self.getSent();
           });
         }// end if
