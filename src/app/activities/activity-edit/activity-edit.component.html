@@ -12,7 +12,7 @@
             
             </div>
           </div>
-         
+          
           <div class="col-lg-5 col-md-24">
             <div class="form-group">
               {{ 'ACTIVITIES.EDIT.START_DATE' | translate }}<input  class="form-control" matInput  [(ngModel)]= "data.fromDateTime" name="from date" required type= "datetime-local" placeholder=" to date" required type= "datetime-local" placeholder=" {{ 'ACTIVITIES.EDIT.START_DATE' | translate }}">
@@ -22,7 +22,7 @@
             <div class="form-group">
             {{ 'ACTIVITIES.EDIT.END_DATE' | translate }}<input  class="form-control" matInput  [(ngModel)]= "data.toDateTime" name="to date" required type= "datetime-local" placeholder=" {{ 'ACTIVITIES.EDIT.END_DATE' | translate }}">
             </div>
-          </div>
+          </div> 
           <div class="col-lg-4 col-md-24">
               <div class="form-group">
                   <!--span matPrefix>EGP &nbsp;</span-->
@@ -37,8 +37,14 @@
           </div>
           <div class="col-lg-8 col-md-8">
             <button class="btn btn-round" (click)="onNoClick()">{{ 'ACTIVITIES.EDIT.CANCEL' | translate }}</button>
-            <button class="btn btn-primary btn-round" [disabled]="!activityForm.form.valid || data.toDateTime <= data.fromDateTime" type="submit"  [mat-dialog-close]= "{name:data.name , description:data.description, price:data.price, fromDateTime:data.fromDateTime , toDateTime:data.toDateTime}" cdkFocusInitial>{{ 'ACTIVITIES.EDIT.SAVE_CHANGES' | translate }}</button>
+            <button class="btn btn-primary btn-round" [disabled]="!activityForm.form.valid || data.toDateTime <= data.fromDateTime" 
+              type="submit"  [mat-dialog-close]= "{name:data.name , description:data.description, price:data.price, fromDateTime:data.fromDateTime , toDateTime:data.toDateTime}" cdkFocusInitial>{{ 'ACTIVITIES.EDIT.SAVE_CHANGES' | translate }}</button>
           </div>      
+          <div
+          [hidden]=" data.fromDateTime <= data.toDateTime"
+          class="alert alert-danger">
+          {{ 'ACTIVITIES.EDIT.FROM_AFTER_TO' | translate }}
+        </div>
       </div>
     </div>
     </div>

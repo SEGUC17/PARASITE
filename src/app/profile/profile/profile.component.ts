@@ -7,6 +7,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
+import { TranslateService} from '@ngx-translate/core';
 
 declare const swal: any;
 declare const $: any;
@@ -110,7 +111,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute, private messageService: MessageService,
-    private toastrService: ToastrService, private _datePipe: DatePipe) { }
+    private toastrService: ToastrService, private _datePipe: DatePipe , private translate :TranslateService) { }
 
   ngOnInit() {
 
@@ -295,8 +296,14 @@ let self =this;
 // getting the visited profile username and passing it to service
 // method to add it to the patch request
     this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
-      if( res.msg.indexOf('13') < 0){ self.visitedIsChild=false; self.toastrService.success(res.msg, 'success' );  }
-       else{self.toastrService.error(res.msg, 'failure' ) }
+      if( res.msg.indexOf('13') < 0){ self.visitedIsChild=false;     self.translate.get('PROFILE.TOASTER.MAKE_INDEPENDENT_SUCCESS').subscribe(
+        function(translation) {
+          self.toastrService.success(translation);
+        });  }
+       else{    self.translate.get('PROFILE.TOASTER.MAKE_INDEPENDENT_FAIL').subscribe(
+        function(translation) {
+          self.toastrService.error(translation);
+        }); }
     }));// if res.msg contains 13 then the child is under age and action is not allowed
     
   }  // Author :Heidi
@@ -305,7 +312,11 @@ let self =this;
 let self =this;
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
   if (res.msg.indexOf('Successefully')>-1) 
-  { self.visitedIsMyParent = false; self.toastrService.success('Parent unlinked successfully', 'success') ;}
+  { self.visitedIsMyParent = false;     
+     self.translate.get('PROFILE.TOASTER.UNLINK_INDEPENDENT_FAIL').subscribe(
+    function(translation) {
+      self.toastrService.error(translation);
+    }); ;}
     }));
   }
 

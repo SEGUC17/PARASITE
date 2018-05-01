@@ -8,7 +8,7 @@ import { DiscussionService } from '../../discussion.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
-
+import { TranslateService} from '@ngx-translate/core';
 @Component({
   selector: 'app-activity-detail',
   templateUrl: './activity-detail.component.html',
@@ -75,7 +75,8 @@ username = '';
     private discussionService: DiscussionService,
     private router: Router,
     private authService: AuthService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -284,21 +285,36 @@ username = '';
 
 
   uploaded(url: string) {
+    let self = this;
     let id = this.route.snapshot.paramMap.get('id');
     if (url === 'imageFailedToUpload') {
-      this.toastrService.error('Image upload failed');
+      self.translate.get('ACTIVITIES.TOASTER.TOASTER_FAIL').subscribe(
+        function(translation) {
+          self.toastrService.error(translation);
+        }
+      );
     } else if (url === 'noFileToUpload') {
-      this.toastrService.error('Please select a photo');
+      self.translate.get('ACTIVITIES.TOASTER.TOASTER_SELECT').subscribe(
+        function(translation) {
+          self.toastrService.error(translation);
+        });
+
     } else {
       let upload = {
         image: url
       };
       this.activityService.EditActivityImage(upload, id).subscribe((res) => {
         if (res.data) {
-          this.toastrService.success('Activity image uploaded successfully');
+          self.translate.get('ACTIVITIES.TOASTER.TOASTER_SUCESS').subscribe(
+            function(translation) {
+              self.toastrService.success(translation);
+            });
           this.activity.image = res.data;
         } else {
-          this.toastrService.error('Image upload failed');
+          self.translate.get('ACTIVITIES.TOASTER.TOASTER_FAIL').subscribe(
+            function(translation) {
+              self.toastrService.error(translation);
+            });
         }
       });
       // TODO: handle image uploading success and use the url to retrieve the image later

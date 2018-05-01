@@ -14,8 +14,15 @@
             "CANCEL":"الغاء",
             "SAVE_CHANGES":"حفظ التغييرات",
             "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
-            "ACTIVITY_IMAGE":"تغيير صورة النشاط"
-        
+            "ACTIVITY_IMAGE":"تغيير صورة النشاط",
+            "FROM_AFTER_TO":"تاريخ البداية لا يجب ان يكون بعد تاريخ النهاية "
+            
+            
+        },
+        "TOASTER":{
+            "TOASTER_FAIL":"رفع الصورة فشل",
+             "TOASTER_SUCCESS":"تم رفع الصورة بنجاح",
+             "TOASTER_SELECT":"من فضلك اختر صورة"
         }
     },
     "ADMIN": {
@@ -168,8 +175,13 @@
                           "AGE":"العمر" ,
                         "LEARNING_SCORE":"نقاط التعلم",
                         "POINTS":"نقطة"
-                        }
+                        },
+                        "TOASTER":{
+                       "MAKE_INDEPENDENT_SUCCESS":"طفلك اللآن مستقل",
+                       "MAKE_INDEPENDENT_FAIL":"لا يمكنك جعله مستقلا ,الطفل دون السن",
+                       "UNLINK_INDEPENDENT": "تم الغاء الارتباط بنجاح"
 
+                   }
 },
     "PSYCHOLOGIST": {
 
