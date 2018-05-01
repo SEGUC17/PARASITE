@@ -20,6 +20,8 @@ export class ActivityCreateComponent implements OnInit {
     author: Wessam
   */
 
+  brInput: Boolean = false;
+
   public activity: ActivityCreate = {
     name: '',
     description: '',
@@ -52,9 +54,13 @@ export class ActivityCreateComponent implements OnInit {
       @author: Wessam
     */
    if (!check) {
-    this.toaster.error('Please fill in the form correctly');
+     this.translate.get('ACTIVITIES.CREATE. ').subscribe(
+       res => this.toaster.error(res)
+     );
    } else if (this.activity.toDateN <= this.activity.fromDateN) {
-    this.toaster.error('End date cannot be before or equal to the start date');
+     this.translate.get('ACTIVITIES.CREATE.DATE_ERROR').subscribe(
+       res => this.toaster.error(res)
+     );
    } else {
     this.activity.fromDateTime = new Date(this.activity.fromDateN).getTime();
     this.activity.toDateTime = new Date(this.activity.toDateN).getTime();

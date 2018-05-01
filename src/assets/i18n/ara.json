@@ -16,10 +16,11 @@
     },
     "ACTIVITIES": {
         "CREATE": {
-            "ACTIVITY_DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
+            "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
             "CREATE_ACTIVITY": "اضافة نشاط",
             "REQUIRED_FIELDS": "الخانات المطلوبة",
-            "SUBMIT": "اضافة"
+            "SUBMIT": "اضافة",
+            "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة"
         },
         "LIST": {
             "ACTIVITIES": "الانشطة",
@@ -41,6 +42,19 @@
             "DESCRIPTION": "الشرح",
             "WRITE_COMMENT": "...اترك تعليق",
             "BOOK_SUCCESS": "....تم الحجز بنجاح"
+        },
+        "EDIT":{
+            "EDIT_ACTIVITY": "تعديل النشاط",
+            "ACTIVITY_NAME": "الاسم",
+            "START_DATE":"تاريخ النهاية",
+            "END_DATE":"تاريخ البداية",
+            "PRICE":"السعر",
+            "DESCRIPTION":"الوصف",
+            "CANCEL":"الغاء",
+            "SAVE_CHANGES":"حفظ التغييرات",
+            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+            "ACTIVITY_IMAGE":"تغيير صورة النشاط"
+        
         }
     },
     "ADMIN": {
@@ -188,9 +202,14 @@
     "MESSAGING": {
 
     },
-    "PROFILE": {
+    "PROFILE": { 
+        "CHILDREN":{    "UNLINK":"حذف",
+                          "AGE":"العمر" ,
+                        "LEARNING_SCORE":"نقاط التعلم",
+                        "POINTS":"نقطة"
+                        }
 
-    },
+},
     "PSYCHOLOGIST": {
 
     },

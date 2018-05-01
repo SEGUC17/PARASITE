@@ -313,24 +313,25 @@ export class ProfileComponent implements OnInit {
     }
   } // Author: Heidi
   EditChildIndependence() {
-    const self = this;
+let self =this;
+// getting the visited profile username and passing it to service
+// method to add it to the patch request
     this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
       self.toastrService.success(res.msg);
       //      alert(res.msg);
-
-    }));
     // getting the visited profile username and passing it to service method to add it to the patch request
 
+      if( res.msg.indexOf('13') < 0){ self.visitedIsChild=false; self.toastrService.success(res.msg, 'success' );  }
+       else{self.toastrService.error(res.msg, 'failure' ) }
+    }));// if res.msg contains 13 then the child is under age and action is not allowed
+    
   }  // Author :Heidi
   UnlinkMyself() {
-    // getting the visited profile username and passing it to service method to add it to the patch request
+// getting the visited profile username and passing it to service method to add it to the patch request
+let self =this;
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
-      console.log(res.msg);
-      const self = this;
-      self.toastrService.success(res.msg);
-      //      alert(res.msg);
-
-      if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
+  if (res.msg.indexOf('Successefully')>-1) 
+  { self.visitedIsMyParent = false; self.toastrService.success('Parent unlinked successfully', 'success') ;}
     }));
   }
 
