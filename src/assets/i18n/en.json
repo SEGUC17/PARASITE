@@ -77,8 +77,16 @@
             "PREVIOUS": "Previous",
             "NEXT": "Next",
             "YOU_ALREADY_HAVE_A_MEMBERSHIP": "You already have a membership?"
+        },
+        "SIGN_IN": {
+            "SIGN_IN": "Sign In",
+            "USERNAME_OR_EMAIL": "Username / Email",
+            "PASSWORD_PLACEHOLDER": "Password",
+            "REMEMBER_ME": "Remember Me",
+            "SIGN_IN_CAPS": "SIGN IN",
+            "FORGOT_PASSWORD": "Forgot Password?",
+            "JOIN_US": "Join Us!"
         }
-
     },
     "CONTENT": {
         "SHARED": {

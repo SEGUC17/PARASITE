@@ -77,6 +77,15 @@
             "PREVIOUS": "السابق",
             "NEXT": "التالي",
             "YOU_ALREADY_HAVE_A_MEMBERSHIP": "هل سبق لك أن أنشأتَ حسابًا؟"
+        },
+        "SIGN_IN": {
+            "SIGN_IN": "تسجيل الدخول",
+            "USERNAME_OR_EMAIL": "اسم المستخدم / البريد الإلكتروني",
+            "PASSWORD_PLACEHOLDER": "كلمة المرور",
+            "REMEMBER_ME": "تذكرنى",
+            "SIGN_IN_CAPS": "تسجيل الدخول",
+            "FORGOT_PASSWORD": "هل نسيتَ كلمة المرور؟",
+            "JOIN_US": "انضم إلينا"
         }
     },
     "CONTENT": {
