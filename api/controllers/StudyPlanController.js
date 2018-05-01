@@ -325,6 +325,11 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                     }
                     , { new: true },
                     function (errr, updatedUser) {
+<<<<<<< HEAD
+=======
+                        console.log('add the notification');
+                        // console.log(updatedUser.notifications);
+>>>>>>> 506904cb352550a2b4b3546a64e6600ff7f9cce9
                         if (errr) {
                             return res.status(402).json({
                                 data: null,

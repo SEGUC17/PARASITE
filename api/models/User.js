@@ -190,6 +190,10 @@ var userSchema = mongoose.Schema({
     verified: {
         default: false,
         type: Boolean
+    },
+    watchedVideos: {
+        default: [],
+        type: [String]
     }
 });
 // -------------------------- End of "Schemas" --------------------------- //

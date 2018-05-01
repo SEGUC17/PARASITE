@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContentEditComponent } from './content-edit/content-edit.component';
 import { ContentListViewComponent } from './content-list-view/content-list-view.component';
 import { ContentViewComponent } from './content-view/content-view.component';
+import { ContentRedirectorComponent } from './content-redirector/content-redirector.component';
 const routes = [
   {
     path: 'list',
@@ -33,6 +34,10 @@ const routes = [
         component: ContentEditComponent,
       }
     ]
+  },
+  {
+    path: 'redirect/:id',
+    component: ContentRedirectorComponent
   }
 ];
 @NgModule({

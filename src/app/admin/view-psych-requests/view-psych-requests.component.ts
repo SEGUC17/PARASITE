@@ -23,7 +23,7 @@ export class ViewPsychRequestsComponent implements OnInit {
   constructor(private service: PsychRequestsService,
     private authService: AuthService,
     private router: Router,
-    public toasterService: ToastrService) {
+    private toasterService: ToastrService) {
 
     let self = this;
     self.state = 'add';
