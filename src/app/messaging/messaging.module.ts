@@ -13,9 +13,11 @@ import { MatIconModule } from '@angular/material';
 import {MatChipsModule} from '@angular/material/chips';
 import { SingleMailComponent } from './single-mail/single-mail.component';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateModule} from '@ngx-translate/core';
+import { TranslateService} from '@ngx-translate/core';
 
 @NgModule({
-  providers: [MessageService, AuthService, MatDialog, ToastrService],
+  providers: [MessageService, AuthService, MatDialog, ToastrService, TranslateService],
   imports: [
     MessagingRoutingModule,
     FormsModule,
@@ -28,7 +30,8 @@ import { ToastrService } from 'ngx-toastr';
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
-    MatListModule
+    MatListModule,
+    TranslateModule.forChild()
   ],
   declarations: [MessagingComponent, SendDialogComponent, SingleMailComponent],
   entryComponents: [SendDialogComponent]

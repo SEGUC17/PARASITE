@@ -149,6 +149,30 @@
 
     },
     "MESSAGING": {
+        "MESSAGING": {
+            "TITLE": "Your Messages",
+            "SUB_TITLE": "Messages",
+            "DASHBOARD": "Dashboard",
+            "RECENTLY_CONTACTED": "Recently Contacted",
+            "NO_CONTACT": "You haven't contacted anyone yet",
+            "START_CONVO": "Start a conversation?",
+            "MSG": "Message",
+            "VIEW_PROFILE": "View Profile",
+            "INBOX": "INBOX",
+            "SENT": "SENT",
+            "NO_MSGS": "No messages yet",
+            "SEND": "Send",
+            "CANCEL": "Cancel",
+            "SEND_MSG": "Send Message",
+            "REPLY": "Reply"
+
+        },
+        "DIALOG": {
+            "NEW_MSG": "New Message",
+            "TO": "to",
+            "TYPE_MSG": "Enter your message here.."
+
+        }
 
     },
     "PROFILE": {
