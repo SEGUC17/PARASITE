@@ -6,11 +6,11 @@
 */
 
 export class Activity {
-    _id : String;
-    name : String;
-    description : String;
-    bookedBy : [String]; // userIds
-    price : Number;
+    _id: String;
+    name: String;
+    description: String;
+    bookedBy: [String]; // userIds
+    price: Number;
     status: String;
     fromDateTime: Date;
     toDateTime: Date;
@@ -29,6 +29,7 @@ export class ActivityCreate {
     fromDateN: Date;
     toDateN: Date;
     // variables to send to the server
+    tags?: any[];
     fromDateTime: Number;
     toDateTime: Number;
     image: String;

@@ -51,7 +51,10 @@ var contentSchema = mongoose.Schema({
         trim: true,
         type: String
     },
-    tags: { type: [String] },
+    tags: {
+        default: [],
+        type: [String]
+    },
     title: {
         required: true,
         trim: true,

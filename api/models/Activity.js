@@ -48,6 +48,10 @@ var activitySchema = Schema({
             'verified'
         ]
     },
+    tags: {
+        default: [],
+        type: [String]
+    },
     fromDateTime: {
         type: Number,
         required: true,
@@ -61,20 +65,20 @@ var activitySchema = Schema({
         type: Number,
         required: true,
         validate: [
-            function(time) {
+            function (time) {
                 // Making sure that fromDate is less than toDate
                 return isTimestamp(time) && this.fromDateTime <= time;
-        },
-        'fromDate has to be less than toDate'
-    ]
-   },
-   image: {
-       data: Buffer,
-       type: String
-   },
-   discussion: {
+            },
+            'fromDate has to be less than toDate'
+        ]
+    },
+    image: {
+        data: Buffer,
+        type: String
+    },
+    discussion: {
         default: [],
-       type: [commentSchema]
+        type: [commentSchema]
     }
 });
 
