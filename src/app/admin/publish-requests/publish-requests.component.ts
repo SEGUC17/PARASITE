@@ -89,7 +89,7 @@ export class PublishRequestsComponent implements OnInit {
   }
 
   respondStudyPlanPublishReqs(response, id, studyPlan): void {
-    console.log(id);
+    console.log(studyPlan);
     let self = this;
     self.adminService.respondStudyPlanPublishReqs(response, id, studyPlan._id).subscribe(function (res) {
       self.reqs = res.data;

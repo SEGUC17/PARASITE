@@ -126,9 +126,11 @@ module.exports.createStudyPlan = function (req, res, next) {
             msg: 'Not authorized to create a study plan'
         });
     } else {
+        var studyPlan = req.body;
+        studyPlan.creator = req.user.username;
         User.findOneAndUpdate(
             { username: req.user.username },
-            { $push: { studyPlans: req.body } },
+            { $push: { studyPlans: studyPlan } },
             function (err, user) {
                 if (err) {
                     return next(err);
