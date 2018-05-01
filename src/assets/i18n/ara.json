@@ -118,7 +118,7 @@
     "CONTENT": {
         "SHARED": {
             "OUR_CONTENT": "المحتويات",
-            "POSTED_BY": "{{ creator }} :نشره",
+            "POSTED_BY": " نشره: {{ creator }}",
             "DASHBOARD": "الصفحة الرئيسية",
             "CONTENT": "المحتويات",
             "ARABIC": "العربية",
