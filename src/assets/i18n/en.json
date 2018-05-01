@@ -91,7 +91,10 @@
             "IDEA": "IDEA",
             "RESOURCE": "RESOURCE",
             "EDIT": "EDIT",
-            "CREATE": "CREATE"
+            "CREATE": "CREATE",
+            "ACCEPT": "Accept",
+            "REJECT": "Reject",
+            "VIEW_DETAILS":"View Details"
         }
     },
     "AUTH": {

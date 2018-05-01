@@ -91,7 +91,10 @@
             "IDEA": "فكرة",
             "RESOURCE": "مورد تعليمي",
             "EDIT": "تحديث",
-            "CREATE": "إنشاء"
+            "CREATE": "إنشاء",
+            "ACCEPT": "قبول",
+            "REJECT": "رفض",
+            "VIEW_DETAILS":"عرض التفاصيل"
         }
     },
     "AUTH": {
