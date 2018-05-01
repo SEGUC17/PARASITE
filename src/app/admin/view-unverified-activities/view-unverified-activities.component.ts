@@ -17,7 +17,6 @@ declare const swal: any;
 export class ViewUnverifiedActivitiesComponent implements OnInit {
 
   activities: Activity[] = [];
-  detailedActivities: any[] = [];
   numberOfElements: Number;
   pageSize: Number;
   pageIndex: Number;
@@ -42,23 +41,6 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     this.getActivities(null);
   }
 
-  getDetailedActivities() {
-    this.detailedActivities = [];
-    let self = this;
-    for (let i = 0; i < this.activities.length; i++) {
-      if (this.activities[i].status == 'pending') {
-        this.activityService.getActivity(this.activities[i]._id).subscribe(
-          res => {
-            if (!res.data.image) {
-              res.data.image = 'https://res.cloudinary.com/nawwar/image/upload/v1524947811/default-activity-image.jpg';
-            }
-            this.detailedActivities.push(res.data);
-          });
-      }
-    }
-
-  }
-
 
   getActivities(event) {
     /*
@@ -75,7 +57,6 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     let self  = this;
     this.activityService.getActivities(page).subscribe(function(res) {
         self.updateLayout(res);
-        self.getDetailedActivities();
       }
     );
     this.authService.getUserData(['isAdmin']).subscribe((user) => {
