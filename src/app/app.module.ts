@@ -24,8 +24,6 @@ import {
 import { AppComponent } from './app.component';
 import { AuthService } from './auth/auth.service';
 import { environment } from '../environments/environment';
-import { ImageUploaderComponent } from './image-uploader/image-uploader.component';
-import { FileUploadModule } from 'ng2-file-upload';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
