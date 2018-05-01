@@ -7,6 +7,8 @@ import { AuthService } from '../../auth/auth.service';
 import { User } from '../../auth/user';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-list-view',
@@ -45,7 +47,8 @@ export class ContentListViewComponent implements OnInit {
   currentUser: User;
 
   constructor(private contentService: ContentService, private authService: AuthService,
-    private router: Router, private route: ActivatedRoute) { }
+    private router: Router, private route: ActivatedRoute, private toasterService: ToastrService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     // scroll to the top
@@ -56,7 +59,11 @@ export class ContentListViewComponent implements OnInit {
     this.authService.getUserData(['username', 'avatar']).
       subscribe(function (user) {
         self.currentUser = user.data;
-      });
+      },
+        function (error) {
+          // user is not signed in
+          // do nothing
+        });
 
     // get the categories from the server
     this.getCategories();
@@ -135,6 +142,12 @@ export class ContentListViewComponent implements OnInit {
   // get a page of the content created by the current user
   getMyContributionsPage(): void {
     const self = this;
+
+    // clear the current contents
+    self.totalNumberOfPages = 0;
+    self.contents = [];
+
+    // retrieve the contributions
     this.contentService.
       getContentByCreator(self.numberOfEntriesPerPage, self.currentPageNumber,
         self.selectedCategory, self.selectedSection).
@@ -142,6 +155,11 @@ export class ContentListViewComponent implements OnInit {
         // assign the retrieved contents to the contents array
         self.contents = retrievedContents.data.docs;
         self.totalNumberOfPages = retrievedContents.data.pages;
+      }, function (error) {
+        self.contents = [];
+        self.totalNumberOfPages = 0;
+        self.toasterService.
+          error('An error has occurred. Please check your network connection.', 'failure');
       });
   }
 
@@ -177,6 +195,11 @@ export class ContentListViewComponent implements OnInit {
   // retrieve a page of content that matches the search query
   getContentPage(): void {
     const self = this;
+
+    // clear the current contents
+    self.totalNumberOfPages = 0;
+    self.contents = [];
+
     // remove unnecessary spaces
     this.searchQuery = this.searchQuery.trim();
 
@@ -203,6 +226,11 @@ export class ContentListViewComponent implements OnInit {
       // update the contents array
       self.contents = retrievedContent;
       self.totalNumberOfPages = res.data.contents.pages;
+    }, function (error) {
+      self.contents = [];
+      self.totalNumberOfPages = 0;
+      self.toasterService.
+          error('An error has occurred. Please check your network connection.', 'failure');
     });
   }
 

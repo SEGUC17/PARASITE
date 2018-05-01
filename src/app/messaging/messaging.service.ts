@@ -6,7 +6,6 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import { environment } from '../../environments/environment';
 import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs/Subject';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -64,4 +63,7 @@ export class MessageService {
    return MessageService.message;
  }
 
+  unBLock(userId: any, list: any):  Observable<any> {
+    return this.http.patch(this.url + `message/unblock/${userId}`, list, httpOptions);
+    }
 }
