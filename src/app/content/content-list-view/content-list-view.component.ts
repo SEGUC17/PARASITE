@@ -158,7 +158,7 @@ export class ContentListViewComponent implements OnInit {
       }, function (error) {
         self.contents = [];
         self.totalNumberOfPages = 0;
-        self.translate.get('CONTENT.CONNECTION_ERROR').subscribe(
+        self.translate.get('CONTENT.TOASTER.CONNECTION_ERROR').subscribe(
           function (translation) {
             self.toasterService.error(translation);
           }
