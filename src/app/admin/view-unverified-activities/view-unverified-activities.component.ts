@@ -55,7 +55,7 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     */
     let page = pageNum;
     let self  = this;
-    this.activityService.getActivities(page).subscribe(function(res) {
+    this.activityService.getPendingActivities(page).subscribe(function(res) {
         self.updateLayout(res);
       }
     );
@@ -104,7 +104,7 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     activity.status = 'rejected';
     this.activityService.reviewActivity(activity).subscribe(function (res) {
       self.showPromptMessage(activity.creator, self.user.username);
-      
+      self.getActivities(this.pageIndex);
     });
   }
 

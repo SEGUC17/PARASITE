@@ -486,7 +486,6 @@ module.exports.isIndependent = function (req, res, next) {
 };
 
 var addActivityEvent = function (targetUser, activity) {
-    console.log('fuck my life');
     var event = {
         color: {
             primary: '#FF0000',
