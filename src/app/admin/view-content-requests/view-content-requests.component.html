@@ -44,13 +44,16 @@
               <div class="card-footer bg-transparent border-0" align="end">
                 <a href="javascript:void(0);">
                   <div class="hover">
-                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="approveContentRequest(req._id,req.contentID,req.creator)">
+                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="approveContentRequest(req._id,req.contentID,req.creator)"
+                    data-toggle="tooltip" data-placement="bottom" title="Accept">
                       <i class="zmdi zmdi-check"></i>
                     </button>
-                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="disapproveContentRequest(req._id,req.contentID, req.requestType, req.creator)">
+                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="disapproveContentRequest(req._id,req.contentID, req.requestType, req.creator)"
+                    data-toggle="tooltip" data-placement="bottom" title="Reject">
                       <i class="zmdi zmdi-close"></i>
                     </button>
-                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="viewCont(req.contentID)">
+                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="viewCont(req.contentID)"
+                    data-toggle="tooltip" data-placement="bottom" title="View details">
                       <i class="zmdi zmdi-view-module"></i>
                     </button>
                   </div>
