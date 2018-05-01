@@ -46,7 +46,7 @@
             <div class="img-post m-b-15">
               <img src={{post.metadata.image}} alt="Awesome Image" width="100%">
             </div>
-            <div *ngIf="post.metadata.description" class="ql-editor preview text" [innerHTML]="post.metadata.description | safeHtml"></div>
+            <div *ngIf="post.metadata.description" class="preview text" [innerHTML]="post.metadata.description" ></div>
             <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
             <a *ngIf="post.type=='a'" routerLink="/activities/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
 

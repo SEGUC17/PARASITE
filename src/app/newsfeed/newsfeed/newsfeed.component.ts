@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { NewsfeedService } from '../newsfeed.service';
 import { TranslateService } from '@ngx-translate/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'app-newsfeed',
   templateUrl: './newsfeed.component.html',
@@ -16,7 +17,7 @@ export class NewsfeedComponent implements OnInit {
   people: any[];
   tags: any[];
   user: any;
-  constructor(public router: Router,
+  constructor(private sanitizer: DomSanitizer, public router: Router,
     private newsfeedService: NewsfeedService, private authService: AuthService,
     private translate: TranslateService) {
   }
@@ -62,6 +63,11 @@ export class NewsfeedComponent implements OnInit {
       .subscribe(function (posts) {
         self.totalNumberOfPages = posts.data.pages;
         self.posts = posts.data.docs;
+        for (let post of self.posts) {
+          post.description = self.sanitizer.bypassSecurityTrustHtml(post.description);
+          console.log(post);
+
+        }
         console.log(self.posts);
       });
   }
