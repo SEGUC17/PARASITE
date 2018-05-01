@@ -32,7 +32,7 @@
 <!-- ......................................................... -->
 <div class="modal-content">
   <div class="card singel-post"  style="margin : 0px">
-    <form class="activity-form" (ngSubmit)="createActivity()" #activityForm="ngForm">
+    <form class="activity-form" (ngSubmit)="createActivity(activityForm.form.valid)" id = "activityForm" #activityForm="ngForm">
       <div class="header"  >
         <h3 class="text-primary" style="color:primary">{{ 'ACTIVITIES.CREATE.CREATE_ACTIVITY' | translate }}</h3>
         <ul class="header-dropdown">
@@ -45,12 +45,10 @@
         <div class="modal-body">
           <fieldset>
             <div class="form-group form-float">
-              <input type="text" class="form-control" [(ngModel)]="activity.name" name="name" required placeholder="Name *">
+              <input id = "actName" type="text" class="form-control" [(ngModel)]="activity.name" name="name" required placeholder="Name *">
             </div>
             <div class="form-group form-float meta-input">
               <div class="input-group">
-                <span class="input-group-addon"><i class="zmdi zmdi-link"></i></span>
-                <input type="text" class="form-control" [(ngModel)]="activity.image" name="image" placeholder="Image link goes here">
                 <app-image-uploader (ImageUploaded)="uploaded($event)"></app-image-uploader>
               </div>
             </div>
@@ -60,7 +58,7 @@
               </div>
             </div>
             <div class="form-group form-float">
-              <input class="form-control" [(ngModel)]="activity.price" name="price" required type="integer" placeholder="Price *">
+              <input id="actPrice" class="form-control" [(ngModel)]="activity.price" name="price" required type="integer" placeholder="Price *">
             </div>
             <div class="row">
               <div class="col-lg-6 col-sm-12">
@@ -79,16 +77,15 @@
           </fieldset>
           <span> <small> {{ 'ACTIVITIES.CREATE.REQUIRED_FIELDS' | translate }} *</small></span>
           <div align="right">
-            <button class="btn btn-primary hidden-sm-down float-right m-l-10" id="btn"
-            [disabled]="!activityForm.form.valid || activity.toDateN <= activity.fromDateN" (click)="createActivity()">{{ 'ACTIVITIES.CREATE.SUBMIT' | translate }}</button>
+            <button class="btn btn-primary hidden-sm-down float-right m-l-10" id="btn">{{ 'ACTIVITIES.CREATE.SUBMIT' | translate }}</button>
           </div>
           <br>
           <br>
-          <div
+         <!-- <div
             [hidden]="!activity.toDateN || !activity.fromDateN || activity.toDateN > activity.fromDateN"
             class="alert alert-danger">
-            {{ 'ACTIVITIES.CREATE.ACTIVITY_DATE_ERROR' | translate }}
-          </div>
+            From date can't be after to date
+          </div> -->
         </div>
       </div>
     </form>

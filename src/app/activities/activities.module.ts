@@ -22,7 +22,8 @@ import { ActivityCreateComponent } from './activity-create/activity-create.compo
 import { ActivityDetailComponent } from './activity-detail/activity-detail.component';
 import { ActivityEditComponent } from './activity-edit/activity-edit.component';
 import { DiscussionService } from '../discussion.service';
-import { ImageUploaderComponent } from '../shared/image-uploader/image-uploader.component';
+import { ImageUploaderComponent } from '../image-uploader/image-uploader.component';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 @NgModule({
@@ -39,12 +40,13 @@ import { ImageUploaderComponent } from '../shared/image-uploader/image-uploader.
     MatListModule,
     MatDialogModule,
     MatTooltipModule,
+    FileUploadModule,
     TranslateModule.forChild()
   ],
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent, ImageUploaderComponent],
   entryComponents: [ActivityEditComponent],
   providers: [ActivityService, DiscussionService , { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] }, ToastrService],
+    { provide: MAT_DIALOG_DATA, useValue: [] }, ToastrService, ImageUploaderComponent], 
   exports: [ActivityCreateComponent ]
 })
 export class ActivitiesModule { }

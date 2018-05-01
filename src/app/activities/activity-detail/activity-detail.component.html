@@ -124,7 +124,7 @@
                   <span class="mt-2">{{comment.createdAt*1000 | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
                 </time>
                 <div class="cbp_tmicon">
-                  <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
+                  <img class="media-object bg-white rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
                   <i class="zmdi zmdi-label"></i>
                 </div>
                 <div class="cbp_tmlabel">
@@ -164,12 +164,17 @@
                   <div *ngIf="viewedReplies[i]" style="margin-left: 10%">
                     <div *ngFor="let reply of comment.replies; let j = index">
                       <div class="row">
-                          <div class="cbp_tmicon bg-info profile-image float-xs-left">
-                            <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
-                        </div>
-                        <div class="col-md-6">
+
+                        <div class="col-md-6 row">
                           <h2>
-                            <a href="profile/{{comment.creator}}">{{reply.creator}}</a>
+                            <ul>
+                              <li>
+                                <div class="cbp_tmicon bg-white profile-image float-xs-left">
+                                  <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
+                                </div>
+                                <h2><a style="margin-left: 30px" href="profile/{{comment.creator}}">{{reply.creator}}</a></h2>
+                              </li>
+                            </ul>
                           </h2>
                         </div>
                         <div class="col-md-6" align="end">
@@ -184,7 +189,7 @@
                           </small>
                         </div>
                       </div>
-                      <p class="ml-4 text-muted">{{reply.text}}</p>
+                      <p class="ml-5 text-muted" style="margin-left: 65px !important;">{{reply.text}}</p>
                       <div *ngIf=" j != comment.replies.length-1">
                         <hr />
                       </div>
