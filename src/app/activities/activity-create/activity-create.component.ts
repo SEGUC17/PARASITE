@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
+import { ActivityComponent } from '../activity/activity.component';
+declare const $: any;
 
 @Component({
   selector: 'app-activity-create',
@@ -27,7 +29,8 @@ export class ActivityCreateComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private activityService: ActivityService
+    private activityService: ActivityService,
+    private activityComponent: ActivityComponent
   ) { }
 
   ngOnInit() {
@@ -45,9 +48,15 @@ export class ActivityCreateComponent implements OnInit {
     this.activityService.postActivities(this.activity).subscribe(
       res => {
           console.log(res);
+          this.close();
           this.router.navigate([`activities/${res.data._id}`]);
       }
     );
+  }
+
+  close(): void {
+    /* close dialog */
+    this.activityComponent.closeModal();
   }
 
 }

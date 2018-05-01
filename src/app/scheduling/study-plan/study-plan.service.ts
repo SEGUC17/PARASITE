@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { StudyPlan } from './study-plan';
-import { Rating } from './star-rating/rating';
 import { Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 import { RequestOptions, Headers } from '@angular/http';
@@ -90,6 +89,10 @@ export class StudyPlanService {
 
   editPersonalStudyPlan(username: String, studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
     return this.http.patch(environment.apiUrl + '/study-plan/editPersonalStudyPlan/' + username + '/' + studyPlanID, studyPlan);
+  }
+
+  editPublishedStudyPlan(studyPlanID: String, studyPlan: StudyPlan): Observable<any> {
+    return this.http.patch(environment.apiUrl + '/study-plan/editPublishedStudyPlan/' + studyPlanID, studyPlan);
   }
 
   removePublishedStudyPlans(studyPlanId: any): Observable<any> {

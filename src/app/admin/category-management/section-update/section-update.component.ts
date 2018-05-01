@@ -3,6 +3,7 @@ import { Category } from '../../../../interfaces/category';
 import { Section } from '../../../../interfaces/section';
 import { AdminService } from '../../admin.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-section-update',
@@ -18,7 +19,11 @@ export class SectionUpdateComponent implements OnInit {
     name: '',
     iconLink: ''
   };
-  constructor(private adminService: AdminService, private toasterService: ToastrService) { }
+  constructor(
+    private adminService: AdminService,
+    private toasterService: ToastrService,
+    private translate: TranslateService
+  ) { }
 
   ngOnInit() {
    this.categories = this.inputCategories;

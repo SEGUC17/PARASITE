@@ -1,18 +1,8 @@
-matmat-paginator {
-  position: fixed;
-  z-index: 1;
-}
+@import "../../../assets/css/blog.css";
 
-.activities-container {
-  margin-top: 3%;
-}
-
-.creation-Children{
-  position: absolute;
-}
-
-#creation {
-  right: 2%;
-  position: fixed;
-  z-index: 1;
+.activity-image {
+  height: 200px;
+  width: 100%;
+  background-size: cover !important;
+  background-position: center !important;
 }

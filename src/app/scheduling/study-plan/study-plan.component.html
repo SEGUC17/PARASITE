@@ -1,8 +1,19 @@
 <section class="content page-calendar">
   <div class="block-header">
+    <ul class="breadcrumb float-right">
+      <li class="breadcrumb-item">
+        <a routerLink="/dashboard">
+          <i class="zmdi zmdi-home"></i> Nawwar</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a routerLink="{{ type === 'personal' ? '/profile/' + profileUsername : '/published-study-plans' }}">
+          <i class="{{ type === 'personal' ? 'zmdi zmdi-account-circle' : 'zmdi zmdi-graduation-cap' }}">
+          </i>{{ type === 'personal' ? ' ' + profileUsername : ' Study Plans' }}</a>
+      </li>
+      <li class="breadcrumb-item active">{{ studyPlan.title }}</li>
+    </ul>
     <div class="row">
       <div class="col-lg-6">
-        <app-rating class="float-right" type="studyPlan" [(ratedId)]="_id" [(inputRating)]="rating" *ngIf="type === 'published'"></app-rating>
         <h2>
           {{ title }}
           <a class="clickable col-md-12 col-lg-4 col-xl-4" *ngIf="!editingTitle" (click)="editingTitle = true">
@@ -10,7 +21,7 @@
           </a>
         </h2>
         <div class="row">
-          <div class="form-group col-md-4" *ngIf="editingTitle">
+          <div class="form-group col-md-8" *ngIf="editingTitle">
             <div class="form-line">
               <input type="text" class="form-control" name="newTitle" [(ngModel)]="newTitle" placeholder="New Title">
             </div>
@@ -21,22 +32,12 @@
             </a>
           </div>
         </div>
-        <ul class="breadcrumb p-l-0 p-b-0 ">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">
-              <i class="zmdi zmdi-home"></i>sQuare</a>
-          </li>
-          <li class="breadcrumb-item">
-            <a routerLink="{{ type === 'personal' ? '/profile/' + profileUsername : '/published-study-plans' }}">
-              <i class="{{ type === 'personal' ? 'zmdi zmdi-account-circle' : 'zmdi zmdi-graduation-cap' }}">
-              </i>{{ type === 'personal' ? ' ' + profileUsername : ' Study Plans' }}</a>
-          </li>
-          <li class="breadcrumb-item active">{{ studyPlan.title }}</li>
-        </ul>
       </div>
     </div>
   </div>
+
   <div class="container-fluid">
+    <app-rating type="studyPlan" [(ratedId)]="_id" [(inputRating)]="rating" *ngIf="type === 'published'"></app-rating>
     <div class="card">
       <div class="row">
 
@@ -99,16 +100,33 @@
         </div>
 
       </div>
-      <hr/>
-      <div class="ql-editor preview" [innerHTML]="editorContent"></div>
+    </div>
+    <!-- <hr/> -->
+    <div class="card">
+      <div class="header">
+        <h2>
+          <a class="clickable float-right" *ngIf="!editingDescription" (click)="editingDescription = true">
+            <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
+          </a>
+          <a class="clickable float-right" *ngIf="editingDescription" (click)="editingDescription = false; changed = true;">
+            <i class="zmdi zmdi-check zmdi-hc-2x"></i>
+          </a>
+          <strong>Description</strong>
+        </h2>
+      </div>
+      <div class="body" *ngIf="editingDescription">
+        <quill-editor class="text-editor" [options]="editorOptions" [(ngModel)]="editorContent" name="editorContent" (change)="onContentChanged($event)"></quill-editor>
+      </div>
+      <div class="body" *ngIf="!editingDescription">
+        <div class="ql-editor preview" [innerHTML]="editorOut"></div>
+      </div>
       <hr/>
       <div class="button-row">
         <button class="btn btn-primary" (click)="publish()" color="primary" *ngIf="type === 'personal' && !currIsChild">Publish</button>
         <button class="btn btn-primary" (click)="copy()" color="primary" *ngIf="!currIsChild">Copy</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="type === 'personal' && profileUsername ? currUsername === profileUsername : true && !currIsChild">Assign</button>
         <button class="btn btn-primary" (click)="unAssign()" color="primary" *ngIf="studyPlan.assigned">Unassign</button>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#assignFunction" color="primary" *ngIf="type === personal && currUsername === profileUsername && !currIsChild">Assign</button>
-        <button class="btn btn-primary" (click)="edit()" color="primary" *ngIf="(type === 'personal' && !currIsChild) || (type === 'published' && (currUsername === studyPlan.creator || currIsAdmin))">Edit</button>
-        <button class="btn btn-primary" (click)="saveChangesPersonal()" color="primary" *ngIf="changed">Save Changes</button>
+        <button class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" color="primary" *ngIf="changed">Save Changes</button>
       </div>
     </div>
   </div>

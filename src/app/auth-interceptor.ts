@@ -15,7 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
         headers = token ? headers.append('Authorization', token) : headers;
 
-        let newRequest = request.clone({ headers });
+        let newRequest = request.clone({ headers, withCredentials: true });
         return next.handle(newRequest);
 
     }

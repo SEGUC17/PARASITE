@@ -319,7 +319,7 @@ module.exports.deletePublishedStudyPlan = function (req, res, next) {
             });
         }
 
-        if (studyPlan.creator !== req.user.username) {
+        if (studyPlan.creator !== req.user.username && !req.user.isAdmin) {
             return res.status(401).json({
                 data: null,
                 err: 'Unauthorized to delete study plan',
@@ -383,4 +383,46 @@ module.exports.editPersonalStudyPlan = function (req, res, next) {
             });
         }
     );
+};
+
+module.exports.editPublishedStudyPlan = function (req, res, next) {
+    StudyPlan.findById(req.params.studyPlanID, function (err, studyPlan) {
+        if (err) {
+            return next(err);
+        }
+
+        if (!studyPlan) {
+            return res.status(404).json({
+                data: null,
+                err: 'Study plan not found',
+                msg: null
+            });
+        }
+
+        if (req.user.username !== studyPlan.creator &&
+            !req.user.isAdmin) {
+            return res.status(401).json({
+                data: null,
+                err: 'Unauthorized',
+                msg: null
+            });
+        }
+
+        studyPlan.creator = req.user.isAdmin ? studyPlan.creator : req.user;
+        studyPlan.description = req.body.description;
+        studyPlan.events = req.body.events;
+        studyPlan.title = req.body.title;
+
+        studyPlan.save(function (error) {
+            if (error) {
+                return next(error);
+            }
+
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'Study plan updated successfully'
+            });
+        });
+    });
 };

@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "cover": "nyc report --reporter=html",
-    "postinstall": "ng build"
+    "postinstall": "ng build --env=prod"
   },
   "private": true,
   "dependencies": {
@@ -25,6 +25,10 @@
     "@angular/platform-browser": "^5.2.10",
     "@angular/platform-browser-dynamic": "^5.2.10",
     "@angular/router": "^5.2.10",
+    "@ngx-loading-bar/core": "^1.6.0",
+    "@ngx-loading-bar/router": "^1.6.0",
+    "@ngx-translate/core": "^9.1.1",
+    "@ngx-translate/http-loader": "^3.0.1",
     "amazing-time-picker": "^1.5.3",
     "angular-calendar": "^0.23.7",
     "angular-star-rating": "^4.0.0-beta.3",
@@ -53,6 +57,7 @@
     "mongoose-paginate": "^5.0.3",
     "mongoose-timestamp-date-unix": "^0.6.2",
     "morgan": "^1.9.0",
+    "ng-gapi": "0.0.50",
     "ng2-cloudinary": "^0.9.2",
     "ngx-dropzone-wrapper": "^5.3.2",
     "ngx-facebook": "^2.4.0",
@@ -77,6 +82,7 @@
     "@angular/language-service": "^5.2.10",
     "@types/jasmine": "^2.8.6",
     "@types/jasminewd2": "~2.0.2",
+    "@types/jquery": "^3.3.1",
     "@types/node": "^6.0.106",
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",

@@ -1,4 +1,6 @@
 var mongoose = require('mongoose');
+var timestamps = require('mongoose-timestamp-date-unix');
+var REGEX = require('../utils/validators/REGEX');
 
 mongoose.connect('mongodb://localhost/nawwar');
 
@@ -6,22 +8,6 @@ var db = mongoose.connection;
 var Schema = mongoose.Schema;
 
 var VCRSchema = mongoose.Schema({
-    AvatarLink: {
-        trim: true,
-        type: String
-    },
-    ProfileLink: {
-        trim: true,
-        type: String
-    },
-    RequestDate: {
-        default: Date.now,
-        type: Date
-    },
-    bio: {
-        required: false,
-        type: String
-    },
     creator: {
         type: [
             {
@@ -31,6 +17,15 @@ var VCRSchema = mongoose.Schema({
         ],
         unique: true
     },
+    email: {
+      lowercase: true,
+      match: REGEX.MAIL_REGEX,
+      required: true,
+      trim: true,
+      type: String,
+      unique: true
+    },
+    numberOfChildren: { type: Number },
     image: {
         trim: false,
         type: String
@@ -48,6 +43,8 @@ var VCRSchema = mongoose.Schema({
         type: String
     }
 });
+
+VCRSchema.plugin(timestamps);
 
 var VerifiedContributerRequest = mongoose.model(
     'VerifiedContributerRequest',

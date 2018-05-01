@@ -126,13 +126,10 @@ module.exports.requestUserValidation = function (req, res, next) {
 
   var reqObj = {
     status: 'pending',
-    bio: status + ', @' + req.user.username +
-      ',\n' + req.user.email + ', Number of Children : ' +
-      req.user.children.length,
+    email : req.user.email,
+    numberOfChildren: req.user.children.length,
     name: req.user.firstName + ' ' + req.user.lastName,
-    AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
-    ProfileLink: 'localhost:4200/profile/' + req.user.username,
-    image: 'src of an image',
+    image: req.user.avatar,
     creator: req.user._id
   };
   // dummy request obj for testing.
