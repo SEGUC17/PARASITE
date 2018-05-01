@@ -350,17 +350,16 @@ export class AppComponent implements OnInit {
         else if ((type === 'content' || type === 'discussion content' )&& itemId) {
           retrievednotifications[i].link = '/content/view/'+retrievednotifications[i].itemId;
         }
-        else if (type === 'study plan' && itemId) {
-          retrievednotifications[i].link = '/study-plan/published/'+retrievednotifications[i].itemId;
+        else if (type === 'study plan' && itemId && itemUsername) {
+          // item Id is the study plan id and itemUsername is the assigned username
+          retrievednotifications[i].link = '/scheduling/study-plan/personal/'+retrievednotifications[i].itemId+itemUsername;
         } 
         //donot need id in market
-        else if (type === 'product' && itemId) {
+        else if (type === 'product') {
           retrievednotifications[i].link = '/market';
         }
       }
-      console.log(retrievednotifications);
       self.notifications = retrievednotifications.reverse();
-      console.log(self.notifications);
 
     })
   }

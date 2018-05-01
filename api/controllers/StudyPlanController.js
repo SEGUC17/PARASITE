@@ -220,6 +220,7 @@ module.exports.assignStudyPlan = function (req, res, next) {
                             newStudyPlan.title,
                         date: moment().toDate(),
                         itemId: newStudyPlan._id,
+                        itemUsername: req.params.username,
                         type: 'study plan'
                     };
                     User.findOneAndUpdate(
@@ -230,8 +231,6 @@ module.exports.assignStudyPlan = function (req, res, next) {
                         }
                         , { new: true },
                         function (errr, updatedUser) {
-                            console.log('add the notification');
-                            console.log(updatedUser.notifications);
                             if (errr) {
                                 return res.status(402).json({
                                     data: null,
@@ -316,7 +315,6 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                     body: req.user.username + ' unassigned' +
                         'you from a Study Plan',
                     date: moment().toDate(),
-                    itemId: req.params.studyPlanID,
                     type: 'study plan'
                 };
                 User.findOneAndUpdate(
@@ -327,8 +325,6 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                     }
                     , { new: true },
                     function (errr, updatedUser) {
-                        console.log('add the notification');
-                        console.log(updatedUser.notifications);
                         if (errr) {
                             return res.status(402).json({
                                 data: null,
