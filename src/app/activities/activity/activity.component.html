@@ -2,14 +2,13 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>{{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}
-          <small>{{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}</small>
+        <h2>Activities
+          <small>Welcome to Activities</small>
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
-        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="user.verified || user.isAdmin"
-          type="button" (click)="showCreateActivityForm()">
-          <!--TODO: redirect to create Page-->
+        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" *ngIf="canCreate" type="button" (click)="showCreateActivityForm()">
+                                                                                                                          <!--TODO: redirect to create Page-->
           <i class="zmdi zmdi-plus"></i>
         </button>
 
@@ -18,7 +17,7 @@
             <a routerLink="/dashboard">
               <i class="zmdi zmdi-home"></i>Dashboard</a>
           </li>
-          <li class="breadcrumb-item active">{{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}</li>
+          <li class="breadcrumb-item active">Activities</li>
         </ul>
       </div>
     </div>
@@ -55,7 +54,7 @@
 
             </div>
             <p>{{activity.description}}</p>
-            <a routerLink="/activities/{{activity._id}}" title="read more" class="btn btn-round btn-info">{{ 'ACTIVITIES.LIST.READ_MORE' | translate }}</a>
+            <a routerLink="/activities/{{activity._id}}" title="read more" class="btn btn-round btn-info">Read More</a>
           </div>
         </div>
       </div>
@@ -104,7 +103,7 @@
     </div>
 
     <div class="modal-footer" style="display: none;">
-      <button type="button" class="btn btn-default" id="btn11" data-dismiss="modal">{{ 'ACTIITY.LIST.CLOSE' | translate }}</button>
+      <button type="button" class="btn btn-default" id="btn11" data-dismiss="modal">Close</button>
     </div>
   </div>
 </div>

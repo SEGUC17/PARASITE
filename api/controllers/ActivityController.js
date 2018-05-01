@@ -89,16 +89,7 @@ module.exports.getActivity = function (req, res, next) {
     }
 
     Activity.findById(activityId).
-        populate({
-            model: 'User',
-            path: 'discussion.creatorInfo',
-            select: 'avatar firstName lastName'
-        }).
-        populate({
-            model: 'User',
-            path: 'discussion.replies.creatorInfo',
-            select: 'avatar firstName lastName'
-        }).
+        populate('bookedBy').
         exec(function (err, activity) {
             if (err) {
                 return next(err);
@@ -299,9 +290,9 @@ module.exports.reviewActivity = function (req, res) {
                 });
             }
             // Not tested cause I cant make an activity if I'm not admin
+            if (newStatus === 'verified') {
             var notification = {
-                body: 'Your request to create an activity is ' +
-                    newStatus,
+                body: 'Your new activity was accepted & is now posted.',
                 date: moment().toDate(),
                 itemId: activityId,
                 type: 'activity'
@@ -332,6 +323,7 @@ module.exports.reviewActivity = function (req, res) {
                     // }
                 }
             );
+        }
             res.status(200).send({
                 data: activity,
                 err: null,
@@ -593,7 +585,8 @@ module.exports.bookActivity = function (req, res, next) {
                     }
                     if (req.user.username != activity2.creator) {
                         var notification = {
-                            body: req.user.username + ' booked your activity',
+                            body: req.user.username + ' booked your activity ' +
+                            activity2.name,
                             date: moment().toDate(),
                             itemId: req.params.activityId,
                             type: 'activity'

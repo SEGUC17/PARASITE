@@ -15,6 +15,7 @@
         "CHANGE_LANGUAGE": "تغيير اللغة"
     },
     "ACTIVITIES": {
+<<<<<<< HEAD
         "CREATE": {
             "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
             "CREATE_ACTIVITY": "اضافة نشاط",
@@ -44,6 +45,8 @@
             "WRITE_COMMENT": "...اترك تعليق",
             "BOOK_SUCCESS": "....تم الحجز بنجاح"
         },
+=======
+>>>>>>> master
         "EDIT":{
             "EDIT_ACTIVITY": "تعديل النشاط",
             "ACTIVITY_NAME": "الاسم",
@@ -231,6 +234,15 @@
 
     },
     "SEARCH": {
+<<<<<<< HEAD
 
     }
 }
+=======
+        
+    },
+    "LANDING":{
+        
+    }
+}
+>>>>>>> master

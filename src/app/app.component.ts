@@ -5,6 +5,7 @@ import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { Notification } from './notification';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/filter';
+import { not } from '@angular/compiler/src/output/output_ast';
 declare const $: any;
 declare const jquery: any;
 declare const screenfull: any;
@@ -21,7 +22,19 @@ export class AppComponent implements OnInit {
   lastName: string;
   isAdmin: boolean;
   notifications: Notification[];
+  messagesNotifications: Notification[];
   unreadNotificationsNumber: number; // Number of unread notifications to display on top of icon
+  unreadNotificationsNumberMessages: number; // Number of unread messages to display on top of icon
+  discussion_C : String = "discussion content";
+  discussion_A : String = "discussion activity";
+  message : String = "message";
+  link : String = "link";
+  study_plan : String = "study plan";
+  product : String = "product";
+  content : String = "content";
+  activity : String = "activity";
+  contributer : String = "contributer";
+  
   links = [
     {
       url: '/content/list',
@@ -67,6 +80,10 @@ export class AppComponent implements OnInit {
       url: '/scheduling/study-plan/published',
       name: 'APP.STUDY_PLANS',
       icon: 'graduation-cap'
+    },
+    {
+      url: '/landing',
+      name: 'Landing'
     }
   ];
   constructor(private router: Router, private authService: AuthService,
@@ -262,7 +279,6 @@ export class AppComponent implements OnInit {
     }); // End of use strict
 
     this.isSignedIn();
-    this.getNotifications();
   }
 
   isSignedIn(): void {
@@ -273,6 +289,7 @@ export class AppComponent implements OnInit {
       self.firstName = res.data.firstName;
       self.lastName = res.data.lastName;
       self.isAdmin = res.data.isAdmin;
+      self.getNotifications();
     }, function (error) {
       console.log(error);
       if (error.status === 401) {
@@ -288,26 +305,65 @@ export class AppComponent implements OnInit {
   }
   modifyNotification(notificationId, isRead): void {
     let self = this;
-    this.authService.modifyNotification(notificationId, self.username, true).subscribe(function (res) {
-      console.log(res.data);
+    console.log('in modify notification');
+    this.authService.modifyNotification(notificationId, self.username, isRead).subscribe(function (res) {
+      console.log('output of modify notification' + res.data);
       self.getNotifications();
     });
 
   }
   getNotifications(): void {
-    // console.log('getting notifications');
     let self = this;
-    // self.notifications = [{ body : 'This ia a notification', link : 'fhbejdv' },{body : 'This ia a notification', link : 'fhbejdv' }] 
     this.authService.getUserData(['notifications']).subscribe(function (res) {
-      self.notifications = res.data.notifications;
-      console.log(res.data.notifications);
-      var unreadNots = self.notifications.filter(function (notRead) {
+      // all notification except of type message 
+      var retrievednotifications = res.data.notifications.filter(function(notMessage) {
+        return notMessage.type != 'message';
+      });
+    // all notification that aren't read (not messages)
+      var unreadNots = res.data.notifications.filter(function (notRead) {
         return notRead.isRead === false;
       });
+      // unread notifications number
       self.unreadNotificationsNumber = unreadNots.length;
+
+      // all notifications that are of type message and aren't read
+      var messagesNotifications = res.data.notifications.filter(function(messageNotification) {
+        return messageNotification.type === 'message' && messageNotification.isRead === false;
+      });
+      self.messagesNotifications = messagesNotifications;
+      // unread messages number
+      self.unreadNotificationsNumberMessages = messagesNotifications.length;
+    
+      for(let i = 0 ; i < retrievednotifications.length ; i++) {
+        let type = retrievednotifications[i].type;
+        let itemId = retrievednotifications[i].itemId;
+        let itemUsername = retrievednotifications[i].itemUsername;
+        console.log(type);
+        ///////////// all profile must be usernamesss
+        if ((type == 'link' || type == 'contributer' ) && itemUsername) {
+          retrievednotifications[i].link = '/profile/'+retrievednotifications[i].itemUsername;
+        
+        }
+        else if ((type === 'activity' || type === 'discussion activity' ) && itemId) {
+          retrievednotifications[i].link = '/activities/'+retrievednotifications[i].itemId;
+        }
+        else if ((type === 'content' || type === 'discussion content' )&& itemId) {
+          retrievednotifications[i].link = '/content/view/'+retrievednotifications[i].itemId;
+        }
+        else if (type === 'study plan' && itemId) {
+          retrievednotifications[i].link = '/study-plan/published/'+retrievednotifications[i].itemId;
+        } 
+        //donot need id in market
+        else if (type === 'product' && itemId) {
+          retrievednotifications[i].link = '/market';
+        }
+      }
+      console.log(retrievednotifications);
+      self.notifications = retrievednotifications.reverse();
+      console.log(self.notifications);
+
     })
   }
-
 
   // method to change the website's language
   changeLanguage(): void {
@@ -319,5 +375,13 @@ export class AppComponent implements OnInit {
       this.translate.use('en');
     }
 
+  }
+  //method that makes all messages read
+  onMessageIconClick() {
+    console.log('in');
+    let self = this;
+    for (let i = 0 ; i < self.messagesNotifications.length ; i++ ) {
+      self.modifyNotification(self.messagesNotifications[i]._id, true)
+    }
   }
 }

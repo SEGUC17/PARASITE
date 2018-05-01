@@ -457,38 +457,6 @@ var handleAdminUpdate = function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            var notification = {
-                body: 'Your updated Content has been successfully uploaded',
-                date: moment().toDate(),
-                itemId: updatedContent._id,
-                type: 'content'
-            };
-            User.findOneAndUpdate(
-                { username: updatedContent.creator },
-                {
-                    $push:
-                        { 'notifications': notification }
-                }
-                , { new: true },
-                function (errr, updatedUser) {
-                    console.log('add the notification');
-                    // console.log(updatedUser.notifications);
-                    if (errr) {
-                        return res.status(402).json({
-                            data: null,
-                            err: 'error occurred during adding ' +
-                                'the notification'
-                        });
-                    }
-                    if (!updatedUser) {
-                        return res.status(404).json({
-                            data: null,
-                            err: null,
-                            msg: 'User not found.'
-                        });
-                    }
-                }
-            );
 
             return res.status(200).json({
                 data: updatedContent,

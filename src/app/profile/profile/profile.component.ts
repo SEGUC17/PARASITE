@@ -7,10 +7,6 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { catchError } from 'rxjs/operators';
-
 
 
 declare const swal: any;
@@ -250,13 +246,8 @@ export class ProfileComponent implements OnInit {
     //     image: 'imageMaher.com',
     //     creator: '5ac12591a813a63e419ebce5'
     // }
-    var self = this;
-    this._ProfileService.makeContributerValidationRequest({}).pipe(
-      catchError(this.handleError('evalRequest', 'duplicate'))
-    ).subscribe(function (res) {
-      if(res !== 'duplicate' ) {
-        self.toastrService.success('request submitted');
-      }
+    this._ProfileService.makeContributerValidationRequest({}).subscribe(function (res) {
+      // console.log(res);
     });
   }
 
@@ -324,13 +315,13 @@ let self =this;
       if( res.msg.indexOf('13') < 0){ self.visitedIsChild=false; self.toastrService.success(res.msg, 'success' );  }
        else{self.toastrService.error(res.msg, 'failure' ) }
     }));// if res.msg contains 13 then the child is under age and action is not allowed
-    
+
   }  // Author :Heidi
   UnlinkMyself() {
 // getting the visited profile username and passing it to service method to add it to the patch request
 let self =this;
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
-  if (res.msg.indexOf('Successefully')>-1) 
+  if (res.msg.indexOf('Successefully')>-1)
   { self.visitedIsMyParent = false; self.toastrService.success('Parent unlinked successfully', 'success') ;}
     }));
   }
@@ -488,11 +479,4 @@ let self =this;
       });
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
-    var self = this;
-    return function (error: any): Observable<T> {
-      self.toastrService.error(error.error.msg);
-      return of(result as T);
-    };
-  }
 }

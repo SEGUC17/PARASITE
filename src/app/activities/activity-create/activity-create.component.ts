@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
 import { ActivityComponent } from '../activity/activity.component';
-
 declare const $: any;
 
 @Component({

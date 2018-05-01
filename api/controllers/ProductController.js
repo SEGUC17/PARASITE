@@ -204,7 +204,7 @@ module.exports.evaluateRequest = function (req, res, next) {
                             return next(error1);
                         }
                         var notification = {
-                            body: 'Your product request is approved. your product now is in the market',
+                            body: 'Your new product was approved. your product is now on the market',
                             date: moment().toDate(),
                             itemId: newProduct._id,
                             type: 'product'
@@ -253,40 +253,9 @@ module.exports.evaluateRequest = function (req, res, next) {
                         msg: 'Request not found.'
                     });
                 }
-                // TODO Notify user done :)))
-                var notification = {
-                    body: 'Your product request is disapproved',
-                    date: moment().toDate(),
-                    type: 'product'
-                };
-                User.findOneAndUpdate(
-                    { username: req.body.seller },
-                    {
-                        $push:
-                            { 'notifications': notification }
-                    }
-                    , { new: true },
-                    function (errr, updatedUser) {
-                        console.log('add the notification');
-                        // console.log(updatedUser.notifications);
-                        if (errr) {
-                            return res.status(402).json({
-                                data: null,
-                                err: 'error occurred during adding ' +
-                                    'the notification'
-                            });
-                        }
-                        if (!updatedUser) {
-                            return res.status(404).json({
-                                data: null,
-                                err: null,
-                                msg: 'User not found.'
-                            });
-                        }
-                    }
-                );
-
+                // TODO Notify user done ;)
                 // When done, send response
+
                 return res.status(200).json({
                     data: null,
                     err: null,

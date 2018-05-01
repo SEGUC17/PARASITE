@@ -59,7 +59,7 @@
             "PRICE_PLACEHOLDER":"Price",
             "DESCRIPTION_PLACEHOLDER":"Description",
             "ACTIVITY_IMAGE":"Change activity image "
-            
+
         }
     },
     "ADMIN": {
@@ -220,12 +220,12 @@
     "MESSAGING": {
 
     },
-    "PROFILE": { 
+    "PROFILE": {
                 "CHILDREN":{    "UNLINK":"Unlink",
                                 "AGE":"Age" ,
                                 "LEARNING_SCORE":"Learning Score",
                                 "POINTS":"Points"
-                    
+
                                 }
 
     },
@@ -236,6 +236,9 @@
 
     },
     "SEARCH": {
+
+    },
+    "LANDING":{
 
     }
 }
