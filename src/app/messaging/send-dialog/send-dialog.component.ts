@@ -73,7 +73,7 @@ export class SendDialogComponent implements OnInit {
             const list = user.data.blocked;
             for ( let i = 0 ; i < user.data.blocked.length ; i++) {
               if ( self.currentUser.username === list[i] ) {
-                this._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function(translation) {
+                this._TranslateService.get('MESSAGING.TOASTR.SEND_SELF').subscribe(function(translation) {
                   self.toastrService.error(translation);
                 });
                 self.allisWell = false;

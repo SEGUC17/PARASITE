@@ -148,7 +148,7 @@ export class SingleMailComponent implements OnInit {
         this.list = user.data.blocked;
         for ( let i = 0 ; i < user.data.blocked.length ; i++) {
           if ( this.currentUser.username === this.list[i] ) {
-            this._TranslateService.get('MESSAGING.TOASTR.BLOCK').subscribe(function(translation) {
+            this._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function(translation) {
              self.toastrService.error(translation);
             });
             this.allisWell = false;

@@ -105,9 +105,7 @@ export class MessagingComponent implements OnInit {
         const list = user.data.blocked;
         for ( let i = 0 ; i < user.data.blocked.length ; i++) {
           if ( this.currentUser.username === list[i] ) {
-            console.log('blocked is:', list[i]);
-            console.log('it prints!');
-            self._translate.get('MESSAGING.TOASTR.BLOCKED').subscribe(function(translation) {
+            self._translate.get('MESSAGING.TOASTR.SEND_SELF').subscribe(function(translation) {
               self.toastrService.error(translation);
 
             });
