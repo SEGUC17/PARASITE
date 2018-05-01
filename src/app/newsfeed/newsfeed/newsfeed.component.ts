@@ -32,13 +32,13 @@ export class NewsfeedComponent implements OnInit {
         self.newsfeedService.getPeople().subscribe(function (people) {
           self.people = people.data;
         });
-        self.tags = self.user.interests;
+        // self.tags = self.user.interests;
+        self.tags = [{name: 'math'}, {name: 'physics'}, {name: 'high school'}];
         self.currentPageNumber = 1;
         self.firstNewsfeedPage();
       }
     });
   }
-
 
   //        start of  page actions       //
 
@@ -57,7 +57,7 @@ export class NewsfeedComponent implements OnInit {
     // scroll to the top
     window.scrollTo(0, 0);
     const self = this;
-    self.newsfeedService.getNewsfeedPage([], self.entriesPerPage,
+    self.newsfeedService.getNewsfeedPage(self.tags, self.entriesPerPage,
       self.currentPageNumber)
       .subscribe(function (posts) {
         self.totalNumberOfPages = posts.data.pages;

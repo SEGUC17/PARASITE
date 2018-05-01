@@ -73,8 +73,8 @@
           </div>
           <div class="body widget tag-clouds">
             <ul class="list-unstyled m-b-0">
-              <li>
-                <a href="/newsfeed" class="tag badge badge-default">{{ 'NEWSFEED.TAG' | translate }}</a>
+              <li *ngFor = "let tag of tags">
+                <p class="tag badge badge-default">{{tag.name}}</p>
               </li>
             </ul>
           </div>
@@ -95,7 +95,6 @@
                         <div class="img-post m-b-5">
                           <img src="assets/images/newsfeed/connectToMore.png" alt="Awesome Image">
                         </div>
-                        <i class="zmdi zmdi-accounts col-blue"></i>
                         <p class="m-b-0 col-white">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</p>
                       </a>
                     </div>

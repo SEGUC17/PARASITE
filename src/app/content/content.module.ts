@@ -62,8 +62,8 @@ import { ContentRedirectorComponent } from './content-redirector/content-redirec
     ContentListViewComponent,
     ContentViewComponent,
     SafeResourceUrlPipe,
-    SafeHtmlPipe,
     VideoIdExtractorPipe,
+    SafeHtmlPipe,
     YoutubePlayerComponent,
     ContentRedirectorComponent
   ]

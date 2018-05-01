@@ -504,8 +504,8 @@ module.exports.VCRResponde = function (req, res, next) {
     if (req.user.isAdmin) {
       // Update the request with the given responce.
       VCRmodel.update(
-        {_id: req.params.targetId},
-        {$set: {status: req.body.responce}}, {new: false},
+        { _id: req.params.targetId },
+        { $set: { status: req.body.responce } }, { new: false },
         function (err) {
           if (err) {
             throw err;
@@ -513,7 +513,7 @@ module.exports.VCRResponde = function (req, res, next) {
         }
       );
       var userId = null;
-      VCRmodel.find({_id: req.params.targetId}).exec(function (err, result) {
+      VCRmodel.find({ _id: req.params.targetId }).exec(function (err, result) {
         // find the _id of the Approved/Disapproved User
         // to change his Verified state.
         if (err) {
@@ -523,8 +523,8 @@ module.exports.VCRResponde = function (req, res, next) {
         var response = req.body.responce;
 
         userModel.findOneAndUpdate(
-          {_id: userId}, {$set: {verified: (response === 'approved')}},
-          {new: true},
+          { _id: userId }, { $set: { verified: response === 'approved' } },
+          { new: true },
           function (error, resp) {
             if (error) {
               throw error;
