@@ -7,6 +7,14 @@ const routes = [
   {
     path: '',
     component: MarketComponent
+  },
+  {
+    path: ':productId',
+    component: ProductDetailComponent
+  },
+  {
+    path: 'create-product',
+    component: CreateProductComponent
   }
 ];
 @NgModule({
