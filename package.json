@@ -56,6 +56,7 @@
     "mongoose": "^5.0.11",
     "mongoose-paginate": "^5.0.3",
     "mongoose-random": "^0.1.1",
+    "mongoose-simple-random": "^0.4.1",
     "mongoose-timestamp-date-unix": "^0.6.2",
     "morgan": "^1.9.0",
     "ng-gapi": "0.0.50",
