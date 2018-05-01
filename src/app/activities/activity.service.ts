@@ -73,5 +73,7 @@ export class ActivityService {
   EditActivity(activity: ActivityEdit, id: any) {
     return this.http.patch( this.activitiesUrl + '/' + id + '/EditActivity', activity);
   }
-
+  EditActivityImage(upload , id): any {
+    return this.http.patch( this.activitiesUrl + '/' + id + '/EditActivityImage', upload);
+  }
 }

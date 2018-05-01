@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 
 var token = null;
 
-describe('/PATCH Parent', function () {
+describe('/PATCH ActivityImage', function () {
     this.timeout(120000);
     // --- Mockgoose Initiation --- //
     before(function (done) {
@@ -34,7 +34,7 @@ describe('/PATCH Parent', function () {
         });
     });
 
-it(' unlink the logged in child from his selected coach', function (done) {
+it(' should update activity image', function (done) {
     var user = new User({
         birthdate: '12/12/1999',
         email: 'user@gmail.com',
@@ -43,7 +43,7 @@ it(' unlink the logged in child from his selected coach', function (done) {
         lastName: 'lastName',
         password: '12345678',
         phone: '01113999999',
-        username: 'userz'
+        username: 'normalusername'
     });
     user.save(function (err2, save2) {
         if (err2) {
@@ -53,7 +53,7 @@ it(' unlink the logged in child from his selected coach', function (done) {
     post('/api/signIn').
     send({
         'password': '12345678',
-        'username': 'userz'
+        'username': 'normalusername'
     }).
     end(function (err, response) {
         if (err) {
@@ -63,38 +63,40 @@ it(' unlink the logged in child from his selected coach', function (done) {
         token = response.body.token;
 
 
-    var User1 = new User({
-        birthdate: '12/12/1999',
-        children: ['userz'],
-        email: 'user@gmail.com',
-        firstName: 'parentName',
-        isParent: true,
-        lastName: 'parent',
-        password: '12345678',
-        phone: '01113999999',
-        username: 'parentz'
+    var Activity1 = new Activity({
+        bookedBy: [],
+        creator: 'normalusername',
+        description: 'activity1 des',
+        fromDateTime: Date.now(),
+        image: 'assets/images/activity-view/default-activity-image.jpg',
+        name: 'activity1',
+        price: 50,
+        status: 'pending',
+        toDateTime: Date.now() + 5
+
 
  });
- User1.save(function (eror, save) {
+ Activity1.save(function (eror, save) {
     if (eror) {
         return console.log(eror);
     }
 
 
     chai.request(server).
-    patch('/api/profile/' + User1.username + '/UnlinkMyself').
+    patch('/api/activities/' + save._id + '/EditActivityImage').
+    send({ image: 'assets/images/defaultProfilePic.png' }).
     set('Authorization', token).
     end(function (error, ress) {
         if (error) {
             return console.log(error);
         }
-
-
         ress.should.have.status(200);
-        ress.body.data.should.be.a('array');
+
        ress.body.should.have.property('msg').
-       eql('Successefully removed child from parent\'s list of children');
+       eql('image is updated');
         ress.body.should.have.property('err').eql(null);
+      ress.body.data.should.be.a('String');
+         ress.body.data.should.be.eql('assets/images/defaultProfilePic.png');
 
       done();
     });
@@ -110,4 +112,3 @@ it(' unlink the logged in child from his selected coach', function (done) {
     });
 
 });
-
