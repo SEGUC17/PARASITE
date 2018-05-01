@@ -83,54 +83,37 @@ module.exports.EditChildIndependence = function (req, res, next) {
           msg: 'You cannot make a child under 13 independent.'
         });
     }
-
+    var notification = {
+      body: 'You are now independant',
+      date: moment().toDate(),
+      itemUsername: user.username,
+      type: 'link'
+    };
     // if the previous conditions are false then child is changed successefuly
 
-    User.update(
-      user,
-      { $set: { isChild: false } }
-    ).
-      exec(function (error, updated) {
-        if (err) {
-          return err;
+    User.findOneAndUpdate(
+      { username: req.params.username },
+      {
+        $set: { isChild: false },
+        $push:
+          { 'notifications': notification }
+        },
+          { new: true }
+  ).
+    exec(function (error, updated) {
+      if (err) {
+        return err;
 
-        }
-        var notification = {
-          body: 'You are now independant',
-          date: moment().toDate(),
-          itemUsername: user.username,
-          type: 'link'
-        };
-        User.findOneAndUpdate(
-          { username: updated.username },
-          {
-            $push:
-              { 'notifications': notification }
-          }
-          , { new: true },
-          function (errr, updatedUser) {
-            console.log('add the notification');
-            console.log(updatedUser.notifications);
-            if (errr) {
-              return res.status(402).json({
-                data: null,
-                err: 'error occurred during adding ' +
-                  'the notification'
-              });
-            }
-          }
-        );
+      }
 
-        res.status(200).json({
-          data: user.isChild,
-          err: null,
-          msg: 'Successefully changed from child to independent.'
-        });
-
+      res.status(200).json({
+        data: user.isChild,
+        err: null,
+        msg: 'Successefully changed from child to independent.'
       });
 
-
-  });
+    });
+});
 };
 
 // @author: MAHER
@@ -408,14 +391,13 @@ module.exports.UnlinkIndependent = function (req, res, next) {
   var notification = {
     body: req.user.username + ' unlinked you',
     date: moment().toDate(),
-    itemId: req.user._id,
+    itemUsername: req.user.username,
     type: 'link'
   };
 
   // checking whether the signed-in user is independent
   if (req.user.isChild) {
-    console.log(' is child');
-    console.log(req.user);
+
 
     return res.
       status(403).
@@ -436,8 +418,7 @@ module.exports.UnlinkIndependent = function (req, res, next) {
     // checking if the username in the params is a parent to the logged in user
 
     if (user.children.indexOf(req.user.username) < 0) {
-      console.log('not linked');
-      console.log(req.user);
+
 
       return res.
         status(403).
@@ -460,9 +441,6 @@ module.exports.UnlinkIndependent = function (req, res, next) {
         if (error) {
           return error;
         }
-        console.log(updated.username);
-        console.log(updated.children);
-        console.log(req.user.username);
 
         res.status(200).json({
           data: updated.children,

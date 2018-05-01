@@ -80,6 +80,10 @@ export class AppComponent implements OnInit {
       url: '/scheduling/study-plan/published',
       name: 'Study Plans',
       icon: 'graduation-cap'
+    },
+    {
+      url: '/landing',
+      name: 'Landing'
     }
   ];
   constructor(private router: Router, private authService: AuthService,
@@ -278,7 +282,6 @@ export class AppComponent implements OnInit {
   }
 
   isSignedIn(): void {
-    console.log('triggered');
     const self = this;
     this.authService.getUserData(['username', 'firstName', 'lastName', 'avatar', 'isAdmin']).subscribe(function (res) {
       self.username = res.data.username;
@@ -339,6 +342,7 @@ export class AppComponent implements OnInit {
         ///////////// all profile must be usernamesss
         if ((type == 'link' || type == 'contributer' ) && itemUsername) {
           retrievednotifications[i].link = '/profile/'+retrievednotifications[i].itemUsername;
+        
         }
         else if ((type === 'activity' || type === 'discussion activity' ) && itemId) {
           retrievednotifications[i].link = '/activities/'+retrievednotifications[i].itemId;

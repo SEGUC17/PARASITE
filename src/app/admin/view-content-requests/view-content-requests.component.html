@@ -8,7 +8,7 @@
       <div *ngIf="reqs && reqs.length == 0">
         <div class="not_found text-center pt-5 text-warning">
           <i class="zmdi zmdi-mood-bad zmdi-hc-4x "></i>
-          <h4 class="m-b-0">No requests here</h4>
+          <h4 class="m-b-0">{{ 'ADMIN.VIEW_CONTENT_REQUESTS.NO_REQUESTS_HERE' | translate }}</h4>
         </div>
 
       </div>
@@ -68,7 +68,7 @@
           <div class="header text-center">
             <h2>
               <strong>
-                Filter Requests
+                {{ 'ADMIN.VIEW_CONTENT_REQUESTS.FILTER_REQUESTS' | translate }}
               </strong>
             </h2>
           </div>
@@ -80,7 +80,7 @@
                     <div class="checkbox">
                       <input id="CBIdea" type="checkbox" (click)="refreshCBs()">
                       <label class="col-white" for="CBIdea">
-                        IDEA
+                        {{ 'ADMIN.VIEW_CONTENT_REQUESTS.IDEA' | translate }}
                       </label>
                     </div>
                   </div>
@@ -89,7 +89,7 @@
                     <div class="checkbox">
                       <input id="CBRes" type="checkbox" (click)="refreshCBs()">
                       <label class="col-white" for="CBRes">
-                        RESOURCE
+                        {{ 'ADMIN.VIEW_CONTENT_REQUESTS.RESOURCE' | translate }}
                       </label>
                     </div>
                   </div>
@@ -104,7 +104,7 @@
                     <div class="checkbox">
                       <input id="CBEdit" type="checkbox" (click)="refreshCBs()">
                       <label class="col-white" for="CBEdit">
-                        EDIT
+                        {{ 'ADMIN.VIEW_CONTENT_REQUESTS.EDIT' | translate }}
                       </label>
                     </div>
                   </div>
@@ -113,7 +113,7 @@
                     <div class="checkbox">
                       <input id="CBCreate" type="checkbox" (click)="refreshCBs()">
                       <label class="col-white" for="CBCreate">
-                        CREATE
+                        {{ 'ADMIN.VIEW_CONTENT_REQUESTS.CREATE' | translate }}
                       </label>
                     </div>
                   </div>

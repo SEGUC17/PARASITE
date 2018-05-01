@@ -39,7 +39,7 @@ import { SectionDeleteComponent } from './category-management/section-delete/sec
 import { MessageService } from '../messaging/messaging.service';
 import { ContentService } from '../content/content.service';
 import { ActivityService } from '../activities/activity.service';
-
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   imports: [
     CommonModule,
@@ -61,7 +61,8 @@ import { ActivityService } from '../activities/activity.service';
     MatExpansionModule,
     MatIconModule,
     MatTooltipModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forChild()
   ],
   declarations: [
     AdminControlComponent,
