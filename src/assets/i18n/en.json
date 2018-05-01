@@ -121,7 +121,7 @@
             "SIGN_IN_SUCCESSFULL": "Sign In Is Successful! Welcome!",
             "NOT_MATCH_WARNING": "New and confirmed passwords do not match!",
             "PASSWORD_LENGTH_WARNING": "Password should be more than 8 characters",
-            "SIGN_OUT_SUCCESSFUL": "Sign Out Is Successful! Good Bye!",
+            "SIGN_OUT_SUCCESSFULL": "Sign Out Is Successful! Good Bye!",
             "VALID_EMAIL_WARNING": "Kindly provide a valid email address",
             "CHILD_SIGN_UP_SUCCESSFULL": "Child sign up successfull! A verification email has been sent."
         }
