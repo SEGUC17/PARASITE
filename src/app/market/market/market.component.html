@@ -15,7 +15,8 @@
         <ul class="breadcrumb float-md-right" [dir]="translate.currentLang === 'ara'? 'rtl': null"
         [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
           <li class="breadcrumb-item">
-            <a routerLink="/dashboard">
+            <!-- TODO: add router to the newsfeed-->
+            <a routerLink="/newsfeed">
               <i class="zmdi zmdi-home"></i> {{'APP.NAWWAR' | translate}}</a>
           </li>
           <li class="breadcrumb-item active">{{'MARKET.MAIN.PATH' | translate}}</li>

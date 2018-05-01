@@ -48,13 +48,15 @@ export class MarketService {
     return this.http.get<any>(this.host + 'productrequest/getUserRequests/' + username, httpOptions);
   }
 
+  // Edit the price of one of the users Products
   editPrice(product: any, username: String): Observable<any> {
-    return this.http.patch<any>(this.host + 'productrequest/editPrice/' + product._id + '/' + username , product, httpOptions);
+    return this.http.patch<any>(this.host + 'productrequest/editPrice/' + product._id + '/' + username, product, httpOptions);
   }
 
-  deleteProduct(req:any): Observable<any> {
+  // Delete one of the products on Marketplace
+  deleteProduct(req: any): Observable<any> {
     return this.http.patch<any>(this.host + 'productrequest/deleteProduct', req, httpOptions);
-  }   
+  }
 
   // Send updated request to Database
   updateRequest(updatedReq: any, _id: String, username: String): Observable<any> {

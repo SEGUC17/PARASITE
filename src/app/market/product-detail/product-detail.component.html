@@ -5,7 +5,7 @@
       <div class="col">
         <h2 class="title" id="largeModalLabel" style="word-break: break-all;">{{data.product.name}}</h2>
       </div>
-      <div class="col-2" *ngIf="this.user && this.user.username==this.product.seller">
+      <div class="col-2" *ngIf="this.user && (this.user.username==this.product.seller || this.user.isAdmin)">
         <button (click)="this.deleteProduct()" class="btn btn-danger btn-round btn-icon hidden-sm-down float-right m-l-10" type="button">
           <i class="zmdi zmdi-delete"></i>
         </button>
