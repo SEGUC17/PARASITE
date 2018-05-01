@@ -68,10 +68,8 @@
   </div>
 
   <!-- Button -->
-  <div style="max-height: 20%; text-align: right">
-    <button *ngIf="data.product.seller !== data.curUser" class="btn btn-default btn-simple btn-round waves-effect" style="width:50%;">Acquire</button>
-    <button *ngIf="data.product.seller == data.curUser || data.isAdmin" class="btn btn-danger btn-simple btn-round waves-effect"
-      style="width: 50%;">Delete</button>
+  <div *ngIf="data.product.seller !== data.curUser" style="max-height: 20%; text-align: right">
+    <button class="btn btn-default btn-simple btn-round waves-effect" style="width:50%;">Acquire</button>
   </div>
 
 </form>
