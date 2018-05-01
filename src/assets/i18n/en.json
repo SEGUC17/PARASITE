@@ -20,7 +20,8 @@
             "CREATE_ACTIVITY": "Create Activity",
             "REQUIRED_FIELDS": "Required Fields",
             "SUBMIT": "Submit",
-            "FORM_FILL_ERROR" : "Please fill the form correctly"
+            "FORM_FILL_ERROR" : "Please fill the form correctly",
+            "TAGS": "Tags"
         },
         "LIST": {
             "ACTIVITIES": "Activities",

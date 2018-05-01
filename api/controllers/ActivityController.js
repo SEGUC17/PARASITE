@@ -141,6 +141,7 @@ module.exports.postActivity = function (req, res) {
      *       name : String
      *       description : String
      *       price : Number
+     *       tags: [String]
      *       fromDateTime : Date | 1522409945
      *       toDateTime : Date | 1522419945
      *       image : String
