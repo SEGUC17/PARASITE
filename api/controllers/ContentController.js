@@ -11,7 +11,7 @@ var moment = require('moment');
 var Tag = mongoose.model('Tag');
 var Newsfeed = mongoose.model('Newsfeed');
 var newsfeedController = require('../controllers/NewsfeedController');
-
+var tagController = require('../controllers/TagController');
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
 
@@ -372,6 +372,7 @@ var handleAdminCreate = function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
+                    console.log('creating');
                 });
 
             }
@@ -664,14 +665,7 @@ module.exports.createCategory = function (req, res, next) {
             if (err) {
                 return next(err);
             }
-            Tag.create(
-                { name: req.body.category.toLowerCase() },
-                function (err1) {
-                    if (err1) {
-                        return next(err1);
-                    }
-                }
-            );
+            tagController.addTag(req.body.category.toLowerCase());
 
             return res.status(201).json({
                 data: category,
