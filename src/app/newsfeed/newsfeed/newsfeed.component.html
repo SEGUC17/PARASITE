@@ -95,8 +95,17 @@
                       <div class="img-post m-b-5">
                         <img src="assets/images/newsfeed/connectToMore.png" alt="Awesome Image">
                       </div>
-                        <i class="zmdi zmdi-accounts col-blue"></i>Connect to more</a>
+                        <i class="zmdi zmdi-accounts col-blue"></i>Connect to people</a>
                     </div>
+                    <div class="single_post carousel-item" *ngFor="let person of people">
+                        <a href="/profile/{{person.username}}">
+                        <div class="img-post m-b-5">
+                          <img src={{person.avatar}} alt="Awesome Image">
+                        </div>
+                          <p class="m-b-0 col-white">{{person.firstName}} {{person.lastName}}</p>
+                          <small class="text-muted">{{person.username}}</small>
+                        </a>
+                      </div>
                   </div>
                   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

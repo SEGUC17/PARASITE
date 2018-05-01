@@ -19,17 +19,11 @@ module.exports.addToNewsfeed = function (data) {
 };
 
 module.exports.findRandomFive = function (req, res, next) {
-    var fields = { isParent: true };
-    var options = {
-        count: 5,
-        limit: 5,
-        skip: 10
-    };
-    User.findRandom(fields, options, function (err, users) {
+    console.log('here');
+    User.findRandom.limit(5).exec(function (err, users) {
         if (err) {
             return next(err);
         }
-
         res.status(200).json({
             data: users,
             err: null,
@@ -39,7 +33,6 @@ module.exports.findRandomFive = function (req, res, next) {
 };
 
 module.exports.getPosts = function (req, res) {
-    console.log(req.body.tags);
     // tags: { $in: { name: req.body.tags } }
     Newsfeed.paginate(
         {},
@@ -51,7 +44,6 @@ module.exports.getPosts = function (req, res) {
             if (err) {
                 return err;
             }
-            console.log(posts);
             res.status(200).json({
                 data: posts,
                 err: null,
