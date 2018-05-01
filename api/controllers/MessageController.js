@@ -133,16 +133,16 @@ module.exports.getRecentlyContacted = function(req, res, next) {
     {
       // group records by recipient and most recent sentAt date
       $group: {
-      _id: '$recipient',
-     sentAt: { $max: '$sentAt' }
+        _id: '$recipient',
+        recipientAvatar: { $addToSet: '$recipientAvatar' },
+        sentAt: { $max: '$sentAt' }
     }
-  },
+   },
    // order records descendingly by sentAt
-    { $sort: { sentAt: -1 } },
-    // get the first 5 elements
-    { $limit: 5 }
-   ]).
-   exec(function(err, users) {
+   { $sort: { sentAt: -1 } },
+   // get the first 5 elements
+   { $limit: 5 }
+  ]).exec(function(err, users) {
     if (err) {
       return next(err);
     }
