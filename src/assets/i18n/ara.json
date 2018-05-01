@@ -15,55 +15,55 @@
         "CHANGE_LANGUAGE": "تغيير اللغة"
     },
     "ACTIVITIES": {
-        "CREATE": {
-            "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
-            "CREATE_ACTIVITY": "اضافة نشاط",
-            "REQUIRED_FIELDS": "الخانات المطلوبة",
-            "SUBMIT": "اضافة",
-            "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
-            "TAGS": "إشارات"
-        },
-        "LIST": {
-            "ACTIVITIES": "الانشطة",
-            "ACTIVITY": "النشاط",
-            "LATEST_ACTIVITY": "أحدث نشاط",
-            "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
-            "READ_MORE": "اقرأ المزيد",
-            "CLOSE": "أغلق",
-            "COMMENTS": "التعليقات",
-            "POSTED_BY": "قام بالنشر",
-            "PREV": "الصفحة السابقة",
-            "NEXT": "الصفحة التالية"
-        },
-        "DETAIL": {
-            "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
-            "FROM": "من",
-            "TO": "الى",
-            "COMMENT": "اضف تعليق",
-            "REPLY": "اضف رد",
-            "BOOK_FOR": "احجز لـ",
-            "DESCRIPTION": "الشرح",
-            "WRITE_COMMENT": "...اترك تعليق",
-            "BOOK_SUCCESS": "....تم الحجز بنجاح"
-        },
-        "EDIT": {
-            "EDIT_ACTIVITY": "تعديل النشاط",
-            "ACTIVITY_NAME": "الاسم",
-            "START_DATE":"تاريخ النهاية",
-            "END_DATE":"تاريخ البداية",
-            "PRICE":"السعر",
-            "DESCRIPTION":"الوصف",
-            "CANCEL":"الغاء",
-            "SAVE_CHANGES":"حفظ التغييرات",
-            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
-            "ACTIVITY_IMAGE":"تغيير صورة النشاط"
-        },
-        "REVIEW": {
-            "ACCEPT": "تم قبول النشاط",
-            "REJECT": "تم رفض النشاط",
-            "ACCEPT_BTN": "قبول",
-            "REJECT_BTN": "رفض"
-        }
+    "CREATE": {
+        "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
+        "CREATE_ACTIVITY": "اضافة نشاط",
+        "REQUIRED_FIELDS": "الخانات المطلوبة",
+        "SUBMIT": "اضافة",
+        "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
+        "TAGS": "إشارات"
+    },
+    "LIST": {
+        "ACTIVITIES": "الانشطة",
+        "ACTIVITY": "النشاط",
+        "LATEST_ACTIVITY": "أحدث نشاط",
+        "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
+        "READ_MORE": "اقرأ المزيد",
+        "CLOSE": "أغلق",
+        "COMMENTS": "التعليقات",
+        "POSTED_BY": "قام بالنشر",
+        "PREV": "الصفحة السابقة",
+        "NEXT": "الصفحة التالية"
+    },
+    "DETAIL": {
+        "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
+        "FROM": "من",
+        "TO": "الى",
+        "COMMENT": "اضف تعليق",
+        "REPLY": "اضف رد",
+        "BOOK_FOR": "احجز لـ",
+        "DESCRIPTION": "الشرح",
+        "WRITE_COMMENT": "...اترك تعليق",
+        "BOOK_SUCCESS": "....تم الحجز بنجاح"
+    },
+    "EDIT": {
+        "EDIT_ACTIVITY": "تعديل النشاط",
+        "ACTIVITY_NAME": "الاسم",
+        "START_DATE":"تاريخ النهاية",
+        "END_DATE":"تاريخ البداية",
+        "PRICE":"السعر",
+        "DESCRIPTION":"الوصف",
+        "CANCEL":"الغاء",
+        "SAVE_CHANGES":"حفظ التغييرات",
+        "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+        "ACTIVITY_IMAGE":"تغيير صورة النشاط"
+    },
+    "REVIEW": {
+        "ACCEPT": "تم قبول النشاط",
+        "REJECT": "تم رفض النشاط",
+        "ACCEPT_BTN": "قبول",
+        "REJECT_BTN": "رفض"
+    }
     },
     "ADMIN": {
         "VIEW_REPORTS": {
@@ -140,24 +140,8 @@
             "VIEW_DETAILS":"عرض التفاصيل"
         }
     },
-    "AUTH": {
-
-    },
+    "AUTH": {},
     "CONTENT": {
-
-        "SHARED": {
-            "OUR_CONTENT": "المحتويات",
-            "POSTED_BY": "{{ creator }} :نشره",
-            "DASHBOARD": "الصفحة الرئيسية",
-            "CONTENT": "المحتويات",
-            "ARABIC": "العربية",
-            "NEXT": "التالى",
-            "ENGLISH": "الإنجليزية",
-            "LANGUAGE": "اللغة",
-            "CATEGORY": "الفئة",
-            "SECTION": "القسم",
-            "TAGS": "الإشارات"
-        },
         "LIST": {
             "ALL": "جميع الفئات",
             "BROWSE_CONTENT": "تصفح المحتويات",
@@ -205,7 +189,7 @@
             "TITLE": "العنوان",
             "TITLE_IS_REQUIRED": "العنوان مطلوب",
             "THUMBNAIL_IMAGE": "الصورة",
-            "YOUTUBE_VIDEO":"فيديو يوتيوب",
+            "YOUTUBE_VIDEO": "فيديو يوتيوب",
             "VIDEO_LINK_INVALID": ".رابط الفيديو غير صحيح",
             "TYPE": "النوع",
             "RESOURCE": "مورد تعليمي",
@@ -237,10 +221,61 @@
             "ALREADY_WATCHED": "لقد شاهدت هذا الفيديو من قبل. لم تتم إضافة المزيد من نقاط التعلم",
             "LEARNING_POINTS_ADDED": "لقد حصلت للتو على 10 نقاط تعلم إضافية! نتيجتك",
             "CONNECTION_ERROR": "حدث خطأ. يرجى التحقق من اتصالك بالشبكة"
+
         }
     },
     "MARKET": {
-
+        "MAIN": {
+            "MARKET": "السوق",
+            "CAPTION": "اشتر، بع، أو قم بتأجير ما لا تحتاجه",
+            "PATH": "السوق",
+            "LABEL": "المنتجات",
+            "LABEL_REQ": "الطلبات الحالية",
+            "PROD_SEARCH": "منتج",
+            "PRICE_SEARCH": "السعر",
+            "LATEST": "الأحدث أولاً",
+            "CHEAPEST": "الأرخص أولاً",
+            "NAME": "اسم المنتج",
+            "PRICE": "سعر المنتج",
+            "SORT": "رتب المنتجات",
+            "SEARCH_BAR": "...بحث",
+            "SELLER": "{{ seller }} :البائع",
+            "SEARCH_PRICE": "ج.م {{ price }}",
+            "SORT_TYPE": "{{ sort }} :الترتيب عن طريق",
+            "PREV": "السابق",
+            "NEXT": "التالي",
+            "NO_PROD_FOUND": ".عذراً، لم نجد أي منتجات",
+            "NO_PROD_REQ": "ليس لديك أي طلبات لإضافة منتجات إلى سوق",
+            "MY_PRODS": "منتجاتي"
+        },
+        "CREATE": {
+            "INFO": "معلومات عن المنتج",
+            "DESCRIPTION": "شرح المنتج",
+            "NAME": "اسم المنتج",
+            "PRICE": "سعر المنتج",
+            "AQUIRE": "هذا المنتج معروض لل",
+            "SELL": "للبيع",
+            "RENT": "للإيجار",
+            "SELLRENT": "للبيع و الإيجار",
+            "RENTPERIOD": "فترة الإيجار",
+            "IMG": "صورة المنتج",
+            "CREATEPRODUCT": "إضافة منتج"
+        },
+        "PROD_DETAIL": {
+            "PROD_INFO": "تفاصيل المنتج",
+            "CREATED_AT": " تمت إضافته {{ date }}",
+            "ACQUIRE": "احصل على المنتج",
+            "EGP": "جنيهاً",
+            "ACQTYPERENT": "هذا المنتج للإيجار",
+            "ACQTYPESELL": "هذا المنتج للبيع",
+            "ACQTYPEBOTH": "هذا المنتج للإيجار و البيع",
+            "DAYS": "{{ days }} يوم بحد اقصى",
+            "SOLD": " :اسم البائع"
+        },
+        "REQ_DETAIL": {
+            "PROD_NAME": "اسم المنتج",
+            "ACQTYPELABEL": ":نوع الشراء"
+        }
     },
     "MESSAGING": {
 
@@ -309,7 +344,49 @@
         }
     },
     "PSYCHOLOGIST": {
-
+        "TITLE": {
+            "VERIFIED_PSYCHS": "خبراء نفسيين",
+            "SUB": "لأننا نهتم بالصحة النفسية لطفلك",
+            "NAWWAR": "نوَّر"
+        },
+        "INFO": {
+            "PHONE": "الهاتف",
+            "EMAIL": "البريد الإلكتروني",
+            "DAYSOFF": "أيام العطلة",
+            "PRICE": "الحد اﻷعلى للسعر",
+            "ADD": "العنوان",
+            "EDIT": "تعديل",
+            "DELETE": "مسح"
+        },
+        "DAYS": {
+            "SAT": "السبت",
+            "SUN": "اﻷحد",
+            "MON": "الاثنين",
+            "TUE": "الثلاثاء",
+            "WED": "اﻷربعاء",
+            "THU": "الخميس",
+            "FRI": "الجمعة",
+            "NO DAYS OFF": "لا يوجد"
+        },
+        "FILTERS": {
+            "NAME_SEARCH": "...البحث باﻷسم",
+            "ADD_SEARCH": "...البحث بالعنوان",
+            "SORT_BY": "الترتيب بحسب",
+            "CHEAPEST": "اﻷرخص",
+            "A-Z": "اﻷبجدية"
+        },
+        "POPUP": {
+            "TITLE": "بيانات شخصية",
+            "F_NAME": "الإسم *",
+            "L_NAME": "اللقب *",
+            "EMAIL": "البريد اﻹلكتروني *",
+            "ADD": "العنوان...",
+            "REQUIRED": "البيانات الضرورية *",
+            "NOT_REQUIRED": "ليس عليك كتابة جميع البيانات، املأ فقط البيانات التي تود تعديلها.",
+            "SUBMIT": "اتمام",
+            "NOTE": "ملحوظة",
+            "NOTE_BODY": "اذا تم الموافقة على هذا الطلب من قبل احد المشرفين على الموقع سيتم ارسال رقم تسلسلي اليك عبر بريدك الالكتروني، يمكنك لاحقاً تعديل بياناتك او مسحها بواسطة هذا الرقم."
+        }
     },
     "SCHEDULING": {
         "CALENDAR": {
@@ -397,9 +474,7 @@
             "MINE": "ملكي"
         }
     },
-    "SEARCH": {
-
-    },
+    "SEARCH": {},
     "LANDING":{
 
     }

@@ -3,6 +3,8 @@
 var mongoose = require('mongoose');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
+var Messages = mongoose.model('Message');
+
 var User = mongoose.model('User');
 var moment = require('moment');
 
@@ -253,7 +255,19 @@ module.exports.evaluateRequest = function (req, res, next) {
                         msg: 'Request not found.'
                     });
                 }
-                // TODO Notify user done ;)
+
+                // Notify user
+                var body = 'Your request to add ' + req.body.name + ' to the Marketplace was rejected';
+                Messages.create({
+                    body: body,
+                    recepient: req.body.seller,
+                    sender: 'Admin'
+                }, function (msgErr) {
+                    if (msgErr) {
+                        return console.log(err);
+                    }
+                });
+
                 // When done, send response
 
                 return res.status(200).json({
@@ -295,13 +309,16 @@ module.exports.getUserRequests = function (req, res, next) {
 };
 
 module.exports.updateRequest = function (req, res, next) {
+    // Ensure that the user is editing his own request
     if (req.user.username === req.params.username) {
 
+        // Delete of the sensitive data that can't be edited by the user
         delete req.body.createdAt;
         delete req.body.seller;
         delete req.body.__v;
         delete req.body._id;
 
+        // Update the request in the database
         ProductRequest.updateOne({ _id: req.params.id }, { $set: req.body }).exec(function (err, updateRes) {
             if (err) {
                 return next(err);
@@ -314,6 +331,7 @@ module.exports.updateRequest = function (req, res, next) {
             });
         });
     } else {
+        // Send a 403 Unauthorized HTTP response
         return res.status(403).json({
             data: null,
             err: 'You can only edit your requests',
@@ -341,5 +359,35 @@ module.exports.editPrice = function (req, res, next) {
             err: 'You can only edit your product',
             msg: null
         });
+    }
+};
+
+module.exports.deleteProduct = function (req, res, next) {
+    // if user is admin so allowed to delete any product from market
+    // if user is not admin so he is only allowed to delete his own product
+    if (req.user.isAdmin || req.user.username === req.body.product.seller) {
+
+        Product.deleteOne({ _id: req.body.product._id }, function (err) {
+            if (err) {
+                return next(err);
+            }
+
+            res.status(201).json({
+                data: null,
+                err: null,
+                msg: 'Product was deleted successfully.'
+            });
+            // TODO: Notify user
+
+            // When user's product is deleted
+        });
+    } else {
+        // Otherwise, an Unauthorised response is sent
+        res.status(403).json({
+            data: null,
+            err: 'You are not an admin to do that.',
+            msg: null
+        });
+
     }
 };
