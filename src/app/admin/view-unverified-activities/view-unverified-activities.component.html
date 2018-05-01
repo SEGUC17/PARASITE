@@ -44,6 +44,19 @@
         </div>
       </div>
     </div>
+    <ul *ngIf="totalNumberOfPages > 1" class="pagination pagination-primary">
+      <li *ngIf="pageIndex>1" class="page-item">
+        <a class="page-link" (click)="getActivities(this.pageIndex - 1)">Previous</a>
+      </li>
+      <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
+        <a class="page-link" (click)="getActivities(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
+      </li>
+    
+    
+      <li *ngIf="pageIndex<totalNumberOfPages" class="page-item">
+        <a class="page-link" (click)="getActivities(this.pageIndex + 1)">Next</a>
+      </li>
+    </ul>
   </div>
 
 

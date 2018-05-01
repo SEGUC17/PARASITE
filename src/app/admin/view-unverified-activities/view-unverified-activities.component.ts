@@ -5,6 +5,8 @@ import { Activity } from '../../activities/activity';
 import { apiUrl } from '../../variables';
 import { AuthService } from '../../auth/auth.service';
 import {MessageService} from "../../messaging/messaging.service";
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 declare const swal: any;
 
@@ -20,8 +22,9 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
   detailedActivities: any[] = [];
   numberOfElements: Number;
   pageSize: Number;
-  pageIndex: Number;
+  pageIndex = 1;
   canCreate: Boolean;
+  totalNumberOfPages: Number;
 
   createUrl = '/create-activity';
   user = {
@@ -35,11 +38,13 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
   constructor(
     private activityService: ActivityService,
     private authService: AuthService,
-    private _messageService: MessageService
+    private _messageService: MessageService,
+    private translate: TranslateService,
+    private toaster: ToastrService
   ) { }
 
   ngOnInit() {
-    this.getActivities(null);
+    this.getActivities(1);
   }
 
   getDetailedActivities() {
@@ -60,22 +65,21 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
   }
 
 
-  getActivities(event) {
+  getActivities(pageNum) {
     /*
       Getting the activities from the api
 
-      @var event: An object that gets fired by mat-paginator
-
       @author: Wessam
     */
-    let page = 1;
-    if (event) {
-      page = event.pageIndex + 1;
-    }
+    let page = pageNum;
     let self  = this;
     this.activityService.getActivities(page).subscribe(function(res) {
         self.updateLayout(res);
         self.getDetailedActivities();
+        self.totalNumberOfPages = res.data.pages;
+        if (this.pageIndex > self.totalNumberOfPages) {
+          this.pageIndex = self.totalNumberOfPages;
+        }
       }
     );
     this.authService.getUserData(['isAdmin']).subscribe((user) => {
@@ -98,7 +102,6 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
-    this.pageIndex = res.data.pageIndex;
     for (let activity of this.activities) {
       if (!activity.image) {
         activity.image = 'assets/images/activity-view/default-activity-image.jpg';
@@ -111,7 +114,11 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     let self = this;
     activity.status = 'verified';
     console.log(activity);
-    this.activityService.reviewActivity(activity).subscribe();
+    this.activityService.reviewActivity(activity).subscribe(
+      res => {
+        this.getActivities(this.pageIndex);
+      }
+    );
   }
 
   rejectActivity(i: any): void {
@@ -120,6 +127,7 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     activity.status = 'rejected';
     this.activityService.reviewActivity(activity).subscribe(function (res) {
       self.showPromptMessage(activity.creator, self.user.username);
+      
     });
   }
 
@@ -149,6 +157,33 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
         });
       }
     );
+  }
+
+  getPaginationRange(): any {
+
+    let pageNumbers = [];
+    let counter = 1;
+
+    console.log(this.pageIndex);
+    if (this.pageIndex < 3) {
+      // we are in page 1 or 2
+      while (counter < 6 && counter <= this.totalNumberOfPages) {
+        pageNumbers.push(counter);
+        counter += 1;
+      }
+    } else {
+      // we are in a page greater than 2
+      pageNumbers.push(this.pageIndex - 2);
+      pageNumbers.push(this.pageIndex - 1);
+      pageNumbers.push(this.pageIndex);
+      if (this.pageIndex + 1 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.pageIndex + 1);
+      }
+      if (this.pageIndex + 2 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.pageIndex + 2);
+      }
+    }
+    return pageNumbers;
   }
 
 }

@@ -43,16 +43,16 @@ export class ActivityComponent implements OnInit {
   }
 
   getDetailedActivities() {
-    this.detailedActivities = [] ;
+    this.detailedActivities = [];
     let self = this;
-    for (let i = 0 ; i < this.activities.length ; i++) {
+    for (let i = 0; i < this.activities.length; i++) {
       this.activityService.getActivity(this.activities[i]._id).subscribe(
         res => {
-          if(!res.data.image){
+          if (!res.data.image) {
             res.data.image = 'https://res.cloudinary.com/nawwar/image/upload/v1524947811/default-activity-image.jpg';
           }
           this.detailedActivities.push(res.data);
-      });
+        });
     }
 
   }
@@ -62,17 +62,15 @@ export class ActivityComponent implements OnInit {
     /*
       Getting the activities from the api
 
-      @var event: An object that gets fired by mat-paginator
-
       @author: Wessam
     */
     this.pageIndex = pageNum;
-    let self  = this;
+    let self = this;
     this.activityService.getActivities(this.pageIndex).subscribe(
       res => {
-      self.updateLayout(res);
-      self.getDetailedActivities();
-      this.totalNumberOfPages = res.data.pages;
+        self.updateLayout(res);
+        self.getDetailedActivities();
+        this.totalNumberOfPages = res.data.pages;
       }
     );
     this.authService.getUserData(['isAdmin', 'verified']).subscribe((user) => {
