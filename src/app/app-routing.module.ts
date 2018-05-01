@@ -49,6 +49,10 @@ const routes = [
     loadChildren: 'app/search/search.module#SearchModule'
   },
   {
+    path: 'newsfeed',
+    loadChildren: 'app/newsfeed/newsfeed.module#NewsfeedModule'
+  },
+  {
     path: '*',
     redirectTo: '',
     pathMatch: 'full'

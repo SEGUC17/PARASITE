@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var mongoosePaginate = require('mongoose-paginate');
 var Tags = mongoose.model('Tag').schema;
 
 var newsfeedSchema = mongoose.Schema({
@@ -6,6 +7,10 @@ var newsfeedSchema = mongoose.Schema({
     metadata: {
         activityDate: Date,
         description: String,
+        image: {
+            trim: true,
+            type: String
+        },
         title: {
             required: true,
             type: String
@@ -20,7 +25,7 @@ var newsfeedSchema = mongoose.Schema({
         ],
         required: true,
         type: String
-    },
+    }
 }, {
         capped: {
             max: 10000,
@@ -33,7 +38,7 @@ newsfeedSchema.index(
     { tags: 1 },
     { name: 'tagsIndex' }
 );
-
+newsfeedSchema.plugin(mongoosePaginate);
 var feed = mongoose.model('Newsfeed', newsfeedSchema, 'newsfeed');
 
 feed.ensureIndexes();

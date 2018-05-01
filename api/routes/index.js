@@ -433,7 +433,7 @@ module.exports = function (passport) {
   router.get('/tags/getTags', tagController.getTags);
   router.delete('/tags/deleteTag/:id', isAuthenticated, tagController.deleteTag);
   router.post('/tags/addTag', isAuthenticated, tagController.addTag);
-  router.get('/newsfeed', newsfeedController.getPosts);
+  router.patch('/newsfeed/:entriesPerPage/:pageNumber', newsfeedController.getPosts);
   //------------------- End of Newsfeed Endpoints-----------//
 
   // -------------------------------------------------------------------- //
