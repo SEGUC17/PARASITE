@@ -164,7 +164,7 @@
             "SEND": "Send",
             "CANCEL": "Cancel",
             "SEND_MSG": "Send Message",
-            "REPLY": "Reply"
+            "REPLY": "Message"
 
         },
         "DIALOG": {
