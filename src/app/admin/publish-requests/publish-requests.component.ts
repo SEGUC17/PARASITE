@@ -32,6 +32,7 @@ declare const $: any;
 })
 export class PublishRequestsComponent implements OnInit {
   reqs: [StudyPlanPublishRequest];
+  selectedReq: StudyPlanPublishRequest;
 
   // study plan details
   studyPlan: any;
@@ -46,7 +47,7 @@ export class PublishRequestsComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
   constructor(private adminService: AdminService, private router: Router, private translate: TranslateService,
-  private _messageService: MessageService, private _authService: AuthService) { }
+    private _messageService: MessageService, private _authService: AuthService) { }
 
   ngOnInit() {
     this.title = '';
@@ -66,9 +67,10 @@ export class PublishRequestsComponent implements OnInit {
     this.viewStudyPlanPublishReqs();
   }
 
-  viewReq(studyPlan) {
+  viewReq(selectedReq) {
     let self = this;
-    self.studyPlan = studyPlan;
+    self.selectedReq = selectedReq;
+    self.studyPlan = self.selectedReq.studyPlan;
     self.title = self.studyPlan.title;
     self.description = self.studyPlan.description;
     self.events = self.studyPlan.events;
@@ -76,19 +78,24 @@ export class PublishRequestsComponent implements OnInit {
       self.events[index].start = new Date(self.events[index].start);
       self.events[index].end = new Date(self.events[index].end);
     }
+    self.viewDate = self.events[0].start;
   }
 
   viewStudyPlanPublishReqs(): void {
     let self = this;
     self.adminService.viewStudyPlanPublishReqs().subscribe(function (res) {
       self.reqs = res.data;
-      self.studyPlan = self.reqs[0].studyPlan;
-      self.title = self.studyPlan.title;
-      self.description = self.studyPlan.description;
-      self.events = self.studyPlan.events;
-      for (let index = 0; index < self.events.length; index++) {
-        self.events[index].start = new Date(self.events[index].start);
-        self.events[index].end = new Date(self.events[index].end);
+      if (self.reqs && self.reqs.length > 0) {
+        self.selectedReq = self.reqs[0];
+        self.studyPlan = self.selectedReq.studyPlan;
+        self.title = self.studyPlan.title;
+        self.description = self.studyPlan.description;
+        self.events = self.studyPlan.events;
+        for (let index = 0; index < self.events.length; index++) {
+          self.events[index].start = new Date(self.events[index].start);
+          self.events[index].end = new Date(self.events[index].end);
+        }
+        self.viewDate = self.events[0].start;
       }
     });
   }
@@ -102,11 +109,7 @@ export class PublishRequestsComponent implements OnInit {
     self.viewStudyPlanPublishReqs();
     if (response === 'disapproved') {
       self._authService.getUserData(['username']).subscribe(function (res) {
-        console.log('res.data.username: ' + res.data.username)
-        console.log('studyPlan.creator: ' + studyPlan.creator)
-
-        //not testedddd
-      self.showPromptMessage(studyPlan.creator, res.data.username);
+        self.showPromptMessage(studyPlan.creator, res.data.username);
       });
     }
   }
@@ -147,7 +150,7 @@ export class PublishRequestsComponent implements OnInit {
   showPromptMessage(creator, sender): any {
 
     // creator is the content creator
-    //sender in the currently logged in admin
+    // sender in the currently logged in admin
     // isUpdate : false if create
     let self = this;
     swal({
