@@ -949,23 +949,39 @@ module.exports.deleteSection = function (req, res, next) {
 };
 
 module.exports.addScore = function (req, res, next) {
-    User.findByIdAndUpdate(
-        req.user._id,
-        { learningScore: req.user.learningScore + 10 },
-        { new: true },
-        function (err, user) {
-            if (err) {
-                return next(err);
-            }
-
+    User.findOne({
+        _id: req.user._id,
+        watchedVideos: req.body.videoUrl
+    }, function (userFindError, watchedUser) {
+        if (watchedUser) {
             return res.status(200).json({
                 data: null,
                 err: null,
-                msg: 'You got 10 more learning points,' +
-                    ' your score is now ' + user.learningScore
+                msg: 'This video is already watched before,' +
+                    ' no more learning points are added'
             });
         }
-    );
+        User.findByIdAndUpdate(
+            req.user._id,
+            {
+                $push: { watchedVideos: req.body.videoUrl },
+                $set: { learningScore: req.user.learningScore + 10 }
+            },
+            { new: true },
+            function (err, user) {
+                if (err) {
+                    return next(err);
+                }
+
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'You got 10 more learning points,' +
+                        ' your score is now ' + user.learningScore
+                });
+            }
+        );
+    });
 };
 
 module.exports.prepareContent = function (req, res, next) {

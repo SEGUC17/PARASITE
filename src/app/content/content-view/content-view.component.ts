@@ -212,7 +212,7 @@ export class ContentViewComponent implements OnInit {
   onPlayerStateChange(event) {
     const self = this;
     if (event.data === window['YT'].PlayerState.ENDED) {
-      this.contentService.addLearningScore(self.content._id).subscribe(function (res) {
+      this.contentService.addLearningScore(self.content._id, self.content.video).subscribe(function (res) {
         if (!res) {
           return;
         }
