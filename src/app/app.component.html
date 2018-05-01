@@ -236,7 +236,7 @@
             <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
                 <i class="zmdi zmdi-fullscreen"></i>
             </a>
-            <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
+            <a href="javascript:void(0);" (click)="changeLanguage()" title="{{ 'APP.CHANGE_LANGUAGE' | translate }}">
                 <i class="zmdi zmdi-globe"></i>
             </a>
             <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active" class="mega-menu">
