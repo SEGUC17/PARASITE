@@ -30,6 +30,7 @@ export class ChildSignupComponent implements OnInit {
   AllisWell: Boolean = true;
   User: any;
   private done = false;
+  private switch = false;
   Educational_level: String = '';
   Educational_system: String = '';
 systems: any = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
@@ -74,24 +75,32 @@ const self = this;
 
 
   showPersonalInfoTab(): void {
+    $('#interests').prop('hidden', true);
     $('#personalInfo').prop('hidden', false);
     $('#credentials').prop('hidden', true);
     $('#prevTab').prop('disabled', true);
-    $('#nextTab').prop('value', 'Next');
+    $('#lastTab').prop('disabled', true);
     this.done = false;
   }
 
   showCredentialsTab(): void {
-    const self = this;
-    if (this.done) {
-      $('#nextTab').attr('onclick', function () {
-        self.register();
-      });
-    }
+    $('#interests').prop('hidden', true);
     $('#personalInfo').prop('hidden', true);
     $('#credentials').prop('hidden', false);
     $('#prevTab').prop('disabled', false);
-    $('#nextTab').prop('value', 'Sign Up');
+    $('#prevTab').prop('value', 'Done');
+    $('#lastTab').prop('disabled', false);
+  }
+
+  showInterestsTab(): void {
+
+    $('#interests').prop('hidden', false);
+    $('#personalInfo').prop('hidden', true);
+    $('#credentials').prop('hidden', true);
+    $('#prevTab').prop('disabled', false);
+    $('#prevTab').prop('value', 'Done');
+    $('#nextTab').prop('value', 'Done');
+
     this.done = true;
   }
 
