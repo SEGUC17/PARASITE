@@ -188,9 +188,6 @@ export class ActivityDetailComponent implements OnInit {
       res => {
         this.activity = res.data;
         this.activity.discussion = this.activity.discussion.reverse();
-        for(var i = 0 ; i < this.activity.discussion.length; i++) {
-          this.activity.discussion[i].replies = this.activity.discussion[i].replies.reverse();
-        }
         this.updatedActivity = res.data;
         if (this.activity.bookedBy.length < 1) { self.isBooked = false; }
         if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
