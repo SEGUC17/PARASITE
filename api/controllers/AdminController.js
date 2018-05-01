@@ -114,36 +114,37 @@ module.exports.viewStudyPlanPublishReqs = function (req, res, next) {
 };
 
 module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
-    //start
+    // if not admin return error
+    if (!req.user.isAdmin) {
+        return res.status(401).json({
+            data: null,
+            err: 'Unauthorized action',
+            msg: null
+        });
+    }
+
+    // check if the id in the URL is valid, if not return error
+    if (!mongoose.Types.ObjectId.
+        isValid(req.params.studyPlanPublishRequestId)) {
+        return res.status(422).json({
+            data: null,
+            err: 'The Request Id is not valid',
+            msg: null
+        });
+    }
+
     StudyPlanPublishRequest.findByIdAndUpdate(
         req.params.studyPlanPublishRequestId, {
             $set: {
-                status: req.body.respo,
+                status: req.params.status,
                 updatedOn: moment().toDate()
             }
         }, { new: true },
         function (err, updatedStudyPlanPubRequest) {
-            // check if the id in the URL is valid, if not return error
-            if (!mongoose.Types.ObjectId.
-                isValid(req.params.studyPlanPublishRequestId)) {
-                return res.status(422).json({
-                    data: null,
-                    err: 'The Request Id is not valid',
-                    msg: null
-                });
-            }
             if (err) {
                 return next(err);
             }
-            // if not admin return error
-            if (!req.user.isAdmin) {
 
-                return res.status(403).json({
-                    data: null,
-                    err: 'Unauthorized action',
-                    msg: null
-                });
-            }
             // if not found return error
             if (!updatedStudyPlanPubRequest) {
                 return res.status(404).json({
@@ -152,74 +153,70 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                     msg: null
                 });
             }
-            // not tested
-            var notification = {
-                body: 'Your request to publish the study plan is' +
-                    req.body.respo,
-                date: moment().toDate(),
-                itemId: req.params.studyPlanId,
-                type: 'study plan'
-            };
-            User.findOneAndUpdate(
-                { username: updatedStudyPlanPubRequest.creator },
-                {
-                    $push:
-                        { 'notifications': notification }
-                }
-                , { new: true },
-                function (errr, updatedUser) {
-                    console.log('add the notification');
-                    console.log(updatedUser.notifications);
-                    if (errr) {
-                        return res.status(402).json({
-                            data: null,
-                            err: 'error occurred during adding ' +
-                                'the notification'
-                        });
-                    }
-                    if (!updatedUser) {
-                        return res.status(404).json({
+
+            if (updatedStudyPlanPubRequest.status === 'disapproved') {
+                // return 200 if everything is OK
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: updatedStudyPlanPubRequest.studyPlan.title +
+                        ' request is now ' + updatedStudyPlanPubRequest.status
+                });
+            }
+
+            if (updatedStudyPlanPubRequest.requestType === 'create') {
+                // @author: Ola
+                //publishing a study plan is creating a new studyPlan in
+                //the studyPlan schema as it is for the published plans only
+                //so i am creating a new studyPlan with the body of the request
+                //which is the studyPlan I want to publish and it returns an
+                //error if there is an error
+                //else that studyPlan published successfully
+                StudyPlan.create(
+                    updatedStudyPlanPubRequest.studyPlan,
+                    function (error) {
+                        if (error) {
+                            return next(error);
+                        }
+
+                        // return 200 if everything is OK
+                        return res.status(200).json({
                             data: null,
                             err: null,
-                            msg: 'User not found.'
+                            msg: updatedStudyPlanPubRequest.studyPlan.title +
+                                ' request is now ' +
+                                updatedStudyPlanPubRequest.status
                         });
                     }
-                }
+                );
+            } else if (updatedStudyPlanPubRequest.requestType === 'update') {
+                StudyPlan.findByIdAndUpdate(
+                    updatedStudyPlanPubRequest.studyPlan._id,
+                    {
+                        $set: {
+                            'description': updatedStudyPlanPubRequest.studyPlan.
+                                description,
+                            'events': updatedStudyPlanPubRequest.studyPlan.
+                                events,
+                            'title': updatedStudyPlanPubRequest.studyPlan.title
+                        }
+                    },
+                    function (error) {
+                        if (error) {
+                            return next(error);
+                        }
 
-            );
-
-            StudyPlan.findByIdAndUpdate(
-                req.params.studyPlanId,
-                {
-                    $set: {
-                        published: req.body.published,
-                        touchDate: moment().toDate()
-                    }
-                },
-                { new: true },
-                function (error, studyPlan) {
-                    if (error) {
-                        return next(error);
-                    }
-                    if (!studyPlan) {
-                        return res.status(404).json({
+                        // return 200 if everything is OK
+                        return res.status(200).json({
                             data: null,
-                            err: 'study plan not found',
-                            msg: null
+                            err: null,
+                            msg: updatedStudyPlanPubRequest.studyPlan.title +
+                                ' request is now ' +
+                                updatedStudyPlanPubRequest.status
                         });
                     }
-
-                }
-            );
-            // return 200 if everything is OK
-            // console.log('eh el arf dah ?');
-
-            return res.status(200).json({
-                data: updatedStudyPlanPubRequest,
-                err: null,
-                msg: updatedStudyPlanPubRequest.title +
-                    ' request is now ' + req.body.respo
-            });
+                );
+            }
         }
     );
 };

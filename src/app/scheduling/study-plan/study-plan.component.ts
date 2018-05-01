@@ -49,7 +49,7 @@ export class StudyPlanComponent implements OnInit {
   title: string;
   description: string;
   events: CalendarEvent[];
-  rating = 0;
+  rating;
 
   // editor
   public editorOut;
@@ -204,14 +204,12 @@ export class StudyPlanComponent implements OnInit {
      studyPlan I want to publish if the response is that studyPlan published i will redirect to
      the published studyPlans else i will return the error message
     */
-    this.studyPlan._id = undefined;
     this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
       res => {
         if (res.err) {
           this.toastrService.error(res.err);
         } else if (res.msg) {
           this.toastrService.success(res.msg);
-          this.router.navigate(['/scheduling/study-plan/published']);
         }
       });
   }

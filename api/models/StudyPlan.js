@@ -72,5 +72,5 @@ studyPlanSchema.post('findOneAndUpdate', function (doc) {
 
 
 // ---------------------- Models ---------------------- //
-var StudyPlan = mongoose.model('StudyPlan', studyPlanSchema, 'studyPlans');
+module.exports = mongoose.model('StudyPlan', studyPlanSchema, 'studyPlans');
 // ---------------------- End of Models ---------------------- //

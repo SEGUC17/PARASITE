@@ -1,13 +1,9 @@
 var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
-var StudyPlanPublishreqschema = mongoose.Schema({
+
+var studyPlanPublishRequestSchema = mongoose.Schema({
     createdOn: {
         default: Date.now,
         type: Date
-    },
-    creator: {
-        trim: true,
-        type: String
     },
     requestType: {
         enum: [
@@ -26,23 +22,18 @@ var StudyPlanPublishreqschema = mongoose.Schema({
         ],
         type: String
     },
-    studyPlanID: {
-        type: [
-            {
-                ref: 'StudyPlan',
-                type: Schema.Types.ObjectId
-            }
-        ]
+    studyPlan: {
+        required: true,
+        type: Object
     },
-    title: {
-        trim: true,
-        type: String
-    },
-    updatedOn: { type: Date }
+    updatedOn: {
+        default: Date.now,
+        type: Date
+    }
 });
 
-var StudyPlanPublishRequest = mongoose.model(
+module.exports = mongoose.model(
     'StudyPlanPublishRequest',
-    StudyPlanPublishreqschema,
+    studyPlanPublishRequestSchema,
     'studyPlanPublishRequests'
 );
