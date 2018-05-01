@@ -16,7 +16,9 @@
             "LATEST_ACTIVITY": "أحدث نشاط",
             "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
             "READ_MORE": "اقرأ المزيد",
-            "CLOSE": "أغلق"
+            "CLOSE": "أغلق",
+            "COMMENTS": "التعليقات",
+            "POSTED_BY": "قام بالنشر"
         },
         "DETAIL": {
             "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
