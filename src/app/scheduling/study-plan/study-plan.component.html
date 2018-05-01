@@ -13,9 +13,9 @@
       </li>
       <li class="breadcrumb-item active">{{ studyPlan.title }}</li>
     </ul>
-    <div class="row">
+    <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="row">
       <div class="col-auto">
-        <h2 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+        <h2>
           {{ title }}
           <a class="clickable col-md-12 col-lg-4 col-xl-4" *ngIf="!editingTitle" (click)="editingTitle = true">
             <i class="zmdi zmdi-edit"></i>
@@ -39,10 +39,10 @@
 
   <div class="container-fluid">
     <app-rating type="studyPlan" [ratedId]="_id" [inputRating]="studyPlan.rating.value" *ngIf="type === 'published' && rating"></app-rating>
-    <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="card">
+    <div class="card">
       <div class="row">
 
-        <div class="col-md-12 col-lg-4 col-xl-4">
+        <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="col-md-12 col-lg-4 col-xl-4">
           <div class="body">
             <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)">{{ 'SCHEDULING.STUDYPLAN.ADD_EVENT' | translate }}</button>
             <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
@@ -84,7 +84,7 @@
           </div>
         </div>
 
-        <div class="col-md-12 col-lg-8 col-xl-8">
+        <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="col-md-12 col-lg-8 col-xl-8">
           <div class="body">
             <app-calendar-header [(view)]="view" [(viewDate)]="viewDate" (viewDateChange)="headerChange()" (viewChange)="headerChange()">
             </app-calendar-header>

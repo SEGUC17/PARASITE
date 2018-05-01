@@ -1,6 +1,7 @@
 <section [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="content">
     <div class="block-header">
-        <ul [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" class="breadcrumb float-right">
+        <ul [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'"
+            class="breadcrumb float-right">
             <li class="breadcrumb-item">
                 <a routerLink="/dashboard">
                     <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate }}</a>
@@ -10,22 +11,24 @@
                 {{ 'SCHEDULING.PUBLISHEDLIST.STUDY_PLANS' | translate }}
             </li>
         </ul>
-        <div class="row">
+        <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="row">
             <div class="col-auto">
-                <h2 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                <h2>
                     {{ 'SCHEDULING.PUBLISHEDLIST.STUDY_PLANS' | translate }}
                 </h2>
             </div>
         </div>
     </div>
-    <div class="container-fluid">
+    <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="container-fluid">
         <div class="card">
             <div class="header">
                 <h2>
-                    <strong [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'"><div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"> {{ 'SCHEDULING.PUBLISHEDLIST.STUDY_PLANS' | translate }}</div></strong>
+                    <strong [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'">
+                        <div> {{ 'SCHEDULING.PUBLISHEDLIST.STUDY_PLANS' | translate }}</div>
+                    </strong>
                 </h2>
-                <ul class="pagination pagination-custom float-right">
-                    <li class="page-item">
+                <ul [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [class]="translate.currentLang === 'ara'?  'pagination pagination-custom float-left' : 'pagination pagination-custom float-right'">
+                    <li [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="page-item">
                         <a class="page-link" aria-label="Previous" [ngClass]="{'btn-is-disabled': pageIndex - 1 <= 0}" (click)="getStudyPlans(pageIndex - 1)">
                             <span aria-hidden="true">
                                 <i class="zmdi zmdi-chevron-left" aria-hidden="true"></i>
@@ -33,11 +36,12 @@
                         </a>
                     </li>
 
-                    <li [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="page-item" [ngClass]="{'active': pageNumberForPagination === pageIndex}" *ngFor="let pageNumberForPagination of getPaginationRange()">
+                    <li [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="page-item" [ngClass]="{'active': pageNumberForPagination === pageIndex}"
+                        *ngFor="let pageNumberForPagination of getPaginationRange()">
                         <button class="page-link" (click)="getStudyPlans(pageNumberForPagination)">{{ pageNumberForPagination }}</button>
                     </li>
 
-                    <li class="page-item">
+                    <li [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="page-item">
                         <a class="page-link" aria-label="Next" [ngClass]="{'btn-is-disabled': pageIndex + 1 > noPages}" (click)="getStudyPlans(pageIndex + 1)">
                             <span aria-hidden="true">
                                 <i class="zmdi zmdi-chevron-right" aria-hidden="true"></i>
@@ -49,7 +53,7 @@
             </div>
             <div class="body">
                 <div class="row">
-                    <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="card col-3" *ngFor="let studyPlan of studyPlans; let index = index">
+                    <div class="card col-3" *ngFor="let studyPlan of studyPlans; let index = index">
                         <div class="header">
                             <h2>
                                 <span class="badge badge-mine float-right" *ngIf="studyPlan.creator === this.currUsername">{{ 'SCHEDULING.PUBLISHEDLIST.MINE' | translate }}</span>
@@ -71,17 +75,17 @@
 
 <!-- Study Plan Delete Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
-    <div [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'" class="modal-dialog" role="document" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-        <div class="modal-content" >
+    <div [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'" class="modal-dialog" role="document">
+        <div class="modal-content">
             <div class="modal-header">
-                <h4 class="title" id="defaultModalLabel" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'SCHEDULING.PUBLISHEDLIST.DELETE_EVENT' | translate }}</h4>
+                <h4 class="title" id="defaultModalLabel">{{ 'SCHEDULING.PUBLISHEDLIST.DELETE_EVENT' | translate }}</h4>
             </div>
-            <div class="modal-body" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+            <div class="modal-body">
                 {{ 'SCHEDULING.PUBLISHEDLIST.DELETE_CONFIRMATION' | translate }}
             </div>
             <div class="modal-footer">
-                <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="delete(deleteIndex)">{{ 'SCHEDULING.PUBLISHEDLIST.DELETE' | translate }}</button>
-                <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">{{ 'SCHEDULING.PUBLISHEDLIST.CANCEL' | translate }}</button>
+                <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="delete(deleteIndex)">{{ 'SCHEDULING.PUBLISHEDLIST.DELETE' | translate }}</button>
+                <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">{{ 'SCHEDULING.PUBLISHEDLIST.CANCEL' | translate }}</button>
             </div>
         </div>
     </div>
