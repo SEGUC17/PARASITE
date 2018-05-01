@@ -51,7 +51,8 @@ module.exports.getActivities = function (req, res, next) {
         filter,
         {
             limit: 10,
-            page: pageN
+            page: pageN,
+            sort: '-createdAt'
         },
         function (err, activities) {
             if (err) {
