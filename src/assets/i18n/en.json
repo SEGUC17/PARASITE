@@ -5,27 +5,7 @@
     },
     "ACTIVITIES": {},
     "ADMIN": {
-        "VIEW_REPORTS": {
-            "BAN": "Ban",
-            "USER": "User",
-            "REPORTS": "Reports",
-            "REPORTED_arabic": "",
-            "REPORTED": "was reported by",
-            "DELETE": "Delete",
-            "REASON": "Reason:",
-            "MSG": "Enter username to be banned"
-        },
-        "VIEW_UNVERIFIED_ACTIVITIES": {
-            "LABEL": "Activities",
-            "WELCOME": "Welcome to Activities",
-            "LATEST": "Latest",
-            "ACTIVITY": "Activity",
-            "POSTED_BY": "Posted By:",
-            "COMMENTS": "Comments:",
-            "READ_MORE": "Read More",
-            "ACCEPT": "Accept",
-            "REJECT": "Reject"
-        },
+        
         "ADMIN_CONTROL": {
             "CONTENTS_MANAGEMENT": "Content Requests",
             "CATEGORY_MANAGEMENT": "Category Management",
@@ -74,8 +54,47 @@
             "RESOURCE": "RESOURCE",
             "EDIT": "EDIT",
             "CREATE": "CREATE"
-        }
+        },
+        "ACTIVITIES_MANAGEMENT": {
+            "LABEL": "Activities",
+            "WELCOME": "Welcome to Activities",
+            "LATEST": "Latest",
+            "ACTIVITY": "Activity",
+            "POSTED_BY": "Posted By:",
+            "COMMENTS": "Comments:",
+            "READ_MORE": "Read More",
+            "ACCEPT": "Accept",
+            "REJECT": "Reject"
+        },
+        "REPORTS": {
+            "BAN": "Ban",
+            "USER": "User",
+            "REPORTS": "Reports",
+            "REPORTED_arabic": "",
+            "REPORTED": "was reported by",
+            "DELETE": "Delete",
+            "REASON": "Reason:",
+            "MSG": "Enter username to be banned"
+        },
+        "VERIFIED_CONTRIBUTORS_MANAGEMENT": {
+           "LABLE": "Unverified Contributer",
+           "REQUESTS": "Requests",
+           "MSG": "Users wants to be Verified to be able to make Activities and post Contents",
+           "PENDING": "Pending",
+           "ACCEPTED": "Accepted",
+           "REJECTED": "Rejected",
+           "PENDING_ACCOUNT": "Pending Accounts",
+           "PROFILE": "Profile",
+           "NAME": "Name",
+           "REQUEST_DATE": "Request Date",
+           "EMAIL": "Email",
+           "NO_OF_CHILDREN": "Number Of Children",
+           "STATUS": "Status",
+           "ACCEPTED_ACCOUNTS": "Accepted Accounts",
+           "REJECTED_ACCOUNTS": "Rejected Acounts"
+        }       
     },
+
     "AUTH": {
 
     },
@@ -173,7 +192,7 @@
 
     "PROFILE": {
         "PROFILE": {
-            "DASHBOARD": "Dashboard",
+            "DASHBOARD": "Nawwar",
             "MY_PROFILE": "Profile",
             "MESSAGE": "Message",
             "CHILDREN": "Children",
@@ -227,6 +246,7 @@
         },
         "CHILDREN": {
             "NAME": "Name",
+            "AGE": "Age",
             "UNLINK": "Unlink"
         }
     },

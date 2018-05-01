@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { Router } from '@angular/router';
 import { ImageUploaderComponent } from '../../image-uploader/image-uploader.component';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-verified-contributer-requests',
@@ -13,7 +14,7 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
     @author: MAHER.
    */
 
-  constructor(private _adminService: AdminService, private router: Router
+  constructor(private _adminService: AdminService, private router: Router, private translate: TranslateService
   ) { }
 
   Requests: any[] = [];

@@ -5,7 +5,7 @@
     },
     "ACTIVITIES": {},
     "ADMIN": {
-        "VIEW_REPORTS": {
+        "REPORTS": {
             "BAN": "حظر",
             "USER": "المستخدم",
             "REPORTS": "البلاغات",
@@ -15,7 +15,7 @@
             "REASON": "السبب:",
             "MSG": "أدخل اسم المستخدم ليتم حظره"
         },
-        "VIEW_UNVERIFIED_ACTIVITIES": {
+        "ACTIVITIES_MANAGEMENT": {
             "LABEL": "الأنشطة",
             "WELCOME": "مرحبًا بك في الأنشطة",
             "LATEST": "آخر",
@@ -74,7 +74,24 @@
             "RESOURCE": "مورد تعليمي",
             "EDIT": "تحديث",
             "CREATE": "إنشاء"
-        }
+        },
+        "VERIFIED_CONTRIBUTORS_MANAGEMENT": {
+           "LABLE": "مساهم لم يتم التحقق منه",
+           "REQUESTS": "طلبات",
+           "MSG": "يريد المستخدمون أن يتم التحقق منهم ليتمكنوا من إنشاء الأنشطة ونشر المحتويات",
+           "PENDING": "قيد الانتظار",
+           "ACCEPTED": "قبلت",
+           "REJECTED": "مرفوض",
+           "PENDING_ACCOUNT": "الحسابات المعلقة",
+           "PROFILE": "الصفحة الشخصي",
+           "NAME": "الإ سم",
+           "REQUEST_DATE": "تاريخ الطلب",
+           "EMAIL": "البريد الإلكتروني",
+           "NO_OF_CHILDREN": "عدد الاطفال",
+           "STATUS": "الحالة",
+           "ACCEPTED_ACCOUNTS": "الحسابات المقبولة",
+           "REJECTED_ACCOUNTS": "الحسابات المرفوضة"
+        }       
     },
     "AUTH": {
 
@@ -169,16 +186,16 @@
     "MESSAGING": {},
     "PROFILE": {
         "PROFILE": {
-            "DASHBOARD": "الصفحه الرئيسيه",
-            "MY_PROFILE": "الصفحه الشخصيه",
-            "MESSAGE": "إرسال رساله",
-            "CHILDREN": "أطفالى",
-            "STUDY_PLANS": "الخطط الدراسيه",
-            "SETTINGS": "الإعدادات",
+            "DASHBOARD": "نوَّر",
+            "MY_PROFILE": "الصفحة الشخصيه",
+            "MESSAGE": "بعث رسالة",
+            "CHILDREN": "أبنائى",
+            "STUDY_PLANS": "خطط الدراسة",
+            "SETTINGS": "إعدادات",
             "ABOUT": "عن المستخدم",
             "ADD-AS-PARENT": "أضفه كولى أمرى",
             "MAKE_INDEPENDENT": "إجعلى مستقلا",
-            "BE_VERIFIED_CONTRIBUTOR": "مشارك موثق",
+            "BE_VERIFIED_CONTRIBUTOR": "كن مساهمًا معتمدًا",
             "CREATE_CHILD_ACCOUNT": "إنشاء حساب جديد لطفلى",
             "UNLINK_MY_PARENT": "إلغاء الإرتباط",
             "LINK_TO_CHILD": "إضافه طفلى للمستخدم",
@@ -189,10 +206,10 @@
             "MY_CHILE": "طفلى",
             "CHILD_INFO": "بيانات",
             "SECURITY": "الأمان",
-            "CHANGE_PASSWORD": "تغيير كلمه السر",
-            "CPASSWORD": "كلمه السر الحاليه",
-            "NPASSWORD": "كلمه السر الجديده",
-            "CNPASSWORD": "تأكيد كلمه السر الجديده",
+            "CHANGE_PASSWORD": "تغيير كلمه المرور",
+            "CPASSWORD": "كلمه المرور الحاليه",
+            "NPASSWORD": "كلمه المرور الجديده",
+            "CNPASSWORD": "تأكيد كلمه المرور الجديده",
             "PERSONAL": "الشخصيه",
             "MY_INFO": "بياناتى",
             "FIRST_NAME": "الإسم الأول",
@@ -223,6 +240,7 @@
         },
         "CHILDREN": {
             "NAME": "الإسم",
+            "AGE": "العمر",
             "UNLINK": "إزاله من قائمتى"
         }
     },

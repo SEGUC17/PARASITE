@@ -1,8 +1,8 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>{{'ADMIN.VIEW_UNVERIFIED_ACTIVITIES.LABEL' | translate}}
-          <small>{{'ADMIN.VIEW_UNVERIFIED_ACTIVITIES.WELCOME' | translate}}</small>
+        <h2>{{'ADMIN.ACTIVITIES_MANAGEMENT.LABEL' | translate}}
+          <small>{{'ADMIN.ACTIVITIES_MANAGEMENT.WELCOME' | translate}}</small>
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
@@ -16,7 +16,7 @@
         <div class="card single_post">
           <div class="header">
             <h2>
-              <strong>{{'ADMIN.VIEW_UNVERIFIED_ACTIVITIES.LATEST' | translate}}</strong>{{'ADMIN.VIEW_UNVERIFIED_ACTIVITIES.ACTIVITY' | translate}} </h2>
+              <strong>{{'ADMIN.ACTIVITIES_MANAGEMENT.LATEST' | translate}}</strong>{{'ADMIN.ACTIVITIES_MANAGEMENT.ACTIVITY' | translate}} </h2>
           </div>
           <div class="body">
             <h2 class="m-t-0 m-b-5" style="color: #242424;">
@@ -25,10 +25,10 @@
 
             <span class="col-md-9">
 
-                <i class="zmdi zmdi-account col-blue" style="margin-right: 5px;"></i><span style="font-style: italic; color: #959595;">{{'ADMIN.VIEW_UNVERIFIED_ACTIVITIES.POSTED_BY' | translate}} {{activity.creator}}</span>
+                <i class="zmdi zmdi-account col-blue" style="margin-right: 5px;"></i><span style="font-style: italic; color: #959595;">{{'ADMIN.ACTIVITIES_MANAGEMENT.POSTED_BY' | translate}} {{activity.creator}}</span>
               </span>
             <span class="col-md-5">
-                <i class="zmdi zmdi-comment-text col-blue" style="margin-right: 5px;"></i><span style="margin-right: 3px; font-style: italic; color: #959595;">{{'ADMIN.VIEW_UNVERIFIED_ACTIVITIES.COMMENTS' | translate}} {{activity.discussion.length}}</span>
+                <i class="zmdi zmdi-comment-text col-blue" style="margin-right: 5px;"></i><span style="margin-right: 3px; font-style: italic; color: #959595;">{{'ADMIN.ACTIVITIES_MANAGEMENT.COMMENTS' | translate}} {{activity.discussion.length}}</span>
               </span>
           </div>
           <div class="body">
@@ -37,9 +37,9 @@
 
             </div>
             <p>{{activity.description}}</p>
-            <a routerLink="/activities/{{activity._id}}" title="read more" class="btn btn-round btn-info">{{'ADMIN.VIEW_UNVERIFIED_ACTIVITIES.READ_MORE' | translate}}</a>
-            <a align="right" (click)="acceptActivity(i)" title="Accept" class="btn btn-round btn-primary">{{'ADMIN.VIEW_UNVERIFIED_ACTIVITIES.ACCEPT' | translate}}</a>
-            <a align="right" (click)="rejectActivity(i)" title="Reject" class="btn btn-round btn-default">{{'ADMIN.VIEW_UNVERIFIED_ACTIVITIES.REJECT' | translate}}</a>
+            <a routerLink="/activities/{{activity._id}}" title="read more" class="btn btn-round btn-info">{{'ADMIN.ACTIVITIES_MANAGEMENT.READ_MORE' | translate}}</a>
+            <a align="right" (click)="acceptActivity(i)" title="Accept" class="btn btn-round btn-primary">{{'ADMIN.ACTIVITIES_MANAGEMENT.ACCEPT' | translate}}</a>
+            <a align="right" (click)="rejectActivity(i)" title="Reject" class="btn btn-round btn-default">{{'ADMIN.ACTIVITIES_MANAGEMENT.REJECT' | translate}}</a>
           </div>
         </div>
       </div>
