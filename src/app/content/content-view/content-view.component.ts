@@ -8,6 +8,7 @@ import { User } from '../../auth/user';
 import { DiscussionService } from '../../discussion.service';
 import { VideoIdExtractorPipe } from '../video-id-extractor.pipe';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-view',
@@ -26,7 +27,7 @@ export class ContentViewComponent implements OnInit {
   comments: any;
   viewedReplies: boolean[] = [];
   changingComment: String = '';
-  somePlaceholder: String = 'Leave a comment';
+  somePlaceholder: String = 'LEAVE_A_COMMENT';
   showReplies: String = 'Show replies';
   hideReplies: String = 'Hide replies';
   isReplying: boolean;
@@ -43,7 +44,8 @@ export class ContentViewComponent implements OnInit {
     private authService: AuthService,
     private discussionService: DiscussionService,
     private toasterService: ToastrService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
 
 
@@ -54,6 +56,9 @@ export class ContentViewComponent implements OnInit {
     this.authService.getUserData(['username', 'isAdmin']).
       subscribe(function (user) {
         self.currentUser = user.data;
+      }, function (error) {
+        // user is not signed in
+        // do nothing
       });
     // retrieve the id of the content from the current path and request content
     this.route.params.subscribe(function (params) {
@@ -65,14 +70,13 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
-      console.log('here');
       self.comments = retrievedContent.data.discussion;
       if (self.content) {
         self.getRecommendedContent();
-        if (self.content.video) {
-          self.initYoutubeAPI();
-          self.initContentVideo();
-        }
+      }
+    }, function (error) {
+      if (error.status === 404) {
+        self.toasterService.error('The requested content could not be found', 'failure');
       }
     });
   }
@@ -110,7 +114,7 @@ export class ContentViewComponent implements OnInit {
             self.refreshComments(false);
             self.changingComment = '';
             let input = document.getElementById('input');
-            self.somePlaceholder = 'leave a comment';
+            self.somePlaceholder = 'LEAVE_A_COMMENT';
             self.isReplying = false;
 
           });
@@ -131,7 +135,7 @@ export class ContentViewComponent implements OnInit {
     let element = document.getElementById('target');
     element.scrollIntoView();
     let input = document.getElementById('inputArea');
-    self.somePlaceholder = 'leave a reply';
+    self.somePlaceholder = 'LEAVE_A_REPLY';
     input.focus();
     this.isReplying = true;
     this.commentReplyingOn = id;
@@ -170,7 +174,7 @@ export class ContentViewComponent implements OnInit {
     this.changingComment = '';
     this.isReplying = false;
     let input = document.getElementById('inputArea');
-    this.somePlaceholder = 'leave a comment';
+    this.somePlaceholder = 'LEAVE_A_COMMENT';
     input.blur();
 
   }
@@ -208,28 +212,6 @@ export class ContentViewComponent implements OnInit {
     });
 
   }
-
-  initYoutubeAPI() {
-    const apiScriptTag = document.createElement('script');
-    apiScriptTag.src = 'https://www.youtube.com/iframe_api';
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(apiScriptTag, firstScriptTag);
-  }
-
-  initContentVideo() {
-    const self = this;
-    this.videoId = this.videoIdExtractorPipe.transform(this.content.video);
-    window['onYouTubeIframeAPIReady'] = function (event) {
-      self.YT = window['YT'];
-      self.player = new window['YT'].Player('player', {
-        videoId: self.videoId,
-        events: {
-          'onStateChange': self.onPlayerStateChange.bind(self)
-        }
-      });
-    };
-  }
-
   onPlayerStateChange(event) {
     const self = this;
     if (event.data === window['YT'].PlayerState.ENDED) {
@@ -238,10 +220,7 @@ export class ContentViewComponent implements OnInit {
           return;
         }
         self.toasterService.success(res.msg, 'success');
-        console.log(self.toasterService.previousToastMessage);
       });
     }
   }
-
-
 }

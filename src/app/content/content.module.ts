@@ -30,7 +30,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ToastrService } from 'ngx-toastr';
 import { DiscussionService } from '../discussion.service';
+import { FileUploadModule } from 'ng2-file-upload';
+import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { YoutubePlayerComponent } from './youtube-player/youtube-player.component';
+import { YoutubeApiService } from './youtube-api.service';
 
 
 
@@ -40,31 +44,19 @@ import { TranslateModule } from '@ngx-translate/core';
     ContentRoutingModule,
     FormsModule,
     MatStepperModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatInputModule,
     MatIconModule,
     QuillEditorModule,
-    MatCardModule,
     MatChipsModule,
-    MatPaginatorModule,
-    MatTabsModule,
-    MatSidenavModule,
-    MatExpansionModule,
-    MatSelectModule,
-    MatRadioModule,
-    InfiniteScrollModule,
     SharedModule,
-    MatListModule,
-    MatDividerModule,
-    MatTooltipModule,
+    FileUploadModule,
+    LoadingBarModule.forRoot(),
     TranslateModule.forChild()
   ],
   providers: [
     ContentService,
     DiscussionService,
-    ToastrService,
-    VideoIdExtractorPipe
+    VideoIdExtractorPipe,
+    YoutubeApiService
   ],
   declarations: [
     ContentEditComponent,
@@ -72,7 +64,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ContentViewComponent,
     SafeResourceUrlPipe,
     SafeHtmlPipe,
-    VideoIdExtractorPipe
+    VideoIdExtractorPipe,
+    YoutubePlayerComponent
   ]
 })
 export class ContentModule { }

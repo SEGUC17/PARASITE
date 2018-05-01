@@ -3,6 +3,7 @@ import { ViewContentRequestsComponent } from '../view-content-requests/view-cont
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-admin-control',
   templateUrl: './admin-control.component.html',
@@ -13,39 +14,40 @@ export class AdminControlComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private toasterService: ToastrService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
   links = [
     {
-      name: 'Content Requests',
+      name: 'ADMIN.ADMIN_CONTROL.CONTENTS_MANAGEMENT',
       url: './content-req'
     },
     {
-      name: 'Category Management',
+      name: 'ADMIN.ADMIN_CONTROL.CATEGORY_MANAGEMENT',
       url: './category'
     },
     {
-      name: 'Product Requests',
+      name: 'ADMIN.ADMIN_CONTROL.PRODUCTS_MANAGEMENT',
       url: './product-req'
     },
     {
-      name: 'Psychologist Requests',
+      name: 'ADMIN.ADMIN_CONTROL.PSYCHOLOGISTS_MANAGEMENT',
       url: './psych-req'
     },
     {
-      name: 'Publish Study Plan requests',
+      name: 'ADMIN.ADMIN_CONTROL.STUDY_PLANS_MANAGEMENT',
       url: './publish-req'
     },
     {
-      name: 'Unverified Activities',
+      name: 'ADMIN.ADMIN_CONTROL.ACTIVITIES_MANAGEMENT',
       url: './unverified-activites'
     },
     {
-      name: 'Verified Contributor Requests',
+      name: 'ADMIN.ADMIN_CONTROL.VERIFIED_CONTRIBUTORS_MANAGEMENT',
       url: './verified-contributor-req'
     },
     {
-      name: 'Reports',
+      name: 'ADMIN.ADMIN_CONTROL.REPORTS',
       url: './reports'
     }
   ];

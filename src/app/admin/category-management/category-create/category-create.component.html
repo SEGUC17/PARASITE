@@ -3,22 +3,22 @@
     <div class="card category-card">
       <div class="header">
         <h2>
-          <strong>Create Category</strong>
-          <small>Your changes will be viewed in the content list</small>
+          <strong>{{ 'ADMIN.CATEGORY_MANAGEMENT.CATEGORY_CREATE.CREATE_CATEGORY' | translate }}</strong>
+          <small>{{ 'ADMIN.CATEGORY_MANAGEMENT.SHARED.VISIBLE_LOCATION' | translate }}</small>
         </h2>
       </div>
       <div class="body">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Category Name" #name name="category name" [(ngModel)]="category.category"
-            required (keyup)="0" />
+          <input type="text" class="form-control" placeholder="{{ 'ADMIN.CATEGORY_MANAGEMENT.SHARED.CATEGORY_NAME' | translate }}"
+            #name name="category name" [(ngModel)]="category.category" required (keyup)="0" />
         </div>
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Category Icon Link" #icon name="category icon" [(ngModel)]="category.iconLink"
+          <input type="text" class="form-control" placeholder="{{ 'ADMIN.CATEGORY_MANAGEMENT.SHARED.CATEGORY_ICON_LINK' | translate }}" #icon name="category icon" [(ngModel)]="category.iconLink"
             required (keyup)="0" />
         </div>
         <div class="form-group">
           <div class="mt-2">
-            <small class="text-muted">How it should look like</small>
+            <small class="text-muted">{{ 'ADMIN.CATEGORY_MANAGEMENT.SHARED.PREVIEW' | translate }}</small>
             <div class="row">
               <div class="mr-2">{{name.value}}</div>
               <div class="prev-icon">
@@ -30,7 +30,7 @@
       </div>
       <div class="card-footer bg-transparent border-0">
         <div class="form-group text-center">
-          <button class="btn btn-primary" (click)="createCategory()" [disabled]="!createCategoryForm.valid">Submit</button>
+          <button class="btn btn-primary" (click)="createCategory()" [disabled]="!createCategoryForm.valid">{{ 'ADMIN.CATEGORY_MANAGEMENT.SHARED.SUBMIT_BUTTON' | translate }}</button>
         </div>
       </div>
     </div>
