@@ -262,7 +262,6 @@ export class AppComponent implements OnInit {
   }
 
   isSignedIn(): void {
-    console.log('triggered');
     const self = this;
     this.authService.getUserData(['username', 'firstName', 'lastName', 'avatar', 'isAdmin']).subscribe(function (res) {
       self.username = res.data.username;

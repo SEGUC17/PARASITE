@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { SafeResourceUrlPipe } from '../../../pipe/safe-resource-url.pipe';
 import { MessageService } from '../../messaging/messaging.service';
+import { TranslateService } from '@ngx-translate/core';
 declare const swal: any;
 declare const $: any;
 @Component({
@@ -22,9 +23,13 @@ export class ViewContentRequestsComponent implements OnInit {
   edit: boolean;
 
 
-  constructor(private _adminService: AdminService, private router: Router, private _authService: AuthService,
-    private _messageService: MessageService) {
-  }
+  constructor(
+    private _adminService: AdminService,
+    private router: Router,
+    private _authService: AuthService,
+    private _messageService: MessageService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     let self = this;

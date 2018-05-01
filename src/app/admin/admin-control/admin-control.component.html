@@ -1,7 +1,7 @@
 <section class="content">
   <ul class="nav nav-tabs">
     <li class="nav-item" *ngFor="let link of links">
-      <a [routerLink]="link.url" class="nav-link" routerLinkActive="active">{{link.name}}</a>
+      <a [routerLink]="link.url" class="nav-link" routerLinkActive="active">{{ link.name | translate }}</a>
     </li>
   </ul>
   <router-outlet></router-outlet>
