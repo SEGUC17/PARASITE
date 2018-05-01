@@ -37,9 +37,6 @@ export class StudyPlanComponent implements OnInit {
   _id: String;
   profileUsername: string;
 
-  // assign modal
-  selectedUser: String;
-
   // user info
   currUsername: string;
   currIsChild: boolean;
@@ -156,6 +153,7 @@ export class StudyPlanComponent implements OnInit {
       // fetch routing data
       this.route.params.subscribe(params => {
         this.type = params.type;
+        console.log('type' + this.type);
         this._id = params.id;
         this.profileUsername = params.username;
       });
@@ -230,15 +228,17 @@ export class StudyPlanComponent implements OnInit {
       });
   }
 
-  assign = function () {
+  assign = function (selectedUser) {
     // this.studyPlan.assigned = true;
-    this.studyPlanService.assignStudyPlan(this.selectedUser, this._id).subscribe(
+    this.studyPlanService.assignStudyPlan(selectedUser, this._id).subscribe(
       res => {
         if (res.err) {
           this.toastrService.error(res.err);
         } else if (res.msg) {
           this.toastrService.success(res.msg);
-          this.studyPlan.assigned = true;
+          if (this.currUsername === selectedUser) {
+            this.studyPlan.assigned = true;
+          }
         }
       });
 
@@ -253,6 +253,9 @@ export class StudyPlanComponent implements OnInit {
         } else if (res.msg) {
           this.toastrService.success(res.msg);
           this.studyPlan.assigned = false;
+          if (this.profileUsername && this.profileUsername !== this.currUsername) {
+            this.router.navigate(['/profile/' + this.profileUsername]);
+          }
         }
       });
   };
