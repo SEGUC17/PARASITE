@@ -20,6 +20,8 @@ export class ActivityCreateComponent implements OnInit {
     author: Wessam
   */
 
+  brInput: Boolean = false;
+
   public activity: ActivityCreate = {
     name: '',
     description: '',
