@@ -372,6 +372,7 @@ var handleAdminCreate = function (req, res, next) {
                     if (err) {
                         return next(err);
                     }
+                    console.log('creating');
                 });
 
             }

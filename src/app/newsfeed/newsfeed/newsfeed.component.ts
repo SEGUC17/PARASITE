@@ -66,8 +66,6 @@ export class NewsfeedComponent implements OnInit {
         self.posts = posts.data.docs;
         for (let post of self.posts) {
           post.description = self.sanitizer.bypassSecurityTrustHtml(post.description);
-          console.log(post);
-
         }
         console.log(self.posts);
       });
