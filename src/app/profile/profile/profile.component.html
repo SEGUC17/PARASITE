@@ -258,7 +258,7 @@
 
 
 </div> -->
-  <section class="content profile-page">
+  <section class="content profile-page" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
     <div class="block-header">
       <div class="row">
         <div class="col-lg-7 col-md-6 col-sm-12">
@@ -269,12 +269,13 @@
          <!-- <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
             <i class="zmdi zmdi-plus"></i>
           </button> -->
-          <ul class="breadcrumb float-md-right">
+          <ul class="breadcrumb float-md-right" [dir]="translate.currentLang === 'ara'? 'rtl': null"
+          [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
             <li class="breadcrumb-item">
               <a routerLink="/dashboard">
-                <i class="zmdi zmdi-home"></i> Dashboard</a>
+                <i class="zmdi zmdi-home"></i> {{ 'PROFILE.PROFILE.NAWWAR' | translate }}</a>
             </li>
-            <li class="breadcrumb-item active">Profile</li>
+            <li class="breadcrumb-item active">{{'PROFILE.PROFILE.MY_PROFILE' | translate }}</li>
           </ul>
         </div>
       </div>
@@ -287,7 +288,7 @@
               <div class="row">
                 <div class="col-lg-3 col-md-4 col-12">
                   <div class="profile-image float-md-right">
-                    <img src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
+                    <img [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
                       alt="Profile Picture">
                     <br/>
                     <a *ngIf = "currIsOwner" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right">
@@ -296,26 +297,26 @@
                   </div>
                 </div>
                 <div class="col-lg-9 col-md-8 col-12">
-                  <h4 class="m-t-0 m-b-0">
+                  <h4 class="m-t-0 m-b-0" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [align]="translate.currentLang === 'ara'? 'right': null">
                     <strong>{{currIsOwner? firstName : vFirstName}}</strong> {{currIsOwner? lastName : vLastName}}</h4>
-                  <a class="job_post" href="javascript:void(0);" *ngIf="(currIsOwner && currIsAdmin) || visitedIsAdmin">
-                    <i class="material-icons">verified_user</i> {{currIsOwner? (currIsAdmin? 'Admin' : '' ) : (visitedIsAdmin? 'Admin' : '' ) }}</a>
-                  <p>{{currIsOwner? address : vAddress}}</p>
+                  <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post" href="javascript:void(0);" *ngIf="(currIsOwner && currIsAdmin) || visitedIsAdmin">
+                    <div [align]="translate.currentLang === 'ara'? 'right': null"><i [style.float]="translate.currentLang === 'ara'? 'right': null" class="material-icons">verified_user</i> {{currIsOwner? (currIsAdmin? 'Admin' : '' ) : (visitedIsAdmin? 'Admin' : '' ) }}</div></a>
+                  <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [align]="translate.currentLang === 'ara'? 'right': null">{{currIsOwner? address : vAddress}}</p>
                   <div>
-                    <button class="btn btn-primary btn-round btn-simple" data-toggle="modal" data-target="#directMessageModal" *ngIf = "!currIsOwner">Message</button>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent"
-                      (click)="linkToParent()">Add As A Parent</button>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild"
-                      (click)="EditChildIndependence()">Make Independent</button>
-                    <button class="btn btn-primary btn-round btn-simple" *ngIf="currIsOwner && !currIsChild && !verified && currIsOfAge" (click)="requestContributerValidation()">Be A Verified Contributor</button>
-                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currIsOfAge && !currIsOwner && visitedIsOfAge"
-                      (click)="reportPopUp()">Report</button>
-                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currCanBeParent && currIsOwner" routerLink= "/auth/child-sign-up">Create A Child Account</button>
-                    <button class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge"
-                      (click)="UnlinkMyself()">Unlink My Parent</button>
+                    <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" data-toggle="modal" data-target="#directMessageModal" *ngIf = "!currIsOwner">{{'PROFILE.PROFILE.MESSAGE' | translate}}</button>
+                    <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent"
+                      (click)="linkToParent()">{{'PROFILE.PROFILE.ADD_AS_PARENT' | translate}}</button>
+                    <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild"
+                      (click)="EditChildIndependence()">{{'PROFILE.PROFILE.MAKE_INDEPENDENT' | translate}}</button>
+                    <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" *ngIf="currIsOwner && !currIsChild && !verified && currIsOfAge" (click)="requestContributerValidation()">{{'PROFILE.PROFILE.BE_VERIFIED_CONTRIBUTOR' |translate}}</button>
+                    <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currIsOfAge && !currIsOwner && visitedIsOfAge"
+                      (click)="reportPopUp()">{{'PROFILE.PROFILE.REPORT' | translate}}</button>
+                    <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="currCanBeParent && currIsOwner" routerLink= "/auth/child-sign-up">{{'PROFILE.PROFILE.CREATE_CHILD_ACCOUNT' | translate}}</button>
+                    <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" style="float: right" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge"
+                      (click)="UnlinkMyself()">{{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}}</button>
                     <span class="dropdown">
-                      <button class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
-                        <span>Link To My Child</span>
+                      <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
+                        <span>{{'PROFILE.PROFILE.LINK_TO_CHILD' | translate}}</span>
                     </button>
                         <!-- class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" -->
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -337,27 +338,27 @@
       </div>
       <div class="row clearfix">
         <div class="col-lg-4 col-md-12">
-          <div class="card">
+          <div class="card" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" dir="auto">
             <ul class="nav nav-tabs">
               <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#about">About</a>
+                <a class="nav-link active" data-toggle="tab" href="#about">{{'PROFILE.PROFILE.ABOUT' | translate}}</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#friends" *ngIf="false">Children</a>
               </li>
             </ul>
             <div class="tab-content">
-              <div class="tab-pane body active" id="about">
-                <small class="text-muted">Email address: </small>
+              <div class="tab-pane body active" id="about" [align]="translate.currentLang === 'ara'? 'right': null">
+                <small class="text-muted">{{'PROFILE.PROFILE.EMAIL' | translate}} </small>
                 <p>{{currIsOwner? email : vEmail}}</p>
                 <hr>
-                <small class="text-muted">Phone: </small>
+                <small class="text-muted">{{'PROFILE.PROFILE.PHONE' | translate}} </small>
                 <p>{{currIsOwner? phone : vPhone}}</p>
                 <hr>
-                <small class="text-muted">Birth Date: </small>
+                <small class="text-muted">{{'PROFILE.PROFILE.BIRTHDATE' | translate}} </small>
                 <p class="m-b-0">{{(currIsOwner? birthday : vBirthday) | date: "MM/dd/yyyy"}}</p>
                 <hr>
-                <small class="text-muted">Age: </small>
+                <small class="text-muted">{{'PROFILE.PROFILE.AGE' | translate}} </small>
                 <p class="m-b-0">{{currIsOwner? age : vAge}}</p>
               </div>
               <div class="tab-pane body" id="friends" *ngIf="false">
@@ -384,17 +385,17 @@
         <div class="col-lg-8 col-md-12">
           <div *ngIf = "currIsOwner || visitedIsMyChild" class="card bg-dark">
             <ul class="nav nav-tabs">
-              <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#children" *ngIf="currIsOwner">Children</a>
+              <li class="nav-item" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                <a class="nav-link" data-toggle="tab" href="#children" *ngIf="currIsOwner">{{'PROFILE.PROFILE.CHILDREN' | translate}}</a>
               </li>
-             <li class="nav-item" *ngIf = "currIsOwner || visitedIsMyChild">
-                <a class="nav-link" data-toggle="tab" href="#studyplans">Study Plans</a>
+             <li class="nav-item" *ngIf = "currIsOwner || visitedIsMyChild" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                <a class="nav-link" data-toggle="tab" href="#studyplans">{{'PROFILE.PROFILE.STUDY_PLANS' | translate}}</a>
               </li>
-              <li class="nav-item" *ngIf="currIsOwner && currIsOfAge">
-                <a class="nav-link" data-toggle="tab" href="#userSettings">Settings</a>
+              <li class="nav-item" *ngIf="currIsOwner && currIsOfAge" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                <a class="nav-link" data-toggle="tab" href="#userSettings">{{'PROFILE.PROFILE.SETTINGS'| translate}}</a>
               </li>
-              <li class="nav-item" *ngIf="visitedIsMyChild">
-                  <a class="nav-link" data-toggle="tab" href="#childSettings">Settings</a>
+              <li class="nav-item" *ngIf="visitedIsMyChild" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                  <a class="nav-link" data-toggle="tab" href="#childSettings">{{'PROFILE.PROFILE.SETTINGS' | translate}}</a>
                 </li>
             </ul>
           </div>
@@ -407,41 +408,41 @@
                       <div class="card">
                         <div class="header">
                           <h2>
-                            <strong>Child</strong> Info</h2>
+                            <strong>{{'PROFILE.PROFILE.MY_CHILE' | translate}}</strong> {{'PROFILE.PROFILE.CHILD_INFO' | translate}}</h2>
                         </div>
                         <div class="body">
-                            <label for="dFirstName">First Name</label>
+                            <label for="dFirstName">{{'PROFILE.PROFILE.FIRST_NAME' | translate}}</label>
                             <div class="form-group">
                               <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value= {{vFirstName}}>
                             </div>
-                            <label for="dLastName">Last Name</label>
+                            <label for="dLastName">{{'PROFILE.PROFILE.LAST_NAME' | translate}}</label>
                             <div class="form-group">
                               <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value= {{vLastName}}>
                             </div>
-                            <label for="dUsername">Username</label>
+                            <label for="dUsername">{{'PROFILE.PROFILE.USERNAME' | translate}}</label>
                             <div class="form-group">
                               <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value= {{vUsername}} disabled>
                             </div>
-                            <label for="dEmail">Email</label>
+                            <label for="dEmail">{{'PROFILE.PROFILE.EDIT_EMAIL' | translate}}</label>
                             <div class="form-group">
                               <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value= {{vEmail}} disabled>
                             </div>
-                            <label for="dAddress">Address</label>
+                            <label for="dAddress">{{'PROFILE.PROFILE.ADDRESS' |translate}}</label>
                             <div class="form-group">
                               <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value= {{vAddress}}>
                             </div>
-                            <label for="dBirthday">Birthdate</label>
+                            <label for="dBirthday">{{'PROFILE.PROFILE.EDIT_BD' | translate}}</label>
                             <div class="input-group">
                               <span class="input-group-addon">
                                 <i class="zmdi zmdi-calendar"></i>
                               </span>
                               <input type="text" id = "dBirthday" class="form-control datetimepicker" value= {{vBirthdayView}}>
                             </div>
-                            <label for="dPhone">Phone</label>
+                            <label for="dPhone">{{'PROFILE.PROFILE.EDIT_PHONE' | translate}}</label>
                             <div class="form-group">
                               <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value= {{vPhone}}>
                             </div>
-                            <button type="button" (click)="changeChildInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
+                            <button type="button" (click)="changeChildInfo()" class="btn btn-raised btn-primary btn-round waves-effect">{{'PROFILE.PROFILE.SAVE_CHANGES' | translate}}</button>
                         </div>
                       </div>
                     </div>
@@ -449,23 +450,23 @@
     
                   <!-- End Child Info -->
                 </div>
-            <div role="tabpanel" class="tab-pane" id="userSettings">
+            <div role="tabpanel" class="tab-pane" id="userSettings" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" dir="auto" [align]="translate.currentLang === 'ara'? 'right': null">
               <div class="card">
                 <div class="header">
                   <h2>
-                    <strong>Security</strong> Settings</h2>
+                    <strong>{{'PROFILE.PROFILE.SECURITY' | translate}}</strong>{{'PROFILE.PROFILE.SETTINGS' | translate}} </h2>
                 </div>
                 <div class="body">
                   <div class="form-group">
-                    <input #Oldpw type="password" class="form-control" placeholder="Your Current Password" [(ngModel)]=oldpw>
+                    <input #Oldpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.CPASSWORD' | translate}}" [(ngModel)]=oldpw>
                   </div>
                   <div class="form-group">
-                    <input #Newpw type="password" class="form-control" placeholder="New Password" [(ngModel)]=newpw>
+                    <input #Newpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.NPASSWORD' | translate}}" [(ngModel)]=newpw>
                   </div>
                   <div class="form-group">
-                    <input #Confirmpw type="password" class="form-control" placeholder="Confirm New Password" [(ngModel)]=confirmpw>
+                    <input #Confirmpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.CNPASSWORD' | translate}}" [(ngModel)]=confirmpw>
                   </div>
-                  <button class="btn btn-raised btn-primary btn-round waves-effect" (click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">Change Password</button>
+                  <button class="btn btn-raised btn-primary btn-round waves-effect" (click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">{{'PROFILE.PROFILE.CHANGE_PASSWORD' |translate}}</button>
                 </div>
               </div>
               <!-- Personal Info -->
@@ -474,41 +475,41 @@
                   <div class="card">
                     <div class="header">
                       <h2>
-                        <strong>Personal</strong> Info</h2>
+                        <strong>{{'PROFILE.PROFILE.PERSONAL' | translate}}</strong> {{'PROFILE.PROFILE.MY_INFO' | translate}}</h2>
                     </div>
                     <div class="body">
-                        <label for="dFirstName">First Name</label>
+                        <label for="dFirstName">{{'PROFILE.PROFILE.FIRST_NAME' | translate}}</label>
                         <div class="form-group">
                           <input type="text" id="qFirstName" [ngModel]=dFirstName class="form-control" value= {{firstName}}>
                         </div>
-                        <label for="dLastName">Last Name</label>
+                        <label for="dLastName">{{'PROFILE.PROFILE.LAST_NAME' | translate}}</label>
                         <div class="form-group">
                           <input type="text" id="qLastName" [ngModel]=dLastName class="form-control" value= {{lastName}}>
                         </div>
-                        <label for="dUsername">Username</label>
+                        <label for="dUsername">{{'PROFILE.PROFILE.USERNAME' | translate}}</label>
                         <div class="form-group">
                           <input type="text" id="qUsername" [ngModel]=dUsername class="form-control" value= {{username}} disabled>
                         </div>
-                        <label for="dEmail">Email</label>
+                        <label for="dEmail">{{'PROFILE.PROFILE.EDIT_EMAIL' | translate}}</label>
                         <div class="form-group">
                           <input type="text" id="qEmail" [ngModel]=dEmail class="form-control" value= {{email}} disabled>
                         </div>
-                        <label for="dAddress">Address</label>
+                        <label for="dAddress">{{'PROFILE.PROFILE.ADDRESS' |translate}}</label>
                         <div class="form-group">
                           <input type="text" id="qAddress" [ngModel]=dAddress class="form-control" value= {{address}}>
                         </div>
-                        <label for="dBirthday">Birthdate</label>
-                        <div class="input-group">
+                        <label for="dBirthday">{{'PROFILE.PROFILE.EDIT_BD' | translate}}</label>
+                        <div class="input-group" dir="ltr">
                           <span class="input-group-addon">
                             <i class="zmdi zmdi-calendar"></i>
                           </span>
                           <input type="text" id = "qBirthday" class="form-control datetimepicker" value= {{birthdayView}}>
                         </div>
-                        <label for="dPhone">Phone</label>
+                        <label for="dPhone">{{'PROFILE.PROFILE.EDIT_PHONE' | translate}}</label>
                         <div class="form-group">
                           <input type="text" id="qPhone" [ngModel]=dPhone class="form-control" value= {{phone}}>
                         </div>
-                        <button type="button" (click)="ChangeInfo()" class="btn btn-raised btn-primary btn-round waves-effect">Save Changes</button>
+                        <button type="button" (click)="ChangeInfo()" class="btn btn-raised btn-primary btn-round waves-effect">{{'PROFILE.PROFILE.SAVE_CHANGES' | translate}}</button>
                     </div>
                   </div>
                 </div>
@@ -517,7 +518,7 @@
               <div class="card">
                 <div class="header">
                   <h2>
-                    <strong>Messages Block</strong> List</h2>
+                    <strong>{{'PROFILE.PROFILE.MESSAGES_BLOCK' | translate}}</strong> {{'PROFILE.PROFILE.BLOCK_LIST' |translate}}</h2>
                 </div>
                 <style>
                   .bodyBlock {
@@ -541,7 +542,7 @@
                     </strong>
                     <div class="col-md-12">
                       <button class="btn btn-primary btn-round" (click)="unblockUser(blockedUser)">
-                        Unblock
+                        {{'PROFILE.PROFILE.UNBLOCK' | translate}}
                       </button>
                     </div>
 
@@ -549,14 +550,14 @@
                 </div>
               </div>
             </div>
-            <div role="tabpanel" class="tab-pane" id="children">
+            <div role="tabpanel" class="tab-pane" id="children" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  [align]="translate.currentLang === 'ara'? 'right': null">
               <app-childern></app-childern>
             </div>
-            <div role="tabpanel" class="tab-pane" id="studyplans">
+            <div role="tabpanel" class="tab-pane" id="studyplans" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
               <div class="card">
                 <div class="body">
                   <div *ngIf="!currIsChild && currIsOwner">
-                    <a class="btn btn-primary" routerLink="/scheduling/study-plan/create" color="primary" style="float: right;">Create A New Study Plan</a>
+                    <a class="btn btn-primary" routerLink="/scheduling/study-plan/create" color="primary" style="float: right;">{{'PROFILE.PROFILE.CREATE_STUDY_PALN' | translate}}</a>
                     <br />
                     <br />
                     <br />
@@ -565,15 +566,15 @@
                     <div class="card col-4" *ngFor="let studyPlan of (currIsOwner ? studyPlans : vStudyPlans); let index = index">
                       <div class="header">
                         <h2>
-                          <span class="badge badge-assigned float-right" *ngIf="studyPlan.assigned">Assigned</span>
+                          <span class="badge badge-assigned float-right" *ngIf="studyPlan.assigned">{{'PROFILE.PROFILE.ASSIGNED' | translate}}</span>
                           <strong>{{studyPlan.title}}</strong>
                           <br/> {{studyPlan.creator}}
                         </h2>
                       </div>
                       <div class="body">
                         <p>
-                          <a class="btn btn-primary" routerLink="/scheduling/study-plan/personal/{{ studyPlan._id }}/{{ currIsOwner ? username : vUsername }}">View</a>
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#studyPlanDeleteModal" (click)="studyPlanIndex = index" color="primary" *ngIf="!currIsChild">Delete</button>
+                          <a class="btn btn-primary" routerLink="/scheduling/study-plan/personal/{{ studyPlan._id }}/{{ currIsOwner ? username : vUsername }}">{{'PROFILE.PROFILE.VIEW' | translate}}</a>
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#studyPlanDeleteModal" (click)="studyPlanIndex = index" color="primary" *ngIf="!currIsChild">{{'PROFILE.PROFILE.DELETE' | translate}}</button>
                         </p>
                       </div>
                     </div>
@@ -591,11 +592,11 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="title" id="defaultModalLabel">Profile picture upload</h4>
+          <h4 class="title" id="defaultModalLabel">{{'PROFILE.PROFILE.PROFILE_PIC' | translate}}</h4>
         </div>
         <div class="modal-body">
           <app-image-uploader (ImageUploaded)="uploaded($event)"></app-image-uploader>
-          <button id="closeModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" style="float:right">Cancel</button>
+          <button id="closeModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" style="float:right">{{'PROFILE.PROFILE.CANCEL' | translate}}</button>
         </div>
       </div>
     </div>
@@ -607,14 +608,14 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="title" id="defaultModalLabel">Delete Event</h4>
+        <h4 class="title" id="defaultModalLabel">{{'PROFILE.PROFILE.DELETE_EVENT' | translate}}</h4>
       </div>
       <div class="modal-body">
-        <li>Are you sure you want to delete this event?</li>
+        <li>{{'PROFILE.PROFILE.DELE_EVENT_CONF' | translate}}</li>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="deleteStudyPlan(studyPlanIndex)">Delete</button>
-        <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="deleteStudyPlan(studyPlanIndex)">{{'PROFILE.PROFILE.DELETE' | translate}}</button>
+        <button type="button" class="btn btn-simple btn-round waves-effect" data-dismiss="modal">{{'PROFILE.PROFILE.CANCEL' | translate}}</button>
       </div>
     </div>
   </div>
