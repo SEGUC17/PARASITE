@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   lastName: string;
   isAdmin: boolean;
   notifications: Notification[];
+  messagesNotifications: Notification[];
   unreadNotificationsNumber: number; // Number of unread notifications to display on top of icon
   unreadNotificationsNumberMessages: number; // Number of unread messages to display on top of icon
   discussion_C : String = "discussion content";
@@ -301,8 +302,9 @@ export class AppComponent implements OnInit {
   }
   modifyNotification(notificationId, isRead): void {
     let self = this;
-    this.authService.modifyNotification(notificationId, self.username, true).subscribe(function (res) {
-      console.log(res.data);
+    console.log('in modify notification');
+    this.authService.modifyNotification(notificationId, self.username, isRead).subscribe(function (res) {
+      console.log('output of modify notification' + res.data);
       self.getNotifications();
     });
 
@@ -325,6 +327,7 @@ export class AppComponent implements OnInit {
       var messagesNotifications = res.data.notifications.filter(function(messageNotification) {
         return messageNotification.type === 'message' && messageNotification.isRead === false;
       });
+      self.messagesNotifications = messagesNotifications;
       // unread messages number
       self.unreadNotificationsNumberMessages = messagesNotifications.length;
     
@@ -366,5 +369,13 @@ export class AppComponent implements OnInit {
       this.translate.use('en');
     }
 
+  }
+  //method that makes all messages read
+  onMessageIconClick() {
+    console.log('in');
+    let self = this;
+    for (let i = 0 ; i < self.messagesNotifications.length ; i++ ) {
+      self.modifyNotification(self.messagesNotifications[i]._id, true)
+    }
   }
 }
