@@ -94,6 +94,9 @@ contentSchema.index(
     }
 );
 contentSchema.post('findOneAndUpdate', function (doc) {
+    if (doc.rating.sum === 0 || doc.rating.number === 0) {
+        return;
+    }
     var newRating = doc.rating.sum / doc.rating.number;
     this.model.update(
         { _id: doc._id },
