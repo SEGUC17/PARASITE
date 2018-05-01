@@ -30,6 +30,7 @@ export class ContentViewComponent implements OnInit {
   somePlaceholder: String = 'LEAVE_A_COMMENT';
   showReplies: String = 'Show replies';
   hideReplies: String = 'Hide replies';
+  defaultPP: String = '../../../assets/images/profile-view/defaultPP.png';
   isReplying: boolean;
   commentReplyingOn: any;
   public YT: any;
