@@ -102,25 +102,25 @@ export class AuthService {
 
   signInWithGoogle() {
     const self = this;
-    this.googleAuthService.getAuth().subscribe(function(res) {
+    this.googleAuthService.getAuth().subscribe(function (res) {
       res.signIn()
-      .then(function(res2: GoogleUser) {
-        let user = {
-          'email': res2.getBasicProfile().getEmail(),
-          'firstName': res2.getBasicProfile().getGivenName(),
-          'googleId': res2.getBasicProfile().getId(),
-          'imageUrl': res2.getBasicProfile().getImageUrl(),
-          'lastName': res2.getBasicProfile().getFamilyName()
-        };
-        self.authGoogle(user).subscribe(function(res3) {
-          if (res3.msg === 'Sign In Is Successful!') {
-            self.setToken(res3.token);
-            self.toastrService.success(res3.msg, 'Welcome!');
-            self.router.navigateByUrl('/content/list');
-          }
-        });
-      })
-      .catch(this.handleError);
+        .then(function (res2: GoogleUser) {
+          let user = {
+            'email': res2.getBasicProfile().getEmail(),
+            'firstName': res2.getBasicProfile().getGivenName(),
+            'googleId': res2.getBasicProfile().getId(),
+            'imageUrl': res2.getBasicProfile().getImageUrl(),
+            'lastName': res2.getBasicProfile().getFamilyName()
+          };
+          self.authGoogle(user).subscribe(function (res3) {
+            if (res3.msg === 'Sign In Is Successful!') {
+              self.setToken(res3.token);
+              self.toastrService.success(res3.msg, 'Welcome!');
+              self.router.navigateByUrl('/content/list');
+            }
+          });
+        })
+        .catch(this.handleError);
     });
   }
 
@@ -174,13 +174,17 @@ export class AuthService {
       catchError(self.handleError('resetPassword', []))
     );
   }
-  modifyNotification (notificationId,username, isRead:boolean): any {
+  modifyNotification(notificationId, username, isRead: boolean): any {
     let self = this;
-    return this.http.patch( environment.apiUrl + 'modifyNotification/' + notificationId, {isRead: isRead}).pipe(
+    return this.http.patch(environment.apiUrl + 'modifyNotification/' + notificationId, { isRead: isRead }).pipe(
       catchError(self.handleError('modifyNotification', []))
-    )
+    );
   }
-  
+
+  getTags(): any {
+    return this.http.get(environment.apiUrl + 'tags/getTags', httpOptions);
+  }
+
 
   public handleError<T>(operation = 'operation', result?: T) {
     const self = this;

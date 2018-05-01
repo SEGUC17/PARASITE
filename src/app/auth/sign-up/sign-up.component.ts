@@ -19,6 +19,7 @@ export class SignUpComponent implements OnInit {
     password: '',
     confirmPassword: '',
     firstName: '',
+    interests: [],
     lastName: '',
     email: '',
     birthdate: new Date(),
@@ -26,7 +27,10 @@ export class SignUpComponent implements OnInit {
     address: '',
     isTeacher: false,
   };
+  public interests = new Set();
+  public interest;
 
+  private tags = [];
   private tabNumber = 1;
 
   constructor(private authService: AuthService, private toastrService: ToastrService, private router: Router) { }
@@ -47,9 +51,18 @@ export class SignUpComponent implements OnInit {
         self.user.birthdate = date._d;
       }
     });
+
+    this.authService.getTags().subscribe(function (res) {
+      if (res.err) {
+        self.toastrService.error(res.err);
+      } else {
+        self.tags = res.data;
+      }
+    });
   }
 
   signUp() {
+    this.user.interests = Array.from(this.interests);
     const self = this;
     self.authService.signUp(this.user).subscribe(function (res) {
       if (res.msg === 'Sign Up Is Successful!\nVerification Mail Was Sent To Your Email!') {
@@ -57,6 +70,18 @@ export class SignUpComponent implements OnInit {
         self.router.navigateByUrl('/content/list');
       }
     });
+  }
+
+  tabsUp() {
+    this.tabNumber++;
+  }
+
+  tabsDown() {
+    this.tabNumber--;
+  }
+
+  addInterest() {
+    this.interests.add(this.interest);
   }
 
 }

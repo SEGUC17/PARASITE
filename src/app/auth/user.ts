@@ -8,6 +8,7 @@ export interface User {
     email?: string;
     firstName?: string;
     lastName?: string;
+    interests?: string[];
     isAdmin?: boolean;
     isChild?: boolean;
     isParent?: boolean;

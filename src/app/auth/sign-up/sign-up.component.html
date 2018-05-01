@@ -13,7 +13,7 @@
             </div>
             <form name="signUpForm">
               <div class="content">
-                <div id="personalInfo" [hidden]="this.tabNumber == 2">
+                <div id="personalInfo" [hidden]="this.tabNumber != 1">
                   <div class="input-group">
                     <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="user.firstName" name="firstName" required>
                     <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName" required>
@@ -41,7 +41,7 @@
                     <label for="isTeacher">Are you a teacher?</label>
                   </div>
                 </div>
-                <div id="credentials" [hidden]="this.tabNumber == 1">
+                <div id="credentials" [hidden]="this.tabNumber != 2">
                   <div class="input-group">
                     <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="user.username" name="username" required>
                     <span class="input-group-addon">
@@ -76,13 +76,22 @@
                     </label>
                   </div>
                 </div>
+                <div id="interests" [hidden]="this.tabNumber != 3" style="height: 60% !important; overflow: auto !important">
+                  <h6>Pick some of your interests:</h6>
+                  <select class="form-control show-tick" placeholder="Pick an interest" id="interest" [(ngModel)]="interest" [ngModelOptions]="{standalone: true}">
+                    <option *ngFor="let tag of tags">{{tag.name}}</option>
+                  </select>
+                  <input type="button" style="width: 40% !important;" value="Add Interest" class="form-control btn btn-sm" (click)="this.addInterest()">
+                  <h6>You picked: </h6>
+                  <span *ngFor="let tag of interests">-{{tag}}-</span>
+                </div>
               </div>
             </form>
 
             <div class="footer">
               <div class="input-group">
-                <input type="button" class="form-control btn btn-lg" value="Previous" [disabled]="this.tabNumber == 1" (click)="this.tabNumber = 1;">
-                <input type="button" class="form-control btn btn-lg" value="Next" [disabled]="this.tabNumber == 2" (click)="this.tabNumber = 2;">
+                <input type="button" class="form-control btn btn-lg" value="Previous" [disabled]="this.tabNumber == 1" (click)="this.tabsDown()">
+                <input type="button" class="form-control btn btn-lg" value="Next" [disabled]="this.tabNumber == 3" (click)="this.tabsUp()">
               </div>
               <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">SIGN UP</a>
               <h5>
@@ -97,22 +106,5 @@
         </div>
       </div>
     </div>
-    <footer class="footer">
-      <div class="container">
-        <nav>
-          <ul>
-            <li>
-              <a href="javascript:void(0);" target="_blank">Contact Us</a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" target="_blank">About Us</a>
-            </li>
-            <li>
-              <a href="javascript:void(0);">FAQ</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </footer>
   </div>
 </div>
