@@ -3,6 +3,7 @@ import { ProfileService } from '../../profile.service';
 import { AuthService } from './../../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService} from '@ngx-translate/core';
 @Component({
   selector: 'app-childern',
   templateUrl: './childern.component.html',
@@ -22,7 +23,8 @@ childListIsFilled: boolean;
   singleArray: [{avatar: string, firstName: string,
     lastName: string, birthdate: Number , username: string , learningScore: Number}];
   constructor (private profileService: ProfileService,
-     private authService: AuthService , private activatedRoute: ActivatedRoute , private toaster: ToastrService) { }
+     private authService: AuthService , private activatedRoute: ActivatedRoute
+     , private toaster: ToastrService , private translate: TranslateService) { }
 
   ngOnInit() {
     this.childListIsFilled = true;

@@ -14,7 +14,7 @@
             "CANCEL":"الغاء",
             "SAVE_CHANGES":"حفظ التغييرات",
             "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
-            "ACTIVITY_IMAGE":"صورة النشاط"
+            "ACTIVITY_IMAGE":"تغيير صورة النشاط"
         
         }
     },
@@ -33,9 +33,14 @@
     "MESSAGING": {
 
     },
-    "PROFILE": {
+    "PROFILE": { 
+        "CHILDREN":{    "UNLINK":"حذف",
+                          "AGE":"العمر" ,
+                        "LEARNING_SCORE":"نقاط التعلم",
+                        "POINTS":"نقطة"
+                        }
 
-    },
+},
     "PSYCHOLOGIST": {
 
     },

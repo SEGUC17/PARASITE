@@ -18,7 +18,7 @@
             "END_DATE_PLACEHOLDER":"End date",
             "PRICE_PLACEHOLDER":"Price",
             "DESCRIPTION_PLACEHOLDER":"Description",
-            "ACTIVITY_IMAGE":"ACTIVITY_IMAGE"
+            "ACTIVITY_IMAGE":"Change activity image "
             
         }
     },
@@ -37,7 +37,13 @@
     "MESSAGING": {
 
     },
-    "PROFILE": {
+    "PROFILE": { 
+                "CHILDREN":{    "UNLINK":"Unlink",
+                                "AGE":"Age" ,
+                                "LEARNING_SCORE":"Learning Score",
+                                "POINTS":"Points"
+                    
+                                }
 
     },
     "PSYCHOLOGIST": {
