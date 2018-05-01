@@ -1,7 +1,17 @@
 {
     "APP": {
         "NAWWAR": "Nawwar",
-        "CURRENT_LANGUAGE": "English"
+        "CURRENT_LANGUAGE": "English",
+        "LOADING_MESSAGE": "Please wait...",
+        "CONTENT": "Content",
+        "PROFILE": "Profile",
+        "MESSAGING": "Messaging",
+        "MARKET": "Market",
+        "PSYCHOLOGISTS": "Psychologists",
+        "ACTIVITIES": "Activities",
+        "ADMIN": "Admin",
+        "CONNECT_PARENTS": "Connect Parents",
+        "STUDY_PLANS": "Study Plans"
     },
     "ACTIVITIES": {
 

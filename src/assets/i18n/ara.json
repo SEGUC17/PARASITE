@@ -1,7 +1,17 @@
 {
     "APP": {
         "NAWWAR": "نوَّر",
-        "CURRENT_LANGUAGE": "العربية"
+        "CURRENT_LANGUAGE": "العربية",
+        "LOADING_MESSAGE": "...يرجى الانتظار",
+        "CONTENT": "المحتويات",
+        "PROFILE": "الصفحة الشخصية",
+        "MESSAGING": "الرسائل",
+        "MARKET": "السوق",
+        "PSYCHOLOGISTS": "الخبراء النفسيين",
+        "ACTIVITIES": "الأنشطة",
+        "ADMIN": "إدارة الموقع",
+        "CONNECT_PARENTS": "التواصل",
+        "STUDY_PLANS": "الخطط الدراسية"
     },
     "ACTIVITIES": {
         
