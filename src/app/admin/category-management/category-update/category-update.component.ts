@@ -3,6 +3,7 @@ import { ContentService } from '../../../content/content.service';
 import { AdminService } from '../../admin.service';
 import { Category } from '../../../../interfaces/category';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-category-update',
@@ -21,7 +22,8 @@ export class CategoryUpdateComponent implements OnInit {
   constructor(
     private contentService: ContentService,
     private adminService: AdminService,
-    private toasterService: ToastrService
+    private toasterService: ToastrService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {

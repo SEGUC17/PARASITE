@@ -13,10 +13,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MarketService } from './market.service';
 import { RouterModule, Routes } from '@angular/router';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
-import {MatSliderModule,
-MatSlideToggleModule, MatIconModule, MatRadioModule, MatChipsModule} from '@angular/material';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import {
+  MatSliderModule,
+  MatSlideToggleModule, MatIconModule, MatRadioModule, MatChipsModule
+} from '@angular/material';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RequestDetailComponent } from './request-detail/request-detail.component';
 import { SharedModule } from '../shared/shared.module';

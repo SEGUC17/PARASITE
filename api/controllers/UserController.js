@@ -655,6 +655,20 @@ module.exports.getUserData = function (req, res, next) {
     // --- Security Check --- //
     delete userData.password;
     // --- End of "Security Check" --- //
+    if (req.user.notifications.length > 30) {
+        console.log('slicing up Nots');
+        var Nots = req.user.notifications;
+        Nots.splice(29);
+        User.findByIdAndUpdate(
+            req._id,
+            { $set: { notifications: Nots } },
+            function(err) {
+                if (err) {
+                    console.log('ana habebt error ' + err);
+                }
+            }
+        );
+    }
 
     return res.status(200).json({
         data: userData,
@@ -869,36 +883,6 @@ module.exports.modifyNotification = function (req, res) {
                 msg: 'Notification was set'
             });
             // user does not exist
-        }
-    );
-};
-module.exports.postNotification = function (req, res) {
-
-    User.findOneAndUpdate(
-        { username: req.body.username },
-        {
-            $push:
-                { 'notification': req.body.notification }
-        }
-        , { new: true }, function (err, updatedUser) {
-            if (!updatedUser) {
-                return res.status(404).json({
-                    data: null,
-                    err: 'user not found'
-                });
-            }
-            if (err) {
-                return res.status(402).json({
-                    data: null,
-                    err: 'error occurred during adding the notification'
-                });
-            }
-
-            return res.status(201).json({
-                data: updatedUser.notifications.pop(),
-                err: null,
-                msg: null
-            });
         }
     );
 };

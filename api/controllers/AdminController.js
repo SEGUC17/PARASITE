@@ -179,6 +179,41 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                             return next(error);
                         }
 
+                        // not tested
+                        if (req.body.respo === 'approved') {
+                            var notification = {
+                                body: 'Your study plan is now published',
+                                date: moment().toDate(),
+                                itemId: req.params.studyPlanId,
+                                type: 'study plan'
+                            };
+                            User.findOneAndUpdate(
+                                { username: updatedStudyPlanPubRequest.creator },
+                                {
+                                    $push:
+                                        { 'notifications': notification }
+                                }
+                                , { new: true },
+                                function (errr, updatedUser) {
+                                    if (errr) {
+                                        return res.status(402).json({
+                                            data: null,
+                                            err: 'error occurred during adding ' +
+                                                'the notification'
+                                        });
+                                    }
+                                    if (!updatedUser) {
+                                        return res.status(404).json({
+                                            data: null,
+                                            err: null,
+                                            msg: 'User not found.'
+                                        });
+                                    }
+                                }
+
+                            );
+                        }
+
                         // return 200 if everything is OK
                         return res.status(200).json({
                             data: null,
@@ -204,6 +239,40 @@ module.exports.respondStudyPlanPublishRequest = function (req, res, next) {
                     function (error) {
                         if (error) {
                             return next(error);
+                        }
+                        // not tested
+                        if (req.body.respo === 'approved') {
+                            var notification = {
+                                body: 'Your study plan is now published',
+                                date: moment().toDate(),
+                                itemId: req.params.studyPlanId,
+                                type: 'study plan'
+                            };
+                            User.findOneAndUpdate(
+                                { username: updatedStudyPlanPubRequest.creator },
+                                {
+                                    $push:
+                                        { 'notifications': notification }
+                                }
+                                , { new: true },
+                                function (errr, updatedUser) {
+                                    if (errr) {
+                                        return res.status(402).json({
+                                            data: null,
+                                            err: 'error occurred during adding ' +
+                                                'the notification'
+                                        });
+                                    }
+                                    if (!updatedUser) {
+                                        return res.status(404).json({
+                                            data: null,
+                                            err: null,
+                                            msg: 'User not found.'
+                                        });
+                                    }
+                                }
+
+                            );
                         }
 
                         // return 200 if everything is OK
@@ -343,10 +412,19 @@ module.exports.respondContentRequest = function (req, res, next) {
                 }
             );
             if (req.body.approved === true) {
+                var notification = {
+                    body: 'You content was accepted & is now posted',
+                    date: moment().toDate(),
+                    itemId: req.params.ContentId,
+                    type: 'content'
+                };
                 //give the user extra 10 points
                 User.findOneAndUpdate(
-                    { 'username': req.body.userName },
-                    { $set: { contributionScore: req.body.oldScore + 10 } },
+                    { 'username': updatedcontentrequest.creator },
+                    {
+                        $push: { 'notifications': notification },
+                        $set: { contributionScore: req.body.oldScore + 10 }
+                    },
                     { new: true },
                     function (errUsr, user) {
 
@@ -359,33 +437,6 @@ module.exports.respondContentRequest = function (req, res, next) {
                                 data: null,
                                 err: 'User not found',
                                 msg: null
-                            });
-                        }
-                    }
-                );
-
-                var notification = {
-                    body: 'You request has been approved',
-                    date: moment().toDate(),
-                    itemId: req.params.ContentId,
-                    type: 'content'
-                };
-
-                User.findOneAndUpdate(
-                    { username: req.body.userName },
-                    {
-                        $push:
-                            { 'notifications': notification }
-                    }
-                    , { new: true },
-                    function (err, updatedUser) {
-                        console.log('add the notification');
-                        console.log(updatedUser.notifications);
-                        if (err) {
-                            return res.status(402).json({
-                                data: null,
-                                err: 'error occurred during adding ' +
-                                    'the notification'
                             });
                         }
                     }
@@ -463,9 +514,6 @@ module.exports.getVCRs = function (req, res, next) {
 
 module.exports.VCRResponde = function (req, res, next) {
     var notification = null;
-    // Checks if Admin
-    console.log('in bakend');
-    console.log('in bakend');
     if (req.user.isAdmin) {
         // Update the request with the given responce.
         VCRmodel.update(
@@ -477,7 +525,12 @@ module.exports.VCRResponde = function (req, res, next) {
                 }
             }
         );
-
+        console.log('in bakend');
+        notification = {
+            body: 'You are now a Verified Contributer',
+            date: moment().toDate(),
+            type: 'contributer'
+        };
 
         var userId = null;
         VCRmodel.find({ _id: req.params.targetId }).
@@ -489,15 +542,13 @@ module.exports.VCRResponde = function (req, res, next) {
                 }
                 userId = result[0].creator;
                 if (req.body.responce === 'approved') {
-                    notification = {
-                        body: 'You are now a Verified Contributer',
-                        date: moment().toDate(),
-                        type: 'contributer'
-                    };
-
                     // Updating verified by Approved.
                     userModel.update(
-                        { _id: userId }, { $set: { verified: true } },
+                        { _id: userId },
+                        {
+                            $push: { 'notifications': notification },
+                            $set: { verified: true }
+                        },
                         { new: true },
                         function (error, resp) {
                             if (error) {
@@ -511,57 +562,6 @@ module.exports.VCRResponde = function (req, res, next) {
                         }
                     );
                 }
-                if (req.body.responce === 'disapproved') {
-                    notification = {
-                        body: 'Your request to become a verified' +
-                            ' contributer has been declined',
-                        date: moment().toDate(),
-                        type: 'contributer'
-                    };
-
-                    // Updating verified by disapproved.
-                    userModel.update(
-                        { _id: userId }, { $set: { verified: false } },
-                        { new: true },
-                        function (error, resp) {
-                            if (error) {
-                                throw error;
-                            }
-                            res.status(200).json({
-                                data: null,
-                                err: null,
-                                msg: 'reponse has been submitted'
-                            });
-                        }
-                    );
-                }
-                User.findOneAndUpdate(
-                    { _id: userId },
-                    {
-                        $push:
-                            { 'notifications': notification }
-                    }
-                    , { new: true },
-                    function (errr, updatedUser) {
-                        console.log('add the notification');
-                        console.log(updatedUser.notifications);
-                        if (err) {
-                            return res.status(402).json({
-                                data: null,
-                                err: 'error occurred during adding ' +
-                                    'the notification'
-                            });
-                        }
-                        if (!updatedUser) {
-                            return res.status(404).json({
-                                data: null,
-                                err: null,
-                                msg: 'User not found.'
-                            });
-                        }
-                    }
-                );
-
             });
     } else {
         // if not Admin.

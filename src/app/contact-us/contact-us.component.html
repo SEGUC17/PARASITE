@@ -1,0 +1,16 @@
+<div *ngIf="user">
+  <textarea id="msg" class="form-control" placeholder="Type your message!" style="height:350px;" [(ngModel)]="msg.body"></textarea>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-primary btn-round waves-effect" (click)="contact_us()">SEND</button>
+      <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
+    </div>
+  </div>
+  
+  <div *ngIf="visitor">
+          <input id="from" type="text" placeholder="Provide your e-mail address" class="form-control" [(ngModel)]="msg.sender">
+          <textarea id="msg" class="form-control" placeholder="Type your message!" style="height:350px;" [(ngModel)]="msg.body"></textarea>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary btn-round waves-effect" (click)="contact_us()">SEND</button>
+              <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">CANCEL</button>
+            </div>
+  </div>
