@@ -41,24 +41,6 @@ export class ActivityComponent implements OnInit {
     this.getActivities(1);
   }
 
-<<<<<<< HEAD
-  getDetailedActivities() {
-    this.detailedActivities = [];
-    let self = this;
-    for (let i = 0; i < this.activities.length; i++) {
-      this.activityService.getActivity(this.activities[i]._id).subscribe(
-        res => {
-          if (!res.data.image) {
-            res.data.image = 'https://res.cloudinary.com/nawwar/image/upload/v1524947811/default-activity-image.jpg';
-          }
-          this.detailedActivities.push(res.data);
-        });
-    }
-
-  }
-
-=======
->>>>>>> b6b3d8bb2c7d3b4afe8e07ead0891eaa1057fddb
 
   getActivities(pageNum) {
     /*
@@ -70,14 +52,8 @@ export class ActivityComponent implements OnInit {
     let self = this;
     this.activityService.getActivities(this.pageIndex).subscribe(
       res => {
-<<<<<<< HEAD
-        self.updateLayout(res);
-        self.getDetailedActivities();
-        this.totalNumberOfPages = res.data.pages;
-=======
       self.updateLayout(res);
       this.totalNumberOfPages = res.data.pages;
->>>>>>> b6b3d8bb2c7d3b4afe8e07ead0891eaa1057fddb
       }
     );
     this.authService.getUserData(['isAdmin', 'verified']).subscribe((user) => {
