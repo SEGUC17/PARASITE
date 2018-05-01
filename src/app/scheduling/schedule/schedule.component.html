@@ -1,27 +1,26 @@
-<section class="content page-calendar">
-
+<section class="content page-calendar" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
   <div class="block-header">
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-12">
-        <h2>{{ 'SCHEDULING.SCHEDULE.SCHEDULE' | translate }}</h2>
-        <ul class="breadcrumb p-l-0 p-b-0 ">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">
-              <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate }}</a>
-          </li>
-          <li class="breadcrumb-item">
+      <ul [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" class="breadcrumb float-right">
+        <li class="breadcrumb-item">
+          <a routerLink="/dashboard">
+            <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate }}</a>
+        </li>
+        <li class="breadcrumb-item">
             <a routerLink="{{ '/profile/' + profileUser }}">
               <i class="{{ 'zmdi zmdi-account-circle' }}">
-              </i> {{ profileUser }}</a>
-          </li>
-          <li class="breadcrumb-item active">{{ 'SCHEDULING.SCHEDULE.SCHEDULE' | translate }}</li>
-        </ul>
+            </i> {{ profileUser }}</a>
+        </li>
+        <li class="breadcrumb-item active"><i class="zmdi zmdi-calendar"></i> {{ 'SCHEDULING.SCHEDULE.SCHEDULE' | translate }}</li>
+      </ul>
+      <div class="row">
+        <div class="col-auto">
+          <h2 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'SCHEDULING.SCHEDULE.SCHEDULE' | translate }}</h2>
+        </div>
       </div>
     </div>
-  </div>
 
   <div class="container-fluid">
-    <div class="card">
+    <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="card">
       <div class="row">
 
         <div class="col-md-12 col-lg-4 col-xl-4">
@@ -36,7 +35,7 @@
               <div class="event-name b-primary row" *ngFor="let event of events; let index = index">
                 <div class="col-2 text-center">
                   <h4>{{ event.start | date:'dd' }}
-                    <span>{{ event.start | date:'MMM' }}</span>
+                    <span>{{ 'SCHEDULING.CALENDAR.' + ( event.start | date:'MMM').toUpperCase() | translate }}</span>
                     <span>{{ event.start | date:'yyyy' }}</span>
                   </h4>
                 </div>
@@ -86,22 +85,22 @@
 
 </section>
 <!-- Event Creation Modal -->
-<div class="modal fade" id="createModal" tabindex="-1" role="dialog">
+<div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="modal fade" id="createModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="title" id="createModalLabel">{{ 'SCHEDULING.SCHEDULE.NEW_EVENT' | translate }}</h4>
+        <h4 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="title" id="createModalLabel">{{ 'SCHEDULING.SCHEDULE.NEW_EVENT' | translate }}</h4>
       </div>
       <div class="modal-body">
-        <form id="createForm" method="POST">
+        <form [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" id="createForm" method="POST">
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="createTitle" [(ngModel)]="createTitle" placeholder="{{ 'SCHEDULING.SCHEDULE.TITLE' | translate }}" required>
+              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="createTitle" [(ngModel)]="createTitle" placeholder="{{ 'SCHEDULING.SCHEDULE.TITLE' | translate }}" required>
             </div>
           </div>
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="createDescription" [(ngModel)]="createDescription" placeholder="{{ 'SCHEDULING.SCHEDULE.DESCRIPTION' | translate }}">
+              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="createDescription" [(ngModel)]="createDescription" placeholder="{{ 'SCHEDULING.SCHEDULE.DESCRIPTION' | translate }}">
             </div>
           </div>
           <div class="input-group">
@@ -119,30 +118,30 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="createEvent(createTitle, createDescription, createStart, createEnd); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.SCHEDULE.CREATE_EVENT' | translate }}</button>
-        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="cancelCreate(); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.SCHEDULE.CANCEL' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="createEvent(createTitle, createDescription, createStart, createEnd); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.SCHEDULE.CREATE_EVENT' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="cancelCreate(); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.SCHEDULE.CANCEL' | translate }}</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Event Modification Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog">
+<div  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"class="modal fade" id="editModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="title" id="editModalLabel">{{ 'SCHEDULING.SCHEDULE.EDIT_EVENT' | translate }}</h4>
+        <h4 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="title" id="editModalLabel">{{ 'SCHEDULING.SCHEDULE.EDIT_EVENT' | translate }}</h4>
       </div>
       <div class="modal-body">
-        <form id="editForm" method="POST">
+        <form [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" id="editForm" method="POST">
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="editTitle" [(ngModel)]="editTitle" placeholder="{{ 'SCHEDULING.SCHEDULE.TITLE' | translate }}">
+              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="editTitle" [(ngModel)]="editTitle" placeholder="{{ 'SCHEDULING.SCHEDULE.TITLE' | translate }}">
             </div>
           </div>
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="editDescription" [(ngModel)]="editDescription" placeholder="{{ 'SCHEDULING.SCHEDULE.DESCRIPTION' | translate }}">
+              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="editDescription" [(ngModel)]="editDescription" placeholder="{{ 'SCHEDULING.SCHEDULE.DESCRIPTION' | translate }}">
             </div>
           </div>
           <div class="input-group">
@@ -160,8 +159,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.SCHEDULE.SAVE_CHANGES' | translate }}</button>
-        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.SCHEDULE.CANCEL' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.SCHEDULE.SAVE_CHANGES' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.SCHEDULE.CANCEL' | translate }}</button>
       </div>
     </div>
   </div>
