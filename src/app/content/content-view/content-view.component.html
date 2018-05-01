@@ -149,37 +149,28 @@
                         <!--the part responsible for replies-->
                         <div *ngIf="viewedReplies[i]" style="margin-left: 10%">
                           <div *ngFor="let reply of comment.replies; let j = index">
-                            <div class="row">
-                              <div class="col-md-6 row">
-                                <h2>
-                                  <ul>
-                                    <li>
-                                      <div class="cbp_tmicon bg-white profile-image float-xs-left">
-                                        <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
-                                      </div>
-                                      <h2>
-                                        <a style="margin-left: 30px" href="profile/{{comment.creator}}">{{reply.creator}}</a>
-                                      </h2>
-                                    </li>
-                                  </ul>
-                                </h2>
+                            <div class="col-md-12 row">
+
+                              <div style="width: 35px; height: 35px;">
+                                <img style="width: 100%; height: 100%" class="rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
                               </div>
-                              <div class="col-md-6" align="end">
-                                <small>
-                                  <span>
-                                    <button type="button" class="btn btn-icon btn-round btn-danger btn-xs" *ngIf="reply.creator === currentUser.username || comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === content.creator"
-                                      (click)="onDeleteReply(comment._id,reply._id)" data-toggle="tooltip" data-placement="bottom"
-                                      title="Delete Reply">
-                                      <i class="zmdi zmdi-delete"></i>
-                                    </button>
-                                  </span>
-                                </small>
+                              <div class="ml-3 mr-auto">
+                                <h2><a href="profile/{{comment.creator}}">{{reply.creator}}</a></h2>
+                              </div>
+                              <div>
+                                <button type="button" class="btn btn-icon btn-round btn-danger btn-xs" *ngIf="reply.creator === currentUser.username || comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === content.creator"
+                                        (click)="onDeleteReply(comment._id,reply._id)" data-toggle="tooltip" data-placement="bottom"
+                                        title="Delete Reply">
+                                  <i class="zmdi zmdi-delete"></i>
+                                </button>
                               </div>
                             </div>
-                            <p class="ml-5 text-muted" style="margin-left: 65px !important;">{{reply.text}}</p>
+                            <p style = "float: right" class="ml-3 text-muted" style="margin-left: 10% !important;">{{reply.text}}</p>
+
                             <div *ngIf=" j != comment.replies.length-1">
                               <hr />
                             </div>
+                           
                           </div>
                         </div>
                         <!--................................-->
