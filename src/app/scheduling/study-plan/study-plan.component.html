@@ -37,7 +37,7 @@
   </div>
 
   <div class="container-fluid">
-    <app-rating type="studyPlan" [(ratedId)]="_id" [(inputRating)]="rating" *ngIf="type === 'published'"></app-rating>
+    <app-rating type="studyPlan" [ratedId]="_id" [inputRating]="studyPlan.rating.value" *ngIf="type === 'published' && rating"></app-rating>
     <div class="card">
       <div class="row">
 

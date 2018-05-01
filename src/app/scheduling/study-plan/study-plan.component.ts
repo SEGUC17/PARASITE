@@ -48,7 +48,7 @@ export class StudyPlanComponent implements OnInit {
   title: string;
   description: string;
   events: CalendarEvent[];
-  rating = 0;
+  rating;
 
   // editor
   public editorOut;
