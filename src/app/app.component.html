@@ -4,7 +4,7 @@
         <div class="m-t-30">
             <img class="zmdi-hc-spin" src="assets/images/favicon.ico" width="48" height="48" alt="sQuare">
         </div>
-        <p>Please wait...</p>
+        <p>{{ 'APP.LOADING_MESSAGE' | translate}}</p>
     </div>
 </div>
 <div class="overlay_menu">
@@ -62,93 +62,53 @@
                 <li *ngFor="let link of links">
                     <a [routerLink]="link.url">
                        <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                        <span>{{link.name}}</span>
+                        <span>{{ link.name | translate }}</span>
                     </a>
                 </li>
             </ul>
         </li>
         <li class="dropdown notifications hidden-sm-down">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" (click)="getNotifications()">
                 <i class="zmdi zmdi-notifications"></i>
-                <span class="label-count">5</span>
+                <span class="label-count">{{unreadNotificationsNumber}}</span>
             </a>
             <ul class="dropdown-menu pullDown">
                 <li class="body">
                     <ul class="menu list-unstyled">
-                        <li>
-                            <a href="javascript:void(0);">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <span class="name">Alexander
-                                            <span class="time">35min ago</span>
-                                        </span>
-                                        <span class="message">Contrary to popular belief, Lorem Ipsum random</span>
+                        <li *ngFor="let not of notifications">
+                            <div *ngIf="not.isRead">
+                                <a href={{not.link}}>
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <span class="time"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
+                                            <span class="message"> {{not.body}} </span>
+                                        </div>
                                     </div>
+                                </a>
+                            </div>
+                            <div *ngIf="!not.isRead" class = "bg-dark">
+                                    <a href={{not.link}}>
+                                        <div class="media">
+                                            <div class="media-body">
+                                                <span class="time col-primary"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
+                                                <span class="message text-muted col-white"> {{not.body}} </span>
+                                            </div>
+                                        </div>
+                                    </a>
                                 </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <span class="name">Grayson
-                                            <span class="time">1hr ago</span>
-                                        </span>
-                                        <span class="message">There are many variations of passages</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <span class="name">Sophia
-                                            <span class="time">31min ago</span>
-                                        </span>
-                                        <span class="message">There are many variations of passages of Lorem Ipsum</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="alert alert-warning m-b-0" href="javascript:void(0);">
-                                <strong>Alex Anistor</strong>
-                                <br>
-                                <small>Testing functionality...</small>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0);">
-                                <div class="media">
-                                    <div class="media-body">
-                                        <span class="name">Isabella
-                                            <span class="time">35min ago</span>
-                                        </span>
-                                        <span class="message">There are many variations of passages</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="alert alert-info m-b-0" href="javascript:void(0);">
-                                <strong>Alicia Adell</strong>
-                                <br>
-                                <small>Reviewing last changes...</small>
-                            </a>
+
                         </li>
                     </ul>
-                </li>
-                <li class="footer">
-                    <a href="javascript:void(0);">View All</a>
-                </li>
+                    <li class="footer">
+                        <a href="javascript:void(0);">View All</a>
+                    </li>
             </ul>
         </li>
         <li class="float-right">
             <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
                 <i class="zmdi zmdi-fullscreen"></i>
             </a>
-            <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
+            <a href="javascript:void(0);" (click)="changeLanguage()" title="{{ 'APP.CHANGE_LANGUAGE' | translate }}">
                 <i class="zmdi zmdi-globe"></i>
             </a>
             <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active" class="mega-menu">
@@ -184,7 +144,7 @@
                 <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin ">
                     <a [routerLink]="link.url">
                        <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                        <span>{{link.name}}</span>
+                        <span>{{ link.name | translate }}</span>
                     </a>
                 </li>
             </ul>

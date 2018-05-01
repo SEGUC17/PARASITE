@@ -66,6 +66,7 @@ export class ViewContentRequestsComponent implements OnInit {
     let self = this;
     let wantedCols: string[] = ['contributionScore'];
     self._authService.getAnotherUserData(wantedCols, username).subscribe(function (res) {
+      console.log('old contribution score is ' + res.data.contributionScore);
       self._adminService.respondContentRequest('approved', Rid, Cid, true, username, res.data.contributionScore).subscribe(function (res1) {
         self.viewPendingContReqs();
       });

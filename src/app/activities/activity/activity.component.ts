@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
@@ -18,25 +19,27 @@ export class ActivityComponent implements OnInit {
   detailedActivities: any[] = [];
   numberOfElements: Number;
   pageSize: Number;
-  pageIndex: Number;
+  pageIndex = 1;
   canCreate: Boolean;
+  totalNumberOfPages: Number;
 
   createUrl = '/create-activity';
   user = {
     isAdmin: false,
     verified: false,
     AvatarLink: null,
-    username: 'Mohamed Maher'
+    username: ''
 
   };
 
   constructor(
     private activityService: ActivityService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
-    this.getActivities(null);
+    this.getActivities(1);
   }
 
   getDetailedActivities() {
@@ -55,7 +58,7 @@ export class ActivityComponent implements OnInit {
   }
 
 
-  getActivities(event) {
+  getActivities(pageNum) {
     /*
       Getting the activities from the api
 
@@ -63,17 +66,16 @@ export class ActivityComponent implements OnInit {
 
       @author: Wessam
     */
-    let page = 1;
-    if (event) {
-      page = event.pageIndex + 1;
-    }
+    this.pageIndex = pageNum;
     let self  = this;
-    this.activityService.getActivities(page).subscribe(function(res) {
+    this.activityService.getActivities(this.pageIndex).subscribe(
+      res => {
       self.updateLayout(res);
       self.getDetailedActivities();
+      this.totalNumberOfPages = res.data.pages;
       }
     );
-    this.authService.getUserData(['isAdmin']).subscribe((user) => {
+    this.authService.getUserData(['isAdmin', 'verified']).subscribe((user) => {
       this.user.isAdmin = user.data.isAdmin;
       this.user.verified = user.data.verified;
       this.canCreate = this.user.isAdmin || this.user.verified;
@@ -93,12 +95,38 @@ export class ActivityComponent implements OnInit {
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
-    this.pageIndex = res.data.pageIndex;
     for (let activity of this.activities) {
       if (!activity.image) {
         activity.image = 'assets/images/activity-view/default-activity-image.jpg';
       }
     }
+  }
+
+  getPaginationRange(): any {
+
+    let pageNumbers = [];
+    let counter = 1;
+
+    console.log(this.pageIndex);
+    if (this.pageIndex < 3) {
+      // we are in page 1 or 2
+      while (counter < 6 && counter <= this.totalNumberOfPages) {
+        pageNumbers.push(counter);
+        counter += 1;
+      }
+    } else {
+      // we are in a page greater than 2
+      pageNumbers.push(this.pageIndex - 2);
+      pageNumbers.push(this.pageIndex - 1);
+      pageNumbers.push(this.pageIndex);
+      if (this.pageIndex + 1 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.pageIndex + 1);
+      }
+      if (this.pageIndex + 2 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.pageIndex + 2);
+      }
+    }
+    return pageNumbers;
   }
 
   showCreateActivityForm(): void {

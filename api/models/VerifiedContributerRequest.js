@@ -9,23 +9,19 @@ var Schema = mongoose.Schema;
 
 var VCRSchema = mongoose.Schema({
     creator: {
-        type: [
-            {
-                ref: 'User',
-                type: Schema.Types.ObjectId
-            }
-        ],
-        unique: true
-    },
-    email: {
-      lowercase: true,
-      match: REGEX.MAIL_REGEX,
-      required: true,
       trim: true,
       type: String,
       unique: true
     },
-    numberOfChildren: { type: Number },
+
+    email: {
+        lowercase: true,
+        match: REGEX.MAIL_REGEX,
+        required: true,
+        trim: true,
+        type: String,
+        unique: true
+    },
     image: {
         trim: false,
         type: String
@@ -34,6 +30,7 @@ var VCRSchema = mongoose.Schema({
         required: true,
         type: String
     },
+    numberOfChildren: { type: Number },
     status: {
         enum: [
             'pending',

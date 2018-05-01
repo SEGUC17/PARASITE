@@ -3,6 +3,11 @@
 var mongoose = require('mongoose');
 var Product = mongoose.model('Product');
 var ProductRequest = mongoose.model('ProductRequest');
+<<<<<<< HEAD
+=======
+var User = mongoose.model('User');
+var moment = require('moment');
+>>>>>>> activities
 
 var limits = function (toFind) {
 
@@ -201,6 +206,38 @@ module.exports.evaluateRequest = function (req, res, next) {
                         if (error1) {
                             return next(error1);
                         }
+                        var notification = {
+                            body: 'Your product request is approved. your product now is in the market',
+                            date: moment().toDate(),
+                            itemId: newProduct._id,
+                            type: 'product'
+                        };
+                        User.findOneAndUpdate(
+                            { username: newProduct.seller },
+                            {
+                                $push:
+                                    { 'notifications': notification }
+                            }
+                            , { new: true },
+                            function (errr, updatedUser) {
+                                console.log('add the notification');
+                                console.log(updatedUser.notifications);
+                                if (errr) {
+                                    return res.status(402).json({
+                                        data: null,
+                                        err: 'error occurred during adding ' +
+                                            'the notification'
+                                    });
+                                }
+                                if (!updatedUser) {
+                                    return res.status(404).json({
+                                        data: null,
+                                        err: null,
+                                        msg: 'User not found.'
+                                    });
+                                }
+                            }
+                        );
                         res.status(201).json({
                             data: newProduct,
                             err: null,
@@ -219,7 +256,38 @@ module.exports.evaluateRequest = function (req, res, next) {
                         msg: 'Request not found.'
                     });
                 }
-                // TODO Notify user
+                // TODO Notify user done :)))
+                var notification = {
+                    body: 'Your product request is disapproved',
+                    date: moment().toDate(),
+                    type: 'product'
+                };
+                User.findOneAndUpdate(
+                    { username: req.body.seller },
+                    {
+                        $push:
+                            { 'notifications': notification }
+                    }
+                    , { new: true },
+                    function (errr, updatedUser) {
+                        console.log('add the notification');
+                        console.log(updatedUser.notifications);
+                        if (errr) {
+                            return res.status(402).json({
+                                data: null,
+                                err: 'error occurred during adding ' +
+                                    'the notification'
+                            });
+                        }
+                        if (!updatedUser) {
+                            return res.status(404).json({
+                                data: null,
+                                err: null,
+                                msg: 'User not found.'
+                            });
+                        }
+                    }
+                );
 
                 // When done, send response
                 return res.status(200).json({

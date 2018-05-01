@@ -1,20 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { Router } from '@angular/router';
 import { ImageUploaderComponent } from '../../image-uploader/image-uploader.component';
-
+import { MessageService } from '../../messaging/messaging.service';
+import { AuthService } from '../../auth/auth.service';
+declare const swal: any;
+declare const $: any;
 @Component({
   selector: 'app-view-verified-contributer-requests',
   templateUrl: './view-verified-contributer-requests.component.html',
-  styleUrls: ['./view-verified-contributer-requests.component.scss']
+  styleUrls: ['./view-verified-contributer-requests.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ViewVerifiedContributerRequestsComponent implements OnInit {
   /*
     @author: MAHER.
    */
 
-  constructor(private _adminService: AdminService, private router: Router
-  ) { }
+  constructor(private _adminService: AdminService, private router: Router,
+    private _messageService: MessageService, private _authService: AuthService) { }
 
   Requests: any[] = [];
   filter: String = 'pending';
@@ -62,12 +66,51 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   }
 
   Accept(request) { // Accepted by Admin.
-    this._adminService.respondToContributerValidationRequest(request._id, 'approved');
-
+    console.log(request);
+    var self = this;
+    this._adminService.respondToContributerValidationRequest(request._id, 'approved').subscribe(function (res) {
+      self.viewVCRs(self.filter);
+    });
   }
 
   Reject(request) { // rejected by Admin.
-    this._adminService.respondToContributerValidationRequest(request._id, 'disapproved');
+    console.log(request);
+    var self = this;
+    this._adminService.respondToContributerValidationRequest(request._id, 'disapproved').subscribe(function (res) {
+      self.viewVCRs(self.filter);
+      self._authService.getUserData(['username']).subscribe(function (res) {
+        self.showPromptMessage(request.creator, res.data.username);
+      });
+    });
   }
+  // not testedd 
+  showPromptMessage(creator, sender): any {
+    // creator is the Activity creator
+    // sender in the currently logged in admin
+    // isUpdate : false if create
+    let self = this;
+    swal({
+      title: 'Want to send a message to ' + creator + '?',
+      text: 'Let ' + creator + ' know what\'s wrong',
+      type: 'input',
+      showCancelButton: true,
+      closeOnConfirm: false,
+      animation: 'slide-from-top',
+      inputPlaceholder: 'Write reason for disapproval here',
+    }, function (inputValue) {
+      if (inputValue === false) { return false; }
+      if (inputValue === '') {
+        swal.showInputError('You need to write something!'); return false;
+      }
+      let body = 'This is a message from an admin @ Nawwar.\n' + inputValue + '.\nDo not hesitate to contribute with us again.';
+      swal('Message sent', 'Message sent is :\n' + body, 'success');
+      let msg = { 'body': body, 'recipient': creator, 'sender': sender };
+      self._messageService.send(msg).subscribe(function (res2) {
+
+      });
+    }
+    );
+  }
+
 
 }

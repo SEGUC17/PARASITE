@@ -24,7 +24,17 @@ module.exports.getContentById = function (req, res, next) {
     }
 
     // find and send the content
-    Content.findById(req.params.id).exec(function (err, content) {
+    Content.findById(req.params.id).
+    populate({
+      model: 'User',
+      path: 'discussion.creatorInfo',
+      select: 'avatar firstName lastName'
+    }).
+    populate({
+      model: 'User',
+      path: 'discussion.replies.creatorInfo',
+      select: 'avatar firstName lastName'
+    }).exec(function (err, content) {
         if (err) {
             return next(err);
         }
@@ -480,6 +490,38 @@ var handleAdminUpdate = function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            var notification = {
+                body: 'Your updated Content has been successfully uploaded',
+                date: moment().toDate(),
+                itemId: updatedContent._id,
+                type: 'content'
+            };
+            User.findOneAndUpdate(
+                { username: updatedContent.creator },
+                {
+                    $push:
+                        { 'notifications': notification }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    console.log('add the notification');
+                    console.log(updatedUser.notifications);
+                    if (errr) {
+                        return res.status(402).json({
+                            data: null,
+                            err: 'error occurred during adding ' +
+                                'the notification'
+                        });
+                    }
+                    if (!updatedUser) {
+                        return res.status(404).json({
+                            data: null,
+                            err: null,
+                            msg: 'User not found.'
+                        });
+                    }
+                }
+            );
 
             return res.status(200).json({
                 data: updatedContent,
@@ -959,23 +1001,39 @@ module.exports.deleteSection = function (req, res, next) {
 };
 
 module.exports.addScore = function (req, res, next) {
-    User.findByIdAndUpdate(
-        req.user._id,
-        { learningScore: req.user.learningScore + 10 },
-        { new: true },
-        function (err, user) {
-            if (err) {
-                return next(err);
-            }
-
+    User.findOne({
+        _id: req.user._id,
+        watchedVideos: req.body.videoUrl
+    }, function (userFindError, watchedUser) {
+        if (watchedUser) {
             return res.status(200).json({
                 data: null,
                 err: null,
-                msg: 'You got 10 more learning points,' +
-                    ' your score is now ' + user.learningScore
+                msg: 'This video is already watched before,' +
+                    ' no more learning points are added'
             });
         }
-    );
+        User.findByIdAndUpdate(
+            req.user._id,
+            {
+                $push: { watchedVideos: req.body.videoUrl },
+                $set: { learningScore: req.user.learningScore + 10 }
+            },
+            { new: true },
+            function (err, user) {
+                if (err) {
+                    return next(err);
+                }
+
+                return res.status(200).json({
+                    data: null,
+                    err: null,
+                    msg: 'You got 10 more learning points,' +
+                        ' your score is now ' + user.learningScore
+                });
+            }
+        );
+    });
 };
 
 module.exports.prepareContent = function (req, res, next) {
