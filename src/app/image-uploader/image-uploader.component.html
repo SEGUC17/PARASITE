@@ -1,6 +1,6 @@
 <span>
 <input id="fileInput" type="file" ng2FileSelect [uploader]="uploader" accept="image/*;capture=camera" >
-<br *ngIF = "brWanted"/>
+<br *ngIf = "brWanted"/>
 <button type="submit" [disabled]="loading" (click)="upload()" class="btn btn-primary btn-round waves-effect" style="float:right" >Upload Picture</button>
 <span *ngIf="loading && uploader">Uploading, please wait...</span>
 </span>
