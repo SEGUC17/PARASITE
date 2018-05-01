@@ -65,7 +65,6 @@ export class SingleMailComponent implements OnInit {
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
       self.getContacts();
-      console.log(self.contacts);
       if (self.recipient !== self.currentUser.username) {
         self.senderDisplay = 'me';
         self.recipientDisplay = self.recipient;

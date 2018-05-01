@@ -85,6 +85,7 @@ export class MessagingComponent implements OnInit {
 }
 
   setMessage(message: any): void {
+    this.messageService.read(message).subscribe();
     this.messageService.setMessage(message);
   }
 
@@ -109,7 +110,6 @@ export class MessagingComponent implements OnInit {
           console.log(user.data.avatar);
           this.msg = {'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
           'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
-          console.log(this.msg);
           this.messageService.send(this.msg)
           .subscribe(function(res) {
             self.toastrService.success('Message was sent!');
