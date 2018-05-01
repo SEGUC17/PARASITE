@@ -24,293 +24,390 @@
       "TAGS": "Tags"
     },
     "LIST": {
-      "ACTIVITIES": "Activities",
-      "ACTIVITY": "Activity",
-      "LATEST_ACTIVITY": "Latest Activity",
-      "WELCOME_MESSAGE": "Welcome to activities",
-      "READ_MORE": "Read more..",
-      "CLOSE": "Close",
-      "COMMENTS": "Comments :",
-      "POSTED_BY": "Posted by :",
-      "PREV": "Previous",
-      "NEXT": "Next"
-    },
-    "DETAIL": {
-      "WELCOME_MESSAGE": "Welcome to the activity",
-      "FROM": "from",
-      "TO": "to",
-      "COMMENT": "Comment",
-      "REPLY": "Reply",
-      "BOOK_FOR": "Book for",
-      "DESCRIPTION": "Description",
-      "WRITE_COMMENT": "leave a comment...",
-      "BOOK_SUCCESS": "Booked successfully"
-    },
-    "EDIT": {
-      "EDIT_ACTIVITY": "Edit Activity",
-      "ACTIVITY_NAME": "Name",
-      "START_DATE": "Start date",
-      "END_DATE": "End date",
-      "PRICE": "Price",
-      "DESCRIPTION": "Description",
-      "CANCEL": "Cancel",
-      "SAVE_CHANGES": "Save Changes",
-      "ACTIVITY_NAME_PLACEHOLDER": "ACtivity Name",
-      "START_DATE_PLACEHOLDER": "Start date",
-      "END_DATE_PLACEHOLDER": "End date",
-      "PRICE_PLACEHOLDER": "Price",
-      "DESCRIPTION_PLACEHOLDER": "Description",
-      "ACTIVITY_IMAGE": "Change activity image "
-    },
-    "REVIEW": {
-      "ACCEPT": "Activitiy accepted successfully",
-      "REJECT": "Activity rejected successfully",
-      "ACCEPT_BTN": "Accept",
-      "REJECT_BTN": "Reject"
-    }
-  },
-  "ADMIN": {
-    "VIEW_REPORTS": {
-      "BAN": "Ban",
-      "USER": "User",
-      "REPORTS": "Reports",
-      "REPORTED_arabic": "",
-      "REPORTED": "was reported by",
-      "DELETE": "Delete",
-      "REASON": "Reason:",
-      "MSG": "Enter username to be banned"
-    },
-    "VIEW_UNVERIFIED_ACTIVITIES": {
-      "LABEL": "Activities",
-      "WELCOME": "Welcome to Activities",
-      "LATEST": "Latest",
-      "ACTIVITY": "Activity",
-      "POSTED_BY": "Posted By:",
-      "COMMENTS": "Comments:",
-      "READ_MORE": "Read More",
-      "ACCEPT": "Accept",
-      "REJECT": "Reject"
-    },
-    "ADMIN_CONTROL": {
-      "CONTENTS_MANAGEMENT": "Content Requests",
-      "CATEGORY_MANAGEMENT": "Category Management",
-      "PRODUCTS_MANAGEMENT": "Product Requests",
-      "PSYCHOLOGISTS_MANAGEMENT": "Psychologist Requests",
-      "STUDY_PLANS_MANAGEMENT": "Study Plan Publishing Requests",
-      "ACTIVITIES_MANAGEMENT": "Unverified Activities",
-      "VERIFIED_CONTRIBUTORS_MANAGEMENT": "Verified Contributor Requests",
-      "REPORTS": "Reports"
-    },
-    "CATEGORY_MANAGEMENT": {
-      "SHARED": {
-        "CATEGORY_NAME": "Category Name",
-        "CATEGORY_ICON_LINK": "Category Icon Link",
-        "PREVIEW": "Preview:",
-        "SUBMIT_BUTTON": "Submit",
-        "VISIBLE_LOCATION":
-          "Your changes will be viewed in the content search page.",
-        "SECTION_NAME": "Section Name",
-        "SECTION_ICON_LINK": "Section Icon Link"
+        "ACTIVITIES": "Activities",
+        "ACTIVITY": "Activity",
+        "LATEST_ACTIVITY": "Latest Activity",
+        "WELCOME_MESSAGE": "Welcome to activities",
+        "READ_MORE": "Read more..",
+        "CLOSE": "Close",
+        "COMMENTS": "Comments :",
+        "POSTED_BY": "Posted by :",
+        "PREV": "Previous",
+        "NEXT": "Next"
       },
-      "CATEGORY_CREATE": {
-        "CREATE_CATEGORY": "Create Category"
+      "DETAIL": {
+        "WELCOME_MESSAGE": "Welcome to the activity",
+        "FROM": "from",
+        "TO": "to",
+        "COMMENT": "Comment",
+        "REPLY": "Reply",
+        "BOOK_FOR": "Book for",
+        "DESCRIPTION": "Description",
+        "WRITE_COMMENT": "leave a comment...",
+        "BOOK_SUCCESS": "Booked successfully"
       },
-      "CATEGORY_DELETE": {
-        "DELETE_CATEGORY": "Delete Category",
-        "WARNING_MESSAGE": "This will delete all the contents in this category."
+      "EDIT": {
+        "EDIT_ACTIVITY": "Edit Activity",
+        "ACTIVITY_NAME": "Name",
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
+        "PRICE": "Price",
+        "DESCRIPTION": "Description",
+        "CANCEL": "Cancel",
+        "SAVE_CHANGES": "Save Changes",
+        "ACTIVITY_NAME_PLACEHOLDER": "ACtivity Name",
+        "START_DATE_PLACEHOLDER": "Start date",
+        "END_DATE_PLACEHOLDER": "End date",
+        "PRICE_PLACEHOLDER": "Price",
+        "DESCRIPTION_PLACEHOLDER": "Description",
+        "ACTIVITY_IMAGE": "Change activity image "
       },
-      "CATEGORY_UPDATE": {
-        "UPDATE_CATEGORY": "Update Category"
-      },
-      "SECTION_CREATE": {
-        "CREATE_SECTION": "Create Section"
-      },
-      "SECTION_DELETE": {
-        "DELETE_SECTION": "Delete Section",
-        "WARNING_MESSAGE": "This will delete all the contents in this section."
-      },
-      "SECTION_UPDATE": {
-        "UPDATE_SECTION": "Update Section"
+      "REVIEW": {
+        "ACCEPT": "Activitiy accepted successfully",
+        "REJECT": "Activity rejected successfully",
+        "ACCEPT_BTN": "Accept",
+        "REJECT_BTN": "Reject"
       }
     },
-    "VIEW_CONTENT_REQUESTS": {
-      "NO_REQUESTS_HERE": "Sorry, No Requests Arrived Yet",
-      "FILTER_REQUESTS": "Filter Requests",
-      "IDEA": "IDEA",
-      "RESOURCE": "RESOURCE",
-      "EDIT": "EDIT",
-      "CREATE": "CREATE",
-      "ACCEPT": "Accept",
-      "REJECT": "Reject",
-      "VIEW_DETAILS": "View Details"
-    }
-  },
-  "AUTH": {},
-  "CONTENT": {
-    "SHARED": {
-      "OUR_CONTENT": "Our Contents",
-      "POSTED_BY": "Posted By: {{ creator }}",
-      "DASHBOARD": "dashboard",
-      "CONTENT": "contents",
-      "ARABIC": "Arabic",
-      "ENGLISH": "English",
-      "LANGUAGE": "Language",
-      "NEXT": "Next",
-      "CATEGORY": "Category",
-      "SECTION": "Section",
-      "TAGS": "Tags"
-    },
-    "LIST": {
-      "ALL": "All",
-      "BROWSE_CONTENT": "Browse Content",
-      "CATEGORIES": "Categories",
-      "CATEGORY_SPECIFIED": "Category: {{ category }}",
-      "LANGUAGE_SPECIFIED": {
-        "ENGLISH": "Language: english",
-        "ARABIC": "Language: arabic"
+    "ADMIN": {
+        "VIEW_REPORTS": {
+          "BAN": "Ban",
+          "USER": "User",
+          "REPORTS": "Reports",
+          "REPORTED_arabic": "",
+          "REPORTED": "was reported by",
+          "DELETE": "Delete",
+          "REASON": "Reason:",
+          "MSG": "Enter username to be banned"
+        },
+        "VIEW_UNVERIFIED_ACTIVITIES": {
+          "LABEL": "Activities",
+          "WELCOME": "Welcome to Activities",
+          "LATEST": "Latest",
+          "ACTIVITY": "Activity",
+          "POSTED_BY": "Posted By:",
+          "COMMENTS": "Comments:",
+          "READ_MORE": "Read More",
+          "ACCEPT": "Accept",
+          "REJECT": "Reject"
+        },
+        "ADMIN_CONTROL": {
+          "CONTENTS_MANAGEMENT": "Content Requests",
+          "CATEGORY_MANAGEMENT": "Category Management",
+          "PRODUCTS_MANAGEMENT": "Product Requests",
+          "PSYCHOLOGISTS_MANAGEMENT": "Psychologist Requests",
+          "STUDY_PLANS_MANAGEMENT": "Study Plan Publishing Requests",
+          "ACTIVITIES_MANAGEMENT": "Unverified Activities",
+          "VERIFIED_CONTRIBUTORS_MANAGEMENT": "Verified Contributor Requests",
+          "REPORTS": "Reports"
+        },
+        "CATEGORY_MANAGEMENT": {
+          "SHARED": {
+            "CATEGORY_NAME": "Category Name",
+            "CATEGORY_ICON_LINK": "Category Icon Link",
+            "PREVIEW": "Preview:",
+            "SUBMIT_BUTTON": "Submit",
+            "VISIBLE_LOCATION":
+              "Your changes will be viewed in the content search page.",
+            "SECTION_NAME": "Section Name",
+            "SECTION_ICON_LINK": "Section Icon Link"
+          },
+          "CATEGORY_CREATE": {
+            "CREATE_CATEGORY": "Create Category"
+          },
+          "CATEGORY_DELETE": {
+            "DELETE_CATEGORY": "Delete Category",
+            "WARNING_MESSAGE": "This will delete all the contents in this category."
+          },
+          "CATEGORY_UPDATE": {
+            "UPDATE_CATEGORY": "Update Category"
+          },
+          "SECTION_CREATE": {
+            "CREATE_SECTION": "Create Section"
+          },
+          "SECTION_DELETE": {
+            "DELETE_SECTION": "Delete Section",
+            "WARNING_MESSAGE": "This will delete all the contents in this section."
+          },
+          "SECTION_UPDATE": {
+            "UPDATE_SECTION": "Update Section"
+          }
+        },
+        "VIEW_CONTENT_REQUESTS": {
+          "NO_REQUESTS_HERE": "Sorry, No Requests Arrived Yet",
+          "FILTER_REQUESTS": "Filter Requests",
+          "IDEA": "IDEA",
+          "RESOURCE": "RESOURCE",
+          "EDIT": "EDIT",
+          "CREATE": "CREATE",
+          "ACCEPT": "Accept",
+          "REJECT": "Reject",
+          "VIEW_DETAILS": "View Details"
+        }
       },
-      "MY_CONTRIBUTIONS": "My Contributions",
-      "PREVIOUS": "Previous",
-      "RATING": "Rating",
-      "RELEVANCE": "Relevance",
-      "SEARCH": "Search...",
-      "SECTION_SPECIFIED": "Section: {{ section }}",
-      "SORT_BY": "Sort By",
-      "SORT_BY_SPECIFIED": {
-        "RATING": "Sort By: Rating",
-        "RELEVANCE": "Sort By: Relevance",
-        "UPLOAD DATE": "Sort By: Upload Date"
+    "AUTH": {},
+    "CONTENT": {
+        "SHARED": {
+          "OUR_CONTENT": "Our Contents",
+          "POSTED_BY": "Posted By: {{ creator }}",
+          "DASHBOARD": "dashboard",
+          "CONTENT": "contents",
+          "ARABIC": "Arabic",
+          "ENGLISH": "English",
+          "LANGUAGE": "Language",
+          "NEXT": "Next",
+          "CATEGORY": "Category",
+          "SECTION": "Section",
+          "TAGS": "Tags"
+        },
+        "LIST": {
+          "ALL": "All",
+          "BROWSE_CONTENT": "Browse Content",
+          "CATEGORIES": "Categories",
+          "CATEGORY_SPECIFIED": "Category: {{ category }}",
+          "LANGUAGE_SPECIFIED": {
+            "ENGLISH": "Language: english",
+            "ARABIC": "Language: arabic"
+          },
+          "MY_CONTRIBUTIONS": "My Contributions",
+          "PREVIOUS": "Previous",
+          "RATING": "Rating",
+          "RELEVANCE": "Relevance",
+          "SEARCH": "Search...",
+          "SECTION_SPECIFIED": "Section: {{ section }}",
+          "SORT_BY": "Sort By",
+          "SORT_BY_SPECIFIED": {
+            "RATING": "Sort By: Rating",
+            "RELEVANCE": "Sort By: Relevance",
+            "UPLOAD DATE": "Sort By: Upload Date"
+          },
+          "UPLOAD_DATE": "Upload Date",
+          "WATCH_NOW": "Watch Now"
+        },
+        "VIEW": {
+          "COMMENTS": "Comments: {{ number }}",
+          "RECOMMENDED_CONTENT": {
+            "RECOMMENDED": "Recommended",
+            "CONTENTS": "Contents"
+          },
+          "RATING": "Rating: ",
+          "BY": "By: ",
+          "DELETE_FOREVER": "delete forever",
+          "EDIT": "edit",
+          "ADMIN_GO_BACK": "go back to content creation requests",
+          "NOW": "Now",
+          "COMMENT_BUTTON": "Comment",
+          "REPLY_BUTTON": "Reply",
+          "LEAVE_A_COMMENT": "Leave a comment",
+          "LEAVE_A_REPLY": "Leave a reply"
+        },
+        "EDIT": {
+          "CREATE_CONTENT": "Create Content",
+          "GENERAL_INFO": "General Information About Your Content",
+          "TITLE": "Title",
+          "TITLE_IS_REQUIRED": "Title is required",
+          "THUMBNAIL_IMAGE": "Thumbnail Image",
+          "YOUTUBE_VIDEO": "Youtube Video",
+          "VIDEO_LINK_INVALID": "Video link is invalid",
+          "TYPE": "Type",
+          "RESOURCE": "Resource",
+          "IDEA": "Idea",
+          "FILL_ALL": "Please fill all the requried fields",
+          "SUBMIT": "Submit",
+          "TITLE_PLACEHOLDER": "* Enter the title of the content",
+          "VIDEO_LINK_PLACEHOLDER": "Video Link...",
+          "TYPE_PLACEHOLDER": "Content Type...",
+          "LANGUAGE_PLACEHOLDER": "Choose a language...",
+          "CATEGORY_PLACEHOLDER": "Choose a category...",
+          "SECTION_PLACEHOLDER": "Choose a section...",
+          "TAG_PLACEHOLDER": "New tag ...",
+          "CATEGORY_INVALID": "Please choose a valid cagtegory first.",
+          "SECTION_REQUIRED": "Section is required.",
+          "CATEGORY_REQUIRED": "Category is required.",
+          "STEPPER": {
+            "CONTENT_DATA": "Content Data",
+            "CONTENT_DESCRIPTION": "Content Body or Description",
+            "REVIEW_AND_SUBMIT": "Review and Submit"
+          }
+        },
+        "TOASTER": {
+          "SIGN_IN_FIRST": "Please sign in first",
+          "COULD_NOT_RETRIEVE": "Couldn't retrieve content, please try again",
+          "FAILED_UPLOAD_IMAGE": "Failed to upload image, please try again",
+          "FAILED_NO_FILE_SUPPLIED": "No file supplied to upload",
+          "NOT_FOUND": "The requested content could not be found",
+          "ALREADY_WATCHED":
+            "This video is already watched before, no more learning points are added.",
+          "LEARNING_POINTS_ADDED":
+            "You just got 10 more learning points! Your score is: ",
+          "CONNECTION_ERROR":
+            "An error has occurred. Please check your network connection."
+        }
       },
-      "UPLOAD_DATE": "Upload Date",
-      "WATCH_NOW": "Watch Now"
+    "MARKET": {
+        "MAIN": {
+            "MARKET": "Marketplace",
+            "CAPTION": "Buy, sell or rent unwanted stuff",
+            "PATH": "Market",
+            "LABEL": "Products",
+            "LABEL_REQ": "My Pending Products",
+            "PROD_SEARCH": "Product",
+            "PRICE_SEARCH": "Price",
+            "LATEST": "Latest first",
+            "CHEAPEST": "Cheapest first",
+            "NAME": "Name",
+            "PRICE": "Price",
+            "SORT": "Sort",
+            "SEARCH_BAR": "Search...",
+            "SELLER": "Sold by: {{ seller }}",
+            "SEARCH_PRICE": "{{ price }} EGP",
+            "SORT_TYPE": "Sorted by: {{ sort }}",
+            "PREV": "Previous",
+            "NEXT": "Next",
+            "NO_PROD_FOUND": "Sorry No products found.",
+            "NO_PROD_REQ": "No product requests. All clean.",
+            "MY_PRODS": "My Products"
+        },
+        "CREATE": {
+            "INFO": "Product's Information",
+            "DESCRIPTION": "Products description",
+            "NAME": "Product's name",
+            "PRICE": "Price EGP",
+            "AQUIRE": "Product is up for",
+            "SELL": "Sale",
+            "RENT": "Rent",
+            "SELLRENT": "Rent/Sale",
+            "RENTPERIOD": "Rent period (if exists)",
+            "IMG": "Product's Picture",
+            "CREATEPRODUCT": "Add Product"
+        },
+        "PROD_DETAIL": {
+            "PROD_INFO": "Product Information:",
+            "CREATED_AT": "Created at: {{ date }}",
+            "ACQUIRE": "Acquire",
+            "EGP": "EGP",
+            "ACQTYPERENT": "This item is for rent",
+            "ACQTYPESELL": "This item is for sale",
+            "ACQTYPEBOTH": "This item is for rent and sale",
+            "DAYS": "Up to {{ days }} days",
+            "SOLD": "Sold by: "
+        },
+        "REQ_DETAIL": {
+            "PROD_NAME": "Product's name",
+            "ACQTYPELABEL": "Acquiring type: "
+        }
     },
-    "VIEW": {
-      "COMMENTS": "Comments: {{ number }}",
-      "RECOMMENDED_CONTENT": {
-        "RECOMMENDED": "Recommended",
-        "CONTENTS": "Contents"
-      },
-      "RATING": "Rating: ",
-      "BY": "By: ",
-      "DELETE_FOREVER": "delete forever",
-      "EDIT": "edit",
-      "ADMIN_GO_BACK": "go back to content creation requests",
-      "NOW": "Now",
-      "COMMENT_BUTTON": "Comment",
-      "REPLY_BUTTON": "Reply",
-      "LEAVE_A_COMMENT": "Leave a comment",
-      "LEAVE_A_REPLY": "Leave a reply"
-    },
-    "EDIT": {
-      "CREATE_CONTENT": "Create Content",
-      "GENERAL_INFO": "General Information About Your Content",
-      "TITLE": "Title",
-      "TITLE_IS_REQUIRED": "Title is required",
-      "THUMBNAIL_IMAGE": "Thumbnail Image",
-      "YOUTUBE_VIDEO": "Youtube Video",
-      "VIDEO_LINK_INVALID": "Video link is invalid",
-      "TYPE": "Type",
-      "RESOURCE": "Resource",
-      "IDEA": "Idea",
-      "FILL_ALL": "Please fill all the requried fields",
-      "SUBMIT": "Submit",
-      "TITLE_PLACEHOLDER": "* Enter the title of the content",
-      "VIDEO_LINK_PLACEHOLDER": "Video Link...",
-      "TYPE_PLACEHOLDER": "Content Type...",
-      "LANGUAGE_PLACEHOLDER": "Choose a language...",
-      "CATEGORY_PLACEHOLDER": "Choose a category...",
-      "SECTION_PLACEHOLDER": "Choose a section...",
-      "TAG_PLACEHOLDER": "New tag ...",
-      "CATEGORY_INVALID": "Please choose a valid cagtegory first.",
-      "SECTION_REQUIRED": "Section is required.",
-      "CATEGORY_REQUIRED": "Category is required.",
-      "STEPPER": {
-        "CONTENT_DATA": "Content Data",
-        "CONTENT_DESCRIPTION": "Content Body or Description",
-        "REVIEW_AND_SUBMIT": "Review and Submit"
-      }
-    },
-    "TOASTER": {
-      "SIGN_IN_FIRST": "Please sign in first",
-      "COULD_NOT_RETRIEVE": "Couldn't retrieve content, please try again",
-      "FAILED_UPLOAD_IMAGE": "Failed to upload image, please try again",
-      "FAILED_NO_FILE_SUPPLIED": "No file supplied to upload",
-      "NOT_FOUND": "The requested content could not be found",
-      "ALREADY_WATCHED":
-        "This video is already watched before, no more learning points are added.",
-      "LEARNING_POINTS_ADDED":
-        "You just got 10 more learning points! Your score is: ",
-      "CONNECTION_ERROR":
-        "An error has occurred. Please check your network connection."
-    }
-  },
-  "MARKET": {},
-  "MESSAGING": {},
-  "PROFILE": {
-    "CHILDREN": {
-      "UNLINK": "Unlink",
-      "AGE": "Age",
-      "LEARNING_SCORE": "Learning Score",
-      "POINTS": "Points"
-    },
+    "MESSAGING": {},
+    
     "PROFILE": {
-      "NAWWAR": "Nawwar",
-      "DASHBOARD": "Dashboard",
-      "MY_PROFILE": "Profile",
-      "MESSAGE": "Message",
-      "CHILDREN": "Children",
-      "STUDY_PLANS": "Study Plans",
-      "SETTINGS": "Settings",
-      "ABOUT": "About",
-      "ADD-AS-PARENT": "Add As A Parent",
-      "MAKE_INDEPENDENT": "Make Independent",
-      "BE_VERIFIED_CONTRIBUTOR": "Be A Verified Contributor",
-      "CREATE_CHILD_ACCOUNT": "Create A Child Account",
-      "UNLINK_MY_PARENT": "Unlink My Parent",
-      "LINK_TO_CHILD": "Link To My Child",
-      "EMAIL": "Email address:",
-      "PHONE": "Phone:",
-      "BIRTHDATE": "Birth Date:",
-      "AGE": "Age:",
-      "MY_CHILE": "Child",
-      "CHILD_INFO": "Info",
-      "PERSONAL": "Personal",
-      "MY_INFO": "Info",
-      "SECURITY": "Security",
-      "CHANGE_PASSWORD": "Change Password",
-      "CPASSWORD": "Your Current Password",
-      "NPASSWORD": "New Password",
-      "CNPASSWORD": "Confirm New Password",
-      "FIRST_NAME": "First Name",
-      "LAST_NAME": "Last Name",
-      "USERNAME": "Username",
-      "EDIT_EMAIL": "Email",
-      "ADDRESS": "Address",
-      "EDIT_BD": "Birthdate",
-      "EDIT_PHONE": "Phone",
-      "SAVE_CHANGES": "Save Changes",
-      "MESSAGES_BLOCK": "Messages Block",
-      "BLOCK_LIST": "List",
-      "CREATE_STUDY_PALN": "Create A New Study Plan",
-      "PROFILE_PIC": "Profile picture upload",
-      "CANCEL": "Cancel",
-      "DELETE_EVENT": "Delete Event",
-      "DELE_EVENT_CONF": "Are you sure you want to delete this event?",
-      "DELETE": "Delete",
-      "ASSIGNED": "Assigned",
-      "VIEW": "View",
-      "UNBLOCK": "Unblock",
-      "REPORT": "Report"
-    },
-    "DIRECT_MSG": {
-      "TO": "To:",
-      "SEND": "SEND",
-      "MSG": "Enter Your Message Here"
-    }
+        "CHILDREN": {
+        "UNLINK": "Unlink",
+        "AGE": "Age",
+        "LEARNING_SCORE": "Learning Score",
+        "POINTS": "Points"
+        },
+        "PROFILE": {
+        "NAWWAR": "Nawwar",
+        "DASHBOARD": "Dashboard",
+        "MY_PROFILE": "Profile",
+        "MESSAGE": "Message",
+        "CHILDREN": "Children",
+        "STUDY_PLANS": "Study Plans",
+        "SETTINGS": "Settings",
+        "ABOUT": "About",
+        "ADD-AS-PARENT": "Add As A Parent",
+        "MAKE_INDEPENDENT": "Make Independent",
+        "BE_VERIFIED_CONTRIBUTOR": "Be A Verified Contributor",
+        "CREATE_CHILD_ACCOUNT": "Create A Child Account",
+        "UNLINK_MY_PARENT": "Unlink My Parent",
+        "LINK_TO_CHILD": "Link To My Child",
+        "EMAIL": "Email address:",
+        "PHONE": "Phone:",
+        "BIRTHDATE": "Birth Date:",
+        "AGE": "Age:",
+        "MY_CHILE": "Child",
+        "CHILD_INFO": "Info",
+        "PERSONAL": "Personal",
+        "MY_INFO": "Info",
+        "SECURITY": "Security",
+        "CHANGE_PASSWORD": "Change Password",
+        "CPASSWORD": "Your Current Password",
+        "NPASSWORD": "New Password",
+        "CNPASSWORD": "Confirm New Password",
+        "FIRST_NAME": "First Name",
+        "LAST_NAME": "Last Name",
+        "USERNAME": "Username",
+        "EDIT_EMAIL": "Email",
+        "ADDRESS": "Address",
+        "EDIT_BD": "Birthdate",
+        "EDIT_PHONE": "Phone",
+        "SAVE_CHANGES": "Save Changes",
+        "MESSAGES_BLOCK": "Messages Block",
+        "BLOCK_LIST": "List",
+        "CREATE_STUDY_PALN": "Create A New Study Plan",
+        "PROFILE_PIC": "Profile picture upload",
+        "CANCEL": "Cancel",
+        "DELETE_EVENT": "Delete Event",
+        "DELE_EVENT_CONF": "Are you sure you want to delete this event?",
+        "DELETE": "Delete",
+        "ASSIGNED": "Assigned",
+        "VIEW": "View",
+        "UNBLOCK": "Unblock",
+        "REPORT": "Report"
+        },
+        "DIRECT_MSG": {
+        "TO": "To:",
+        "SEND": "SEND",
+        "MSG": "Enter Your Message Here"
+        }
 
-  },
-  "PSYCHOLOGIST": {},
-  "SCHEDULING": {},
-  "SEARCH": {},
-  "LANDING": {}
+    },
+    "PSYCHOLOGIST": {
+        "TITLE": {
+            "VERIFIED_PSYCHS": "Psychologists",
+            "SUB": "Because your child mental health matters",
+            "NAWWAR": "Nawwar"
+        },
+        "INFO": {
+            "PHONE": "Phone",
+            "EMAIL": "Email",
+            "DAYSOFF": "Days Off",
+            "PRICE": "Maximum Price Range",
+            "ADD": "Address",
+            "EDIT": "Edit This",
+            "DELETE": "Delet This"
+        },
+        "DAYS": {
+            "SAT": "Sat",
+            "SUN": "Sun",
+            "MON": "Mon",
+            "TUE": "Tue",
+            "WED": "Wed",
+            "THU": "Thu",
+            "FRI": "Fri",
+            "NO DAYS OFF": "No Days Off"
+        },
+        "FILTERS": {
+            "NAME_SEARCH": "Search by Name...",
+            "ADD_SEARCH": "Search by Address...",
+            "SORT_BY": "Sort By",
+            "CHEAPEST": "Cheapest",
+            "A-Z": "Alphabetical"
+        },
+        "POPUP": {
+            "TITLE": "Contact Information",
+            "F_NAME": "First Name *",
+            "L_NAME": "Last Name *",
+            "EMAIL": "Email *",
+            "ADD": "Address...",
+            "REQUIRED": "Required Fields *",
+            "NOT_REQUIRED": "You don't have to fill on all fields, just fill the ones you wish to edit.",
+            "SUBMIT": "Submit",
+            "NOTE": "Note",
+            "NOTE_BODY": "If our admins accepted your request your contact Information will be added to our psychologists address book and an email with an ID will be sent to you, with this ID only you can later edit or delete your information."
+        }
+    },
+    "SCHEDULING": {},
+    "SEARCH": {},
+    "LANDING": {}
 }

@@ -1,23 +1,25 @@
 <section class="content file_manager">
   <div class="block-header">
     <div class="row">
-      <div class="col-lg-7 col-md-5 col-8">
-        <h2>
-          <i class="zmdi zmdi-shopping-cart"></i>
-          Marketplace
-          <small>Buy, sell or rent unwanted stuff</small>
+      <div class="col-lg-7 col-md-5 col-8" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+        <h2 style="font-size:25px" [align]="translate.currentLang === 'ara'? 'right': null" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+          <i class="zmdi zmdi-shopping-cart" style="margin-left:3px" [style.float]="translate.currentLang === 'ara'? 'right': null"></i>
+          {{'MARKET.MAIN.MARKET' | translate}}
+          <small>{{'MARKET.MAIN.CAPTION' | translate}}</small>
         </h2>
       </div>
-      <div class="col-lg-5 col-md-6 col-sm-12">
+      <div class="col-lg-5 col-md-6 col-sm-12" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
         <button class="btn btn-primary btn-round btn-icon hidden-sm-down float-right m-l-10" type="button" (click)="goToCreate()">
           <i class="zmdi zmdi-plus"></i>
         </button>
-        <ul class="breadcrumb float-md-right">
+        <ul class="breadcrumb float-md-right" [dir]="translate.currentLang === 'ara'? 'rtl': null"
+        [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
           <li class="breadcrumb-item">
-            <a routerLink="/dashboard">
-              <i class="zmdi zmdi-home"></i> Nawwar</a>
+            <!-- TODO: add router to the newsfeed-->
+            <a routerLink="/newsfeed">
+              <i class="zmdi zmdi-home"></i> {{'APP.NAWWAR' | translate}}</a>
           </li>
-          <li class="breadcrumb-item active">Market</li>
+          <li class="breadcrumb-item active">{{'MARKET.MAIN.PATH' | translate}}</li>
         </ul>
       </div>
     </div>
@@ -28,10 +30,10 @@
         <div class="card bg-dark">
           <ul class="nav nav-tabs">
             <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" href="#products">Products</a>
+              <a class="nav-link active" data-toggle="tab" href="#products">{{'MARKET.MAIN.LABEL' | translate}}</a>
             </li>
             <li class="nav-item" *ngIf="!this.user || !this.user.isAdmin">
-              <a class="nav-link" data-toggle="tab" href="#requests">My Pending Products</a>
+              <a class="nav-link" data-toggle="tab" href="#requests">{{'MARKET.MAIN.LABEL_REQ' | translate}}</a>
             </li>
           </ul>
         </div>
@@ -40,50 +42,50 @@
 
             <div class="row clearfix">
               <div class="col-lg-12">
-                <div class="card action_bar">
+                <div class="card action_bar" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                   <div class="body">
                     <div class="row clearfix">
                       <div class="col-lg-8 col-md-6 col-12">
-                        <div class="input-group search" *ngIf="filter=='Name'">
-                          <input type="text" class="form-control" placeholder="Search..." [(ngModel)]="writtenName" >
+                        <div class="input-group search" *ngIf="filter=='Name'" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                          <input type="text" class="form-control" placeholder="{{'MARKET.MAIN.SEARCH_BAR' | translate}}" [(ngModel)]="writtenName" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >
                           <span class="input-group-addon">
-                          <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyName()">
-                            <i class="zmdi zmdi-search"></i> Product
-                          </button>
+                            <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyName()">
+                              <i class="zmdi zmdi-search"></i> {{'MARKET.MAIN.PROD_SEARCH' | translate}}
+                            </button>
                           </span>
                         </div>
-                        <div div class="input-group search" *ngIf="filter=='Price'">
-                          <input type="number" class="form-control" placeholder="Search..." [(ngModel)]="writtenPrice">
+                        <div div class="input-group search" *ngIf="filter=='Price'" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                          <input type="number" class="form-control" placeholder="" [(ngModel)]="writtenPrice" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >
 
                           <span class="input-group-addon">
-                              <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyPrice()">
-                                <i class="zmdi zmdi-search"></i> Price
-                              </button>
-                              </span>
+                            <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyPrice()">
+                              <i class="zmdi zmdi-search"></i> {{'MARKET.MAIN.PRICE_SEARCH' | translate}}
+                            </button>
+                          </span>
                         </div>
                         <div *ngIf="filter=='Sort'">
                           <div class="radio">
                             <input type="radio" name="radio1" id="radio1" value="option1" checked="" (click)="applySort('latest')">
-                            <label for="radio1">
-                              Latest first
+                            <label for="radio1" style="margin-left: 20px;padding-left:25px">
+                              <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"> {{'MARKET.MAIN.LATEST' | translate}} </p>
                             </label>
                             <input type="radio" name="radio1" id="radio2" value="option2" (click)="applySort('cheapest')">
-                            <label for="radio2">
-                              Cheapest first
+                            <label for="radio2" style="margin-left: 20px;padding-left:25px">
+                              <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"> {{'MARKET.MAIN.CHEAPEST' | translate}} </p>
                             </label>
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-2 col-md-2 col-8">
+                      <div class="col-lg-3 col-md-2 col-8">
                         <div class="checkbox inlineblock">
                           <input id="myProducts" type="checkbox" [(ngModel)]="isChecked" (click)="applySeller()">
                           <label for="myProducts">
-                            My Products
+                              <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"> {{'MARKET.MAIN.MY_PRODS' | translate}} </p>
                           </label>
                         </div>
                       </div>
                       <div class="col-lg-1 col-md-1 col-1 text-right">
-                        <div class="btn-group hidden-sm-down" role="group">
+                        <div class="btn-group hidden-sm-down" role="group" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                           <div class="btn-group">
                             <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <i class="zmdi zmdi-label"></i>
@@ -91,13 +93,13 @@
                             </button>
                             <ul class="dropdown-menu dropdown-menu-right pullDown">
                               <li>
-                                <a (click)="showFilter('Name')">Name</a>
+                                <a (click)="showFilter('Name')">{{'MARKET.MAIN.NAME' | translate}}</a>
                               </li>
                               <li>
-                                <a (click)="showFilter('Price')">Price</a>
+                                <a (click)="showFilter('Price')">{{'MARKET.MAIN.PRICE' | translate}}</a>
                               </li>
                               <li>
-                                <a (click)="showFilter('Sort')">Sort</a>
+                                <a (click)="showFilter('Sort')">{{'MARKET.MAIN.SORT' | translate}}</a>
                               </li>
                             </ul>
 
@@ -109,10 +111,10 @@
 
                 </div>
                 <div>
-                  <button class="btn btn-default btn-round btn-sm" *ngIf="this.selectedSeller" (click)="remove('seller')">seller: {{this.selectedSeller}} </button>
+                  <button class="btn btn-default btn-round btn-sm" *ngIf="this.selectedSeller" (click)="remove('seller')">{{'MARKET.MAIN.SELLER' | translate: {seller: this.selectedSeller} }} </button>
                   <button class="btn btn-default btn-round btn-sm" *ngIf="this.selectedPrice" (click)="remove('price')">
-                    <={{this.selectedPrice}}LE</button>
-                      <button class="btn btn-default btn-round btn-sm" *ngIf="this.sort" (click)="remove('sort')">sort by: {{this.sort}}</button>
+                    <={{'MARKET.MAIN.SEARCH_PRICE' | translate: {price: this.selectedPrice} }}</button>
+                      <button class="btn btn-default btn-round btn-sm" *ngIf="this.sort" (click)="remove('sort')">{{'MARKET.MAIN.SORT_TYPE' | translate: {sort: this.sort} }}</button>
                       <button class="btn btn-default btn-round btn-sm" *ngIf="this.selectedName" (click)="remove('name')">{{this.selectedName}}</button>
                 </div>
               </div>
@@ -125,11 +127,12 @@
                       <div class="image">
                         <img src={{product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
                       </div>
-                      <div class="file-name">
-                        <p class="m-b-5 text-muted">{{product.name}}</p>
-                        <small>{{product.price}} EGP
-                          <span class="date text-muted">{{product.createdAt | date}}</span>
-                        </small>
+                      <div class="file-name" >
+                        <p class="m-b-5 text-muted" [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{product.name}}</p>
+                        <div class="row">
+                          <small class="col-6" style="width:fit-content" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >{{'MARKET.MAIN.SEARCH_PRICE' | translate: {price: product.price} }}</small>
+                          <small class="date text-muted col-6" [style.text-align]="translate.currentLang === 'ara'? 'left': null" >{{product.createdAt | date}}</small>
+                        </div>
                       </div>
                     </a>
                   </div>
@@ -138,19 +141,19 @@
             </div>
             <ul *ngIf="totalNumberOfPages>1" class="pagination pagination-primary">
               <li *ngIf="currentPageNumber>1" class="page-item">
-                <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">Previous</a>
+                <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">{{'MARKET.MAIN.PREV' | translate}}</a>
               </li>
               <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
                 <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
               </li>
               <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
-                <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">Next</a>
+                <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">{{'MARKET.MAIN.NEXT' | translate}}</a>
               </li>
             </ul>
             <div class="body text-center" *ngIf="!this.products.length">
               <div class="not_found">
                 <i class="zmdi zmdi-mood-bad zmdi-hc-4x"></i>
-                <h4 class="m-b-0">Sorry No products found.</h4>
+                <h4 class="m-b-0">{{'MARKET.MAIN.NO_PROD_FOUND' | translate}}</h4>
               </div>
             </div>
           </div>
@@ -163,10 +166,10 @@
                       <div class="image">
                         <img src={{product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
                       </div>
-                      <div class="file-name">
+                      <div class="file-name" [align]="translate.currentLang === 'ara'? 'right': null">
                         <p class="m-b-5 text-muted">{{product.name}}</p>
-                        <small>{{product.price}} EGP</small>
-                        <p class="date text-muted">{{product.createdAt | date}}</p>
+                        <small [style.text-align]="translate.currentLang === 'ara'? 'left': null">{{'MARKET.MAIN.SEARCH_PRICE' | translate: {price: product.price} }}</small>
+                        <p class="date text-muted" [style.text-align]="translate.currentLang === 'ara'? 'left': null">{{product.createdAt | date}}</p>
                       </div>
                     </a>
                   </div>
@@ -176,7 +179,7 @@
             <div class="body text-center" *ngIf="!this.userRequests || !this.userRequests.length">
               <div class="not_found">
                 <i class="zmdi zmdi-mood zmdi-hc-4x"></i>
-                <h4 class="m-b-0">No product requests. All clean</h4>
+                <h4 class="m-b-0">{{'MARKET.MAIN.NO_PROD_REQ' | translate}}</h4>
               </div>
             </div>
           </div>

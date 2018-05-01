@@ -15,6 +15,7 @@ MatChipsModule, MatInputModule, MatSelectModule, MatRadioButton } from '@angular
 import { EditPsychComponent } from './edit-psych/edit-psych.component';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   imports: [
     CommonModule,
@@ -31,7 +32,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
     InfiniteScrollModule,
     MatDialogModule,
     LayoutModule,
-    PsychologistRoutingModule
+    PsychologistRoutingModule,
+    TranslateModule.forChild()
   ],
   providers: [ PsychologistService, { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ErrorStateMatcher ],
