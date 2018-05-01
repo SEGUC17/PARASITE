@@ -439,6 +439,7 @@ module.exports = function (passport) {
   router.delete('/tags/deleteTag/:id', isAuthenticated, tagController.deleteTag);
   router.post('/tags/addTag', isAuthenticated, tagController.addTag);
   router.patch('/newsfeed/:entriesPerPage/:pageNumber', newsfeedController.getPosts);
+  router.get('/newsfeed/findPeople', newsfeedController.findRandomFive);
   //------------------- End of Newsfeed Endpoints-----------//
 
   // -------------------------------------------------------------------- //
