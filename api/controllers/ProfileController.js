@@ -86,9 +86,9 @@ module.exports.EditChildIndependence = function (req, res, next) {
 
     // if the previous conditions are false then child is changed successefuly
 
-    User.update(
-      user,
-      { $set: { isChild: false } }
+    User.findOneAndUpdate(
+      { username: req.params.username },
+      { $set: { isChild: false } }, { new: true }
     ).
       exec(function (error, updated) {
         if (err) {
@@ -126,7 +126,7 @@ module.exports.requestUserValidation = function (req, res, next) {
 
   var reqObj = {
     status: 'pending',
-    email : req.user.email,
+    email: req.user.email,
     numberOfChildren: req.user.children.length,
     name: req.user.firstName + ' ' + req.user.lastName,
     image: req.user.avatar,
@@ -322,8 +322,7 @@ module.exports.changePassword = function (req, res, next) {
 module.exports.UnlinkIndependent = function (req, res, next) {
   // checking whether the signed-in user is independent
   if (req.user.isChild) {
-    console.log(' is child');
-    console.log(req.user);
+
 
     return res.
       status(403).
@@ -344,8 +343,7 @@ module.exports.UnlinkIndependent = function (req, res, next) {
     // checking if the username in the params is a parent to the logged in user
 
     if (user.children.indexOf(req.user.username) < 0) {
-      console.log('not linked');
-      console.log(req.user);
+
 
       return res.
         status(403).
@@ -365,9 +363,8 @@ module.exports.UnlinkIndependent = function (req, res, next) {
         if (error) {
           return error;
         }
-        console.log(updated.username);
-        console.log(updated.children);
-        console.log(req.user.username);
+
+
         res.status(200).json({
           data: updated.children,
           err: null,

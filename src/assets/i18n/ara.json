@@ -3,7 +3,21 @@
         "NAWWAR": "نوَّر",
         "CURRENT_LANGUAGE": "العربية"
     },
-    "ACTIVITIES": {},
+    "ACTIVITIES": {
+        "EDIT":{
+            "EDIT_ACTIVITY": "تعديل النشاط",
+            "ACTIVITY_NAME": "الاسم",
+            "START_DATE":"تاريخ النهاية",
+            "END_DATE":"تاريخ البداية",
+            "PRICE":"السعر",
+            "DESCRIPTION":"الوصف",
+            "CANCEL":"الغاء",
+            "SAVE_CHANGES":"حفظ التغييرات",
+            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+            "ACTIVITY_IMAGE":"تغيير صورة النشاط"
+        
+        }
+    },
     "ADMIN": {
         "VIEW_REPORTS": {
             "BAN": "حظر",
@@ -165,8 +179,12 @@
             }
         }
     },
-    "MARKET": {},
-    "MESSAGING": {},
+    "MARKET": {
+
+    },
+    "MESSAGING": {
+
+    },
     "PROFILE": {
         "PROFILE": {
             "NAWWAR": "نوَّر",
@@ -224,10 +242,22 @@
         },
         "CHILDREN": {
             "NAME": "الإسم",
-            "UNLINK": "إزاله من قائمتى"
+            "AGE":"العمر" ,
+            "UNLINK": "إزاله من قائمتى",
+            "LEARNING_SCORE":"نقاط التعلم",
+            "POINTS":"نقطة"
         }
     },
-    "PSYCHOLOGIST": {},
-    "SCHEDULING": {},
-    "SEARCH": {}
+    "PSYCHOLOGIST": {
+
+    },
+    "SCHEDULING": {
+
+    },
+    "SEARCH": {
+        
+    },
+    "LANDING":{
+        
+    }
 }

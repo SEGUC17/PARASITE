@@ -64,6 +64,10 @@ export class AppComponent implements OnInit {
       url: '/scheduling/study-plan/published',
       name: 'Study Plans',
       icon: 'graduation-cap'
+    },
+    {
+      url: '/landing',
+      name: 'Landing'
     }
   ];
   constructor(private router: Router, private authService: AuthService,
