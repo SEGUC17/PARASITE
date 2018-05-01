@@ -64,6 +64,10 @@ export class AppComponent implements OnInit {
       url: '/scheduling/study-plan/published',
       name: 'Study Plans',
       icon: 'graduation-cap'
+    },
+    {
+      url: '/landing',
+      name: 'Landing'
     }
   ];
   constructor(private router: Router, private authService: AuthService,
@@ -286,8 +290,10 @@ export class AppComponent implements OnInit {
   // method to change the website's language
   changeLanguage(): void {
     if (this.translate.currentLang === 'en') {
+      $('body').addClass('rtl');
       this.translate.use('ara');
     } else {
+      $('body').removeClass('rtl');
       this.translate.use('en');
     }
 

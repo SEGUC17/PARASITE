@@ -40,6 +40,7 @@ import { MessageService } from '../messaging/messaging.service';
 import { ContentService } from '../content/content.service';
 import { ActivityService } from '../activities/activity.service';
 import { TranslateModule } from '@ngx-translate/core';
+
 @NgModule({
   imports: [
     CommonModule,

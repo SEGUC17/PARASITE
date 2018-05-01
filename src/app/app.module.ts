@@ -11,6 +11,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { AuthInterceptor } from './auth-interceptor';
 import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
+import { LandingModule } from './landing/landing.module';
 import { ToastrService, ToastrModule } from 'ngx-toastr';
 import { FacebookModule } from 'ngx-facebook';
 import {
@@ -27,6 +28,7 @@ import { environment } from '../environments/environment';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { ProfileImageUploaderComponent } from './profile-image-uploader/profile-image-uploader.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -47,6 +49,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LayoutModule,
     CommonModule,
     SharedModule,
+    LandingModule,
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-bottom-right',
