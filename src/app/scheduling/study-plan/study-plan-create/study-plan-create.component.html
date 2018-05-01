@@ -38,7 +38,7 @@
             </button>
             <div class="collapse-xs collapse-sm collapse" id="open-events">
               <hr>
-              <div class="event-name b-primary row clickable" *ngFor="let event of events; let index = index" (Click)="viewDate = evrnt.start">
+              <div class="event-name b-primary row" *ngFor="let event of events; let index = index" (Click)="viewDate = event.start">
                 <div class="col-2 text-center">
                   <h4>{{ event.start | date:'dd' }}
                     <span>{{ 'SCHEDULING.CALENDAR.' + ( event.start | date:'MMM').toUpperCase() | translate }}</span>

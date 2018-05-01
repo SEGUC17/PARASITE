@@ -168,6 +168,8 @@ export class StudyPlanCreateComponent implements OnInit {
     $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
     $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
 
+    this.viewDate = eventStart;
+
     this.refresh.next();
   }
 

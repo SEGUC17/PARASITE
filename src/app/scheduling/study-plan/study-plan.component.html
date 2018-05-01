@@ -1,6 +1,7 @@
 <section [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="content page-calendar">
   <div class="block-header">
-    <ul [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" class="breadcrumb float-right">
+    <ul [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'"
+      class="breadcrumb float-right">
       <li class="breadcrumb-item">
         <a routerLink="/dashboard">
           <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate }}</a>
@@ -52,7 +53,7 @@
               <br *ngIf="currIsChild || (type === 'published' && currUsername !== studyPlan.creator && !currIsAdmin)" />
               <br *ngIf="currIsChild || (type === 'published' && currUsername !== studyPlan.creator && !currIsAdmin)" />
               <hr *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)" />
-              <div class="event-name b-primary row" *ngFor="let event of events; let index = index">
+              <div class="event-name b-primary row" *ngFor="let event of events; let index = index" (click)="viewDate = event.start">
                 <div class="col-2 text-center">
                   <h4>{{ event.start | date:'dd' }}
                     <span>{{ 'SCHEDULING.CALENDAR.' + ( event.start | date:'MMM').toUpperCase() | translate }}</span>
@@ -61,12 +62,14 @@
                 </div>
                 <div class="col-10">
                   <h6>{{ event.title }}</h6>
-                  <p>{{ event.meta && event.meta.description ? event.meta.description : 'SCHEDULING.SCHEDULE.NO_DESCRIPTION_TAG' | translate }}</p>
+                  <p>{{ event.meta && event.meta.description ? event.meta.description : 'SCHEDULING.SCHEDULE.NO_DESCRIPTION_TAG'
+                    | translate }}</p>
                   <div class="float-right">
-                    <a class="clickable col-md-12 col-lg-4 col-xl-4" data-toggle="modal" data-target="#editModal" (click)="preEdit(index); editIndex = index; editTitle = event.title; editStart = event.start; editEnd = event.end; editDescription = event.meta && event.meta.description ? event.meta.description : '';">
+                    <a class="clickable col-md-12 col-lg-4 col-xl-4" data-toggle="modal" data-target="#editModal" (click)="preEdit(index); editIndex = index; editTitle = event.title; editStart = event.start; editEnd = event.end; editDescription = event.meta && event.meta.description ? event.meta.description : '';"
+                      *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)">
                       <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
                     </a>
-                    <a class="clickable col-md-12 col-lg-4 col-xl-4" (click)="delete(index)">
+                    <a class="clickable col-md-12 col-lg-4 col-xl-4" (click)="delete(index)" *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)">
                       <i class="zmdi zmdi-delete zmdi-hc-2x"></i>
                     </a>
                   </div>
@@ -113,7 +116,9 @@
           <a class="clickable float-right" *ngIf="editingDescription" (click)="editingDescription = false; changed = true;">
             <i [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="zmdi zmdi-check zmdi-hc-2x"></i>
           </a>
-          <strong [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'"><div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'SCHEDULING.STUDYPLAN.DESCRIPTION' | translate }}</div></strong>
+          <strong [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'">
+            <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'SCHEDULING.STUDYPLAN.DESCRIPTION' | translate }}</div>
+          </strong>
         </h2>
       </div>
       <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="body" *ngIf="editingDescription">
@@ -124,8 +129,10 @@
       </div>
       <hr />
       <div class="row justify-content-around">
-        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary" (click)="publish()" *ngIf="type === 'personal' && !currIsChild && (profileUsername ? currUsername === profileUsername : true)">{{ 'SCHEDULING.STUDYPLAN.PUBLISH' | translate }}</button>
-        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary" (click)="copy()" *ngIf="!currIsChild && (type === 'published' || (profileUsername ? currUsername === profileUsername : true))">{{ 'SCHEDULING.STUDYPLAN.COPY' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary" (click)="publish()"
+          *ngIf="type === 'personal' && !currIsChild && (profileUsername ? currUsername === profileUsername : true)">{{ 'SCHEDULING.STUDYPLAN.PUBLISH' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary" (click)="copy()"
+          *ngIf="!currIsChild && (type === 'published' || (profileUsername ? currUsername === profileUsername : true))">{{ 'SCHEDULING.STUDYPLAN.COPY' | translate }}</button>
         <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="dropup" *ngIf="type === 'personal' && (profileUsername ? currUsername === profileUsername : true) && !currIsChild">
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
             {{ 'SCHEDULING.STUDYPLAN.ASSIGN' | translate }}
@@ -137,15 +144,18 @@
             <a class="dropdown-item" href="javascript:void(0);" (click)="assign(child)" *ngFor="let child of listOfChildren">{{ child }}</a>
           </div>
         </div>
-        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary" (click)="unAssign()" *ngIf="type === 'personal' && studyPlan.assigned && !currIsChild">{{ 'SCHEDULING.STUDYPLAN.UNASSIGN' | translate }}</button>
-        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" *ngIf="changed">{{ 'SCHEDULING.STUDYPLAN.SAVE_CHANGES' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary" (click)="unAssign()"
+          *ngIf="type === 'personal' && studyPlan.assigned && !currIsChild">{{ 'SCHEDULING.STUDYPLAN.UNASSIGN' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()"
+          *ngIf="changed">{{ 'SCHEDULING.STUDYPLAN.SAVE_CHANGES' | translate }}</button>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Event Creation Modal -->
-<div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="modal fade" id="createModal" tabindex="-1" role="dialog">
+<div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="modal fade" id="createModal" tabindex="-1"
+  role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -155,12 +165,14 @@
         <form [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" id="createForm" method="POST">
           <div class="form-group">
             <div class="form-line">
-              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="createTitle" [(ngModel)]="createTitle" placeholder="{{ 'SCHEDULING.STUDYPLAN.TITLE' | translate }}" required>
+              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="createTitle" [(ngModel)]="createTitle"
+                placeholder="{{ 'SCHEDULING.STUDYPLAN.TITLE' | translate }}" required>
             </div>
           </div>
           <div class="form-group">
             <div class="form-line">
-              <input  [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'"type="text" class="form-control" name="createDescription" [(ngModel)]="createDescription" placeholder="{{ 'SCHEDULING.STUDYPLAN.DESCRIPTION' | translate }}">
+              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="createDescription" [(ngModel)]="createDescription"
+                placeholder="{{ 'SCHEDULING.STUDYPLAN.DESCRIPTION' | translate }}">
             </div>
           </div>
           <div class="input-group">
@@ -178,15 +190,18 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="createEvent(createTitle, createDescription, createStart, createEnd); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.STUDYPLAN.CREATE_EVENT' | translate }}</button>
-        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="cancelCreate(); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.STUDYPLAN.CANCEL' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-primary btn-round waves-effect"
+          data-dismiss="modal" (click)="createEvent(createTitle, createDescription, createStart, createEnd); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.STUDYPLAN.CREATE_EVENT' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-danger btn-simple btn-round waves-effect"
+          data-dismiss="modal" (click)="cancelCreate(); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.STUDYPLAN.CANCEL' | translate }}</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- Event Modification Modal -->
-<div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="modal fade" id="editModal" tabindex="-1" role="dialog">
+<div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="modal fade" id="editModal" tabindex="-1"
+  role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -196,12 +211,14 @@
         <form [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" id="editForm" method="POST">
           <div class="form-group">
             <div class="form-line">
-              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="editTitle" [(ngModel)]="editTitle" placeholder="{{ 'SCHEDULING.STUDYPLAN.TITLE' | translate }}">
+              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="editTitle" [(ngModel)]="editTitle"
+                placeholder="{{ 'SCHEDULING.STUDYPLAN.TITLE' | translate }}">
             </div>
           </div>
           <div class="form-group">
             <div class="form-line">
-              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="editDescription" [(ngModel)]="editDescription" placeholder="{{ 'SCHEDULING.STUDYPLAN.DESCRIPTION' | translate }}">
+              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="editDescription" [(ngModel)]="editDescription"
+                placeholder="{{ 'SCHEDULING.STUDYPLAN.DESCRIPTION' | translate }}">
             </div>
           </div>
           <div class="input-group">
@@ -219,8 +236,10 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLAN.SAVE_CHANGES' | translate }}</button>
-        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLAN.CANCEL' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-primary btn-round waves-effect"
+          data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLAN.SAVE_CHANGES' | translate }}</button>
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-danger btn-simple btn-round waves-effect"
+          data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLAN.CANCEL' | translate }}</button>
       </div>
     </div>
   </div>
