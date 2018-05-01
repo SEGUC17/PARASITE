@@ -562,7 +562,7 @@
                     <br />
                   </div>
                   <div class="row">
-                    <div class="card col-4" *ngFor="let studyPlan of (currIsOwner ? studyPlans : vStudyPlans); let index = index">
+                    <div class="card col-4" *ngFor="let studyPlan of studyPlans; let index = index">
                       <div class="header">
                         <h2>
                           <span class="badge badge-assigned float-right" *ngIf="studyPlan.assigned">{{'PROFILE.PROFILE.ASSIGNED' | translate}}</span>
@@ -581,6 +581,7 @@
                 </div>
               </div>
             </div>
+            <!-- End of Study Plans Tab -->
           </div>
         </div>
       </div>
