@@ -1,38 +1,151 @@
-<div class="background container">
-  <div class="row justify-content-center mt-5">
-    <mat-card class="m-2 col-lg-3 col-md-6 col-sm-12 col-xs-12" *ngFor="let req of reqs">
+<div class="container-fluid">
+  <div class="row">
+    <div class="card col-md-3">
+      <mat-card *ngFor="let req of reqs">
 
-      <div class="text-center">
-        <span style="font-weight: bold ; font-size: 25px">{{req.studyPlan.title}} </span>
-      </div>
-      <!--
         <div class="text-center">
-          <span style="font-weight: bold; font-size: 25px" >{{req.contentType}}</span>
-        </div> -->
-
-      <mat-card-content style="margin-left: 5%">
-
-        <div class="row">
-          <mat-icon style="font-size: 20px">today</mat-icon>
-          <span style="font-size: 15px"> {{req.createdOn}} </span>
+          <span style="font-weight: bold ; font-size: 25px">{{req.studyPlan.title}} </span>
         </div>
+        <!--
+              <div class="text-center">
+                <span style="font-weight: bold; font-size: 25px" >{{req.contentType}}</span>
+              </div> -->
 
-      </mat-card-content>
-      <mat-card-actions class="row" align="end">
-        <button mat-icon-button class="col-auto" (click)="respondStudyPlanPublishReqs('approve', req._id, req.studyPlan._id)" matTooltip="Accept">
-          <mat-icon>check_circle</mat-icon>
-        </button>
+        <mat-card-content style="margin-left: 5%">
 
-        <button mat-icon-button class="col-auto" (click)="respondStudyPlanPublishReqs('disapprove', req._id, req.studyPlan._id)"
-          matTooltip="Reject">
-          <mat-icon>cancel</mat-icon>
-        </button>
+          <div class="row">
+            <mat-icon style="font-size: 20px">today</mat-icon>
+            <span style="font-size: 15px"> {{req.createdOn}} </span>
+          </div>
 
-        <button mat-icon-button class="col-auto" (click)="viewStudyPlanPublishReqs(req.contentID)" matTooltip="View {{req.contentType}}">
-          <mat-icon>info</mat-icon>
-        </button>
+        </mat-card-content>
+        <mat-card-actions class="row" align="end">
+          <button mat-icon-button class="col-auto" (click)="respondStudyPlanPublishReqs('approved', req._id, req.studyPlan)" matTooltip="Accept">
+            <mat-icon>check_circle</mat-icon>
+          </button>
 
-      </mat-card-actions>
-    </mat-card>
+          <button mat-icon-button class="col-auto" (click)="respondStudyPlanPublishReqs('disapproved', req._id, req.studyPlan)"
+            matTooltip="Reject">
+            <mat-icon>cancel</mat-icon>
+          </button>
+
+          <button mat-icon-button class="col-auto" (click)="viewReq(req.studyPlan)" matTooltip="View {{req.contentType}}">
+            <mat-icon>info</mat-icon>
+          </button>
+
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="card col-auto">
+      <div class="header">
+        <h2>
+          <strong>{{ studyPlan.title }}</strong>
+        </h2>
+      </div>
+      <div class="card page-calendar">
+        <div class="row">
+          <div class="col-md-12 col-lg-4 col-xl-4">
+            <div class="body">
+              <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
+                aria-controls="collapseExample">
+                <i class="zmdi zmdi-chevron-down"></i>
+              </button>
+              <div class="collapse-xs collapse-sm collapse" id="open-events">
+                <br />
+                <br />
+                <hr />
+                <div class="event-name b-primary row" *ngFor="let event of events; let index = index">
+                  <div class="col-2 text-center">
+                    <h4>{{ event.start | date:'dd' }}
+                      <span>{{ 'SCHEDULING.CALENDAR.' + (event.start | date:'MMM').toUpperCase() | translate }}</span>
+                      <span>{{ event.start | date:'yyyy' }}</span>
+                    </h4>
+                  </div>
+                  <div class="col-10">
+                    <h6>{{ event.title }}</h6>
+                    <p>{{ event.meta && event.meta.description ? event.meta.description : 'SCHEDULING.SCHEDULE.NO_DESCRIPTION_TAG'
+                      | translate }}</p>
+                    <address>
+                      <i class="zmdi zmdi-pin"></i>
+                      Mars
+                    </address>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 col-lg-8 col-xl-8">
+            <div class="body">
+              <div class="row text-center">
+                <div class="col-md-4">
+                  <div class="btn-group">
+                    <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="headerChange()">
+                      {{ 'SCHEDULING.CALENDAR.PREVIOUS' | translate }}
+                    </div>
+                    <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate" (viewDateChange)="headerChange()">
+                      {{ 'SCHEDULING.CALENDAR.TODAY' | translate }}
+                    </div>
+                    <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="headerChange()">
+                      {{ 'SCHEDULING.CALENDAR.NEXT' | translate }}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <h3>{{ 'SCHEDULING.CALENDAR.' + (viewDate | date:'MMM').toUpperCase() | translate }} {{viewDate | date: 'yyyy'
+                    }}</h3>
+                </div>
+                <div class="col-md-4">
+                  <div>
+                    <div class="btn-group">
+                      <div class="btn btn-primary" (click)="headerChange().emit('month')" [class.active]="view === 'month'">
+                        {{ 'SCHEDULING.CALENDAR.MONTH' | translate }}
+                      </div>
+                      <div class="btn btn-primary" (click)="headerChange().emit('week')" [class.active]="view === 'week'">
+                        {{ 'SCHEDULING.CALENDAR.WEEK' | translate }}
+                      </div>
+                      <div class="btn btn-primary" (click)="headerChange().emit('day')" [class.active]="view === 'day'">
+                        {{ 'SCHEDULING.CALENDAR.DAY' | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div [ngSwitch]="view">
+                <mwl-calendar-month-view *ngSwitchCase="'month'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+                  (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+                </mwl-calendar-month-view>
+
+                <mwl-calendar-week-view *ngSwitchCase="'week'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (dayClicked)="dayClicked($event.day)"
+                  (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+                </mwl-calendar-week-view>
+
+                <mwl-calendar-day-view *ngSwitchCase="'day'" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (dayClicked)="dayClicked($event.day)"
+                  (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+                </mwl-calendar-day-view>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- <hr/> -->
+      <div class="card">
+        <div class="header">
+          <h2>
+            <strong>{{ 'SCHEDULING.STUDYPLAN.DESCRIPTION' | translate }}</strong>
+          </h2>
+        </div>
+        <div class="body">
+          <div class="ql-editor preview" [innerHTML]="description"></div>
+        </div>
+        <hr />
+        <div class="row justify-content-around">
+          <button class="btn btn-primary">Button</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
