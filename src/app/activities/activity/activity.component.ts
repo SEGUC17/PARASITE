@@ -16,7 +16,6 @@ export class ActivityComponent implements OnInit {
   @author: Wessam
   */
   activities: Activity[] = [];
-  detailedActivities: any[] = [];
   numberOfElements: Number;
   pageSize: Number;
   pageIndex = 1;
@@ -42,21 +41,6 @@ export class ActivityComponent implements OnInit {
     this.getActivities(1);
   }
 
-  getDetailedActivities() {
-    this.detailedActivities = [] ;
-    let self = this;
-    for (let i = 0 ; i < this.activities.length ; i++) {
-      this.activityService.getActivity(this.activities[i]._id).subscribe(
-        res => {
-          if(!res.data.image){
-            res.data.image = 'https://res.cloudinary.com/nawwar/image/upload/v1524947811/default-activity-image.jpg';
-          }
-          this.detailedActivities.push(res.data);
-      });
-    }
-
-  }
-
 
   getActivities(pageNum) {
     /*
@@ -71,7 +55,6 @@ export class ActivityComponent implements OnInit {
     this.activityService.getActivities(this.pageIndex).subscribe(
       res => {
       self.updateLayout(res);
-      self.getDetailedActivities();
       this.totalNumberOfPages = res.data.pages;
       }
     );
