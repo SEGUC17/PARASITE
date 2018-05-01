@@ -220,7 +220,8 @@ module.exports.assignStudyPlan = function (req, res, next) {
                             newStudyPlan.title,
                         date: moment().toDate(),
                         itemId: newStudyPlan._id,
-                        type: 'study plan'
+                        itemUsername: req.params.username,
+                        type: 'study plan A'
                     };
                     User.findOneAndUpdate(
                         { username: req.params.username },
@@ -316,7 +317,6 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                     body: req.user.username + ' unassigned' +
                         'you from a Study Plan',
                     date: moment().toDate(),
-                    itemId: req.params.studyPlanID,
                     type: 'study plan'
                 };
                 User.findOneAndUpdate(

@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   message : String = "message";
   link : String = "link";
   study_plan : String = "study plan";
+  study_plan_A : String = "study plan A";
   product : String = "product";
   content : String = "content";
   activity : String = "activity";
@@ -350,8 +351,11 @@ export class AppComponent implements OnInit {
         else if ((type === 'content' || type === 'discussion content' )&& itemId) {
           retrievednotifications[i].link = '/content/view/'+retrievednotifications[i].itemId;
         }
-        else if (type === 'study plan' && itemId) {
-          retrievednotifications[i].link = '/study-plan/published/'+retrievednotifications[i].itemId;
+        else if (type === 'study plan' && itemId && itemUsername ) {
+          retrievednotifications[i].link = '/scheduling/study-plan/personal/'+ itemId +'/' +  itemUsername;
+        }
+        else if (type === 'study plan A' && itemId ) {
+          retrievednotifications[i].link = '/scheduling/study-plan/personal/'+ itemId;
         } 
         //donot need id in market
         else if (type === 'product' && itemId) {
