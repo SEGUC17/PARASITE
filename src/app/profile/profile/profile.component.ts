@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
   currCanBeParent = false;
   currHasPP = false;
   currIsAdmin = false;
-
+  
   visitedIsParent = false;
   visitedIsChild = false;
   visitedIsMyChild = false;
@@ -53,8 +53,6 @@ export class ProfileComponent implements OnInit {
   email: string;
   address: string;
   phone: [string];
-  schedule: any;
-  studyPlans: any;
   birthday: Date;
   listOfChildren: any[];
   verified: Boolean = false;
@@ -75,8 +73,6 @@ export class ProfileComponent implements OnInit {
   vEmail: string;
   vAddress: string;
   vPhone: [string];
-  vSchedule: any;
-  vStudyPlans: any;
   vBirthday: Date;
   vListOfChildren: any[];
   vVerified: Boolean = false;
@@ -90,7 +86,7 @@ export class ProfileComponent implements OnInit {
   personalInfo: Boolean;
   // ----------- Other Lists ------------
   listOfUncommonChildren: any[];
-  listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
+  listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username',
     'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'isAdmin'];
   vListOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'email',
     'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username', 'isAdmin'];
@@ -105,6 +101,9 @@ export class ProfileComponent implements OnInit {
   dBirthday: Date;
   // ------------------------------------
 
+  // profile user's study plans
+  studyPlans: any;
+
   // study plan delete modal
   studyPlanIndex: number;
 
@@ -118,7 +117,8 @@ export class ProfileComponent implements OnInit {
       format: 'MM DD YYYY',
       time: false,
       clearButton: false,
-      weekStart: 1
+      weekStart: 1,
+      maxDate: new Date()
     });
 
 
@@ -137,8 +137,6 @@ export class ProfileComponent implements OnInit {
       this.address = user.data.address;
       this.age = this.calculateAge(user.data.birthdate);
       this.phone = user.data.phone;
-      this.schedule = user.data.schedule;
-      this.studyPlans = user.data.studyPlans;
       this.listOfChildren = user.data.children;
       this.verified = user.data.verified;
       this.id = user.data._id;
@@ -218,8 +216,23 @@ export class ProfileComponent implements OnInit {
           // Getting the list of uncommon children
           this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
 
+          // fetching study plans
+          if (this.visitedIsMyChild) {
+            this._AuthService.getAnotherUserData(['studyPlans'], this.vUsername).subscribe(resStudyPlans => {
+              this.studyPlans = resStudyPlans.data.studyPlans;
+            });
+          }
+
         }));
       }
+
+      // fetching study plan
+      if (this.currIsOwner) {
+        this._AuthService.getUserData(['studyPlans']).subscribe(resStudyPlans => {
+          this.studyPlans = resStudyPlans.data.studyPlans;
+        });
+      }
+
     });
 
   }
@@ -330,24 +343,21 @@ export class ProfileComponent implements OnInit {
     }
   } // Author: Heidi
   EditChildIndependence() {
-    const self = this;
+let self =this;
+// getting the visited profile username and passing it to service
+// method to add it to the patch request
     this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
-      self.toastrService.success(res.msg);
-//      alert(res.msg);
-
-    }));
-    // getting the visited profile username and passing it to service method to add it to the patch request
-
+      if( res.msg.indexOf('13') < 0){ self.visitedIsChild=false; self.toastrService.success(res.msg, 'success' );  }
+       else{self.toastrService.error(res.msg, 'failure' ) }
+    }));// if res.msg contains 13 then the child is under age and action is not allowed
+    
   }  // Author :Heidi
   UnlinkMyself() {
-    // getting the visited profile username and passing it to service method to add it to the patch request
+// getting the visited profile username and passing it to service method to add it to the patch request
+let self =this;
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
-      console.log(res.msg);
-      const self = this;
-       self.toastrService.success(res.msg);
-//      alert(res.msg);
-
-      if (res.msg === 'Successefully removed child from parent\'s list of children') { this.visitedIsMyParent = false; }
+  if (res.msg.indexOf('Successefully')>-1) 
+  { self.visitedIsMyParent = false; self.toastrService.success('Parent unlinked successfully', 'success') ;}
     }));
   }
 
@@ -366,7 +376,15 @@ export class ProfileComponent implements OnInit {
     };
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
-    if (re.test(info.email)) {
+    console.log(new Date(info.birthdate) <= new Date());
+    if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
+      this.vUsername = info.username;
+      this.vFirstName = info.firstName;
+      this.vLastName = info.lastName;
+      this.vAddress = info.address;
+      this.vPhone = [info.phone];
+      this.vBirthdayView = this._datePipe.transform(info.birthdate, 'MM/dd/yyyy');;
+      this.vEmail = info.email;
       this._ProfileService.changeChildinfo(info).subscribe(function (res) {
         //self.toastrService.success(res.msg);
         self.translate.get('PROFILE.TOASTER.CHANGE_CHILD_INFO').subscribe(function(translation){
@@ -397,7 +415,14 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
     console.log(info);
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
-    if (re.test(info.email)) {
+    if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
+      this.username = info.username;
+      this.firstName = info.firstName;
+      this.lastName = info.lastName;
+      this.address = info.address;
+      this.phone = [info.phone];
+      this.birthdayView = this._datePipe.transform(info.birthdate, 'MM/dd/yyyy');;
+      this.email = info.email;
       this._ProfileService.ChangeInfo(this.id, info).subscribe(function (res) {
        // self.toastrService.success(res.msg);
         self.translate.get('PROFILE.TOASTER.CHANGE_INFO').subscribe(function(translation){
@@ -494,6 +519,7 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
         url: url
       };
       // console.log('in vcC and its uploaded with url = '+ url);
+      this.avatar = upload.url;
       this._ProfileService.changeProfilePic(upload).subscribe((res) => {
         if (res.data) {
          // this.toastrService.success('Profile picture changed successfully');
@@ -515,17 +541,17 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
   }
 
   deleteStudyPlan(index): void {
-    let plan = this.currIsOwner ? this.studyPlans[index] : this.vStudyPlans[index];
-    this._ProfileService
-      .deleteStudyPlan(plan._id)
-      .subscribe(res => {
-        if (res.err) {
-          this.toastrService.error(res.err);
-        } else if (res.msg) {
-          this.studyPlans.splice(index, 1);
-          this.toastrService.success(res.msg);
-        }
-      });
+    // let targetUser = this.currIsOwner ? this.username : this.vUsername;
+    // this._ProfileService
+    //   .deleteStudyPlan(targetUser, this.studyPlans[index]._id)
+    //   .subscribe(res => {
+    //     if (res.err) {
+    //       this.toastrService.error(res.err);
+    //     } else if (res.msg) {
+    //       this.studyPlans.splice(index, 1);
+    //       this.toastrService.success(res.msg);
+    //     }
+    //   });
   }
 
 }

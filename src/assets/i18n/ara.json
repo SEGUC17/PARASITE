@@ -3,7 +3,21 @@
         "NAWWAR": "نوَّر",
         "CURRENT_LANGUAGE": "العربية"
     },
-    "ACTIVITIES": {},
+    "ACTIVITIES": {
+        "EDIT":{
+            "EDIT_ACTIVITY": "تعديل النشاط",
+            "ACTIVITY_NAME": "الاسم",
+            "START_DATE":"تاريخ النهاية",
+            "END_DATE":"تاريخ البداية",
+            "PRICE":"السعر",
+            "DESCRIPTION":"الوصف",
+            "CANCEL":"الغاء",
+            "SAVE_CHANGES":"حفظ التغييرات",
+            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+            "ACTIVITY_IMAGE":"تغيير صورة النشاط"
+        
+        }
+    },
     "ADMIN": {
         "REPORTS": {
             "BAN": "حظر",
@@ -182,8 +196,12 @@
             }
         }
     },
-    "MARKET": {},
-    "MESSAGING": {},
+    "MARKET": {
+
+    },
+    "MESSAGING": {
+
+    },
     "PROFILE": {
         "PROFILE": {
             "DASHBOARD": "نوَّر",
@@ -241,7 +259,9 @@
         "CHILDREN": {
             "NAME": "الإسم",
             "AGE": "العمر",
-            "UNLINK": "إزالة من قائمتى"
+            "UNLINK": "إزالة من قائمتى",
+            "LEARNING_SCORE":"نقاط التعلم",
+            "POINTS":"نقطة"
         },
         "TOASTER": {
             "USER_NOT_FOUND": " عذرا..المستخدم ليس موجود",
@@ -264,9 +284,19 @@
             "PROFILE_PIC_UPDATE": "تم تحديث صورة الملف الشخصي بنجاح",
             "UNLINK_UNDER_13": "يجب أن يكون الطفل اكبرمن 13 عامًا أو أكثر"
 
+
         }
     },
-    "PSYCHOLOGIST": {},
-    "SCHEDULING": {},
-    "SEARCH": {}
+    "PSYCHOLOGIST": {
+
+    },
+    "SCHEDULING": {
+
+    },
+    "SEARCH": {
+        
+    },
+    "LANDING":{
+        
+    }
 }

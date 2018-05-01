@@ -319,7 +319,7 @@
                         <span>{{'PROFILE.PROFILE.LINK_TO_CHILD' | translate}}</span>
                     </button>
                         <!-- class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" -->
-                        <ul class="dropdown-menu dropdown-menu-right">
+                        <ul class="dropdown-menu dropdown-menu-right pullDown">
                           <li *ngFor="let child of listOfUncommonChildren">
                             <a class = "dummyLink" (click)="addChild(child)">
                               <strong>{{child}}</strong>
@@ -327,7 +327,6 @@
                           </li>
                         </ul>
                       </span>
-                    
                   </div>
                 </div>
               </div>
@@ -563,7 +562,7 @@
                     <br />
                   </div>
                   <div class="row">
-                    <div class="card col-4" *ngFor="let studyPlan of (currIsOwner ? studyPlans : vStudyPlans); let index = index">
+                    <div class="card col-4" *ngFor="let studyPlan of studyPlans; let index = index">
                       <div class="header">
                         <h2>
                           <span class="badge badge-assigned float-right" *ngIf="studyPlan.assigned">{{'PROFILE.PROFILE.ASSIGNED' | translate}}</span>
@@ -582,6 +581,7 @@
                 </div>
               </div>
             </div>
+            <!-- End of Study Plans Tab -->
           </div>
         </div>
       </div>
@@ -595,7 +595,7 @@
           <h4 class="title" id="defaultModalLabel">{{'PROFILE.PROFILE.PROFILE_PIC' | translate}}</h4>
         </div>
         <div class="modal-body">
-          <app-image-uploader (ImageUploaded)="uploaded($event)"></app-image-uploader>
+          <app-profile-image-uploader (ImageUploaded)="uploaded($event)"></app-profile-image-uploader>
           <button id="closeModal" type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" style="float:right">{{'PROFILE.PROFILE.CANCEL' | translate}}</button>
         </div>
       </div>
