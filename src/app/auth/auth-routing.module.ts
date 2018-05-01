@@ -6,7 +6,6 @@ import { ResetPasswordComponent } from './forgotPassword/resetpassword/resetpass
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignOutComponent } from './sign-out/sign-out.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
-import { ContactUsComponent } from '../messaging/contact-us/contact-us.component';
 import { VerifyChildEmailComponent } from './verify-child-email/verify-child-email.component';
 import { ChildSignupComponent } from './child-signup/child-signup.component';
 
@@ -37,7 +36,6 @@ const routes = [
     path: 'sign-out',
     component: SignOutComponent
   },
-  { path: 'messaging/contact-us', component:  ContactUsComponent },
 
   {
     path: 'verify-email/:id',

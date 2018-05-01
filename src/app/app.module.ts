@@ -13,13 +13,12 @@ import { RatingService } from './rating.service';
 import { SharedModule } from './shared/shared.module';
 import { ToastrService, ToastrModule } from 'ngx-toastr';
 import { FacebookModule } from 'ngx-facebook';
-import { ContactUsComponent } from './messaging/contact-us/contact-us.component';
-
-
+import { AppComponent } from './app.component';
+import { AuthService } from './auth/auth.service';
+import { MessageService } from './messaging/messaging.service';
 @NgModule({
   declarations: [
-    AppComponent,
-    ContactUsComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
