@@ -4,6 +4,7 @@ import { User } from '../user';
 import { cities } from '../../variables';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 declare const $: any;
 
@@ -29,7 +30,11 @@ export class SignUpComponent implements OnInit {
 
   private tabNumber = 1;
 
-  constructor(private authService: AuthService, private toastrService: ToastrService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private toastrService: ToastrService,
+    private router: Router,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     const self = this;

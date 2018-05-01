@@ -58,6 +58,29 @@
         }
     },
     "AUTH": {
+        "SIGN_UP": {
+            "SIGN_UP": "Sign Up",
+            "REGISTER": "Register a new membership",
+            "FIRST_NAME_PLACEHOLDER": "First Name",
+            "LAST_NAME_PLACEHOLDER": "Last Name",
+            "PHONE_PLACEHOLDER": "Phone",
+            "ADDRESS_PLACEHOLDER": "Address",
+            "BIRTH_DATE_PLACEHOLDER": "Birthdate",
+            "ARE_YOU_A_TEACHER": "Are you a teacher?",
+            "USERNAME_PLACEHOLDER": "Username",
+            "EMAIL_PLACEHOLDER": "Email",
+            "PASSWORD_PLACEHOLDER": "Password",
+            "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm Password",
+            "I_READ_AND_AGREED_TO": "I read and agree to the",
+            "TERMS_OF_USAGE": "terms of usage",
+            "PREVIOUS": "Previous",
+            "NEXT": "Next",
+            "YOU_ALREADY_HAVE_A_MEMBERSHIP": "You already have a membership?",
+            "CONTACT_US": "Contact Us",
+            "ABOUT_US": "About Us",
+            "FAQ": "FAQ"
+
+        }
 
     },
     "CONTENT": {
