@@ -1,6 +1,6 @@
 /*eslint max-statements: ["error", 20]*/
 var mongoose = require('mongoose');
-var CalendarEvent = mongoose.model('CalendarEvent');
+var StudyPlanPublishRequest = mongoose.model('StudyPlanPublishRequest');
 var StudyPlan = mongoose.model('StudyPlan');
 var User = mongoose.model('User');
 var moment = require('moment');
@@ -33,20 +33,21 @@ module.exports.getPublishedStudyPlans = function (req, res, next) {
 
 module.exports.publishStudyPlan = function (req, res, next) {
 
-    // @author: Ola
-    //publishing a study plan is creating a new studyPlan in
-    //the studyPlan schema as it is for the published plans only
-    //so i am creating a new studyPlan with the body of the request
-    //which is the studyPlan I want to publish and it returns an
-    //error if there is an error else that studyPlan published successfully
-    StudyPlan.create(req.body, function (error) {
-        if (error) {
-            return next(error);
+    var publishRequest = new StudyPlanPublishRequest({
+        requestType: 'create',
+        studyPlan: req.body
+    });
+
+
+    StudyPlanPublishRequest.create(publishRequest, function (err) {
+        if (err) {
+            return next(err);
         }
+
         res.status(201).json({
             data: null,
             err: null,
-            msg: 'StudyPlan published successfully'
+            msg: 'Study plan submitted for admin reviewal'
         });
     });
 
@@ -511,15 +512,22 @@ module.exports.editPublishedStudyPlan = function (req, res, next) {
         studyPlan.events = req.body.events;
         studyPlan.title = req.body.title;
 
-        studyPlan.save(function (error) {
+
+        var publishRequest = new StudyPlanPublishRequest({
+            requestType: 'update',
+            studyPlan: studyPlan
+        });
+
+
+        StudyPlanPublishRequest.create(publishRequest, function (error) {
             if (error) {
                 return next(error);
             }
 
-            return res.status(200).json({
+            res.status(201).json({
                 data: null,
                 err: null,
-                msg: 'Study plan updated successfully'
+                msg: 'Update submitted for admin reviewal'
             });
         });
     });

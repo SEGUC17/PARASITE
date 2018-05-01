@@ -125,7 +125,7 @@
       <hr />
       <div class="row justify-content-around">
         <button class="btn btn-primary" (click)="publish()" *ngIf="type === 'personal' && !currIsChild && (profileUsername ? currUsername === profileUsername : true)">Publish</button>
-        <button class="btn btn-primary" (click)="copy()" *ngIf="!currIsChild && (type === 'published' || profileUsername ? currUsername === profileUsername : true)">Copy</button>
+        <button class="btn btn-primary" (click)="copy()" *ngIf="!currIsChild && (type === 'published' || (profileUsername ? currUsername === profileUsername : true))">Copy</button>
         <div class="dropup" *ngIf="type === 'personal' && (profileUsername ? currUsername === profileUsername : true) && !currIsChild">
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
             Assign
