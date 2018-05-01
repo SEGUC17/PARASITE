@@ -57,34 +57,18 @@ export class StudyPlanService {
     post request with the required studyPlan to be published in the body of the request with the route specified in the index.js
     */
     return this.http.post(environment.apiUrl + 'study-plan/PublishStudyPlan', studyPlan);
-
   }
-
-  rateStudyPlan(studyPlanID: String, rating: Number): Observable<any> {
-    return this.http.patch(environment.apiUrl + 'study-plan/rateStudyPlan/' + studyPlanID + '/' + rating, {});
-  }
-
-  // moved to profile
-  // deleteStudyPlan(studyPlanID: String): Observable<any> {
-  //   return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + studyPlanID);
-
-  // }
 
   deletePublishedStudyPlan(studyPlanID: String): Observable<any> {
     return this.http.delete(environment.apiUrl + 'study-plan/deletePublishedStudyPlan/' + studyPlanID);
-
   }
 
   assignStudyPlan(username: String, studyPlanID: String): Observable<any> {
-
     return this.http.patch(environment.apiUrl + 'study-plan/assignStudyPlan/' + username + '/' + studyPlanID, {});
-
   }
 
   unAssignStudyPlan(username: String, studyPlanID: String): Observable<any> {
-
     return this.http.patch(environment.apiUrl + 'study-plan/unAssignStudyPlan/' + username + '/' + studyPlanID, {});
-
   }
 
   editPersonalStudyPlan(username: String, studyPlanID: String, studyPlan: StudyPlan): Observable<any> {

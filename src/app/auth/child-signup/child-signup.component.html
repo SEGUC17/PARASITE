@@ -96,30 +96,34 @@
                             </div>
                         <div>
                             <div class="btn-group hidden-sm-down">
-                              <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational System<span class="caret"></span> </button>
+                              <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational System<span class="caret"></span> </button>
                               <ul class="dropdown-menu dropdown-menu-right pullDown">
-                                  <option href="javascript:void(0);" *ngFor="let system of systems" [value]="system" (click)="systemIs(system)" [(ngModel)]= "Educational_system">{{system}}</option>
+                                  <li *ngFor="let system of systems" (click)="systemIs(system)" [(ngModel)]= "Educational_system">
+                                    <a href="javascript:void(0);">{{system}}</a>
+                                  </li>
 
                               </ul>
                             </div>
 
                             <div class="btn-group hidden-sm-down">
-                              <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational Level<span class="caret"></span> </button>
+                              <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational Level<span class="caret"></span> </button>
                               <ul class="dropdown-menu dropdown-menu-right pullDown">
-                                  <option href="javascript:void(0);" *ngFor="let level of levels" [value]="level" (click)="levelIs(level)" [(ngModel)]= "Educational_level">{{level}}</option>
+                                  <li *ngFor="let level of levels"  (click)="levelIs(level)" [(ngModel)]= "Educational_level">
+                                      <a href="javascript:void(0);">{{level}}</a>
+                                    </li>
                               </ul>
                             </div>
                           </div>
-                            <div class="checkbox">
-                                <input id="terms" type="checkbox">
-                                <label for="terms">
-                                  I read and agree to the <a href="javascript:void(0);">terms of usage</a>
-                                </label>
-                              </div>
+                          
                           </div> 
 
                           <div id="interests" hidden>
-
+                              <div class="checkbox">
+                                  <input id="terms" type="checkbox">
+                                  <label for="terms">
+                                    I read and agree to the <a href="javascript:void(0);">terms of usage</a>
+                                  </label>
+                                </div>
                           </div>
                       </div>
            
