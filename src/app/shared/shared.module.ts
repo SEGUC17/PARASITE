@@ -8,7 +8,7 @@ import { ToastrModule } from 'ngx-toastr';
     CommonModule,
     StarRatingModule.forRoot()
   ],
-  declarations: [RatingComponent, ImageUploaderComponent, FileSelectDirective],
-  exports: [RatingComponent, StarRatingModule, ImageUploaderComponent, FileSelectDirective]
+  declarations: [RatingComponent],
+  exports: [RatingComponent, StarRatingModule]
 })
 export class SharedModule { }
