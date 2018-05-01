@@ -134,14 +134,12 @@ module.exports.getRecentlyContacted = function(req, res, next) {
 };
 
 module.exports.contactAdmin = function (req, res, next) {
-  console.log('in here');
  User.find({ 'isAdmin': true }, function (err, users) {
     if (err) {
       return next(err);
     } else if (users) {
       for (var num = 0; num < users.length; num += 1) {
         req.body.recipient = users[num].username;
-        console.log(users[num].firstName);
         Message.create(
         req.body
       , function(error, posted) {
