@@ -22,7 +22,17 @@ module.exports.getContentById = function (req, res, next) {
     }
 
     // find and send the content
-    Content.findById(req.params.id).exec(function (err, content) {
+    Content.findById(req.params.id).
+    populate({
+      model: 'User',
+      path: 'discussion.creatorInfo',
+      select: 'avatar firstName lastName'
+    }).
+    populate({
+      model: 'User',
+      path: 'discussion.replies.creatorInfo',
+      select: 'avatar firstName lastName'
+    }).exec(function (err, content) {
         if (err) {
             return next(err);
         }
