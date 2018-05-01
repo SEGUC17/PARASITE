@@ -16,4 +16,7 @@ export class NewsfeedService {
     return this.http.patch<any>(this.host + 'newsfeed/' + entriesPerPage + '/' + pageNumber , {tags}, httpOptions);
 
   }
+  getPeople(): Observable<any> {
+    return this.http.get<any>(this.host + 'newsfeed/findPeople');
+  }
 }

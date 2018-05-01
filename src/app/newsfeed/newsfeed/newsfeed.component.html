@@ -3,16 +3,17 @@
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
         <h2>{{ 'NEWSFEED.NEWSFEED' | translate }}
-            <small>{{ 'NEWSFEED.WELCOME_TO_NAWWAR' | translate }}</small>
+          <small>{{ 'NEWSFEED.WELCOME_TO_NAWWAR' | translate }}</small>
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
         <ul class="breadcrumb float-md-right">
           <li class="breadcrumb-item">
             <a routerLink="/">
-                <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate}}</a>
-            </li>
-            <li class="breadcrumb-item active">{{ 'NEWSFEED.NEWSFEED' | translate }}</li>
+              <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate}}
+            </a>
+          </li>
+          <li class="breadcrumb-item active">{{ 'NEWSFEED.NEWSFEED' | translate }}</li>
         </ul>
       </div>
     </div>
@@ -27,7 +28,6 @@
               <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}">{{post.metadata.title}}</a>
             </h3>
             <ul class="meta">
-
               <li *ngIf="post.type=='a'">
                 <a href="/activities/{{post.contentID}}">
                   <i class="zmdi zmdi-run col-blue"></i>{{ 'NEWSFEED.POSTED_ON' | translate }} {{post.metadata.activityDate | date}}</a>
@@ -92,10 +92,21 @@
                   <div class="carousel-inner" role="listbox">
                     <div class="single_post carousel-item-active">
                       <a href="/search">
-                      <div class="img-post m-b-5">
-                        <img src="assets/images/newsfeed/connectToMore.png" alt="Awesome Image">
-                      </div>
-                        <i class="zmdi zmdi-accounts col-blue"></i>{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</a>
+                        <div class="img-post m-b-5">
+                          <img src="assets/images/newsfeed/connectToMore.png" alt="Awesome Image">
+                        </div>
+                        <i class="zmdi zmdi-accounts col-blue"></i>
+                        <p class="m-b-0 col-white">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</p>
+                      </a>
+                    </div>
+                    <div class="single_post carousel-item" *ngFor="let person of people">
+                      <a href="/profile/{{person.username}}">
+                        <div class="img-post m-b-5">
+                          <img src={{person.avatar}} alt="Awesome Image">
+                        </div>
+                        <p class="m-b-0 col-white">{{person.firstName}} {{person.lastName}}</p>
+                        <small class="text-muted">{{person.username}}</small>
+                      </a>
                     </div>
                   </div>
                   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -116,5 +127,4 @@
       </div>
     </div>
   </div>
-
 </section>

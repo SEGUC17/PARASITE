@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { NewsfeedService } from '../newsfeed.service';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-newsfeed',
   templateUrl: './newsfeed.component.html',
@@ -13,11 +13,13 @@ export class NewsfeedComponent implements OnInit {
   currentPageNumber: number;
   entriesPerPage = 5;
   totalNumberOfPages = 0;
+  people: any[];
   tags: any[];
   user: any;
   constructor(public router: Router,
-    private newsfeedService: NewsfeedService, private authService: AuthService) {
-     }
+    private newsfeedService: NewsfeedService, private authService: AuthService,
+    private translate: TranslateService) {
+  }
 
   ngOnInit() {
     const self = this;
@@ -27,6 +29,9 @@ export class NewsfeedComponent implements OnInit {
       if (!self.user) {
         self.router.navigateByUrl('/content/view');
       } else {
+        self.newsfeedService.getPeople().subscribe(function (people) {
+          self.people = people.data;
+        });
         self.tags = self.user.interests;
         self.currentPageNumber = 1;
         self.firstNewsfeedPage();
@@ -35,7 +40,7 @@ export class NewsfeedComponent implements OnInit {
   }
 
 
-  //        start of market page actions       //
+  //        start of  page actions       //
 
   // sets the current page to the first page
   // gets the current page products
@@ -46,7 +51,7 @@ export class NewsfeedComponent implements OnInit {
     self.getNewsfeedPage();
   }
 
-  // gets the content of the current market page from the market service (DB)
+  // gets the content of the current newsfeed page from the newsfeed service (DB)
   // restrict the products to the ones following the delimiters given
   getNewsfeedPage(): void {
     // scroll to the top
@@ -61,9 +66,9 @@ export class NewsfeedComponent implements OnInit {
       });
   }
 
-  //        end of market page actions       //
+  //        end of newsfeed page actions       //
 
-    //         start of pagination actions         //
+  //         start of pagination actions         //
 
   // change the current page on user click on pagination
   changePage(pageNum: number): any {

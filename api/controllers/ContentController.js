@@ -10,6 +10,7 @@ var User = mongoose.model('User');
 var moment = require('moment');
 var Tag = mongoose.model('Tag');
 var Newsfeed = mongoose.model('Newsfeed');
+var newsfeedController = require('../controllers/NewsfeedController');
 
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
@@ -34,7 +35,8 @@ module.exports.getContentById = function (req, res, next) {
       model: 'User',
       path: 'discussion.replies.creatorInfo',
       select: 'avatar firstName lastName'
-    }).exec(function (err, content) {
+    }).
+    exec(function (err, content) {
         if (err) {
             return next(err);
         }
@@ -490,6 +492,7 @@ var handleAdminUpdate = function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            newsfeedController.updateContentPost(req.body);
             var notification = {
                 body: 'Your updated Content has been successfully uploaded',
                 date: moment().toDate(),
@@ -526,10 +529,11 @@ var handleAdminUpdate = function (req, res, next) {
             return res.status(200).json({
                 data: updatedContent,
                 err: null,
-                mesg: 'retrieved the content successfully'
+                msg: 'retrieved the content successfully'
             });
         }
     );
+
 };
 
 var handleNonAdminUpdate = function (req, res, next) {
