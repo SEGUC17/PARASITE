@@ -8,61 +8,61 @@
               <div class="logo-container expandUp">
                 <img src="assets/images/logo.svg" alt="">
               </div>
-              <h5>Sign Up</h5>
-              <span>Register a new membership</span>
+              <h5>{{ 'AUTH.SIGN_UP.SIGN_UP' | translate }}</h5>
+              <span>{{ 'AUTH.SIGN_UP.REGISTER' | translate }}</span>
             </div>
             <form name="signUpForm">
               <div class="content">
                 <div id="personalInfo" [hidden]="this.tabNumber == 2">
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="user.firstName" name="firstName" required>
-                    <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName" required>
+                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.FIRST_NAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.firstName" name="firstName" required>
+                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.LAST_NAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.lastName" name="lastName" required>
                   </div>
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Phone" [(ngModel)]="user.phone" name="phone" pattern="\d*" required>
+                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" [(ngModel)]="user.phone" name="phone" pattern="\d*" required>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-smartphone"></i>
                     </span>
                   </div>
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Address" [(ngModel)]="user.address" name="address">
+                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}" [(ngModel)]="user.address" name="address">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-gps-dot"></i>
                     </span>
                   </div>
                   <div class="input-group">
-                    <input id="birthdate" type="text" class="form-control datetimepicker" placeholder="Birthdate" required>
+                    <input id="birthdate" type="text" class="form-control datetimepicker" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}" required>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-calendar"></i>
                     </span>
                   </div>
                   <div class="checkbox">
                     <input id="isTeacher" type="checkbox" [(ngModel)]="user.isTeacher" name="isTeacher">
-                    <label for="isTeacher">Are you a teacher?</label>
+                    <label for="isTeacher">{{ 'AUTH.SIGN_UP.ARE_YOU_A_TEACHER' | translate }}</label>
                   </div>
                 </div>
                 <div id="credentials" [hidden]="this.tabNumber == 1">
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="user.username" name="username" required>
+                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.username" name="username" required>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-account-circle"></i>
                     </span>
                   </div>
                   <div class="input-group">
-                    <input type="email" class="form-control" placeholder="Email" [(ngModel)]="user.email" name="email" required>
+                    <input type="email" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.EMAIL_PLACEHOLDER' | translate }}" [(ngModel)]="user.email" name="email" required>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-email"></i>
                     </span>
                   </div>
                   <div class="input-group">
-                    <input type="password" minlength="8" placeholder="Password" class="form-control" [(ngModel)]="user.password" name="password"
+                    <input type="password" minlength="8" placeholder="{{ 'AUTH.SIGN_UP.PASSWORD_PLACEHOLDER' | translate }}" class="form-control" [(ngModel)]="user.password" name="password"
                       required/>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-lock"></i>
                     </span>
                   </div>
                   <div class="input-group">
-                    <input type="password" minlength="8" placeholder="Confirm Password" class="form-control" [(ngModel)]="user.confirmPassword"
+                    <input type="password" minlength="8" placeholder="{{ 'AUTH.SIGN_UP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}" class="form-control" [(ngModel)]="user.confirmPassword"
                       name="confirmPassword" required/>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-lock"></i>
@@ -71,8 +71,8 @@
                   <div class="checkbox">
                     <input id="terms" type="checkbox" required>
                     <label for="terms">
-                      I read and agree to the
-                      <a href="javascript:void(0);">terms of usage</a>
+                      {{ 'AUTH.SIGN_UP.I_READ_AND_AGREED_TO' | translate }}
+                      <a href="javascript:void(0);">{{ 'AUTH.SIGN_UP.TERMS_OF_USAGE' | translate }}</a>
                     </label>
                   </div>
                 </div>
@@ -84,9 +84,9 @@
                 <input type="button" class="form-control btn btn-lg" [value]="'AUTH.SIGN_UP.PREVIOUS' | translate" [disabled]="this.tabNumber == 1" (click)="this.tabNumber = 1;">
                 <input type="button" class="form-control btn btn-lg" [value]="'AUTH.SIGN_UP.NEXT' | translate" [disabled]="this.tabNumber == 2" (click)="this.tabNumber = 2;">
               </div>
-              <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">SIGN UP</a>
+              <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
               <h5>
-                <a class="link" routerLink="/auth/sign-in">You already have a membership?</a>
+                <a class="link" routerLink="/auth/sign-in">{{ 'AUTH.SIGN_UP.YOU_ALREADY_HAVE_A_MEMBERSHIP' | translate }}</a>
               </h5>
               <div class="footer input-group">
                 <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
@@ -97,22 +97,5 @@
         </div>
       </div>
     </div>
-    <footer class="footer">
-      <div class="container">
-        <nav>
-          <ul>
-            <li>
-              <a href="javascript:void(0);" target="_blank">Contact Us</a>
-            </li>
-            <li>
-              <a href="javascript:void(0);" target="_blank">About Us</a>
-            </li>
-            <li>
-              <a href="javascript:void(0);">FAQ</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </footer>
   </div>
 </div>

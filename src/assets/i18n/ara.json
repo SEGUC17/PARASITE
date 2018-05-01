@@ -58,7 +58,26 @@
         }
     },
     "AUTH": {
-
+        "SIGN_UP": {
+            "SIGN_UP": "إنشاء حساب جديد",
+            "SIGN_UP_CAPS": "إنشاء حساب",
+            "REGISTER": "تسجيل عضوية جديدة",
+            "FIRST_NAME_PLACEHOLDER": "الاسم الأول",
+            "LAST_NAME_PLACEHOLDER": "اسم العائلة",
+            "PHONE_PLACEHOLDER": "رقم الهاتف",
+            "ADDRESS_PLACEHOLDER": "العنوان",
+            "BIRTHDATE_PLACEHOLDER": "تاريخ الميلاد",
+            "ARE_YOU_A_TEACHER": "هل أنت مدرس؟",
+            "USERNAME_PLACEHOLDER": "اسم المستخدم",
+            "EMAIL_PLACEHOLDER": "البريد الإلكتروني",
+            "PASSWORD_PLACEHOLDER": "كلمة المرور",
+            "CONFIRM_PASSWORD_PLACEHOLDER": "تأكيد كلمة المرور",
+            "I_READ_AND_AGREED_TO": "قرأت ووافقت على",
+            "TERMS_OF_USAGE": "الشروط",
+            "PREVIOUS": "السابق",
+            "NEXT": "التالي",
+            "YOU_ALREADY_HAVE_A_MEMBERSHIP": "هل سبق لك أن أنشأتَ حسابًا؟"
+        }
     },
     "CONTENT": {
         "SHARED": {
