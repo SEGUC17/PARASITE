@@ -16,10 +16,11 @@
     },
     "ACTIVITIES": {
         "CREATE": {
-            "ACTIVITY_DATE_ERROR": "From date can't be after to date",
+            "DATE_ERROR": "From date can't be after to date",
             "CREATE_ACTIVITY": "Create Activity",
             "REQUIRED_FIELDS": "Required Fields",
-            "SUBMIT": "Submit"
+            "SUBMIT": "Submit",
+            "FORM_FILL_ERROR" : "Please fill the form correctly"
         },
         "LIST": {
             "ACTIVITIES": "Activities",

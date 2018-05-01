@@ -16,10 +16,11 @@
     },
     "ACTIVITIES": {
         "CREATE": {
-            "ACTIVITY_DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
+            "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
             "CREATE_ACTIVITY": "اضافة نشاط",
             "REQUIRED_FIELDS": "الخانات المطلوبة",
-            "SUBMIT": "اضافة"
+            "SUBMIT": "اضافة",
+            "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة"
         },
         "LIST": {
             "ACTIVITIES": "الانشطة",
