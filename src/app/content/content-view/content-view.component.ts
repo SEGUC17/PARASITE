@@ -228,7 +228,7 @@ export class ContentViewComponent implements OnInit {
             }
           );
         } else {
-          self.translate.get('CONTENT.TOASTER.LEARNING_POINTS_ADDED', { total: res.msg }).subscribe(
+          self.translate.get('CONTENT.TOASTER.LEARNING_POINTS_ADDED').subscribe(
             function (translation) {
               self.toasterService.success(translation + res.msg);
             }
