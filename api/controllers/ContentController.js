@@ -32,7 +32,8 @@ module.exports.getContentById = function (req, res, next) {
       model: 'User',
       path: 'discussion.replies.creatorInfo',
       select: 'avatar firstName lastName'
-    }).exec(function (err, content) {
+    }).
+    exec(function (err, content) {
         if (err) {
             return next(err);
         }
@@ -967,8 +968,7 @@ module.exports.addScore = function (req, res, next) {
             return res.status(200).json({
                 data: null,
                 err: null,
-                msg: 'This video is already watched before,' +
-                    ' no more learning points are added'
+                msg: ''
             });
         }
         User.findByIdAndUpdate(
@@ -986,8 +986,7 @@ module.exports.addScore = function (req, res, next) {
                 return res.status(200).json({
                     data: null,
                     err: null,
-                    msg: 'You got 10 more learning points,' +
-                        ' your score is now ' + user.learningScore
+                    msg: ' ' + user.learningScore
                 });
             }
         );
