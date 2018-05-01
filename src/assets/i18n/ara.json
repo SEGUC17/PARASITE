@@ -4,33 +4,45 @@
         "CURRENT_LANGUAGE": "العربية"
     },
     "ACTIVITIES": {
-        
+        "CREATE": {
+            "ACTIVITY_DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
+            "CREATE_ACTIVITY": "اضافة نشاط",
+            "REQUIRED_FIELDS": "الخانات المطلوبة",
+            "SUBMIT": "اضافة"
+        },
+        "LIST": {
+            "ACTIVITIES": "الانشطة",
+            "ACTIVITY": "النشاط",
+            "LATEST_ACTIVITY": "أحدث نشاط",
+            "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
+            "READ_MORE": "اقرأ المزيد",
+            "CLOSE": "أغلق",
+            "COMMENTS": "التعليقات",
+            "POSTED_BY": "قام بالنشر"
+        },
+        "DETAIL": {
+            "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
+            "FROM": "من",
+            "TO": "الى",
+            "COMMENT": "اضف تعليق",
+            "REPLY": "اضف رد",
+            "BOOK_FOR": "احجز لـ",
+            "DESCRIPTION": "الشرح",
+            "WRITE_COMMENT": "...اترك تعليق",
+            "BOOK_SUCCESS": "....تم الحجز بنجاح"
+        }
     },
-    "ADMIN": {
-
-    },
-    "AUTH": {
-
-    },
+    "ADMIN": {},
+    "AUTH": {},
     "CONTENT": {
-        "LIST": { "OUR_CONTENT": "المحتويات"}
+        "LIST": {
+            "OUR_CONTENT": "المحتويات"
+        }
     },
-    "MARKET": {
-
-    },
-    "MESSAGING": {
-
-    },
-    "PROFILE": {
-
-    },
-    "PSYCHOLOGIST": {
-
-    },
-    "SCHEDULING": {
-
-    },
-    "SEARCH": {
-        
-    }
+    "MARKET": {},
+    "MESSAGING": {},
+    "PROFILE": {},
+    "PSYCHOLOGIST": {},
+    "SCHEDULING": {},
+    "SEARCH": {}
 }

@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatListModule} from '@angular/material/list';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivityComponent } from './activity/activity.component';
@@ -21,7 +23,6 @@ import { ActivityDetailComponent } from './activity-detail/activity-detail.compo
 import { ActivityEditComponent } from './activity-edit/activity-edit.component';
 import { DiscussionService } from '../discussion.service';
 import { SharedModule } from '../shared/shared.module';
-import { ToastrService } from 'ngx-toastr';
 
 
 @NgModule({
@@ -38,14 +39,13 @@ import { ToastrService } from 'ngx-toastr';
     MatListModule,
     MatDialogModule,
     MatTooltipModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forChild()
   ],
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent],
   entryComponents: [ActivityEditComponent],
   providers: [ActivityService, DiscussionService , { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] },
-    ToastrService
-  ],
+    { provide: MAT_DIALOG_DATA, useValue: [] }, ToastrService],
   exports: [ActivityCreateComponent ]
 })
 export class ActivitiesModule { }

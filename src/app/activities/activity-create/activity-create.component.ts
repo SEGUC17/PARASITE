@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
@@ -19,7 +21,7 @@ export class ActivityCreateComponent implements OnInit {
   public activity: ActivityCreate = {
     name: '',
     description: '',
-    price: 0,
+    price: null,
     fromDateN: null,
     toDateN: null,
     fromDateTime: null,
@@ -32,7 +34,8 @@ export class ActivityCreateComponent implements OnInit {
     private router: Router,
     private activityService: ActivityService,
     private activityComponent: ActivityComponent,
-    private toaster: ToastrService
+    private toaster: ToastrService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {

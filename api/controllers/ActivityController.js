@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var Activity = mongoose.model('Activity');
+var User = mongoose.model('User');
+var moment = require('moment');
 
 /* eslint max-statements: ["error", 20] */
 /* eslint multiline-comment-style: ["error", "starred-block"] */
@@ -193,44 +195,44 @@ module.exports.postActivity = function (req, res) {
 };
 
 module.exports.deleteActivity = function (req, res) {
-  var deletingUser = req.user;
+    var deletingUser = req.user;
 
-  Activity.find({_id: req.params.activityId}).exec(function (err, result) {
-    // find the required activity to check on the deletor (xD).
-    if (err) {
-      throw err;
-    }
-
-    var activityCreator = result[0].creator;
-
-    if (activityCreator !== deletingUser.username && !deletingUser.isAdmin) {
-      res.status(401).json({
-        data: null,
-        err: null,
-        msg: 'you can\'t delete this activity'
-      });
-
-    } else {
-
-      Activity.remove({_id: req.params.activityId}, function (err) {
+    Activity.find({ _id: req.params.activityId }).exec(function (err, result) {
+        // find the required activity to check on the deletor (xD).
         if (err) {
-          return res.status(404).json({
-            data: null,
-            err: err,
-            message: 'cannot find this activity'
-          });
+            throw err;
         }
-        res.status(201).json({
-          data: null,
-          err: null,
-          message: 'Activity deleted successfully.'
-        });
-      });
 
-    }
+        var activityCreator = result[0].creator;
+
+        if (activityCreator !== deletingUser.username && !deletingUser.isAdmin) {
+            res.status(401).json({
+                data: null,
+                err: null,
+                msg: 'you can\'t delete this activity'
+            });
+
+        } else {
+
+            Activity.remove({ _id: req.params.activityId }, function (err) {
+                if (err) {
+                    return res.status(404).json({
+                        data: null,
+                        err: err,
+                        message: 'cannot find this activity'
+                    });
+                }
+                res.status(201).json({
+                    data: null,
+                    err: null,
+                    message: 'Activity deleted successfully.'
+                });
+            });
+
+        }
 
 
-  });
+    });
 };
 
 module.exports.reviewActivity = function (req, res) {
@@ -295,6 +297,40 @@ module.exports.reviewActivity = function (req, res) {
                     msg: null
                 });
             }
+            // Not tested cause I cant make an activity if I'm not admin
+            var notification = {
+                body: 'Your request to create an activity is ' +
+                    newStatus,
+                date: moment().toDate(),
+                itemId: activityId,
+                type: 'activity'
+            };
+            User.findOneAndUpdate(
+                { username: activity.creator },
+                {
+                    $push:
+                        { 'notifications': notification }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    console.log('add the notification');
+                    console.log(updatedUser.notifications);
+                    if (errr) {
+                        return res.status(402).json({
+                            data: null,
+                            err: 'error occurred during adding ' +
+                                'the notification'
+                        });
+                    }
+                    if (!updatedUser) {
+                        return res.status(404).json({
+                            data: null,
+                            err: null,
+                            msg: 'User not found.'
+                        });
+                    }
+                }
+            );
             res.status(200).send({
                 data: activity,
                 err: null,
@@ -397,7 +433,7 @@ module.exports.deleteActivity2 = function (req, res, next) {
     var activityId = req.params.activityId;
     var user = req.user;
 
-    Activity.findById(activityId, function(err, activity) {
+    Activity.findById(activityId, function (err, activity) {
         if (err) {
             return next(err);
         }
@@ -415,7 +451,7 @@ module.exports.deleteActivity2 = function (req, res, next) {
                 msg: null
             });
         }
-        Activity.findOneAndRemove({ _id: activityId }, function(err2) {
+        Activity.findOneAndRemove({ _id: activityId }, function (err2) {
             if (err2) {
                 return next(err2);
             }
@@ -446,6 +482,58 @@ module.exports.isIndependent = function (req, res, next) {
     }
 
     return next();
+};
+
+var addActivityEvent = function (targetUser, activity) {
+    console.log('fuck my life');
+    var event = {
+        color: {
+            primary: '#FF0000',
+            secondary: '#D1E8FF'
+        },
+        draggable: false,
+        end: activity.toDateTime,
+        meta: {
+            activityId: activity._id,
+            type: 'Activity',
+            url: '/activities/' + activity._id
+        },
+        resizable: {
+            afterEnd: false,
+            beforeStart: false
+        },
+        start: activity.fromDateTime,
+        title: activity.name
+    };
+    User.findOneAndUpdate(
+        { username: targetUser },
+        { $push: { 'schedule': event } }, { new: true },
+        function (err, user) {
+            if (err) {
+                return err;
+            }
+            if (!user) {
+                return 'user not found';
+            }
+        }
+    );
+};
+
+var removeActivityEvent = function (targetUser, activityId) {
+    User.findOneAndUpdate(
+        { username: targetUser },
+        { $pull: { schedule: { meta: { activityId: activityId } } } },
+        function (err, user) {
+            if (err) {
+                return err;
+            }
+
+            if (!user) {
+                return 'user not found';
+            }
+
+        }
+    );
 };
 
 module.exports.bookActivity = function (req, res, next) {
@@ -503,6 +591,41 @@ module.exports.bookActivity = function (req, res, next) {
                     if (err2) {
                         return next(err2);
                     }
+                    if (req.user.username != activity2.creator) {
+                        var notification = {
+                            body: req.user.username + ' booked your activity',
+                            date: moment().toDate(),
+                            itemId: req.params.activityId,
+                            type: 'activity'
+                        };
+                        User.findOneAndUpdate(
+                            { username: activity2.creator },
+                            {
+                                $push:
+                                    { 'notifications': notification }
+                            }
+                            , { new: true },
+                            function (errr, updatedUser) {
+                                console.log('add the notification');
+                                console.log(updatedUser.notifications);
+                                if (errr) {
+                                    return res.status(402).json({
+                                        data: null,
+                                        err: 'error occurred during adding ' +
+                                            'the notification'
+                                    });
+                                }
+                                if (!updatedUser) {
+                                    return res.status(404).json({
+                                        data: null,
+                                        err: null,
+                                        msg: 'User not found.'
+                                    });
+                                }
+                            }
+                        );
+                    }
+                    addActivityEvent(bookingUser, activity);
 
                     return res.status(201).json({
                         data: activity2.bookedBy,
@@ -520,3 +643,4 @@ module.exports.bookActivity = function (req, res, next) {
         }
     });
 };
+

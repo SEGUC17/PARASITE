@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef, Renderer2, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './auth/auth.service';
 import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import { Notification } from './notification';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/filter';
 declare const $: any;
@@ -19,6 +20,8 @@ export class AppComponent implements OnInit {
   firstName: string;
   lastName: string;
   isAdmin: boolean;
+  notifications: Notification[];
+  unreadNotificationsNumber: number; // Number of unread notifications to display on top of icon
   links = [
     {
       url: '/content/list',
@@ -259,6 +262,7 @@ export class AppComponent implements OnInit {
     }); // End of use strict
 
     this.isSignedIn();
+    this.getNotifications();
   }
 
   isSignedIn(): void {
@@ -283,6 +287,28 @@ export class AppComponent implements OnInit {
       }
     });
   }
+  modifyNotification(notificationId, isRead): void {
+    let self = this;
+    this.authService.modifyNotification(notificationId, self.username, true).subscribe(function (res) {
+      console.log(res.data);
+      self.getNotifications();
+    });
+
+  }
+  getNotifications(): void {
+    // console.log('getting notifications');
+    let self = this;
+    // self.notifications = [{ body : 'This ia a notification', link : 'fhbejdv' },{body : 'This ia a notification', link : 'fhbejdv' }] 
+    this.authService.getUserData(['notifications']).subscribe(function (res) {
+      self.notifications = res.data.notifications;
+      console.log(res.data.notifications);
+      var unreadNots = self.notifications.filter(function (notRead) {
+        return notRead.isRead === false;
+      });
+      self.unreadNotificationsNumber = unreadNots.length;
+    })
+  }
+
 
   // method to change the website's language
   changeLanguage(): void {

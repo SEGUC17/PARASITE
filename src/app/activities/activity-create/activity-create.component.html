@@ -34,7 +34,7 @@
   <div class="card singel-post"  style="margin : 0px">
     <form class="activity-form" (ngSubmit)="createActivity(activityForm.form.valid)" id = "activityForm" #activityForm="ngForm">
       <div class="header"  >
-        <h3 class="text-primary" style="color:primary">Create activity</h3>
+        <h3 class="text-primary" style="color:primary">{{ 'ACTIVITIES.CREATE.CREATE_ACTIVITY' | translate }}</h3>
         <ul class="header-dropdown">
           <li class="remove">
             <a role="button" (click)="close()" ><i class="zmdi zmdi-close"></i></a>
@@ -76,9 +76,9 @@
               </div>
             </div>
           </fieldset>
-          <span> <small> Required fields *</small></span>
+          <span> <small> {{ 'ACTIVITIES.CREATE.REQUIRED_FIELDS' | translate }} *</small></span>
           <div align="right">
-            <button class="btn btn-primary hidden-sm-down float-right m-l-10" id="btn">Submit</button>
+            <button class="btn btn-primary hidden-sm-down float-right m-l-10" id="btn">{{ 'ACTIVITIES.CREATE.SUBMIT' | translate }}</button>
           </div>
           <br>
           <br>

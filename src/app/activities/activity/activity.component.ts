@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
@@ -32,7 +33,8 @@ export class ActivityComponent implements OnInit {
 
   constructor(
     private activityService: ActivityService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {

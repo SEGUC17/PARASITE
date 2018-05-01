@@ -3,8 +3,8 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>Activity
-          <small>Welcome to Activity</small>
+        <h2>{{ 'ACTIVITIES.LIST.ACTIVITY' | translate }}
+          <small>{{ 'ACTIVITIES.DETAIL.WELCOME_MESSAGE' | translate }}</small>
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
@@ -23,7 +23,7 @@
           </li>
           <li class="breadcrumb-item">
             <a routerLink="/activities">
-              <i class="zmdi zmdi-home"></i> Activities</a>
+              <i class="zmdi zmdi-home"></i> {{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}</a>
           </li>
           <li class="breadcrumb-item active">{{activity.name}}</li>
         </ul>
@@ -43,14 +43,14 @@
               </div>
               <div class="col-lg-9 col-md-8 col-12">
                 <h4 class="m-t-0 m-b-0">{{activity.name}}</h4>
-                <span class="job_post">Activity</span>
-                <p>from : {{activity.fromDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}} to : {{activity.toDateTime | date:'yyyy-MM-dd
-                  HH:mm': 'locale'}}</p>
+                <span class="job_post">{{ 'ACTIVITIES.LIST.ACTIVITY' | translate }}</span>
+                <p>{{ 'ACTIVITIES.DETAIL.FROM' | translate }} : {{activity.fromDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}
+                  {{ 'ACTIVITIES.DETAIL.TO' | translate }} : {{activity.toDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}</p>
                 <div>
                   <span style="color: #ff5722; margin-right: 4px">{{ activity.price | currency: 'EGP'}}</span>
-                  <button class="btn btn-primary btn-round btn-simple">Comment</button>
+                  <button class="btn btn-primary btn-round btn-simple">{{ 'ACTIVITIES.DETAIL.COMMENT' | translate }}</button>
                   <div *ngIf="signedIn && !currentUser.isChild">
-                    <button class="btn btn-primary btn-round" [disabled]="!bookingUser" (click)="bookActivity()">Book For</button>
+                    <button class="btn btn-primary btn-round" [disabled]="!bookingUser" (click)="bookActivity()">{{ 'ACTIVITIES.DETAIL.BOOK_FOR' | translate }}</button>
                     <select class="form-control-sm form-control btn-primary col-sm-2" [(ngModel)]="bookingUser">
                       <option *ngFor="let user of canBookFor" [ngValue]="user">{{user}}</option>
                     </select>
@@ -70,7 +70,7 @@
   <div class="col-lg-12 col-md-12">
     <div class="card">
       <div class="body">
-        <h4>Description :</h4>
+        <h4>{{ 'ACTIVITIES.DETAIL.DESCRIPTION' | translate }}</h4>
         {{activity.description}}
       </div>
     </div>
@@ -99,9 +99,16 @@
                   </span>
                   <div align="end">
                     <span>
-                      <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
-                        {{(!isReplying)?"Comment":"Reply"}}
-                      </button>
+                      <span *ngIf="!isReplying; else elseTemplate">
+                        <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
+                          {{ 'ACTIVITIES.DETAIL.COMMENT' | translate }}
+                        </button>
+                      </span>
+                        <ng-template #elseTemplate>
+                          <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
+                            {{ 'ACTIVITIES.DETAIL.REPLY' | translate }}
+                          </button>
+                        </ng-template>
                       <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary" data-toggle="tooltip" data-placement="bottom"
                         title="Cancel" (click)="cancelReplying()">
                         <i class="zmdi zmdi-close zmdi-hc-lg"></i>
@@ -114,10 +121,10 @@
               <!--The Part responsible for comments-->
               <li *ngFor="let comment of activity.discussion; let i = index">
                 <time style="width: 20%;" class="cbp_tmtime" datetime="2017-11-04T03:45">
-                  <span class="mt-2">{{comment.createdAt | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
+                  <span class="mt-2">{{comment.createdAt*1000 | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
                 </time>
                 <div class="cbp_tmicon">
-                    <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
+                  <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
                   <i class="zmdi zmdi-label"></i>
                 </div>
                 <div class="cbp_tmlabel">
@@ -157,6 +164,9 @@
                   <div *ngIf="viewedReplies[i]" style="margin-left: 10%">
                     <div *ngFor="let reply of comment.replies; let j = index">
                       <div class="row">
+                          <div class="cbp_tmicon bg-info profile-image float-xs-left">
+                            <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
+                        </div>
                         <div class="col-md-6">
                           <h2>
                             <a href="profile/{{comment.creator}}">{{reply.creator}}</a>
@@ -164,12 +174,6 @@
                         </div>
                         <div class="col-md-6" align="end">
                           <small>
-                            <div class="cbp_tmicon bg-info">
-                              <div class="profile-image float-xs-left">
-                                <img class="media-object rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
-                              </div>
-                              <i class="zmdi zmdi-label"></i>
-                            </div>
                             <span>
                               <button type="button" class="btn btn-icon btn-round btn-danger btn-xs" *ngIf="reply.creator === currentUser.username || comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === content.creator"
                                 (click)="onDeleteReply(comment._id,reply._id)" data-toggle="tooltip" data-placement="bottom"
