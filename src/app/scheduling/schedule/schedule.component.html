@@ -52,8 +52,8 @@
                       <i class="zmdi zmdi-delete zmdi-hc-2x"></i>
                     </a>
                   </div>
-                  <address *ngIf="event.meta && event.meta.location">
-                    <i class="zmdi zmdi-pin"></i>{{event.meta.location}}</address>
+                  <address *ngIf="event.meta && event.meta.url">
+                    <a class="zmdi zmdi-link" routerLink={{event.meta.url}}><span style="font-size:70%"> Go to {{event.meta.type}}</span></a></address>
                 </div>
 
               </div>

@@ -122,7 +122,7 @@ describe('/DELETE one of my study plans', function () {
     }).
     end(function (err1, signinData) {
     chai.request(server).
-      delete('/api/study-plan/deleteStudyPlan/' + studyPlan._id).
+      delete('/api/study-plan/deleteStudyPlan/' + johnDoe.username + '/' + studyPlan._id).
       set('Authorization', signinData.body.token).
       end(function (error, res) {
         if (error) {
@@ -144,7 +144,29 @@ describe('/DELETE one of my study plans', function () {
     }).
     end(function (err1, signinData) {
     chai.request(server).
-      delete('/api/study-plan/deleteStudyPlan/' + studyPlan._id).
+      delete('/api/study-plan/deleteStudyPlan/' + johnny.username + '/' + studyPlan._id).
+      set('Authorization', signinData.body.token).
+      end(function (error, res) {
+        if (error) {
+            console.log(error);
+        }
+        res.should.have.status(401);
+        done();
+      });
+    });
+  });
+
+  it('it should not DELETE another user\'s Study Plan who isn\'t the user or their child', function (done) {
+    // Logging in
+    chai.request(server).
+    post('/api/signIn').
+    send({
+        'password': 'JohnPasSWorD',
+        'username': johnDoe.username
+    }).
+    end(function (err1, signinData) {
+    chai.request(server).
+      delete('/api/study-plan/deleteStudyPlan/' + janeDoe.username + '/' + studyPlan._id).
       set('Authorization', signinData.body.token).
       end(function (error, res) {
         if (error) {

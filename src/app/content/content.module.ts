@@ -35,8 +35,7 @@ import { LoadingBarModule } from '@ngx-loading-bar/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { YoutubePlayerComponent } from './youtube-player/youtube-player.component';
 import { YoutubeApiService } from './youtube-api.service';
-
-
+import { ContentRedirectorComponent } from './content-redirector/content-redirector.component';
 
 @NgModule({
   imports: [
@@ -65,7 +64,8 @@ import { YoutubeApiService } from './youtube-api.service';
     SafeResourceUrlPipe,
     SafeHtmlPipe,
     VideoIdExtractorPipe,
-    YoutubePlayerComponent
+    YoutubePlayerComponent,
+    ContentRedirectorComponent
   ]
 })
 export class ContentModule { }

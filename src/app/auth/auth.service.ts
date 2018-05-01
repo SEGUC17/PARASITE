@@ -174,6 +174,13 @@ export class AuthService {
       catchError(self.handleError('resetPassword', []))
     );
   }
+  modifyNotification (notificationId,username, isRead:boolean): any {
+    let self = this;
+    return this.http.patch( environment.apiUrl + 'modifyNotification/' + notificationId, {isRead: isRead}).pipe(
+      catchError(self.handleError('modifyNotification', []))
+    )
+  }
+  
 
   public handleError<T>(operation = 'operation', result?: T) {
     const self = this;
@@ -187,7 +194,8 @@ export class AuthService {
         operation === 'childsignup' ||
         operation === 'verifyChildEmail' ||
         operation === 'forgotPassword' ||
-        operation === 'resetPassword'
+        operation === 'resetPassword' ||
+        operation === 'modifyNotification'
       ) {
         self.toastrService.error(error.error.msg);
       }

@@ -67,11 +67,18 @@ export class ProfileService {
     console.log(username);
     return this.http.get(this.getChildrenUrl + username + '/getChildren');
   }
-
+  private handleError<T>(operation = 'operation', result?: T) {
+    const self = this;
+    return function (error: any): Observable<T> {
+      self.toastrService.error(error.error.msg);
+      return of(result as T);
+    };
+  }
   // Author: Nehal
   changePassword(id, info): Observable<any> {
-    // console.log(oldpw);
-    return this.http.patch<any>(`${this.pwURL}/${id}`, info, httpOptions);
+    const self = this;
+    return this.http.patch<any>(`${this.pwURL}/${id}`, info, httpOptions).pipe(
+      catchError(self.handleError('changePassword', [])));
 
   }
   // author :Heidi
@@ -100,8 +107,9 @@ export class ProfileService {
     return this.http.patch(this.changePPUrl, upload, httpOptions);
   }
 
-  deleteStudyPlan(studyPlanID: String): Observable<any> {
-    return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + studyPlanID);
+
+  deleteStudyPlan(username: string, studyPlanID: string): Observable<any> {
+    return this.http.delete(environment.apiUrl + 'study-plan/deleteStudyPlan/' + username + '/' + studyPlanID);
   }
 
 }

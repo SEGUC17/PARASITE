@@ -4,6 +4,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin.service';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 declare const swal: any;
 declare const $: any;
@@ -29,7 +30,8 @@ export class ViewReportsComponent implements OnInit {
     constructor(private _adminService: AdminService,
         private _authService: AuthService,
         private toaster: ToastrService,
-        private router: Router) {
+        private router: Router,
+        private translate: TranslateService) {
         this.getReports();
 
     }

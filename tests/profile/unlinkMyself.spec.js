@@ -6,7 +6,7 @@ var Activity = mongoose.model('Activity');
 var chaiHttp = require('chai-http');
 var expect = require('chai').expect;
 var should = chai.should();
-//var d ate= new Date("October 13, 2014 11:13:00");
+
 chai.use(chaiHttp);
 var config = require('../../api/config/config');
 var Mockgoose = require('mockgoose').Mockgoose;
@@ -62,7 +62,6 @@ it(' unlink the logged in child from his selected coach', function (done) {
         response.should.have.status(200);
         token = response.body.token;
 
-console.log('signed up');
 
     var User1 = new User({
         birthdate: '12/12/1999',
@@ -81,7 +80,7 @@ console.log('signed up');
         return console.log(eror);
     }
 
- console.log('here');
+
     chai.request(server).
     patch('/api/profile/' + User1.username + '/UnlinkMyself').
     set('Authorization', token).
@@ -89,8 +88,8 @@ console.log('signed up');
         if (error) {
             return console.log(error);
         }
-        console.log('eh' + ress);
-        // console.log(res.body.data);
+
+
         ress.should.have.status(200);
         ress.body.data.should.be.a('array');
        ress.body.should.have.property('msg').

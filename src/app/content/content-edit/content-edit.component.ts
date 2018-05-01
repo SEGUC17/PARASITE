@@ -66,12 +66,15 @@ export class ContentEditComponent implements OnInit {
     private translate: TranslateService) {
     const self = this;
     this.authService.getUserData(['username']).subscribe(function (res) {
-      if (Array.isArray(res)) {
-        self.authService.setToken(null);
-        self.toasterService.error('Please sign in first', 'failure');
-        self.router.navigateByUrl('/auth/sign-in');
-        return;
-      }
+      return;
+    }, function (err) {
+      self.authService.setToken(null);
+      self.translate.get('CONTENT.TOASTER.SIGN_IN_FIRST').subscribe(
+        function (translation) {
+          self.toasterService.error(translation);
+        }
+      );
+      self.router.navigateByUrl('/auth/sign-in');
     });
   }
 
@@ -106,8 +109,12 @@ export class ContentEditComponent implements OnInit {
   onSubmit(): void {
     const self = this;
     if (this.authService.getToken() === '') {
-      // TODO: (Universal Error Handler/ Modal Errors)
-      console.log('Please sign in first');
+      self.translate.get('CONTENT.TOASTER.SIGN_IN_FIRST').subscribe(
+        function (translation) {
+          self.toasterService.error(translation);
+        }
+      );
+      self.router.navigateByUrl('/auth/sign-in');
       return;
     }
     // get username of the registered user
@@ -122,7 +129,6 @@ export class ContentEditComponent implements OnInit {
   // create content
   createContent(): void {
     const self = this;
-    console.log(self.content);
     self.contentService.createContent(self.content).subscribe(function (contentRes) {
       if (!contentRes) {
         return;
@@ -144,6 +150,7 @@ export class ContentEditComponent implements OnInit {
       }
       if (contentRes.data.content) {
         self.router.navigateByUrl('/content/view/' + contentRes.data.content._id);
+        return;
       }
       self.router.navigateByUrl('/content/view/' + contentRes.data._id);
     });
@@ -184,7 +191,12 @@ export class ContentEditComponent implements OnInit {
       self.categories = res.data;
       self.contentService.getContentById(contentID).subscribe(function (contentResponse) {
         if (!contentResponse) {
-          console.log('couldn\'t find the content');
+          self.translate.get('CONTENT.TOASTER.COULD_NOT_RETRIEVE').subscribe(
+            function (translation) {
+              self.toasterService.error(translation);
+            }
+          );
+          self.router.navigateByUrl('/content/list');
           return;
         }
         self.isUpdate = true;
@@ -211,11 +223,18 @@ export class ContentEditComponent implements OnInit {
       };
       this.uploader.onErrorItem =
         function (fileItem, response, status, headers) {
-          // console.info('onErrorItem', fileItem, response, status, headers);
-          self.toasterService.error('failed to upload image, please try again', 'failure');
+          self.translate.get('CONTENT.TOASTER.FAILED_UPLOAD_IMAGE').subscribe(
+            function (translation) {
+              self.toasterService.error(translation);
+            }
+          );
         };
     } else {
-      self.toasterService.error('No file supplied to upload', 'failure');
+      self.translate.get('CONTENT.TOASTER.FAILED_NO_FILE_SUPPLIED').subscribe(
+        function (translation) {
+          self.toasterService.error(translation);
+        }
+      );
     }
   }
 
