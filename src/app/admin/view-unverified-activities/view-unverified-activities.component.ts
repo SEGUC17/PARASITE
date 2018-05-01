@@ -4,6 +4,7 @@ import { ActivityService } from '../../activities/activity.service';
 import { Activity } from '../../activities/activity';
 import { apiUrl } from '../../variables';
 import { AuthService } from '../../auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-unverified-activities',
@@ -30,7 +31,8 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
 
   constructor(
     private activityService: ActivityService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {

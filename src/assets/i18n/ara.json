@@ -19,6 +19,27 @@
         }
     },
     "ADMIN": {
+        "VIEW_REPORTS": {
+            "BAN": "حظر",
+            "USER": "المستخدم",
+            "REPORTS": "البلاغات",
+            "REPORTED_arabic": "تم الإبلاغ عن",
+            "REPORTED": "بواسطة",
+            "DELETE": "حذف",
+            "REASON": "السبب:",
+            "MSG": "أدخل اسم المستخدم ليتم حظره"
+        },
+        "VIEW_UNVERIFIED_ACTIVITIES": {
+            "LABEL": "الأنشطة",
+            "WELCOME": "مرحبًا بك في الأنشطة",
+            "LATEST": "آخر",
+            "ACTIVITY": "نشاط",
+            "POSTED_BY": "منشور من طرف:",
+            "COMMENTS": "تعليقات:",
+            "READ_MORE": "اقرأ أكثر",
+            "ACCEPT": "قبول",
+            "REJECT": "رفض"
+        },
         "ADMIN_CONTROL": {
             "CONTENTS_MANAGEMENT": "إدارة المحتويات",
             "CATEGORY_MANAGEMENT": "إدارة الفئات",
@@ -73,6 +94,7 @@
 
     },
     "CONTENT": {
+
         "SHARED": {
             "OUR_CONTENT": "المحتويات",
             "POSTED_BY": "{{ creator }} :نشره",
@@ -163,14 +185,69 @@
     "MESSAGING": {
 
     },
-    "PROFILE": { 
-        "CHILDREN":{    "UNLINK":"حذف",
-                          "AGE":"العمر" ,
-                        "LEARNING_SCORE":"نقاط التعلم",
-                        "POINTS":"نقطة"
-                        }
-
-},
+    "PROFILE": {
+        "PROFILE": {
+            "NAWWAR": "نوَّر",
+            "DASHBOARD": "الصفحه الرئيسيه",
+            "MY_PROFILE": "الصفحه الشخصيه",
+            "MESSAGE": "إرسال رساله",
+            "CHILDREN": "أطفالى",
+            "STUDY_PLANS": "الخطط الدراسيه",
+            "SETTINGS": "الإعدادات",
+            "ABOUT": "عن المستخدم",
+            "ADD-AS-PARENT": "أضفه كولى أمرى",
+            "MAKE_INDEPENDENT": "إجعلى مستقلا",
+            "BE_VERIFIED_CONTRIBUTOR": "مشارك موثق",
+            "CREATE_CHILD_ACCOUNT": "إنشاء حساب جديد لطفلى",
+            "UNLINK_MY_PARENT": "إلغاء الإرتباط",
+            "LINK_TO_CHILD": "إضافه طفلى للمستخدم",
+            "EMAIL": "البريد الإلكترونى:",
+            "PHONE": "الهاتف:",
+            "BIRTHDATE": "تاريخ الميلاد:",
+            "AGE": "العمر",
+            "MY_CHILE": "طفلى",
+            "CHILD_INFO": "بيانات",
+            "SECURITY": "الأمان",
+            "CHANGE_PASSWORD": "تغيير كلمه السر",
+            "CPASSWORD": "كلمه السر الحاليه",
+            "NPASSWORD": "كلمه السر الجديده",
+            "CNPASSWORD": "تأكيد كلمه السر الجديده",
+            "PERSONAL": "الشخصيه",
+            "MY_INFO": "بياناتى",
+            "FIRST_NAME": "الإسم الأول",
+            "LAST_NAME": "الإسم الأخير",
+            "USERNAME": "إسم المستخدم",
+            "EDIT_EMAIL": "البريد الإلكترونى",
+            "ADDRESS": "العنوان",
+            "EDIT_BD": "تاريخ الميلاد",
+            "EDIT_PHONE": "الهانف",
+            "SAVE_CHANGES": "حفظ التغيرات",
+            "MESSAGES_BLOCK": "الممنوعين من مراسلى",
+            "BLOCK_LIST": "قائمه",
+            "CREATE_STUDY_PALN": "إنشاء خطه دراسيه جديدة",
+            "PROFILE_PIC": "تحميل الصوره الشخصيه",
+            "CANCEL": "إلغاء",
+            "DELETE_EVENT": "حذف الحدث",
+            "DELE_EVENT_CONF": "هل انت متأكد من أنك تريد حذف هذا الحدث ؟",
+            "DELETE": "حذف",
+            "ASSIGNED": "تعين",
+            "VIEW": "عرض",
+            "UNBLOCK": "رفع الحظر",
+            "REPORT": "إبلاغ عن المستخدم"
+        },
+        "DIRECT_MSG": {
+            "TO": "إلى:",
+            "SEND": "إرسال",
+            "MSG": "أدخل رسالتك هنا"
+        },
+        "CHILDREN": {
+            "NAME": "الإسم",
+            "AGE":"العمر" ,
+            "UNLINK": "إزاله من قائمتى",
+            "LEARNING_SCORE":"نقاط التعلم",
+            "POINTS":"نقطة"
+        }
+    },
     "PSYCHOLOGIST": {
 
     },
