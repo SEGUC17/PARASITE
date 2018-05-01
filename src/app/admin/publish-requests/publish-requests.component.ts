@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AdminService } from '../admin.service';
 import { StudyPlanPublishRequest } from './study-plan-publish-request';
 import { Router } from '@angular/router';
@@ -20,11 +20,15 @@ import {
   addDays,
   addHours
 } from 'date-fns';
-
+import { MessageService } from '../../messaging/messaging.service';
+import { AuthService } from '../../auth/auth.service';
+declare const swal: any;
+declare const $: any;
 @Component({
   selector: 'app-publish-requests',
   templateUrl: './publish-requests.component.html',
-  styleUrls: ['./publish-requests.component..scss']
+  styleUrls: ['./publish-requests.component..scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class PublishRequestsComponent implements OnInit {
   reqs: [StudyPlanPublishRequest];
@@ -41,7 +45,8 @@ export class PublishRequestsComponent implements OnInit {
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
 
-  constructor(private adminService: AdminService, private router: Router, private translate: TranslateService) { }
+  constructor(private adminService: AdminService, private router: Router, private translate: TranslateService,
+  private _messageService: MessageService, private _authService: AuthService) { }
 
   ngOnInit() {
     this.title = '';
@@ -95,6 +100,15 @@ export class PublishRequestsComponent implements OnInit {
       self.reqs = res.data;
     });
     self.viewStudyPlanPublishReqs();
+    if (response === 'disapproved') {
+      self._authService.getUserData(['username']).subscribe(function (res) {
+        console.log('res.data.username: ' + res.data.username)
+        console.log('studyPlan.creator: ' + studyPlan.creator)
+
+        //not testedddd
+      self.showPromptMessage(studyPlan.creator, res.data.username);
+      });
+    }
   }
 
   // Calendar API control methods
@@ -130,5 +144,33 @@ export class PublishRequestsComponent implements OnInit {
       }
     }
   }
+  showPromptMessage(creator, sender): any {
 
+    // creator is the content creator
+    //sender in the currently logged in admin
+    // isUpdate : false if create
+    let self = this;
+    swal({
+      title: 'Want to send a message to ' + creator + '?',
+      text: 'Let ' + creator + ' know what\'s wrong',
+      type: 'input',
+      showCancelButton: true,
+      closeOnConfirm: false,
+      animation: 'slide-from-top',
+      inputPlaceholder: 'Write reason for disapproval here',
+    }, function (inputValue) {
+      if (inputValue === false) { return false; }
+      if (inputValue === '') {
+        swal.showInputError('You need to write something!'); return false;
+      }
+      let body = 'This is a message from an admin @ Nawwar.\n' + inputValue + '.\nDo not hesitate to contribute with us again.';
+      swal('Message sent', 'Message sent is :\n' + body, 'success');
+      let msg = { 'body': body, 'recipient': creator, 'sender': sender };
+      self._messageService.send(msg).subscribe(function (res2) {
+
+      });
+    }
+    );
+  }
 }
+
