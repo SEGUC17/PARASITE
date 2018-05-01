@@ -314,21 +314,21 @@ module.exports.reviewActivity = function (req, res) {
                 , { new: true },
                 function (errr, updatedUser) {
                     console.log('add the notification');
-                    console.log(updatedUser.notifications);
-                    if (errr) {
-                        return res.status(402).json({
-                            data: null,
-                            err: 'error occurred during adding ' +
-                                'the notification'
-                        });
-                    }
-                    if (!updatedUser) {
-                        return res.status(404).json({
-                            data: null,
-                            err: null,
-                            msg: 'User not found.'
-                        });
-                    }
+                    // console.log(updatedUser.notifications);
+                    // if (errr) {
+                    //     return res.status(402).json({
+                    //         data: null,
+                    //         err: 'error occurred during adding ' +
+                    //             'the notification'
+                    //     });
+                    // }
+                    // if (!updatedUser) {
+                    //     return res.status(404).json({
+                    //         data: null,
+                    //         err: null,
+                    //         msg: 'User not found.'
+                    //     });
+                    // }
                 }
             );
             res.status(200).send({
@@ -607,21 +607,21 @@ module.exports.bookActivity = function (req, res, next) {
                             , { new: true },
                             function (errr, updatedUser) {
                                 console.log('add the notification');
-                                console.log(updatedUser.notifications);
-                                if (errr) {
-                                    return res.status(402).json({
-                                        data: null,
-                                        err: 'error occurred during adding ' +
-                                            'the notification'
-                                    });
-                                }
-                                if (!updatedUser) {
-                                    return res.status(404).json({
-                                        data: null,
-                                        err: null,
-                                        msg: 'User not found.'
-                                    });
-                                }
+                                // console.log(updatedUser.notifications);
+                                // if (errr) {
+                                //     return res.status(402).json({
+                                //         data: null,
+                                //         err: 'error occurred during adding ' +
+                                //             'the notification'
+                                //     });
+                                // }
+                                // if (!updatedUser) {
+                                //     return res.status(404).json({
+                                //         data: null,
+                                //         err: null,
+                                //         msg: 'User not found.'
+                                //     });
+                                // }
                             }
                         );
                     }
