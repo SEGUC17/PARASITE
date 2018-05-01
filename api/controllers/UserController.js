@@ -658,7 +658,7 @@ module.exports.getUserData = function (req, res, next) {
     if (req.user.notifications.length > 30) {
         console.log('slicing up Nots');
         var Nots = req.user.notifications;
-        Nots.splice(29);
+        Nots.splice(30);
         User.findByIdAndUpdate(
             req._id,
             { $set: { notifications: Nots } },

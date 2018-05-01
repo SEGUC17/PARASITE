@@ -30,6 +30,7 @@ export class AppComponent implements OnInit {
   message : String = "message";
   link : String = "link";
   study_plan : String = "study plan";
+  study_plan_A : String = "study plan A";
   product : String = "product";
   content : String = "content";
   activity : String = "activity";
@@ -320,7 +321,7 @@ export class AppComponent implements OnInit {
         return notMessage.type != 'message';
       });
     // all notification that aren't read (not messages)
-      var unreadNots = res.data.notifications.filter(function (notRead) {
+      var unreadNots = retrievednotifications.filter(function (notRead) {
         return notRead.isRead === false;
       });
       // unread notifications number
@@ -350,13 +351,25 @@ export class AppComponent implements OnInit {
         else if ((type === 'content' || type === 'discussion content' )&& itemId) {
           retrievednotifications[i].link = '/content/view/'+retrievednotifications[i].itemId;
         }
+<<<<<<< HEAD
         else if (type === 'study plan' && itemId && itemUsername) {
           // item Id is the study plan id and itemUsername is the assigned username
           retrievednotifications[i].link = '/scheduling/study-plan/personal/'+retrievednotifications[i].itemId+itemUsername;
+=======
+        else if (type === 'study plan' && itemId && itemUsername ) {
+          retrievednotifications[i].link = '/scheduling/study-plan/personal/'+ itemId +'/' +  itemUsername;
+        }
+        else if (type === 'study plan A' && itemId ) {
+          retrievednotifications[i].link = '/scheduling/study-plan/personal/'+ itemId;
+>>>>>>> notifications
         } 
         //donot need id in market
         else if (type === 'product') {
           retrievednotifications[i].link = '/market';
+        }
+        else {
+          // if not any of these cases got to landing page
+          retrievednotifications[i].link = '/';
         }
       }
       self.notifications = retrievednotifications.reverse();

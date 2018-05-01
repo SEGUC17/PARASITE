@@ -168,7 +168,7 @@
                                             <div *ngIf="not.type ===  product ">
                                                 <i class="zmdi zmdi-shopping-cart"></i>
                                             </div>
-                                            <div *ngIf="not.type ===  study_plan ">
+                                            <div *ngIf="not.type ===  study_plan || not.type ===  study_plan_A ">
                                                 <i class="zmdi zmdi-graduation-cap"></i>
                                             </div>
                                             <div *ngIf="not.type ===  activity ">
@@ -218,7 +218,7 @@
                                             <div *ngIf="not.type ===  product ">
                                                 <i class="zmdi zmdi-shopping-cart" style = "color:black"></i>
                                             </div>
-                                            <div *ngIf="not.type ===  study_plan ">
+                                            <div *ngIf="not.type ===  study_plan || not.type ===  study_plan_A ">
                                                 <i class="zmdi zmdi-graduation-cap" style = "color:black"></i>
                                             </div>
                                             <div *ngIf="not.type ===  activity ">
@@ -318,7 +318,12 @@
                         </div>
                     </div>
                 </li>
+<<<<<<< HEAD
                 <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="(link.url === '/admin' && !isAdmin) || (link.url === '/profile' && username == undefined) || (link.url === '/message' && username == undefined)">
+=======
+                <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
+                || link.url === '/profile' && username == undefined ">
+>>>>>>> notifications
                     <a [routerLink]="link.url">
                        <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
                         <span>{{ link.name | translate }}</span>
