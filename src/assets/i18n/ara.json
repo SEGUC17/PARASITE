@@ -15,7 +15,6 @@
         "CHANGE_LANGUAGE": "تغيير اللغة"
     },
     "ACTIVITIES": {
-<<<<<<< HEAD
         "CREATE": {
             "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
             "CREATE_ACTIVITY": "اضافة نشاط",
@@ -32,7 +31,9 @@
             "READ_MORE": "اقرأ المزيد",
             "CLOSE": "أغلق",
             "COMMENTS": "التعليقات",
-            "POSTED_BY": "قام بالنشر"
+            "POSTED_BY": "قام بالنشر",
+            "PREV": "الصفحة السابقة",
+            "NEXT": "الصفحة التالية"
         },
         "DETAIL": {
             "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
@@ -45,9 +46,7 @@
             "WRITE_COMMENT": "...اترك تعليق",
             "BOOK_SUCCESS": "....تم الحجز بنجاح"
         },
-=======
->>>>>>> master
-        "EDIT":{
+        "EDIT": {
             "EDIT_ACTIVITY": "تعديل النشاط",
             "ACTIVITY_NAME": "الاسم",
             "START_DATE":"تاريخ النهاية",
@@ -58,7 +57,12 @@
             "SAVE_CHANGES":"حفظ التغييرات",
             "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
             "ACTIVITY_IMAGE":"تغيير صورة النشاط"
-        
+        },
+        "REVIEW": {
+            "ACCEPT": "تم قبول النشاط",
+            "REJECT": "تم رفض النشاط",
+            "ACCEPT_BTN": "قبول",
+            "REJECT_BTN": "رفض"
         }
     },
     "ADMIN": {
@@ -219,7 +223,7 @@
     "MESSAGING": {
 
     },
-    "PROFILE": { 
+    "PROFILE": {
         "CHILDREN":{    "UNLINK":"حذف",
                           "AGE":"العمر" ,
                         "LEARNING_SCORE":"نقاط التعلم",
@@ -234,15 +238,9 @@
 
     },
     "SEARCH": {
-<<<<<<< HEAD
+
+    },
+    "LANDING":{
 
     }
 }
-=======
-        
-    },
-    "LANDING":{
-        
-    }
-}
->>>>>>> master
