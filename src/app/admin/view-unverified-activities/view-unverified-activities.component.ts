@@ -57,6 +57,7 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     let self  = this;
     this.activityService.getPendingActivities(page).subscribe(function(res) {
         self.updateLayout(res);
+        self.totalNumberOfPages = res.data.pages;
       }
     );
     this.authService.getUserData(['isAdmin']).subscribe((user) => {
