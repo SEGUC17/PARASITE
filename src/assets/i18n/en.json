@@ -197,7 +197,8 @@
         "INFO": { "PHONE": "Phone", "EMAIL": "Email", "DAYSOFF": "Days Off", "PRICE": "Maximum Price Range",
                   "ADD": "Address", "EDIT": "Edit This", "DELETE": "Delet This" },
         "DAYS": { "SAT": "Sat", "SUN": "Sun", "MON": "Mon", "TUE": "Tue", "WED": "Wed", "THU": "Thu", "FRI": "Fri", "NO DAYS OFF": "No Days Off" },
-        "FILTERS": { "NAME_SEARCH": "Search by Name...", "ADD_SEARCH": "Search by Address...", "SORT_BY": "Sort By", "CHEAPEST": "Cheapest", "A-Z": "Alphabetical" }
+        "FILTERS": { "NAME_SEARCH": "Search by Name...", "ADD_SEARCH": "Search by Address...", "SORT_BY": "Sort By", "CHEAPEST": "Cheapest", "A-Z": "Alphabetical" },
+        "POPUP": { "TITLE": "Contact Information", "ADD_SEARCH": "Search by Address...", "SORT_BY": "Sort By", "CHEAPEST": "Cheapest", "A-Z": "Alphabetical" }
     },
     "SCHEDULING": {
 

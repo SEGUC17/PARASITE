@@ -5,6 +5,7 @@ import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from
 import { ErrorStateMatcher } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -48,7 +49,8 @@ export class AddPsychRequestComponent implements OnInit {
 
   constructor(private RequestService: PsychologistService,
               private toasterService: ToastrService,
-              public dialogRef: MatDialogRef<AddPsychRequestComponent>) {
+              public dialogRef: MatDialogRef<AddPsychRequestComponent>,
+              public translate: TranslateService) {
 
   }
 

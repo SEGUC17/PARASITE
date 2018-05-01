@@ -126,11 +126,11 @@
                       <div class="image">
                         <img src={{product.image}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
                       </div>
-                      <div class="file-name" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-                        <p class="m-b-5 text-muted" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{product.name}}</p>
+                      <div class="file-name" >
+                        <p class="m-b-5 text-muted" [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{product.name}}</p>
                         <div class="row">
-                          <small class="col-6" style="width:fit-content" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >{{'MARKET.MAIN.SEARCH_PRICE' | translate: {price: product.price} }}</small>
-                          <small class="date text-muted col-6" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{product.createdAt | date}}</small>
+                          <small class="col-6" style="width:fit-content" >{{'MARKET.MAIN.SEARCH_PRICE' | translate: {price: product.price} }}</small>
+                          <small class="date text-muted col-6" style="text-align: right" >{{product.createdAt | date}}</small>
                         </div>
                       </div>
                     </a>

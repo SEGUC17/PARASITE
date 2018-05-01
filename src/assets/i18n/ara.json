@@ -161,7 +161,7 @@
             "SORT": "رتب المنتجات",
             "SEARCH_BAR": "...بحث",
             "SELLER": "{{ seller }} :البائع",
-            "SEARCH_PRICE": "جنيهاً {{ price }}",
+            "SEARCH_PRICE": "ج.م {{ price }}",
             "SORT_TYPE": "{{ sort }} :الترتيب عن طريق",
             "PREV": "السابق",
             "NEXT": "التالي",
@@ -196,7 +196,8 @@
         "INFO": { "PHONE": "الهاتف", "EMAIL": "البريد الإلكتروني", "DAYSOFF": "أيام العطلة", "PRICE": "الحد اﻷعلى للسعر",
                   "ADD": "العنوان", "EDIT": "تعديل", "DELETE": "مسح" },
         "DAYS": { "SAT": "السبت", "SUN": "اﻷحد", "MON": "الاثنين", "TUE": "الثلاثاء", "WED": "اﻷربعاء", "THU": "الخميس", "FRI": "الجمعة", "NO DAYS OFF": "لا يوجد"  },
-        "FILTERS": { "NAME_SEARCH": "...البحث باﻷسم", "ADD_SEARCH": "...البحث بالعنوان", "SORT_BY": "الترتيب بحسب", "CHEAPEST": "اﻷرخص", "A-Z": "اﻷبجدية" }
+        "FILTERS": { "NAME_SEARCH": "Search by Name...", "ADD_SEARCH": "Search by Address...", "SORT_BY": "Sort By", "CHEAPEST": "Cheapest", "A-Z": "Alphabetical" },
+        "POPUP": { "TITLE": "بيانات شخصية", "ADD_SEARCH": "Search by Address...", "SORT_BY": "Sort By", "CHEAPEST": "Cheapest", "A-Z": "Alphabetical" }
     },
     "SCHEDULING": {
 
