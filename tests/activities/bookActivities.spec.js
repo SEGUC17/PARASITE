@@ -32,7 +32,7 @@ var bookingUser = null;
 var pendingActivity = null;
 var verifiedActivity = null;
 
-describe('Activities Comments/replies creation', function () {
+describe('Activities Booking', function () {
 
     /*
      * Tests for booking activities

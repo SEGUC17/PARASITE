@@ -18,10 +18,7 @@ export class ContentService {
 
   getContentById(id: any): Observable<any> {
     const self = this;
-    return this.http.get(self.endpoint + 'content/view/' + id)
-      .pipe(
-        catchError(self.handleError('getContentById', []))
-      );
+    return this.http.get(self.endpoint + 'content/view/' + id);
   }
 
   createContent(content: Content): Observable<any> {
@@ -48,10 +45,7 @@ export class ContentService {
     section = encodeURIComponent(section.toString());
     return this.http.get(self.endpoint + 'content/username/' +
       pageSize + '/' + pageNumber + '/categorization?category=' + category +
-      '&section=' + section)
-      .pipe(
-        catchError(self.handleError('Getting contributions', []))
-      );
+      '&section=' + section);
   }
 
   getCategories(): Observable<any> {
@@ -92,17 +86,14 @@ export class ContentService {
     return this.http.get(self.endpoint + 'content/' + numberOfEntriesPerPage +
       '/' + currentPageNumber + '/search?searchQuery=' +
       searchQuery + '&category=' + selectedCategory + '&section=' + selectedSection
-      + '&sort=' + sortResultsBy + '&language=' + contentLanguage)
-      .pipe(
-        catchError(self.handleError('Retrieving content', []))
-      );
+      + '&sort=' + sortResultsBy + '&language=' + contentLanguage);
   }
 
   // Add learning score
-  addLearningScore(contentId: any): Observable<any> {
+  addLearningScore(contentId: any, videoUrl: any): Observable<any> {
     const self = this;
     return this.http.
-      post(this.endpoint + 'content/' + contentId + '/score', {})
+      post(this.endpoint + 'content/' + contentId + '/score', {videoUrl: videoUrl})
       .pipe(
         catchError(self.handleError('Sign in to get learning points', []))
       );

@@ -47,7 +47,8 @@ var notificationSchema = mongoose.Schema({
                 'activity',
                 'content',
                 'contributor',
-                'discussion',
+                'discussion content',
+                'discussion activity',
                 'message',
                 'product',
                 'study plan',
@@ -189,6 +190,10 @@ var userSchema = mongoose.Schema({
     verified: {
         default: false,
         type: Boolean
+    },
+    watchedVideos: {
+        default: [],
+        type: [String]
     }
 });
 // -------------------------- End of "Schemas" --------------------------- //

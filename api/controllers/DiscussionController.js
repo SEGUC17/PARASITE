@@ -1,6 +1,6 @@
 /* eslint multiline-comment-style: ["error", "starred-block"] */
 /* eslint max-statements: ["error", 20] */
-/* eslint-disable eqeqeq */
+
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var moment = require('moment');
@@ -32,7 +32,7 @@ module.exports.getComment = function (req, res) {
         });
     }
     var comment = object.discussion.filter(function (com) {
-        return com._id == commentId;
+        return com._id === commentId;
     }).pop();
     if (!comment) {
         return res.status(404).json({
@@ -63,9 +63,13 @@ module.exports.postComment = function (req, res) {
     var isAdmin = user && user.isAdmin;
     var object = req.object;
     var isCreator = user && object.creator === user.username;
+    var distype = 'discussion content';
     var type = 'content';
+    var title = object.title;
     if (object.name) {
         type = 'activity';
+        distype = 'discussion activity';
+        title = object.name;
     }
 
 
@@ -92,14 +96,13 @@ module.exports.postComment = function (req, res) {
                 msg: null
             });
         }
-        if (user.username != obj.creator) {
-
-
+        if (user.username !== obj.creator) {
             var notification = {
-                body: user.username + ' commented on your ' + type,
+                body: user.username + ' commented on your ' + type +
+                ' ' + title,
                 date: moment().toDate(),
                 itemId: object._id,
-                type: 'discussion'
+                type: distype
             };
             User.findOneAndUpdate(
                 { username: object.creator },
@@ -152,9 +155,14 @@ module.exports.postCommentReply = function (req, res, next) {
     var isCreator = user && object.creator === user.username;
     var commentId = req.params.commentId;
     var type = 'content';
+    var distype = 'discussion content';
+    var title = object.title;
     if (object.name) {
+        distype = 'discussion activity';
         type = 'activity';
+        title = object.name;
     }
+
 
     if (!isVerified && !isAdmin && !isCreator) {
 
@@ -166,7 +174,7 @@ module.exports.postCommentReply = function (req, res, next) {
     }
 
     var comment = object.discussion.filter(function (com) {
-        return com._id == commentId;
+        return com._id === commentId;
     }).pop();
     if (!comment) {
         return res.status(404).json({
@@ -190,13 +198,19 @@ module.exports.postCommentReply = function (req, res, next) {
                 msg: null
             });
         }
-        if (user.username != object.creator &&
-            object.creator != comment.creator) {
+
+        /*
+         * if I comment on my activity I don't get
+         * a notification
+         */
+        if (user.username !== object.creator &&
+            object.creator !== comment.creator) {
             var notificationComment = {
-                body: user.username + ' replied to a comment on your ' + type,
+                body: user.username + ' commented on your ' + type +
+                ' ' + title,
                 date: moment().toDate(),
                 itemId: object._id,
-                type: 'discussion'
+                type: distype
             };
             User.findOneAndUpdate(
                 { username: object.creator },
@@ -207,30 +221,32 @@ module.exports.postCommentReply = function (req, res, next) {
                 , { new: true },
                 function (errr, updatedUser) {
                     console.log('add the notification');
-                    console.log(updatedUser.notifications);
-                    if (errr) {
-                        return res.status(402).json({
-                            data: null,
-                            err: 'error occurred during adding ' +
-                                'the notification'
-                        });
-                    }
-                    if (!updatedUser) {
-                        return res.status(404).json({
-                            data: null,
-                            err: null,
-                            msg: 'User not found.'
-                        });
-                    }
+                    // console.log(updatedUser.notifications);
+                    // if (errr) {
+                    //     return res.status(402).json({
+                    //         data: null,
+                    //         err: 'error occurred during adding ' +
+                    //             'the notification'
+                    //     });
+                    // }
+                    // if (!updatedUser) {
+                    //     return res.status(404).json({
+                    //         data: null,
+                    //         err: null,
+                    //         msg: 'User not found.'
+                    //     });
+                    // }
                 }
             );
         }
-        if (user.username != comment.creator) {
+        // if the replier replies on his comment he doesn't get a notification
+        if (user.username !== comment.creator) {
             var notificationReply = {
-                body: user.username + ' replied to your comment on ' + type,
+                body: user.username + ' replied to your comment on ' + type +
+                ' ' + title,
                 date: moment().toDate(),
                 itemId: object._id,
-                type: 'discussion'
+                type: distype
             };
             User.findOneAndUpdate(
                 { username: comment.creator },
@@ -241,21 +257,21 @@ module.exports.postCommentReply = function (req, res, next) {
                 , { new: true },
                 function (errr, updatedUser) {
                     console.log('add the notification');
-                    console.log(updatedUser.notifications);
-                    if (errr) {
-                        return res.status(402).json({
-                            data: null,
-                            err: 'error occurred during adding ' +
-                                'the notification'
-                        });
-                    }
-                    if (!updatedUser) {
-                        return res.status(404).json({
-                            data: null,
-                            err: null,
-                            msg: 'User not found.'
-                        });
-                    }
+                    // console.log(updatedUser.notifications);
+                    // if (errr) {
+                    //     return res.status(402).json({
+                    //         data: null,
+                    //         err: 'error occurred during adding ' +
+                    //             'the notification'
+                    //     });
+                    // }
+                    // if (!updatedUser) {
+                    //     return res.status(404).json({
+                    //         data: null,
+                    //         err: null,
+                    //         msg: 'User not found.'
+                    //     });
+                    // }
                 }
             );
         }
@@ -283,7 +299,7 @@ module.exports.deleteComment = function (req, res, next) {
     var commentId = req.params.commentId;
 
     var comment = object.discussion.filter(function (comm) {
-        return comm._id == commentId;
+        return comm._id === commentId;
     }).pop();
 
     if (!comment) {
@@ -335,7 +351,7 @@ module.exports.deleteCommentReply = function (req, res, next) {
     var replyId = req.params.replyId;
 
     var comment = object.discussion.filter(function (comm) {
-        return comm._id == commentId;
+        return comm._id === commentId;
     }).pop();
 
     if (!comment) {
@@ -346,10 +362,10 @@ module.exports.deleteCommentReply = function (req, res, next) {
         });
     }
 
-    var isCommentCreator = comment.creator == user.username;
+    var isCommentCreator = comment.creator === user.username;
 
     var reply = comment.replies.filter(function (rep) {
-        return rep._id == replyId;
+        return rep._id === replyId;
     }).pop();
 
     if (!reply) {
@@ -359,7 +375,7 @@ module.exports.deleteCommentReply = function (req, res, next) {
             msg: null
         });
     }
-    var isReplyCreator = reply.creator == user.username;
+    var isReplyCreator = reply.creator === user.username;
 
     if (
         !isAdmin &&

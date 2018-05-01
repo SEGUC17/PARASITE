@@ -126,9 +126,11 @@ module.exports.createStudyPlan = function (req, res, next) {
             msg: 'Not authorized to create a study plan'
         });
     } else {
+        var studyPlan = req.body;
+        studyPlan.creator = req.user.username;
         User.findOneAndUpdate(
             { username: req.user.username },
-            { $push: { studyPlans: req.body } },
+            { $push: { studyPlans: studyPlan } },
             function (err, user) {
                 if (err) {
                     return next(err);
@@ -329,7 +331,7 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                     , { new: true },
                     function (errr, updatedUser) {
                         console.log('add the notification');
-                        console.log(updatedUser.notifications);
+                        // console.log(updatedUser.notifications);
                         if (errr) {
                             return res.status(402).json({
                                 data: null,
