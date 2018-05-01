@@ -9,7 +9,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MarketService } from './market.service';
 import { RouterModule, Routes } from '@angular/router';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule, MatButtonModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material';
+import { MatTabsModule } from '@angular/material/tabs';
+import {
+  MatSliderModule,
+  MatSlideToggleModule, MatIconModule, MatRadioModule, MatChipsModule
+} from '@angular/material';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { RequestDetailComponent } from './request-detail/request-detail.component';
 import { SharedModule } from '../shared/shared.module';

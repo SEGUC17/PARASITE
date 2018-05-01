@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { SafeResourceUrlPipe } from '../../../pipe/safe-resource-url.pipe';
 import { MessageService } from '../../messaging/messaging.service';
+import { TranslateService } from '@ngx-translate/core';
 declare const swal: any;
 declare const $: any;
 @Component({
@@ -22,9 +23,13 @@ export class ViewContentRequestsComponent implements OnInit {
   edit: boolean;
 
 
-  constructor(private _adminService: AdminService, private router: Router, private _authService: AuthService,
-    private _messageService: MessageService) {
-  }
+  constructor(
+    private _adminService: AdminService,
+    private router: Router,
+    private _authService: AuthService,
+    private _messageService: MessageService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     let self = this;
@@ -61,7 +66,8 @@ export class ViewContentRequestsComponent implements OnInit {
     let self = this;
     let wantedCols: string[] = ['contributionScore'];
     self._authService.getAnotherUserData(wantedCols, username).subscribe(function (res) {
-      self._adminService.respondContentRequest('approved', Rid, Cid, true, username, res.data.contributionScore).subscribe(function (res1) {
+      console.log('old contribution score is ' + res.data.contributionScore);
+      self._adminService.respondContentRequest('approved', Rid, Cid, true, res.data.contributionScore).subscribe(function (res1) {
         self.viewPendingContReqs();
       });
     });
@@ -74,7 +80,7 @@ export class ViewContentRequestsComponent implements OnInit {
     if (update === 'update') {
       isUpdate = true;
     }
-    self._adminService.respondContentRequest('disapproved', Rid, Cid, false, 'NotNeededHere', 0).subscribe(function (res1) {
+    self._adminService.respondContentRequest('disapproved', Rid, Cid, false, 0).subscribe(function (res1) {
       self.viewPendingContReqs();
       self._authService.getUserData(['username']).subscribe(function (res) {
         self.showPromptMessage(creator, res.data.username, isUpdate);
@@ -88,6 +94,9 @@ export class ViewContentRequestsComponent implements OnInit {
       });
   }
   showPromptMessage(creator, sender, isUpdate): any {
+    // creator is the content creator
+    //sender in the currently logged in admin
+    // isUpdate : false if create
     let self = this;
     swal({
       title: 'Want to send a message to ' + creator + '?',
