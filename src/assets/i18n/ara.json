@@ -31,7 +31,9 @@
             "READ_MORE": "اقرأ المزيد",
             "CLOSE": "أغلق",
             "COMMENTS": "التعليقات",
-            "POSTED_BY": "قام بالنشر"
+            "POSTED_BY": "قام بالنشر",
+            "PREV": "الصفحة السابقة",
+            "NEXT": "الصفحة التالية"
         },
         "DETAIL": {
             "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
@@ -58,7 +60,9 @@
         },
         "REVIEW": {
             "ACCEPT": "تم قبول النشاط",
-            "REJECT": "تم رفض النشاط"
+            "REJECT": "تم رفض النشاط",
+            "ACCEPT_BTN": "قبول",
+            "REJECT_BTN": "رفض"
         }
     },
     "ADMIN": {

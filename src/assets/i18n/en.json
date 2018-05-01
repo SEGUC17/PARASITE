@@ -31,7 +31,9 @@
             "READ_MORE": "Read more..",
             "CLOSE": "Close",
             "COMMENTS": "Comments :",
-            "POSTED_BY": "Posted by :"
+            "POSTED_BY": "Posted by :",
+            "PREV": "Previous",
+            "NEXT": "Next"
         },
         "DETAIL": {
             "WELCOME_MESSAGE": "Welcome to the activity",
@@ -62,7 +64,9 @@
         },
         "REVIEW": {
             "ACCEPT": "Activitiy accepted successfully",
-            "REJECT": "Activity rejected successfully"
+            "REJECT": "Activity rejected successfully",
+            "ACCEPT_BTN": "Accept",
+            "REJECT_BTN": "Reject"
         }
     },
     "ADMIN": {
