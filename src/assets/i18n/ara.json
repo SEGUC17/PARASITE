@@ -99,6 +99,10 @@
             "ENTER_NEW_PASSWORD_PLACEHOLDER": "أدخل كلمة مرور جديدة",
             "ENTER_NEW_PASSWORD_CONFIRM_PLACEHOLDER": "تأكيد كلمة المرور الجديدة",
             "RESET_BUTTON": "إعادة التعيين"
+        },
+        "TOASTER": {
+            "SIGN_UP_SUCCESSFULL": "الاشتراك ناجح؛ تم إرسال رسالة إنشاء الحساب إلى بريدك الإلكتروني",
+            "SIGN_IN_SUCCESSFULL": "تسجيل الدخول ناجح! أهلا بك"
         }
     },
     "CONTENT": {

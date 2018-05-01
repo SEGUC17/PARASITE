@@ -99,6 +99,10 @@
             "ENTER_NEW_PASSWORD_PLACEHOLDER": "Enter New Password",
             "ENTER_NEW_PASSWORD_CONFIRM_PLACEHOLDER": "Confirm New Password",
             "RESET_BUTTON": "RESET"
+        },
+        "TOASTER": {
+            "SIGN_UP_SUCCESSFULL": "Sign Up Is Successful!\nVerification Mail Was Sent To Your Email!",
+            "SIGN_IN_SUCCESSFULL": "Sign In Is Successful! Welcome!"
         }
     },
     "CONTENT": {

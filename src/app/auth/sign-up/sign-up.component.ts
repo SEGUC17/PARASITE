@@ -58,7 +58,11 @@ export class SignUpComponent implements OnInit {
     const self = this;
     self.authService.signUp(this.user).subscribe(function (res) {
       if (res.msg === 'Sign Up Is Successful!\nVerification Mail Was Sent To Your Email!') {
-        self.toastrService.success(res.msg);
+        self.translate.get('AUTH.TOASTER.SIGN_UP_SUCCESSFULL').subscribe(
+          function (translation) {
+            self.toastrService.success(translation);
+          }
+        );
         self.router.navigateByUrl('/content/list');
       }
     });
