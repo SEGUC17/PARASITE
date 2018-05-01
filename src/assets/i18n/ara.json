@@ -20,7 +20,8 @@
             "CREATE_ACTIVITY": "اضافة نشاط",
             "REQUIRED_FIELDS": "الخانات المطلوبة",
             "SUBMIT": "اضافة",
-            "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة"
+            "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
+            "TAGS": "إشارات"
         },
         "LIST": {
             "ACTIVITIES": "الانشطة",

@@ -16,7 +16,6 @@ export class ActivityComponent implements OnInit {
   @author: Wessam
   */
   activities: Activity[] = [];
-  detailedActivities: any[] = [];
   numberOfElements: Number;
   pageSize: Number;
   pageIndex = 1;
@@ -42,6 +41,7 @@ export class ActivityComponent implements OnInit {
     this.getActivities(1);
   }
 
+<<<<<<< HEAD
   getDetailedActivities() {
     this.detailedActivities = [];
     let self = this;
@@ -57,6 +57,8 @@ export class ActivityComponent implements OnInit {
 
   }
 
+=======
+>>>>>>> b6b3d8bb2c7d3b4afe8e07ead0891eaa1057fddb
 
   getActivities(pageNum) {
     /*
@@ -68,9 +70,14 @@ export class ActivityComponent implements OnInit {
     let self = this;
     this.activityService.getActivities(this.pageIndex).subscribe(
       res => {
+<<<<<<< HEAD
         self.updateLayout(res);
         self.getDetailedActivities();
         this.totalNumberOfPages = res.data.pages;
+=======
+      self.updateLayout(res);
+      this.totalNumberOfPages = res.data.pages;
+>>>>>>> b6b3d8bb2c7d3b4afe8e07ead0891eaa1057fddb
       }
     );
     this.authService.getUserData(['isAdmin', 'verified']).subscribe((user) => {

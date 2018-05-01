@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ImageUploaderComponent } from '../../image-uploader/image-uploader.component';
 import { ToastrService } from 'ngx-toastr';
-
+import { ENTER, COMMA, SPACE, BACKSPACE } from '@angular/cdk/keycodes';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
@@ -21,7 +21,7 @@ export class ActivityCreateComponent implements OnInit {
   */
 
   brInput: Boolean = false;
-
+  chipInput = '';
   public activity: ActivityCreate = {
     name: '',
     description: '',
@@ -31,8 +31,10 @@ export class ActivityCreateComponent implements OnInit {
     fromDateTime: null,
     toDateTime: null,
     image: null,
+    tags: [],
     discussion: []
   };
+  separatorKeysCodes = [ENTER, COMMA, SPACE, BACKSPACE];
 
   constructor(
     private router: Router,
@@ -88,6 +90,33 @@ export class ActivityCreateComponent implements OnInit {
       this.activity.image = url;
     }
     console.log(this.activity);
+  }
+
+  // Handle tag input on content edit
+  onTagInput(event: KeyboardEvent): void {
+    // IF the recorded key event is not a target one, ignore the event
+    if (!this.separatorKeysCodes.includes(event.keyCode)) {
+      return;
+    }
+
+    // Remove a tag on backspace
+    if (event.keyCode === BACKSPACE) {
+      if (this.chipInput) {
+        return;
+      }
+      this.activity.tags.splice(-1, 1);
+      return;
+    }
+
+    // Add tag
+    if ((this.chipInput || '').trim()) {
+      this.activity.tags.push(this.chipInput.trim());
+    }
+
+    // Reset the input value
+    if (this.chipInput) {
+      this.chipInput = '';
+    }
   }
 
 }
