@@ -318,7 +318,8 @@
                         </div>
                     </div>
                 </li>
-                <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin ">
+                <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
+                || link.url === '/profile' && username == undefined ">
                     <a [routerLink]="link.url">
                         <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
                         <span>{{link.name}}</span>
