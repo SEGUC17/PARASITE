@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ActivityService } from '../activity.service';
 import { ActivityCreate } from '../activity';
 import { ActivityComponent } from '../activity/activity.component';
+import { ImageUploaderComponent } from '../../shared/image-uploader/image-uploader.component';
 
 declare const $: any;
 
@@ -34,7 +35,8 @@ export class ActivityCreateComponent implements OnInit {
     private router: Router,
     private activityService: ActivityService,
     private activityComponent: ActivityComponent,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private imageUploader: ImageUploaderComponent
   ) { }
 
   ngOnInit() {
@@ -51,9 +53,9 @@ export class ActivityCreateComponent implements OnInit {
     this.activity.toDateTime = new Date(this.activity.toDateN).getTime();
     this.activityService.postActivities(this.activity).subscribe(
       res => {
-          console.log(res);
-          this.close();
-          this.router.navigate([`activities/${res.data._id}`]);
+        console.log(res);
+        this.close();
+        this.router.navigate([`activities/${res.data._id}`]);
       }
     );
   }
@@ -61,6 +63,16 @@ export class ActivityCreateComponent implements OnInit {
   close(): void {
     /* close dialog */
     this.activityComponent.closeModal();
+  }
+
+  uploaded(url: string) {
+    if (url === 'imageFailedToUpload') {
+      console.log('image upload failed');
+      // TODO: handle image uploading failure
+    } else {
+      console.log('in vcC and its uploaded with url = ' + url);
+      // TODO: handle image uploading success and use the url to retrieve the image later
+    }
   }
 
 }

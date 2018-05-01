@@ -22,7 +22,7 @@ import { ActivityCreateComponent } from './activity-create/activity-create.compo
 import { ActivityDetailComponent } from './activity-detail/activity-detail.component';
 import { ActivityEditComponent } from './activity-edit/activity-edit.component';
 import { DiscussionService } from '../discussion.service';
-import { SharedModule } from '../shared/shared.module';
+import { ImageUploaderComponent } from '../shared/image-uploader/image-uploader.component';
 
 
 @NgModule({
@@ -39,10 +39,9 @@ import { SharedModule } from '../shared/shared.module';
     MatListModule,
     MatDialogModule,
     MatTooltipModule,
-    SharedModule,
     TranslateModule.forChild()
   ],
-  declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent],
+  declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent, ImageUploaderComponent],
   entryComponents: [ActivityEditComponent],
   providers: [ActivityService, DiscussionService , { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }, ToastrService],

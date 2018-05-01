@@ -51,6 +51,7 @@
               <div class="input-group">
                 <span class="input-group-addon"><i class="zmdi zmdi-link"></i></span>
                 <input type="text" class="form-control" [(ngModel)]="activity.image" name="image" placeholder="Image link goes here">
+                <app-image-uploader (ImageUploaded)="uploaded($event)"></app-image-uploader>
               </div>
             </div>
             <div class="form-group">
