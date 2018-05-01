@@ -180,13 +180,13 @@
         },
         "PROD_DETAIL": {
             "PROD_INFO": "تفاصيل المنتج",
-            "CREATED_AT": "{{ date }} تمت إضافته",
+            "CREATED_AT": " تمت إضافته {{ date }}",
             "ACQUIRE": "احصل على المنتج",
             "EGP": "جنيهاً",
             "ACQTYPERENT": "هذا المنتج للإيجار",
             "ACQTYPESELL": "هذا المنتج للبيع",
             "ACQTYPEBOTH": "هذا المنتج للإيجار و البيع",
-            "DAYS": "{{ days }} لمدة من الأيام أقصاها",
+            "DAYS": "{{ days }} يوم بحد اقصى",
             "SOLD": " :اسم البائع"
         },
         "REQ_DETAIL": {
