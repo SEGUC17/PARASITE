@@ -24,6 +24,15 @@ export class ActivityService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  getPendingActivities(page): Observable<any> {
+    /*
+      Getting all activities
+    */
+    return this.http.get<any>(`${this.activitiesUrl}?page=${page}&status=pending`).pipe(
+      catchError(this.handleError('getNumberOfActivityPages', []))
+    );
+  }
+
   getActivities(page): Observable<any> {
     /*
       Getting all activities

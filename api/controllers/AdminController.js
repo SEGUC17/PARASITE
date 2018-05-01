@@ -381,7 +381,7 @@ module.exports.respondContentRequest = function (req, res, next) {
                     , { new: true },
                     function (err, updatedUser) {
                         console.log('add the notification');
-                        console.log(updatedUser.notifications);
+                        // console.log(updatedUser.notifications);
                         if (err) {
                             return res.status(402).json({
                                 data: null,
