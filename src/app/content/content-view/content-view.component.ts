@@ -73,13 +73,17 @@ export class ContentViewComponent implements OnInit {
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
       self.comments = retrievedContent.data.discussion;
-      console.log(self.comments[self.comments.length-1]);
+      console.log(self.comments[self.comments.length - 1]);
       if (self.content) {
         self.getRecommendedContent();
       }
     }, function (error) {
       if (error.status === 404) {
-        self.toasterService.error('The requested content could not be found', 'failure');
+        self.translate.get('CONTENT.TOASTER.NOT_FOUND').subscribe(
+          function (translation) {
+            self.toasterService.error(translation);
+          }
+        );
       }
     });
   }
@@ -182,7 +186,7 @@ export class ContentViewComponent implements OnInit {
 
   // admin or owner user of content wishes to edit the content
   redirectToContentEdit(): void {
-    this.router.navigateByUrl('/content-edit/' + this.content._id);
+    this.router.navigateByUrl('/content/edit/' + this.content._id);
   }
 
   // retrieve the recommended content related to the content the user is viewing
@@ -212,12 +216,24 @@ export class ContentViewComponent implements OnInit {
   }
   onPlayerStateChange(event) {
     const self = this;
-    if (event.data === window['YT'].PlayerState.ENDED) {
+    if (event.data === window['YT'].PlayerState.ENDED && this.currentUser) {
       this.contentService.addLearningScore(self.content._id, self.content.video).subscribe(function (res) {
         if (!res) {
           return;
         }
-        self.toasterService.success(res.msg, 'success');
+        if (res.msg === '') {
+          self.translate.get('CONTENT.TOASTER.ALREADY_WATCHED').subscribe(
+            function (translation) {
+              self.toasterService.success(translation);
+            }
+          );
+        } else {
+          self.translate.get('CONTENT.TOASTER.LEARNING_POINTS_ADDED').subscribe(
+            function (translation) {
+              self.toasterService.success(translation + res.msg);
+            }
+          );
+        }
       });
     }
   }

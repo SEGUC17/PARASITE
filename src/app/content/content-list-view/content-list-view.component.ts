@@ -158,8 +158,11 @@ export class ContentListViewComponent implements OnInit {
       }, function (error) {
         self.contents = [];
         self.totalNumberOfPages = 0;
-        self.toasterService.
-          error('An error has occurred. Please check your network connection.', 'failure');
+        self.translate.get('CONTENT.TOASTER.CONNECTION_ERROR').subscribe(
+          function (translation) {
+            self.toasterService.error(translation);
+          }
+        );
       });
   }
 
@@ -229,8 +232,11 @@ export class ContentListViewComponent implements OnInit {
     }, function (error) {
       self.contents = [];
       self.totalNumberOfPages = 0;
-      self.toasterService.
-          error('An error has occurred. Please check your network connection.', 'failure');
+      self.translate.get('CONTENT.TOASTER.CONNECTION_ERROR').subscribe(
+        function (translation) {
+          self.toasterService.error(translation);
+        }
+      );
     });
   }
 
