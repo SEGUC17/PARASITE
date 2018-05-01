@@ -112,11 +112,19 @@ removeChild(child): void { // removes the child from the list of children of the
      age = this.calculateAge(user.data.birthdate);
 
 if ( age < 13) {
-  self.toaster.error('You can only unlink children 13 or above');
+  // self.toaster.error('You can only unlink children 13 or above');
+  self.translate.get('PROFILE.TOASTER.UNLINK_UNDER_13').subscribe(function(translation) {
+    self.toaster.error(translation);
+  });
 }
 if ( age >= 13) {
 this.profileService.Unlink(object, this.id).subscribe(function (res) {
-    self.toaster.success(res.msg);
+ //   self.toaster.success(res.msg);
+
+  self.translate.get('PROFILE.TOASTER.UNLINK_MY_CHILD').subscribe(function(translation) {
+    self.toaster.success(translation);
+  });
+
 });
 }
 }));

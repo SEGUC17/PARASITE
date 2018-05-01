@@ -249,6 +249,27 @@
             "NAME": "Name",
             "AGE": "Age",
             "UNLINK": "Unlink"
+        },
+        "TOASTER": {
+            "USER_NOT_FOUND": "User not found.",
+            "USERNAME_ALREADY_EXISTS": "Username already exists",
+            "EMAIL_ALREADY_EXISTS": "Email already exists",
+            "LINK_ANOTHER_PARENT": "Link added succesfully.",
+            "PASSWORD_LENGTH": "Password should be at least 8 characters.",
+            "NPASSWORD_CNPASSWORD": "New and confirmed passwords do not match!",
+            "CHANGE_PASSWORD": "User password updated successfully.",
+            "INVALID_EMAIL": "Please enter a valid email address",
+            "CHANGE_CHILD_INFO": "Info updated successfully.",
+            "CHANGE_INFO": "User personal info updated successfully.",
+            "UNBLOCK": "This user is no longer blocked",
+            "UNBLOCK_ERROR": "error occurred during unblocking the user",
+            "UPLOAD_FAIL": "Image upload failed",
+            "NO_FILE_TO_UPLOAD": "Please select a photo",
+            "UNLINK_MY_CHILD": "Link removed succesfully.",
+            "PASSWORD_IS_INCORRECT": "Password is incorrect",
+            "REPORT_USER": "Report sent successfully",
+            "PROFILE_PIC_UPDATE": "Profile picture updated successfully.",
+            "UNLINK_UNDER_13": "You can only unlink children 13 or above"
         }
     },
     "PSYCHOLOGIST": {},
