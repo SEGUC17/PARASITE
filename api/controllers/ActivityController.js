@@ -207,20 +207,20 @@ module.exports.deleteActivity = function (req, res) {
                 Activity.remove(
                     { _id: req.params.activityId },
                     function (errr) {
-                    if (errr) {
-                        return res.status(404).json({
+                        if (errr) {
+                            return res.status(404).json({
+                                data: null,
+                                err: errr,
+                                message: 'cannot find this activity'
+                            });
+                        }
+                        res.status(201).json({
                             data: null,
-                            err: errr,
-                            message: 'cannot find this activity'
+                            err: null,
+                            message: 'Activity deleted successfully.'
                         });
                     }
-                    res.status(201).json({
-                        data: null,
-                        err: null,
-                        message: 'Activity deleted successfully.'
-                    });
-                }
-            );
+                );
             }
 
 
@@ -539,4 +539,55 @@ module.exports.bookActivity = function (req, res, next) {
             });
         }
     });
+};
+
+var addActivityEvent = function (targetUser, activity) {
+    var event = {
+        color: {
+            primary: '#FF0000',
+            secondary: '#D1E8FF'
+        },
+        draggable: false,
+        end: activity.toDateTime,
+        meta: {
+            activityId: activity._id,
+            type: 'Activity',
+            url: '/activities/' + activity._id
+        },
+        resizable: {
+            afterEnd: false,
+            beforeStart: false
+        },
+        start: activity.fromDateTime,
+        title: activity.name
+    };
+    User.findOneAndUpdate(
+        { username: targetUser },
+        { $push: { 'schedule': event } }, { new: true },
+        function (err, user) {
+            if (err) {
+                return err;
+            }
+            if (!user) {
+                return 'user not found';
+            }
+        }
+    );
+};
+
+var removeActivityEvent = function (targetUser, activityId) {
+    User.findOneAndUpdate(
+        { username: targetUser },
+        { $pull: { schedule: { meta: { activityId: activityId } } } },
+        function (err, user) {
+            if (err) {
+                return err;
+            }
+
+            if (!user) {
+                return 'user not found';
+            }
+
+        }
+    );
 };
