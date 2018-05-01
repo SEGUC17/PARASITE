@@ -73,7 +73,7 @@ export class ContentViewComponent implements OnInit {
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
       self.comments = retrievedContent.data.discussion;
-
+      console.log(self.comments[self.comments.length - 1]);
       if (self.content) {
         self.getRecommendedContent();
       }
