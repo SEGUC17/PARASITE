@@ -119,7 +119,8 @@ export class ProfileComponent implements OnInit {
       format: 'MM DD YYYY',
       time: false,
       clearButton: false,
-      weekStart: 1
+      weekStart: 1,
+      maxDate: new Date()
     });
 
 
@@ -329,14 +330,15 @@ export class ProfileComponent implements OnInit {
     };
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
-    if (re.test(info.email)) {
+    console.log(new Date(info.birthdate) <= new Date());
+    if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
       this._ProfileService.changeChildinfo(info).subscribe(function (res) {
         self.toastrService.success(res.msg);
         // alert(res.msg);
       });
 
     } else {
-      self.toastrService.error('Please enter a valid email address');
+      self.toastrService.error('Please enter a valid birthdate');
 //      alert('Please enter a valid email address');
     }
   }
@@ -355,14 +357,14 @@ export class ProfileComponent implements OnInit {
     console.log(info);
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
-    if (re.test(info.email)) {
+    if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
       this._ProfileService.ChangeInfo(this.id, info).subscribe(function (res) {
         self.toastrService.success(res.msg);
         // alert(res.msg);
       });
 
     } else {
-      self.toastrService.error('Please enter a valid email address');
+      self.toastrService.error('Please enter a valid birthdate');
 //      alert('Please enter a valid email address');
     }
   }
