@@ -8,6 +8,7 @@ var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
 var moment = require('moment');
+var Tag = mongoose.model('Tag');
 
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
@@ -605,6 +606,14 @@ module.exports.createCategory = function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            Tag.create(
+                { name: req.body.category.toLowerCase() },
+                function (err1) {
+                    if (err1) {
+                        return next(err1);
+                    }
+                }
+            );
 
             return res.status(201).json({
                 data: category,

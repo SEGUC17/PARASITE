@@ -13,7 +13,7 @@ export class NewsfeedService {
   host: String = environment.apiUrl;
   constructor(private http: HttpClient) { }
   getNewsfeedPage(tags: any[], entriesPerPage: number, pageNumber: number):  Observable<any> {
-    return this.http.patch<any>(this.host + '/newsfeed/' + entriesPerPage + '/' + pageNumber , tags, httpOptions);
+    return this.http.patch<any>(this.host + 'newsfeed/' + entriesPerPage + '/' + pageNumber , tags, httpOptions);
 
   }
 }
