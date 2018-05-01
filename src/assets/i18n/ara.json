@@ -218,7 +218,6 @@
 
     },
     "SEARCH": {
-<<<<<<< HEAD
         "CONNECTING_PARENTS":"تواصل اولياء الامور",
         "REACH_OUT_TO_OTHER_PARENTS": "صل نفسك باولياء امور اخرين",
         "THANAWYA_AMMA": "ثانوية عامة",
@@ -247,8 +246,6 @@
         "OTHER_PARENTS": "اولياء الامور الاخرين",
         "READ_MORE": "اقرأ المزيد",
         "CONNECT_TO_MORE": "تواصل مع المزيد"
-=======
 
->>>>>>> activities
     }
 }
