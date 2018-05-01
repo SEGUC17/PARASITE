@@ -1,4 +1,4 @@
-<form #updateDetails="ngForm" [ngSwitch]="this.toggleEditForm">
+<form #updateDetails="ngForm" [ngSwitch]="this.toggleEditForm" [dir]="translate.currentLang === 'ara'? 'rtl': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
   <div class="modal-body">
     <!-- Title -->
     <div class="row">
@@ -62,8 +62,8 @@
     </div>
 
     <!-- Button -->
-    <div *ngIf="data.product.seller !== data.curUser" style="max-height: 20%; text-align: right">
-      <button class="btn btn-default btn-simple btn-round waves-effect" style="width:50%;">{{ 'MARKET.PROD_DETAIL.ACQUIRE' | translate }}</button>
+    <div [style.float]="translate.currentLang === 'ara'? 'left': null" *ngIf="data.product.seller !== data.curUser" style="max-height: 20%; text-align: right">
+      <button class="btn btn-default btn-simple btn-round waves-effect" style="width:fit-content;">{{ 'MARKET.PROD_DETAIL.ACQUIRE' | translate }}</button>
     </div>
 
   </div>
