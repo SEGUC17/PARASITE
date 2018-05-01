@@ -6,6 +6,8 @@
 var mongoose = require('mongoose');
 var Request = mongoose.model('PsychologistRequest');
 var Psychologists = mongoose.model('Psychologist');
+var emailVerification = require('../utils/emails/email-verification');
+var config = require('../config/config');
 
 
 module.exports.editPsychologists = function (req, res, next) {
@@ -264,10 +266,14 @@ module.exports.evaluateRequest = function (req, res, next) {
               return next(err1);
             }
             // Insert the Psychologist
-            Psychologists.create(newPsych, function (err2) {
+            Psychologists.create(newPsych, function (err2, record) {
               if (err2) {
                 return next(err2);
               }
+              emailVerification.sendPsychID(
+                newPsych.email,
+                record._id
+              );
               res.status(201).json({
                 data: newPsych,
                 err: null,

@@ -7,10 +7,13 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { Product } from '../Product';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule, MatButtonModule } from '@angular/material';
 import { Router } from '@angular/router';
 import { CreateProductComponent } from '../create-product/create-product.component';
 import { AuthService } from '../../auth/auth.service';
 import { RequestDetailComponent } from '../request-detail/request-detail.component';
+import { TranslateService } from '@ngx-translate/core';
+
 declare const $: any;
 declare const swal: any;
 declare const ionRangeSlider: any;
@@ -36,30 +39,26 @@ export class MarketComponent implements OnInit {
   sort: string;
   filter = 'Name';
   isChecked = false;
+
   constructor(public dialog: MatDialog, public router: Router,
-    private marketService: MarketService, private authService: AuthService, @Inject(DOCUMENT) private document: Document) {
-     }
+    private marketService: MarketService, private authService: AuthService,
+    @Inject(DOCUMENT) private document: Document, private translate: TranslateService) {
+  }
 
   // initializes the current pages in the market and user item
   // gets the products in the market and the products owned by the user)
   ngOnInit() {
-    $(function () {
-      // Taken from http://ionden.com/a/plugins/ion.rangeSlider/demo.html
-
-      $('#range').ionRangeSlider({
-        min: 100,
-        max: 1000,
-        from: 550
-      });
-    });
     // get logged in user info
     const self = this;
     const userDataColumns = ['username', 'isAdmin'];
+    // Check if a user is logged in
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.user = res.data;
       if (!self.user) {
+        // If not go to the sign-in page
         self.router.navigateByUrl('/auth/sign-in');
       } else {
+        // Else load the first page of the market
         self.currentPageNumber = 1;
         self.firstPage();
         self.getUserRequests();
@@ -94,11 +93,11 @@ export class MarketComponent implements OnInit {
       seller: self.selectedSeller,
       sort: self.sort
     };
+
     self.marketService.getMarketPage(self.entriesPerPage,
       self.currentPageNumber, limiters)
       .subscribe(function (products) {
         self.totalNumberOfPages = products.data.pages;
-        console.log(self.totalNumberOfPages);
         self.products = products.data.docs;
       });
   }
@@ -108,7 +107,7 @@ export class MarketComponent implements OnInit {
 
   //        start of my requests page actions       //
 
-  // get the requests submitted by the user
+  // Get the pending product requests submitted by the user
   getUserRequests(): void {
     let self = this;
     this.marketService.getUserRequests(this.user.username).subscribe(function (res) {
@@ -123,27 +122,29 @@ export class MarketComponent implements OnInit {
 
   // opens the product details dialog
   showProductDetails(prod: any): void {
+    let self = this;
     if (prod) {
+      // If clicked if a product, open the prod-detail dialog
       if (this.products.indexOf(prod) !== -1) {
         let dialogRef = this.dialog.open(ProductDetailComponent, {
           width: '80%',
-          maxHeight: '80%',
+          height: '65%',
           panelClass: 'product-dialog',
           data: { product: prod, curUser: this.user.username, isAdmin: this.user.isAdmin }
         });
-
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
+          self.firstPage();
         });
       } else if (this.userRequests.indexOf(prod) !== -1) {
-        console.log('here1');
+        // Else, open the request-detail dialog
         let dialogRef = this.dialog.open(RequestDetailComponent, {
           width: '80%',
+          height: '65%',
+          panelClass: 'product-dialog',
           data: { product: prod, curUser: this.user.username }
         });
-
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
+          self.getUserRequests();
         });
       }
     }
@@ -157,7 +158,6 @@ export class MarketComponent implements OnInit {
       data: { market: self }
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       self.getUserRequests();
       self.firstPage();
     });
