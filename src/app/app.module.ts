@@ -36,15 +36,13 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent,
-    ImageUploaderComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    FileUploadModule,
     CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule,
