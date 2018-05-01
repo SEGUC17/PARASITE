@@ -26,7 +26,8 @@
             "REPLY": "اضف رد",
             "BOOK_FOR": "احجز لـ",
             "DESCRIPTION": "الشرح",
-            "WRITE_COMMENT": "...اترك تعليق"
+            "WRITE_COMMENT": "...اترك تعليق",
+            "BOOK_SUCCESS": "....تم الحجز بنجاح"
         }
     },
     "ADMIN": {},

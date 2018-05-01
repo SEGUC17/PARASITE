@@ -9,6 +9,7 @@ import { ActivityEditComponent } from '../activity-edit/activity-edit.component'
 import { DiscussionService } from '../../discussion.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-activity-detail',
@@ -79,7 +80,8 @@ export class ActivityDetailComponent implements OnInit {
     private discussionService: DiscussionService,
     private router: Router,
     private authService: AuthService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastrService: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -318,6 +320,9 @@ export class ActivityDetailComponent implements OnInit {
         this.canBookFor.splice(index, 1);
         console.log(this.canBookFor);
         this.bookingUser = null;
+        this.translate.get('ACTIVITIES.DETAIL.BOOK_SUCCESS').subscribe((res: string) => {
+          this.toastrService.success(res);
+        });
       }
     );
   }
