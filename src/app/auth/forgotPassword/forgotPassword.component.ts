@@ -4,7 +4,6 @@ import { AuthService } from '../auth.service';
 import { MatButtonModule } from '@angular/material';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { ContactUsComponent } from '../../messaging/contact-us/contact-us.component';
 
 
 @Component({
@@ -35,20 +34,5 @@ export class ForgotPasswordComponent implements OnInit {
     }
 
   }
-  /*ChangePassword(pws): void {
-    if (!(pws.newpw === pws.confirmpw)) {
-      alert('New and confirmed passwords do not match!');
 
-
-    } else if ((pws.newpw.length < 8)) {
-      alert('Password should be more than 8 characters');
-    } else {
-      console.log(this.email);
-      this._AuthService.ChangePassword(this.email, pws).subscribe(function (res) {
-        console.log(res.msg);
-        alert(res.msg);
-      });
-    }
- }
- */
 }

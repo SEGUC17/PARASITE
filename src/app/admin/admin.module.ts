@@ -5,13 +5,13 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { PsychRequestsService } from './view-psych-requests/psych-requests.service';
 import { ViewProductRequestsComponent } from './view-product-requests/view-product-requests.component';
 import { ProductRequestsService } from './view-product-requests/product-requests.service';
-import { ViewContentRequestsComponent } from '../content/view-content-requests/view-content-requests.component';
+import { ViewContentRequestsComponent } from './view-content-requests/view-content-requests.component';
 import { ViewUnverifiedActivitiesComponent } from './view-unverified-activities/view-unverified-activities.component';
-import { PublishRequestsComponent } from '../schedule/study-plan/publish-requests/publish-requests.component';
+import { PublishRequestsComponent } from './publish-requests/publish-requests.component';
 import {
   ViewVerifiedContributerRequestsComponent
 } from './view-verified-contributer-requests/view-verified-contributer-requests.component';
-import { AdminService } from '../admin.service';
+import { AdminService } from './admin.service';
 import { CategoryManagementComponent } from './category-management/category-management.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -36,6 +36,9 @@ import { CategoryDeleteComponent } from './category-management/category-delete/c
 import { SectionCreateComponent } from './category-management/section-create/section-create.component';
 import { SectionUpdateComponent } from './category-management/section-update/section-update.component';
 import { SectionDeleteComponent } from './category-management/section-delete/section-delete.component';
+import { MessageService } from '../messaging/messaging.service';
+import { ContentService } from '../content/content.service';
+import { ActivityService } from '../activities/activity.service';
 
 @NgModule({
   imports: [
@@ -84,7 +87,13 @@ import { SectionDeleteComponent } from './category-management/section-delete/sec
     PublishRequestsComponent
   ],
   providers: [
-    AdminService, ProductRequestsService, PsychRequestsService, AuthService
+    AdminService,
+    ProductRequestsService,
+    PsychRequestsService,
+    AuthService,
+    ActivityService,
+    ContentService,
+    MessageService
   ]
 })
 export class AdminModule { }

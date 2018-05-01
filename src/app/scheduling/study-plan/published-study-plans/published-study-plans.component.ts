@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudyPlanService } from '../study-plan.service';
-import { AdminService } from '../../../admin.service';
+import { AdminService } from '../../../admin/admin.service';
 @Component({
   selector: 'app-published-study-plans',
   templateUrl: './published-study-plans.component.html',

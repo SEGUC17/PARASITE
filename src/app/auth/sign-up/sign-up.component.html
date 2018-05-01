@@ -1,28 +1,4 @@
 <div class="authentication sidebar-collapse">
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg fixed-top navbar-transparent">
-    <div class="container">
-      <div class="navbar-translate n_logo">
-        <a class="navbar-brand" href="javascript:void(0);" title="" target="_blank">sQuare</a>
-        <button class="navbar-toggler" type="button">
-          <span class="navbar-toggler-bar bar1"></span>
-          <span class="navbar-toggler-bar bar2"></span>
-          <span class="navbar-toggler-bar bar3"></span>
-        </button>
-      </div>
-      <div class="navbar-collapse">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link btn btn-white btn-round" routerLink="/auth/sign-in">SIGN IN</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <!-- End Navbar -->
   <div class="page-header">
     <div class="container">
       <div class="col-md-12 content-center">
@@ -35,80 +11,87 @@
               <h5>Sign Up</h5>
               <span>Register a new membership</span>
             </div>
-            <div class="content">
-              <div id="personalInfo">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="user.firstName" name="firstName">
-                  <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName">
+            <form name="signUpForm">
+              <div class="content">
+                <div id="personalInfo" [hidden]="this.tabNumber == 2">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="First Name" [(ngModel)]="user.firstName" name="firstName" required>
+                    <input type="text" class="form-control" placeholder="Last Name" [(ngModel)]="user.lastName" name="lastName" required>
+                  </div>
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Phone" [(ngModel)]="user.phone" name="phone" pattern="\d*" required>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-smartphone"></i>
+                    </span>
+                  </div>
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Address" [(ngModel)]="user.address" name="address">
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-gps-dot"></i>
+                    </span>
+                  </div>
+                  <div class="input-group">
+                    <input id="birthdate" type="text" class="form-control datetimepicker" placeholder="Birthdate" required>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-calendar"></i>
+                    </span>
+                  </div>
+                  <div class="checkbox">
+                    <input id="isTeacher" type="checkbox" [(ngModel)]="user.isTeacher" name="isTeacher">
+                    <label for="isTeacher">Are you a teacher?</label>
+                  </div>
                 </div>
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Phone" [(ngModel)]="user.phone" name="phone">
-                  <span class="input-group-addon">
-                    <i class="zmdi zmdi-smartphone"></i>
-                  </span>
-                </div>
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Address" [(ngModel)]="user.address" name="address">
-                  <span class="input-group-addon">
-                    <i class="zmdi zmdi-gps-dot"></i>
-                  </span>
-                </div>
-                <div class="input-group date" data-provide="datepicker">
-                  <input type="date" class="form-control" placeholder="Birthdate" [(ngModel)]="user.birthdate" name="birthdate">
-                  <span class="input-group-addon">
-                    <i class="zmdi zmdi-calendar"></i>
-                  </span>
-                </div>
-                <div class="checkbox">
-                  <input id="isTeacher" type="checkbox" [(ngModel)]="user.isTeacher" name="isTeacher">
-                  <label for="isTeacher">Are you a teacher?</label>
+                <div id="credentials" [hidden]="this.tabNumber == 1">
+                  <div class="input-group">
+                    <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="user.username" name="username" required>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-account-circle"></i>
+                    </span>
+                  </div>
+                  <div class="input-group">
+                    <input type="email" class="form-control" placeholder="Email" [(ngModel)]="user.email" name="email" required>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-email"></i>
+                    </span>
+                  </div>
+                  <div class="input-group">
+                    <input type="password" minlength="8" placeholder="Password" class="form-control" [(ngModel)]="user.password" name="password"
+                      required/>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-lock"></i>
+                    </span>
+                  </div>
+                  <div class="input-group">
+                    <input type="password" minlength="8" placeholder="Confirm Password" class="form-control" [(ngModel)]="user.confirmPassword"
+                      name="confirmPassword" required/>
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-lock"></i>
+                    </span>
+                  </div>
+                  <div class="checkbox">
+                    <input id="terms" type="checkbox" required>
+                    <label for="terms">
+                      I read and agree to the
+                      <a href="javascript:void(0);">terms of usage</a>
+                    </label>
+                  </div>
                 </div>
               </div>
-              <div id="credentials" hidden>
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="User Name" [(ngModel)]="user.username" name="username">
-                  <span class="input-group-addon">
-                    <i class="zmdi zmdi-account-circle"></i>
-                  </span>
-                </div>
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Email" [(ngModel)]="user.email" name="email">
-                  <span class="input-group-addon">
-                    <i class="zmdi zmdi-email"></i>
-                  </span>
-                </div>
-                <div class="input-group">
-                  <input type="password" placeholder="Password" class="form-control" [(ngModel)]="user.password" name="password" />
-                  <span class="input-group-addon">
-                    <i class="zmdi zmdi-lock"></i>
-                  </span>
-                </div>
-                <div class="input-group">
-                  <input type="password" placeholder="Confirm Password" class="form-control" [(ngModel)]="user.confirmPassword" name="confirmPassword"
-                  />
-                  <span class="input-group-addon">
-                    <i class="zmdi zmdi-lock"></i>
-                  </span>
-                </div>
-                <div class="checkbox">
-                  <input id="terms" type="checkbox">
-                  <label for="terms">
-                    I read and agree to the
-                    <a href="javascript:void(0);">terms of usage</a>
-                  </label>
-                </div>
-              </div>
-            </div>
+            </form>
 
             <div class="footer">
               <div class="input-group">
-                <input id="prevTab" type="button" class="form-control btn btn-primary btn-lg" value="Previous" (click)="showPersonalInfoTab()"
-                  disabled>
-                <input id="nextTab" type="button" class="form-control btn btn-primary btn-lg" value="Next" (click)="showCredentialsTab()">
+                <input type="button" class="form-control btn btn-lg" value="Previous" [disabled]="this.tabNumber == 1" (click)="this.tabNumber = 1;">
+                <input type="button" class="form-control btn btn-lg" value="Next" [disabled]="this.tabNumber == 2" (click)="this.tabNumber = 2;">
               </div>
+              <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">SIGN UP</a>
               <h5>
                 <a class="link" routerLink="/auth/sign-in">You already have a membership?</a>
               </h5>
+              <div class="footer input-group">
+                <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
+                <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()">
+              </div>
             </div>
           </form>
         </div>
@@ -118,10 +101,6 @@
       <div class="container">
         <nav>
           <ul>
-              <li>
-                <a href="#largeModal" data-toggle="modal" data-target="#largeModal">Contact Us</a>
-              </li>
-
             <li>
               <a href="javascript:void(0);" target="_blank">About Us</a>
             </li>
@@ -134,18 +113,3 @@
     </footer>
   </div>
 </div>
-
-<section>
-    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="title" id="defaultModalLabel">Contact Nawwar</h4>
-          </div>
-            <div class="modal-body"> 
-             <app-contact-us></app-contact-us>
-            </div> 
-      </div>
-     </div>
-   </div>
-</section>

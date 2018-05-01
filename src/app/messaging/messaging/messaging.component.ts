@@ -25,7 +25,7 @@ export class MessagingComponent implements OnInit {
   sent: any[];
   contacts: any[];
   avatars: any[];
-
+  flag: Boolean = true;
   // send to contact
   replyTo: string;
   Body: String = '';

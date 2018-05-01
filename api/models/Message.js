@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 
 var messagingSchema = mongoose.Schema({
-
+avatar: {
+    default: '',
+    type: String
+    },
 body: {
     required: true,
     type: String

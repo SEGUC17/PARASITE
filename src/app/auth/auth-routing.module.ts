@@ -6,28 +6,48 @@ import { ResetPasswordComponent } from './forgotPassword/resetpassword/resetpass
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignOutComponent } from './sign-out/sign-out.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
-import { ContactUsComponent } from '../messaging/contact-us/contact-us.component';
 import { VerifyChildEmailComponent } from './verify-child-email/verify-child-email.component';
+import { ChildSignupComponent } from './child-signup/child-signup.component';
 
 const routes = [
 
-  { path: 'auth/sign-up', component: SignUpComponent },
+  {
+    path: 'sign-up',
+    component: SignUpComponent,
+  },
+  {
+    path: 'child-sign-up',
+    component: ChildSignupComponent
+  },
+  {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent,
+  },
+  {
+    path: 'forgot-password/reset-password/:id',
+    component: ResetPasswordComponent
+  },
+  {
+    path: 'sign-in',
+    component: SignInComponent
+  },
 
-  { path: 'auth/forgotPassword', component: ForgotPasswordComponent },
-  { path: 'auth/sign-in', component: SignInComponent },
-
-  { path: 'auth/sign-out', component: SignOutComponent },
-
-  { path: 'auth/verifyEmail/:id', component: VerifyEmailComponent },
-  { path: 'auth/verifyChildEmail/:id', component: VerifyChildEmailComponent },
-
-  { path: 'auth/forgotPassword/resetpassword/:id', component: ResetPasswordComponent },
-
-  { path: 'messaging/contact-us', component:  ContactUsComponent }
+  {
+    path: 'sign-out',
+    component: SignOutComponent
+  },
+  {
+    path: 'verify-email/:id',
+    component: VerifyEmailComponent
+  },
+  {
+    path: 'verify-child-email/:id',
+    component: VerifyChildEmailComponent
+  }
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forChild(routes)
   ],
   exports: [
     RouterModule

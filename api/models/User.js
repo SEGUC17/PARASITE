@@ -30,13 +30,10 @@ var userSchema = mongoose.Schema({
         type: String
     },
     avatar: {
-        default: '',
+        default: '../../../assets/images/profile-view/defaultProfilePic.png',
         type: String
     },
-    birthdate: {
-        required: true,
-        type: Date
-    },
+    birthdate: Date,
     blocked: {
         default: [],
         required: false,
@@ -44,7 +41,6 @@ var userSchema = mongoose.Schema({
     },
     children: {
         default: [],
-        required: false,
         type: [String]
     },
     contributionScore: {
@@ -53,12 +49,10 @@ var userSchema = mongoose.Schema({
     },
     educationLevel: {
       default: '',
-      required: false,
       type: String
     },
     educationSystem: {
       default: '',
-      required: false,
       type: String
     },
     email: {
@@ -69,15 +63,26 @@ var userSchema = mongoose.Schema({
         type: String,
         unique: true
     },
+    facebookId: {
+        index: true,
+        sparse: true,
+        type: String,
+        unique: true
+    },
     firstName: {
         index: true,
         required: true,
         sparse: true,
         type: String
     },
+    googleId: {
+        index: true,
+        sparse: true,
+        type: String,
+        unique: true
+    },
     interests: {
         default: [],
-        required: false,
         type: [String]
     },
     isAdmin: {
@@ -115,10 +120,7 @@ var userSchema = mongoose.Schema({
         default: 0,
         type: Number
     },
-    password: {
-        required: true,
-        type: String
-    },
+    password: String,
     phone: {
         match: REGEX.PHONE_REGEX,
         required: true,
@@ -136,7 +138,6 @@ var userSchema = mongoose.Schema({
     username: {
         index: true,
         lowercase: true,
-        required: true,
         sparse: true,
         trim: true,
         type: String,

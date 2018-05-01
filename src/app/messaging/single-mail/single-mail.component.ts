@@ -122,6 +122,7 @@ export class SingleMailComponent implements OnInit {
     this.allisWell = true;
 
     if (this.Body === '') {
+      this.allisWell = false;
       this.toastrService.warning('You can\'t send an empty message.');
       this.allisWell = false;
     } else {
@@ -139,7 +140,6 @@ export class SingleMailComponent implements OnInit {
        if (this.allisWell === true) {
         this.msg = {'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
         'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
-        console.log(this.msg);
         this.messageService.send(this.msg)
          .subscribe(function(res) {
            self.toastrService.success('Message was sent!');
@@ -154,6 +154,7 @@ forward(): void {
   this.allisWell = true;
 
   if (this.Recipient === '') {
+    this.allisWell = false;
     this.toastrService.warning('Please specify a recipient.');
     this.allisWell = false;
   } else {

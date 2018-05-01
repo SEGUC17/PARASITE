@@ -38,6 +38,7 @@ export class SendDialogComponent implements OnInit {
   }
 
   send(): void {
+    this.allisWell = true;
     const self = this;
     this.allisWell = true;
     // notify user if recipient field is empty
@@ -69,7 +70,7 @@ export class SendDialogComponent implements OnInit {
                 self.allisWell = false;
               } // end if
             }// end for
-
+           //       console.log('allIsWell', this.allisWell);
             if ( self.allisWell === true) {
               self.msg.recipientAvatar = user.data.avatar;
               self.messageService.send(this.msg)

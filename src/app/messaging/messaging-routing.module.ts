@@ -4,7 +4,7 @@ import { MessagingComponent } from './messaging/messaging.component';
 import { SingleMailComponent } from './single-mail/single-mail.component';
 
 const routes = [
-  { path: 'message', component: MessagingComponent },
+  { path: '', component: MessagingComponent },
   {
     path: 'single-mail',
     component: SingleMailComponent
@@ -12,7 +12,7 @@ const routes = [
 ];
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forChild(routes)
   ],
   exports: [
     RouterModule

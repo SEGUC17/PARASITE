@@ -10,7 +10,7 @@
                         <i class="material-icons">create</i>
                       </button>
                   <ul class=" breadcrumb float-md-right">
-                    <li class="breadcrumb-item"><a routerLink=""><i class="zmdi zmdi-home"></i> Dashboard</a></li>
+                    <li class="breadcrumb-item"><a routerLink="/content/edit"><i class="zmdi zmdi-home"></i> Dashboard</a></li>
                     <li class="breadcrumb-item active">Messages</li>
                   </ul>
                 </div>
@@ -99,7 +99,7 @@
                                             </div>
                                             <div class="media-body">
                                               <div class="media-heading">
-                                                <a (click)="setMessage(message)" routerLink="/single-mail" class="m-r-10"><small style="font-size:18px;">{{message.sender}}</small></a>
+                                                <a (click)="setMessage(message)" routerLink="/message/single-mail" class="m-r-10"><small style="font-size:18px;">{{message.sender}}</small></a>
                                                 <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{message.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
                                               </div>
                                               <p class="msg" class="p">{{message.body}}</p>
@@ -137,7 +137,7 @@
                                             </div>
                                             <div class="media-body">
                                               <div class="media-heading">
-                                                <a (click)="setMessage(msg)" routerLink="/single-mail" class="m-r-10"><small style="font-size:18px;">{{msg.recipient}}</small></a>
+                                                <a (click)="setMessage(msg)" routerLink="/message/single-mail" class="m-r-10"><small style="font-size:18px;">{{msg.recipient}}</small></a>
                                                 <small class="float-right text-muted"><time class="hidden-sm-down" datetime="2017">{{msg.sentAt|date}}</time><i class="zmdi zmdi-attachment-alt"></i> </small>
                                               </div>
                                               <p class="msg" class="p">{{msg.body}}</p>
