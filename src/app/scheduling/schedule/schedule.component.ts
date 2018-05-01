@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import {
   isSameMonth,
   isSameDay,
@@ -80,7 +81,8 @@ export class ScheduleComponent implements OnInit {
 
 
 
-  constructor(private scheduleService: ScheduleService, private route: ActivatedRoute, private _AuthService: AuthService) { }
+  constructor(private scheduleService: ScheduleService, private route: ActivatedRoute,
+     private _AuthService: AuthService, private translate: TranslateService) { }
 
   ngOnInit() {
     this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
@@ -149,13 +151,13 @@ export class ScheduleComponent implements OnInit {
           self.events[index].start = new Date(self.events[index].start);
           self.events[index].end = new Date(self.events[index].end);
         }
-        self.fetchEvents();
+        self.headerChange();
       });
     }
   }
 
 
-  fetchEvents(): void {
+  headerChange(): void {
     // Adapting the schedule to the selected view
     const getStart: any = {
       month: startOfMonth,

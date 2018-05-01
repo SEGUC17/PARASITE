@@ -6,6 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../auth/auth.service';
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import {
@@ -86,7 +87,8 @@ export class StudyPlanComponent implements OnInit {
   assignText;
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
-    private router: Router, private _AuthService: AuthService, private toastrService: ToastrService) { }
+    private router: Router, private _AuthService: AuthService, private toastrService: ToastrService,
+     private translate: TranslateService) { }
 
   ngOnInit() {
 

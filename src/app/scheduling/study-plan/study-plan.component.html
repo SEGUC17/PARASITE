@@ -3,12 +3,12 @@
     <ul class="breadcrumb float-right">
       <li class="breadcrumb-item">
         <a routerLink="/dashboard">
-          <i class="zmdi zmdi-home"></i> Nawwar</a>
+          <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate }}</a>
       </li>
       <li class="breadcrumb-item">
         <a routerLink="{{ type === 'personal' ? '/profile/' + profileUsername : '/published-study-plans' }}">
           <i class="{{ type === 'personal' ? 'zmdi zmdi-account-circle' : 'zmdi zmdi-graduation-cap' }}">
-          </i>{{ type === 'personal' ? ' ' + profileUsername : ' Study Plans' }}</a>
+          </i> {{ type === 'personal' ? ' ' + profileUsername : 'SCHEDULING.STUDYPLAN.STUDY_PLANS' | translate }}</a>
       </li>
       <li class="breadcrumb-item active">{{ studyPlan.title }}</li>
     </ul>
@@ -23,11 +23,11 @@
         <div class="row">
           <div class="form-group col-md-8" *ngIf="editingTitle">
             <div class="form-line">
-              <input type="text" class="form-control" name="newTitle" [(ngModel)]="newTitle" placeholder="New Title">
+              <input type="text" class="form-control" name="newTitle" [(ngModel)]="newTitle" placeholder="{{ 'SCHEDULING.STUDYPLAN.NEW_TITLE' | translate }}">
             </div>
           </div>
           <div>
-            <a class="clickable" *ngIf="editingTitle" (click)="title = newTitle; editingTitle = flase; changed = true;">
+            <a class="clickable" *ngIf="editingTitle" (click)="title = newTitle; editingTitle = false; changed = true;">
               <i class="zmdi zmdi-check zmdi-hc-2x"></i>
             </a>
           </div>
@@ -43,7 +43,7 @@
 
         <div class="col-md-12 col-lg-4 col-xl-4">
           <div class="body">
-            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)">Add Event</button>
+            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal" *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)">{{ 'SCHEDULING.STUDYPLAN.ADD_EVENT' | translate }}</button>
             <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
               aria-controls="collapseExample">
               <i class="zmdi zmdi-chevron-down"></i>
@@ -55,13 +55,13 @@
               <div class="event-name b-primary row" *ngFor="let event of events; let index = index">
                 <div class="col-2 text-center">
                   <h4>{{ event.start | date:'dd' }}
-                    <span>{{ event.start | date:'MMM' }}</span>
+                    <span>{{ 'SCHEDULING.CALENDAR.' + (event.start | date:'MMM').toUpperCase() | translate }}</span>
                     <span>{{ event.start | date:'yyyy' }}</span>
                   </h4>
                 </div>
                 <div class="col-10">
                   <h6>{{ event.title }}</h6>
-                  <p>{{ event.meta && event.meta.description ? event.meta.description : 'N/A' }}</p>
+                  <p>{{ event.meta && event.meta.description ? event.meta.description : 'SCHEDULING.SCHEDULE.NO_DESCRIPTION_TAG' | translate }}</p>
                   <div class="float-right">
                     <a class="clickable col-md-12 col-lg-4 col-xl-4" data-toggle="modal" data-target="#editModal" (click)="preEdit(index); editIndex = index; editTitle = event.title; editStart = event.start; editEnd = event.end; editDescription = event.meta && event.meta.description ? event.meta.description : '';">
                       <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
@@ -113,7 +113,7 @@
           <a class="clickable float-right" *ngIf="editingDescription" (click)="editingDescription = false; changed = true;">
             <i class="zmdi zmdi-check zmdi-hc-2x"></i>
           </a>
-          <strong>Description</strong>
+          <strong>{{ 'SCHEDULING.STUDYPLAN.DESCRIPTION' | translate }}</strong>
         </h2>
       </div>
       <div class="body" *ngIf="editingDescription">
@@ -124,21 +124,21 @@
       </div>
       <hr />
       <div class="row justify-content-around">
-        <button class="btn btn-primary" (click)="publish()" *ngIf="type === 'personal' && !currIsChild && (profileUsername ? currUsername === profileUsername : true)">Publish</button>
-        <button class="btn btn-primary" (click)="copy()" *ngIf="!currIsChild && (type === 'published' || profileUsername ? currUsername === profileUsername : true)">Copy</button>
+        <button class="btn btn-primary" (click)="publish()" *ngIf="type === 'personal' && !currIsChild && (profileUsername ? currUsername === profileUsername : true)">{{ 'SCHEDULING.STUDYPLAN.PUBLISH' | translate }}</button>
+        <button class="btn btn-primary" (click)="copy()" *ngIf="!currIsChild && (type === 'published' || profileUsername ? currUsername === profileUsername : true)">{{ 'SCHEDULING.STUDYPLAN.COPY' | translate }}</button>
         <div class="dropup" *ngIf="type === 'personal' && (profileUsername ? currUsername === profileUsername : true) && !currIsChild">
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-            Assign
+            {{ 'SCHEDULING.STUDYPLAN.ASSIGN' | translate }}
           </button>
           <div class="dropdown-menu up">
-            <a class="dropdown-item" href="javascript:void(0);" (click)="assign(currUsername)">myself</a>
+            <a class="dropdown-item" href="javascript:void(0);" (click)="assign(currUsername)">{{ currUsername }}</a>
             <div class="dropdown-divider"></div>
-            <h5 class="dropdown-header" *ngIf="listOfChildren.length > 0">Children</h5>
+            <h5 class="dropdown-header" *ngIf="listOfChildren.length > 0">{{ 'SCHEDULING.STUDYPLAN.CHILDREN' | translate }}</h5>
             <a class="dropdown-item" href="javascript:void(0);" (click)="assign(child)" *ngFor="let child of listOfChildren">{{ child }}</a>
           </div>
         </div>
-        <button class="btn btn-primary" (click)="unAssign()" *ngIf="type === 'personal' && studyPlan.assigned && !currIsChild">Unassign</button>
-        <button class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" *ngIf="changed">Save Changes</button>
+        <button class="btn btn-primary" (click)="unAssign()" *ngIf="type === 'personal' && studyPlan.assigned && !currIsChild">{{ 'SCHEDULING.STUDYPLAN.UNASSIGN' | translate }}</button>
+        <button class="btn btn-primary" (click)="type === 'personal' ? saveChangesPersonal() : saveChangesPublished()" *ngIf="changed">{{ 'SCHEDULING.STUDYPLAN.SAVE_CHANGES' | translate }}</button>
       </div>
     </div>
   </div>
@@ -149,28 +149,28 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="title" id="createModalLabel">New Event</h4>
+        <h4 class="title" id="createModalLabel">{{ 'SCHEDULING.STUDYPLAN.NEW_EVENT' | translate }}</h4>
       </div>
       <div class="modal-body">
         <form id="createForm" method="POST">
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="createTitle" [(ngModel)]="createTitle" placeholder="Title" required>
+              <input type="text" class="form-control" name="createTitle" [(ngModel)]="createTitle" placeholder="{{ 'SCHEDULING.STUDYPLAN.TITLE' | translate }}" required>
             </div>
           </div>
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="createDescription" [(ngModel)]="createDescription" placeholder="Description">
+              <input type="text" class="form-control" name="createDescription" [(ngModel)]="createDescription" placeholder="{{ 'SCHEDULING.STUDYPLAN.DESCRIPTION' | translate }}">
             </div>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="createStart" placeholder="Event Start">
+            <input type="text" class="form-control datetimepicker" id="createStart" placeholder="{{ 'SCHEDULING.STUDYPLAN.EVENT_START' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="createEnd" placeholder="Event End">
+            <input type="text" class="form-control datetimepicker" id="createEnd" placeholder="{{ 'SCHEDULING.STUDYPLAN.EVENT_END' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
@@ -178,8 +178,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="createEvent(createTitle, createDescription, createStart, createEnd); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">Create Event</button>
-        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="cancelCreate(); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">Cancel</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="createEvent(createTitle, createDescription, createStart, createEnd); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.STUDYPLAN.CREATE_EVENT' | translate }}</button>
+        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="cancelCreate(); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.STUDYPLAN.CANCEL' | translate }}</button>
       </div>
     </div>
   </div>
@@ -190,28 +190,28 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="title" id="editModalLabel">Edit Event</h4>
+        <h4 class="title" id="editModalLabel">{{ 'SCHEDULING.STUDYPLAN.EDIT_EVENT' | translate }}</h4>
       </div>
       <div class="modal-body">
         <form id="editForm" method="POST">
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="editTitle" [(ngModel)]="editTitle" placeholder="Title">
+              <input type="text" class="form-control" name="editTitle" [(ngModel)]="editTitle" placeholder="{{ 'SCHEDULING.STUDYPLAN.TITLE' | translate }}">
             </div>
           </div>
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="editDescription" [(ngModel)]="editDescription" placeholder="Description">
+              <input type="text" class="form-control" name="editDescription" [(ngModel)]="editDescription" placeholder="{{ 'SCHEDULING.STUDYPLAN.DESCRIPTION' | translate }}">
             </div>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="editStart" placeholder="Event Start">
+            <input type="text" class="form-control datetimepicker" id="editStart" placeholder="{{ 'SCHEDULING.STUDYPLAN.EVENT_START' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="editEnd" placeholder="Event End">
+            <input type="text" class="form-control datetimepicker" id="editEnd" placeholder="{{ 'SCHEDULING.STUDYPLAN.EVENT_END' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
@@ -219,8 +219,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">Save Changes</button>
-        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">Cancel</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLAN.SAVE_CHANGES' | translate }}</button>
+        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLAN.CANCEL' | translate }}</button>
       </div>
     </div>
   </div>

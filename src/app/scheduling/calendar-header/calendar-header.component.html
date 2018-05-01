@@ -7,14 +7,14 @@
         [view]="view"
         [(viewDate)]="viewDate"
         (viewDateChange)="viewDateChange.next(viewDate)">
-        Previous
+        {{ 'SCHEDULING.CALENDAR.PREVIOUS' | translate }}
       </div>
       <div
         class="btn btn-outline-secondary"
         mwlCalendarToday
         [(viewDate)]="viewDate"
         (viewDateChange)="viewDateChange.next(viewDate)">
-        Today
+        {{ 'SCHEDULING.CALENDAR.TODAY' | translate }}
       </div>
       <div
         class="btn btn-primary"
@@ -22,12 +22,12 @@
         [view]="view"
         [(viewDate)]="viewDate"
         (viewDateChange)="viewDateChange.next(viewDate)">
-        Next
+        {{ 'SCHEDULING.CALENDAR.NEXT' | translate }}
       </div>
     </div>
   </div>
   <div class="col-md-4">
-    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</h3>
+    <h3>{{ 'SCHEDULING.CALENDAR.' + (viewDate | date:'MMM').toUpperCase() | translate }} {{viewDate | date: 'yyyy' }}</h3>
   </div>
   <div class="col-md-4">
     <div>
@@ -36,19 +36,19 @@
           class="btn btn-primary"
           (click)="viewChange.emit('month')"
           [class.active]="view === 'month'">
-          Month
+          {{ 'SCHEDULING.CALENDAR.MONTH' | translate }}
         </div>
         <div
           class="btn btn-primary"
           (click)="viewChange.emit('week')"
           [class.active]="view === 'week'">
-          Week
+          {{ 'SCHEDULING.CALENDAR.WEEK' | translate }}
         </div>
         <div
           class="btn btn-primary"
           (click)="viewChange.emit('day')"
           [class.active]="view === 'day'">
-          Day
+          {{ 'SCHEDULING.CALENDAR.DAY' | translate }}
         </div>
       </div>
     </div>

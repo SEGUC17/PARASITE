@@ -28,7 +28,90 @@
 
     },
     "SCHEDULING": {
-
+        "CALENDAR": {
+            "PREVIOUS": "السابق",
+            "TODAY": "اليوم",
+            "NEXT": "التالى",
+            "MONTH": "شهر",
+            "WEEK": "أسبوع",
+            "DAY": "يوم",
+            "JAN": "يناير",
+            "FEB": "فبراير",
+            "MAR": "مارس",
+            "APR": "أبريل",
+            "MAY": "مايو",
+            "JUN": "يونيو",
+            "JUL": "يوليو",
+            "AUG": "أغسطس",
+            "SEP": "سبتمبر",
+            "OCT": "اكتوبر",
+            "NOV": "نوفمبر",
+            "DEC": "ديسمبر"
+        },
+        "SCHEDULE": {
+            "SCHEDULE": "الجدول",
+            "ADD_EVENT": "إضافة حدث",
+            "GO_TO": "اذهب إلى",
+            "NO_DESCRIPTION_TAG": "بدون وصف",
+            "CREATE_EVENT": "انشاء حدث",
+            "NEW_EVENT": "حدث جديد",
+            "EDIT_EVENT": "تحديث الحدث",
+            "TITLE": "العنوان",
+            "DESCRIPTION": "الوصف",
+            "EVENT_START": "بداية الحدث",
+            "EVENT_END": "نهاية الحدث",
+            "SAVE_CHANGES": "حفظ التغييرات",
+            "CANCEL": "إلغاء",
+            "EVENT_TYPES": {
+                "ACTIVITY": "النشاط"
+            }
+        },
+        "STUDYPLAN": {
+            "STUDY_PLANS": "الخطط الدراسة",
+            "ADD_EVENT": "إضافة حدث",
+            "NO_DESCRIPTION_TAG": "بدون وصف",
+            "CREATE_EVENT": "انشاء حدث",
+            "NEW_EVENT": "حدث جديد",
+            "EDIT_EVENT": "تحديث الحدث",
+            "ASSIGN": "تعيين",
+            "CHILDREN": "أطفالي",
+            "UNASSIGN": "إلغاء تعيين",
+            "SAVE_CHANGES": "حفظ التغييرات",
+            "CANCEL": "إلغاء",
+            "TITLE": "العنوان",
+            "DESCRIPTION": "الوصف",
+            "EVENT_START": "بداية الحدث",
+            "EVENT_END": "نهاية الحدث",
+            "NEW_TITLE": "العنوان الجديد",
+            "COPY": "نسخ",
+            "PUBLISH": "نشر"
+        },
+    "STUDYPLANCREATE": {
+            "CREATION": "إنشاء خطة الدراسة",
+            "CREATE": "إنشاء",
+            "ADD_EVENT": "إضافة حدث",
+            "NO_DESCRIPTION_TAG": "بدون وصف",
+            "DESCRIPTION_EDITOR": "محرر الوصف",
+            "DESCRIPTION_PREVIEW": "عرض الوصف",
+            "NEW_EVENT": "حدث جديد",
+            "TITLE": "العنوان",
+            "DESCRIPTION": "الوصف",
+            "EVENT_START": "بداية الحدث",
+            "EVENT_END": "نهاية الحدث",
+            "CREATE_EVENT": "انشاء حدث",
+            "CANCEL": "إلغاء",
+            "EDIT_EVENT": "تحديث الحدث",
+            "SAVE_CHANGES": "حفظ التغييرات"
+        },
+    "PUBLISHEDLIST": {
+            "STUDY_PLANS": "الخطط الدراسة",
+            "VIEW": "عرض",
+            "DELETE": "حذف",
+            "DELETE_EVENT": "حذف الحدث",
+            "DELETE_CONFIRMATION": "هل أنت متأكد أنك تريد حذف هذا الحدث؟",
+            "CANCEL": "إلغاء",
+            "MINE": "ملكي"
+        }
     },
     "SEARCH": {
         

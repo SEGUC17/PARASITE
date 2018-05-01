@@ -5,6 +5,7 @@ import { StudyPlanService } from '../study-plan.service';
 import { AuthService } from '../../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-published-study-plans',
@@ -28,7 +29,7 @@ export class PublishedStudyPlansComponent implements OnInit {
   deleteIndex: number;
 
   constructor(private studyPlanService: StudyPlanService, private authService: AuthService, private router: Router,
-    private activatedRoute: ActivatedRoute, private toastrService: ToastrService) { }
+    private activatedRoute: ActivatedRoute, private toastrService: ToastrService, private translate: TranslateService) { }
 
   ngOnInit() {
     this.authService.getUserData(['username', 'isChild', 'isAdmin']).subscribe(currUser => {

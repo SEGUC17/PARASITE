@@ -28,7 +28,90 @@
 
     },
     "SCHEDULING": {
-
+        "CALENDAR": {
+            "PREVIOUS": "Previous",
+            "TODAY": "Today",
+            "NEXT": "Next",
+            "MONTH": "Month",
+            "WEEK": "Week",
+            "DAY": "Day",
+            "JAN": "January",
+            "FEB": "February",
+            "MAR": "March",
+            "APR": "April",
+            "MAY": "May",
+            "JUN": "June",
+            "JUL": "July",
+            "AUG": "August",
+            "SEP": "September",
+            "OCT": "October",
+            "NOV": "November",
+            "DEC": "December"
+        },
+        "SCHEDULE": {
+            "SCHEDULE": "Schedule",
+            "ADD_EVENT": "Add Event",
+            "GO_TO": "Go to",
+            "NO_DESCRIPTION_TAG": "No Description",
+            "CREATE_EVENT": "Create Event",
+            "NEW_EVENT": "New Event",
+            "EDIT_EVENT": "Edit Event",
+            "TITLE": "Title",
+            "DESCRIPTION": "Description",
+            "EVENT_START": "Event Start",
+            "EVENT_END": "Event End",
+            "SAVE_CHANGES": "Save Changes",
+            "CANCEL": "Cancel",
+            "EVENT_TYPES": {
+                "ACTIVITY": "Activity"
+            }
+        },
+        "STUDYPLAN": {
+            "STUDY_PLANS": "Study Plans",
+            "ADD_EVENT": "Add Event",
+            "NO_DESCRIPTION_TAG": "No Description",
+            "CREATE_EVENT": "Create Event",
+            "NEW_EVENT": "New Event",
+            "EDIT_EVENT": "Edit Event",
+            "ASSIGN": "Assign",
+            "CHILDREN": "My Children",
+            "UNASSIGN": "Unassign",
+            "SAVE_CHANGES": "Save Changes",
+            "CANCEL": "Cancel",
+            "TITLE": "Title",
+            "DESCRIPTION": "Description",
+            "EVENT_START": "Event Start",
+            "EVENT_END": "Event End",
+            "NEW_TITLE": "New Title",
+            "COPY": "Copy",
+            "PUBLISH": "Publish"
+        },
+    "STUDYPLANCREATE": {
+            "CREATION": "Study Plan Creation",
+            "CREATE": "Create",
+            "ADD_EVENT": "Add Event",
+            "NO_DESCRIPTION_TAG": "No Description",
+            "DESCRIPTION_EDITOR": "Description Editor",
+            "DESCRIPTION_PREVIEW": "Description Preview",
+            "NEW_EVENT": "New Event",
+            "TITLE": "Title",
+            "DESCRIPTION": "Description",
+            "EVENT_START": "Event Start",
+            "EVENT_END": "Event End",
+            "CREATE_EVENT": "Create Event",
+            "CANCEL": "Cancel",
+            "EDIT_EVENT": "Edit Event",
+            "SAVE_CHANGES": "Save Changes"
+        },
+    "PUBLISHEDLIST": {
+            "STUDY_PLANS": "Study Plans",
+            "VIEW": "View",
+            "DELETE": "Delete",
+            "DELETE_EVENT": "Delete Event",
+            "DELETE_CONFIRMATION": "Are you sure you want to delete this event?",
+            "CANCEL": "Cancel",
+            "MINE": "Mine"
+        }
     },
     "SEARCH": {
 
