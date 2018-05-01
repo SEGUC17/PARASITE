@@ -10,9 +10,8 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 })
 export class ActivityEditComponent implements OnInit {
 
-  constructor(
+  constructor(private translate: TranslateService,
     public dialogRef: MatDialogRef<ActivityEditComponent>,
-    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
 
@@ -21,7 +20,7 @@ export class ActivityEditComponent implements OnInit {
 
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(); // closing dialog
   }
 
 }

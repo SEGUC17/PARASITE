@@ -3,17 +3,17 @@
         <mat-vertical-stepper class="edit-stepper">
             <mat-step label="{{ 'CONTENT.EDIT.STEPPER.CONTENT_DATA' | translate }}">
                 <button class="btn" matStepperNext>{{ 'CONTENT.SHARED.NEXT' | translate }}</button>
-                <div class="offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-1">
-                    <div class="card">
+                <div [ngClass]="translate.currentLang === 'ara'? 'offset-xl-40 col-xl-40 offset-lg-3 col-lg-60 offset-md-2 col-md-80 col-sm-120 mt-1' : 'offset-xl-4 col-xl-4 offset-lg-3 col-lg-6 offset-md-2 col-md-8 col-sm-12 mt-1' ">
+                    <div [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'" class="card">
                         <div class="header">
                             <h2>
-                                <strong>{{ 'CONTENT.EDIT.CREATE_CONTENT' | translate }}</strong>
+                                <strong><div [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'">{{ 'CONTENT.EDIT.CREATE_CONTENT' | translate }}</div></strong>
                             </h2>
-                            <small class="text-mute">{{ 'CONTENT.EDIT.GENERAL_INFO' | translate }}</small>
+                            <small class="text-mute"><div [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'">{{ 'CONTENT.EDIT.GENERAL_INFO' | translate }}</div></small>
                         </div>
                         <div class="body">
                             <div [ngClass]="'form-group mb-1'+(title.invalid && (title.touched || title.dirty) ? ' has-danger': '')">
-                                <label>{{ 'CONTENT.EDIT.TITLE' | translate }}
+                                <label [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'">{{ 'CONTENT.EDIT.TITLE' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" [ngClass]="'form-control' +(title.invalid && (title.touched || title.dirty) ? ' form-control-danger': '')"
