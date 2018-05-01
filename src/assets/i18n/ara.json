@@ -15,55 +15,55 @@
         "CHANGE_LANGUAGE": "تغيير اللغة"
     },
     "ACTIVITIES": {
-        "CREATE": {
-            "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
-            "CREATE_ACTIVITY": "اضافة نشاط",
-            "REQUIRED_FIELDS": "الخانات المطلوبة",
-            "SUBMIT": "اضافة",
-            "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
-            "TAGS": "إشارات"
-        },
-        "LIST": {
-            "ACTIVITIES": "الانشطة",
-            "ACTIVITY": "النشاط",
-            "LATEST_ACTIVITY": "أحدث نشاط",
-            "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
-            "READ_MORE": "اقرأ المزيد",
-            "CLOSE": "أغلق",
-            "COMMENTS": "التعليقات",
-            "POSTED_BY": "قام بالنشر",
-            "PREV": "الصفحة السابقة",
-            "NEXT": "الصفحة التالية"
-        },
-        "DETAIL": {
-            "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
-            "FROM": "من",
-            "TO": "الى",
-            "COMMENT": "اضف تعليق",
-            "REPLY": "اضف رد",
-            "BOOK_FOR": "احجز لـ",
-            "DESCRIPTION": "الشرح",
-            "WRITE_COMMENT": "...اترك تعليق",
-            "BOOK_SUCCESS": "....تم الحجز بنجاح"
-        },
-        "EDIT": {
-            "EDIT_ACTIVITY": "تعديل النشاط",
-            "ACTIVITY_NAME": "الاسم",
-            "START_DATE":"تاريخ النهاية",
-            "END_DATE":"تاريخ البداية",
-            "PRICE":"السعر",
-            "DESCRIPTION":"الوصف",
-            "CANCEL":"الغاء",
-            "SAVE_CHANGES":"حفظ التغييرات",
-            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
-            "ACTIVITY_IMAGE":"تغيير صورة النشاط"
-        },
-        "REVIEW": {
-            "ACCEPT": "تم قبول النشاط",
-            "REJECT": "تم رفض النشاط",
-            "ACCEPT_BTN": "قبول",
-            "REJECT_BTN": "رفض"
-        }
+    "CREATE": {
+        "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
+        "CREATE_ACTIVITY": "اضافة نشاط",
+        "REQUIRED_FIELDS": "الخانات المطلوبة",
+        "SUBMIT": "اضافة",
+        "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
+        "TAGS": "إشارات"
+    },
+    "LIST": {
+        "ACTIVITIES": "الانشطة",
+        "ACTIVITY": "النشاط",
+        "LATEST_ACTIVITY": "أحدث نشاط",
+        "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
+        "READ_MORE": "اقرأ المزيد",
+        "CLOSE": "أغلق",
+        "COMMENTS": "التعليقات",
+        "POSTED_BY": "قام بالنشر",
+        "PREV": "الصفحة السابقة",
+        "NEXT": "الصفحة التالية"
+    },
+    "DETAIL": {
+        "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
+        "FROM": "من",
+        "TO": "الى",
+        "COMMENT": "اضف تعليق",
+        "REPLY": "اضف رد",
+        "BOOK_FOR": "احجز لـ",
+        "DESCRIPTION": "الشرح",
+        "WRITE_COMMENT": "...اترك تعليق",
+        "BOOK_SUCCESS": "....تم الحجز بنجاح"
+    },
+    "EDIT": {
+        "EDIT_ACTIVITY": "تعديل النشاط",
+        "ACTIVITY_NAME": "الاسم",
+        "START_DATE":"تاريخ النهاية",
+        "END_DATE":"تاريخ البداية",
+        "PRICE":"السعر",
+        "DESCRIPTION":"الوصف",
+        "CANCEL":"الغاء",
+        "SAVE_CHANGES":"حفظ التغييرات",
+        "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+        "ACTIVITY_IMAGE":"تغيير صورة النشاط"
+    },
+    "REVIEW": {
+        "ACCEPT": "تم قبول النشاط",
+        "REJECT": "تم رفض النشاط",
+        "ACCEPT_BTN": "قبول",
+        "REJECT_BTN": "رفض"
+    }
     },
     "ADMIN": {
         "VIEW_REPORTS": {
@@ -142,20 +142,6 @@
     },
     "AUTH": {},
     "CONTENT": {
-
-        "SHARED": {
-            "OUR_CONTENT": "المحتويات",
-            "POSTED_BY": "{{ creator }} :نشره",
-            "DASHBOARD": "الصفحة الرئيسية",
-            "CONTENT": "المحتويات",
-            "ARABIC": "العربية",
-            "NEXT": "التالى",
-            "ENGLISH": "الإنجليزية",
-            "LANGUAGE": "اللغة",
-            "CATEGORY": "الفئة",
-            "SECTION": "القسم",
-            "TAGS": "الإشارات"
-        },
         "LIST": {
             "ALL": "جميع الفئات",
             "BROWSE_CONTENT": "تصفح المحتويات",
@@ -235,6 +221,7 @@
             "ALREADY_WATCHED": "لقد شاهدت هذا الفيديو من قبل. لم تتم إضافة المزيد من نقاط التعلم",
             "LEARNING_POINTS_ADDED": "لقد حصلت للتو على 10 نقاط تعلم إضافية! نتيجتك",
             "CONNECTION_ERROR": "حدث خطأ. يرجى التحقق من اتصالك بالشبكة"
+
         }
     },
     "MARKET": {
