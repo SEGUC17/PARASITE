@@ -38,47 +38,47 @@ export class AppComponent implements OnInit {
   links = [
     {
       url: '/content/list',
-      name: 'Content',
+      name: 'APP.CONTENT',
       icon: 'book'
     },
     {
       url: '/profile',
-      name: 'Profile',
+      name: 'APP.PROFILE',
       icon: 'account'
     },
     {
       url: '/message',
-      name: 'Messaging',
+      name: 'APP.MESSAGING',
       icon: 'email'
     },
     {
       url: '/market',
-      name: 'Market',
+      name: 'APP.MARKET',
       icon: 'shopping-cart'
     },
     {
       url: '/psychologist',
-      name: 'Psychologists',
+      name: 'APP.PSYCHOLOGISTS',
       icon: 'hospital'
     },
     {
       url: '/activities',
-      name: 'Activities',
+      name: 'APP.ACTIVITIES',
       icon: 'run'
     },
     {
       url: '/admin',
-      name: 'Admin',
+      name: 'APP.ADMIN',
       icon: 'accounts-list'
     },
     {
       url: '/search',
-      name: 'Connect Parents',
+      name: 'APP.CONNECT_PARENTS',
       icon: 'accounts'
     },
     {
       url: '/scheduling/study-plan/published',
-      name: 'Study Plans',
+      name: 'APP.STUDY_PLANS',
       icon: 'graduation-cap'
     },
     {
@@ -368,8 +368,10 @@ export class AppComponent implements OnInit {
   // method to change the website's language
   changeLanguage(): void {
     if (this.translate.currentLang === 'en') {
+      $('body').addClass('rtl');
       this.translate.use('ara');
     } else {
+      $('body').removeClass('rtl');
       this.translate.use('en');
     }
 

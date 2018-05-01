@@ -1,10 +1,52 @@
 {
     "APP": {
         "NAWWAR": "نوَّر",
-        "CURRENT_LANGUAGE": "العربية"
+        "CURRENT_LANGUAGE": "العربية",
+        "LOADING_MESSAGE": "...يرجى الانتظار",
+        "CONTENT": "المحتويات",
+        "PROFILE": "الصفحة الشخصية",
+        "MESSAGING": "الرسائل",
+        "MARKET": "السوق",
+        "PSYCHOLOGISTS": "الخبراء النفسيين",
+        "ACTIVITIES": "الأنشطة",
+        "ADMIN": "إدارة الموقع",
+        "CONNECT_PARENTS": "التواصل",
+        "STUDY_PLANS": "الخطط الدراسية",
+        "CHANGE_LANGUAGE": "تغيير اللغة"
     },
     "ACTIVITIES": {
-        "EDIT":{
+        "CREATE": {
+            "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
+            "CREATE_ACTIVITY": "اضافة نشاط",
+            "REQUIRED_FIELDS": "الخانات المطلوبة",
+            "SUBMIT": "اضافة",
+            "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
+            "TAGS": "إشارات"
+        },
+        "LIST": {
+            "ACTIVITIES": "الانشطة",
+            "ACTIVITY": "النشاط",
+            "LATEST_ACTIVITY": "أحدث نشاط",
+            "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
+            "READ_MORE": "اقرأ المزيد",
+            "CLOSE": "أغلق",
+            "COMMENTS": "التعليقات",
+            "POSTED_BY": "قام بالنشر",
+            "PREV": "الصفحة السابقة",
+            "NEXT": "الصفحة التالية"
+        },
+        "DETAIL": {
+            "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
+            "FROM": "من",
+            "TO": "الى",
+            "COMMENT": "اضف تعليق",
+            "REPLY": "اضف رد",
+            "BOOK_FOR": "احجز لـ",
+            "DESCRIPTION": "الشرح",
+            "WRITE_COMMENT": "...اترك تعليق",
+            "BOOK_SUCCESS": "....تم الحجز بنجاح"
+        },
+        "EDIT": {
             "EDIT_ACTIVITY": "تعديل النشاط",
             "ACTIVITY_NAME": "الاسم",
             "START_DATE":"تاريخ النهاية",
@@ -15,7 +57,12 @@
             "SAVE_CHANGES":"حفظ التغييرات",
             "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
             "ACTIVITY_IMAGE":"تغيير صورة النشاط"
-        
+        },
+        "REVIEW": {
+            "ACCEPT": "تم قبول النشاط",
+            "REJECT": "تم رفض النشاط",
+            "ACCEPT_BTN": "قبول",
+            "REJECT_BTN": "رفض"
         }
     },
     "ADMIN": {
@@ -87,7 +134,10 @@
             "IDEA": "فكرة",
             "RESOURCE": "مورد تعليمي",
             "EDIT": "تحديث",
-            "CREATE": "إنشاء"
+            "CREATE": "إنشاء",
+            "ACCEPT": "قبول",
+            "REJECT": "رفض",
+            "VIEW_DETAILS":"عرض التفاصيل"
         }
     },
     "AUTH": {
@@ -177,6 +227,16 @@
                 "CONTENT_DESCRIPTION": "وصف أو مضمون المحتوى",
                 "REVIEW_AND_SUBMIT": "المراجعة والإنشاء"
             }
+        },
+        "TOASTER": {
+            "SIGN_IN_FIRST": "برجاء تسجيل الدخول أولا",
+            "COULD_NOT_RETRIEVE": "لم يتم العثور على المحتوى؛ برجاء المحاولة لاحقًا",
+            "FAILED_UPLOAD_IMAGE": "لم ينجح تحميل الصورة ، يرجى المحاولة مرة أخرى",
+            "FAILED_NO_FILE_SUPPLIED": "يرجى تقديم ملف للتحميل",
+            "NOT_FOUND": "لم يتم العثور على المحتوى؛ برجاء المحاولة لاحقًا",
+            "ALREADY_WATCHED": "لقد شاهدت هذا الفيديو من قبل. لم تتم إضافة المزيد من نقاط التعلم",
+            "LEARNING_POINTS_ADDED": "لقد حصلت للتو على 10 نقاط تعلم إضافية! نتيجتك",
+            "CONNECTION_ERROR": "حدث خطأ. يرجى التحقق من اتصالك بالشبكة"
         }
     },
     "MARKET": {
@@ -255,9 +315,9 @@
 
     },
     "SEARCH": {
-        
+
     },
     "LANDING":{
-        
+
     }
 }
