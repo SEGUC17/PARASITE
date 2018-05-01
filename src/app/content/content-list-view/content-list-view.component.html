@@ -1,18 +1,18 @@
 <section class="content blog-page">
   <div class="block-header">
     <div class="row">
-      <div class="col-lg-7 col-md-6 col-sm-12">
+      <div class="col-lg-7 col-md-6 col-sm-12" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
         <h2>{{ 'CONTENT.SHARED.OUR_CONTENT' | translate }}
           <small>{{ 'APP.NAWWAR' | translate }}</small>
         </h2>
       </div>
-      <div class="col-lg-5 col-md-6 col-sm-12">
-        <a routerLink="/content/edit" class="hidden-sm-down float-right m-l-10">
-          <button class="btn btn-primary btn-round btn-icon">
+      <div class="col-lg-5 col-md-6 col-sm-12"  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+        <a routerLink="/content/edit" class="hidden-sm-down m-l-10">
+          <button class="btn btn-primary btn-round btn-icon float-right">
             <i class="zmdi zmdi-plus m-t--10"></i>
           </button>
         </a>
-        <ul class="breadcrumb float-md-right">
+        <ul class="breadcrumb float-md-right" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
           <li class="breadcrumb-item">
             <a>
               <i class="zmdi zmdi-home"></i> {{ 'CONTENT.SHARED.DASHBOARD' | translate }}</a>
@@ -38,7 +38,7 @@
     </ul>
     <div class="row">
       <div class="col-lg-8 col-md-12 left-box">
-        <div *ngFor="let content of contents" class="card single_post">
+        <div *ngFor="let content of contents" class="card single_post"  [style.text-align]="translate.currentLang === 'ara'? 'right': null">
           <div class="body">
             <h3 *ngIf="content.title" class="m-t-0 m-b-5">
               <a routerLink="/content/view/{{content._id}}">{{ content.title }}</a>
@@ -82,7 +82,7 @@
       <div class="col-lg-4 col-md-12 right-box">
 
         <div *ngIf="selectedTabIndex === 0" class="card">
-          <div class="body search">
+          <div class="body search" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
             <div class="input-group m-b-0">
               <input type="text" class="form-control" (keydown.enter)="searchContent()" placeholder="{{ 'CONTENT.LIST.SEARCH' | translate }}" [(ngModel)]="searchQuery">
               <span class="input-group-addon search-icon" (click)="searchContent()">
@@ -106,35 +106,35 @@
             <div class="sort-by-div">
               <form #f="ngForm">
                 <h5>{{ 'CONTENT.LIST.SORT_BY' | translate }}</h5>
-                <div class="radio">
+                <div class="radio" align="left" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                   <input type="radio" name="sortByRadioButtonGroup" id="radio1" value="relevance" [(ngModel)]="sortResultsBy">
-                  <label for="radio1">
-                    {{ 'CONTENT.LIST.RELEVANCE' | translate }}
+                  <label for="radio1" style="padding-left:28px">
+                    <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'CONTENT.LIST.RELEVANCE' | translate }}</p>
                   </label>
                 </div>
-                <div class="radio">
+                <div class="radio" align="left" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                   <input type="radio" name="sortByRadioButtonGroup" id="radio2" value="upload date" [(ngModel)]="sortResultsBy">
-                  <label for="radio2">
-                    {{ 'CONTENT.LIST.UPLOAD_DATE' | translate }}
+                  <label for="radio2" style="padding-left:28px">
+                    <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"> {{ 'CONTENT.LIST.UPLOAD_DATE' | translate }}</p>
                   </label>
                 </div>
-                <div class="radio">
+                <div class="radio" align="left" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                   <input type="radio" name="sortByRadioButtonGroup" id="radio3" value="rating" [(ngModel)]="sortResultsBy">
-                  <label for="radio3">
-                    {{ 'CONTENT.LIST.RATING' | translate }}
+                  <label for="radio3" style="padding-left:28px">
+                    <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'CONTENT.LIST.RATING' | translate }}</p>
                   </label>
                 </div>
                 <h5>{{ 'CONTENT.SHARED.LANGUAGE' | translate }}</h5>
-                <div class="radio">
-                  <input type="radio" name="languageButtonGroup" id="radio4" value="english" [(ngModel)]="contentLanguage">
-                  <label for="radio4">
-                    {{ 'CONTENT.SHARED.ENGLISH' | translate }}
+                <div class="radio" align="left" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                  <input type="radio" align="left" name="languageButtonGroup" id="radio4" value="english" [(ngModel)]="contentLanguage">
+                  <label for="radio4" style="padding-left:28px">
+                    <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'CONTENT.SHARED.ENGLISH' | translate }}</p>
                   </label>
                 </div>
-                <div class="radio">
+                <div class="radio" align="left" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                   <input type="radio" name="languageButtonGroup" id="radio5" value="arabic" [(ngModel)]="contentLanguage">
-                  <label for="radio5">
-                    {{ 'CONTENT.SHARED.ARABIC' | translate }}
+                  <label for="radio5" style="padding-left:28px">
+                    <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'CONTENT.SHARED.ARABIC' | translate }}</p>
                   </label>
                 </div>
               </form>
@@ -142,7 +142,7 @@
           </div>
         </div>
 
-        <div *ngIf="categories" class="card">
+        <div *ngIf="categories" class="card"  [style.text-align]="translate.currentLang === 'ara'? 'right': null">
           <div class="header">
             <h2>
               <strong>{{ 'CONTENT.LIST.CATEGORIES' | translate }}</strong>

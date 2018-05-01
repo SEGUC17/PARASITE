@@ -118,7 +118,7 @@
             "ALL": "جميع الفئات",
             "BROWSE_CONTENT": "تصفح المحتويات",
             "CATEGORIES": "الفئات",
-            "CATEGORY_SPECIFIED": "{{ category }} :الفئة",
+            "CATEGORY_SPECIFIED": "{{ category }} الفئة:",
             "LANGUAGE_SPECIFIED": {
                 "ENGLISH": "اللغة: الإنجليزية",
                 "ARABIC": "اللغة: العربية"
@@ -128,7 +128,7 @@
             "RATING": "التقييم",
             "RELEVANCE": "مدى الصلة",
             "SEARCH": "...البحث",
-            "SECTION_SPECIFIED": "{{ section }} :القسم",
+            "SECTION_SPECIFIED": "{{ section }} القسم:",
             "SORT_BY": "التصنيف بحسب",
             "SORT_BY_SPECIFIED": {
                 "RATING": "التصنيف بحسب: التقييم",
