@@ -2,40 +2,19 @@ var mongoose = require('mongoose');
 var Tag = mongoose.model('Tag');
 
 // addTag starts
-module.exports.addTag = function (req, res, next) {
+module.exports.addTag = function (tag) {
     //Validity check
-    if (!(typeof req.body.name === 'string')) {
-        console.log('please insert tag"s name as a string');
-    }
-
-    if (req.body.name) {
-        return res.status(422).json({
-            data: null,
-            err: null,
-            msg: 'name(String) is a required field.'
-        });
-    }
-
-    // If the user is an admin then create Tag
-    if (req.user.isAdmin) {
-        Tag.create(req.body, function (err, tag) {
-            if (err) {
-                return next(err);
+    if (tag && typeof tag === 'string') {
+        Tag.findOneAndUpdate(
+            { name: tag },
+            { $set: { name: tag } },
+            { upsert: true },
+            function (err) {
+                if (err) {
+                    return console.log(err);
+                }
             }
-
-            return res.status(201).json({
-                data: tag,
-                err: null,
-                msg: 'Tag Created'
-            });
-        });
-    } else {
-        //If user is not an Admin
-        res.status(403).json({
-            data: null,
-            err: 'You are not an admin to do that',
-            msg: null
-        });
+        );
     }
 };
 //addTag ends
