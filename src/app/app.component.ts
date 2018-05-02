@@ -6,6 +6,7 @@ import { Notification } from './notification';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/filter';
 import { not } from '@angular/compiler/src/output/output_ast';
+import { LandingService } from './landing.service';
 declare const $: any;
 declare const jquery: any;
 declare const screenfull: any;
@@ -86,14 +87,10 @@ export class AppComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private translate: TranslateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public landingService: LandingService
   ) {
     const self = this;
-    if (this.router.url.endsWith('landing')) {
-      self.viewLanding = true;
-    } else {
-      self.viewLanding = false;
-    }
     // this fallback language if any translation is not found
     translate.setDefaultLang('ara');
 

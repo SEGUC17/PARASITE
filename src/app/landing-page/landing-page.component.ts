@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { LandingService } from '../landing.service';
 
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.scss']
 })
-export class LandingPageComponent implements OnInit {
+export class LandingPageComponent implements OnInit, OnDestroy {
 
-  constructor(private translate: TranslateService) { }
+  constructor(private translate: TranslateService, private landingService: LandingService) { }
 
   ngOnInit() {
+    this.landingService.setLandingView(true);
   }
 
   switchLang() {
@@ -19,6 +21,9 @@ export class LandingPageComponent implements OnInit {
     } else {
       this.translate.use('en');
     }
+  }
+  ngOnDestroy() {
+    this.landingService.setLandingView(false);
   }
 
 }

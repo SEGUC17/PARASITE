@@ -30,6 +30,7 @@ import { HttpClient } from '@angular/common/http';
 import { ContactUsComponent } from './contact-us/contact-us.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MessageService } from './messaging/messaging.service';
+import { LandingService } from './landing.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -80,7 +81,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     },
     RatingService,
     ToastrService,
-    MessageService
+    MessageService,
+    LandingService
   ],
   bootstrap: [AppComponent]
 })
