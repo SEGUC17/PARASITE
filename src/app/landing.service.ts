@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class LandingService {
 
   constructor() { }
-  viewLanding = true;
+  viewLanding = false;
   setLandingView(value: boolean) {
     this.viewLanding = value;
   }
