@@ -39,15 +39,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatSelectModule,
     TranslateModule.forChild()
   ],
-  declarations: [
-    ForgotPasswordComponent,
-    ResetPasswordComponent,
-    VerifyEmailComponent,
-    SignInComponent,
-    SignUpComponent,
-    SignOutComponent,
-    VerifyChildEmailComponent,
-    ChildSignupComponent
-  ]
+  declarations: [ForgotPasswordComponent, ResetPasswordComponent,
+     VerifyEmailComponent, SignInComponent, SignUpComponent, SignOutComponent,
+      VerifyChildEmailComponent, ChildSignupComponent]
 })
 export class AuthModule { }

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForwardDialogComponent } from './forward-dialog.component';
+import { SingleMailComponent } from './single-mail.component';
 
-describe('ForwardDialogComponent', () => {
-  let component: ForwardDialogComponent;
-  let fixture: ComponentFixture<ForwardDialogComponent>;
+describe('SingleMailComponent', () => {
+  let component: SingleMailComponent;
+  let fixture: ComponentFixture<SingleMailComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ForwardDialogComponent ]
+      declarations: [ SingleMailComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ForwardDialogComponent);
+    fixture = TestBed.createComponent(SingleMailComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

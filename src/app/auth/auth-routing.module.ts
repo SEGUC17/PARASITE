@@ -36,7 +36,6 @@ const routes = [
     path: 'sign-out',
     component: SignOutComponent
   },
-
   {
     path: 'verify-email/:id',
     component: VerifyEmailComponent

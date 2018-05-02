@@ -18,7 +18,7 @@ export class ForgotPasswordComponent implements OnInit {
   // ------ flags -----//
   email = '';
 
-  constructor(private _AuthService: AuthService, private _Location: Location, 
+  constructor(private _AuthService: AuthService, private _Location: Location,
     private toastrService: ToastrService, private translate: TranslateService) { }
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class ForgotPasswordComponent implements OnInit {
             self.toastrService.success(translation);
           }
         );
-        });
+      });
     } else {
       self.translate.get('AUTH.TOASTER.VALID_EMAIL_WARNING').subscribe(
         function (translation) {

@@ -22,7 +22,7 @@ import {
   GoogleApiConfig
 } from 'ng-gapi';
 import { AppComponent } from './app.component';
-import { AuthService } from './auth/auth.service';
+import { AuthService} from './auth/auth.service';
 import { environment } from '../environments/environment';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';

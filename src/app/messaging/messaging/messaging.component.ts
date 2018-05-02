@@ -4,93 +4,60 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 import { Inject } from '@angular/core';
 import { SendDialogComponent } from '../send-dialog/send-dialog.component';
-import { ReplyDialogComponent } from '../reply-dialog/reply-dialog.component';
-import { ForwardDialogComponent } from '../forward-dialog/forward-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { MatButtonModule } from '@angular/material';
+import { SingleMailComponent } from '../single-mail/single-mail.component';
+import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService} from '@ngx-translate/core';
+
+declare const $: any;
 
 @Component({
   selector: 'app-messaging',
   templateUrl: './messaging.component.html',
   styleUrls: ['./messaging.component.scss'],
-  providers: [MessageService, AuthService, ToastrService]
+  providers: [MessageService, AuthService, ToastrService, TranslateService]
 })
 
 export class MessagingComponent implements OnInit {
 
   currentUser: any; // the currently logged in user
-  msg: any;
-  div: Boolean; // controls appearance of a div notifying the user that they can't access messaging (in case the logged in user is a child)
   inbox: any[];
   sent: any[];
-  blockedUser: any;
-  sender: any;
-  receipient: any;
-  displayedColumns = ['sender', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
-  displayedColumns1 = ['recipient', 'body', 'sentAt', 'reply', 'forward', 'delete', 'block'];
   contacts: any[];
-  allIsWell: Boolean = true;
+  avatars: any[];
+  flag: Boolean = true;
+  // send to contact
+  replyTo: string;
+  Body: String = '';
+  msg: any;
+  allisWell: Boolean = true;
+  UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
+  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
-  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog, 
-    private toastrService: ToastrService) { }
+  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog,
+    private router: Router, private toastrService: ToastrService, private _TranslateService: TranslateService) { }
 
-  // opening the send dialog (on pressing the compose button)
   openDialog(): void {
-    let dialogRef = this.dialog.open(SendDialogComponent, {
-      width: '600px',
-      height: '500px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+    $('#send').modal('show');
   }
 
-  openReplyDialog(user: any): void {
-    let replydialog = this.dialog.open(ReplyDialogComponent, {
-      width: '600px',
-      height: '500px',
-      data: {
-        replyTo: user
-      }
-    });
-
-    replydialog.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
-  openForwardDialog(message): void {
-    let dialogRef = this.dialog.open(ForwardDialogComponent, {
-      width: '600px',
-      height: '500px',
-      data: {
-        body: message.body
-        }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
+  openReplyDialog(username: string): void {
+    this.replyTo = username;
+    $('#reply').modal('show');
   }
 
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['_id', 'username', 'isChild', 'blocked'];
+    const userDataColumns = ['_id', 'username', 'isChild', 'avatar'];
     // get info of logged in user
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
-      console.log(self.currentUser.username);
-      console.log(self.currentUser._id);
-      if (self.currentUser.isChild) {
-        self.div = true; // logged in user is a child
-      } else {
-        self.div = false;
-        self.getInbox();
-        self.getSent();
-        self.getContacts();
-      }
+      self.getInbox();
+      self.getSent();
+      self.getContacts();
+      console.log(self.contacts);
     });
   }
 
@@ -112,51 +79,6 @@ export class MessagingComponent implements OnInit {
     });
   }
 
-  // deleteing a message from inbox or sent (on pressing delete button)
-  deleteMessage(message): void {
-    const self = this;
-    // make DELETE request using messaging service
-    this.messageService.deleteMessage(message).subscribe(function (res) {
-    });
-  }
-
-// blocking the reciever of the message from messaging the current user again
-  block(message): void {
-    const self = this;
-    //  if the currentUser is the sender then the receipent is the person to block
-   if ( message.recipient !== this.currentUser.username ) {
-     // console.log('receipient is:' + message.recipient);
-      this.blockedUser = message.recipient;
-      // else the recipient is the currentUser & the sender is the person to block
-    } else {
-     // console.log(message.sender);
-      this.blockedUser = message.sender;
-     // console.log('blocked user is:' + this.blockedUser);
-    }
-    if ( this.blockedUser === this.currentUser.username ) {
-        this.toastrService.error('Sorry, you can\'t block yourself!');
-        this.allIsWell = false;
-    }
-
-   // console.log('blocklist is: ', this.currentUser.blocked);
-    for (let i = 0 ; i < this.currentUser.blocked.length; i++) {
-         if (this.currentUser.blocked[i] === this.blockedUser) {
-             self.toastrService.error('This user is already blocked!');
-             this.allIsWell = false;
-     //        console.log('all is not well, dup found: ', this.blockedUser);
-         }// end if
-
-    } // end for
-    if (this.allIsWell === true) {
-      this.currentUser.blocked.push(this.blockedUser);
-    this.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
-      if (res.msg) {
-        self.toastrService.success(res.msg);
-      }// end if
-  });
-}// end if
- }// end method
-
  // getting a list of recently contacted users
  getContacts(): void {
   const self = this;
@@ -165,4 +87,47 @@ export class MessagingComponent implements OnInit {
   });
 }
 
+  setMessage(message: any): void {
+    this.messageService.read(message).subscribe();
+    this.messageService.setMessage(message);
+  }
+
+  reply(): void {
+    const self = this;
+
+    if (this.Body === '') {
+      self._TranslateService.get('MESSAGING.TOASTR.EMPTY_MSG').subscribe(function(translation) {
+        self.toastrService.warning(translation);
+
+      });
+    } else {
+      this.authService.getAnotherUserData(this.UserList, this.replyTo.toString()).subscribe((user)  => {
+        const list = user.data.blocked;
+        for ( let i = 0 ; i < user.data.blocked.length ; i++) {
+          if ( this.currentUser.username === list[i] ) {
+            self._TranslateService.get('MESSAGING.TOASTR.SEND_SELF').subscribe(function(translation) {
+              self.toastrService.error(translation);
+
+            });
+            this.allisWell = false;
+          } // end if
+        }// end for
+
+        // make a POST request using messaging service
+        if (this.allisWell === true) {
+          console.log(user.data.avatar);
+          this.msg = {'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
+          'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
+          this.messageService.send(this.msg)
+          .subscribe(function(res) {
+            self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
+              self.toastrService.success(translation);
+
+            });
+            self.getSent();
+          });
+        }// end if
+      });
+    }
+  }
 }// end class
