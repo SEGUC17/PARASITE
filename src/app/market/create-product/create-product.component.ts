@@ -37,12 +37,6 @@ export class CreateProductComponent {
   formInput = <any>{};
   user: any = {};
   img: string;
-  tmpImg: string;
-  uploader: CloudinaryUploader = new CloudinaryUploader(
-    new CloudinaryOptions({ cloudName: CloudinaryCredentials.cloudName, uploadPreset: CloudinaryCredentials.uploadPreset })
-  );
-  loading: any;
-
 
   createProduct(product: any) {
 
@@ -59,7 +53,6 @@ export class CreateProductComponent {
     }
 
     if (!error) { // enter the if condition if there is no error
-      this.upload();
       let pro = { // here i put the inputs i take and place them in pro
         name: this.formInput.name,
         price: this.formInput.price,
@@ -100,25 +93,13 @@ export class CreateProductComponent {
 
 
   //         image uploader          //
-
-
-
-  upload(): any {
+  uploaded(url: string) {
     let self = this;
-    this.loading = true;
-    this.uploader.uploadAll();
-    this.uploader.onSuccessItem = (
-      item: any,
-      response: string,
-      status: number,
-      headers: any): any => {
-      let res: any = JSON.parse(response);
-      self.img = res.url;
-    };
-    this.uploader.onErrorItem =
-      function (fileItem, response, status, headers) {
-        // bad image
-      };
+    if (url === 'imageFailedToUpload' || url === 'noFileToUpload') {
+      self.toasterService.error('image upload failed, try another image', 'failure');
+    } else {
+      self.img = url;
+    }
   }
 
 }

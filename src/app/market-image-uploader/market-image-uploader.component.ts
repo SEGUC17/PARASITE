@@ -6,9 +6,9 @@ import { CloudinaryCredentials } from '../variables';
 
 
 @Component({
-  selector: 'app-image-uploader',
-  templateUrl: './image-uploader.component.html',
-  styleUrls: ['./image-uploader.component.scss']
+  selector: 'app-market-image-uploader',
+  templateUrl: './market-image-uploader.component.html',
+  styleUrls: ['./market-image-uploader.component.scss']
 })
 export class MarketImageUploaderComponent implements OnInit {
 
@@ -37,7 +37,6 @@ export class MarketImageUploaderComponent implements OnInit {
   //
 
   @Output() ImageUploaded = new EventEmitter<string>();
-  @Input() brWanted: Boolean = true;
 
   uploader: CloudinaryUploader = new CloudinaryUploader(
     new CloudinaryOptions({ cloudName: CloudinaryCredentials.cloudName, uploadPreset: CloudinaryCredentials.uploadPreset })
