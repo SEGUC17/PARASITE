@@ -16,7 +16,7 @@
                                 <label [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'">{{ 'CONTENT.EDIT.TITLE' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" [ngClass]="'form-control' +(title.invalid && (title.touched || title.dirty) ? ' form-control-danger': '')"
+                                <input [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'" type="text" [ngClass]="'form-control' +(title.invalid && (title.touched || title.dirty) ? ' form-control-danger': '')"
                                     required [(ngModel)]="content.title" name="title" #title="ngModel" placeholder="{{ 'CONTENT.EDIT.TITLE_PLACEHOLDER' | translate }}">
                             </div>
                             <small *ngIf="title.invalid && (title.touched || title.dirty)" class="text-danger">{{ 'CONTENT.EDIT.TITLE_IS_REQUIRED' | translate }}</small>
@@ -29,7 +29,7 @@
                             </div>
                             <div [ngClass]="'form-group mb-1'+(video.errors?.pattern && (video.touched || video.dirty) ? ' has-danger': '')">
                                 <label>{{ 'CONTENT.EDIT.YOUTUBE_VIDEO' | translate }}</label>
-                                <input [ngClass]="'form-control' +(video.errors?.pattern && (video.touched || video.dirty) ? ' form-control-danger': '')"
+                                <input [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'" [ngClass]="'form-control' +(video.errors?.pattern && (video.touched || video.dirty) ? ' form-control-danger': '')"
                                     pattern="http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?"
                                     [(ngModel)]="videoInput" #video="ngModel" name="video" placeholder="{{ 'CONTENT.EDIT.VIDEO_LINK_PLACEHOLDER' | translate }}"
                                     (blur)="getSafeUrl()">
@@ -85,7 +85,7 @@
                                 <label *ngFor="let tag of content.tags">
                                     <a class="tag badge badge-default">{{tag}}</a>
                                 </label>
-                                <input class="form-control" [(ngModel)]="chipInput" placeholder="{{ 'CONTENT.EDIT.TAG_PLACEHOLDER' | translate }}" name="tags" (keyup)="onTagInput($event)" (blur)="onTagInput($event)"
+                                <input [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'" class="form-control" [(ngModel)]="chipInput" placeholder="{{ 'CONTENT.EDIT.TAG_PLACEHOLDER' | translate }}" name="tags" (keyup)="onTagInput($event)" (blur)="onTagInput($event)"
                                 />
                             </div>
                         </div>
