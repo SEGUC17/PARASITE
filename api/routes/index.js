@@ -139,7 +139,7 @@ module.exports = function (passport) {
   router.delete('/activities/:activityId/', isAuthenticated, ActivityController.deleteActivity);
   router.patch('/activities/:activityId/EditActivityImage', isAuthenticated, ActivityController.editActivityImage);
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', optionalAuthentication, psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
   router.delete('/psychologist/delete/:id', optionalAuthentication, psychCtrl.deletePsychologist);
   router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
@@ -426,7 +426,7 @@ module.exports = function (passport) {
   router.get('/message/contacts/:user', isAuthenticated, messageController.getRecentlyContacted);
 
   // Registered user contacts admins
-  router.post('/contactus', messageController.contactAdmin);
+  router.post('/message/contactus', messageController.contactAdmin);
     //Unblocking users
   router.patch('/message/unblock/:id', isAuthenticated, messageController.unBlock);
 
