@@ -8,6 +8,11 @@ import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
 import {  DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { catchError } from 'rxjs/operators';
+
+
 declare const swal: any;
 declare const $: any;
 @Component({
@@ -260,8 +265,13 @@ export class ProfileComponent implements OnInit {
     //     image: 'imageMaher.com',
     //     creator: '5ac12591a813a63e419ebce5'
     // }
-    this._ProfileService.makeContributerValidationRequest({}).subscribe(function (res) {
-      // console.log(res);
+    var self = this;
+    this._ProfileService.makeContributerValidationRequest({}).pipe(
+      catchError(this.handleError('evalRequest', 'duplicate'))
+    ).subscribe(function (res) {
+      if(res !== 'duplicate' ) {
+        self.toastrService.success('request submitted');
+      }
     });
   }
 
@@ -579,6 +589,14 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
   levelIs(level) {
     this.educationalLevel = level;
     this.vEducationalLevel = level;
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    var self = this;
+    return function (error: any): Observable<T> {
+      self.toastrService.error(error.error.msg);
+      return of(result as T);
+    };
   }
 
 }

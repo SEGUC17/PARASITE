@@ -1,5 +1,6 @@
 /* eslint multiline-comment-style: ["error", "starred-block"] */
 /* eslint max-statements: ["error", 20] */
+/* eslint-disable eqeqeq */
 
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
@@ -19,7 +20,7 @@ module.exports.getComment = function (req, res) {
     var isVerified = req.verified;
     var isAdmin = user && user.isAdmin;
     var object = req.object;
-    var isCreator = user && object.creator === user.username;
+    var isCreator = user && object.creator == user.username;
     var commentId = req.params.commentId;
 
     if (!isVerified && !isAdmin && !isCreator) {
@@ -32,7 +33,7 @@ module.exports.getComment = function (req, res) {
         });
     }
     var comment = object.discussion.filter(function (com) {
-        return com._id === commentId;
+        return com._id == commentId;
     }).pop();
     if (!comment) {
         return res.status(404).json({
@@ -62,7 +63,7 @@ module.exports.postComment = function (req, res) {
     var isVerified = req.verified;
     var isAdmin = user && user.isAdmin;
     var object = req.object;
-    var isCreator = user && object.creator === user.username;
+    var isCreator = user && object.creator == user.username;
     var distype = 'discussion content';
     var type = 'content';
     var title = object.title;
@@ -85,6 +86,7 @@ module.exports.postComment = function (req, res) {
     object.discussion.push({
         $sort: { createdAt: -1 },
         creator: user.username,
+        creatorInfo: user._id,
         text: req.body.text
     });
 
@@ -152,7 +154,7 @@ module.exports.postCommentReply = function (req, res, next) {
     var isVerified = req.verified;
     var isAdmin = user && user.isAdmin;
     var object = req.object;
-    var isCreator = user && object.creator === user.username;
+    var isCreator = user && object.creator == user.username;
     var commentId = req.params.commentId;
     var type = 'content';
     var distype = 'discussion content';
@@ -174,7 +176,7 @@ module.exports.postCommentReply = function (req, res, next) {
     }
 
     var comment = object.discussion.filter(function (com) {
-        return com._id === commentId;
+        return com._id == commentId;
     }).pop();
     if (!comment) {
         return res.status(404).json({
@@ -187,6 +189,7 @@ module.exports.postCommentReply = function (req, res, next) {
     comment.replies.push({
         $sort: { createdAt: -1 },
         creator: user.username,
+        creatorInfo: user._id,
         text: req.body.text
     });
 
@@ -295,11 +298,11 @@ module.exports.deleteComment = function (req, res, next) {
     var user = req.user;
     var isAdmin = user && user.isAdmin;
     var object = req.object;
-    var isObjectCreator = user && object.creator === user.username;
+    var isObjectCreator = user && object.creator == user.username;
     var commentId = req.params.commentId;
 
     var comment = object.discussion.filter(function (comm) {
-        return comm._id === commentId;
+        return comm._id == commentId;
     }).pop();
 
     if (!comment) {
@@ -310,7 +313,7 @@ module.exports.deleteComment = function (req, res, next) {
         });
     }
 
-    var isCommentCreator = comment.creator === user.username;
+    var isCommentCreator = comment.creator == user.username;
 
     if (!isAdmin && !isObjectCreator && !isCommentCreator) {
         return res.status(403).json({
@@ -346,12 +349,12 @@ module.exports.deleteCommentReply = function (req, res, next) {
     var user = req.user;
     var isAdmin = user && user.isAdmin;
     var object = req.object;
-    var isObjectCreator = user && object.creator === user.username;
+    var isObjectCreator = user && object.creator == user.username;
     var commentId = req.params.commentId;
     var replyId = req.params.replyId;
 
     var comment = object.discussion.filter(function (comm) {
-        return comm._id === commentId;
+        return comm._id == commentId;
     }).pop();
 
     if (!comment) {
@@ -362,10 +365,10 @@ module.exports.deleteCommentReply = function (req, res, next) {
         });
     }
 
-    var isCommentCreator = comment.creator === user.username;
+    var isCommentCreator = comment.creator == user.username;
 
     var reply = comment.replies.filter(function (rep) {
-        return rep._id === replyId;
+        return rep._id == replyId;
     }).pop();
 
     if (!reply) {
@@ -375,7 +378,7 @@ module.exports.deleteCommentReply = function (req, res, next) {
             msg: null
         });
     }
-    var isReplyCreator = reply.creator === user.username;
+    var isReplyCreator = reply.creator == user.username;
 
     if (
         !isAdmin &&
