@@ -38,7 +38,11 @@ export class SignInComponent implements OnInit {
             self.toastrService.success(translation);
           }
         );
-        self.router.navigateByUrl('/newsfeed');
+        // self.router.navigateByUrl('/newsfeed');
+        // used this instead in order for profile picture
+        // of the current user and the appropriate
+        // tabs appear to him
+        window.location.replace('/newsfeed');
       }
     });
   }
