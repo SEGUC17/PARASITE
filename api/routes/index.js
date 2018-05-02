@@ -138,7 +138,7 @@ module.exports = function (passport) {
   router.delete('/activities/:activityId/', isAuthenticated, ActivityController.deleteActivity);
   router.patch('/activities/:activityId/EditActivityImage', isAuthenticated, ActivityController.editActivityImage);
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist/search/:limiters', isAuthenticated, psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
   router.delete('/psychologist/delete/:id', optionalAuthentication, psychCtrl.deletePsychologist);
   router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
@@ -158,8 +158,9 @@ module.exports = function (passport) {
   router.get('/productrequest/getUserRequests/:username', isAuthenticated, productCtrl.getUserRequests);
   router.patch('/productrequest/getUserRequests/:id', isAuthenticated, productCtrl.updateRequest);
   router.patch('/productrequest/editPrice/:id/:username', isAuthenticated, productCtrl.editPrice);
+  router.patch('/productrequest/deleteProduct',isAuthenticated, productCtrl.deleteProduct);
 
-  router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
+   router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
 
   // --------------End Of Product Contoller ---------------------- //
 

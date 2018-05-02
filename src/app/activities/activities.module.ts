@@ -46,7 +46,7 @@ import { FileUploadModule } from 'ng2-file-upload';
   declarations: [ActivityComponent, ActivityCreateComponent, ActivityDetailComponent, ActivityEditComponent, ImageUploaderComponent],
   entryComponents: [ActivityEditComponent],
   providers: [ActivityService, DiscussionService , { provide: MatDialogRef, useValue: {} },
-    { provide: MAT_DIALOG_DATA, useValue: [] }, ToastrService, ImageUploaderComponent], 
+    { provide: MAT_DIALOG_DATA, useValue: [] }, ToastrService, ImageUploaderComponent],
   exports: [ActivityCreateComponent ]
 })
 export class ActivitiesModule { }

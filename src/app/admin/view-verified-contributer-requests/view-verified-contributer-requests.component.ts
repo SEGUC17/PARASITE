@@ -66,11 +66,8 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   }
 
   Accept(request) { // Accepted by Admin.
-    console.log(request);
-    var self = this;
-    this._adminService.respondToContributerValidationRequest(request._id, 'approved').subscribe(function (res) {
-      self.viewVCRs(self.filter);
-    });
+    this._adminService.respondToContributerValidationRequest(request._id, 'approved');
+
   }
 
   Reject(request) { // rejected by Admin.
@@ -83,7 +80,7 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
       });
     });
   }
-  // not testedd 
+  // not testedd
   showPromptMessage(creator, sender): any {
     // creator is the Activity creator
     // sender in the currently logged in admin

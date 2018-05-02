@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {RouterModule, Routes} from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes = [
   {
     path: '',
-    component: AppComponent
+    component: AppComponent,
+  },
+  {
+    path: 'landing',
+    component: LandingPageComponent,
+    pathMatch: 'full'
   },
   {
     path: 'activities',
@@ -47,11 +53,6 @@ const routes = [
   {
     path: 'search',
     loadChildren: 'app/search/search.module#SearchModule'
-  },
-  {
-    path: '*',
-    redirectTo: '',
-    pathMatch: 'full'
   }
 ];
 

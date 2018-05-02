@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
@@ -27,14 +26,13 @@ export class ActivityComponent implements OnInit {
     isAdmin: false,
     verified: false,
     AvatarLink: null,
-    username: ''
+    username: 'Mohamed Maher'
 
   };
 
   constructor(
     private activityService: ActivityService,
-    private authService: AuthService,
-    private translate: TranslateService
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -56,7 +54,7 @@ export class ActivityComponent implements OnInit {
       this.totalNumberOfPages = res.data.pages;
       }
     );
-    this.authService.getUserData(['isAdmin', 'verified']).subscribe((user) => {
+    this.authService.getUserData(['isAdmin']).subscribe((user) => {
       this.user.isAdmin = user.data.isAdmin;
       this.user.verified = user.data.verified;
       this.canCreate = this.user.isAdmin || this.user.verified;

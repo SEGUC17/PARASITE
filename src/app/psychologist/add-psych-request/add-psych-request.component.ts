@@ -3,9 +3,10 @@ import { PsychologistRequest } from '../PsychologistRequest';
 import { PsychologistService } from '../psychologist.service';
 import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatSnackBar } from '@angular/material';
-import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
+declare const $: any;
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -23,7 +24,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 export class AddPsychRequestComponent implements OnInit {
   request: PsychologistRequest;
 
-  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
+  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
   /* form controls for each input form field */
   firstNameFormControl = new FormControl('', [
@@ -47,14 +48,16 @@ export class AddPsychRequestComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
 
 
-  constructor(
-    private RequestService: PsychologistService,
-    private toasterService: ToastrService,
-    public dialogRef: MatDialogRef<AddPsychRequestComponent>) {
+  constructor(private RequestService: PsychologistService,
+              private toasterService: ToastrService,
+              public dialogRef: MatDialogRef<AddPsychRequestComponent>,
+              public translate: TranslateService) {
 
   }
 
   ngOnInit() {
+    $('.mat-dialog-container').css('padding', '0px');
+    $('.mat-dialog-container').css('height', 'fit-content');
   }
 
   /* called when user clicks on submit button */
@@ -63,8 +66,8 @@ export class AddPsychRequestComponent implements OnInit {
 
     /* check if any of the required fields are empty, if yes notify user he should fill them*/
     if (this.emailFormControl.hasError('required') || this.firstNameFormControl.hasError('required')
-      || this.lastNameFormControl.hasError('required')) {
-      this.toasterService.error('Please fill all the required fields', 'failure');
+        || this.lastNameFormControl.hasError('required')) {
+        this.toasterService.error('Please fill all the required fields', 'failure');
     } else if (this.emailFormControl.hasError('email')) {
       // if the emil user provided is not the in correct format
       // notify user he should enter a valid email

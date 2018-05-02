@@ -3,7 +3,8 @@ import { ProfileService } from '../../profile.service';
 import { AuthService } from './../../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-childern',
   templateUrl: './childern.component.html',

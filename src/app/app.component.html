@@ -1,242 +1,326 @@
 <!-- Page Loader -->
-<div class="page-loader-wrapper">
-    <div class="loader">
-        <div class="m-t-30">
-            <img class="zmdi-hc-spin" src="assets/images/favicon.ico" width="48" height="48" alt="sQuare">
-        </div>
-        <p>{{ 'APP.LOADING_MESSAGE' | translate}}</p>
-    </div>
-</div>
-<div class="overlay_menu">
-    <button class="btn btn-primary btn-icon btn-icon-mini btn-round">
-        <i class="zmdi zmdi-close"></i>
-    </button>
-    <div class="container">
-        <div class="row clearfix">
-            <div class="card links">
-                <div class="body">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-6 col-sm-12">
-                            <h6>App</h6>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a routerLink="/app/inbox">Inbox</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/app/chat">Chat</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/app/calendar">Calendar</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/app/file-dashboard">File Manager</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/app/contact">Contact list</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12">
-                            <h6>User Interface (UI)</h6>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a routerLink="/user-interface/ui-kit">UI KIT</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/user-interface/tabs">Tabs</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/user-interface/range-sliders">Range Sliders</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/user-interface/modals">Modals</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/user-interface/alerts">Alerts</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/user-interface/dialogs">Dialogs</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/user-interface/collapse">Collapse</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12">
-                            <h6>Sample Pages</h6>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a routerLink="/sample-pages/image-gallery">Image Gallery</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/sample-pages/profile">Profile</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/sample-pages/timeline">Timeline</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/sample-pages/pricing">Pricing</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/sample-pages/invoices">Invoices</a>
-                                </li>
-                                <li>
-                                    <a routerLink="/sample-pages/search-results">Search Results</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-sm-12">
-                            <h6>About</h6>
-                            <ul class="list-unstyled">
-                                <li>
-                                    <a href="http://thememakker.com/about/" target="_blank">About</a>
-                                </li>
-                                <li>
-                                    <a href="http://thememakker.com/contact/" target="_blank">Contact Us</a>
-                                </li>
-                                <li>
-                                    <a href="http://thememakker.com/admin-templates/" target="_blank">Admin Templates</a>
-                                </li>
-                                <li>
-                                    <a href="http://thememakker.com/services/" target="_blank">Services</a>
-                                </li>
-                                <li>
-                                    <a href="http://thememakker.com/portfolio/" target="_blank">Portfolio</a>
-                                </li>
-                            </ul>
+<!-- Navigation -->
+<div *ngIf="!landingService.getLandingView()">
+    <div class="overlay_menu">
+        <button class="btn btn-primary btn-icon btn-icon-mini btn-round">
+            <i class="zmdi zmdi-close"></i>
+        </button>
+        <div class="container">
+            <div class="row clearfix">
+                <div class="card links">
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <h6>App</h6>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a routerLink="/app/inbox">Inbox</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/app/chat">Chat</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/app/calendar">Calendar</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/app/file-dashboard">File Manager</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/app/contact">Contact list</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <h6>User Interface (UI)</h6>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a routerLink="/user-interface/ui-kit">UI KIT</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/user-interface/tabs">Tabs</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/user-interface/range-sliders">Range Sliders</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/user-interface/modals">Modals</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/user-interface/alerts">Alerts</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/user-interface/dialogs">Dialogs</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/user-interface/collapse">Collapse</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <h6>Sample Pages</h6>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a routerLink="/sample-pages/image-gallery">Image Gallery</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/sample-pages/profile">Profile</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/sample-pages/timeline">Timeline</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/sample-pages/pricing">Pricing</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/sample-pages/invoices">Invoices</a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/sample-pages/search-results">Search Results</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-12">
+                                <h6>About</h6>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a href="http://thememakker.com/about/" target="_blank">About</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://thememakker.com/contact/" target="_blank">Contact Us</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://thememakker.com/admin-templates/" target="_blank">Admin Templates</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://thememakker.com/services/" target="_blank">Services</a>
+                                    </li>
+                                    <li>
+                                        <a href="http://thememakker.com/portfolio/" target="_blank">Portfolio</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row clearfix">
-            <div class="col-lg-12 col-md-12">
-                <div class="social">
-                    <a class="icon" href="https://www.facebook.com/Project.Nawwar/" target="_blank">
-                        <i class="zmdi zmdi-facebook"></i>
-                    </a>
-                    <p>Nawwar
-                    </p>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12">
+                    <div class="social">
+                        <a class="icon" href="https://www.facebook.com/Project.Nawwar/" target="_blank">
+                            <i class="zmdi zmdi-facebook"></i>
+                        </a>
+                        <p>Nawwar
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- Overlay For Sidebars -->
-<div class="overlay"></div>
-<!-- Top Bar -->
-<nav class="navbar">
-    <ul class="nav navbar-nav navbar-left">
-        <li>
-            <div class="navbar-header">
-                <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" routerLink="/dashboard">
-                    <img src="assets/images/favicon.ico" width="30" alt="sQuare">
-                    <span class="m-l-10">{{ 'APP.NAWWAR' | translate }}</span>
-                </a>
-            </div>
-        </li>
-        <li>
-            <a href="javascript:void(0);" class="menu-sm" data-close="true">
-                <i class="zmdi zmdi-arrow-left"></i>
-                <i class="zmdi zmdi-arrow-right"></i>
-            </a>
-        </li>
-        <li class="dropdown app_menu">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                <i class="zmdi zmdi-apps"></i>
-            </a>
-            <ul class="dropdown-menu pullDown">
-                <li *ngFor="let link of links">
-                    <a [routerLink]="link.url">
-                       <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                        <span>{{ link.name | translate }}</span>
+    <!-- Overlay For Sidebars -->
+    <div class="overlay"></div>
+    <!-- Top Bar -->
+    <nav [ngClass]="'navbar col-lg-12 col-md-12' + (viewLanding ? ' d-none':'')">
+        <ul class="nav navbar-nav navbar-left ">
+            <li>
+                <div class="navbar-header">
+                    <a href="javascript:void(0);" class="bars"></a>
+                    <a class="navbar-brand" routerLink="/dashboard">
+                        <img src="assets/images/favicon.ico" width="30" alt="sQuare">
+                        <span class="m-l-10">{{ 'APP.NAWWAR' | translate }}</span>
                     </a>
-                </li>
-            </ul>
-        </li>
-        <li class="dropdown notifications hidden-sm-down">
-            <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" (click)="getNotifications()">
-                <i class="zmdi zmdi-notifications"></i>
-                <span class="label-count">{{unreadNotificationsNumber}}</span>
-            </a>
-            <ul class="dropdown-menu pullDown">
-                <li class="body">
-                    <ul class="menu list-unstyled">
-                        <li *ngFor="let not of notifications">
-                            <div *ngIf="not.isRead">
-                                <a href={{not.link}}>
-                                    <div class="media">
-                                        <div class="media-body">
-                                            <span class="time"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
-                                            <span class="message"> {{not.body}} </span>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div *ngIf="!not.isRead" class = "bg-dark">
-                                    <a href={{not.link}}>
-                                        <div class="media">
-                                            <div class="media-body">
-                                                <span class="time col-primary"> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }} </span>
-                                                <span class="message text-muted col-white"> {{not.body}} </span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
+                </div>
+            </li>
+            <li>
+                <a href="javascript:void(0);" class="menu-sm" data-close="true">
+                    <i class="zmdi zmdi-arrow-left"></i>
+                    <i class="zmdi zmdi-arrow-right"></i>
+                </a>
+            </li>
 
+
+            <li class="dropdown notifications hidden-sm-down" *ngIf="username">
+                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" (click)="getNotifications()">
+                    <i class="zmdi zmdi-notifications"></i>
+                    <span *ngIf="unreadNotificationsNumber != 0" class="label-count">{{unreadNotificationsNumber}}</span>
+                </a>
+                <ul class="dropdown-menu pullDown">
+                    <li class="body">
+                        <ul class="menu list-unstyled">
+                            <li *ngFor="let not of notifications">
+                                <span (click)="modifyNotification(not._id,true)">
+                                    <!-- read notifications normal bg -->
+                                    <div *ngIf="not.isRead">
+
+                                        <a routerLink={{not.link}}>
+                                            <div class="media">
+                                                <div *ngIf="not.type ===  message ">
+                                                    <i class="zmdi zmdi-email"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  content ">
+                                                    <i class="zmdi zmdi-book"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  product ">
+                                                    <i class="zmdi zmdi-shopping-cart"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  study_plan ">
+                                                    <i class="zmdi zmdi-graduation-cap"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  activity ">
+                                                    <i class="zmdi zmdi-run"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  link ">
+                                                    <i class="zmdi zmdi-link"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  contributer ">
+                                                    <i class="zmdi zmdi-shield-check"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  discussion_A || not.type ===  discussion_C ">
+                                                    <i class="zmdi zmdi-comments"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <div class="col-md-12">
+                                                        <span class="message">
+                                                            <strong>
+                                                                {{not.body}}
+                                                            </strong>
+                                                        </span>
+                                                        <div class="row">
+                                                            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                                                            <div class="col-lg-10 col-md-10 col-sm-10" align="right">
+
+                                                                <span class="time text-muted">
+                                                                    <small> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }}
+                                                                    </small>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <!-- unread notifications dark bg-->
+                                    <div *ngIf="!not.isRead" style="background-color: #63c6b6">
+                                        <a routerLink={{not.link}}>
+                                            <div class="media">
+                                                <div *ngIf="not.type ===  message ">
+                                                    <i class="zmdi zmdi-email" style="color:black"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  content ">
+                                                    <i class="zmdi zmdi-book" style="color:black"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  product ">
+                                                    <i class="zmdi zmdi-shopping-cart" style="color:black"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  study_plan ">
+                                                    <i class="zmdi zmdi-graduation-cap" style="color:black"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  activity ">
+                                                    <i class="zmdi zmdi-run" style="color:black"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  link ">
+                                                    <i class="zmdi zmdi-link" style="color:black"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  contributer ">
+                                                    <i class="zmdi zmdi-shield-check" style="color:black"></i>
+                                                </div>
+                                                <div *ngIf="not.type ===  discussion_A || not.type ===  discussion_C ">
+                                                    <i class="zmdi zmdi-comments  col-dark" style="color:black"></i>
+                                                </div>
+                                                <div class="media-body ">
+                                                    <div class="col-md-12">
+                                                        <span class="message col-white">
+                                                            <strong> {{not.body}}
+                                                            </strong>
+                                                        </span>
+                                                        <div class="row">
+                                                            <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                                                            <div class="col-lg-10 col-md-10 col-sm-10" align="right">
+                                                                <span class="time text-muted" style="color:black">
+                                                                    <small> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }}
+                                                                    </small>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </span>
+                            </li>
+                        </ul>
+                        <!-- <li class="footer">
+                        <a href="javascript:void(0);">View All</a>
+                    </li> -->
+                </ul>
+                </li>
+                <li class="dropdown app_menu">
+                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                        <i class="zmdi zmdi-apps"></i>
+                    </a>
+                    <ul class="dropdown-menu pullDown">
+                        <li *ngFor="let link of links">
+                            <a [routerLink]="link.url">
+                                <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                                <span>{{link.name}}</span>
+                            </a>
                         </li>
                     </ul>
-                    <li class="footer">
-                        <a href="javascript:void(0);">View All</a>
-                    </li>
-            </ul>
-        </li>
-        <li class="float-right">
-            <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
-                <i class="zmdi zmdi-fullscreen"></i>
-            </a>
-            <a href="javascript:void(0);" (click)="changeLanguage()" title="{{ 'APP.CHANGE_LANGUAGE' | translate }}">
-                <i class="zmdi zmdi-globe"></i>
-            </a>
-            <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active" class="mega-menu">
-                <i class="zmdi zmdi-power"></i>
-            </a>
-        </li>
-    </ul>
-</nav>
-
-<!-- Left Sidebar -->
-<div>
-    <aside id="leftsidebar" class="sidebar">
-        <div class="menu">
-            <ul class="list">
-                <li>
-                    <div class="user-info m-b-20">
-                        <div class="image">
-                            <a *ngIf="username" [routerLink]="'/profile/'+username">
-                                <img [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
-                            </a>
-                        </div>
-                        <div class="detail">
-                            <h4 *ngIf="username">{{firstName + ' ' + lastName}}</h4>
-                            <a routerLink="/scheduling/schedule" title="My Schedule">
-                                <i class="zmdi zmdi-calendar"></i>
-                            </a>
-                            <a routerLink="/message" title="Inbox">
-                                <i class="zmdi zmdi-email"></i>
-                            </a>
-                        </div>
-                    </div>
                 </li>
-                <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin ">
-                    <a [routerLink]="link.url">
-                       <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                        <span>{{ link.name | translate }}</span>
+
+                <li class="float-right">
+                    <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
+                        <i class="zmdi zmdi-fullscreen"></i>
+                    </a>
+                    <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
+                        <i class="zmdi zmdi-globe"></i>
+                    </a>
+                    <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active"
+                        class="mega-menu">
+                        <i class="zmdi zmdi-power"></i>
                     </a>
                 </li>
-            </ul>
-        </div>
-    </aside>
+        </ul>
+    </nav>
+
+    <!-- Left Sidebar -->
+    <div>
+        <aside id="leftsidebar" [ngClass]="'sidebar' + (viewLanding ? ' d-none': '') ">
+            <div class="menu">
+                <ul class="list">
+                    <li>
+                        <div class="user-info m-b-20">
+                            <div class="image">
+                                <a *ngIf="username" [routerLink]="'/profile/'+username">
+                                    <img [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
+                                </a>
+                            </div>
+                            <div class="detail" *ngIf="username">
+                                <h4 *ngIf="username">{{firstName + ' ' + lastName}}</h4>
+                                <a routerLink="/scheduling/schedule" title="My Schedule">
+                                    <i class="zmdi zmdi-calendar"></i>
+                                </a>
+                                <a routerLink="/message" title="Inbox">
+                                    <span (click)="onMessageIconClick()">
+                                        <span *ngIf="unreadNotificationsNumberMessages != 0" class="bg-white label-count">
+                                            <strong style="color:black">*</strong>
+                                        </span>
+                                        <i class="zmdi zmdi-email"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin ">
+                        <a [routerLink]="link.url">
+                            <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                            <span>{{ link.name | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </aside>
+    </div>
 </div>
 <router-outlet></router-outlet>

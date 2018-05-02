@@ -4,7 +4,7 @@ import { ActivityService } from '../../activities/activity.service';
 import { Activity } from '../../activities/activity';
 import { apiUrl } from '../../variables';
 import { AuthService } from '../../auth/auth.service';
-import {MessageService} from "../../messaging/messaging.service";
+import { MessageService } from "../../messaging/messaging.service";
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
@@ -55,14 +55,14 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     */
     let page = pageNum;
     let self  = this;
-    this.activityService.getActivities(page).subscribe(function(res) {
+    this.activityService.getPendingActivities(page).subscribe(function(res) {
         self.updateLayout(res);
+        self.totalNumberOfPages = res.data.pages;
       }
     );
     this.authService.getUserData(['isAdmin']).subscribe((user) => {
       this.user.isAdmin = user.data.isAdmin;
-      this.user.verified = user.data.verified;
-      this.canCreate = this.user.isAdmin || this.user.verified;
+      this.canCreate = this.user.isAdmin;
     });
 
 
@@ -94,6 +94,9 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     this.activityService.reviewActivity(activity).subscribe(
       res => {
         this.getActivities(this.pageIndex);
+        this.translate.get('ACTIVITIES.REVIEW.ACCEPT').subscribe(
+          res => this.toaster.success(res)
+        );
       }
     );
   }
@@ -104,7 +107,10 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     activity.status = 'rejected';
     this.activityService.reviewActivity(activity).subscribe(function (res) {
       self.showPromptMessage(activity.creator, self.user.username);
-      
+      self.getActivities(this.pageIndex);
+      self.translate.get('ACTIVITIES.REVIEW.REJECT').subscribe(
+        res => self.toaster.success(res)
+      );
     });
   }
 

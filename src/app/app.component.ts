@@ -1,10 +1,12 @@
 import { Component, ChangeDetectorRef, Renderer2, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './auth/auth.service';
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Notification } from './notification';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/filter';
+import { not } from '@angular/compiler/src/output/output_ast';
+import { LandingService } from './landing.service';
 declare const $: any;
 declare const jquery: any;
 declare const screenfull: any;
@@ -21,7 +23,19 @@ export class AppComponent implements OnInit {
   lastName: string;
   isAdmin: boolean;
   notifications: Notification[];
+  messagesNotifications: Notification[];
   unreadNotificationsNumber: number; // Number of unread notifications to display on top of icon
+  unreadNotificationsNumberMessages: number; // Number of unread messages to display on top of icon
+  discussion_C: String = 'discussion content';
+  discussion_A: String = 'discussion activity';
+  message: String = 'message';
+  link: String = 'link';
+  study_plan: String = 'study plan';
+  product: String = 'product';
+  content: String = 'content';
+  activity: String = 'activity';
+  contributer: String = 'contributer';
+  viewLanding = false;
   links = [
     {
       url: '/content/list',
@@ -69,15 +83,19 @@ export class AppComponent implements OnInit {
       icon: 'graduation-cap'
     }
   ];
-  constructor(private router: Router, private authService: AuthService,
-    private translate: TranslateService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private translate: TranslateService,
+    private route: ActivatedRoute,
+    public landingService: LandingService
+  ) {
     const self = this;
-
     // this fallback language if any translation is not found
-    translate.setDefaultLang('en');
+    translate.setDefaultLang('ara');
 
     // the language to use on load
-    translate.use('en');
+    translate.use('ara');
 
     router.events
       .filter(function (event) {
@@ -262,7 +280,6 @@ export class AppComponent implements OnInit {
     }); // End of use strict
 
     this.isSignedIn();
-    this.getNotifications();
   }
 
   isSignedIn(): void {
@@ -273,8 +290,8 @@ export class AppComponent implements OnInit {
       self.firstName = res.data.firstName;
       self.lastName = res.data.lastName;
       self.isAdmin = res.data.isAdmin;
+      self.getNotifications();
     }, function (error) {
-      console.log(error);
       if (error.status === 401) {
         self.authService.setToken(null);
         self.username = null;
@@ -288,26 +305,56 @@ export class AppComponent implements OnInit {
   }
   modifyNotification(notificationId, isRead): void {
     let self = this;
-    this.authService.modifyNotification(notificationId, self.username, true).subscribe(function (res) {
-      console.log(res.data);
+    this.authService.modifyNotification(notificationId, self.username, isRead).subscribe(function (res) {
       self.getNotifications();
     });
 
   }
   getNotifications(): void {
-    // console.log('getting notifications');
     let self = this;
-    // self.notifications = [{ body : 'This ia a notification', link : 'fhbejdv' },{body : 'This ia a notification', link : 'fhbejdv' }] 
     this.authService.getUserData(['notifications']).subscribe(function (res) {
-      self.notifications = res.data.notifications;
-      console.log(res.data.notifications);
-      var unreadNots = self.notifications.filter(function (notRead) {
+      // all notification except of type message
+      const retrievednotifications = res.data.notifications.filter(function (notMessage) {
+        return notMessage.type !== 'message';
+      });
+      // all notification that aren't read (not messages)
+      const unreadNots = res.data.notifications.filter(function (notRead) {
         return notRead.isRead === false;
       });
+      // unread notifications number
       self.unreadNotificationsNumber = unreadNots.length;
-    })
-  }
 
+      // all notifications that are of type message and aren't read
+      const messagesNotifications = res.data.notifications.filter(function (messageNotification) {
+        return messageNotification.type === 'message' && messageNotification.isRead === false;
+      });
+      self.messagesNotifications = messagesNotifications;
+      // unread messages number
+      self.unreadNotificationsNumberMessages = messagesNotifications.length;
+
+      for (let i = 0; i < retrievednotifications.length; i++) {
+        let type = retrievednotifications[i].type;
+        let itemId = retrievednotifications[i].itemId;
+        let itemUsername = retrievednotifications[i].itemUsername;
+        ///////////// all profile must be usernamesss
+        if ((type === 'link' || type === 'contributer') && itemUsername) {
+          retrievednotifications[i].link = '/profile/' + retrievednotifications[i].itemUsername;
+
+        } else if ((type === 'activity' || type === 'discussion activity') && itemId) {
+          retrievednotifications[i].link = '/activities/' + retrievednotifications[i].itemId;
+        } else if ((type === 'content' || type === 'discussion content') && itemId) {
+          retrievednotifications[i].link = '/content/view/' + retrievednotifications[i].itemId;
+        } else if (type === 'study plan' && itemId) {
+          retrievednotifications[i].link = '/study-plan/published/' + retrievednotifications[i].itemId;
+        } else if (type === 'product' && itemId) {
+          // Do not need id in market
+          retrievednotifications[i].link = '/market';
+        }
+      }
+      self.notifications = retrievednotifications.reverse();
+
+    });
+  }
 
   // method to change the website's language
   changeLanguage(): void {
@@ -320,4 +367,12 @@ export class AppComponent implements OnInit {
     }
 
   }
+  // Method that makes all messages read
+  onMessageIconClick() {
+    let self = this;
+    for (let i = 0; i < self.messagesNotifications.length; i++) {
+      self.modifyNotification(self.messagesNotifications[i]._id, true);
+    }
+  }
+
 }
