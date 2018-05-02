@@ -2,7 +2,7 @@
 <nav class="navbar navbar-light bg-light IhateCss">
   <div class="container" style="background-color: #F3F6DC;">
     <img class="img-fluid" style="height: 1cm;" src="assets/images/landing/header.png" />
-    <a class="btn btn-primary" routerLink="/auth/sign-in">Sign In</a>
+    <a class="btn btn-primary" routerLink="/auth/sign-in">{{ 'LANDING.SIGN_IN' | translate }}</a>
   </div>
 </nav>
 
@@ -111,7 +111,7 @@
           </li>
           <li class="list-inline-item">&sdot;</li>
           <li class="list-inline-item">
-            <a title="contact us" href="#largeModal" data-toggle="modal" data-target="#largeModal">{{ 'LANDING.CONTACT_US' | translate }}</a>
+            <a title="{{ 'LANDING.CONTACT_US' | translate }}" href="#largeModal" data-toggle="modal" data-target="#largeModal">{{ 'LANDING.CONTACT_US' | translate }}</a>
           </li>
         </ul>
         <p class="text-muted small mb-4 mb-lg-0">&copy; {{ 'LANDING.RIGHTS' | translate }}</p>
