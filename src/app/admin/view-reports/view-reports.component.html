@@ -28,7 +28,7 @@
       <div class="block-header" style="height:unset">
           <strong> {{'ADMIN.REPORTS.REPORTED_arabic' | translate}} </strong> <a href="/profile/{{rep.reportedPerson}}" ><strong>{{rep.reportedPerson}}</strong> </a> <strong> {{'ADMIN.REPORTS.REPORTED' | translate}} </strong> <a href="/profile/{{rep.reporter}}" ><strong>{{rep.reporter}}</strong> </a> 
             <button type="button" class="btn btn-neutral" style="float:right" (click)="deleteReportPopUp(rep)">
-                    <i class="material-icons">{{'ADMIN.REPORTS.DELETE' | translate}}</i>
+                    <i class="material-icons">delete</i> <!-- This "delete" shouldn't be translated, it's an icon      Author: H -->
             </button>
             <strong style="float:right">{{rep.reportedAt | date: "dd/MM/yyy  hh:mm a"}}</strong>
             <br/>
