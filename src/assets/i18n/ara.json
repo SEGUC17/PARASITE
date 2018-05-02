@@ -49,8 +49,8 @@
     "EDIT":{
             "EDIT_ACTIVITY": "تعديل النشاط",
             "ACTIVITY_NAME": "الاسم",
-            "START_DATE":"تاريخ النهاية",
-            "END_DATE":"تاريخ البداية",
+            "START_DATE":"تاريخ البداية",
+            "END_DATE":"تاريخ النهاية",
             "PRICE":"السعر",
             "DESCRIPTION":"الوصف",
             "CANCEL":"الغاء",

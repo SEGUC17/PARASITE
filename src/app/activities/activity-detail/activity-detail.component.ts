@@ -269,7 +269,7 @@ export class ActivityDetailComponent implements OnInit {
     let dialogRef = this.dialog.open(ActivityEditComponent, {
       width: '700px',
       height: '520px',
-      hasBackdrop: false,
+      hasBackdrop: true,
       data: {
         name: this.activity.name, price: this.activity.price,
         description: this.activity.description,
@@ -324,7 +324,7 @@ export class ActivityDetailComponent implements OnInit {
       };
       this.activityService.EditActivityImage(upload, id).subscribe((res) => {
         if (res.data) {
-          self.translate.get('ACTIVITIES.TOASTER.TOASTER_SUCESS').subscribe(
+          self.translate.get('ACTIVITIES.TOASTER.TOASTER_SUCCESS').subscribe(
             function(translation) {
               self.toastrService.success(translation);
             });
