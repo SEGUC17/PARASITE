@@ -38,7 +38,7 @@ export class SignInComponent implements OnInit {
             self.toastrService.success(translation);
           }
         );
-        self.router.navigateByUrl('/content/list');
+        self.router.navigateByUrl('/newsfeed');
       }
     });
   }
