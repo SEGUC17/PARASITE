@@ -369,6 +369,37 @@ module.exports.deleteProduct = function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            if (req.user.username !== req.body.product.seller) {
+                var notification = {
+                    body: 'Your product was deleted by an admin',
+                    date: moment().toDate(),
+                    type: 'product'
+                };
+                User.findOneAndUpdate(
+                    { username: req.body.product.seller },
+                    {
+                        $push:
+                            { 'notifications': notification }
+                    }
+                    , { new: true },
+                    function (errr, updatedUser) {
+                        if (errr) {
+                            return res.status(402).json({
+                                data: null,
+                                err: 'error occurred during adding ' +
+                                    'the notification'
+                            });
+                        }
+                        if (!updatedUser) {
+                            return res.status(404).json({
+                                data: null,
+                                err: null,
+                                msg: 'User not found.'
+                            });
+                        }
+                    }
+                );
+            }
 
             res.status(201).json({
                 data: null,

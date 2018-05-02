@@ -200,6 +200,7 @@ export class ContentEditComponent implements OnInit {
           return;
         }
         self.isUpdate = true;
+        self.videoInput = contentResponse.data.video;
         self.content = contentResponse.data;
         self.getSections();
       });
