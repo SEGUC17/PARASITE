@@ -154,7 +154,8 @@
           </ul>
         </div>
         <div class="tab-content">
-          <div role="tabpanel" class="tab-pane" id="childSettings">
+          <div role="tabpanel" class="tab-pane" id="childSettings" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
+            dir="auto" [align]="translate.currentLang === 'ara'? 'right': null">
             <!-- Child Info -->
 
             <div class="row clearfix">
