@@ -1,4 +1,9 @@
 <!-- Page Loader -->
+<!-- Navigation -->
+<div *ngIf="viewLanding">
+<app-landing-page></app-landing-page>
+</div>
+<div *ngIf="!viewLanding">
 <div class="page-loader-wrapper">
     <div class="loader">
         <div class="m-t-30">
@@ -125,7 +130,7 @@
 <!-- Overlay For Sidebars -->
 <div class="overlay"></div>
 <!-- Top Bar -->
-<nav class="navbar col-lg-12 col-md-12 mr-4">
+<nav [ngClass]="'navbar col-lg-12 col-md-12' + viewLanding? ' d-none':''">
     <ul class="nav navbar-nav navbar-left ">
         <li>
             <div class="navbar-header">
@@ -147,7 +152,7 @@
         <li class="dropdown notifications hidden-sm-down" *ngIf="username">
             <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" (click)="getNotifications()">
                 <i class="zmdi zmdi-notifications"></i>
-                <span *ngIf = "unreadNotificationsNumber != 0" class="label-count">{{unreadNotificationsNumber}}</span>
+                <span *ngIf="unreadNotificationsNumber != 0" class="label-count">{{unreadNotificationsNumber}}</span>
             </a>
             <ul class="dropdown-menu pullDown">
                 <li class="body">
@@ -206,32 +211,32 @@
                                     </a>
                                 </div>
                                 <!-- unread notifications dark bg-->
-                                <div *ngIf="!not.isRead" style = "background-color: #63c6b6">
+                                <div *ngIf="!not.isRead" style="background-color: #63c6b6">
                                     <a routerLink={{not.link}}>
                                         <div class="media">
                                             <div *ngIf="not.type ===  message ">
-                                                <i class="zmdi zmdi-email" style = "color:black" ></i>
+                                                <i class="zmdi zmdi-email" style="color:black"></i>
                                             </div>
                                             <div *ngIf="not.type ===  content ">
-                                                <i class="zmdi zmdi-book" style = "color:black"></i>
+                                                <i class="zmdi zmdi-book" style="color:black"></i>
                                             </div>
                                             <div *ngIf="not.type ===  product ">
-                                                <i class="zmdi zmdi-shopping-cart" style = "color:black"></i>
+                                                <i class="zmdi zmdi-shopping-cart" style="color:black"></i>
                                             </div>
                                             <div *ngIf="not.type ===  study_plan ">
-                                                <i class="zmdi zmdi-graduation-cap" style = "color:black"></i>
+                                                <i class="zmdi zmdi-graduation-cap" style="color:black"></i>
                                             </div>
                                             <div *ngIf="not.type ===  activity ">
-                                                <i class="zmdi zmdi-run" style = "color:black"></i>
+                                                <i class="zmdi zmdi-run" style="color:black"></i>
                                             </div>
                                             <div *ngIf="not.type ===  link ">
-                                                <i class="zmdi zmdi-link" style = "color:black"></i>
+                                                <i class="zmdi zmdi-link" style="color:black"></i>
                                             </div>
                                             <div *ngIf="not.type ===  contributer ">
-                                                <i class="zmdi zmdi-shield-check" style = "color:black"></i>
+                                                <i class="zmdi zmdi-shield-check" style="color:black"></i>
                                             </div>
                                             <div *ngIf="not.type ===  discussion_A || not.type ===  discussion_C ">
-                                                <i class="zmdi zmdi-comments  col-dark" style = "color:black"></i>
+                                                <i class="zmdi zmdi-comments  col-dark" style="color:black"></i>
                                             </div>
                                             <div class="media-body ">
                                                 <div class="col-md-12">
@@ -242,7 +247,7 @@
                                                     <div class="row">
                                                         <div class="col-lg-2 col-md-2 col-sm-2"></div>
                                                         <div class="col-lg-10 col-md-10 col-sm-10" align="right">
-                                                            <span class="time text-muted" style = "color:black">
+                                                            <span class="time text-muted" style="color:black">
                                                                 <small> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }}
                                                                 </small>
                                                             </span>
@@ -292,7 +297,7 @@
 
 <!-- Left Sidebar -->
 <div>
-    <aside id="leftsidebar" class="sidebar">
+    <aside id="leftsidebar" [ngClass]="'sidebar' + viewLanding ? ' d-none': '' ">
         <div class="menu">
             <ul class="list">
                 <li>
@@ -309,8 +314,8 @@
                             </a>
                             <a routerLink="/message" title="Inbox">
                                 <span (click)="onMessageIconClick()">
-                                    <span *ngIf = "unreadNotificationsNumberMessages != 0" class="bg-white label-count">
-                                        <strong style = "color:black" >*</strong>
+                                    <span *ngIf="unreadNotificationsNumberMessages != 0" class="bg-white label-count">
+                                        <strong style="color:black">*</strong>
                                     </span>
                                     <i class="zmdi zmdi-email"></i>
                                 </span>
@@ -320,7 +325,7 @@
                 </li>
                 <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin ">
                     <a [routerLink]="link.url">
-                       <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                        <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
                         <span>{{ link.name | translate }}</span>
                     </a>
                 </li>
@@ -329,3 +334,4 @@
     </aside>
 </div>
 <router-outlet></router-outlet>
+</div>

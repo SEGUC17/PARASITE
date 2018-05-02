@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef, Renderer2, OnInit } from '@angular/core';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './auth/auth.service';
-import { Router, NavigationStart, NavigationEnd } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { Notification } from './notification';
 import { TranslateService } from '@ngx-translate/core';
 import 'rxjs/add/operator/filter';
@@ -25,16 +25,16 @@ export class AppComponent implements OnInit {
   messagesNotifications: Notification[];
   unreadNotificationsNumber: number; // Number of unread notifications to display on top of icon
   unreadNotificationsNumberMessages: number; // Number of unread messages to display on top of icon
-  discussion_C : String = "discussion content";
-  discussion_A : String = "discussion activity";
-  message : String = "message";
-  link : String = "link";
-  study_plan : String = "study plan";
-  product : String = "product";
-  content : String = "content";
-  activity : String = "activity";
-  contributer : String = "contributer";
-  
+  discussion_C: String = 'discussion content';
+  discussion_A: String = 'discussion activity';
+  message: String = 'message';
+  link: String = 'link';
+  study_plan: String = 'study plan';
+  product: String = 'product';
+  content: String = 'content';
+  activity: String = 'activity';
+  contributer: String = 'contributer';
+  viewLanding = false;
   links = [
     {
       url: '/content/list',
@@ -80,16 +80,20 @@ export class AppComponent implements OnInit {
       url: '/scheduling/study-plan/published',
       name: 'APP.STUDY_PLANS',
       icon: 'graduation-cap'
-    },
-    {
-      url: '/landing',
-      name: 'Landing'
     }
   ];
-  constructor(private router: Router, private authService: AuthService,
-    private translate: TranslateService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private translate: TranslateService,
+    private route: ActivatedRoute
+  ) {
     const self = this;
-
+    if (this.router.url.endsWith('landing')) {
+      self.viewLanding = true;
+    } else {
+      self.viewLanding = false;
+    }
     // this fallback language if any translation is not found
     translate.setDefaultLang('ara');
 
@@ -291,7 +295,6 @@ export class AppComponent implements OnInit {
       self.isAdmin = res.data.isAdmin;
       self.getNotifications();
     }, function (error) {
-      console.log(error);
       if (error.status === 401) {
         self.authService.setToken(null);
         self.username = null;
@@ -305,9 +308,7 @@ export class AppComponent implements OnInit {
   }
   modifyNotification(notificationId, isRead): void {
     let self = this;
-    console.log('in modify notification');
     this.authService.modifyNotification(notificationId, self.username, isRead).subscribe(function (res) {
-      console.log('output of modify notification' + res.data);
       self.getNotifications();
     });
 
@@ -315,54 +316,47 @@ export class AppComponent implements OnInit {
   getNotifications(): void {
     let self = this;
     this.authService.getUserData(['notifications']).subscribe(function (res) {
-      // all notification except of type message 
-      var retrievednotifications = res.data.notifications.filter(function(notMessage) {
-        return notMessage.type != 'message';
+      // all notification except of type message
+      const retrievednotifications = res.data.notifications.filter(function (notMessage) {
+        return notMessage.type !== 'message';
       });
-    // all notification that aren't read (not messages)
-      var unreadNots = res.data.notifications.filter(function (notRead) {
+      // all notification that aren't read (not messages)
+      const unreadNots = res.data.notifications.filter(function (notRead) {
         return notRead.isRead === false;
       });
       // unread notifications number
       self.unreadNotificationsNumber = unreadNots.length;
 
       // all notifications that are of type message and aren't read
-      var messagesNotifications = res.data.notifications.filter(function(messageNotification) {
+      const messagesNotifications = res.data.notifications.filter(function (messageNotification) {
         return messageNotification.type === 'message' && messageNotification.isRead === false;
       });
       self.messagesNotifications = messagesNotifications;
       // unread messages number
       self.unreadNotificationsNumberMessages = messagesNotifications.length;
-    
-      for(let i = 0 ; i < retrievednotifications.length ; i++) {
+
+      for (let i = 0; i < retrievednotifications.length; i++) {
         let type = retrievednotifications[i].type;
         let itemId = retrievednotifications[i].itemId;
         let itemUsername = retrievednotifications[i].itemUsername;
-        console.log(type);
         ///////////// all profile must be usernamesss
-        if ((type == 'link' || type == 'contributer' ) && itemUsername) {
-          retrievednotifications[i].link = '/profile/'+retrievednotifications[i].itemUsername;
-        
-        }
-        else if ((type === 'activity' || type === 'discussion activity' ) && itemId) {
-          retrievednotifications[i].link = '/activities/'+retrievednotifications[i].itemId;
-        }
-        else if ((type === 'content' || type === 'discussion content' )&& itemId) {
-          retrievednotifications[i].link = '/content/view/'+retrievednotifications[i].itemId;
-        }
-        else if (type === 'study plan' && itemId) {
-          retrievednotifications[i].link = '/study-plan/published/'+retrievednotifications[i].itemId;
-        } 
-        //donot need id in market
-        else if (type === 'product' && itemId) {
+        if ((type === 'link' || type === 'contributer') && itemUsername) {
+          retrievednotifications[i].link = '/profile/' + retrievednotifications[i].itemUsername;
+
+        } else if ((type === 'activity' || type === 'discussion activity') && itemId) {
+          retrievednotifications[i].link = '/activities/' + retrievednotifications[i].itemId;
+        } else if ((type === 'content' || type === 'discussion content') && itemId) {
+          retrievednotifications[i].link = '/content/view/' + retrievednotifications[i].itemId;
+        } else if (type === 'study plan' && itemId) {
+          retrievednotifications[i].link = '/study-plan/published/' + retrievednotifications[i].itemId;
+        } else if (type === 'product' && itemId) {
+          // Do not need id in market
           retrievednotifications[i].link = '/market';
         }
       }
-      console.log(retrievednotifications);
       self.notifications = retrievednotifications.reverse();
-      console.log(self.notifications);
 
-    })
+    });
   }
 
   // method to change the website's language
@@ -376,12 +370,12 @@ export class AppComponent implements OnInit {
     }
 
   }
-  //method that makes all messages read
+  // Method that makes all messages read
   onMessageIconClick() {
-    console.log('in');
     let self = this;
-    for (let i = 0 ; i < self.messagesNotifications.length ; i++ ) {
-      self.modifyNotification(self.messagesNotifications[i]._id, true)
+    for (let i = 0; i < self.messagesNotifications.length; i++) {
+      self.modifyNotification(self.messagesNotifications[i]._id, true);
     }
   }
+
 }
