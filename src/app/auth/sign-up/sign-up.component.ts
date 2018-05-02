@@ -57,6 +57,7 @@ export class SignUpComponent implements OnInit {
         self.toastrService.error(res.err);
       } else {
         self.tags = res.data;
+        self.interest = self.tags[0];
       }
     });
   }

@@ -32,10 +32,9 @@ export class NewsfeedComponent implements OnInit {
       } else {
         self.newsfeedService.getPeople().subscribe(function (people) {
           self.people = people.data;
-          console.log(self.people);
         });
         // self.tags = self.user.interests;
-        self.tags = [{name: 'math'}, {name: 'physics'}, {name: 'high school'}];
+        self.tags = self.user.interests;
         self.currentPageNumber = 1;
         self.firstNewsfeedPage();
       }
@@ -65,9 +64,8 @@ export class NewsfeedComponent implements OnInit {
         self.totalNumberOfPages = posts.data.pages;
         self.posts = posts.data.docs;
         for (let post of self.posts) {
-          post.description = self.sanitizer.bypassSecurityTrustHtml(post.description);
+          post.description = (self.sanitizer.bypassSecurityTrustHtml(post.description));
         }
-        console.log(self.posts);
       });
   }
 
