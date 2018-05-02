@@ -62,8 +62,7 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     );
     this.authService.getUserData(['isAdmin']).subscribe((user) => {
       this.user.isAdmin = user.data.isAdmin;
-      this.user.verified = user.data.verified;
-      this.canCreate = this.user.isAdmin || this.user.verified;
+      this.canCreate = this.user.isAdmin;
     });
 
 
