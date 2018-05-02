@@ -408,30 +408,30 @@ module.exports = function (passport) {
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
-  router.post('/message/sendMessage', messageController.sendMessage);
+  router.post('/message/sendMessage', isAuthenticated, messageController.sendMessage);
 
   //View inbox
-  router.get('/message/inbox/:user', messageController.getInbox);
+  router.get('/message/inbox/:user', isAuthenticated, messageController.getInbox);
 
   //View sent
-  router.get('/message/sent/:user', messageController.getSent);
+  router.get('/message/sent/:user', isAuthenticated, messageController.getSent);
 
   //Delete message
-  router.delete('/message/:id', messageController.deleteMessage);
+  router.delete('/message/:id', isAuthenticated, messageController.deleteMessage);
 
   //Blocking users from messaging
-  router.patch('/message/block/:blocked', messageController.block);
+  router.patch('/message/block/:blocked', isAuthenticated, messageController.block);
 
   //Get recently contacted users
-  router.get('/message/contacts/:user', messageController.getRecentlyContacted);
+  router.get('/message/contacts/:user', isAuthenticated, messageController.getRecentlyContacted);
 
   // Registered user contacts admins
   router.post('/contactus', messageController.contactAdmin);
     //Unblocking users
-    router.patch('/message/unblock/:id', messageController.unBlock);
+  router.patch('/message/unblock/:id', isAuthenticated, messageController.unBlock);
 
   // Mark a message as read
-  router.patch('/message/read', messageController.markAsRead);
+  router.patch('/message/read', isAuthenticated, messageController.markAsRead);
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//
