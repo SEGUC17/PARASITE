@@ -93,10 +93,10 @@ export class AppComponent implements OnInit {
   ) {
     const self = this;
     // this fallback language if any translation is not found
-    translate.setDefaultLang('ara');
+    translate.setDefaultLang('en');
 
     // the language to use on load
-    translate.use('ara');
+    translate.use('en');
 
     router.events
       .filter(function (event) {
