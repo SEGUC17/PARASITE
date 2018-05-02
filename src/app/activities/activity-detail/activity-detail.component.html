@@ -96,8 +96,8 @@
                 </div>
                 <div class="cbp_tmlabel empty">
                   <span>
-                    <div  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  [style.text-align]="translate.currentLang === 'ara'? 'right': null" class="form-group  w-80">
-                      <input type="text" class="form-control" id="inputArea" placeholder={{somePlaceholder}} #commentInput [(ngModel)]="changingComment">
+                    <div  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  class="form-group  w-80">
+                      <input  [style.text-align]="translate.currentLang === 'ara'? 'right': null" type="text" class="form-control" id="inputArea" placeholder={{somePlaceholder}} #commentInput [(ngModel)]="changingComment">
                     </div>
                   </span>
                   <div align="end">
