@@ -157,7 +157,7 @@ module.exports.requestUserValidation = function (req, res, next) {
       console.log('duplicate key');
       if (err.message.startsWith('E11000 duplicate key error')) {
         // if request already existed
-        return res.status(400).json({
+        return res.status(409).json({
           err: null,
           msg: 'the request already submitted',
           data: null
@@ -224,8 +224,6 @@ module.exports.linkAnotherParent = function (req, res, next) {
         }
         , { new: true },
         function (errr, updatedUser) {
-          console.log('add the notification');
-          // console.log(updatedUser.notifications);
           if (errr) {
             return res.status(402).json({
               data: null,
@@ -491,7 +489,9 @@ module.exports.changeChildInfo = function (req, res, next) {
                 email: req.body.email,
                 address: req.body.address,
                 birthdate: req.body.birthdate,
-                phone: req.body.phone
+                phone: req.body.phone,
+                educationSystem: req.body.educationSystem,
+                educationLevel: req.body.educationLevel
               }
             }, { new: true },
             function (err, user3) {

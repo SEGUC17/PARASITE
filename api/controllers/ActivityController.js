@@ -90,8 +90,18 @@ module.exports.getActivity = function (req, res, next) {
     }
 
     Activity.findById(activityId).
-        populate('bookedBy').
-        exec(function (err, activity) {
+          populate({
+               model: 'User',
+               path: 'discussion.creatorInfo',
+               select: 'avatar firstName lastName'
+          }).
+          populate({
+            model: 'User',
+            path: 'discussion.replies.creatorInfo',
+            select: 'avatar firstName lastName'
+          }).
+
+  exec(function (err, activity) {
             if (err) {
                 return next(err);
             }
@@ -311,39 +321,37 @@ module.exports.reviewActivity = function (req, res) {
             }
             // Not tested cause I cant make an activity if I'm not admin
             if (newStatus === 'verified') {
-                var notification = {
-                    body: 'Your new activity was accepted & is now posted.',
-                    date: moment().toDate(),
-                    itemId: activityId,
-                    type: 'activity'
-                };
-                User.findOneAndUpdate(
-                    { username: activity.creator },
-                    {
-                        $push:
-                            { 'notifications': notification }
-                    }
-                    , { new: true },
-                    function (errr, updatedUser) {
-                        console.log('add the notification');
-                        // console.log(updatedUser.notifications);
-                        // if (errr) {
-                        //     return res.status(402).json({
-                        //         data: null,
-                        //         err: 'error occurred during adding ' +
-                        //             'the notification'
-                        //     });
-                        // }
-                        // if (!updatedUser) {
-                        //     return res.status(404).json({
-                        //         data: null,
-                        //         err: null,
-                        //         msg: 'User not found.'
-                        //     });
-                        // }
-                    }
-                );
-            }
+            var notification = {
+                body: 'Your new activity was accepted & is now posted.',
+                date: moment().toDate(),
+                itemId: activityId,
+                type: 'activity'
+            };
+            User.findOneAndUpdate(
+                { username: activity.creator },
+                {
+                    $push:
+                        { 'notifications': notification }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    // if (errr) {
+                    //     return res.status(402).json({
+                    //         data: null,
+                    //         err: 'error occurred during adding ' +
+                    //             'the notification'
+                    //     });
+                    // }
+                    // if (!updatedUser) {
+                    //     return res.status(404).json({
+                    //         data: null,
+                    //         err: null,
+                    //         msg: 'User not found.'
+                    //     });
+                    // }
+                }
+            );
+        }
             res.status(200).send({
                 data: activity,
                 err: null,

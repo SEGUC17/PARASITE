@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForwardDialogComponent } from './forward-dialog.component';
+import { CalendarHeaderComponent } from './calendar-header.component';
 
-describe('ForwardDialogComponent', () => {
-  let component: ForwardDialogComponent;
-  let fixture: ComponentFixture<ForwardDialogComponent>;
+describe('CalendarHeaderComponent', () => {
+  let component: CalendarHeaderComponent;
+  let fixture: ComponentFixture<CalendarHeaderComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ForwardDialogComponent ]
+      declarations: [ CalendarHeaderComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ForwardDialogComponent);
+    fixture = TestBed.createComponent(CalendarHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

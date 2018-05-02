@@ -4,6 +4,8 @@ import { AuthService } from '../auth.service';
 import { MatButtonModule } from '@angular/material';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -14,22 +16,31 @@ import { Router } from '@angular/router';
 
 export class ForgotPasswordComponent implements OnInit {
   // ------ flags -----//
- email = '';
+  email = '';
 
-  constructor(private _AuthService: AuthService, private _Location: Location) { }
+  constructor(private _AuthService: AuthService, private _Location: Location,
+    private toastrService: ToastrService, private translate: TranslateService) { }
 
   ngOnInit() {
   }
 
-  submit (email): void {
+  submit(email): void {
     const self = this;
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (re.test(email)) {
-    this._AuthService.forgotPassword(email).subscribe(function(res) {
-      console.log(email);
-    });
-  } else {
-      alert('Kindly provide a valid email address');
+      this._AuthService.forgotPassword(email).subscribe(function (res) {
+        self.translate.get('AUTH.TOASTER.EMAIL_VERIFICATION_SENT').subscribe(
+          function (translation) {
+            self.toastrService.success(translation);
+          }
+        );
+      });
+    } else {
+      self.translate.get('AUTH.TOASTER.VALID_EMAIL_WARNING').subscribe(
+        function (translation) {
+          self.toastrService.warning(translation);
+        }
+      );
       self._Location.forward();
     }
 

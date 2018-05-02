@@ -28,6 +28,23 @@ module.exports.send = function (email, link) {
     });
 };
 
+
+module.exports.adminReply = function (email, emailBody) {
+    //console.log('reached adminReply');
+   // console.log('body is: ',emailBody);
+    var mailOptions = {
+        from: 'email-verification@nawwar.com',
+        to: email,
+        subject: 'INQUIRY REPLY - Nawwar.com',
+        text: emailBody,
+    };
+    transporter.sendMail(mailOptions, function (err, info) {
+        if (err) {
+           // console.log('reached error of sendMail');
+        }
+    });
+};
+
 module.exports.sendPsychID = function (email, id) {
     var mailOptions = {
         from: 'email-verification@nawwar.com',

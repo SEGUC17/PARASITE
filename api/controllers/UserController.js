@@ -433,6 +433,8 @@ module.exports.signUpChild = function (req, res, next) {
     newUser.address = req.body.address;
     newUser.birthdate = req.body.birthdate;
     newUser.children = [];
+    newUser.educationLevel = req.body.educationLevel;
+    newUser.educationSystem = req.body.educationSystem;
     newUser.email = req.body.email;
     newUser.firstName = req.body.firstName;
     newUser.isChild = true;
@@ -469,6 +471,10 @@ module.exports.signUpChild = function (req, res, next) {
         isArray(newUser.phone ? newUser.phone : []);
         field = 'Username';
         isString(newUser.username ? newUser.username : '');
+        field = 'EductaionLevel';
+        isString(newUser.educationLevel ? newUser.educationLevel : '');
+        field = 'EducationSystem';
+        isString(newUser.educationSystem ? newUser.educationSystem : '');
 
     } catch (err1) {
         //    console.log('entered catch of status 401');
@@ -657,15 +663,14 @@ module.exports.getUserData = function (req, res, next) {
     delete userData.password;
     // --- End of "Security Check" --- //
     if (req.user.notifications.length > 30) {
-        console.log('slicing up Nots');
         var Nots = req.user.notifications;
-        Nots.splice(29);
+        Nots.splice(30);
         User.findByIdAndUpdate(
             req._id,
             { $set: { notifications: Nots } },
             function(err) {
                 if (err) {
-                    console.log('ana habebt error ' + err);
+                    console.log(err);
                 }
             }
         );
@@ -810,10 +815,10 @@ module.exports.forgotPassword = function (req, res, next) {
                 });
                 // user does not exist
             } else if (!user) {
-                return res.status(404).json({
+                return res.status(201).json({
                     data: null,
                     err: null,
-                    msg: 'There is no account for the provided email address!'
+                    msg: 'An email was sent to the provided email'
                 });
             }
 
@@ -860,8 +865,6 @@ module.exports.modifyNotification = function (req, res) {
 
     notification.isRead = req.body.isRead;
     notifications[notifications.indexOf(notification)] = notification;
-    console.log('the notification');
-    console.log(notification);
     User.update(
         { _id: req.user._id },
         { $set: { notifications: notifications } },

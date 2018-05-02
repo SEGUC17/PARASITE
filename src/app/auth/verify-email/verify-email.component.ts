@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ToastrService, Toast } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-verify-email',
@@ -14,7 +15,8 @@ export class VerifyEmailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private toastrService: ToastrService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -23,7 +25,10 @@ export class VerifyEmailComponent implements OnInit {
       self.authService.verifyEmail(params['id']).subscribe(function (res) {
         if (res.msg === 'Email Verification Is Successful!') {
           self.authService.setToken(res.token);
-          self.toastrService.success(res.msg);
+          self.translate.get('AUTH.TOASTER.EMAIL_VERIFICATION').subscribe(
+            function (translation) {
+              self.toastrService.success(translation);
+            });
         }
         self.router.navigateByUrl('/content/list');
       });

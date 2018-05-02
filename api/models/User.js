@@ -53,6 +53,7 @@ var notificationSchema = mongoose.Schema({
                 'message',
                 'product',
                 'study plan',
+                'study plan A',
                 'link'
             ],
         required: true,
@@ -69,7 +70,7 @@ var userSchema = mongoose.Schema({
         type: String
     },
     avatar: {
-        default: '',
+        default: '../../../assets/images/defaultProfilePic.png',
         type: String
     },
     birthdate: Date,

@@ -2,11 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes = [
   {
     path: '',
-    component: AppComponent
+    redirectTo: '/landing',
+    pathMatch: 'full'
+  },
+  {
+    path: 'landing',
+    component: LandingPageComponent
   },
   {
     path: 'activities',
@@ -49,10 +55,9 @@ const routes = [
     loadChildren: 'app/newsfeed/newsfeed.module#NewsfeedModule'
   },
   {
-    path: '*',
-    redirectTo: '',
-    pathMatch: 'full'
-  }
+    path: '**',
+    redirectTo: '/landing',
+  },
 ];
 
 @NgModule({

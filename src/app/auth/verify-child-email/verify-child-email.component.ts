@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ToastrService, Toast } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-verify-child-email',
@@ -13,7 +14,8 @@ export class VerifyChildEmailComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private toastrService: ToastrService,
-    private router: Router
+    private router: Router,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -21,7 +23,11 @@ export class VerifyChildEmailComponent implements OnInit {
     this.activatedRoute.params.subscribe(function (params) {
       self.authService.verifyChildEmail(params['id']).subscribe(function (res) {
         if (res.msg) {
-          self.toastrService.success(res.msg);
+          if (self.translate.currentLang === 'en') {
+            self.toastrService.success(res.msg);
+          } else {
+            self.toastrService.success('تم توثيق الحساب');
+          }
         }
         self.router.navigateByUrl('/content/list');
       });

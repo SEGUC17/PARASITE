@@ -5,39 +5,35 @@ import { MessageService } from '../messaging.service';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 import { MatInputModule } from '@angular/material/input';
+import { ToastrService } from 'ngx-toastr';
+import {TranslateService} from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-send-dialog',
   templateUrl: './send-dialog.component.html',
-  styleUrls: ['./send-dialog.component.scss']
+  styleUrls: ['./send-dialog.component.scss'],
+  providers: [ToastrService, TranslateService]
 })
 
 export class SendDialogComponent implements OnInit {
 
   Body: String = '';
-  Receiver: String = '';
+ Receiver: String = '';
   user: any;
-  div1: Boolean; // div for empty recipient error message
-  div2: Boolean; // div for empty body error message
-  div3: Boolean; // div for sent message success notification
-  div4: Boolean; // div for blocked user
-  div5: Boolean;
-  allisWell: Boolean = true;
+  allisWell: boolean;
   msg: any;
   currentUser: any; // currently logged in user
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
-  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked'];
+  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
-  constructor(public dialogRef: MatDialogRef<SendDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private messageService: MessageService, private authService: AuthService) { }
+  constructor(private messageService: MessageService, private authService: AuthService,
+    private toastrService: ToastrService, private _TranslateService: TranslateService) { }
 
-  onNoClick(): void {
-      this.dialogRef.close();
-  }
 
   ngOnInit() {
     const self = this;
-    const userDataColumns = ['username'];
+    const userDataColumns = ['username', 'avatar'];
     // getting username of logged in user
     this.authService.getUserData(userDataColumns).subscribe(function (res) {
       self.currentUser = res.data;
@@ -45,54 +41,69 @@ export class SendDialogComponent implements OnInit {
   }
 
   send(): void {
+    this.allisWell = true;
+    const self = this;
+    this.allisWell = true;
     // notify user if recipient field is empty
-    if (this.Receiver === '') {
-      this.div1 = true;
-      this.div2 = false;
-      this.div3 = false;
+    if (self.Receiver === '') {
+      self.allisWell = false;
+      this._TranslateService.get('MESSAGING.TOASTR.ENTER_RECIPIENT').subscribe(function(translation){
+        self.toastrService.warning(translation);
+      });
     } else {
       // notify user if message body is empty
-      if (this.Body === '') {
-        this.div2 = true;
-        this.div1 = false;
-        this.div3 = false;
+      if (self.Body === '') {
+        self.allisWell = false;
+        this._TranslateService.get('MESSAGING.TOASTR.EMPTY_MSG').subscribe(function(translation) {
+          self.toastrService.warning(translation);
+        });
       } else {
-        const self = this;
         // create a message object with the info the user entered
-        this.msg = {'body': this.Body, 'recipient': this.Receiver, 'sender': this.currentUser.username};
+        self.msg = {'body': self.Body, 'recipient': self.Receiver, 'recipientAvatar': '',
+        'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
 
         // retrieveing the reciepient's info as an object
-        // console.log(this.Receiver.toString());
         this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user)  => {
           if (!user.data) {
-            self.div1 = false;
-            self.div2 = false;
-            self.div5 = true;
+            self.allisWell = false;
+            this._TranslateService.get('MESSAGING.TOASTR.VALID_NAME').subscribe(function(translation) {
+              self.toastrService.error(translation);
+            });
           } else {
-            console.log('length of array is: ', user.data.blocked.length);
             const list = user.data.blocked;
             for ( let i = 0 ; i < user.data.blocked.length ; i++) {
-              if ( this.currentUser.username === list[i] ) {
-                console.log('blocked is:', list[i]);
-                this.div4 = true;
-                this.allisWell = false;
+              if ( self.currentUser.username === list[i] ) {
+                this._TranslateService.get('MESSAGING.TOASTR.SEND_SELF').subscribe(function(translation) {
+                  self.toastrService.error(translation);
+                });
+                self.allisWell = false;
               } // end if
             }// end for
-
-            if ( this.allisWell === true) {
-              this.messageService.send(this.msg)
+           //       console.log('allIsWell', this.allisWell);
+            if ( self.allisWell === true) {
+              self.msg.recipientAvatar = user.data.avatar;
+              self.messageService.send(this.msg)
               .subscribe(function(res) {
-                self.div3 = true;
-                self.div1 = false;
-                self.div2 = false;
-                self.div4 = false;
-                self.div5 = false;
+                self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
+                    self.toastrService.success(translation);
+                });
               });
             }// end if
           }
         });
+
+        if ( self.Receiver.match(/\S+@\S+\.\S+/)) {
+          this.messageService.send(self.msg)
+          .subscribe(function(res) {
+            this._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
+              self.toastrService.success(translation);
+
+            });
+          });
+        }// end if
       }// end 2nd else
 
     }// end else
   }// end method
+
 }// end class

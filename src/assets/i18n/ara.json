@@ -46,18 +46,26 @@
         "WRITE_COMMENT": "...اترك تعليق",
         "BOOK_SUCCESS": "....تم الحجز بنجاح"
     },
-    "EDIT": {
-        "EDIT_ACTIVITY": "تعديل النشاط",
-        "ACTIVITY_NAME": "الاسم",
-        "START_DATE":"تاريخ النهاية",
-        "END_DATE":"تاريخ البداية",
-        "PRICE":"السعر",
-        "DESCRIPTION":"الوصف",
-        "CANCEL":"الغاء",
-        "SAVE_CHANGES":"حفظ التغييرات",
-        "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
-        "ACTIVITY_IMAGE":"تغيير صورة النشاط"
-    },
+    "EDIT":{
+            "EDIT_ACTIVITY": "تعديل النشاط",
+            "ACTIVITY_NAME": "الاسم",
+            "START_DATE":"تاريخ البداية",
+            "END_DATE":"تاريخ النهاية",
+            "PRICE":"السعر",
+            "DESCRIPTION":"الوصف",
+            "CANCEL":"الغاء",
+            "SAVE_CHANGES":"حفظ التغييرات",
+            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+            "ACTIVITY_IMAGE":"تغيير صورة النشاط",
+            "FROM_AFTER_TO":"تاريخ البداية لا يجب ان يكون بعد تاريخ النهاية "
+            
+            
+        },
+        "TOASTER":{
+            "TOASTER_FAIL":"رفع الصورة فشل",
+             "TOASTER_SUCCESS":"تم رفع الصورة بنجاح",
+             "TOASTER_SELECT":"من فضلك اختر صورة"
+        },
     "REVIEW": {
         "ACCEPT": "تم قبول النشاط",
         "REJECT": "تم رفض النشاط",
@@ -66,7 +74,7 @@
     }
     },
     "ADMIN": {
-        "VIEW_REPORTS": {
+        "REPORTS": {
             "BAN": "حظر",
             "USER": "المستخدم",
             "REPORTS": "البلاغات",
@@ -76,7 +84,7 @@
             "REASON": "السبب:",
             "MSG": "أدخل اسم المستخدم ليتم حظره"
         },
-        "VIEW_UNVERIFIED_ACTIVITIES": {
+        "ACTIVITIES_MANAGEMENT": {
             "LABEL": "الأنشطة",
             "WELCOME": "مرحبًا بك في الأنشطة",
             "LATEST": "آخر",
@@ -140,7 +148,69 @@
             "VIEW_DETAILS":"عرض التفاصيل"
         }
     },
-    "AUTH": {},
+    "AUTH": {
+        "SIGN_UP": {
+            "SIGN_UP": "إنشاء حساب جديد",
+            "SIGN_UP_CAPS": "إنشاء حساب",
+            "REGISTER": "تسجيل عضوية جديدة",
+            "FIRST_NAME_PLACEHOLDER": "الاسم الأول",
+            "LAST_NAME_PLACEHOLDER": "اسم العائلة",
+            "PHONE_PLACEHOLDER": "رقم الهاتف",
+            "ADDRESS_PLACEHOLDER": "العنوان",
+            "BIRTHDATE_PLACEHOLDER": "تاريخ الميلاد",
+            "ARE_YOU_A_TEACHER": "هل أنت مدرس؟",
+            "USERNAME_PLACEHOLDER": "اسم المستخدم",
+            "EMAIL_PLACEHOLDER": "البريد الإلكتروني",
+            "PASSWORD_PLACEHOLDER": "كلمة المرور",
+            "CONFIRM_PASSWORD_PLACEHOLDER": "تأكيد كلمة المرور",
+            "I_READ_AND_AGREED_TO": "قرأت ووافقت على",
+            "TERMS_OF_USAGE": "الشروط",
+            "PREVIOUS": "السابق",
+            "NEXT": "التالي",
+            "YOU_ALREADY_HAVE_A_MEMBERSHIP": "هل سبق لك أن أنشأتَ حسابًا؟"
+        },
+        "SIGN_IN": {
+            "SIGN_IN": "تسجيل الدخول",
+            "USERNAME_OR_EMAIL": "اسم المستخدم / البريد الإلكتروني",
+            "PASSWORD_PLACEHOLDER": "كلمة المرور",
+            "REMEMBER_ME": "تذكرنى",
+            "SIGN_IN_CAPS": "تسجيل الدخول",
+            "FORGOT_PASSWORD": "هل نسيتَ كلمة المرور؟",
+            "JOIN_US": "انضم إلينا"
+        },
+        "FORGOT_PASSWORD": {
+            "FORGOT_PASSWORD": "هل نسيت كلمة المرور؟",
+            "EMAIL_PLACEHOLDER": "أدخل البريد الإلكتروني",
+            "SUBMIT": "إتمام",
+            "PROMPT": "أدخل بريدك الإلكتروني أدناه لإعادة تعيين كلمة المرور الخاصة بك"
+        },
+        "RESET_PASSWORD": {
+            "RESET_PASSWORD": "إعادة تعيين كلمة المرور",
+            "PROMPT": "أدخل كلمة المرور الجديدة لتسجيل الدخول مرة أخرى",
+            "ENTER_NEW_PASSWORD_PLACEHOLDER": "أدخل كلمة مرور جديدة",
+            "ENTER_NEW_PASSWORD_CONFIRM_PLACEHOLDER": "تأكيد كلمة المرور الجديدة",
+            "RESET_BUTTON": "إعادة التعيين",
+            "SIGN_IN": "العودة إلى الموقع"
+
+        },
+        "TOASTER": {
+            "SIGN_UP_SUCCESSFULL": "الاشتراك ناجح؛ تم إرسال رسالة إنشاء الحساب إلى بريدك الإلكتروني",
+            "SIGN_IN_SUCCESSFULL": "تسجيل الدخول ناجح! أهلا بك",
+            "NOT_MATCH_WARNING": "كلمة المرور والتأكيد غير متطابقين",
+            "PASSWORD_LENGTH_WARNING": "يجب أن تكون كلمة المرور أكثر من 8 أحرف",
+            "SIGN_OUT_SUCCESSFULL": "تسجيل الخروج ناجح! إلى اللقاء",
+            "VALID_EMAIL_WARNING": "يرجى تقديم عنوان بريد إلكتروني صالح",
+            "CHILD_SIGN_UP_SUCCESSFULL": "تسجيل الطفل تمَّ بنجاح! تم إرسال رسالة تحقق إلى بريدك الإلكتروني",
+            "EMAIL_VERIFICATION": "تمَّ التحقق من البريد الإلكتروني بنجاح",
+            "EMAIL_VERIFICATION_SENT": "تم إرسال رسالة إلى البريد الإلكتروني الذي أدخلته"
+        },
+        "CHILD_SIGN_UP": {
+            "DONE": "تمَّت",
+            "STEP_ONE": "الخطوة الأولى",
+            "STEP_TWO": "الخطوةالثانية",
+            "STEP_THREE": "الخطوة الثالثة"
+        }
+    },
     "CONTENT": {
         "LIST": {
             "ALL": "جميع الفئات",
@@ -278,24 +348,68 @@
         }
     },
     "MESSAGING": {
+        "MESSAGING": {
+            "TITLE": "رسائلك",
+            "SUB_TITLE": "الرسائل",
+            "DASHBOARD": "الصفحة الرئيسية",
+            "RECENTLY_CONTACTED": "قمت بالإتصال بهم مؤخراً",
+            "NO_CONTACT": "لم تقم بالتواصل مع أحد بعد",
+            "START_CONVO": "بِدء المحادثة",
+            "MSG":"الرسالة",
+            "VIEW_PROFILE": "عرض الصفحة الشخصية",
+            "INBOX": "البريد الوارد",
+            "SENT": "البريد المرسل",
+            "NO_MSGS": "لا توجد رسائل بعد",
+            "SEND": "إرسال",
+            "CANCEL": "إلغاء",
+            "SEND_MSG": "إرسال رسالة",
+            "REPLY": "الرسالة"
 
+        },
+        "DIALOG": {
+            "NEW_MSG": "رسالة جديدة",
+            "TYPE_MSG": "..أدخل رسالتك هنا",
+            "TO": ":إلى"
+
+
+        },
+        "MAIL": {
+            "VIEW": "عرض الرسالة",
+            "CREATE": "إنشاء رسالة",
+            "ALL_MSGS": "جميع الرسائل",
+            "_VIEW": "عرض",
+            "DELETE": "هل أنت متأكد أنك تريد حذف هذه الرسالة؟",
+            "FROM": "من:",
+            "FORWARD": "إرسال الرسالة لآخرين",
+            "YES": "نعم"
+        },
+        "TOASTR": {
+            "EMPTY_MSG": "لا يمكنك إرسال رسالة فارغة",
+            "BLOCKED": "عذراً، لقد منعك هذا المستخدم من مراسلته",
+            "MSG_SENT": "تم إرسال الرسالة",
+            "ENTER_RECIPIENT": "من فضلك حدد المرسَل إليه",
+            "VALID_NAME": "من فضلك أدخل اسم مستخدم صحيح ",
+            "SEND_SELF": "عذراً، لا يمكنك فعل هذا",
+            "ALREADY_BLOCKED": "تم حذر هذا المستخدم من قبل",
+            "BLOCK": "تم منع المستخدم من مراسلتك",
+            "MSG_DELETED": "تم حذف الرسالة"
+        }
     },
     "PROFILE": {
         "PROFILE": {
-            "NAWWAR": "نوَّر",
-            "DASHBOARD": "الصفحه الرئيسيه",
-            "MY_PROFILE": "الصفحه الشخصيه",
-            "MESSAGE": "إرسال رساله",
-            "CHILDREN": "أطفالى",
-            "STUDY_PLANS": "الخطط الدراسيه",
-            "SETTINGS": "الإعدادات",
+            "DASHBOARD": "نوَّر",
+            "MY_PROFILE": "الصفحة الشخصيه",
+            "MESSAGE": "بعث رسالة",
+            "CHILDREN": "أبنائى",
+            "STUDY_PLANS": "خطط الدراسة",
+            "SETTINGS": "إعدادات",
             "ABOUT": "عن المستخدم",
             "ADD-AS-PARENT": "أضفه كولى أمرى",
             "MAKE_INDEPENDENT": "إجعلى مستقلا",
-            "BE_VERIFIED_CONTRIBUTOR": "مشارك موثق",
+            "BE_VERIFIED_CONTRIBUTOR": "كن مساهمًا معتمدًا",
             "CREATE_CHILD_ACCOUNT": "إنشاء حساب جديد لطفلى",
             "UNLINK_MY_PARENT": "إلغاء الإرتباط",
-            "LINK_TO_CHILD": "إضافه طفلى للمستخدم",
+            "LINK_TO_CHILD": "إضافة طفلى للمستخدم",
             "EMAIL": "البريد الإلكترونى:",
             "PHONE": "الهاتف:",
             "BIRTHDATE": "تاريخ الميلاد:",
@@ -303,11 +417,11 @@
             "MY_CHILE": "طفلى",
             "CHILD_INFO": "بيانات",
             "SECURITY": "الأمان",
-            "CHANGE_PASSWORD": "تغيير كلمه السر",
-            "CPASSWORD": "كلمه السر الحاليه",
-            "NPASSWORD": "كلمه السر الجديده",
-            "CNPASSWORD": "تأكيد كلمه السر الجديده",
-            "PERSONAL": "الشخصيه",
+            "CHANGE_PASSWORD": "تغيير كلمه المرور",
+            "CPASSWORD": "كلمه المرور الحالية",
+            "NPASSWORD": "كلمه المرور الجديدة",
+            "CNPASSWORD": "تأكيد كلمه المرور الجديدة",
+            "PERSONAL": "الشخصية",
             "MY_INFO": "بياناتى",
             "FIRST_NAME": "الإسم الأول",
             "LAST_NAME": "الإسم الأخير",
@@ -318,9 +432,9 @@
             "EDIT_PHONE": "الهانف",
             "SAVE_CHANGES": "حفظ التغيرات",
             "MESSAGES_BLOCK": "الممنوعين من مراسلى",
-            "BLOCK_LIST": "قائمه",
-            "CREATE_STUDY_PALN": "إنشاء خطه دراسيه جديدة",
-            "PROFILE_PIC": "تحميل الصوره الشخصيه",
+            "BLOCK_LIST": "قائمة",
+            "CREATE_STUDY_PALN": "إنشاء خطة دراسيه جديدة",
+            "PROFILE_PIC": "تحميل الصوره الشخصية",
             "CANCEL": "إلغاء",
             "DELETE_EVENT": "حذف الحدث",
             "DELE_EVENT_CONF": "هل انت متأكد من أنك تريد حذف هذا الحدث ؟",
@@ -328,7 +442,9 @@
             "ASSIGNED": "تعين",
             "VIEW": "عرض",
             "UNBLOCK": "رفع الحظر",
-            "REPORT": "إبلاغ عن المستخدم"
+            "REPORT": "إبلاغ عن المستخدم",
+            "EDUCATION_SYSTEM": "النظام التعليمي",
+            "EDUCATION_LEVEL": "المستوى التعليمي"
         },
         "DIRECT_MSG": {
             "TO": "إلى:",
@@ -337,28 +453,35 @@
         },
         "CHILDREN": {
             "NAME": "الإسم",
-            "AGE":"العمر" ,
-            "UNLINK": "إزاله من قائمتى",
+            "AGE": "العمر",
+            "UNLINK": "إزالة من قائمتى",
             "LEARNING_SCORE":"نقاط التعلم",
             "POINTS":"نقطة"
+        },
+        "TOASTER": {
+            "USER_NOT_FOUND": " عذرا..المستخدم ليس موجود",
+            "USERNAME_ALREADY_EXISTS": " عذرا..اسم المستخدم مأخوذ مسبقا",
+            "EMAIL_ALREADY_EXISTS": "البريد الالكتروني مأخوذ مسبقا ",
+            "LINK_ANOTHER_PARENT": "تمت إضافة الرابط بنجاح",
+            "PASSWORD_LENGTH": "عذرا..يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+            "NPASSWORD_CNPASSWORD": "كلمات المرور الجديدة والمثبتة غير متطابقة!",
+            "CHANGE_PASSWORD": "تم تحديث كلمة مرور المستخدم بنجاح",
+            "INVALID_EMAIL": "رجاء قم بإدخال بريد الكتروني صحيح",
+            "CHANGE_CHILD_INFO": "تم تحديث المعلومات بنجاح",
+            "CHANGE_INFO": "تم تحديث المعلومات الشخصية للمستخدم بنجاح",
+            "UNBLOCK": "لم يعد هذا المستخدم محظورًا",
+            "UNBLOCK_ERROR": " عذرا..حدث خطأ أثناء إلغاء حظر المستخدم",
+            "UPLOAD_FAIL": "فشل تحميل الصورة",
+            "NO_FILE_TO_UPLOAD": "يرجى اختيار صورة",
+            "UNLINK_MY_CHILD": "تمت إزالة الرابط بنجاح",
+            "PASSWORD_IS_INCORRECT": "كلمة المرور غير صحيحة",
+            "REPORT_USER": "تم ارسال البلاغ بنجاح",
+            "PROFILE_PIC_UPDATE": "تم تحديث صورة الملف الشخصي بنجاح",
+            "UNLINK_UNDER_13": "يجب أن يكون الطفل اكبرمن 13 عامًا أو أكثر"
+
+
         }
     },
-    "SEARCH": {
-        "CONNECTING_PARENTS":"تواصل اولياء الامور",
-        "REACH_OUT_TO_OTHER_PARENTS": "صل نفسك باولياء امور اخرين",
-        "THANAWYA_AMMA": "ثانوية عامة",
-        "IG": "IG",
-        "AMERICAN DIPLOMA": "American Diploma",
-        "USERNAME": "اسم المستخدم",
-        "LOCATION": "العنوان",
-        "LEVEL_OF_EDUCATION": "الصف الدراسي",
-        "SYSTEM_OF_EDUCATION": "نظام التعليم",
-        "REMOVE_ALL_TAGS": "احذف جميع الاشارات",
-        "PREVIOUS": "السابق",
-        "NEXT": "التالى"
-    },
-    "MESSAGING": {},
-    "PROFILE": {},
     "PSYCHOLOGIST": {
         "TITLE": {
             "VERIFIED_PSYCHS": "خبراء نفسيين",
@@ -404,22 +527,111 @@
             "NOTE_BODY": "اذا تم الموافقة على هذا الطلب من قبل احد المشرفين على الموقع سيتم ارسال رقم تسلسلي اليك عبر بريدك الالكتروني، يمكنك لاحقاً تعديل بياناتك او مسحها بواسطة هذا الرقم."
         }
     },
-    "SCHEDULING": {},
-    "SEARCH": {},
-    "LANDING":{
-        
+    "SCHEDULING": {
+        "CALENDAR": {
+            "PREVIOUS": "السابق",
+            "TODAY": "اليوم",
+            "NEXT": "التالى",
+            "MONTH": "شهر",
+            "WEEK": "أسبوع",
+            "DAY": "يوم",
+            "JAN": "يناير",
+            "FEB": "فبراير",
+            "MAR": "مارس",
+            "APR": "أبريل",
+            "MAY": "مايو",
+            "JUN": "يونيو",
+            "JUL": "يوليو",
+            "AUG": "أغسطس",
+            "SEP": "سبتمبر",
+            "OCT": "اكتوبر",
+            "NOV": "نوفمبر",
+            "DEC": "ديسمبر"
+        },
+        "SCHEDULE": {
+            "SCHEDULE": "الجدول",
+            "ADD_EVENT": "إضافة حدث",
+            "GO_TO": "اذهب إلى",
+            "NO_DESCRIPTION_TAG": "بدون وصف",
+            "CREATE_EVENT": "انشاء حدث",
+            "NEW_EVENT": "حدث جديد",
+            "EDIT_EVENT": "تحديث الحدث",
+            "TITLE": "العنوان",
+            "DESCRIPTION": "الوصف",
+            "EVENT_START": "بداية الحدث",
+            "EVENT_END": "نهاية الحدث",
+            "SAVE_CHANGES": "حفظ التغييرات",
+            "CANCEL": "إلغاء",
+            "EVENT_TYPES": {
+                "ACTIVITY": "النشاط"
+            }
+        },
+        "STUDYPLAN": {
+            "STUDY_PLANS": "الخطط الدراسة",
+            "ADD_EVENT": "إضافة حدث",
+            "NO_DESCRIPTION_TAG": "بدون وصف",
+            "CREATE_EVENT": "انشاء حدث",
+            "NEW_EVENT": "حدث جديد",
+            "EDIT_EVENT": "تحديث الحدث",
+            "ASSIGN": "تعيين",
+            "CHILDREN": "أطفالي",
+            "UNASSIGN": "إلغاء تعيين",
+            "SAVE_CHANGES": "حفظ التغييرات",
+            "CANCEL": "إلغاء",
+            "TITLE": "العنوان",
+            "DESCRIPTION": "الوصف",
+            "EVENT_START": "بداية الحدث",
+            "EVENT_END": "نهاية الحدث",
+            "NEW_TITLE": "العنوان الجديد",
+            "COPY": "نسخ",
+            "PUBLISH": "نشر"
+        },
+    "STUDYPLANCREATE": {
+            "CREATION": "إنشاء خطة الدراسة",
+            "CREATE": "إنشاء",
+            "ADD_EVENT": "إضافة حدث",
+            "NO_DESCRIPTION_TAG": "بدون وصف",
+            "DESCRIPTION_EDITOR": "محرر الوصف",
+            "DESCRIPTION_PREVIEW": "عرض الوصف",
+            "NEW_EVENT": "حدث جديد",
+            "TITLE": "العنوان",
+            "DESCRIPTION": "الوصف",
+            "EVENT_START": "بداية الحدث",
+            "EVENT_END": "نهاية الحدث",
+            "CREATE_EVENT": "انشاء حدث",
+            "CANCEL": "إلغاء",
+            "EDIT_EVENT": "تحديث الحدث",
+            "SAVE_CHANGES": "حفظ التغييرات"
+        },
+    "PUBLISHEDLIST": {
+            "STUDY_PLANS": "الخطط الدراسة",
+            "VIEW": "عرض",
+            "DELETE": "حذف",
+            "DELETE_EVENT": "حذف الحدث",
+            "DELETE_CONFIRMATION": "هل أنت متأكد أنك تريد حذف هذا الحدث؟",
+            "CANCEL": "إلغاء",
+            "MINE": "ملكي"
+        }
     },
-    "NEWSFEED":{
-        "NEWSFEED": "اخر الأخبار",
-        "WELCOME_TO_NAWWAR": "اهلاً بكم فى نوٌر",
-        "POSTED_ON": "نشر فى",
-        "PREVIOUS": "السابق",
-        "NEXT": "التالى",
-        "INTERESTS": "الاهتمامات",
-        "TAG": "اشاره",
-        "OTHER_PARENTS": "اولياء الامور الاخرين",
-        "READ_MORE": "اقرأ المزيد",
-        "CONNECT_TO_MORE": "تواصل مع المزيد"
-
+    "SEARCH": {},
+    "LANDING": {
+        "ENHANCE": "عزز تجربتك التعليمية",
+        "ENHANCE_DESC": "سواء كنت طالبًا يدرس في المنزل أو طالبًا نموذجيًا ، فلدينا الموارد التعليمية وخطط الدراسة والمزيد.",
+        "ENJOY": "استمتع ببعض الوقت خارج المنهج",
+        "ENJOY_DESC": "تريد أن تتعلم التصوير؟ أو ربما حضور جلسة صغيرة حول الكيمياء القديمة قبل القرون الوسطى؟ ماذا عن بعض اليوغا بعد ذلك؟ تحقق من الأنشطة المقدمة على موقعنا.",
+        "CONNECT": "تواصل مع المعلمين وأولياء الأمور",
+        "CONNECT_DESC": "ابحث عن الآباء والمدرسين في منطقتك وتواصل معهم. اطلب منهم التوصية بمحتوى لك ولأطفالك.",
+        "MARKET": "That's not all...",
+        "MARKET_DESC": "لدينا سوق مليء بالأشياء التعليمية ، ودليل عناوين علماء النفس المعتمدين ، وخطط دراسية لتنظيم وقت الطلاب وأكثر!",
+        "FOUNDERS": "المؤسسون",
+        "GET_STARTED": "على استعداد للبدء؟ أفتح حساب الأن!",
+        "SIGNUP": "إنشاء حساب جديد",
+        "ABOUT_US": "معلومات عنا",
+        "CONTACT_US": "اتصل بنا",
+        "CONTACT_NAWWAR": "اتصل نوَّر",
+        "RIGHTS": "نوَّر 2018. جميع الحقوق محفوظة.",
+        "SWITCH_LANGUAGE": "Switch Language",
+        "SEND": "إرسال",
+        "CANCEL": "إلغاء"
     }
 }

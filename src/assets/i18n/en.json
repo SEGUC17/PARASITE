@@ -402,31 +402,25 @@
     }
   },
   "SCHEDULING": {},
-  "LANDING": {},
-  "SEARCH": {
-    "CONNECTING_PARENTS": "Connecting Parents",
-    "REACH_OUT_TO_OTHER_PARENTS": "Reach out to other parents",
-    "THANAWEYA_AMMA": "Thanaweya Amma",
-    "IG": "IG",
-    "AMERICAN DIPLOMA": "American Diploma",
-    "USERNAME": "Username",
-    "LOCATION": "Location",
-    "LEVEL_OF_EDUCATION": "Level of education",
-    "SYSTEM_OF_EDUCATION": "System of education",
-    "REMOVE_ALL_TAGS": "Remove all tags",
-    "PREVIOUS": "Previous",
-    "NEXT": "Next"
-  },
-  "NEWSFEED": {
-    "NEWSFEED": "Newsfeed",
-    "WELCOME_TO_NAWWAR": "Welcome to Nawwar",
-    "POSTED_ON": "Posted on",
-    "PREVIOUS": "Previous",
-    "NEXT": "Next",
-    "INTERESTS": "Interests",
-    "TAG": "tag",
-    "OTHER_PARENTS": "Other Parents",
-    "READ_MORE": "Read More",
-    "CONNECT_TO_MORE": "Connect to more"
+  "SEARCH": {},
+  "LANDING": {
+    "ENHANCE": "Enhance your learning experience",
+    "ENHANCE_DESC": "Whether you are a home-schooled student, or a typical student, we got your back, with educational resources, study plans, and more.",
+    "ENJOY": "Enjoy some extracurricular time",
+    "ENJOY_DESC": "Want to learn photography? Or maybe attend a little session on pre-medieval alchemy? How about some Yoga then? Check out the activities offered on our website.",
+    "CONNECT": "Connect with Teachers and Parents",
+    "CONNECT_DESC": "Look for parents and teachers in your area and get in touch with them. Have them recommend content to you and your children.",
+    "MARKET": "That's not all...",
+    "MARKET_DESC": "We have a marketplace full of educational stuff,  an address book of verified psychologists, study plans to organize students' time and more!",
+    "FOUNDERS": "The Lovely Founders",
+    "GET_STARTED": "Ready to get started? Sign up now!",
+    "SIGNUP": "Sign up!",
+    "ABOUT_US": "About Us",
+    "CONTACT_US": "Contact Us",
+    "CONTACT_NAWWAR": "Contact Nawwar",
+    "RIGHTS": "Nawwar 2018. All Rights Reserved.",
+    "SWITCH_LANGUAGE": "تبديل اللغة",
+    "SEND": "Send",
+    "CANCEL": "Cancel"
   }
 }

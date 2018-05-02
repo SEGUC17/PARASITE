@@ -6,6 +6,8 @@ import { MessageService } from '../../messaging/messaging.service';
 import { AuthService } from '../../auth/auth.service';
 declare const swal: any;
 declare const $: any;
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-view-verified-contributer-requests',
   templateUrl: './view-verified-contributer-requests.component.html',
@@ -19,6 +21,7 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
 
   constructor(private _adminService: AdminService, private router: Router,
     private _messageService: MessageService, private _authService: AuthService) { }
+
 
   Requests: any[] = [];
   filter: String = 'pending';
@@ -66,16 +69,20 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   }
 
   Accept(request) { // Accepted by Admin.
-    this._adminService.respondToContributerValidationRequest(request._id, 'approved');
+    var self = this;
+    this._adminService.respondToContributerValidationRequest(request._id, 'approved').subscribe(function (res) {
+      self.viewVCRs(self.filter);
+    });;
 
   }
 
   Reject(request) { // rejected by Admin.
     console.log(request);
-    var self = this;
+    const self = this;
     this._adminService.respondToContributerValidationRequest(request._id, 'disapproved').subscribe(function (res) {
       self.viewVCRs(self.filter);
       self._authService.getUserData(['username']).subscribe(function (res) {
+        self.viewVCRs(self.filter)
         self.showPromptMessage(request.creator, res.data.username);
       });
     });

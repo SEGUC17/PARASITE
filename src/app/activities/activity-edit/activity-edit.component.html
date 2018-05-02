@@ -1,29 +1,29 @@
 
-  <form class="activity-form" #activityForm="ngForm">
-    <div class="card"style="width:650px;height:420px">
-      <div class="header">
-        <h2><strong>{{ 'ACTIVITIES.EDIT.EDIT_ACTIVITY' | translate }}  </strong>{{data.name}}</h2>
+  <form class="activity-form" #activityForm="ngForm" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >
+    <div class="card" style= "width:650px;height:420px">
+      <div class="header" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+        <h2> <strong >{{ 'ACTIVITIES.EDIT.EDIT_ACTIVITY' | translate }}  </strong> </h2>
       </div>
       <div class="body">
       <div class=row>
-          <div class="col-lg-10 col-md-24">
-            <div class="form-group">
+          <div  class="col-lg-10 col-md-24" >
+            <div class="form-group" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
               {{ 'ACTIVITIES.EDIT.ACTIVITY_NAME' | translate }} <input class="form-control"matInput  [(ngModel)]= "data.name" name="activity name" type=string placeholder=" {{ 'ACTIVITIES.EDIT.ACTIVITY_NAME_PLACEHOLDER' | translate }}">
             
             </div>
           </div>
-         
+          
           <div class="col-lg-5 col-md-24">
-            <div class="form-group">
+            <div class="form-group" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
               {{ 'ACTIVITIES.EDIT.START_DATE' | translate }}<input  class="form-control" matInput  [(ngModel)]= "data.fromDateTime" name="from date" required type= "datetime-local" placeholder=" to date" required type= "datetime-local" placeholder=" {{ 'ACTIVITIES.EDIT.START_DATE' | translate }}">
             </div>
           </div>
           <div class="col-lg-5 col-md-24">
-            <div class="form-group">
+            <div class="form-group" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
             {{ 'ACTIVITIES.EDIT.END_DATE' | translate }}<input  class="form-control" matInput  [(ngModel)]= "data.toDateTime" name="to date" required type= "datetime-local" placeholder=" {{ 'ACTIVITIES.EDIT.END_DATE' | translate }}">
             </div>
-          </div>
-          <div class="col-lg-4 col-md-24">
+          </div> 
+          <div class="col-lg-4 col-md-24" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
               <div class="form-group">
                   <!--span matPrefix>EGP &nbsp;</span-->
           {{ 'ACTIVITIES.EDIT.PRICE' | translate }}<input class="form-control" matInput  [(ngModel)]= "data.price"  name="activity price" required type="number" placeholder="{{ 'ACTIVITIES.EDIT.PRICE' | translate }}">
@@ -31,14 +31,20 @@
               </div>
             </div>
           <div class="col-md-12">
-            <div class="form-group">
-              {{ 'ACTIVITIES.EDIT.DESCRIPTION' | translate }}<textarea rows="4" class="form-control no-resize"  matInput  [(ngModel)]= "data.description" name="description" required type="string" placeholder="{{ 'ACTIVITIES.EDIT.DESCRIPTION' | translate }}"></textarea>
+            <div class="form-group"[style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+              {{ 'ACTIVITIES.EDIT.DESCRIPTION' | translate }}<textarea rows=4 class="form-control no-resize"  matInput  [(ngModel)]= "data.description" name="description" required type="string" placeholder="{{ 'ACTIVITIES.EDIT.DESCRIPTION' | translate }}"></textarea>
             </div>
           </div>
-          <div class="col-lg-8 col-md-8">
-            <button class="btn btn-round" (click)="onNoClick()">{{ 'ACTIVITIES.EDIT.CANCEL' | translate }}</button>
-            <button class="btn btn-primary btn-round" [disabled]="!activityForm.form.valid || data.toDateTime <= data.fromDateTime" type="submit"  [mat-dialog-close]= "{name:data.name , description:data.description, price:data.price, fromDateTime:data.fromDateTime , toDateTime:data.toDateTime}" cdkFocusInitial>{{ 'ACTIVITIES.EDIT.SAVE_CHANGES' | translate }}</button>
+          <div  class="col-lg-8 col-md-8" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >
+            <button  class="btn btn-round" (click)="onNoClick()">{{ 'ACTIVITIES.EDIT.CANCEL' | translate }}</button>
+            <button  class="btn btn-primary btn-round" [disabled]="!activityForm.form.valid || data.toDateTime <= data.fromDateTime" 
+              type="submit"  [mat-dialog-close]= "{name:data.name , description:data.description, price:data.price, fromDateTime:data.fromDateTime , toDateTime:data.toDateTime}" cdkFocusInitial>{{ 'ACTIVITIES.EDIT.SAVE_CHANGES' | translate }}</button>
           </div>      
+          <div  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
+          [hidden]=" data.fromDateTime <= data.toDateTime"
+          class="alert alert-danger">
+          {{ 'ACTIVITIES.EDIT.FROM_AFTER_TO' | translate }}
+        </div>
       </div>
     </div>
     </div>

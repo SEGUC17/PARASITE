@@ -199,13 +199,12 @@ module.exports = function (passport) {
   // -------------- Admin Contoller ---------------------- //
   router.get('/admin/VerifiedContributerRequests/:FilterBy', isAuthenticated, adminController.getVCRs);
   router.patch('/admin/VerifiedContributerRequestRespond/:targetId', isAuthenticated, adminController.VCRResponde);
-  router.get('/admin/removePublishedStudyPlan/:studyPlanID', isAuthenticated, adminController.removePublishedStudyPlans);
   router.get(
     '/admin/PendingStudyPlanPublishRequests', isAuthenticated,
     adminController.viewStudyPlanPublishReqs
   );
   router.patch(
-    '/admin/RespondStudyPlanPublishRequest/:studyPlanPublishRequestId/:studyPlanId', isAuthenticated,
+    '/admin/RespondStudyPlanPublishRequest/:studyPlanPublishRequestId/:studyPlanId/:status', isAuthenticated,
     adminController.respondStudyPlanPublishRequest
   );
   router.get(
@@ -430,6 +429,9 @@ module.exports = function (passport) {
   router.post('/contactus', messageController.contactAdmin);
     //Unblocking users
     router.patch('/message/unblock/:id', messageController.unBlock);
+
+  // Mark a message as read
+  router.patch('/message/read', messageController.markAsRead);
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//

@@ -4,6 +4,7 @@ import { User } from '../user';
 import { cities } from '../../variables';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 declare const $: any;
 
@@ -33,7 +34,11 @@ export class SignUpComponent implements OnInit {
   private tags = [];
   private tabNumber = 1;
 
-  constructor(private authService: AuthService, private toastrService: ToastrService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private toastrService: ToastrService,
+    private router: Router,
+    private translate: TranslateService) { }
 
   ngOnInit() {
     const self = this;
@@ -67,7 +72,11 @@ export class SignUpComponent implements OnInit {
     const self = this;
     self.authService.signUp(this.user).subscribe(function (res) {
       if (res.msg === 'Sign Up Is Successful!\nVerification Mail Was Sent To Your Email!') {
-        self.toastrService.success(res.msg);
+        self.translate.get('AUTH.TOASTER.SIGN_UP_SUCCESSFULL').subscribe(
+          function (translation) {
+            self.toastrService.success(translation);
+          }
+        );
         self.router.navigateByUrl('/content/list');
       }
     });

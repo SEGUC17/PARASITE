@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { FacebookService, InitParams, LoginOptions, LoginResponse } from 'ngx-facebook';
 import { GoogleApiService, GoogleAuthService } from 'ng-gapi';
+import { TranslateService } from '@ngx-translate/core';
 import GoogleUser = gapi.auth2.GoogleUser;
 
 const httpOptions = {
@@ -24,7 +25,8 @@ export class AuthService {
     private router: Router,
     private facebookService: FacebookService,
     private googleApiService: GoogleApiService,
-    private googleAuthService: GoogleAuthService
+    private googleAuthService: GoogleAuthService,
+    private translate: TranslateService
   ) {
     let initParams: InitParams = {
       appId: environment.facebookAppID,
@@ -85,7 +87,11 @@ export class AuthService {
         self.authFacebook(res.authResponse).subscribe(function (res2) {
           if (res2.msg === 'Sign In Is Successful!') {
             self.setToken(res2.token);
-            self.toastrService.success(res2.msg, 'Welcome!');
+            self.translate.get('AUTH.TOASTER.SIGN_IN_SUCCESSFULL').subscribe(
+              function (translation) {
+                self.toastrService.success(translation);
+              }
+            );
             self.router.navigateByUrl('/content/list');
           }
         });
@@ -115,7 +121,11 @@ export class AuthService {
           self.authGoogle(user).subscribe(function (res3) {
             if (res3.msg === 'Sign In Is Successful!') {
               self.setToken(res3.token);
-              self.toastrService.success(res3.msg, 'Welcome!');
+              self.translate.get('AUTH.TOASTER.SIGN_IN_SUCCESSFULL').subscribe(
+                function (translation) {
+                  self.toastrService.success(translation);
+                }
+              );
               self.router.navigateByUrl('/content/list');
             }
           });
@@ -201,7 +211,11 @@ export class AuthService {
         operation === 'resetPassword' ||
         operation === 'modifyNotification'
       ) {
-        self.toastrService.error(error.error.msg);
+        if (self.translate.currentLang === 'en') {
+          self.toastrService.error(error.error.msg);
+        } else {
+          self.toastrService.error('حدث خطأ ما؛ حاول مرة أخرى لاحقًا');
+        }
       }
       return of(result as T);
     };

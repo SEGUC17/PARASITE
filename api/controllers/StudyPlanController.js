@@ -1,6 +1,6 @@
 /*eslint max-statements: ["error", 20]*/
 var mongoose = require('mongoose');
-var CalendarEvent = mongoose.model('CalendarEvent');
+var StudyPlanPublishRequest = mongoose.model('StudyPlanPublishRequest');
 var StudyPlan = mongoose.model('StudyPlan');
 var User = mongoose.model('User');
 var moment = require('moment');
@@ -33,20 +33,21 @@ module.exports.getPublishedStudyPlans = function (req, res, next) {
 
 module.exports.publishStudyPlan = function (req, res, next) {
 
-    // @author: Ola
-    //publishing a study plan is creating a new studyPlan in
-    //the studyPlan schema as it is for the published plans only
-    //so i am creating a new studyPlan with the body of the request
-    //which is the studyPlan I want to publish and it returns an
-    //error if there is an error else that studyPlan published successfully
-    StudyPlan.create(req.body, function (error) {
-        if (error) {
-            return next(error);
+    var publishRequest = new StudyPlanPublishRequest({
+        requestType: 'create',
+        studyPlan: req.body
+    });
+
+
+    StudyPlanPublishRequest.create(publishRequest, function (err) {
+        if (err) {
+            return next(err);
         }
+
         res.status(201).json({
             data: null,
             err: null,
-            msg: 'StudyPlan published successfully'
+            msg: 'Study plan submitted for admin reviewal'
         });
     });
 
@@ -125,9 +126,11 @@ module.exports.createStudyPlan = function (req, res, next) {
             msg: 'Not authorized to create a study plan'
         });
     } else {
+        var studyPlan = req.body;
+        studyPlan.creator = req.user.username;
         User.findOneAndUpdate(
             { username: req.user.username },
-            { $push: { studyPlans: req.body } },
+            { $push: { studyPlans: studyPlan } },
             function (err, user) {
                 if (err) {
                     return next(err);
@@ -216,11 +219,12 @@ module.exports.assignStudyPlan = function (req, res, next) {
                     }
 
                     var notification = {
-                        body: req.user.username + ' assigned you to' +
+                        body: req.user.username + ' assigned you to ' +
                             newStudyPlan.title,
                         date: moment().toDate(),
                         itemId: newStudyPlan._id,
-                        type: 'study plan'
+                        itemUsername: req.params.username,
+                        type: 'study plan A'
                     };
                     User.findOneAndUpdate(
                         { username: req.params.username },
@@ -230,8 +234,6 @@ module.exports.assignStudyPlan = function (req, res, next) {
                         }
                         , { new: true },
                         function (errr, updatedUser) {
-                            console.log('add the notification');
-                            console.log(updatedUser.notifications);
                             if (errr) {
                                 return res.status(402).json({
                                     data: null,
@@ -313,10 +315,9 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                 }
                 // Start of notification
                 var notification = {
-                    body: req.user.username + ' unassigned' +
+                    body: req.user.username + ' unassigned ' +
                         'you from a Study Plan',
                     date: moment().toDate(),
-                    itemId: req.params.studyPlanID,
                     type: 'study plan'
                 };
                 User.findOneAndUpdate(
@@ -327,8 +328,6 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                     }
                     , { new: true },
                     function (errr, updatedUser) {
-                        console.log('add the notification');
-                        // console.log(updatedUser.notifications);
                         if (errr) {
                             return res.status(402).json({
                                 data: null,
@@ -506,20 +505,26 @@ module.exports.editPublishedStudyPlan = function (req, res, next) {
             });
         }
 
-        studyPlan.creator = req.user.isAdmin ? studyPlan.creator : req.user;
         studyPlan.description = req.body.description;
         studyPlan.events = req.body.events;
         studyPlan.title = req.body.title;
 
-        studyPlan.save(function (error) {
+
+        var publishRequest = new StudyPlanPublishRequest({
+            requestType: 'update',
+            studyPlan: studyPlan
+        });
+
+
+        StudyPlanPublishRequest.create(publishRequest, function (error) {
             if (error) {
                 return next(error);
             }
 
-            return res.status(200).json({
+            res.status(201).json({
                 data: null,
                 err: null,
-                msg: 'Study plan updated successfully'
+                msg: 'Update submitted for admin reviewal'
             });
         });
     });

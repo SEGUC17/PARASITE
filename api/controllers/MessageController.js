@@ -9,11 +9,24 @@ var Validations = require('../utils/validators');
 var models = require('../models/Message');
 var Message = mongoose.model('Message');
 var User = mongoose.model('User');
+var unregisteredReply = require('../utils/emails/email-verification');
+var REGEX = require('../utils/validators/REGEX');
+
 
 // add a message to the messages collection in the DB
 module.exports.sendMessage = function (req, res, next) {
   // Security Check
   delete req.body.sentAt;
+User.findOne({ username: req.body.sender }, function (err, user) {
+     if (err) {
+                  return next(err);
+       }
+       // end if
+       //checking if the user is an admin & the message is from an unregistered user
+       if (user.isAdmin === true && req.body.recipient.match(REGEX.MAIL_REGEX)) {
+              // send the reply through the unregistered user's personal email
+              unregisteredReply.adminReply(req.body.recipient, req.body.body);
+       }
 
   // create new entry in DB
   Message.create(req.body, function (err, msg) {
@@ -34,8 +47,6 @@ module.exports.sendMessage = function (req, res, next) {
       }
       , { new: true },
       function (errr, updatedUser) {
-          console.log('add the notification');
-          // console.log(updatedUser.notifications);
           if (errr) {
               return res.status(402).json({
                   data: null,
@@ -54,12 +65,14 @@ module.exports.sendMessage = function (req, res, next) {
   );
 
     // return response message
+
     return res.status(200).json({
       data: msg,
-      err: null,
+      err1: null,
       msg: 'Message was sent successfully.'
     });
   });
+});
 };
 
 // get messages stored in the DB
@@ -149,24 +162,21 @@ module.exports.getRecentlyContacted = function (req, res, next) {
     // get records where sender is equal to the input parameter user
     { $match: { sender: req.params.user } },
     {
+      // group records by recipient and most recent sentAt date
       $group: {
         _id: '$recipient',
-        // group records by recipient and most recent sentAt date
-
+        recipientAvatar: { $addToSet: '$recipientAvatar' },
         sentAt: { $max: '$sentAt' }
-      }
-    },
-    // order records descendingly by sentAt
-
-    { $sort: { sentAt: -1 } },
-    // get the first 10 elements
-
-    { $limit: 10 }
-  ]).
-    exec(function (err, users) {
-      if (err) {
-        return next(err);
-      }
+    }
+   },
+   // order records descendingly by sentAt
+   { $sort: { sentAt: -1 } },
+   // get the first 5 elements
+   { $limit: 5 }
+  ]).exec(function(err, users) {
+    if (err) {
+      return next(err);
+    }
 
       // console.log(users);
       return res.status(200).json({
@@ -232,3 +242,23 @@ module.exports.unBlock = function (req, res, next) {
     // end function
   );
 };
+
+module.exports.markAsRead = function(req, res, next) {
+  Message.findByIdAndUpdate(
+    req.body._id, { $set: { 'state': false } },
+    { new: true }, function (err, result) {
+      if (err) {
+        return res.status(402).json({
+          data: null,
+          msg: 'error'
+        });
+      }
+
+      return res.status(200).json({
+        data: result,
+        err: null,
+        msg: 'Message is read'
+      });
+    }
+  );
+ };

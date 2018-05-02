@@ -15,8 +15,8 @@ const httpOptions = {
 
 @Injectable()
 export class MessageService {
-
-  url: String = environment.apiUrl ;
+  private static message: any;
+  url: String = environment.apiUrl;
 
   constructor(private http: HttpClient, private toastrService: ToastrService) { }
 
@@ -49,13 +49,25 @@ export class MessageService {
    getContacts(user: any): Observable<any> {
     return this.http.get<any>(this.url + 'message/contacts/' + user);
   }
-
+// making a POST  request to send a message to admins
   contactus(toSend: any): Observable<any> {
-    return this.http.post<any> (this.url + 'contactus', toSend, httpOptions);
+        return this.http.post<any>(this.url + 'message/contactus', toSend, httpOptions);
 
   }
+
+ setMessage(msg: any): void {
+   MessageService.message = msg;
+ }
+
+ getMessage(): any {
+   return MessageService.message;
+ }
+
   unBLock(userId: any, list: any):  Observable<any> {
     return this.http.patch(this.url + `message/unblock/${userId}`, list, httpOptions);
-    }
+  }
 
+  read(message): Observable<any> {
+    return this.http.patch(this.url + 'message/read', message, httpOptions);
+  }
 }
