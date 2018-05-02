@@ -25,17 +25,17 @@ export class AppComponent implements OnInit {
   messagesNotifications: Notification[];
   unreadNotificationsNumber: number; // Number of unread notifications to display on top of icon
   unreadNotificationsNumberMessages: number; // Number of unread messages to display on top of icon
-  discussion_C : String = "discussion content";
-  discussion_A : String = "discussion activity";
-  message : String = "message";
-  link : String = "link";
-  study_plan : String = "study plan";
-  study_plan_A : String = "study plan A";
-  product : String = "product";
-  content : String = "content";
-  activity : String = "activity";
-  contributer : String = "contributer";
-  
+  discussion_C: String = 'discussion content';
+  discussion_A: String = 'discussion activity';
+  message: String = 'message';
+  link: String = 'link';
+  study_plan: String = 'study plan';
+  study_plan_A: String = 'study plan A';
+  product: String = 'product';
+  content: String = 'content';
+  activity: String = 'activity';
+  contributer: String = 'contributer';
+
   links = [
     {
       url: '/content/list',
@@ -316,59 +316,98 @@ export class AppComponent implements OnInit {
   getNotifications(): void {
     let self = this;
     this.authService.getUserData(['notifications']).subscribe(function (res) {
-      // all notification except of type message 
-      var retrievednotifications = res.data.notifications.filter(function(notMessage) {
-        return notMessage.type != 'message';
+      // all notification except of type message
+      let retrievednotifications = res.data.notifications.filter(function (notMessage) {
+        return notMessage.type !== 'message';
       });
-    // all notification that aren't read (not messages)
-      var unreadNots = retrievednotifications.filter(function (notRead) {
+      // all notification that aren't read (not messages)
+      let unreadNots = retrievednotifications.filter(function (notRead) {
         return notRead.isRead === false;
       });
       // unread notifications number
       self.unreadNotificationsNumber = unreadNots.length;
 
       // all notifications that are of type message and aren't read
-      var messagesNotifications = res.data.notifications.filter(function(messageNotification) {
+      let messagesNotifications = res.data.notifications.filter(function (messageNotification) {
         return messageNotification.type === 'message' && messageNotification.isRead === false;
       });
       self.messagesNotifications = messagesNotifications;
       // unread messages number
       self.unreadNotificationsNumberMessages = messagesNotifications.length;
-    
-      for(let i = 0 ; i < retrievednotifications.length ; i++) {
+
+      for (let i = 0; i < retrievednotifications.length; i++) {
         let type = retrievednotifications[i].type;
         let itemId = retrievednotifications[i].itemId;
         let itemUsername = retrievednotifications[i].itemUsername;
         console.log(type);
         ///////////// all profile must be usernamesss
-        if ((type == 'link' || type == 'contributer' ) && itemUsername) {
-          retrievednotifications[i].link = '/profile/'+retrievednotifications[i].itemUsername;
-        
+        // handle translating commenting
+        if (retrievednotifications[i].body.indexOf('commented on your') !== -1) {
+          retrievednotifications[i].body = 'قام أحدهم بالتعليق على إحدى مساهماتك على الموقع';
         }
-        else if ((type === 'activity' || type === 'discussion activity' ) && itemId) {
-          retrievednotifications[i].link = '/activities/'+retrievednotifications[i].itemId;
+
+        if (retrievednotifications[i].body.indexOf('replied to your comment on') !== -1) {
+          retrievednotifications[i].body = 'قام أحدهم بالرد على إحدى تعليقاتك';
         }
-        else if ((type === 'content' || type === 'discussion content' )&& itemId) {
-          retrievednotifications[i].link = '/content/view/'+retrievednotifications[i].itemId;
-        }
-        else if (type === 'study plan' && itemId && itemUsername ) {
-          retrievednotifications[i].link = '/scheduling/study-plan/personal/'+ itemId +'/' +  itemUsername;
-        }
-        else if (type === 'study plan A' && itemId ) {
-          retrievednotifications[i].link = '/scheduling/study-plan/personal/'+ itemId;
-        } 
-        //donot need id in market
-        else if (type === 'product') {
+
+        if ((type === 'link' || type === 'contributer') && itemUsername) {
+          if (retrievednotifications[i].body.indexOf('are now a Verified Contributer') !== -1) {
+            retrievednotifications[i].body = 'أصبحت الآن مساهم موثَّق';
+          }
+
+          retrievednotifications[i].link = '/profile/' + retrievednotifications[i].itemUsername;
+
+        } else if ((type === 'activity' || type === 'discussion activity') && itemId) {
+          if (retrievednotifications[i].body.indexOf('booked your activity') !== -1) {
+            retrievednotifications[i].body = 'تمَّ حجز مكان في أحد أنشطتك';
+          }
+          if (retrievednotifications[i].body.indexOf('activity was accepted') !== -1) {
+            retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد أنشطتك';
+          }
+
+          retrievednotifications[i].link = '/activities/' + retrievednotifications[i].itemId;
+        } else if ((type === 'content' || type === 'discussion content') && itemId) {
+          if (retrievednotifications[i].body.indexOf('content was accepted') !== -1) {
+            retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد مساهماتك التعليمية';
+          }
+
+          if (retrievednotifications[i].body.indexOf('updated Content has been successfully') !== -1) {
+            retrievednotifications[i].body = 'تم تحديث أحد مساهماتك التعليمية بنجاح';
+          }
+
+          retrievednotifications[i].link = '/content/view/' + retrievednotifications[i].itemId;
+        } else if (type === 'study plan' && itemId && itemUsername) {
+
+          if (retrievednotifications[i].body.indexOf('study plan is now published') !== -1) {
+            retrievednotifications[i].body = 'تم نشر أحد خططك الدراسية بنجاح';
+          }
+
+          if (retrievednotifications[i].body.indexOf('unassigned you from a Study Plan') !== -1) {
+            retrievednotifications[i].body = 'تمَّت إزالة خطة دراسية قد كانت معينة لك';
+          }
+
+          retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId + '/' + itemUsername;
+        } else if (type === 'study plan A' && itemId) {
+          if (retrievednotifications[i].body.indexOf('assigned you to') !== -1) {
+            retrievednotifications[i].body = 'تمَّ وضع خطة دراسية لك';
+          }
+
+          retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId;
+        } else if (type === 'product') {
+          // do not need id in market
+          if (retrievednotifications[i].body.indexOf('new product was approved') !== -1) {
+            retrievednotifications[i].body = 'تمَّ قبول منتجك وهو معروض في السوق الآن';
+          }
+
           retrievednotifications[i].link = '/market';
-        }
-        else {
+        } else {
           // if not any of these cases got to landing page
           retrievednotifications[i].link = '/';
         }
       }
       self.notifications = retrievednotifications.reverse();
 
-    })
+    });
   }
 
   // method to change the website's language
@@ -382,12 +421,12 @@ export class AppComponent implements OnInit {
     }
 
   }
-  //method that makes all messages read
+  // method that makes all messages read
   onMessageIconClick() {
     console.log('in');
     let self = this;
-    for (let i = 0 ; i < self.messagesNotifications.length ; i++ ) {
-      self.modifyNotification(self.messagesNotifications[i]._id, true)
+    for (let i = 0; i < self.messagesNotifications.length; i++) {
+      self.modifyNotification(self.messagesNotifications[i]._id, true);
     }
   }
 }
