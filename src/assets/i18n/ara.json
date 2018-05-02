@@ -12,66 +12,69 @@
         "ADMIN": "إدارة الموقع",
         "CONNECT_PARENTS": "التواصل",
         "STUDY_PLANS": "الخطط الدراسية",
-        "CHANGE_LANGUAGE": "تغيير اللغة"
+        "CHANGE_LANGUAGE": "تغيير اللغة",
+        "NEWSFEED": "اخر الأخبار"
     },
     "ACTIVITIES": {
-    "CREATE": {
-        "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
-        "CREATE_ACTIVITY": "اضافة نشاط",
-        "REQUIRED_FIELDS": "الخانات المطلوبة",
-        "SUBMIT": "اضافة",
-        "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
-        "TAGS": "إشارات"
-    },
-    "LIST": {
-        "ACTIVITIES": "الانشطة",
-        "ACTIVITY": "النشاط",
-        "LATEST_ACTIVITY": "أحدث نشاط",
-        "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
-        "READ_MORE": "اقرأ المزيد",
-        "CLOSE": "أغلق",
-        "COMMENTS": "التعليقات",
-        "POSTED_BY": "قام بالنشر",
-        "PREV": "الصفحة السابقة",
-        "NEXT": "الصفحة التالية"
-    },
-    "DETAIL": {
-        "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
-        "FROM": "من",
-        "TO": "الى",
-        "COMMENT": "اضف تعليق",
-        "REPLY": "اضف رد",
-        "BOOK_FOR": "احجز لـ",
-        "DESCRIPTION": "الشرح",
-        "WRITE_COMMENT": "...اترك تعليق",
-        "BOOK_SUCCESS": "....تم الحجز بنجاح"
-    },
-    "EDIT":{
+        "CREATE": {
+            "DATE_ERROR": "تاريخ نهاية النشاط يجب أن تكون بعد تاريخ النهاية",
+            "CREATE_ACTIVITY": "اضافة نشاط",
+            "REQUIRED_FIELDS": "الخانات المطلوبة",
+            "SUBMIT": "اضافة",
+            "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
+            "TAGS": "إشارات"
+        },
+        "LIST": {
+            "ACTIVITIES": "الانشطة",
+            "ACTIVITY": "النشاط",
+            "LATEST_ACTIVITY": "أحدث نشاط",
+            "WELCOME_MESSAGE": "اهلاً فى قسم الانشطة",
+            "READ_MORE": "اقرأ المزيد",
+            "CLOSE": "أغلق",
+            "COMMENTS": "التعليقات",
+            "POSTED_BY": "قام بالنشر",
+            "PREV": "الصفحة السابقة",
+            "NEXT": "الصفحة التالية"
+        },
+        "DETAIL": {
+            "WELCOME_MESSAGE": "اهلاً فى صفحة النشاط",
+            "FROM": "من",
+            "TO": "الى",
+            "COMMENT": "اضف تعليق",
+            "REPLY": "اضف رد",
+            "BOOK_FOR": "احجز لـ",
+            "DESCRIPTION": "الشرح",
+            "WRITE_COMMENT": "...اترك تعليق",
+            "BOOK_SUCCESS": "....تم الحجز بنجاح"
+        },
+        "EDIT": {
             "EDIT_ACTIVITY": "تعديل النشاط",
             "ACTIVITY_NAME": "الاسم",
-            "START_DATE":"تاريخ البداية",
-            "END_DATE":"تاريخ النهاية",
-            "PRICE":"السعر",
-            "DESCRIPTION":"الوصف",
-            "CANCEL":"الغاء",
-            "SAVE_CHANGES":"حفظ التغييرات",
+            "START_DATE": "تاريخ البداية",
+            "END_DATE": "تاريخ النهاية",
+            "PRICE": "السعر",
+            "DESCRIPTION": "الوصف",
+            "CANCEL": "الغاء",
+            "SAVE_CHANGES": "حفظ التغييرات",
             "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
-            "ACTIVITY_IMAGE":"تغيير صورة النشاط",
-            "FROM_AFTER_TO":"تاريخ البداية لا يجب ان يكون بعد تاريخ النهاية "
-            
-            
+            "START_DATE_PLACEHOLDER": "تاريخ البداية",
+            "END_DATE_PLACEHOLDER": "تاريخ النهاية",
+            "PRICE_PLACEHOLDER": "السعر",
+            "DESCRIPTION_PLACEHOLDER": "الوصف",
+            "ACTIVITY_IMAGE": "تغيير صورة النشاط",
+            "FROM_AFTER_TO": "تاريخ البداية لا يجب ان يكون بعد تاريخ النهاية "
         },
-        "TOASTER":{
-            "TOASTER_FAIL":"رفع الصورة فشل",
-             "TOASTER_SUCCESS":"تم رفع الصورة بنجاح",
-             "TOASTER_SELECT":"من فضلك اختر صورة"
+        "REVIEW": {
+            "ACCEPT": "تم قبول النشاط",
+            "REJECT": "تم رفض النشاط",
+            "ACCEPT_BTN": "قبول",
+            "REJECT_BTN": "رفض"
         },
-    "REVIEW": {
-        "ACCEPT": "تم قبول النشاط",
-        "REJECT": "تم رفض النشاط",
-        "ACCEPT_BTN": "قبول",
-        "REJECT_BTN": "رفض"
-    }
+        "TOASTER": {
+            "TOASTER_FAIL": "رفع الصورة فشل",
+            "TOASTER_SUCCESS": "تم رفع الصورة بنجاح",
+            "TOASTER_SELECT": "من فضلك اختر صورة"
+        }
     },
     "ADMIN": {
         "REPORTS": {
@@ -85,6 +88,34 @@
             "MSG": "أدخل اسم المستخدم ليتم حظره"
         },
         "ACTIVITIES_MANAGEMENT": {
+            "LABEL": "الأنشطة",
+            "WELCOME": "مرحبًا بك في الأنشطة",
+            "LATEST": "آخر",
+            "ACTIVITY": "نشاط",
+            "POSTED_BY": "منشور من طرف:",
+            "COMMENTS": "تعليقات:",
+            "READ_MORE": "اقرأ أكثر",
+            "ACCEPT": "قبول",
+            "REJECT": "رفض"
+        },
+        "VERIFIED_CONTRIBUTORS_MANAGEMENT": {
+            "LABLE": "مساهم لم يتم التحقق منه",
+            "REQUESTS": "طلبات",
+            "MSG": "يريد المستخدمون أن يتم التحقق منهم ليتمكنوا من إنشاء الأنشطة ونشر المحتويات",
+            "PENDING": "قيد الانتظار",
+            "ACCEPTED": "قبلت",
+            "REJECTED": "مرفوض",
+            "PENDING_ACCOUNT": "الحسابات المعلقة",
+            "PROFILE": "الصفحة الشخصي",
+            "NAME": "الإ سم",
+            "REQUEST_DATE": "تاريخ الطلب",
+            "EMAIL": "البريد الإلكتروني",
+            "NO_OF_CHILDREN": "عدد الاطفال",
+            "STATUS": "الحالة",
+            "ACCEPTED_ACCOUNTS": "الحسابات المقبولة",
+            "REJECTED_ACCOUNTS": "الحسابات المرفوضة"
+        },
+        "VIEW_UNVERIFIED_ACTIVITIES": {
             "LABEL": "الأنشطة",
             "WELCOME": "مرحبًا بك في الأنشطة",
             "LATEST": "آخر",
@@ -145,7 +176,7 @@
             "CREATE": "إنشاء",
             "ACCEPT": "قبول",
             "REJECT": "رفض",
-            "VIEW_DETAILS":"عرض التفاصيل"
+            "VIEW_DETAILS": "عرض التفاصيل"
         }
     },
     "AUTH": {
@@ -191,7 +222,6 @@
             "ENTER_NEW_PASSWORD_CONFIRM_PLACEHOLDER": "تأكيد كلمة المرور الجديدة",
             "RESET_BUTTON": "إعادة التعيين",
             "SIGN_IN": "العودة إلى الموقع"
-
         },
         "TOASTER": {
             "SIGN_UP_SUCCESSFULL": "الاشتراك ناجح؛ تم إرسال رسالة إنشاء الحساب إلى بريدك الإلكتروني",
@@ -212,11 +242,24 @@
         }
     },
     "CONTENT": {
+        "SHARED": {
+            "OUR_CONTENT": "المحتويات",
+            "POSTED_BY": " نشره: {{ creator }}",
+            "DASHBOARD": "الصفحة الرئيسية",
+            "CONTENT": "المحتويات",
+            "ARABIC": "العربية",
+            "NEXT": "التالى",
+            "ENGLISH": "الإنجليزية",
+            "LANGUAGE": "اللغة",
+            "CATEGORY": "الفئة",
+            "SECTION": "القسم",
+            "TAGS": "الإشارات"
+        },
         "LIST": {
             "ALL": "جميع الفئات",
             "BROWSE_CONTENT": "تصفح المحتويات",
             "CATEGORIES": "الفئات",
-            "CATEGORY_SPECIFIED": "{{ category }} :الفئة",
+            "CATEGORY_SPECIFIED": "الفئة: {{ category }}",
             "LANGUAGE_SPECIFIED": {
                 "ENGLISH": "اللغة: الإنجليزية",
                 "ARABIC": "اللغة: العربية"
@@ -226,7 +269,7 @@
             "RATING": "التقييم",
             "RELEVANCE": "مدى الصلة",
             "SEARCH": "...البحث",
-            "SECTION_SPECIFIED": "{{ section }} :القسم",
+            "SECTION_SPECIFIED": "القسم: {{ section }}",
             "SORT_BY": "التصنيف بحسب",
             "SORT_BY_SPECIFIED": {
                 "RATING": "التصنيف بحسب: التقييم",
@@ -237,12 +280,12 @@
             "WATCH_NOW": "شاهد الآن"
         },
         "VIEW": {
-            "COMMENTS": "{{ number }} :التعليقات",
+            "COMMENTS": "التعليقات: {{ number }}",
             "RECOMMENDED_CONTENT": {
                 "RECOMMENDED": "المحتويات",
                 "CONTENTS": "المقترحة"
             },
-            "RATING": " :التقييم",
+            "RATING": "التقييم:",
             "BY": "نشره:",
             "DELETE_FOREVER": "الحذف للأبد",
             "EDIT": "تعديل",
@@ -267,12 +310,12 @@
             "FILL_ALL": "يرجى ملء جميع البيانات المطلوبة",
             "SUBMIT": "إنشاء",
             "TITLE_PLACEHOLDER": "أدخل عنوان المحتوى*",
-            "VIDEO_LINK_PLACEHOLDER": "...رابط الفيديو",
-            "TYPE_PLACEHOLDER": "...نوع المحتوى",
+            "VIDEO_LINK_PLACEHOLDER": "رابط الفيديو",
+            "TYPE_PLACEHOLDER": "نوع المحتوى",
             "LANGUAGE_PLACEHOLDER": "...اختر لغة",
             "CATEGORY_PLACEHOLDER": "...اختر فئة",
             "SECTION_PLACEHOLDER": "...اختر القسم",
-            "TAG_PLACEHOLDER": "...إشارة جديدة",
+            "TAG_PLACEHOLDER": "إشارة جديدة",
             "CATEGORY_INVALID": ".الرجاء اختيار فئة صالحة أولاً",
             "SECTION_REQUIRED": "القسم مطلوب",
             "CATEGORY_REQUIRED": "الفئة مطلوبة",
@@ -291,7 +334,6 @@
             "ALREADY_WATCHED": "لقد شاهدت هذا الفيديو من قبل. لم تتم إضافة المزيد من نقاط التعلم",
             "LEARNING_POINTS_ADDED": "لقد حصلت للتو على 10 نقاط تعلم إضافية! نتيجتك",
             "CONNECTION_ERROR": "حدث خطأ. يرجى التحقق من اتصالك بالشبكة"
-
         }
     },
     "MARKET": {
@@ -355,7 +397,7 @@
             "RECENTLY_CONTACTED": "قمت بالإتصال بهم مؤخراً",
             "NO_CONTACT": "لم تقم بالتواصل مع أحد بعد",
             "START_CONVO": "بِدء المحادثة",
-            "MSG":"الرسالة",
+            "MSG": "الرسالة",
             "VIEW_PROFILE": "عرض الصفحة الشخصية",
             "INBOX": "البريد الوارد",
             "SENT": "البريد المرسل",
@@ -364,14 +406,11 @@
             "CANCEL": "إلغاء",
             "SEND_MSG": "إرسال رسالة",
             "REPLY": "الرسالة"
-
         },
         "DIALOG": {
             "NEW_MSG": "رسالة جديدة",
             "TYPE_MSG": "..أدخل رسالتك هنا",
             "TO": ":إلى"
-
-
         },
         "MAIL": {
             "VIEW": "عرض الرسالة",
@@ -395,21 +434,34 @@
             "MSG_DELETED": "تم حذف الرسالة"
         }
     },
+    "NEWSFEED": {
+        "NEWSFEED": "اخر الأخبار",
+        "WELCOME_TO_NAWWAR": "اهلاً بكم فى نوٌر",
+        "POSTED_ON": "نشر فى",
+        "PREVIOUS": "السابق",
+        "NEXT": "التالى",
+        "INTERESTS": "الاهتمامات",
+        "TAG": "اشاره",
+        "OTHER_PARENTS": "اولياء الامور الاخرين",
+        "READ_MORE": "اقرأ المزيد",
+        "CONNECT_TO_MORE": "تواصل مع المزيد"
+    },
     "PROFILE": {
         "PROFILE": {
-            "DASHBOARD": "نوَّر",
-            "MY_PROFILE": "الصفحة الشخصيه",
-            "MESSAGE": "بعث رسالة",
-            "CHILDREN": "أبنائى",
-            "STUDY_PLANS": "خطط الدراسة",
-            "SETTINGS": "إعدادات",
+            "NAWWAR": "نوَّر",
+            "DASHBOARD": "الصفحه الرئيسيه",
+            "MY_PROFILE": "الصفحه الشخصيه",
+            "MESSAGE": "إرسال رساله",
+            "CHILDREN": "أطفالى",
+            "STUDY_PLANS": "الخطط الدراسيه",
+            "SETTINGS": "الإعدادات",
             "ABOUT": "عن المستخدم",
             "ADD-AS-PARENT": "أضفه كولى أمرى",
             "MAKE_INDEPENDENT": "إجعلى مستقلا",
-            "BE_VERIFIED_CONTRIBUTOR": "كن مساهمًا معتمدًا",
+            "BE_VERIFIED_CONTRIBUTOR": "مشارك موثق",
             "CREATE_CHILD_ACCOUNT": "إنشاء حساب جديد لطفلى",
             "UNLINK_MY_PARENT": "إلغاء الإرتباط",
-            "LINK_TO_CHILD": "إضافة طفلى للمستخدم",
+            "LINK_TO_CHILD": "إضافه طفلى للمستخدم",
             "EMAIL": "البريد الإلكترونى:",
             "PHONE": "الهاتف:",
             "BIRTHDATE": "تاريخ الميلاد:",
@@ -417,11 +469,11 @@
             "MY_CHILE": "طفلى",
             "CHILD_INFO": "بيانات",
             "SECURITY": "الأمان",
-            "CHANGE_PASSWORD": "تغيير كلمه المرور",
-            "CPASSWORD": "كلمه المرور الحالية",
-            "NPASSWORD": "كلمه المرور الجديدة",
-            "CNPASSWORD": "تأكيد كلمه المرور الجديدة",
-            "PERSONAL": "الشخصية",
+            "CHANGE_PASSWORD": "تغيير كلمه السر",
+            "CPASSWORD": "كلمه السر الحاليه",
+            "NPASSWORD": "كلمه السر الجديده",
+            "CNPASSWORD": "تأكيد كلمه السر الجديده",
+            "PERSONAL": "الشخصيه",
             "MY_INFO": "بياناتى",
             "FIRST_NAME": "الإسم الأول",
             "LAST_NAME": "الإسم الأخير",
@@ -432,9 +484,9 @@
             "EDIT_PHONE": "الهانف",
             "SAVE_CHANGES": "حفظ التغيرات",
             "MESSAGES_BLOCK": "الممنوعين من مراسلى",
-            "BLOCK_LIST": "قائمة",
-            "CREATE_STUDY_PALN": "إنشاء خطة دراسيه جديدة",
-            "PROFILE_PIC": "تحميل الصوره الشخصية",
+            "BLOCK_LIST": "قائمه",
+            "CREATE_STUDY_PALN": "إنشاء خطه دراسيه جديدة",
+            "PROFILE_PIC": "تحميل الصوره الشخصيه",
             "CANCEL": "إلغاء",
             "DELETE_EVENT": "حذف الحدث",
             "DELE_EVENT_CONF": "هل انت متأكد من أنك تريد حذف هذا الحدث ؟",
@@ -454,9 +506,9 @@
         "CHILDREN": {
             "NAME": "الإسم",
             "AGE": "العمر",
-            "UNLINK": "إزالة من قائمتى",
-            "LEARNING_SCORE":"نقاط التعلم",
-            "POINTS":"نقطة"
+            "UNLINK": "إزاله من قائمتى",
+            "LEARNING_SCORE": "نقاط التعلم",
+            "POINTS": "نقطة"
         },
         "TOASTER": {
             "USER_NOT_FOUND": " عذرا..المستخدم ليس موجود",
@@ -477,9 +529,10 @@
             "PASSWORD_IS_INCORRECT": "كلمة المرور غير صحيحة",
             "REPORT_USER": "تم ارسال البلاغ بنجاح",
             "PROFILE_PIC_UPDATE": "تم تحديث صورة الملف الشخصي بنجاح",
-            "UNLINK_UNDER_13": "يجب أن يكون الطفل اكبرمن 13 عامًا أو أكثر"
-
-
+            "UNLINK_UNDER_13": "يجب أن يكون الطفل اكبرمن 13 عامًا أو أكثر",
+            "MAKE_INDEPENDENT_SUCCESS": "طفلك اللآن مستقل",
+            "MAKE_INDEPENDENT_FAIL": "لا يمكنك جعله مستقلا ,الطفل دون السن",
+            "UNLINK_INDEPENDENT": "تم الغاء الارتباط بنجاح"
         }
     },
     "PSYCHOLOGIST": {
@@ -586,7 +639,7 @@
             "COPY": "نسخ",
             "PUBLISH": "نشر"
         },
-    "STUDYPLANCREATE": {
+        "STUDYPLANCREATE": {
             "CREATION": "إنشاء خطة الدراسة",
             "CREATE": "إنشاء",
             "ADD_EVENT": "إضافة حدث",
@@ -603,7 +656,7 @@
             "EDIT_EVENT": "تحديث الحدث",
             "SAVE_CHANGES": "حفظ التغييرات"
         },
-    "PUBLISHEDLIST": {
+        "PUBLISHEDLIST": {
             "STUDY_PLANS": "الخطط الدراسة",
             "VIEW": "عرض",
             "DELETE": "حذف",
@@ -613,7 +666,20 @@
             "MINE": "ملكي"
         }
     },
-    "SEARCH": {},
+    "SEARCH": {
+        "CONNECTING_PARENTS": "تواصل اولياء الامور",
+        "REACH_OUT_TO_OTHER_PARENTS": "صل نفسك باولياء امور اخرين",
+        "THANAWYA_AMMA": "ثانوية عامة",
+        "IG": "IG",
+        "AMERICAN DIPLOMA": "American Diploma",
+        "USERNAME": "اسم المستخدم",
+        "LOCATION": "العنوان",
+        "LEVEL_OF_EDUCATION": "الصف الدراسي",
+        "SYSTEM_OF_EDUCATION": "نظام التعليم",
+        "REMOVE_ALL_TAGS": "احذف جميع الاشارات",
+        "PREVIOUS": "السابق",
+        "NEXT": "التالى"
+    },
     "LANDING": {
         "ENHANCE": "عزز تجربتك التعليمية",
         "ENHANCE_DESC": "سواء كنت طالبًا يدرس في المنزل أو طالبًا نموذجيًا ، فلدينا الموارد التعليمية وخطط الدراسة والمزيد.",
