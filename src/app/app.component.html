@@ -286,7 +286,7 @@
 
     <!-- Left Sidebar -->
     <div>
-        <aside id="leftsidebar" [ngClass]="'sidebar' + (viewLanding ? ' d-none': '') ">
+        <aside id="leftsidebar" [ngClass]="'sidebar' + (viewLanding ? ' d-none': '') " [style.text-align]="translate.currentLang == 'ara'? 'right': null">
             <div class="menu">
                 <ul class="list">
                     <li>
