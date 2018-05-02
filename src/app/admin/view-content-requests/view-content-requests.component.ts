@@ -29,7 +29,7 @@ export class ViewContentRequestsComponent implements OnInit {
     private _authService: AuthService,
     private _messageService: MessageService,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     let self = this;
@@ -52,10 +52,7 @@ export class ViewContentRequestsComponent implements OnInit {
     }
     self.viewPendingContReqs();
   }
-  viewCont(contID) {
-    let self = this;
-    self.router.navigate(['/content-view/' + contID]);
-  }
+
   viewPendingContReqs(): void {
     let self = this;
     self._adminService.viewPendingContReqs(self.res, self.idea, self.create, self.edit).subscribe(function (res) {
@@ -75,8 +72,6 @@ export class ViewContentRequestsComponent implements OnInit {
   disapproveContentRequest(Rid, Cid, update, creator): any {
     let self = this;
     let isUpdate: boolean;
-    let defaultMsg = 'Your request to update your content has been disapproved, make sure there is nothing inappropriate,' +
-      ' out of scope or irrelevant to your topic and update it again. Go to content list then my contributions to reach your document.';
     if (update === 'update') {
       isUpdate = true;
     }
