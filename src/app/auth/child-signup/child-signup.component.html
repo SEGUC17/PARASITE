@@ -134,10 +134,10 @@
          
               <div class="footer">
                   <div class="input-group">
-                      <input id="prevTab" type="button" class="form-control btn btn-lg" value="Step 1" (click)="showPersonalInfoTab()"
+                      <input id="prevTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_ONE' | translate }}" (click)="showPersonalInfoTab()"
                         disabled>
-                      <input id="nextTab" type="button" class="form-control btn btn-lg" value="Step 2" (click)="showCredentialsTab()">
-                      <input id="lastTab" type="button" class="form-control btn btn-lg" value="Step 3" (click)="showInterestsTab()">
+                      <input id="nextTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_TWO' | translate }}" (click)="showCredentialsTab()">
+                      <input id="lastTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_THREE' | translate }}" (click)="showInterestsTab()">
                     </div>
                     <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="register()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
 

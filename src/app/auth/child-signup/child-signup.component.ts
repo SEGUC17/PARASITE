@@ -89,24 +89,31 @@ const self = this;
   }
 
   showCredentialsTab(): void {
+    const self = this;
+    self.translate.get('AUTH.CHILD_SIGN_UP.DONE').subscribe(
+      function (translation) {
     $('#interests').prop('hidden', true);
     $('#personalInfo').prop('hidden', true);
     $('#credentials').prop('hidden', false);
     $('#prevTab').prop('disabled', false);
-    $('#prevTab').prop('value', 'Done');
+    $('#prevTab').prop('value', translation);
     $('#lastTab').prop('disabled', false);
-  }
+  });
+}
 
   showInterestsTab(): void {
-
+    const self = this;
+    self.translate.get('AUTH.CHILD_SIGN_UP.DONE').subscribe(
+      function (translation) {
     $('#interests').prop('hidden', false);
     $('#personalInfo').prop('hidden', true);
     $('#credentials').prop('hidden', true);
     $('#prevTab').prop('disabled', false);
-    $('#prevTab').prop('value', 'Done');
-    $('#nextTab').prop('value', 'Done');
+    $('#prevTab').prop('value', translation);
+    $('#nextTab').prop('value', translation);
 
     this.done = true;
+  });
   }
 
   systemIs(sys): void {
