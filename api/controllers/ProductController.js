@@ -219,8 +219,6 @@ module.exports.evaluateRequest = function (req, res, next) {
                             }
                             , { new: true },
                             function (errr, updatedUser) {
-                                console.log('add the notification');
-                                console.log(updatedUser.notifications);
                                 if (errr) {
                                     return res.status(402).json({
                                         data: null,

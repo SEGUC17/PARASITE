@@ -656,7 +656,6 @@ module.exports.getUserData = function (req, res, next) {
     delete userData.password;
     // --- End of "Security Check" --- //
     if (req.user.notifications.length > 30) {
-        console.log('slicing up Nots');
         var Nots = req.user.notifications;
         Nots.splice(30);
         User.findByIdAndUpdate(
@@ -664,7 +663,7 @@ module.exports.getUserData = function (req, res, next) {
             { $set: { notifications: Nots } },
             function(err) {
                 if (err) {
-                    console.log('ana habebt error ' + err);
+                    console.log(err);
                 }
             }
         );
@@ -859,8 +858,6 @@ module.exports.modifyNotification = function (req, res) {
 
     notification.isRead = req.body.isRead;
     notifications[notifications.indexOf(notification)] = notification;
-    console.log('the notification');
-    console.log(notification);
     User.update(
         { _id: req.user._id },
         { $set: { notifications: notifications } },

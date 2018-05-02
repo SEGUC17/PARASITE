@@ -221,11 +221,7 @@ module.exports.assignStudyPlan = function (req, res, next) {
                         date: moment().toDate(),
                         itemId: newStudyPlan._id,
                         itemUsername: req.params.username,
-<<<<<<< HEAD
-                        type: 'study plan'
-=======
                         type: 'study plan A'
->>>>>>> notifications
                     };
                     User.findOneAndUpdate(
                         { username: req.params.username },
@@ -329,11 +325,6 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                     }
                     , { new: true },
                     function (errr, updatedUser) {
-<<<<<<< HEAD
-=======
-                        console.log('add the notification');
-                        // console.log(updatedUser.notifications);
->>>>>>> 506904cb352550a2b4b3546a64e6600ff7f9cce9
                         if (errr) {
                             return res.status(402).json({
                                 data: null,
