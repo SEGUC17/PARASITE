@@ -20,7 +20,7 @@
             "CREATE_ACTIVITY": "Create Activity",
             "REQUIRED_FIELDS": "Required Fields",
             "SUBMIT": "Submit",
-            "FORM_FILL_ERROR" : "Please fill the form correctly",
+            "FORM_FILL_ERROR": "Please fill the form correctly",
             "TAGS": "Tags"
         },
         "LIST": {
@@ -44,22 +44,21 @@
             "WRITE_COMMENT": "leave a comment...",
             "BOOK_SUCCESS": "Booked successfully"
         },
-        "EDIT":{
+        "EDIT": {
             "EDIT_ACTIVITY": "Edit Activity",
             "ACTIVITY_NAME": "Name",
-            "START_DATE":"Start date",
-            "END_DATE":"End date",
-            "PRICE":"Price",
-            "DESCRIPTION":"Description",
-            "CANCEL":"Cancel",
-            "SAVE_CHANGES":"Save Changes",
+            "START_DATE": "Start date",
+            "END_DATE": "End date",
+            "PRICE": "Price",
+            "DESCRIPTION": "Description",
+            "CANCEL": "Cancel",
+            "SAVE_CHANGES": "Save Changes",
             "ACTIVITY_NAME_PLACEHOLDER": "ACtivity Name",
-            "START_DATE_PLACEHOLDER":"Start date",
-            "END_DATE_PLACEHOLDER":"End date",
-            "PRICE_PLACEHOLDER":"Price",
-            "DESCRIPTION_PLACEHOLDER":"Description",
-            "ACTIVITY_IMAGE":"Change activity image "
-            
+            "START_DATE_PLACEHOLDER": "Start date",
+            "END_DATE_PLACEHOLDER": "End date",
+            "PRICE_PLACEHOLDER": "Price",
+            "DESCRIPTION_PLACEHOLDER": "Description",
+            "ACTIVITY_IMAGE": "Change activity image "
         }
     },
     "ADMIN": {
@@ -113,12 +112,10 @@
             "CREATE": "CREATE",
             "ACCEPT": "Accept",
             "REJECT": "Reject",
-            "VIEW_DETAILS":"View Details"
+            "VIEW_DETAILS": "View Details"
         }
     },
-    "AUTH": {
-
-    },
+    "AUTH": {},
     "CONTENT": {
         "SHARED": {
             "OUR_CONTENT": "Our Contents",
@@ -180,7 +177,7 @@
             "TITLE": "Title",
             "TITLE_IS_REQUIRED": "Title is required",
             "THUMBNAIL_IMAGE": "Thumbnail Image",
-            "YOUTUBE_VIDEO":"Youtube Video",
+            "YOUTUBE_VIDEO": "Youtube Video",
             "VIDEO_LINK_INVALID": "Video link is invalid",
             "TYPE": "Type",
             "RESOURCE": "Resource",
@@ -215,27 +212,186 @@
         }
     },
     "MARKET": {
-
+        "MAIN": {
+            "MARKET": "Marketplace",
+            "CAPTION": "Buy, sell or rent unwanted stuff",
+            "PATH": "Market",
+            "LABEL": "Products",
+            "LABEL_REQ": "My Pending Products",
+            "PROD_SEARCH": "Product",
+            "PRICE_SEARCH": "Price",
+            "LATEST": "Latest first",
+            "CHEAPEST": "Cheapest first",
+            "NAME": "Name",
+            "PRICE": "Price",
+            "SORT": "Sort",
+            "SEARCH_BAR": "Search...",
+            "SELLER": "Sold by: {{ seller }}",
+            "SEARCH_PRICE": "{{ price }} EGP",
+            "SORT_TYPE": "Sorted by: {{ sort }}",
+            "PREV": "Previous",
+            "NEXT": "Next",
+            "NO_PROD_FOUND": "Sorry No products found.",
+            "NO_PROD_REQ": "No product requests. All clean.",
+            "MY_PRODS": "My Products"
+        },
+        "CREATE": {
+            "INFO": "Product's Information",
+            "DESCRIPTION": "Products description",
+            "NAME": "Product's name",
+            "PRICE": "Price EGP",
+            "AQUIRE": "Product is up for",
+            "SELL": "Sale",
+            "RENT": "Rent",
+            "SELLRENT": "Rent/Sale",
+            "RENTPERIOD": "Rent period (if exists)",
+            "IMG": "Product's Picture",
+            "CREATEPRODUCT": "Add Product"
+        },
+        "PROD_DETAIL": {
+            "PROD_INFO": "Product Information:",
+            "CREATED_AT": "Created at: {{ date }}",
+            "ACQUIRE": "Acquire",
+            "EGP": "EGP",
+            "ACQTYPERENT": "This item is for rent",
+            "ACQTYPESELL": "This item is for sale",
+            "ACQTYPEBOTH": "This item is for rent and sale",
+            "DAYS": "Up to {{ days }} days",
+            "SOLD": "Sold by: "
+        },
+        "REQ_DETAIL": {
+            "PROD_NAME": "Product's name",
+            "ACQTYPELABEL": "Acquiring type: "
+        }
     },
-    "MESSAGING": {
-
-    },
-    "PROFILE": { 
-                "CHILDREN":{    "UNLINK":"Unlink",
-                                "AGE":"Age" ,
-                                "LEARNING_SCORE":"Learning Score",
-                                "POINTS":"Points"
-                    
-                                }
-
+    "MESSAGING": {},
+    "PROFILE": {
+        "CHILDREN": {
+            "UNLINK": "Unlink",
+            "AGE": "Age",
+            "LEARNING_SCORE": "Learning Score",
+            "POINTS": "Points"
+        },
+        "PROFILE": {
+            "NAWWAR": "Nawwar",
+            "DASHBOARD": "Dashboard",
+            "MY_PROFILE": "Profile",
+            "MESSAGE": "Message",
+            "CHILDREN": "Children",
+            "STUDY_PLANS": "Study Plans",
+            "SETTINGS": "Settings",
+            "ABOUT": "About",
+            "ADD-AS-PARENT": "Add As A Parent",
+            "MAKE_INDEPENDENT": "Make Independent",
+            "BE_VERIFIED_CONTRIBUTOR": "Be A Verified Contributor",
+            "CREATE_CHILD_ACCOUNT": "Create A Child Account",
+            "UNLINK_MY_PARENT": "Unlink My Parent",
+            "LINK_TO_CHILD": "Link To My Child",
+            "EMAIL": "Email address:",
+            "PHONE": "Phone:",
+            "BIRTHDATE": "Birth Date:",
+            "AGE": "Age:",
+            "MY_CHILE": "Child",
+            "CHILD_INFO": "Info",
+            "PERSONAL": "Personal",
+            "MY_INFO": "Info",
+            "SECURITY": "Security",
+            "CHANGE_PASSWORD": "Change Password",
+            "CPASSWORD": "Your Current Password",
+            "NPASSWORD": "New Password",
+            "CNPASSWORD": "Confirm New Password",
+            "FIRST_NAME": "First Name",
+            "LAST_NAME": "Last Name",
+            "USERNAME": "Username",
+            "EDIT_EMAIL": "Email",
+            "ADDRESS": "Address",
+            "EDIT_BD": "Birthdate",
+            "EDIT_PHONE": "Phone",
+            "SAVE_CHANGES": "Save Changes",
+            "MESSAGES_BLOCK": "Messages Block",
+            "BLOCK_LIST": "List",
+            "CREATE_STUDY_PALN": "Create A New Study Plan",
+            "PROFILE_PIC": "Profile picture upload",
+            "CANCEL": "Cancel",
+            "DELETE_EVENT": "Delete Event",
+            "DELE_EVENT_CONF": "Are you sure you want to delete this event?",
+            "DELETE": "Delete",
+            "ASSIGNED": "Assigned",
+            "VIEW": "View",
+            "UNBLOCK": "Unblock",
+            "REPORT": "Report"
+        },
+        "DIRECT_MSG": {
+            "TO": "To:",
+            "SEND": "SEND",
+            "MSG": "Enter Your Message Here"
+        }
     },
     "PSYCHOLOGIST": {
-
+        "TITLE": {
+            "VERIFIED_PSYCHS": "Psychologists",
+            "SUB": "Because your child mental health matters",
+            "NAWWAR": "Nawwar"
+        },
+        "INFO": {
+            "PHONE": "Phone",
+            "EMAIL": "Email",
+            "DAYSOFF": "Days Off",
+            "PRICE": "Maximum Price Range",
+            "ADD": "Address",
+            "EDIT": "Edit This",
+            "DELETE": "Delet This"
+        },
+        "DAYS": {
+            "SAT": "Sat",
+            "SUN": "Sun",
+            "MON": "Mon",
+            "TUE": "Tue",
+            "WED": "Wed",
+            "THU": "Thu",
+            "FRI": "Fri",
+            "NO DAYS OFF": "No Days Off"
+        },
+        "FILTERS": {
+            "NAME_SEARCH": "Search by Name...",
+            "ADD_SEARCH": "Search by Address...",
+            "SORT_BY": "Sort By",
+            "CHEAPEST": "Cheapest",
+            "A-Z": "Alphabetical"
+        },
+        "POPUP": {
+            "TITLE": "Contact Information",
+            "F_NAME": "First Name *",
+            "L_NAME": "Last Name *",
+            "EMAIL": "Email *",
+            "ADD": "Address...",
+            "REQUIRED": "Required Fields *",
+            "NOT_REQUIRED": "You don't have to fill on all fields, just fill the ones you wish to edit.",
+            "SUBMIT": "Submit",
+            "NOTE": "Note",
+            "NOTE_BODY": "If our admins accepted your request your contact Information will be added to our psychologists address book and an email with an ID will be sent to you, with this ID only you can later edit or delete your information."
+        }
     },
-    "SCHEDULING": {
-
-    },
-    "SEARCH": {
-
+    "SCHEDULING": {},
+    "SEARCH": {},
+    "LANDING": {
+        "ENHANCE": "Enhance your learning experience",
+        "ENHANCE_DESC": "Whether you are a home-schooled student, or a typical student, we got your back, with educational resources, study plans, and more.",
+        "ENJOY": "Enjoy some extracurricular time",
+        "ENJOY_DESC": "Want to learn photography? Or maybe attend a little session on pre-medieval alchemy? How about some Yoga then? Check out the activities offered on our website.",
+        "CONNECT": "Connect with Teachers and Parents",
+        "CONNECT_DESC": "Look for parents and teachers in your area and get in touch with them. Have them recommend content to you and your children.",
+        "MARKET": "That's not all...",
+        "MARKET_DESC": "We have a marketplace full of educational stuff,  an address book of verified psychologists, study plans to organize students' time and more!",
+        "FOUNDERS": "The Lovely Founders",
+        "GET_STARTED": "Ready to get started? Sign up now!",
+        "SIGNUP": "Sign up!",
+        "ABOUT_US": "About Us",
+        "CONTACT_US": "Contact Us",
+        "CONTACT_NAWWAR": "Contact Nawwar",
+        "RIGHTS": "Nawwar 2018. All Rights Reserved.",
+        "SWITCH_LANGUAGE": "تبديل اللغة",
+        "SEND": "Send",
+        "CANCEL": "Cancel"
     }
 }

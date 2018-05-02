@@ -27,6 +27,10 @@ import { environment } from '../environments/environment';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { ContactUsComponent } from './contact-us/contact-us.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { MessageService } from './messaging/messaging.service';
+import { LandingService } from './landing.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -34,13 +38,14 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ContactUsComponent,
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     CalendarModule.forRoot(),
     HttpClientModule,
     FormsModule,
@@ -75,7 +80,9 @@ export function HttpLoaderFactory(http: HttpClient) {
       multi: true
     },
     RatingService,
-    ToastrService
+    ToastrService,
+    MessageService,
+    LandingService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-
 import { ActivityService } from '../activity.service';
 import { Activity, ActivityCreate, ActivityEdit } from '../activity';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +8,7 @@ import { DiscussionService } from '../../discussion.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-activity-detail',
@@ -36,8 +35,7 @@ export class ActivityDetailComponent implements OnInit {
     isAdmin: false,
     verified: false,
     avatar: null,
-    username: 'Mohamed Maher',
-    isChild: true
+    username: 'Mohamed Maher'
 
   };
   // updatedActivity: ActivityCreate;
@@ -104,6 +102,13 @@ export class ActivityDetailComponent implements OnInit {
       console.log('creator? ' + self.isCreator);
     });
   }
+
+  testForDiscussion() {
+    console.log('printing the date here');
+    console.log(new Date(this.activity.discussion[0].createdAt).getTime());
+    console.log('after date');
+  }
+
 
   getCurrentUser() {
     let self = this;
@@ -187,8 +192,6 @@ export class ActivityDetailComponent implements OnInit {
           this.activity.discussion[i].replies = this.activity.discussion[i].replies.reverse();
         }
         this.updatedActivity = res.data;
-        self.canBookFor =
-          self.canBookFor.filter(user => res.data.bookedBy.indexOf(user) < 0);
         if (this.activity.bookedBy.length < 1) { self.isBooked = false; }
         if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
         if (!this.activity.image) {

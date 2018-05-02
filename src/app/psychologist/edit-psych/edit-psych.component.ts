@@ -5,6 +5,8 @@ import { PsychologistComponent } from '../psychologist/psychologist.component';
 import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Psychologist } from '../psychologist/psychologist';
+import { TranslateService } from '@ngx-translate/core';
+declare const $: any;
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -49,18 +51,21 @@ export class EditPsychComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri'];
+  daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
   id: String;
 
   constructor(private psychologistService: PsychologistService,
               public dialogRef: MatDialogRef<EditPsychComponent>,
+              public translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.psychologist = data.psych;
 
   }
 
   ngOnInit() {
+    $('.mat-dialog-container').css('padding', '0px');
+    $('.mat-dialog-container').css('height', '556');
   }
 
   editPsychologists(): void {

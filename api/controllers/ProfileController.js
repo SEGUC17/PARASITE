@@ -83,54 +83,37 @@ module.exports.EditChildIndependence = function (req, res, next) {
           msg: 'You cannot make a child under 13 independent.'
         });
     }
-
+    var notification = {
+      body: 'You are now independant',
+      date: moment().toDate(),
+      itemUsername: user.username,
+      type: 'link'
+    };
     // if the previous conditions are false then child is changed successefuly
 
     User.findOneAndUpdate(
       { username: req.params.username },
-      { $set: { isChild: false } }, { new: true }
-    ).
-      exec(function (error, updated) {
-        if (err) {
-          return err;
+      {
+        $set: { isChild: false },
+        $push:
+          { 'notifications': notification }
+        },
+          { new: true }
+  ).
+    exec(function (error, updated) {
+      if (err) {
+        return err;
 
-        }
-        var notification = {
-          body: 'You are now independant',
-          date: moment().toDate(),
-          itemId: updated._id,
-          type: 'link'
-        };
-        User.findOneAndUpdate(
-          { username: updated.username },
-          {
-            $push:
-              { 'notifications': notification }
-          }
-          , { new: true },
-          function (errr, updatedUser) {
-            console.log('add the notification');
-            console.log(updatedUser.notifications);
-            if (errr) {
-              return res.status(402).json({
-                data: null,
-                err: 'error occurred during adding ' +
-                  'the notification'
-              });
-            }
-          }
-        );
+      }
 
-        res.status(200).json({
-          data: user.isChild,
-          err: null,
-          msg: 'Successefully changed from child to independent.'
-        });
-
+      res.status(200).json({
+        data: user.isChild,
+        err: null,
+        msg: 'Successefully changed from child to independent.'
       });
 
-
-  });
+    });
+});
 };
 
 // @author: MAHER
@@ -158,15 +141,23 @@ module.exports.requestUserValidation = function (req, res, next) {
     image: req.user.avatar,
     creator: req.user._id
   };
-
-
+  // dummy request obj for testing.
+  // var reqObj = {
+  //     status: 'pending',
+  //     bio: 'machine learning, AI, Art, Music, Philosophy',
+  //     name: 'Ahmed Khaled',
+  //     AvatarLink: '../../../assets/images/profile-view/defaultPP.png',
+  //     ProfileLink: 'profilemaher.com',
+  //     image: 'imageMaher.com',
+  //     creator: '5ac12591a813a63e419ebce5'
+  // }
   VCRSchema.create(reqObj, function (err, next) {
     // insert the request to the database.
     if (err) {
       console.log('duplicate key');
       if (err.message.startsWith('E11000 duplicate key error')) {
         // if request already existed
-        return res.status(409).json({
+        return res.status(400).json({
           err: null,
           msg: 'the request already submitted',
           data: null
@@ -234,7 +225,7 @@ module.exports.linkAnotherParent = function (req, res, next) {
         , { new: true },
         function (errr, updatedUser) {
           console.log('add the notification');
-          console.log(updatedUser.notifications);
+          // console.log(updatedUser.notifications);
           if (errr) {
             return res.status(402).json({
               data: null,
@@ -400,7 +391,7 @@ module.exports.UnlinkIndependent = function (req, res, next) {
   var notification = {
     body: req.user.username + ' unlinked you',
     date: moment().toDate(),
-    itemId: req.user._id,
+    itemUsername: req.user.username,
     type: 'link'
   };
 
