@@ -183,7 +183,7 @@ module.exports.requestUserValidation = function (req, res, next) {
 // then ensure that isParent = true
 module.exports.linkAnotherParent = function (req, res, next) {
   var notificationParent = {
-    body: 'You have been linked to' + req.body.child,
+    body: 'You have been linked to ' + req.body.child,
     date: moment().toDate(),
     itemUsername: req.body.child,
     type: 'link'
@@ -248,7 +248,7 @@ module.exports.linkAnotherParent = function (req, res, next) {
 // then ensure that isParent = true
 module.exports.addAsAParent = function (req, res, next) {
   var notification = {
-    body: req.body.child + 'added you as a parent',
+    body: req.body.child + ' added you as a parent',
     date: moment().toDate(),
     itemUsername: req.body.child,
     type: 'link'
