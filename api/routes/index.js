@@ -426,7 +426,7 @@ module.exports = function (passport) {
   router.get('/message/contacts/:user', isAuthenticated, messageController.getRecentlyContacted);
 
   // Registered user contacts admins
-  router.post('/contactus', messageController.contactAdmin);
+  router.post('/message/contactus', messageController.contactAdmin);
     //Unblocking users
   router.patch('/message/unblock/:id', isAuthenticated, messageController.unBlock);
 
