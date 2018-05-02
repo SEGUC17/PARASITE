@@ -7,12 +7,12 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 const routes = [
   {
     path: '',
-    component: AppComponent,
+    redirectTo: '/landing',
+    pathMatch: 'full'
   },
   {
     path: 'landing',
-    component: LandingPageComponent,
-    pathMatch: 'full'
+    component: LandingPageComponent
   },
   {
     path: 'activities',
@@ -53,7 +53,13 @@ const routes = [
   {
     path: 'search',
     loadChildren: 'app/search/search.module#SearchModule'
-  }
+  },
+  {
+    path: '**',
+    redirectTo: '/landing',
+    pathMatch: 'full'
+  },
+
 ];
 
 @NgModule({
