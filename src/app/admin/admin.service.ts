@@ -18,7 +18,7 @@ export class AdminService {
   private baseURL = environment.apiUrl;
   // private removePublishedStudyPlansURL = 'admin/removePublishedStudyPlan/';
   private viewPendingStudyPlanPublishReqsURL = 'admin/PendingStudyPlanPublishRequests';
-  private respondStudyPlanPublishRequestURL = 'admin/RespondStudyPlanPublishRequest/';
+  private respondStudyPlanPublishRequestURL = 'admin/RespondStudyPlanPublishRequest';
   private viewPendingContReqsURL = 'admin/PendingContentRequests/';
   private respondContentRequestURL = 'admin/RespondContentRequest/';
   private respondContentStatusURL = 'admin/RespondContentStatus/';
@@ -55,7 +55,7 @@ export class AdminService {
 
   viewPendingContReqs(res, idea, create, edit): any {
     const self = this;
-    return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL + res + '/' + idea + '/'  + create + '/' + edit)
+    return this.http.get<any>(this.baseURL + this.viewPendingContReqsURL + res + '/' + idea + '/' + create + '/' + edit)
       .pipe(
         catchError(
           self.handleError('viewPendingContReqs', [])
@@ -83,16 +83,6 @@ export class AdminService {
       );
   }
 
-  // moved to study plan service
-  // removePublishedStudyPlans(studyPlanId: any): Observable<any> {
-  //   const self = this;
-  //   return this.http.get(self.baseURL + self.removePublishedStudyPlansURL + studyPlanId)
-  //     .pipe(
-  //       catchError(
-  //         self.handleError('removePublishedStudyPlan', [])
-  //       )
-  //     );
-  // }
   viewStudyPlanPublishReqs(): Observable<any> {
     const self = this;
     return this.http.get(self.baseURL + self.viewPendingStudyPlanPublishReqsURL)
@@ -102,15 +92,17 @@ export class AdminService {
         )
       );
   }
-  respondStudyPlanPublishReqs(respo, id, sid): Observable<any> {
+
+  respondStudyPlanPublishReqs(status, id, sid): Observable<any> {
     const self = this;
-    return this.http.patch<any>(self.baseURL + self.respondStudyPlanPublishRequestURL + id + '/' + sid, respo)
+    return this.http.patch<any>(self.baseURL + self.respondStudyPlanPublishRequestURL + '/' + id + '/' + sid + '/' + status, {})
       .pipe(
         catchError(
           self.handleError('respondStudyPlanPublishReqs', [])
         )
       );
   }
+
   // create a category for content (resrouces and ideas) to be classified into
   createCategory(category: Category): Observable<any> {
     const self = this;

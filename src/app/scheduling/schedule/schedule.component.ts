@@ -1,11 +1,13 @@
 import {
   Component, OnInit, Input, Output, ChangeDetectionStrategy,
-  EventEmitter, ViewChild, TemplateRef} from '@angular/core';
+  EventEmitter, ViewChild, TemplateRef
+} from '@angular/core';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { Subject } from 'rxjs/Subject';
 import { ScheduleService } from './schedule.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import {
   isSameMonth,
   isSameDay,
@@ -80,7 +82,8 @@ export class ScheduleComponent implements OnInit {
 
 
 
-  constructor(private scheduleService: ScheduleService, private route: ActivatedRoute, private _AuthService: AuthService) { }
+  constructor(private scheduleService: ScheduleService, private route: ActivatedRoute,
+    private _AuthService: AuthService, private translate: TranslateService) { }
 
   ngOnInit() {
     this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
@@ -149,13 +152,13 @@ export class ScheduleComponent implements OnInit {
           self.events[index].start = new Date(self.events[index].start);
           self.events[index].end = new Date(self.events[index].end);
         }
-        self.fetchEvents();
+        self.headerChange();
       });
     }
   }
 
 
-  fetchEvents(): void {
+  headerChange(): void {
     // Adapting the schedule to the selected view
     const getStart: any = {
       month: startOfMonth,
@@ -179,9 +182,9 @@ export class ScheduleComponent implements OnInit {
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0
       ) {
-        this.activeDayIsOpen = false;
+        // this.activeDayIsOpen = false;
       } else {
-        this.activeDayIsOpen = true;
+        // this.activeDayIsOpen = true;
         this.viewDate = date;
       }
     }
@@ -251,7 +254,9 @@ export class ScheduleComponent implements OnInit {
   editEvent(editTitle, editDescription, editStart, editEnd) {
     if (editStart) {
       this.events[this.editIndex].title = editTitle;
-      this.events[this.editIndex].meta.description = editDescription;
+      if (this.events[this.editIndex].meta) {
+        this.events[this.editIndex].meta.description = editDescription;
+      }
       this.events[this.editIndex].start = editStart;
       this.events[this.editIndex].end = editEnd;
     } else {

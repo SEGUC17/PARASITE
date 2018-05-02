@@ -1,24 +1,26 @@
-<section class="content page-calendar">
+<section [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="content page-calendar">
   <div class="block-header">
-    <ul class="breadcrumb float-right">
+    <ul [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'"
+      class="breadcrumb float-right">
       <li class="breadcrumb-item">
         <a routerLink="/dashboard">
-          <i class="zmdi zmdi-home"></i>sQuare</a>
+          <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate }}</a>
       </li>
       <li class="breadcrumb-item">
         <a routerLink="/profile/{{ profileUsername }}">
           <i class="zmdi zmdi-account-circle">
-          </i>{{ username }}</a>
+          </i> {{ username }}</a>
       </li>
-      <li class="breadcrumb-item active">Study Plan Creation</li>
+      <li class="breadcrumb-item active">{{ 'SCHEDULING.STUDYPLANCREATE.CREATION' | translate }}</li>
     </ul>
-    <div class="row">
+    <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="row">
       <div class="col-lg-6">
         <div class="header">
           <form id="titleForm" method="POST">
             <div class="form-group">
               <div class="form-line">
-                <input type="text" class="form-control col-md-6" name="title" [(ngModel)]="title" placeholder="Title" required>
+                <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control col-md-6" name="title" [(ngModel)]="title"
+                  placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.TITLE' | translate }}" required>
               </div>
             </div>
           </form>
@@ -29,25 +31,26 @@
   <div class="container-fluid">
     <div class="card">
       <div class="row">
-        <div class="col-md-12 col-lg-4 col-xl-4">
+        <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="col-md-12 col-lg-4 col-xl-4">
           <div class="body">
-            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal">Add Event</button>
+            <button type="button" class="btn btn-round btn-primary waves-effect" data-toggle="modal" data-target="#createModal">{{ 'SCHEDULING.STUDYPLANCREATE.ADD_EVENT' | translate }}</button>
             <button class="btn btn-default hidden-lg-up m-t-0 float-right" data-toggle="collapse" data-target="#open-events" aria-expanded="false"
               aria-controls="collapseExample">
               <i class="zmdi zmdi-chevron-down"></i>
             </button>
             <div class="collapse-xs collapse-sm collapse" id="open-events">
               <hr>
-              <div class="event-name b-primary row" *ngFor="let event of events; let index = index">
+              <div class="event-name b-primary row" *ngFor="let event of events; let index = index" (Click)="viewDate = event.start">
                 <div class="col-2 text-center">
                   <h4>{{ event.start | date:'dd' }}
-                    <span>{{ event.start | date:'MMM' }}</span>
+                    <span>{{ 'SCHEDULING.CALENDAR.' + ( event.start | date:'MMM').toUpperCase() | translate }}</span>
                     <span>{{ event.start | date:'yyyy' }}</span>
                   </h4>
                 </div>
                 <div class="col-10">
                   <h6>{{ event.title }}</h6>
-                  <p>{{ event.meta && event.meta.description ? event.meta.description : 'N/A' }}</p>
+                  <p>{{ event.meta && event.meta.description ? event.meta.description : 'SCHEDULING.STUDYPLANCREATE.NO_DESCRIPTION_TAG'
+                    | translate }}</p>
                   <div class="float-right">
                     <a class="clickable col-md-12 col-lg-4 col-xl-4" data-toggle="modal" data-target="#editModal" (click)="preEdit(index); editIndex = index; editTitle = event.title; editStart = event.start; editEnd = event.end; editDescription = event.meta && event.meta.description ? event.meta.description : '';">
                       <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
@@ -56,10 +59,6 @@
                       <i class="zmdi zmdi-delete zmdi-hc-2x"></i>
                     </a>
                   </div>
-                  <address>
-                    <i class="zmdi zmdi-pin"></i>
-                    Mars
-                  </address>
                 </div>
 
               </div>
@@ -67,7 +66,7 @@
           </div>
         </div>
 
-        <div class="col-md-12 col-lg-8 col-xl-8">
+        <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="col-md-12 col-lg-8 col-xl-8">
           <div class="body">
             <app-calendar-header [(view)]="view" [(viewDate)]="viewDate" (viewDateChange)="headerChange()" (viewChange)="headerChange()">
             </app-calendar-header>
@@ -88,10 +87,13 @@
         </div>
 
       </div>
-      <hr/>
+    </div>
+    <div class="card" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
       <div class="header">
-        <h2>
-          <strong>Description Editor</strong>
+        <h2 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+          <strong [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'">
+            <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'SCHEDULING.STUDYPLANCREATE.DESCRIPTION_EDITOR' | translate }}</div>
+          </strong>
         </h2>
       </div>
       <div class="body">
@@ -99,8 +101,10 @@
       </div>
       <hr/>
       <div class="header">
-        <h2>
-          <strong>Description Preview</strong>
+        <h2 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+          <strong [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'">
+            <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'SCHEDULING.STUDYPLANCREATE.DESCRIPTION_PREVIEW' | translate }}</div>
+          </strong>
         </h2>
       </div>
       <div class="body">
@@ -108,7 +112,7 @@
       </div>
       <hr/>
       <button class="btn btn-primary col align-self-center" (click)="create()">
-        Create
+        {{ 'SCHEDULING.STUDYPLANCREATE.CREATE' | translate }}
       </button>
     </div>
   </div>
@@ -120,28 +124,30 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="title" id="createModalLabel">New Event</h4>
+        <h4 class="title" id="createModalLabel">{{ 'SCHEDULING.STUDYPLANCREATE.NEW_EVENT' | translate }}</h4>
       </div>
       <div class="modal-body">
         <form id="createForm" method="POST">
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="createTitle" [(ngModel)]="createTitle" placeholder="Title" required>
+              <input type="text" class="form-control" name="createTitle" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" [(ngModel)]="createTitle"
+                placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.TITLE' | translate }}" required>
             </div>
           </div>
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="createDescription" [(ngModel)]="createDescription" placeholder="Description">
+              <input type="text" class="form-control" name="createDescription" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" [(ngModel)]="createDescription"
+                placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.DESCRIPTION' | translate }}">
             </div>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="createStart" placeholder="Event Start">
+            <input type="text" class="form-control datetimepicker" id="createStart" placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.EVENT_START' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="createEnd" placeholder="Event End">
+            <input type="text" class="form-control datetimepicker" id="createEnd" placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.EVENT_END' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
@@ -149,8 +155,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="createEvent(createTitle, createDescription, createStart, createEnd); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">Create Event</button>
-        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="cancelCreate(); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">Cancel</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="createEvent(createTitle, createDescription, createStart, createEnd); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.STUDYPLANCREATE.CREATE_EVENT' | translate }}</button>
+        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="cancelCreate(); createTitle = ''; createDescription = ''; createStart = null; createEnd = null;">{{ 'SCHEDULING.STUDYPLANCREATE.CANCEL' | translate }}</button>
       </div>
     </div>
   </div>
@@ -161,28 +167,30 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="title" id="editModalLabel">Edit Event</h4>
+        <h4 class="title" id="editModalLabel">{{ 'SCHEDULING.STUDYPLANCREATE.EDIT_EVENT' | translate }}</h4>
       </div>
       <div class="modal-body">
         <form id="editForm" method="POST">
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="editTitle" [(ngModel)]="editTitle" placeholder="Title">
+              <input type="text" class="form-control" name="editTitle" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" [(ngModel)]="editTitle"
+                placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.TITLE' | translate }}">
             </div>
           </div>
           <div class="form-group">
             <div class="form-line">
-              <input type="text" class="form-control" name="editDescription" [(ngModel)]="editDescription" placeholder="Description">
+              <input type="text" class="form-control" name="editDescription" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" [(ngModel)]="editDescription"
+                placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.DESCRIPTION' | translate }}">
             </div>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="editStart" placeholder="Event Start">
+            <input type="text" class="form-control datetimepicker" id="editStart" placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.EVENT_START' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="editEnd" placeholder="Event End">
+            <input type="text" class="form-control datetimepicker" id="editEnd" placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.EVENT_END' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
@@ -190,9 +198,11 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">Save Changes</button>
-        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">Cancel</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLANCREATE.SAVE_CHANGES' | translate }}</button>
+        <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLANCREATE.CANCEL' | translate }}</button>
       </div>
     </div>
   </div>
 </div>
+
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">

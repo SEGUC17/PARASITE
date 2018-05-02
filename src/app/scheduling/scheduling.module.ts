@@ -13,6 +13,7 @@ import { PublishedStudyPlansComponent } from './study-plan/published-study-plans
 import { StudyPlanCreateComponent } from './study-plan/study-plan-create/study-plan-create.component';
 import { SharedModule } from '../shared/shared.module';
 import { AdminService } from '../admin/admin.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AdminService } from '../admin/admin.service';
     CalendarModule.forRoot(),
     FormsModule,
     QuillEditorModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forChild()
   ],
   declarations: [
     ScheduleComponent,

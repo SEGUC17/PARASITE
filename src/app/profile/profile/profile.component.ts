@@ -570,17 +570,17 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
   }
 
   deleteStudyPlan(index): void {
-    // let targetUser = this.currIsOwner ? this.username : this.vUsername;
-    // this._ProfileService
-    //   .deleteStudyPlan(targetUser, this.studyPlans[index]._id)
-    //   .subscribe(res => {
-    //     if (res.err) {
-    //       this.toastrService.error(res.err);
-    //     } else if (res.msg) {
-    //       this.studyPlans.splice(index, 1);
-    //       this.toastrService.success(res.msg);
-    //     }
-    //   });
+    let targetUser = this.currIsOwner ? this.username : this.vUsername;
+    this._ProfileService
+      .deleteStudyPlan(targetUser, this.studyPlans[index]._id)
+      .subscribe(res => {
+        if (res.err) {
+          this.toastrService.error(res.err);
+        } else if (res.msg) {
+          this.studyPlans.splice(index, 1);
+          this.toastrService.success(res.msg);
+        }
+      });
   }
   systemIs(system) {
     this.educationalSystem = system;

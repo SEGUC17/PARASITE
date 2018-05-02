@@ -198,13 +198,12 @@ module.exports = function (passport) {
   // -------------- Admin Contoller ---------------------- //
   router.get('/admin/VerifiedContributerRequests/:FilterBy', isAuthenticated, adminController.getVCRs);
   router.patch('/admin/VerifiedContributerRequestRespond/:targetId', isAuthenticated, adminController.VCRResponde);
-  router.get('/admin/removePublishedStudyPlan/:studyPlanID', isAuthenticated, adminController.removePublishedStudyPlans);
   router.get(
     '/admin/PendingStudyPlanPublishRequests', isAuthenticated,
     adminController.viewStudyPlanPublishReqs
   );
   router.patch(
-    '/admin/RespondStudyPlanPublishRequest/:studyPlanPublishRequestId/:studyPlanId', isAuthenticated,
+    '/admin/RespondStudyPlanPublishRequest/:studyPlanPublishRequestId/:studyPlanId/:status', isAuthenticated,
     adminController.respondStudyPlanPublishRequest
   );
   router.get(

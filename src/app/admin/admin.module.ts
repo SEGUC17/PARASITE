@@ -39,6 +39,7 @@ import { SectionDeleteComponent } from './category-management/section-delete/sec
 import { MessageService } from '../messaging/messaging.service';
 import { ContentService } from '../content/content.service';
 import { ActivityService } from '../activities/activity.service';
+import { CalendarModule } from 'angular-calendar';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -63,6 +64,7 @@ import { TranslateModule } from '@ngx-translate/core';
     MatIconModule,
     MatTooltipModule,
     SharedModule,
+    CalendarModule,
     TranslateModule.forChild()
   ],
   declarations: [

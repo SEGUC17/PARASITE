@@ -7,7 +7,8 @@ import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
+import { TranslateService } from '@ngx-translate/core';
+import { ENTER, COMMA, SPACE, BACKSPACE } from '@angular/cdk/keycodes';
 import {
   isSameMonth,
   isSameDay,
@@ -43,10 +44,20 @@ export class StudyPlanCreateComponent implements OnInit {
   // editor
   public editorOut;
   public editorContent;
-  private editorOptions = {
-    placeholder: 'Enter the description for your study plan here.'
+  private toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote'],
+    [{ 'header': '1' }, { 'header': '2' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],
+    [{ 'direction': 'rtl' }],
+  ];
+  private editorOptions: Object = {
+    placeholder: (this.translate.currentLang === 'ara') ? 'أدخل المحتوى هنا' : 'insert content here',
+    modules: {
+      toolbar: this.toolbarOptions
+    }
   };
-  separatorKeysCodes = [ENTER, COMMA, SPACE];
+  separatorKeysCodes = [ENTER, COMMA, SPACE, BACKSPACE];
 
   // Calendar API view control
   view = 'month';
@@ -64,7 +75,8 @@ export class StudyPlanCreateComponent implements OnInit {
   editIndex = 0;
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
-    private router: Router, private _AuthService: AuthService, private toastrService: ToastrService) { }
+    private router: Router, private _AuthService: AuthService, private toastrService: ToastrService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
 
@@ -139,9 +151,9 @@ export class StudyPlanCreateComponent implements OnInit {
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0
       ) {
-        this.activeDayIsOpen = false;
+        // this.activeDayIsOpen = false;
       } else {
-        this.activeDayIsOpen = true;
+        // this.activeDayIsOpen = true;
         this.viewDate = date;
       }
     }
@@ -165,6 +177,8 @@ export class StudyPlanCreateComponent implements OnInit {
 
     $('#createStart').bootstrapMaterialDatePicker('_onClearClick');
     $('#createEnd').bootstrapMaterialDatePicker('_onClearClick');
+
+    this.viewDate = eventStart;
 
     this.refresh.next();
   }

@@ -6,8 +6,9 @@ import { Subject } from 'rxjs/Subject';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../auth/auth.service';
-import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
+import { ENTER, COMMA, SPACE, BACKSPACE } from '@angular/cdk/keycodes';
 import {
   isSameMonth,
   isSameDay,
@@ -48,15 +49,25 @@ export class StudyPlanComponent implements OnInit {
   title: string;
   description: string;
   events: CalendarEvent[];
-  rating = 0;
+  rating;
 
   // editor
   public editorOut;
   public editorContent;
-  private editorOptions = {
-    placeholder: 'Enter the description for your study plan here.'
+  private toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote'],
+    [{ 'header': '1' }, { 'header': '2' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],
+    [{ 'direction': 'rtl' }],
+  ];
+  private editorOptions: Object = {
+    placeholder: (this.translate.currentLang === 'ara') ? 'أدخل المحتوى هنا' : 'insert content here',
+    modules: {
+      toolbar: this.toolbarOptions
+    }
   };
-  separatorKeysCodes = [ENTER, COMMA, SPACE];
+  separatorKeysCodes = [ENTER, COMMA, SPACE, BACKSPACE];
 
   // copy utility
   tempStudyPlan: StudyPlan;
@@ -86,7 +97,8 @@ export class StudyPlanComponent implements OnInit {
   assignText;
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
-    private router: Router, private _AuthService: AuthService, private toastrService: ToastrService) { }
+    private router: Router, private _AuthService: AuthService, private toastrService: ToastrService,
+    private translate: TranslateService) { }
 
   ngOnInit() {
 
@@ -165,6 +177,7 @@ export class StudyPlanComponent implements OnInit {
             this.studyPlan = resStudyPlan.data;
             this.title = this.studyPlan.title;
             this.events = this.studyPlan.events;
+            this.viewDate = this.events[0].start;
             this.description = this.studyPlan.description;
             this.editorContent = this.studyPlan.description;
             this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
@@ -181,6 +194,7 @@ export class StudyPlanComponent implements OnInit {
             this.studyPlan = resStudyPlan.data;
             this.title = this.studyPlan.title;
             this.events = this.studyPlan.events;
+            this.viewDate = this.events[0].start;
             this.description = this.studyPlan.description;
             this.editorContent = this.studyPlan.description;
             this.editorOut = this.sanitizer.bypassSecurityTrustHtml(this.editorContent);
@@ -202,14 +216,12 @@ export class StudyPlanComponent implements OnInit {
      studyPlan I want to publish if the response is that studyPlan published i will redirect to
      the published studyPlans else i will return the error message
     */
-    this.studyPlan._id = undefined;
     this.studyPlanService.PublishStudyPlan(this.studyPlan).subscribe(
       res => {
         if (res.err) {
           this.toastrService.error(res.err);
         } else if (res.msg) {
           this.toastrService.success(res.msg);
-          this.router.navigate(['/scheduling/study-plan/published']);
         }
       });
   }
@@ -290,9 +302,9 @@ export class StudyPlanComponent implements OnInit {
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0
       ) {
-        this.activeDayIsOpen = false;
+        // this.activeDayIsOpen = false;
       } else {
-        this.activeDayIsOpen = true;
+        // this.activeDayIsOpen = true;
         this.viewDate = date;
       }
     }
