@@ -224,7 +224,7 @@
           "VALID_EMAIL_WARNING": "Kindly provide a valid email address",
           "CHILD_SIGN_UP_SUCCESSFULL": "Child sign up successfull! A verification email has been sent.",
           "EMAIL_VERIFICATION": "Email Verification Is Successful!",
-          "EMAIL_VERIFICATION_SENT": "An message was sent to the provided email!"
+          "EMAIL_VERIFICATION_SENT": "A message was sent to the provided email!"
       },
       "CHILD_SIGN_UP": {
           "DONE": "Done",

@@ -36,6 +36,7 @@ export class ContactUsComponent implements OnInit {
     const userDataColumns = ['username'];
     this._AuthService.getUserData(userDataColumns).subscribe(function (response) {
       self.user = true;
+      self.msg.sender = response.data.username;
     }, function (error) {
       if (error.status === 401) {
         self.visitor = true;
