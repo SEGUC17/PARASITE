@@ -210,12 +210,12 @@
             "FILL_ALL": "يرجى ملء جميع البيانات المطلوبة",
             "SUBMIT": "إنشاء",
             "TITLE_PLACEHOLDER": "أدخل عنوان المحتوى*",
-            "VIDEO_LINK_PLACEHOLDER": "...رابط الفيديو",
-            "TYPE_PLACEHOLDER": "...نوع المحتوى",
+            "VIDEO_LINK_PLACEHOLDER": "رابط الفيديو",
+            "TYPE_PLACEHOLDER": "نوع المحتوى",
             "LANGUAGE_PLACEHOLDER": "...اختر لغة",
             "CATEGORY_PLACEHOLDER": "...اختر فئة",
             "SECTION_PLACEHOLDER": "...اختر القسم",
-            "TAG_PLACEHOLDER": "...إشارة جديدة",
+            "TAG_PLACEHOLDER": "إشارة جديدة",
             "CATEGORY_INVALID": ".الرجاء اختيار فئة صالحة أولاً",
             "SECTION_REQUIRED": "القسم مطلوب",
             "CATEGORY_REQUIRED": "الفئة مطلوبة",
@@ -356,8 +356,6 @@
             "POINTS":"نقطة"
         }
     },
-    "MESSAGING": {},
-    "PROFILE": {},
     "PSYCHOLOGIST": {
         "TITLE": {
             "VERIFIED_PSYCHS": "خبراء نفسيين",
