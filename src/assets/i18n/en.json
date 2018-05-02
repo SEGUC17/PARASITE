@@ -255,7 +255,9 @@
             "ASSIGNED": "Assigned",
             "VIEW": "View",
             "UNBLOCK": "Unblock",
-            "REPORT": "Report"
+            "REPORT": "Report",
+            "EDUCATION_SYSTEM": "Educational System",
+            "EDUCATION_LEVEL": "Educational Level"
         },
         "DIRECT_MSG": {
             "TO": "To:",

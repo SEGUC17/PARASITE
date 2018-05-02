@@ -249,7 +249,9 @@
             "ASSIGNED": "تعين",
             "VIEW": "عرض",
             "UNBLOCK": "رفع الحظر",
-            "REPORT": "إبلاغ عن المستخدم"
+            "REPORT": "إبلاغ عن المستخدم",
+            "EDUCATION_SYSTEM": "النظام التعليمي",
+            "EDUCATION_LEVEL": "المستوى التعليمي"
         },
         "DIRECT_MSG": {
             "TO": "إلى:",
