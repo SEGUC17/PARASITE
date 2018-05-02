@@ -66,7 +66,7 @@
     }
     },
     "ADMIN": {
-        "VIEW_REPORTS": {
+        "REPORTS": {
             "BAN": "حظر",
             "USER": "المستخدم",
             "REPORTS": "البلاغات",
@@ -76,7 +76,7 @@
             "REASON": "السبب:",
             "MSG": "أدخل اسم المستخدم ليتم حظره"
         },
-        "VIEW_UNVERIFIED_ACTIVITIES": {
+        "ACTIVITIES_MANAGEMENT": {
             "LABEL": "الأنشطة",
             "WELCOME": "مرحبًا بك في الأنشطة",
             "LATEST": "آخر",
@@ -282,20 +282,19 @@
     },
     "PROFILE": {
         "PROFILE": {
-            "NAWWAR": "نوَّر",
-            "DASHBOARD": "الصفحه الرئيسيه",
-            "MY_PROFILE": "الصفحه الشخصيه",
-            "MESSAGE": "إرسال رساله",
-            "CHILDREN": "أطفالى",
-            "STUDY_PLANS": "الخطط الدراسيه",
-            "SETTINGS": "الإعدادات",
+            "DASHBOARD": "نوَّر",
+            "MY_PROFILE": "الصفحة الشخصيه",
+            "MESSAGE": "بعث رسالة",
+            "CHILDREN": "أبنائى",
+            "STUDY_PLANS": "خطط الدراسة",
+            "SETTINGS": "إعدادات",
             "ABOUT": "عن المستخدم",
             "ADD-AS-PARENT": "أضفه كولى أمرى",
             "MAKE_INDEPENDENT": "إجعلى مستقلا",
-            "BE_VERIFIED_CONTRIBUTOR": "مشارك موثق",
+            "BE_VERIFIED_CONTRIBUTOR": "كن مساهمًا معتمدًا",
             "CREATE_CHILD_ACCOUNT": "إنشاء حساب جديد لطفلى",
             "UNLINK_MY_PARENT": "إلغاء الإرتباط",
-            "LINK_TO_CHILD": "إضافه طفلى للمستخدم",
+            "LINK_TO_CHILD": "إضافة طفلى للمستخدم",
             "EMAIL": "البريد الإلكترونى:",
             "PHONE": "الهاتف:",
             "BIRTHDATE": "تاريخ الميلاد:",
@@ -303,11 +302,11 @@
             "MY_CHILE": "طفلى",
             "CHILD_INFO": "بيانات",
             "SECURITY": "الأمان",
-            "CHANGE_PASSWORD": "تغيير كلمه السر",
-            "CPASSWORD": "كلمه السر الحاليه",
-            "NPASSWORD": "كلمه السر الجديده",
-            "CNPASSWORD": "تأكيد كلمه السر الجديده",
-            "PERSONAL": "الشخصيه",
+            "CHANGE_PASSWORD": "تغيير كلمه المرور",
+            "CPASSWORD": "كلمه المرور الحالية",
+            "NPASSWORD": "كلمه المرور الجديدة",
+            "CNPASSWORD": "تأكيد كلمه المرور الجديدة",
+            "PERSONAL": "الشخصية",
             "MY_INFO": "بياناتى",
             "FIRST_NAME": "الإسم الأول",
             "LAST_NAME": "الإسم الأخير",
@@ -318,9 +317,9 @@
             "EDIT_PHONE": "الهانف",
             "SAVE_CHANGES": "حفظ التغيرات",
             "MESSAGES_BLOCK": "الممنوعين من مراسلى",
-            "BLOCK_LIST": "قائمه",
-            "CREATE_STUDY_PALN": "إنشاء خطه دراسيه جديدة",
-            "PROFILE_PIC": "تحميل الصوره الشخصيه",
+            "BLOCK_LIST": "قائمة",
+            "CREATE_STUDY_PALN": "إنشاء خطة دراسيه جديدة",
+            "PROFILE_PIC": "تحميل الصوره الشخصية",
             "CANCEL": "إلغاء",
             "DELETE_EVENT": "حذف الحدث",
             "DELE_EVENT_CONF": "هل انت متأكد من أنك تريد حذف هذا الحدث ؟",
@@ -328,7 +327,9 @@
             "ASSIGNED": "تعين",
             "VIEW": "عرض",
             "UNBLOCK": "رفع الحظر",
-            "REPORT": "إبلاغ عن المستخدم"
+            "REPORT": "إبلاغ عن المستخدم",
+            "EDUCATION_SYSTEM": "النظام التعليمي",
+            "EDUCATION_LEVEL": "المستوى التعليمي"
         },
         "DIRECT_MSG": {
             "TO": "إلى:",
@@ -337,10 +338,33 @@
         },
         "CHILDREN": {
             "NAME": "الإسم",
-            "AGE":"العمر" ,
-            "UNLINK": "إزاله من قائمتى",
+            "AGE": "العمر",
+            "UNLINK": "إزالة من قائمتى",
             "LEARNING_SCORE":"نقاط التعلم",
             "POINTS":"نقطة"
+        },
+        "TOASTER": {
+            "USER_NOT_FOUND": " عذرا..المستخدم ليس موجود",
+            "USERNAME_ALREADY_EXISTS": " عذرا..اسم المستخدم مأخوذ مسبقا",
+            "EMAIL_ALREADY_EXISTS": "البريد الالكتروني مأخوذ مسبقا ",
+            "LINK_ANOTHER_PARENT": "تمت إضافة الرابط بنجاح",
+            "PASSWORD_LENGTH": "عذرا..يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+            "NPASSWORD_CNPASSWORD": "كلمات المرور الجديدة والمثبتة غير متطابقة!",
+            "CHANGE_PASSWORD": "تم تحديث كلمة مرور المستخدم بنجاح",
+            "INVALID_EMAIL": "رجاء قم بإدخال بريد الكتروني صحيح",
+            "CHANGE_CHILD_INFO": "تم تحديث المعلومات بنجاح",
+            "CHANGE_INFO": "تم تحديث المعلومات الشخصية للمستخدم بنجاح",
+            "UNBLOCK": "لم يعد هذا المستخدم محظورًا",
+            "UNBLOCK_ERROR": " عذرا..حدث خطأ أثناء إلغاء حظر المستخدم",
+            "UPLOAD_FAIL": "فشل تحميل الصورة",
+            "NO_FILE_TO_UPLOAD": "يرجى اختيار صورة",
+            "UNLINK_MY_CHILD": "تمت إزالة الرابط بنجاح",
+            "PASSWORD_IS_INCORRECT": "كلمة المرور غير صحيحة",
+            "REPORT_USER": "تم ارسال البلاغ بنجاح",
+            "PROFILE_PIC_UPDATE": "تم تحديث صورة الملف الشخصي بنجاح",
+            "UNLINK_UNDER_13": "يجب أن يكون الطفل اكبرمن 13 عامًا أو أكثر"
+
+
         }
     },
     "MESSAGING": {},

@@ -491,7 +491,9 @@ module.exports.changeChildInfo = function (req, res, next) {
                 email: req.body.email,
                 address: req.body.address,
                 birthdate: req.body.birthdate,
-                phone: req.body.phone
+                phone: req.body.phone,
+                educationSystem: req.body.educationSystem,
+                educationLevel: req.body.educationLevel
               }
             }, { new: true },
             function (err, user3) {
