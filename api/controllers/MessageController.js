@@ -17,62 +17,62 @@ var REGEX = require('../utils/validators/REGEX');
 module.exports.sendMessage = function (req, res, next) {
   // Security Check
   delete req.body.sentAt;
-User.findOne({ username: req.body.sender }, function (err, user) {
-     if (err) {
-                  return next(err);
-       }
-       // end if
-       //checking if the user is an admin & the message is from an unregistered user
-       if (user.isAdmin === true && req.body.recipient.match(REGEX.MAIL_REGEX)) {
-              // send the reply through the unregistered user's personal email
-              unregisteredReply.adminReply(req.body.recipient, req.body.body);
-       }
-
-  // create new entry in DB
-  Message.create(req.body, function (err, msg) {
+  User.findOne({ username: req.user.username }, function (err, user) {
     if (err) {
       return next(err);
     }
-    var notification = {
-      body: 'You have got a new message from ' + msg.sender,
-      date: moment().toDate(),
-      itemId: msg._id,
-      type: 'message'
-  };
-  User.findOneAndUpdate(
-      { username: msg.recipient },
-      {
-          $push:
-              { notifications: notification }
+    // end if
+    //checking if the user is an admin & the message is from an unregistered user
+    if (user.isAdmin === true && req.body.recipient.match(REGEX.MAIL_REGEX)) {
+      // send the reply through the unregistered user's personal email
+      unregisteredReply.adminReply(req.body.recipient, req.body.body);
+    }
+
+    // create new entry in DB
+    Message.create(req.body, function (err, msg) {
+      if (err) {
+        return next(err);
       }
-      , { new: true },
-      function (errr, updatedUser) {
+      var notification = {
+        body: 'You have got a new message from ' + msg.sender,
+        date: moment().toDate(),
+        itemId: msg._id,
+        type: 'message'
+      };
+      User.findOneAndUpdate(
+        { username: msg.recipient },
+        {
+          $push:
+            { notifications: notification }
+        }
+        , { new: true },
+        function (errr, updatedUser) {
           if (errr) {
-              return res.status(402).json({
-                  data: null,
-                  err: 'error occurred during adding ' +
-                      'the notification'
-              });
+            return res.status(402).json({
+              data: null,
+              err: 'error occurred during adding ' +
+                'the notification'
+            });
           }
           if (!updatedUser) {
-              return res.status(404).json({
-                  data: null,
-                  err: null,
-                  msg: 'User not found.'
-              });
+            return res.status(404).json({
+              data: null,
+              err: null,
+              msg: 'User not found.'
+            });
           }
-      }
-  );
+        }
+      );
 
-    // return response message
+      // return response message
 
-    return res.status(200).json({
-      data: msg,
-      err1: null,
-      msg: 'Message was sent successfully.'
+      return res.status(200).json({
+        data: msg,
+        err1: null,
+        msg: 'Message was sent successfully.'
+      });
     });
   });
-});
 };
 
 // get messages stored in the DB
@@ -167,28 +167,28 @@ module.exports.getRecentlyContacted = function (req, res, next) {
         _id: '$recipient',
         recipientAvatar: { $addToSet: '$recipientAvatar' },
         sentAt: { $max: '$sentAt' }
-    }
-   },
-   // order records descendingly by sentAt
-   { $sort: { sentAt: -1 } },
-   // get the first 5 elements
-   { $limit: 5 }
-  ]).exec(function(err, users) {
+      }
+    },
+    // order records descendingly by sentAt
+    { $sort: { sentAt: -1 } },
+    // get the first 5 elements
+    { $limit: 5 }
+  ]).exec(function (err, users) {
     if (err) {
       return next(err);
     }
 
-      // console.log(users);
-      return res.status(200).json({
-        data: users,
-        err: null,
-        msg: 'Success.'
-      });
+    // console.log(users);
+    return res.status(200).json({
+      data: users,
+      err: null,
+      msg: 'Success.'
     });
+  });
 };
 
 module.exports.contactAdmin = function (req, res, next) {
- User.find({ 'isAdmin': true }, function (err, users) {
+  User.find({ 'isAdmin': true }, function (err, users) {
     if (err) {
       return next(err);
     } else if (users) {
@@ -243,7 +243,7 @@ module.exports.unBlock = function (req, res, next) {
   );
 };
 
-module.exports.markAsRead = function(req, res, next) {
+module.exports.markAsRead = function (req, res, next) {
   Message.findByIdAndUpdate(
     req.body._id, { $set: { 'state': false } },
     { new: true }, function (err, result) {
@@ -261,4 +261,4 @@ module.exports.markAsRead = function(req, res, next) {
       });
     }
   );
- };
+};
