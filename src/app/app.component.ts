@@ -39,6 +39,11 @@ export class AppComponent implements OnInit {
 
   links = [
     {
+      url: '/newsfeed',
+      name: 'APP.NEWSFEED',
+      icon: 'collection-text'
+    },
+    {
       url: '/content/list',
       name: 'APP.CONTENT',
       icon: 'book'

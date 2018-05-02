@@ -42,7 +42,7 @@ export class ViewPsychRequestsComponent implements OnInit {
           self.getRequests();
         } else {
           // Else navigate to homepage
-          self.router.navigateByUrl('/');
+          self.router.navigateByUrl('/newsfeed');
         }
       }
     });

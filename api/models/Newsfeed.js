@@ -5,7 +5,10 @@ var Tags = mongoose.model('Tag').schema;
 var newsfeedSchema = mongoose.Schema({
     contentID: String,
     metadata: {
-        activityDate: Date,
+        activityDate: {
+            default: Date.now,
+            type: Date
+        },
         description: String,
         image: {
             trim: true,
@@ -17,7 +20,7 @@ var newsfeedSchema = mongoose.Schema({
         }
     },
     tags: {
-        type: [Tags],
+        type: [String],
         unique: false
     },
     type: {

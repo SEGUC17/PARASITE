@@ -25,7 +25,7 @@
                             <strong>{{ 'MESSAGING.MESSAGING.RECENTLY_CONTACTED' | translate }}<i class="material-icons">people</i></strong>
                           </h2>
                         </div>
-                        <div *ngIf="!contacts.length">
+                        <div *ngIf="!contacts || !contacts.length">
                             <div class="body table-responsive">
                               <table class="table m-b-0 c_list">
                                 <tbody>
@@ -77,7 +77,7 @@
                         <div role="tabpanel" class="tab-pane in active" id="inbox">
                             <div class="row clearfix">
                                     <div class="col-md-12 col-lg-12 col-xl-12">
-                                      <div class="body text-center" style="font-size:20px;" *ngIf="!inbox.length">
+                                      <div class="body text-center" style="font-size:20px;" *ngIf="!inbox || !inbox.length">
                                         <p>
                                           <br/>
                                           <br/>
@@ -140,7 +140,7 @@
                         <div role="tabpanel" class="tab-pane" id="sent">
                             <div class="row clearfix">
                                     <div class="col-md-12 col-lg-12 col-xl-12">
-                                        <div class="body text-center" style="font-size:20px;" *ngIf="!sent.length">
+                                        <div class="body text-center" style="font-size:20px;" *ngIf="!sent || !sent.length">
                                             <p>
                                               <br/>
                                               <br/>
