@@ -274,6 +274,7 @@ export class ScheduleComponent implements OnInit {
   // delete corresponding event
   delete(index) {
     this.events.splice(index, 1);
+    this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
     this.refreshDocument();
   }
 
