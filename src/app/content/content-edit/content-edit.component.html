@@ -39,7 +39,7 @@
                                 <label>{{ 'CONTENT.EDIT.TYPE' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control" required #content.type name="type" [(ngModel)]="content.type">
+                                <select [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" class="form-control" required #content.type name="type" [(ngModel)]="content.type">
                                     <option value="resource">{{ 'CONTENT.EDIT.RESOURCE' | translate }}</option>
                                     <option value="idea">{{ 'CONTENT.EDIT.IDEA' | translate }}</option>
                                 </select>
@@ -48,7 +48,7 @@
                                 <label>{{ 'CONTENT.SHARED.LANGUAGE' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control" required #content.language name="language" [(ngModel)]="content.language"
+                                <select [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" class="form-control" required #content.language name="language" [(ngModel)]="content.language"
                                     required>
                                     <option value="english">{{ 'CONTENT.SHARED.ENGLISH' | translate }}</option>
                                     <option value="arabic">{{ 'CONTENT.SHARED.ARABIC' | translate }}</option>
@@ -58,7 +58,7 @@
                                 <label>{{ 'CONTENT.SHARED.CATEGORY' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select [ngClass]="'form-control' +(category.invalid && (category.touched || category.dirty) ? ' form-control-danger': '')"
+                                <select [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" [ngClass]="'form-control' +(category.invalid && (category.touched || category.dirty) ? ' form-control-danger': '')"
                                     placeholder="Category..." required name="category" #category="ngModel" [(ngModel)]="content.category"
                                     (ngModelChange)="getSections()">
                                     <option *ngFor="let category of categories" [value]="category.name">
@@ -71,7 +71,7 @@
                                 <label>{{ 'CONTENT.SHARED.SECTION' | translate }}
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select [ngClass]="'form-control' +(section.invalid && (section.touched || section.dirty) ? ' form-control-danger': '')"
+                                <select [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" [ngClass]="'form-control' +(section.invalid && (section.touched || section.dirty) ? ' form-control-danger': '')"
                                     required name="section" #section="ngModel" [(ngModel)]="content.section">
                                     <option *ngFor="let section of requiredSections" [value]="section.name">
                                         {{section.name}}
