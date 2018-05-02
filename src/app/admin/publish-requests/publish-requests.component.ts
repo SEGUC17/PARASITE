@@ -3,6 +3,7 @@ import { AdminService } from '../admin.service';
 import { StudyPlanPublishRequest } from './study-plan-publish-request';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
 import { Subject } from 'rxjs/Subject';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
@@ -47,7 +48,7 @@ export class PublishRequestsComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
   constructor(private adminService: AdminService, private router: Router, private translate: TranslateService,
-    private _messageService: MessageService, private _authService: AuthService) { }
+    private _messageService: MessageService, private _authService: AuthService, private toastrService: ToastrService) { }
 
   ngOnInit() {
     this.title = '';
@@ -104,14 +105,18 @@ export class PublishRequestsComponent implements OnInit {
     console.log(studyPlan);
     let self = this;
     self.adminService.respondStudyPlanPublishReqs(response, id, studyPlan._id).subscribe(function (res) {
-      self.reqs = res.data;
+      if (res.err) {
+        self.toastrService.error(res.err);
+      } else if (res.msg) {
+        self.toastrService.success(res.msg);
+        self.viewStudyPlanPublishReqs();
+        if (response === 'disapproved') {
+          self._authService.getUserData(['username']).subscribe(function (res1) {
+            self.showPromptMessage(studyPlan.creator, res1.data.username);
+          });
+        }
+      }
     });
-    self.viewStudyPlanPublishReqs();
-    if (response === 'disapproved') {
-      self._authService.getUserData(['username']).subscribe(function (res) {
-        self.showPromptMessage(studyPlan.creator, res.data.username);
-      });
-    }
   }
 
   // Calendar API control methods
