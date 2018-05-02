@@ -288,7 +288,7 @@
             <div class="row">
               <div class="col-lg-3 col-md-4 col-12">
                 <div class="profile-image float-md-right">
-                  <img [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
+                  <img style="object-fit: cover; width: 230px; height: 230px;" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
                     alt="Profile Picture">
                   <br/>
                   <a *ngIf = "currIsOwner" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right">
