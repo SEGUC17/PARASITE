@@ -83,16 +83,16 @@
                       <div class="cbp_tmicon">
                         <img  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="media-object rounded-circle" [src]="currentUser.avatar || defaultPP" alt="">
                       </div>
-                      <div class="cbp_tmlabel empty" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+                      <div class="cbp_tmlabel empty">
                         <span>
                           <div class="form-group  w-80">
                             <input type="text" class="form-control" id="inputArea" placeholder="{{'CONTENT.VIEW.' + somePlaceholder | translate }}" #commentInput
-                              [(ngModel)]="changingComment"  [style.text-align]="translate.currentLang === 'ara'? 'right': null" >
+                              [(ngModel)]="changingComment" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"[style.text-align]="translate.currentLang === 'ara'? 'right': null" >
                           </div>
                         </span>
                         <div align="end">
                           <span>
-                            <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
+                            <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
                               {{ ((!isReplying)? 'CONTENT.VIEW.COMMENT_BUTTON' : 'CONTENT.VIEW.REPLY_BUTTON') | translate }}
                             </button>
                             <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary" data-toggle="tooltip" data-placement="bottom"
