@@ -151,42 +151,42 @@
                                     <!-- read notifications normal bg -->
                                     <div *ngIf="not.isRead">
 
-                                        <a routerLink={{not.link}}>
-                                            <div class="media">
-                                                <div *ngIf="not.type ===  message ">
-                                                    <i class="zmdi zmdi-email"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  content ">
-                                                    <i class="zmdi zmdi-book"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  product ">
-                                                    <i class="zmdi zmdi-shopping-cart"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  study_plan ">
-                                                    <i class="zmdi zmdi-graduation-cap"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  activity ">
-                                                    <i class="zmdi zmdi-run"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  link ">
-                                                    <i class="zmdi zmdi-link"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  contributer ">
-                                                    <i class="zmdi zmdi-shield-check"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  discussion_A || not.type ===  discussion_C ">
-                                                    <i class="zmdi zmdi-comments"></i>
-                                                </div>
-                                                <div class="media-body">
-                                                    <div class="col-md-12">
-                                                        <span class="message">
-                                                            <strong>
-                                                                {{not.body}}
-                                                            </strong>
-                                                        </span>
-                                                        <div class="row">
-                                                            <div class="col-lg-2 col-md-2 col-sm-2"></div>
-                                                            <div class="col-lg-10 col-md-10 col-sm-10" align="right">
+                                    <a routerLink={{not.link}}>
+                                        <div class="media">
+                                            <div *ngIf="not.type ===  message ">
+                                                <i class="zmdi zmdi-email"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  content ">
+                                                <i class="zmdi zmdi-book"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  product ">
+                                                <i class="zmdi zmdi-shopping-cart"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  study_plan || not.type ===  study_plan_A ">
+                                                <i class="zmdi zmdi-graduation-cap"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  activity ">
+                                                <i class="zmdi zmdi-run"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  link ">
+                                                <i class="zmdi zmdi-link"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  contributer ">
+                                                <i class="zmdi zmdi-shield-check"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  discussion_A || not.type ===  discussion_C ">
+                                                <i class="zmdi zmdi-comments"></i>
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="col-md-12">
+                                                    <span class="message">
+                                                        <strong>
+                                                            {{not.body}}
+                                                        </strong>
+                                                    </span>
+                                                    <div class="row">
+                                                        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                                                        <div class="col-lg-10 col-md-10 col-sm-10" align="right">
 
                                                                 <span class="time text-muted">
                                                                     <small> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }}
@@ -197,50 +197,50 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </a>
-                                    </div>
-                                    <!-- unread notifications dark bg-->
-                                    <div *ngIf="!not.isRead" style="background-color: #63c6b6">
-                                        <a routerLink={{not.link}}>
-                                            <div class="media">
-                                                <div *ngIf="not.type ===  message ">
-                                                    <i class="zmdi zmdi-email" style="color:black"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  content ">
-                                                    <i class="zmdi zmdi-book" style="color:black"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  product ">
-                                                    <i class="zmdi zmdi-shopping-cart" style="color:black"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  study_plan ">
-                                                    <i class="zmdi zmdi-graduation-cap" style="color:black"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  activity ">
-                                                    <i class="zmdi zmdi-run" style="color:black"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  link ">
-                                                    <i class="zmdi zmdi-link" style="color:black"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  contributer ">
-                                                    <i class="zmdi zmdi-shield-check" style="color:black"></i>
-                                                </div>
-                                                <div *ngIf="not.type ===  discussion_A || not.type ===  discussion_C ">
-                                                    <i class="zmdi zmdi-comments  col-dark" style="color:black"></i>
-                                                </div>
-                                                <div class="media-body ">
-                                                    <div class="col-md-12">
-                                                        <span class="message col-white">
-                                                            <strong> {{not.body}}
-                                                            </strong>
-                                                        </span>
-                                                        <div class="row">
-                                                            <div class="col-lg-2 col-md-2 col-sm-2"></div>
-                                                            <div class="col-lg-10 col-md-10 col-sm-10" align="right">
-                                                                <span class="time text-muted" style="color:black">
-                                                                    <small> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }}
-                                                                    </small>
-                                                                </span>
-                                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- unread notifications dark bg-->
+                                <div *ngIf="!not.isRead" style = "background-color: #63c6b6">
+                                    <a routerLink={{not.link}}>
+                                        <div class="media">
+                                            <div *ngIf="not.type ===  message ">
+                                                <i class="zmdi zmdi-email" style = "color:black" ></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  content ">
+                                                <i class="zmdi zmdi-book" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  product ">
+                                                <i class="zmdi zmdi-shopping-cart" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  study_plan || not.type ===  study_plan_A ">
+                                                <i class="zmdi zmdi-graduation-cap" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  activity ">
+                                                <i class="zmdi zmdi-run" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  link ">
+                                                <i class="zmdi zmdi-link" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  contributer ">
+                                                <i class="zmdi zmdi-shield-check" style = "color:black"></i>
+                                            </div>
+                                            <div *ngIf="not.type ===  discussion_A || not.type ===  discussion_C ">
+                                                <i class="zmdi zmdi-comments  col-dark" style = "color:black"></i>
+                                            </div>
+                                            <div class="media-body ">
+                                                <div class="col-md-12">
+                                                    <span class="message col-white">
+                                                        <strong> {{not.body}}
+                                                        </strong>
+                                                    </span>
+                                                    <div class="row">
+                                                        <div class="col-lg-2 col-md-2 col-sm-2"></div>
+                                                        <div class="col-lg-10 col-md-10 col-sm-10" align="right">
+                                                            <span class="time text-muted" style = "color:black">
+                                                                <small> {{not.date | date:'MM/dd/yyyy HH:mm': 'locale' }}
+                                                                </small>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -268,17 +268,11 @@
                         </li>
                     </ul>
                 </li>
-
-                <li class="float-right">
-                    <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
-                        <i class="zmdi zmdi-fullscreen"></i>
-                    </a>
-                    <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
-                        <i class="zmdi zmdi-globe"></i>
-                    </a>
-                    <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active"
-                        class="mega-menu">
-                        <i class="zmdi zmdi-power"></i>
+                <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
+                || link.url === '/profile' && username == undefined ">
+                    <a [routerLink]="link.url">
+                       <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                        <span>{{ link.name | translate }}</span>
                     </a>
                 </li>
         </ul>

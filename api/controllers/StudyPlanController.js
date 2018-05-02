@@ -219,11 +219,12 @@ module.exports.assignStudyPlan = function (req, res, next) {
                     }
 
                     var notification = {
-                        body: req.user.username + ' assigned you to' +
+                        body: req.user.username + ' assigned you to ' +
                             newStudyPlan.title,
                         date: moment().toDate(),
                         itemId: newStudyPlan._id,
-                        type: 'study plan'
+                        itemUsername: req.params.username,
+                        type: 'study plan A'
                     };
                     User.findOneAndUpdate(
                         { username: req.params.username },
@@ -233,8 +234,6 @@ module.exports.assignStudyPlan = function (req, res, next) {
                         }
                         , { new: true },
                         function (errr, updatedUser) {
-                            console.log('add the notification');
-                            console.log(updatedUser.notifications);
                             if (errr) {
                                 return res.status(402).json({
                                     data: null,
@@ -316,10 +315,9 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                 }
                 // Start of notification
                 var notification = {
-                    body: req.user.username + ' unassigned' +
+                    body: req.user.username + ' unassigned ' +
                         'you from a Study Plan',
                     date: moment().toDate(),
-                    itemId: req.params.studyPlanID,
                     type: 'study plan'
                 };
                 User.findOneAndUpdate(
@@ -330,8 +328,6 @@ module.exports.unAssignStudyPlan = function (req, res, next) {
                     }
                     , { new: true },
                     function (errr, updatedUser) {
-                        console.log('add the notification');
-                        // console.log(updatedUser.notifications);
                         if (errr) {
                             return res.status(402).json({
                                 data: null,

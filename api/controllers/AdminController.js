@@ -48,26 +48,21 @@ module.exports.viewPendingContReqs = function (req, res, next) {
 
             // if user unchecks all checkboxes or in the very beginning
             if (req.params.res === req.params.idea) {
-                console.log('Neither resource nor idea is checked');
                 finalResults = pendingContentRequests;
             } else if (req.params.res === 'true') {
-                console.log('Resource is checked');
                 partResults1 = resresult;
             } else if (req.params.idea === 'true') {
-                console.log('Idea is checked');
                 partResults1 = idearesult;
             }
             // both aren't checked or both are checked
             if (req.params.create === req.params.edit) {
                 finalResults = partResults1;
             } else if (req.params.create === 'true') {
-                console.log('Create is checked');
                 finalResults = partResults1.
                     filter(function (create) {
                         return create.requestType === 'create';
                     });
             } else if (req.params.edit === 'true') {
-                console.log('Edit is checked');
                 finalResults = partResults1.
                     filter(function (edit) {
                         return edit.requestType === 'update';

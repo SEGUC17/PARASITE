@@ -52,6 +52,7 @@ var notificationSchema = mongoose.Schema({
                 'message',
                 'product',
                 'study plan',
+                'study plan A',
                 'link'
             ],
         required: true,

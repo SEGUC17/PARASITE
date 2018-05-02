@@ -31,11 +31,12 @@ export class AppComponent implements OnInit {
   message: String = 'message';
   link: String = 'link';
   study_plan: String = 'study plan';
+  study_plan_A: String = 'study plan A';
   product: String = 'product';
   content: String = 'content';
   activity: String = 'activity';
   contributer: String = 'contributer';
-  viewLanding = false;
+
   links = [
     {
       url: '/content/list',
@@ -311,21 +312,21 @@ export class AppComponent implements OnInit {
 
   }
   getNotifications(): void {
-    let self = this;
+    const self = this;
     this.authService.getUserData(['notifications']).subscribe(function (res) {
       // all notification except of type message
-      const retrievednotifications = res.data.notifications.filter(function (notMessage) {
+      let retrievednotifications = res.data.notifications.filter(function (notMessage) {
         return notMessage.type !== 'message';
       });
       // all notification that aren't read (not messages)
-      const unreadNots = res.data.notifications.filter(function (notRead) {
+      let unreadNots = retrievednotifications.filter(function (notRead) {
         return notRead.isRead === false;
       });
       // unread notifications number
       self.unreadNotificationsNumber = unreadNots.length;
 
       // all notifications that are of type message and aren't read
-      const messagesNotifications = res.data.notifications.filter(function (messageNotification) {
+      let messagesNotifications = res.data.notifications.filter(function (messageNotification) {
         return messageNotification.type === 'message' && messageNotification.isRead === false;
       });
       self.messagesNotifications = messagesNotifications;
@@ -337,18 +338,69 @@ export class AppComponent implements OnInit {
         let itemId = retrievednotifications[i].itemId;
         let itemUsername = retrievednotifications[i].itemUsername;
         ///////////// all profile must be usernamesss
+        // handle translating commenting
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('commented on your') !== -1) {
+          retrievednotifications[i].body = 'قام أحدهم بالتعليق على إحدى مساهماتك على الموقع';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('replied to your comment on') !== -1) {
+          retrievednotifications[i].body = 'قام أحدهم بالرد على إحدى تعليقاتك';
+        }
+
         if ((type === 'link' || type === 'contributer') && itemUsername) {
+          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('are now a Verified Contributer') !== -1) {
+            retrievednotifications[i].body = 'أصبحت الآن مساهم موثَّق';
+          }
+
           retrievednotifications[i].link = '/profile/' + retrievednotifications[i].itemUsername;
 
         } else if ((type === 'activity' || type === 'discussion activity') && itemId) {
+          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('booked your activity') !== -1) {
+            retrievednotifications[i].body = 'تمَّ حجز مكان في أحد أنشطتك';
+          }
+          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('activity was accepted') !== -1) {
+            retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد أنشطتك';
+          }
+
           retrievednotifications[i].link = '/activities/' + retrievednotifications[i].itemId;
         } else if ((type === 'content' || type === 'discussion content') && itemId) {
+          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('content was accepted') !== -1) {
+            retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد مساهماتك التعليمية';
+          }
+
+          if (self.translate.currentLang === 'ara' &&
+            retrievednotifications[i].body.indexOf('updated Content has been successfully') !== -1) {
+            retrievednotifications[i].body = 'تم تحديث أحد مساهماتك التعليمية بنجاح';
+          }
+
           retrievednotifications[i].link = '/content/view/' + retrievednotifications[i].itemId;
-        } else if (type === 'study plan' && itemId) {
-          retrievednotifications[i].link = '/study-plan/published/' + retrievednotifications[i].itemId;
-        } else if (type === 'product' && itemId) {
-          // Do not need id in market
+        } else if (type === 'study plan' && itemId && itemUsername) {
+
+          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('study plan is now published') !== -1) {
+            retrievednotifications[i].body = 'تم نشر أحد خططك الدراسية بنجاح';
+          }
+
+          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unassigned you from a Study Plan') !== -1) {
+            retrievednotifications[i].body = 'تمَّت إزالة خطة دراسية قد كانت معينة لك';
+          }
+
+          retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId + '/' + itemUsername;
+        } else if (type === 'study plan A' && itemId) {
+          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('assigned you to') !== -1) {
+            retrievednotifications[i].body = 'تمَّ وضع خطة دراسية لك';
+          }
+
+          retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId;
+        } else if (type === 'product') {
+          // do not need id in market
+          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('new product was approved') !== -1) {
+            retrievednotifications[i].body = 'تمَّ قبول منتجك وهو معروض في السوق الآن';
+          }
+
           retrievednotifications[i].link = '/market';
+        } else {
+          // if not any of these cases got to landing page
+          retrievednotifications[i].link = '/';
         }
       }
       self.notifications = retrievednotifications.reverse();
@@ -369,7 +421,7 @@ export class AppComponent implements OnInit {
     }
 
   }
-  // Method that makes all messages read
+  // method that makes all messages read
   onMessageIconClick() {
     let self = this;
     for (let i = 0; i < self.messagesNotifications.length; i++) {
