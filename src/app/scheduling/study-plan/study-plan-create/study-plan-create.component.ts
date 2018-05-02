@@ -151,9 +151,9 @@ export class StudyPlanCreateComponent implements OnInit {
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
         events.length === 0
       ) {
-        this.activeDayIsOpen = false;
+        // this.activeDayIsOpen = false;
       } else {
-        this.activeDayIsOpen = true;
+        // this.activeDayIsOpen = true;
         this.viewDate = date;
       }
     }
