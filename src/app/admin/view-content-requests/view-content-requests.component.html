@@ -19,7 +19,7 @@
               <div class="header">
                 <h2>
                   <strong>
-                    <a href="profile/{{req.creator}}">
+                    <a routerLink="/profile/{{req.creator}}">
                       <i class="zmdi zmdi-account-o"></i>
                       {{req.creator}}
                     </a>
@@ -45,17 +45,19 @@
                 <a href="javascript:void(0);">
                   <div class="hover">
                     <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="approveContentRequest(req._id,req.contentID,req.creator)"
-                    data-toggle="tooltip" data-placement="bottom" title="{{ 'ADMIN.VIEW_CONTENT_REQUESTS.ACCEPT' | translate }}">
+                      data-toggle="tooltip" data-placement="bottom" title="{{ 'ADMIN.VIEW_CONTENT_REQUESTS.ACCEPT' | translate }}">
                       <i class="zmdi zmdi-check"></i>
                     </button>
                     <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="disapproveContentRequest(req._id,req.contentID, req.requestType, req.creator)"
-                    data-toggle="tooltip" data-placement="bottom" title="{{ 'ADMIN.VIEW_CONTENT_REQUESTS.REJECT' | translate }}">
+                      data-toggle="tooltip" data-placement="bottom" title="{{ 'ADMIN.VIEW_CONTENT_REQUESTS.REJECT' | translate }}">
                       <i class="zmdi zmdi-close"></i>
                     </button>
-                    <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="viewCont(req.contentID)"
-                    data-toggle="tooltip" data-placement="bottom" title="{{ 'ADMIN.VIEW_CONTENT_REQUESTS.VIEW_DETAILS' | translate }}">
-                      <i class="zmdi zmdi-view-module"></i>
-                    </button>
+                    <a routerLink="/content/view/{{req.contentID}}">
+                      <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" data-toggle="tooltip" data-placement="bottom"
+                        title="{{ 'ADMIN.VIEW_CONTENT_REQUESTS.VIEW_DETAILS' | translate }}">
+                        <i class="zmdi zmdi-view-module"></i>
+                      </button>
+                    </a>
                   </div>
                 </a>
               </div>
@@ -64,7 +66,7 @@
         </div>
       </form>
     </div>
-    <div class="col-lg-3 col-md-12 right-box" >
+    <div class="col-lg-3 col-md-12 right-box">
 
       <div class="container">
         <div class="card bg-dark w-80">
@@ -76,49 +78,46 @@
             </h2>
           </div>
           <div class="body column">
-            <div class="container">
-              <div class="col-lg-12">
-                <div class="row">
-                  <div class="col-lg-6 col-md-12">
-                    <div class="checkbox">
-                      <input id="CBIdea" type="checkbox" (click)="refreshCBs()">
-                      <label class="col-white" for="CBIdea">
-                        {{ 'ADMIN.VIEW_CONTENT_REQUESTS.IDEA' | translate }}
-                      </label>
-                    </div>
-                  </div>
-
-                  <div class="col-lg-6 col-md-12">
-                    <div class="checkbox">
-                      <input id="CBRes" type="checkbox" (click)="refreshCBs()">
-                      <label class="col-white" for="CBRes">
-                        {{ 'ADMIN.VIEW_CONTENT_REQUESTS.RESOURCE' | translate }}
-                      </label>
-                    </div>
+            <div class=" col-md-12 nopadding">
+              <div class="row">
+                <div class="col-lg-4 col-md-12 col-sm-12" align="center">
+                  <div class="checkbox">
+                    <input id="CBIdea" type="checkbox" (click)="refreshCBs()">
+                    <label class="col-white" for="CBIdea">
+                      {{ 'ADMIN.VIEW_CONTENT_REQUESTS.IDEA' | translate }}
+                    </label>
                   </div>
                 </div>
+
+                <div class="col-lg-6 col-md-12 col-sm-12" align="center">
+                  <div class="checkbox">
+                    <input id="CBRes" type="checkbox" (click)="refreshCBs()">
+                    <label class="col-white" for="CBRes">
+                      {{ 'ADMIN.VIEW_CONTENT_REQUESTS.RESOURCE' | translate }}
+                    </label>
+                  </div>
+                </div>
+
               </div>
             </div>
 
-            <div class="container mt-2">
-              <div class="col-lg-12">
-                <div class="row" *ngIf="res || idea">
-                  <div class="col-lg-6 col-md-12">
-                    <div class="checkbox">
-                      <input id="CBEdit" type="checkbox" (click)="refreshCBs()">
-                      <label class="col-white" for="CBEdit">
-                        {{ 'ADMIN.VIEW_CONTENT_REQUESTS.EDIT' | translate }}
-                      </label>
-                    </div>
+            <div class="mt-2 col-lg-12 nopadding">
+              <div class="row" *ngIf="res || idea">
+                <div class="col-lg-6 col-md-12">
+                  <div class="checkbox">
+                    <input id="CBEdit" type="checkbox" (click)="refreshCBs()">
+                    <label class="col-white" for="CBEdit">
+                      {{ 'ADMIN.VIEW_CONTENT_REQUESTS.EDIT' | translate }}
+                    </label>
                   </div>
-                  <div class="col-lg-6 col-md-12">
+                </div>
+                <div class="col-lg-6 col-md-12">
 
-                    <div class="checkbox">
-                      <input id="CBCreate" type="checkbox" (click)="refreshCBs()">
-                      <label class="col-white" for="CBCreate">
-                        {{ 'ADMIN.VIEW_CONTENT_REQUESTS.CREATE' | translate }}
-                      </label>
-                    </div>
+                  <div class="checkbox">
+                    <input id="CBCreate" type="checkbox" (click)="refreshCBs()">
+                    <label class="col-white" for="CBCreate">
+                      {{ 'ADMIN.VIEW_CONTENT_REQUESTS.CREATE' | translate }}
+                    </label>
                   </div>
                 </div>
               </div>
