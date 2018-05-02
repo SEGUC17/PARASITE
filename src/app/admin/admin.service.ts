@@ -42,7 +42,7 @@ export class AdminService {
     return this.http.patch(
       this.baseURL + 'admin/VerifiedContributerRequestRespond/' + id,
       { responce: resp }
-    ).subscribe();
+    )
   }
 
   viewPendingVCR(FilterBy): any {
