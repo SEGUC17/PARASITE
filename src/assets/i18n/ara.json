@@ -154,12 +154,12 @@
             "WATCH_NOW": "شاهد الآن"
         },
         "VIEW": {
-            "COMMENTS": "{{ number }} :التعليقات",
+            "COMMENTS": "التعليقات: {{ number }}",
             "RECOMMENDED_CONTENT": {
                 "RECOMMENDED": "المحتويات",
                 "CONTENTS": "المقترحة"
             },
-            "RATING": " :التقييم",
+            "RATING": "التقييم:",
             "BY": "نشره:",
             "DELETE_FOREVER": "الحذف للأبد",
             "EDIT": "تعديل",
