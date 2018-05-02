@@ -423,7 +423,8 @@
           "SEND_SELF": "You can't send a message to yourself",
           "ALREADY_BLOCKED": "This user is already blocked",
           "BLOCK": "User blocked successfully!",
-          "MSG_DELETED": "Message deleted!"
+          "MSG_DELETED": "Message deleted!",
+          "BLOCK_SELF": "Sorry you can't block yourself"
       }
   },
   "NEWSFEED": {
