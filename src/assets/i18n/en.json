@@ -73,6 +73,10 @@
           "TOASTER_FAIL": "Image upload failed",
           "TOASTER_SUCCESS": "Image uploaded successefully",
           "TOASTER_SELECT": " Please select a photo"
+      },
+      "UPLOAD": {
+          "UPLOAD_PHOTO": "Upload Photo",
+          "PLEASE_WAIT":"Please Wait"
       }
   },
   "ADMIN": {
