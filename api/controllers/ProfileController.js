@@ -213,7 +213,7 @@ module.exports.linkAnotherParent = function (req, res, next) {
       var notificationUser = {
         body: 'You have been linked to ' + user.username,
         date: moment().toDate(),
-        itemId: user._id,
+        itemUsername: user.username,
         type: 'link'
       };
       User.findOneAndUpdate(
@@ -288,9 +288,9 @@ module.exports.addAsAParent = function (req, res, next) {
 // method that deletes the passed child from the selected parent's children list
 module.exports.unLinkChild = function (req, res, next) {
   var notification = {
-    body: req.body.child + 'unlinked you',
+    body: req.body.child + ' unlinked you',
     date: moment().toDate(),
-    itemId: req.params.parentId,
+    itemUsername: req.body.child,
     type: 'link'
   };
 
