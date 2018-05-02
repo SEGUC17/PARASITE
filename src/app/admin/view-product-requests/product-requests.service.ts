@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { apiUrl } from '../../variables';
+import { environment } from '../../../environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -12,8 +12,8 @@ const httpOptions = {
 export class ProductRequestsService {
 
   // The URLS for the backend api
-  private getterUrl =  apiUrl + 'productrequest/getRequests';
-  private evalUrl =  apiUrl + 'productrequest/evaluateRequest';
+  private getterUrl = environment.apiUrl + 'productrequest/getRequests';
+  private evalUrl = environment.apiUrl + 'productrequest/evaluateRequest';
 
   constructor(private http: HttpClient) { }
 
