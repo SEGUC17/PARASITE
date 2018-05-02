@@ -8,7 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../auth/auth.service';
-import { ENTER, COMMA, SPACE } from '@angular/cdk/keycodes';
+import { ENTER, COMMA, SPACE, BACKSPACE } from '@angular/cdk/keycodes';
 import {
   isSameMonth,
   isSameDay,
@@ -54,10 +54,20 @@ export class StudyPlanComponent implements OnInit {
   // editor
   public editorOut;
   public editorContent;
-  private editorOptions = {
-    placeholder: 'Enter the description for your study plan here.'
+  private toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'],
+    ['blockquote'],
+    [{ 'header': '1' }, { 'header': '2' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],
+    [{ 'direction': 'rtl' }],
+  ];
+  private editorOptions: Object = {
+    placeholder: (this.translate.currentLang === 'ara') ? 'أدخل المحتوى هنا' : 'insert content here',
+    modules: {
+      toolbar: this.toolbarOptions
+    }
   };
-  separatorKeysCodes = [ENTER, COMMA, SPACE];
+  separatorKeysCodes = [ENTER, COMMA, SPACE, BACKSPACE];
 
   // copy utility
   tempStudyPlan: StudyPlan;
@@ -88,7 +98,7 @@ export class StudyPlanComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
     private router: Router, private _AuthService: AuthService, private toastrService: ToastrService,
-     private translate: TranslateService) { }
+    private translate: TranslateService) { }
 
   ngOnInit() {
 
