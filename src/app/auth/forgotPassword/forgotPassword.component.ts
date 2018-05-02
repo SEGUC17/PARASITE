@@ -29,8 +29,12 @@ export class ForgotPasswordComponent implements OnInit {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (re.test(email)) {
       this._AuthService.forgotPassword(email).subscribe(function (res) {
-        console.log(email);
-      });
+        self.translate.get('AUTH.TOASTER.EMAIL_VERIFICATION_SENT').subscribe(
+          function (translation) {
+            self.toastrService.success(translation);
+          }
+        );
+        });
     } else {
       self.translate.get('AUTH.TOASTER.VALID_EMAIL_WARNING').subscribe(
         function (translation) {

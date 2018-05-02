@@ -110,7 +110,9 @@
             "PROMPT": "أدخل كلمة المرور الجديدة لتسجيل الدخول مرة أخرى",
             "ENTER_NEW_PASSWORD_PLACEHOLDER": "أدخل كلمة مرور جديدة",
             "ENTER_NEW_PASSWORD_CONFIRM_PLACEHOLDER": "تأكيد كلمة المرور الجديدة",
-            "RESET_BUTTON": "إعادة التعيين"
+            "RESET_BUTTON": "إعادة التعيين",
+            "SIGN_IN": "العودة إلى الموقع"
+
         },
         "TOASTER": {
             "SIGN_UP_SUCCESSFULL": "الاشتراك ناجح؛ تم إرسال رسالة إنشاء الحساب إلى بريدك الإلكتروني",
@@ -120,7 +122,14 @@
             "SIGN_OUT_SUCCESSFULL": "تسجيل الخروج ناجح! إلى اللقاء",
             "VALID_EMAIL_WARNING": "يرجى تقديم عنوان بريد إلكتروني صالح",
             "CHILD_SIGN_UP_SUCCESSFULL": "تسجيل الطفل تمَّ بنجاح! تم إرسال رسالة تحقق إلى بريدك الإلكتروني",
-            "EMAIL_VERIFICATION": "تمَّ التحقق من البريد الإلكتروني بنجاح"
+            "EMAIL_VERIFICATION": "تمَّ التحقق من البريد الإلكتروني بنجاح",
+            "EMAIL_VERIFICATION_SENT": "تم إرسال رسالة إلى البريد الإلكتروني الذي أدخلته"
+        },
+        "CHILD_SIGN_UP": {
+            "DONE": "تمَّت",
+            "STEP_ONE": "الخطوة الأولى",
+            "STEP_TWO": "الخطوةالثانية",
+            "STEP_THREE": "الخطوة الثالثة"
         }
     },
     "CONTENT": {

@@ -114,7 +114,8 @@
             "PROMPT": "Enter your new password to login back to Nawwar!",
             "ENTER_NEW_PASSWORD_PLACEHOLDER": "Enter New Password",
             "ENTER_NEW_PASSWORD_CONFIRM_PLACEHOLDER": "Confirm New Password",
-            "RESET_BUTTON": "RESET"
+            "RESET_BUTTON": "RESET",
+            "SIGN_IN": "Get back to the website"
         },
         "TOASTER": {
             "SIGN_UP_SUCCESSFULL": "Sign Up Is Successful!\nVerification Mail Was Sent To Your Email!",
@@ -124,7 +125,14 @@
             "SIGN_OUT_SUCCESSFULL": "Sign Out Is Successful! Good Bye!",
             "VALID_EMAIL_WARNING": "Kindly provide a valid email address",
             "CHILD_SIGN_UP_SUCCESSFULL": "Child sign up successfull! A verification email has been sent.",
-            "EMAIL_VERIFICATION": "Email Verification Is Successful!"
+            "EMAIL_VERIFICATION": "Email Verification Is Successful!",
+            "EMAIL_VERIFICATION_SENT": "An message was sent to the provided email!"
+        },
+        "CHILD_SIGN_UP": {
+            "DONE": "Done",
+            "STEP_ONE": "Step 1",
+            "STEP_TWO": "Step 2",
+            "STEP_THREE": "Step 3"
         }
     },
     "CONTENT": {

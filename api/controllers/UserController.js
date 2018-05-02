@@ -815,10 +815,10 @@ module.exports.forgotPassword = function (req, res, next) {
                 });
                 // user does not exist
             } else if (!user) {
-                return res.status(404).json({
+                return res.status(201).json({
                     data: null,
                     err: null,
-                    msg: 'There is no account for the provided email address!'
+                    msg: 'An email was sent to the provided email'
                 });
             }
 
