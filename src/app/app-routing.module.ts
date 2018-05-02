@@ -53,6 +53,9 @@ const routes = [
   {
     path: 'newsfeed',
     loadChildren: 'app/newsfeed/newsfeed.module#NewsfeedModule'
+  }, {
+    path: 'scheduling',
+    loadChildren: 'app/scheduling/scheduling.module#SchedulingModule'
   },
   {
     path: '**',
