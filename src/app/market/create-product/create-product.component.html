@@ -38,9 +38,7 @@
     </div>
     <div class="col-lg-4 col-m-4 col-sm-12">
       <img src={{img}} onerror="this.src='assets/images/market-view/product.jpg'" alt="{{'MARKET.CREATE.IMG' | translate}}" />
-      <!-- <app-image-uploader (ImageUploaded)="uploaded($event)"></app-image-uploader> -->
-
-
+      <app-market-image-uploader (ImageUploaded) = "uploaded($event)"></app-market-image-uploader>
       <button  class="btn btn-primary float-right hidden-sm-down m-l-10" (click)="createProduct()">{{'MARKET.CREATE.CREATEPRODUCT' | translate}}</button>
     </div>
   </div>

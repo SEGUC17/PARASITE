@@ -21,7 +21,7 @@ import { SharedModule } from '../shared/shared.module';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateModule } from '@ngx-translate/core';
 import { FileUploadModule } from 'ng2-file-upload';
-import { ImageUploaderComponent } from '../image-uploader/image-uploader.component';
+import { MarketImageUploaderComponent } from '../market-image-uploader/market-image-uploader.component';
 
 @NgModule({
   imports: [
@@ -41,6 +41,6 @@ import { ImageUploaderComponent } from '../image-uploader/image-uploader.compone
   providers: [ToastrService, MarketService, { provide: MatDialogRef, useValue: {} },
     { provide: MAT_DIALOG_DATA, useValue: [] }],
   entryComponents: [MarketComponent, ProductDetailComponent, RequestDetailComponent],
-  declarations: [MarketComponent, ProductDetailComponent, CreateProductComponent, RequestDetailComponent, ImageUploaderComponent]
+  declarations: [MarketComponent, ProductDetailComponent, CreateProductComponent, RequestDetailComponent, MarketImageUploaderComponent]
 })
 export class MarketModule { }

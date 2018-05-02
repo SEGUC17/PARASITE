@@ -133,7 +133,7 @@ export class MarketComponent implements OnInit {
           data: { product: prod, curUser: this.user.username, isAdmin: this.user.isAdmin }
         });
         dialogRef.afterClosed().subscribe(result => {
-          self.firstPage();
+          self.getPage();
         });
       } else if (this.userRequests.indexOf(prod) !== -1) {
         // Else, open the request-detail dialog

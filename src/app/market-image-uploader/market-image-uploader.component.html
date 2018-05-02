@@ -1,0 +1,4 @@
+<span>
+<input (change)="upload()" id="fileInput" type="file" ng2FileSelect [uploader]="uploader" accept="image/*;capture=camera" >
+<span *ngIf="loading && uploader">Uploading, please wait...</span>
+</span>
