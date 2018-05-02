@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
-        <ul class="breadcrumb"  [style.float]="translate.currentLang == 'ara' ? 'left': 'right' ">
+        <ul class="breadcrumb" [style.float]="translate.currentLang == 'ara' ? 'left': 'right' ">
           <li class="breadcrumb-item">
             <a routerLink="/">
               <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate}}
@@ -46,7 +46,7 @@
             <div class="img-post m-b-15">
               <img src={{post.metadata.image}} alt="Awesome Image" width="100%">
             </div>
-            <div *ngIf="post.metadata.description" class="preview text" [innerHTML]="post.metadata.description" ></div>
+            <div *ngIf="post.metadata.description" class="preview text" [innerHTML]="post.metadata.description"></div>
             <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
             <a *ngIf="post.type=='a'" routerLink="/activities/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
 
@@ -67,13 +67,22 @@
       <div class="col-lg-4 col-md-12 right-box">
         <div class="card">
           <div class="header">
-            <h2>
-              <strong>{{ 'NEWSFEED.INTERESTS' | translate }}</strong>
-            </h2>
+            <div class="row">
+              <div class="col">
+                <h2>
+                  <strong>{{ 'NEWSFEED.INTERESTS' | translate }}</strong>
+                </h2>
+              </div>
+              <div class="col">
+              <button class="btn btn-primary btn-round btn-icon bt-sm float-right m-l-10" type="button" (click)="addInterests()">
+                <i class="zmdi zmdi-plus"></i>
+              </button>
+            </div>
+            </div>
           </div>
           <div class="body widget tag-clouds">
             <ul class="list-unstyled m-b-0">
-              <li *ngFor = "let tag of tags">
+              <li *ngFor="let tag of tags">
                 <p class="tag badge badge-default">{{tag}}</p>
               </li>
             </ul>
@@ -82,7 +91,8 @@
         <div class="card bg-dark">
           <div class="header">
             <h2>
-              <strong>{{ 'NEWSFEED.OTHER_PARENTS' | translate }}</strong></h2>
+              <strong>{{ 'NEWSFEED.OTHER_PARENTS' | translate }}</strong>
+            </h2>
           </div>
           <div class="body widget popular-post">
             <div class="row">
@@ -102,7 +112,7 @@
                     <small class="text-muted">{{person.username}}</small>
                   </a>
                 </div>
-                
+
               </div>
             </div>
           </div>
