@@ -29,7 +29,7 @@ export class VerifyChildEmailComponent implements OnInit {
             self.toastrService.success('تم توثيق الحساب');
           }
         }
-        self.router.navigateByUrl('/content/list');
+        self.router.navigateByUrl('/newsfeed');
       });
     });
   }

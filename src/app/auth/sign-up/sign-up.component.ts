@@ -62,6 +62,7 @@ export class SignUpComponent implements OnInit {
         self.toastrService.error(res.err);
       } else {
         self.tags = res.data;
+        self.interest = self.tags[0];
       }
     });
   }
@@ -76,7 +77,7 @@ export class SignUpComponent implements OnInit {
             self.toastrService.success(translation);
           }
         );
-        self.router.navigateByUrl('/content/list');
+        self.router.navigateByUrl('/newsfeed');
       }
     });
   }

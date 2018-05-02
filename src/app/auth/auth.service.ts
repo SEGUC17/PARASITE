@@ -92,7 +92,7 @@ export class AuthService {
                 self.toastrService.success(translation);
               }
             );
-            self.router.navigateByUrl('/content/list');
+            self.router.navigateByUrl('/newsfeed');
           }
         });
       })
@@ -126,7 +126,7 @@ export class AuthService {
                   self.toastrService.success(translation);
                 }
               );
-              self.router.navigateByUrl('/content/list');
+              self.router.navigateByUrl('/newsfeed');
             }
           });
         })

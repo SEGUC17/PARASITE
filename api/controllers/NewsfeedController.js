@@ -62,9 +62,8 @@ module.exports.findRandomFive = function (req, res, next) {
 };
 
 module.exports.getPosts = function (req, res) {
-    // tags: { $in: { name: req.body.tags } }
     Newsfeed.paginate(
-        {},
+        { tags: { $in: req.body.tags } },
         {
             limit: Number(req.params.entriesPerPage),
             page: Number(req.params.pageNumber)

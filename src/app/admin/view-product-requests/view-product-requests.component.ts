@@ -43,7 +43,7 @@ export class ViewProductRequestsComponent implements OnInit {
           });
         } else {
           // Else navigate to homepage
-          self.router.navigateByUrl('/');
+          self.router.navigateByUrl('/newsfeed');
         }
       }
     });

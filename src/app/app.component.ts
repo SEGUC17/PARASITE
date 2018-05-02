@@ -39,6 +39,11 @@ export class AppComponent implements OnInit {
 
   links = [
     {
+      url: '/newsfeed',
+      name: 'APP.NEWSFEED',
+      icon: 'collection-text'
+    },
+    {
       url: '/content/list',
       name: 'APP.CONTENT',
       icon: 'book'
@@ -93,10 +98,10 @@ export class AppComponent implements OnInit {
   ) {
     const self = this;
     // this fallback language if any translation is not found
-    translate.setDefaultLang('ara');
+    translate.setDefaultLang('en');
 
     // the language to use on load
-    translate.use('ara');
+    translate.use('en');
 
     router.events
       .filter(function (event) {

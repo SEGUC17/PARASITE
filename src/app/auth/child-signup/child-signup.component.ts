@@ -71,7 +71,6 @@ const self = this;
               self.toastrService.success(translation);
             }
           );
-        //    self.router.navigate(['/']);
            }
        });
     }// end if
