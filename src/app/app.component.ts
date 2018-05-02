@@ -406,7 +406,7 @@ export class AppComponent implements OnInit {
           retrievednotifications[i].link = '/market';
         } else {
           // if not any of these cases got to landing page
-          retrievednotifications[i].link = '/';
+          retrievednotifications[i].link = '/profile';
         }
       }
       self.notifications = retrievednotifications.reverse();
