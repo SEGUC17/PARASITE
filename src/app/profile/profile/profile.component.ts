@@ -67,7 +67,7 @@ export class ProfileComponent implements OnInit {
   vEducationalSystem: string = 'Educational System';
   vEducationalLevel: string = 'Educational Level';
   vSystems: any[] = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
-  vLevels: any[] = ['KG', 'Primary School', 'Middle School', 'High School'];
+  vLevels: any[] = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
   // ---------Visited User Info-----------
   vUser: any;
   vAvatar: string;
@@ -150,7 +150,9 @@ export class ProfileComponent implements OnInit {
       this.birthday = user.data.birthdate;
       this.birthdayView = this._datePipe.transform(user.data.birthdate, 'MM/dd/yyyy');
       this.educationalSystem = user.data.educationSystem;
+      this.systemIs(user.data.educationSystem);
       this.educationalLevel = user.data.educationLevel;
+      this.levelIs(user.data.educationLevel);
       this.dFirstName = this.firstName;
       this.dLastName = this.lastName;
       this.dAddress = this.address;
@@ -194,7 +196,9 @@ export class ProfileComponent implements OnInit {
           this.vVerified = info.data.verified;
           this.vId = info.data._id;
           this.vEducationalSystem = info.data.educationSystem;
+          this.systemIs(info.data.educationSystem);
           this.vEducationalLevel = info.data.educationLevel;
+          this.levelIs(info.data.educationLevel);
           this.visitedIsParent = info.data.isParent;
           this.visitedIsChild = info.data.isChild;
           this.visitedIsAdmin = info.data.isAdmin;

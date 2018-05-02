@@ -303,7 +303,7 @@
                     <div [align]="translate.currentLang === 'ara'? 'right': null"><i [style.float]="translate.currentLang === 'ara'? 'right': null" class="material-icons">verified_user</i> {{currIsOwner? (currIsAdmin? 'Admin' : '' ) : (visitedIsAdmin? 'Admin' : '' ) }}</div></a>
                   <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [align]="translate.currentLang === 'ara'? 'right': null">{{currIsOwner? address : vAddress}}</p>
                   <div>
-                    <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" data-toggle="modal" data-target="#directMessageModal" *ngIf = "!currIsOwner">{{'PROFILE.PROFILE.MESSAGE' | translate}}</button>
+                    <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" data-toggle="modal" data-target="#directMessageModal" *ngIf = "!currIsOwner && !currIsChild && !visitedIsChild">{{'PROFILE.PROFILE.MESSAGE' | translate}}</button>
                     <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent"
                       (click)="linkToParent()">{{'PROFILE.PROFILE.ADD-AS-PARENT'| translate}}</button>
                     <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple" *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild"
@@ -391,7 +391,7 @@
           <div *ngIf = "currIsOwner || visitedIsMyChild" class="card bg-dark">
             <ul class="nav nav-tabs">
               <li class="nav-item" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-                <a class="nav-link" data-toggle="tab" href="#children" *ngIf="currIsOwner">{{'PROFILE.PROFILE.CHILDREN' | translate}}</a>
+                <a class="nav-link" data-toggle="tab" href="#children" *ngIf="currIsOwner && !currIsChild">{{'PROFILE.PROFILE.CHILDREN' | translate}}</a>
               </li>
              <li class="nav-item" *ngIf = "currIsOwner || visitedIsMyChild" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                 <a class="nav-link" data-toggle="tab" href="#studyplans">{{'PROFILE.PROFILE.STUDY_PLANS' | translate}}</a>
