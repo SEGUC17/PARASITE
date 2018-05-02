@@ -432,6 +432,8 @@ module.exports.signUpChild = function (req, res, next) {
     newUser.address = req.body.address;
     newUser.birthdate = req.body.birthdate;
     newUser.children = [];
+    newUser.educationLevel = req.body.educationLevel;
+    newUser.educationSystem = req.body.educationSystem;
     newUser.email = req.body.email;
     newUser.firstName = req.body.firstName;
     newUser.isChild = true;
@@ -468,6 +470,10 @@ module.exports.signUpChild = function (req, res, next) {
         isArray(newUser.phone ? newUser.phone : []);
         field = 'Username';
         isString(newUser.username ? newUser.username : '');
+        field = 'EductaionLevel';
+        isString(newUser.educationLevel ? newUser.educationLevel : '');
+        field = 'EducationSystem';
+        isString(newUser.educationSystem ? newUser.educationSystem : '');
 
     } catch (err1) {
         //    console.log('entered catch of status 401');
@@ -809,10 +815,10 @@ module.exports.forgotPassword = function (req, res, next) {
                 });
                 // user does not exist
             } else if (!user) {
-                return res.status(404).json({
+                return res.status(201).json({
                     data: null,
                     err: null,
-                    msg: 'There is no account for the provided email address!'
+                    msg: 'An email was sent to the provided email'
                 });
             }
 

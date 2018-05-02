@@ -21,6 +21,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignOutComponent } from './sign-out/sign-out.component';
 import { VerifyChildEmailComponent } from './verify-child-email/verify-child-email.component';
 import { ChildSignupComponent } from './child-signup/child-signup.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   providers: [AuthService],
@@ -35,7 +36,8 @@ import { ChildSignupComponent } from './child-signup/child-signup.component';
     MatButtonModule,
     MatDatepickerModule,
     MatCheckboxModule,
-    MatSelectModule
+    MatSelectModule,
+    TranslateModule.forChild()
   ],
   declarations: [
     ForgotPasswordComponent,

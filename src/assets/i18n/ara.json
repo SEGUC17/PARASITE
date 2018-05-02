@@ -140,7 +140,69 @@
             "VIEW_DETAILS":"عرض التفاصيل"
         }
     },
-    "AUTH": {},
+    "AUTH": {
+        "SIGN_UP": {
+            "SIGN_UP": "إنشاء حساب جديد",
+            "SIGN_UP_CAPS": "إنشاء حساب",
+            "REGISTER": "تسجيل عضوية جديدة",
+            "FIRST_NAME_PLACEHOLDER": "الاسم الأول",
+            "LAST_NAME_PLACEHOLDER": "اسم العائلة",
+            "PHONE_PLACEHOLDER": "رقم الهاتف",
+            "ADDRESS_PLACEHOLDER": "العنوان",
+            "BIRTHDATE_PLACEHOLDER": "تاريخ الميلاد",
+            "ARE_YOU_A_TEACHER": "هل أنت مدرس؟",
+            "USERNAME_PLACEHOLDER": "اسم المستخدم",
+            "EMAIL_PLACEHOLDER": "البريد الإلكتروني",
+            "PASSWORD_PLACEHOLDER": "كلمة المرور",
+            "CONFIRM_PASSWORD_PLACEHOLDER": "تأكيد كلمة المرور",
+            "I_READ_AND_AGREED_TO": "قرأت ووافقت على",
+            "TERMS_OF_USAGE": "الشروط",
+            "PREVIOUS": "السابق",
+            "NEXT": "التالي",
+            "YOU_ALREADY_HAVE_A_MEMBERSHIP": "هل سبق لك أن أنشأتَ حسابًا؟"
+        },
+        "SIGN_IN": {
+            "SIGN_IN": "تسجيل الدخول",
+            "USERNAME_OR_EMAIL": "اسم المستخدم / البريد الإلكتروني",
+            "PASSWORD_PLACEHOLDER": "كلمة المرور",
+            "REMEMBER_ME": "تذكرنى",
+            "SIGN_IN_CAPS": "تسجيل الدخول",
+            "FORGOT_PASSWORD": "هل نسيتَ كلمة المرور؟",
+            "JOIN_US": "انضم إلينا"
+        },
+        "FORGOT_PASSWORD": {
+            "FORGOT_PASSWORD": "هل نسيت كلمة المرور؟",
+            "EMAIL_PLACEHOLDER": "أدخل البريد الإلكتروني",
+            "SUBMIT": "إتمام",
+            "PROMPT": "أدخل بريدك الإلكتروني أدناه لإعادة تعيين كلمة المرور الخاصة بك"
+        },
+        "RESET_PASSWORD": {
+            "RESET_PASSWORD": "إعادة تعيين كلمة المرور",
+            "PROMPT": "أدخل كلمة المرور الجديدة لتسجيل الدخول مرة أخرى",
+            "ENTER_NEW_PASSWORD_PLACEHOLDER": "أدخل كلمة مرور جديدة",
+            "ENTER_NEW_PASSWORD_CONFIRM_PLACEHOLDER": "تأكيد كلمة المرور الجديدة",
+            "RESET_BUTTON": "إعادة التعيين",
+            "SIGN_IN": "العودة إلى الموقع"
+
+        },
+        "TOASTER": {
+            "SIGN_UP_SUCCESSFULL": "الاشتراك ناجح؛ تم إرسال رسالة إنشاء الحساب إلى بريدك الإلكتروني",
+            "SIGN_IN_SUCCESSFULL": "تسجيل الدخول ناجح! أهلا بك",
+            "NOT_MATCH_WARNING": "كلمة المرور والتأكيد غير متطابقين",
+            "PASSWORD_LENGTH_WARNING": "يجب أن تكون كلمة المرور أكثر من 8 أحرف",
+            "SIGN_OUT_SUCCESSFULL": "تسجيل الخروج ناجح! إلى اللقاء",
+            "VALID_EMAIL_WARNING": "يرجى تقديم عنوان بريد إلكتروني صالح",
+            "CHILD_SIGN_UP_SUCCESSFULL": "تسجيل الطفل تمَّ بنجاح! تم إرسال رسالة تحقق إلى بريدك الإلكتروني",
+            "EMAIL_VERIFICATION": "تمَّ التحقق من البريد الإلكتروني بنجاح",
+            "EMAIL_VERIFICATION_SENT": "تم إرسال رسالة إلى البريد الإلكتروني الذي أدخلته"
+        },
+        "CHILD_SIGN_UP": {
+            "DONE": "تمَّت",
+            "STEP_ONE": "الخطوة الأولى",
+            "STEP_TWO": "الخطوةالثانية",
+            "STEP_THREE": "الخطوة الثالثة"
+        }
+    },
     "CONTENT": {
         "LIST": {
             "ALL": "جميع الفئات",

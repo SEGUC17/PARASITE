@@ -55,52 +55,78 @@
               <div class="content">
                   <div id="personalInfo">
                   <div class="input-group">
-                      <input type="text" class="form-control" [(ngModel)]="Firstname" placeholder="Enter First Name">
+                      <input type="text" class="form-control" [(ngModel)]="Firstname" placeholder="{{ 'AUTH.SIGN_UP.FIRST_NAME_PLACEHOLDER' | translate }}">
                       <span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
                     </div>
                     <div class="input-group">
-                        <input type="text" class="form-control" [(ngModel)]=Lastname placeholder="Enter Last Name">
+                        <input type="text" class="form-control" [(ngModel)]=Lastname placeholder="{{ 'AUTH.SIGN_UP.LAST_NAME_PLACEHOLDER' | translate }}">
                         <span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
                       </div>
   
   
                       <div class="input-group">
-                        <input type="date" [(ngModel)]=Birthdate placeholder="Birthdate" class="form-control" />
+                        <input  id="birthdate" type="text"  placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}" class="form-control datetimepicker"/>
                         <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
                       </div>
                       <div class="input-group">
-                          <input type="text" [(ngModel)]=Address placeholder="City"  class="form-control"/>
+                          <input type="text" [(ngModel)]=Address placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}"  class="form-control"/>
                           <span class="input-group-addon"><i class="zmdi zmdi-gps-dot"></i></span>
                         </div>
                       <div class="input-group">
-                          <input type="text" [(ngModel)]=Phone placeholder="Phone(s)" class="form-control" />
+                          <input type="text" [(ngModel)]=Phone placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" class="form-control" />
                           <span class="input-group-addon"><i class="zmdi zmdi-smartphone"></i></span>
                         </div>
                   </div>
                         <div id="credentials" hidden>
                             <div class="input-group">
-                              <input type="text" class="form-control" [(ngModel)]=Username placeholder="Enter User Name">
+                              <input type="text" class="form-control" [(ngModel)]=Username placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}">
                               <span class="input-group-addon"><i class="zmdi zmdi-account-circle"></i></span>
                             </div>
                             <div class="input-group">
-                              <input type="text" class="form-control" [(ngModel)]=Email placeholder="Enter Email">
+                              <input type="text" class="form-control" [(ngModel)]=Email placeholder="{{ 'AUTH.SIGN_UP.EMAIL_PLACEHOLDER' | translate }}">
                               <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
                             </div>
                             <div class="input-group">
-                              <input type="password" [(ngModel)]=Password placeholder="Password" class="form-control" />
+                              <input type="password" [(ngModel)]=Password placeholder="{{ 'AUTH.SIGN_UP.PASSWORD_PLACEHOLDER' | translate }}" class="form-control" />
                               <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
                             </div>
                             <div class="input-group">
-                              <input type="password" [(ngModel)]=ConfirmPassword placeholder="Confirm Password" class="form-control" />
+                              <input type="password" [(ngModel)]=ConfirmPassword placeholder="{{ 'AUTH.SIGN_UP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}" class="form-control" />
                               <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
                             </div>
-                            <div class="checkbox">
-                                <input id="terms" type="checkbox">
-                                <label for="terms">
-                                  I read and agree to the <a href="javascript:void(0);">terms of usage</a>
-                                </label>
-                              </div>
+                        <div>
+                            <div class="btn-group hidden-sm-down">
+                              <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational System<span class="caret"></span> </button>
+                              <ul class="dropdown-menu dropdown-menu-right pullDown">
+                                  <li *ngFor="let system of systems" (click)="systemIs(system)">
+                                    <a href="javascript:void(0);">{{system}}</a>
+                                  </li>
+
+                              </ul>
+                            </div>
+
+                            <div class="btn-group hidden-sm-down">
+                              <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational Level<span class="caret"></span> </button>
+                              <ul class="dropdown-menu dropdown-menu-right pullDown">
+                                  <li *ngFor="let level of levels"  (click)="levelIs(level)">
+                                      <a href="javascript:void(0);">{{level}}</a>
+                                    </li>
+                              </ul>
+                            </div>
+                          </div>
+                          
                           </div> 
+
+                          <div id="interests" hidden>
+                              <div class="checkbox">
+                                  <input id="terms" type="checkbox">
+                                  <label for="terms">
+                                      {{ 'AUTH.SIGN_UP.I_READ_AND_AGREED_TO' | translate }}
+                                       <a href="javascript:void(0);">
+                                         {{ 'AUTH.SIGN_UP.TERMS_OF_USAGE' | translate }}</a>
+                                  </label>
+                                </div>
+                          </div>
                       </div>
            
                    
@@ -108,12 +134,15 @@
          
               <div class="footer">
                   <div class="input-group">
-                      <input id="prevTab" type="button" class="form-control btn btn-primary btn-lg" value="Previous" (click)="showPersonalInfoTab()"
+                      <input id="prevTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_ONE' | translate }}" (click)="showPersonalInfoTab()"
                         disabled>
-                      <input id="nextTab" type="button" class="form-control btn btn-primary btn-lg" value="Next" (click)="showCredentialsTab()">
+                      <input id="nextTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_TWO' | translate }}" (click)="showCredentialsTab()">
+                      <input id="lastTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_THREE' | translate }}" (click)="showInterestsTab()">
                     </div>
+                    <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="register()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
+
               <!--  <a routerLink="/dashboard" class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click) ="register()"  >SUBMIT</a>-->
-                <h5><a class="link" routerLink="/authentication/sign-in">You already have a membership?</a></h5>
+                <h5><a class="link" routerLink="/authentication/sign-in">{{ 'AUTH.SIGN_UP.YOU_ALREADY_HAVE_A_MEMBERSHIP' | translate }}</a></h5>
               </div>
            <!-- </form>  -->
            <div class="container-fluid">
