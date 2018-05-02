@@ -3,12 +3,12 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2>{{ 'ACTIVITIES.LIST.ACTIVITY' | translate }}
+        <h2 [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{ 'ACTIVITIES.LIST.ACTIVITY' | translate }}
           <small>{{ 'ACTIVITIES.DETAIL.WELCOME_MESSAGE' | translate }}</small>
         </h2>
       </div>
-      <div class="col-lg-5 col-md-6 col-sm-12">
-        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" *ngIf="isCreator && !isBooked"
+      <div class="col-lg-5 col-md-6 col-sm-12" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" *ngIf="isCreator && !isBooked"
           (click)="openDialog()">
           <i class="zmdi zmdi-edit"></i>
         </button>
@@ -16,7 +16,7 @@
           (click)="deleteActivity(activity)">
           <i class="zmdi zmdi-delete"></i>
         </button>
-        <ul class="breadcrumb float-md-right">
+        <ul class="breadcrumb float-md-right" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">
               <i class="zmdi zmdi-home"></i> Dasboard</a>
