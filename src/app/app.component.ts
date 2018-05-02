@@ -379,6 +379,12 @@ export class AppComponent implements OnInit {
           }
 
           retrievednotifications[i].link = '/content/view/' + retrievednotifications[i].itemId;
+        } else if (type === 'study plan A' && itemId) {
+          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('assigned you to') !== -1) {
+            retrievednotifications[i].body = 'تمَّ وضع خطة دراسية لك';
+          }
+
+          retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId;
         } else if (type === 'study plan' && itemId && itemUsername) {
 
           if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('study plan is now published') !== -1) {
@@ -390,12 +396,7 @@ export class AppComponent implements OnInit {
           }
 
           retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId + '/' + itemUsername;
-        } else if (type === 'study plan A' && itemId) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('assigned you to') !== -1) {
-            retrievednotifications[i].body = 'تمَّ وضع خطة دراسية لك';
-          }
-
-          retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId;
+          console.log(retrievednotifications[i].link);
         } else if (type === 'product') {
           // do not need id in market
           if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('new product was approved') !== -1) {
