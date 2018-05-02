@@ -509,8 +509,6 @@ module.exports.editPublishedStudyPlan = function (req, res, next) {
             });
         }
 
-        studyPlan.creator = req.user.isAdmin
-            ? req.user.username : studyPlan.creator;
         studyPlan.description = req.body.description;
         studyPlan.events = req.body.events;
         studyPlan.title = req.body.title;
