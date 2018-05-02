@@ -135,7 +135,7 @@
                     <div class="col-md-6 ">
                       <div class="inner-content" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
                         <h2>
-                          <a href="profile/{{comment.creator}}">{{comment.creator}}</a>
+                          <a routerLink="profile/{{comment.creator}}">{{comment.creator}}</a>
                         </h2>
                       </div>
                     </div>
@@ -176,7 +176,7 @@
                             <img  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" style="width: 100%; height: 100%" class="rounded-circle" *ngIf="reply.creatorInfo" [src]="reply.creatorInfo.avatar || defaultPP">
                           </div>
                           <div class="ml-3 mr-auto">
-                            <h2 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null"><a href="profile/{{reply.creator}}">{{reply.creator}}</a></h2>
+                            <h2 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null"><a routerLink="profile/{{reply.creator}}">{{reply.creator}}</a></h2>
                           </div>
                           <div>
                             <button type="button" class="btn btn-icon btn-round btn-danger btn-xs" *ngIf="reply.creator === currentUser.username || comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === content.creator"

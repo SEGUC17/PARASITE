@@ -15,8 +15,8 @@
         <tr *ngFor="let child of singleArray ">
           
           <td style="width:230px;height:50px">
-            <a  href= "/profile/{{child.username}}"><img [src]="child.avatar"  style="width:50px;height:50px" class="rounded-circle avatar" alt=""></a>
-            <strong><a  href= "/profile/{{child.username}}"> <p> </p>{{child.firstName}} {{child.lastName}}</a></strong>
+            <a  routerLink= "/profile/{{child.username}}"><img [src]="child.avatar"  style="width:50px;height:50px" class="rounded-circle avatar" alt=""></a>
+            <strong><a  routerLink= "/profile/{{child.username}}"> <p> </p>{{child.firstName}} {{child.lastName}}</a></strong>
           </td>
     
           <td>
