@@ -4,7 +4,9 @@ import { ActivityService } from '../../activities/activity.service';
 import { Activity } from '../../activities/activity';
 import { apiUrl } from '../../variables';
 import { AuthService } from '../../auth/auth.service';
-import {MessageService} from "../../messaging/messaging.service";
+import { MessageService } from "../../messaging/messaging.service";
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 
 declare const swal: any;
 
@@ -17,11 +19,11 @@ declare const swal: any;
 export class ViewUnverifiedActivitiesComponent implements OnInit {
 
   activities: Activity[] = [];
-  detailedActivities: any[] = [];
   numberOfElements: Number;
   pageSize: Number;
-  pageIndex: Number;
+  pageIndex = 1;
   canCreate: Boolean;
+  totalNumberOfPages: Number;
 
   createUrl = '/create-activity';
   user = {
@@ -35,53 +37,32 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
   constructor(
     private activityService: ActivityService,
     private authService: AuthService,
-    private _messageService: MessageService
+    private _messageService: MessageService,
+    private translate: TranslateService,
+    private toaster: ToastrService
   ) { }
 
   ngOnInit() {
-    this.getActivities(null);
-  }
-
-  getDetailedActivities() {
-    this.detailedActivities = [];
-    let self = this;
-    for (let i = 0; i < this.activities.length; i++) {
-      if (this.activities[i].status == 'pending') {
-        this.activityService.getActivity(this.activities[i]._id).subscribe(
-          res => {
-            if (!res.data.image) {
-              res.data.image = 'https://res.cloudinary.com/nawwar/image/upload/v1524947811/default-activity-image.jpg';
-            }
-            this.detailedActivities.push(res.data);
-          });
-      }
-    }
-
+    this.getActivities(1);
   }
 
 
-  getActivities(event) {
+  getActivities(pageNum) {
     /*
       Getting the activities from the api
 
-      @var event: An object that gets fired by mat-paginator
-
       @author: Wessam
     */
-    let page = 1;
-    if (event) {
-      page = event.pageIndex + 1;
-    }
+    let page = pageNum;
     let self  = this;
-    this.activityService.getActivities(page).subscribe(function(res) {
+    this.activityService.getPendingActivities(page).subscribe(function(res) {
         self.updateLayout(res);
-        self.getDetailedActivities();
+        self.totalNumberOfPages = res.data.pages;
       }
     );
     this.authService.getUserData(['isAdmin']).subscribe((user) => {
       this.user.isAdmin = user.data.isAdmin;
-      this.user.verified = user.data.verified;
-      this.canCreate = this.user.isAdmin || this.user.verified;
+      this.canCreate = this.user.isAdmin;
     });
 
 
@@ -98,7 +79,6 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     this.activities = res.data.docs;
     this.numberOfElements = res.data.total;
     this.pageSize = res.data.limit;
-    this.pageIndex = res.data.pageIndex;
     for (let activity of this.activities) {
       if (!activity.image) {
         activity.image = 'assets/images/activity-view/default-activity-image.jpg';
@@ -111,7 +91,14 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     let self = this;
     activity.status = 'verified';
     console.log(activity);
-    this.activityService.reviewActivity(activity).subscribe();
+    this.activityService.reviewActivity(activity).subscribe(
+      res => {
+        this.getActivities(this.pageIndex);
+        this.translate.get('ACTIVITIES.REVIEW.ACCEPT').subscribe(
+          res => this.toaster.success(res)
+        );
+      }
+    );
   }
 
   rejectActivity(i: any): void {
@@ -120,6 +107,10 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     activity.status = 'rejected';
     this.activityService.reviewActivity(activity).subscribe(function (res) {
       self.showPromptMessage(activity.creator, self.user.username);
+      self.getActivities(this.pageIndex);
+      self.translate.get('ACTIVITIES.REVIEW.REJECT').subscribe(
+        res => self.toaster.success(res)
+      );
     });
   }
 
@@ -149,6 +140,33 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
         });
       }
     );
+  }
+
+  getPaginationRange(): any {
+
+    let pageNumbers = [];
+    let counter = 1;
+
+    console.log(this.pageIndex);
+    if (this.pageIndex < 3) {
+      // we are in page 1 or 2
+      while (counter < 6 && counter <= this.totalNumberOfPages) {
+        pageNumbers.push(counter);
+        counter += 1;
+      }
+    } else {
+      // we are in a page greater than 2
+      pageNumbers.push(this.pageIndex - 2);
+      pageNumbers.push(this.pageIndex - 1);
+      pageNumbers.push(this.pageIndex);
+      if (this.pageIndex + 1 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.pageIndex + 1);
+      }
+      if (this.pageIndex + 2 <= this.totalNumberOfPages) {
+        pageNumbers.push(this.pageIndex + 2);
+      }
+    }
+    return pageNumbers;
   }
 
 }

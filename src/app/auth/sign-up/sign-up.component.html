@@ -83,7 +83,7 @@
                   </select>
                   <input type="button" style="width: 40% !important;" value="Add Interest" class="form-control btn btn-sm" (click)="this.addInterest()">
                   <h6>You picked: </h6>
-                  <span *ngFor="let tag of interests">-{{tag}}-</span>
+                  <span *ngFor="let tag of interests">-{{tag.name}}-</span>
                 </div>
               </div>
             </form>

@@ -81,6 +81,7 @@ export class SignUpComponent implements OnInit {
   }
 
   addInterest() {
+    console.log(this.interest);
     this.interests.add(this.interest);
   }
 

@@ -16,7 +16,7 @@
         <ul class="breadcrumb float-md-right">
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">
-              <i class="zmdi zmdi-home"></i>Dashboard</a>
+              <i class="zmdi zmdi-home"></i>{{ 'CONTENT.SHARED.DASHBOARD' | translate }}</a>
           </li>
           <li class="breadcrumb-item active">{{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}</li>
         </ul>
@@ -25,7 +25,7 @@
   </div>
   <div class="container-fluid">
     <div class="row clearfix">
-      <div *ngFor="let activity of detailedActivities" class="col-lg-4 col-md-12">
+      <div *ngFor="let activity of activities" class="col-lg-4 col-md-12">
         <div class="card single_post">
           <div class="header">
             <h2>
@@ -62,15 +62,15 @@
     </div>
     <ul *ngIf="totalNumberOfPages > 1" class="pagination pagination-primary">
       <li *ngIf="pageIndex>1" class="page-item">
-        <a class="page-link" (click)="getActivities(this.pageIndex - 1)">Previous</a>
+        <a class="page-link" (click)="getActivities(this.pageIndex - 1)">{{ 'ACTIVITIES.LIST.PREV' | translate }}</a>
       </li>
       <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
         <a class="page-link" (click)="getActivities(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
       </li>
-    
-    
+
+
       <li *ngIf="pageIndex<totalNumberOfPages" class="page-item">
-        <a class="page-link" (click)="getActivities(this.pageIndex + 1)">Next</a>
+        <a class="page-link" (click)="getActivities(this.pageIndex + 1)">{{ 'ACTIVITIES.LIST.NEXT' | translate }}</a>
       </li>
     </ul>
 

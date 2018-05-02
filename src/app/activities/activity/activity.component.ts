@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
@@ -16,7 +15,6 @@ export class ActivityComponent implements OnInit {
   @author: Wessam
   */
   activities: Activity[] = [];
-  detailedActivities: any[] = [];
   numberOfElements: Number;
   pageSize: Number;
   pageIndex = 1;
@@ -28,33 +26,17 @@ export class ActivityComponent implements OnInit {
     isAdmin: false,
     verified: false,
     AvatarLink: null,
-    username: ''
+    username: 'Mohamed Maher'
 
   };
 
   constructor(
     private activityService: ActivityService,
-    private authService: AuthService,
-    private translate: TranslateService
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
     this.getActivities(1);
-  }
-
-  getDetailedActivities() {
-    this.detailedActivities = [] ;
-    let self = this;
-    for (let i = 0 ; i < this.activities.length ; i++) {
-      this.activityService.getActivity(this.activities[i]._id).subscribe(
-        res => {
-          if(!res.data.image){
-            res.data.image = 'https://res.cloudinary.com/nawwar/image/upload/v1524947811/default-activity-image.jpg';
-          }
-          this.detailedActivities.push(res.data);
-      });
-    }
-
   }
 
 
@@ -62,20 +44,17 @@ export class ActivityComponent implements OnInit {
     /*
       Getting the activities from the api
 
-      @var event: An object that gets fired by mat-paginator
-
       @author: Wessam
     */
     this.pageIndex = pageNum;
-    let self  = this;
+    let self = this;
     this.activityService.getActivities(this.pageIndex).subscribe(
       res => {
       self.updateLayout(res);
-      self.getDetailedActivities();
       this.totalNumberOfPages = res.data.pages;
       }
     );
-    this.authService.getUserData(['isAdmin', 'verified']).subscribe((user) => {
+    this.authService.getUserData(['isAdmin']).subscribe((user) => {
       this.user.isAdmin = user.data.isAdmin;
       this.user.verified = user.data.verified;
       this.canCreate = this.user.isAdmin || this.user.verified;

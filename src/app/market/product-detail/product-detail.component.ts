@@ -1,8 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatIconModule, MatButtonModule } from '@angular/material';
 import { Product } from '../Product';
 import { MarketService } from '../market.service';
 import { AuthService } from '../../auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -18,13 +22,16 @@ export class ProductDetailComponent {
   oldData = <any>{};
   newData = <any>{};
   user: any;
-  constructor(private marketService: MarketService, private authService: AuthService,
+  constructor(private marketService: MarketService, private toasterService: ToastrService, private authService: AuthService,
     public dialogRef: MatDialogRef<ProductDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.oldData = data.product;
-    console.log(this.oldData);
-    this.product = data.product;
-
+    @Inject(MAT_DIALOG_DATA) public data: any, private translate: TranslateService) {
+    let self = this;
+    self.oldData = data.product;
+    self.product = data.product;
+    const userDataColumns = ['username', 'isAdmin'];
+    this.authService.getUserData(userDataColumns).subscribe(function (res) {
+      self.user = res.data;
+    });
   }
 
 
@@ -48,19 +55,55 @@ export class ProductDetailComponent {
         seller: this.product.seller
       };
       this.marketService.editPrice(req, self.user.username).subscribe(function (res) {
-        console.log(this.req);
         self.toggleEditForm = false;
         if (res.err == null) {
-          console.log(res.err);
         }
+        self.toasterService.success('Price changed Successfully');
       });
       self.dialogRef.close();
-      console.log(req);
     } else {
       self.toggleEditForm = true;
       self.formInput = self.oldData;
+      self.toasterService.error('Price edit failed.');
+
     }
   }
+
+  deleteProduct(): void {
+    let self = this;
+    const userDataColumns = ['isAdmin', 'username'];
+    this.authService.getUserData(userDataColumns).subscribe(function (res) {
+      self.user.isAdmin = res.data.isAdmin;
+      self.user.username = res.data.username;
+      if (self.user.isAdmin || self.user.username === self.product.seller) {
+        const req = {
+          product: {
+            _id: self.product._id,
+            seller: self.product.seller
+          }
+        };
+        let _this = self;
+        self.marketService.deleteProduct(req).subscribe(function (res1) {
+          if (res1.err) {
+            _this.toasterService.error(res1.err);
+          } else {
+            _this.toasterService.success(res1.msg);
+            _this.dialogRef.close();
+          }
+        });
+      }
+    });
+    // check if user is admin so he can delete any product
+    // if not admin then he can only delete his own product
+  }
+
+
+
+
+
+
+
+
 
 
 
