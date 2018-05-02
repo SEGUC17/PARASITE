@@ -24,6 +24,7 @@ var scheduleController = require('../controllers/ScheduleController');
 var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
 var tagController = require('../controllers/TagController');
+var newsfeedController = require('../controllers/NewsfeedController');
 
 module.exports = function (passport) {
 
@@ -437,14 +438,13 @@ module.exports = function (passport) {
   router.put('/rating', isAuthenticated, UserRatingController.postRating);
   //------------------- End of Rating Endpoints-----------//
 
-  //-------------------- Tag Endpoints ------------------//
+  //-------------------- Newsfeed Endpoints ------------------//
   router.get('/tags/getTags', tagController.getTags);
-  router.get('/tags/getSubtags/:id', tagController.getSubtags);
   router.delete('/tags/deleteTag/:id', isAuthenticated, tagController.deleteTag);
-  router.delete('/tags/deleteSubtag/:id', isAuthenticated, tagController.deleteSubtag);
   router.post('/tags/addTag', isAuthenticated, tagController.addTag);
-  router.post('/tags/addSubtag/:id', isAuthenticated, tagController.addSubtag);
-  //------------------- End of Tag Endpoints-----------//
+  router.patch('/newsfeed/:entriesPerPage/:pageNumber', newsfeedController.getPosts);
+  router.get('/newsfeed/findPeople', newsfeedController.findRandomFive);
+  //------------------- End of Newsfeed Endpoints-----------//
 
   // -------------------------------------------------------------------- //
   module.exports = router;

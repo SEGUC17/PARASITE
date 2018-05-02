@@ -238,7 +238,7 @@ export class AppComponent implements OnInit {
         screenfull.toggle($('#container')[0]);
       });
 
-      // var selector = '[data-provide~='boxfull']';
+      // let selector = '[data-provide~='boxfull']';
       const selector = '[data-provide~="fullscreen"]';
 
       $(selector).each(function () {

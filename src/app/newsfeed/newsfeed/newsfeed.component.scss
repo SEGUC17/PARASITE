@@ -1,0 +1,17 @@
+
+@import "../../../assets/css/blog.css";
+.bg {
+    /* The image used */
+    background-image: url("../../../assets/images/imageedit_17_5178569633.png");
+    width:100%;
+    /* Center and scale the image nicely */
+    background-repeat: repeat;
+    
+}
+.text {
+    display: block;
+    width: 500px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }

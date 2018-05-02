@@ -47,19 +47,17 @@ const routes = [
     loadChildren: 'app/psychologist/psychologist.module#PsychologistModule'
   },
   {
-    path: 'scheduling',
-    loadChildren: 'app/scheduling/scheduling.module#SchedulingModule'
-  },
-  {
     path: 'search',
     loadChildren: 'app/search/search.module#SearchModule'
   },
   {
+    path: 'newsfeed',
+    loadChildren: 'app/newsfeed/newsfeed.module#NewsfeedModule'
+  },
+  {
     path: '**',
     redirectTo: '/landing',
-    pathMatch: 'full'
   },
-
 ];
 
 @NgModule({

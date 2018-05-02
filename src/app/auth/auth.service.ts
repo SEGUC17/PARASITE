@@ -184,13 +184,17 @@ export class AuthService {
       catchError(self.handleError('resetPassword', []))
     );
   }
-  modifyNotification (notificationId,username, isRead:boolean): any {
+  modifyNotification(notificationId, username, isRead: boolean): any {
     let self = this;
-    return this.http.patch( environment.apiUrl + 'modifyNotification/' + notificationId, {isRead: isRead}).pipe(
+    return this.http.patch(environment.apiUrl + 'modifyNotification/' + notificationId, { isRead: isRead }).pipe(
       catchError(self.handleError('modifyNotification', []))
-    )
+    );
   }
-  
+
+  getTags(): any {
+    return this.http.get(environment.apiUrl + 'tags/getTags', httpOptions);
+  }
+
 
   public handleError<T>(operation = 'operation', result?: T) {
     const self = this;

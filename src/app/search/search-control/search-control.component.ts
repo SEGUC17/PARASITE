@@ -6,6 +6,7 @@ import { MatChipInputEvent } from '@angular/material';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { PageEvent, MatPaginator } from '@angular/material';
 import { ViewChild } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-search-control',
   templateUrl: './search-control.component.html',
@@ -31,22 +32,8 @@ export class SearchControlComponent implements OnInit {
   separatorKeysCodes = [ENTER, COMMA];
 
 
-  constructor(private searchService: SearchService) { }
-  // removing a tag from the search delimiters if removed by user
-  remove(tab: string): void {
-    const self = this;
-    switch (tab) {
-      case 'user': this.tags[0] = 'NA'; break;
-      case 'eduL': this.tags[1] = 'NA'; break;
-      case 'eduS': this.tags[2] = 'NA'; break;
-      case 'loc': this.tags[3] = 'NA'; break;
-    }
-    console.log('updating');
-    // updating the search result according to the new set of tags
-    this.currPage = 1;
-    this.getCurrPage();
-    console.log(self.tags[0] + ' ' + self.tags[1] + ' ' + self.tags[2] + ' ' + self.tags[3]);
-  }
+  constructor(private searchService: SearchService,
+              private translate: TranslateService) { }
 
   firstPage(): void {
     const self = this;
@@ -54,28 +41,24 @@ export class SearchControlComponent implements OnInit {
     self.users = [];
     self.getParents();
   }
-  removeTags(): void {
-    this.filter = [];
-    this.tags = ['NA', 'NA', 'NA', 'NA'];
-  }
+
   // updating the tags used to search according to tab
   getParents() {
     const self = this;
 
     if (this.filter[0] === 'user' && this.filter[1] !== 'eduL'
       && this.filter[2] !== 'eduS' && this.filter[3] !== 'loc') {
-      this.tags[0] = this.searchKey;
+      self.tags[0] = this.searchKey;
     }
     if (this.filter[0] !== 'user' && this.filter[1] === 'eduL'
       && this.filter[2] !== 'eduS' && this.filter[3] !== 'loc') {
-      this.tags[1] = this.searchKey;
+      self.tags[1] = this.searchKey;
     }
     if (this.filter[0] !== 'user' && this.filter[1] !== 'eduL'
       && this.filter[2] !== 'eduS' && this.filter[3] === 'loc') {
 
-      this.tags[3] = this.searchKey;
+      self.tags[3] = this.searchKey;
     }
-
     // updating search page according to new set of tags
     this.currPage = 1;
     this.getCurrPage();
@@ -101,7 +84,10 @@ export class SearchControlComponent implements OnInit {
   goToProfile(username: string) {
     this.searchService.viewProfile(username);
   }
-
+  removeTags(): void {
+    this.filter = [];
+    this.tags = ['NA', 'NA', 'NA', 'NA'];
+  }
   // calculate the number of pages to display in pagination
   getPaginationRange(): any {
 
@@ -128,29 +114,23 @@ export class SearchControlComponent implements OnInit {
     }
     return pageNumbers;
   }
-  // getting the page according to the index
-  getPage(event): void {
-
-    this.currPage = event.pageIndex + 1;
-    this.searchService.getParents(this.tags, this.currPage, this.numberPerPage
-    ).subscribe(function (retreivedUsers) {
-      this.users = retreivedUsers.data.docs;
-    });
-  }
-  // getting the content of the current page
+  // getting the current page
   getCurrPage(): void {
-    this.searchService.getParents(this.tags, this.currPage, this.numberPerPage
+    let self = this;
+    self.searchService.getParents(this.tags, this.currPage, this.numberPerPage
     ).subscribe(function (retreivedUsers) {
-      this.users = retreivedUsers.data.docs,
-        this.totPages = retreivedUsers.data.pages,
-        this.totParents = retreivedUsers.data.total;
+       self.users = retreivedUsers.data.docs,
+        self.totPages = retreivedUsers.data.pages,
+        self.totParents = retreivedUsers.data.total;
+        // console.log(self.users[0]);
+
     });
   }
   changePage(pageNumber: number): void {
 
     this.currPage = pageNumber;
-    window.scrollTo(0, 0);
     this.getParents();
+    window.scrollTo(0, 0);
   }
   // initializing all the parameters to starter values
   ngOnInit() {

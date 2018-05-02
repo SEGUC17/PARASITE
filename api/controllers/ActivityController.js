@@ -2,7 +2,8 @@ var mongoose = require('mongoose');
 var Activity = mongoose.model('Activity');
 var User = mongoose.model('User');
 var moment = require('moment');
-
+var NewsFeed = mongoose.model('Newsfeed');
+var tagController = require('./TagController');
 /* eslint max-statements: ["error", 20] */
 /* eslint multiline-comment-style: ["error", "starred-block"] */
 /* eslint-disable eqeqeq */
@@ -607,23 +608,30 @@ module.exports.bookActivity = function (req, res, next) {
                             }
                             , { new: true },
                             function (errr, updatedUser) {
-                                // if (errr) {
-                                //     return res.status(402).json({
-                                //         data: null,
-                                //         err: 'error occurred during adding ' +
-                                //             'the notification'
-                                //     });
-                                // }
-                                // if (!updatedUser) {
-                                //     return res.status(404).json({
-                                //         data: null,
-                                //         err: null,
-                                //         msg: 'User not found.'
-                                //     });
-                                // }
+                                console.log('add the notification');
                             }
                         );
                     }
+                    activity.tags.forEach(function (tag) {
+                        tagController.addTag(tag);
+                    });
+                    NewsFeed.findByIdAndUpdate(
+                        activity._id, {
+                            contentID: activity._id,
+                            'metadata.activityDate': activity.createdAt,
+                            'metadata.description': activity.description,
+                            'metadata.image': activity.image,
+                            'metadata.title': activity.name,
+                            tags: activity.tags,
+                            type: 'a'
+                        },
+                        { upsert: true },
+                        function (newsFeedError) {
+                            if (newsFeedError) {
+                                console.log(newsFeedError);
+                            }
+                        }
+                    );
                     addActivityEvent(bookingUser, activity);
 
                     return res.status(201).json({
@@ -674,8 +682,8 @@ module.exports.editActivityImage = function (req, res, next) {
         // updating activity image
         Activity.findByIdAndUpdate(
             req.params.activityId,
-             { $set: { image: req.body.image } }, { new: true }
-            ).exec(function (error, updatedActivity) {
+            { $set: { image: req.body.image } }, { new: true }
+        ).exec(function (error, updatedActivity) {
             if (err) {
                 return next(err);
             }

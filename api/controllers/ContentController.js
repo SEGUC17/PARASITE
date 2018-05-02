@@ -8,7 +8,10 @@ var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
 var moment = require('moment');
-
+var Tag = mongoose.model('Tag');
+var Newsfeed = mongoose.model('Newsfeed');
+var newsfeedController = require('../controllers/NewsfeedController');
+var tagController = require('../controllers/TagController');
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
 
@@ -341,6 +344,39 @@ var handleAdminCreate = function (req, res, next) {
                 }
             }
         );
+        Tag.findOne(
+            { 'name': content.category },
+            function (errFind, tag) {
+                if (errFind) {
+                    return next(errFind);
+                }
+                if (!tag) {
+                    return res.status(404).json({
+                        data: null,
+                        err: 'tag not found',
+                        msg: null
+                    });
+                }
+                var post = {
+                    contentID: content._id,
+                    metadata: {
+                        activityDate: content.touchDate,
+                        description: content.body,
+                        image: content.image,
+                        title: content.title
+                    },
+                    tags: [tag],
+                    type: 'c'
+                };
+                Newsfeed.create(post, function (err) {
+                    if (err) {
+                        return next(err);
+                    }
+                    console.log('creating');
+                });
+
+            }
+        );
 
         return res.status(201).json({
             data: content,
@@ -457,14 +493,48 @@ var handleAdminUpdate = function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            newsfeedController.updateContentPost(req.body);
+            var notification = {
+                body: 'Your updated Content has been successfully uploaded',
+                date: moment().toDate(),
+                itemId: updatedContent._id,
+                type: 'content'
+            };
+            User.findOneAndUpdate(
+                { username: updatedContent.creator },
+                {
+                    $push:
+                        { 'notifications': notification }
+                }
+                , { new: true },
+                function (errr, updatedUser) {
+                    console.log('add the notification');
+                    console.log(updatedUser.notifications);
+                    if (errr) {
+                        return res.status(402).json({
+                            data: null,
+                            err: 'error occurred during adding ' +
+                                'the notification'
+                        });
+                    }
+                    if (!updatedUser) {
+                        return res.status(404).json({
+                            data: null,
+                            err: null,
+                            msg: 'User not found.'
+                        });
+                    }
+                }
+            );
 
             return res.status(200).json({
                 data: updatedContent,
                 err: null,
-                mesg: 'retrieved the content successfully'
+                msg: 'retrieved the content successfully'
             });
         }
     );
+
 };
 
 var handleNonAdminUpdate = function (req, res, next) {
@@ -596,6 +666,7 @@ module.exports.createCategory = function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            tagController.addTag(req.body.category.toLowerCase());
 
             return res.status(201).json({
                 data: category,

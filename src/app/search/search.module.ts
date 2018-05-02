@@ -16,6 +16,7 @@ import { SearchService } from './search.service';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   imports: [
     CommonModule,
@@ -33,7 +34,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatSelectModule,
     MatTabsModule,
     MatCheckboxModule,
-    MatRadioModule
+    MatRadioModule,
+    TranslateModule.forChild()
   ],
   declarations: [SearchControlComponent],
   providers: [SearchService]

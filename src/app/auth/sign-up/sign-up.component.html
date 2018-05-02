@@ -13,7 +13,7 @@
             </div>
             <form name="signUpForm">
               <div class="content">
-                <div id="personalInfo" [hidden]="this.tabNumber == 2">
+                <div id="personalInfo" [hidden]="this.tabNumber != 1">
                   <div class="input-group">
                     <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.FIRST_NAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.firstName" name="firstName" required>
                     <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.LAST_NAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.lastName" name="lastName" required>
@@ -41,7 +41,7 @@
                     <label for="isTeacher">{{ 'AUTH.SIGN_UP.ARE_YOU_A_TEACHER' | translate }}</label>
                   </div>
                 </div>
-                <div id="credentials" [hidden]="this.tabNumber == 1">
+                <div id="credentials" [hidden]="this.tabNumber != 2">
                   <div class="input-group">
                     <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.username" name="username" required>
                     <span class="input-group-addon">
@@ -75,6 +75,15 @@
                       <a href="javascript:void(0);">{{ 'AUTH.SIGN_UP.TERMS_OF_USAGE' | translate }}</a>
                     </label>
                   </div>
+                </div>
+                <div id="interests" [hidden]="this.tabNumber != 3" style="height: 60% !important; overflow: auto !important">
+                  <h6>Pick some of your interests:</h6>
+                  <select class="form-control show-tick" placeholder="Pick an interest" id="interest" [(ngModel)]="interest" [ngModelOptions]="{standalone: true}">
+                    <option *ngFor="let tag of tags">{{tag.name}}</option>
+                  </select>
+                  <input type="button" style="width: 40% !important;" value="Add Interest" class="form-control btn btn-sm" (click)="this.addInterest()">
+                  <h6>You picked: </h6>
+                  <span *ngFor="let tag of interests">-{{tag.name}}-</span>
                 </div>
               </div>
             </form>

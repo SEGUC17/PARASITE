@@ -12,6 +12,8 @@ var User = mongoose.model('User');
 var VCRmodel = mongoose.model('VerifiedContributerRequest');
 var userModel = mongoose.model('User');
 var Report = mongoose.model('Report');
+var Newsfeed = mongoose.model('Newsfeed');
+var Tag = mongoose.model('Tag');
 // get all pending contentRequests
 module.exports.viewPendingContReqs = function (req, res, next) {
     // find All entries in DB
@@ -396,12 +398,46 @@ module.exports.respondContentRequest = function (req, res, next) {
                     if (errCont) {
                         console.log(errCont);
                     }
-                    if (!Content) {
+                    if (!content) {
                         return res.status(404).json({
                             data: null,
                             err: 'Content not found',
                             msg: null
                         });
+                    } else if (req.body.approved === true) {
+                        Tag.findOne(
+                            { 'name': content.category },
+                            function (errFind, tag) {
+                                if (errFind) {
+                                    return next(errFind);
+                                }
+                                if (!tag) {
+                                    return res.status(404).json({
+                                        data: null,
+                                        err: 'tag not found',
+                                        msg: null
+                                    });
+                                }
+                                var post = {
+                                    contentID: content._id,
+                                    metadata: {
+                                        activityDate: content.touchDate,
+                                        description: content.body,
+                                        image: content.image,
+                                        title: content.title
+                                    },
+                                    tags: [tag],
+                                    type: 'c'
+                                };
+                                Newsfeed.create(post, function (err) {
+                                    if (err) {
+                                        return next(err);
+                                    }
+                                });
+
+                            }
+                        );
+
                     }
 
                 }

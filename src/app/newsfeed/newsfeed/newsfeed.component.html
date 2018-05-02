@@ -1,0 +1,113 @@
+<section class="content blog-page" [style.text-align]="translate.currentLang == 'ara' ? 'right': null ">
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-7 col-md-6 col-sm-12">
+        <h2>{{ 'NEWSFEED.NEWSFEED' | translate }}
+          <small>{{ 'NEWSFEED.WELCOME_TO_NAWWAR' | translate }}</small>
+        </h2>
+      </div>
+      <div class="col-lg-5 col-md-6 col-sm-12">
+        <ul class="breadcrumb"  [style.float]="translate.currentLang == 'ara' ? 'left': 'right' ">
+          <li class="breadcrumb-item">
+            <a routerLink="/">
+              <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate}}
+            </a>
+          </li>
+          <li class="breadcrumb-item active">{{ 'NEWSFEED.NEWSFEED' | translate }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-8 col-md-12 left-box">
+        <div class="card single_post" *ngFor="let post of posts">
+          <div class="body">
+            <h3 class="m-t-0 m-b-5">
+              <a *ngIf="post.type=='a'" routerLink="/activities/{{post.contentID}}">{{post.metadata.title}}</a>
+              <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}">{{post.metadata.title}}</a>
+            </h3>
+            <ul class="meta">
+              <li *ngIf="post.type=='a'">
+                <a href="/activities/{{post.contentID}}">
+                  <i class="zmdi zmdi-run col-blue"></i>{{ 'NEWSFEED.POSTED_ON' | translate }} {{post.metadata.activityDate | date}}</a>
+              </li>
+              <li *ngIf="post.type=='c'">
+                <a href="/content/view/{{post.contentID}}">
+                  <i class="zmdi zmdi-book col-blue"></i>{{ 'NEWSFEED.POSTED_ON' | translate }} {{post.metadata.activityDate | date}}</a>
+              </li>
+              <li>
+                <a href="/newsfeed">
+                  <i class="zmdi zmdi-label col-amber"></i>{{post.tags[0].name}}</a>
+              </li>
+            </ul>
+          </div>
+          <div class="body">
+            <div class="img-post m-b-15">
+              <img src={{post.metadata.image}} alt="Awesome Image" width="100%">
+            </div>
+            <div *ngIf="post.metadata.description" class="preview text" [innerHTML]="post.metadata.description" ></div>
+            <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
+            <a *ngIf="post.type=='a'" routerLink="/activities/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
+
+          </div>
+        </div>
+        <ul *ngIf="totalNumberOfPages>1" class="pagination pagination-primary">
+          <li *ngIf="currentPageNumber>1" class="page-item">
+            <a class="page-link" (click)="changePage(this.currentPageNumber - 1)">{{ 'NEWSFEED.PREVIOUS' | translate }}</a>
+          </li>
+          <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
+            <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
+          </li>
+          <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
+            <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">{{ 'NEWSFEED.NEXT' | translate }}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="col-lg-4 col-md-12 right-box">
+        <div class="card">
+          <div class="header">
+            <h2>
+              <strong>{{ 'NEWSFEED.INTERESTS' | translate }}</strong>
+            </h2>
+          </div>
+          <div class="body widget tag-clouds">
+            <ul class="list-unstyled m-b-0">
+              <li *ngFor = "let tag of tags">
+                <p class="tag badge badge-default">{{tag.name}}</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card bg-dark">
+          <div class="header">
+            <h2>
+              <strong>{{ 'NEWSFEED.OTHER_PARENTS' | translate }}</strong></h2>
+          </div>
+          <div class="body widget popular-post">
+            <div class="row">
+              <div class="col-xl-12 col-lg-12">
+                <div class="border single_post">
+                  <div class="img-post m-b-5">
+                    <img src="assets/images/newsfeed/connectToMore.png" alt="Awesome Image">
+                  </div>
+                  <p class="m-b-0 col-white">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</p>
+                </div>
+                <div class="border single_post m-t-20" *ngFor="let person of people">
+                  <a href="/profile/{{person.username}}">
+                    <div class="img-post m-b-5">
+                      <img src={{person.avatar}} onerror="src='assets/images/profile-view/defaultPP.png'" alt="Awesome Image">
+                    </div>
+                    <p class="m-b-0 col-white">{{person.firstName}} {{person.lastName}}</p>
+                    <small class="text-muted">{{person.username}}</small>
+                  </a>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

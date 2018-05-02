@@ -23,9 +23,7 @@ export class MarketService {
   getMarketPage(entriesPerPage: number, pageNumber: number, limiters: any): Observable<any> {
     let url = this.host + 'market/getMarketPage/' + entriesPerPage +
       '/' + pageNumber + '/' + JSON.stringify(limiters);
-    return this.http.get(url).pipe(
-      catchError(this.handleError('getMarketPage', []))
-    );
+    return this.http.get(url);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
