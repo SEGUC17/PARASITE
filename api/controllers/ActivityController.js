@@ -189,6 +189,24 @@ module.exports.postActivity = function (req, res) {
                 message: null
             });
         }
+        activity.tags.forEach(function (tag) {
+            tagController.addTag(tag);
+        });
+        NewsFeed.create(
+            {
+                contentID: activity._id,
+                'metadata.description': activity.description,
+                'metadata.image': activity.image,
+                'metadata.title': activity.name,
+                tags: activity.tags,
+                type: 'a'
+            },
+            function (newsFeedError) {
+                if (newsFeedError) {
+                    console.log(newsFeedError);
+                }
+            }
+        );
         res.status(201).json({
             data: activity,
             err: null,
@@ -208,7 +226,8 @@ module.exports.deleteActivity = function (req, res) {
 
         var activityCreator = result[0].creator;
 
-        if (activityCreator !== deletingUser.username && !deletingUser.isAdmin) {
+        if (activityCreator !== deletingUser.username &&
+            !deletingUser.isAdmin) {
             res.status(401).json({
                 data: null,
                 err: null,
@@ -414,6 +433,21 @@ module.exports.editActivity = function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            NewsFeed.findOneAndUpdate(
+               { contentID: activity._id }, {
+                    contentID: activity._id,
+                    'metadata.description': activity.description,
+                    'metadata.image': activity.image,
+                    'metadata.title': activity.name,
+                    tags: activity.tags,
+                    type: 'a'
+                },
+                function (newsFeedError) {
+                    if (newsFeedError) {
+                        console.log(newsFeedError);
+                    }
+                }
+            );
 
             return res.status(200).send({
                 data: updatedActivity,
@@ -595,7 +629,7 @@ module.exports.bookActivity = function (req, res, next) {
                     if (req.user.username != activity2.creator) {
                         var notification = {
                             body: req.user.username + ' booked your activity ' +
-                            activity2.name,
+                                activity2.name,
                             date: moment().toDate(),
                             itemId: req.params.activityId,
                             type: 'activity'
@@ -612,26 +646,6 @@ module.exports.bookActivity = function (req, res, next) {
                             }
                         );
                     }
-                    activity.tags.forEach(function (tag) {
-                        tagController.addTag(tag);
-                    });
-                    NewsFeed.findByIdAndUpdate(
-                        activity._id, {
-                            contentID: activity._id,
-                            'metadata.activityDate': activity.createdAt,
-                            'metadata.description': activity.description,
-                            'metadata.image': activity.image,
-                            'metadata.title': activity.name,
-                            tags: activity.tags,
-                            type: 'a'
-                        },
-                        { upsert: true },
-                        function (newsFeedError) {
-                            if (newsFeedError) {
-                                console.log(newsFeedError);
-                            }
-                        }
-                    );
                     addActivityEvent(bookingUser, activity);
 
                     return res.status(201).json({
@@ -687,6 +701,22 @@ module.exports.editActivityImage = function (req, res, next) {
             if (err) {
                 return next(err);
             }
+            NewsFeed.findOneAndUpdate(
+                { contentID: activity._id }, {
+                    contentID: activity._id,
+                    'metadata.activityDate': moment().toDate(),
+                    'metadata.description': activity.description,
+                    'metadata.image': activity.image,
+                    'metadata.title': activity.name,
+                    tags: activity.tags,
+                    type: 'a'
+                },
+                function (newsFeedError) {
+                    if (newsFeedError) {
+                        console.log(newsFeedError);
+                    }
+                }
+            );
 
             return res.status(200).send({
                 data: updatedActivity.image,

@@ -8,7 +8,6 @@ var Category = mongoose.model('Category');
 var ContentRequest = mongoose.model('ContentRequest');
 var User = mongoose.model('User');
 var moment = require('moment');
-var Tag = mongoose.model('Tag');
 var Newsfeed = mongoose.model('Newsfeed');
 var newsfeedController = require('../controllers/NewsfeedController');
 var tagController = require('../controllers/TagController');
@@ -344,39 +343,23 @@ var handleAdminCreate = function (req, res, next) {
                 }
             }
         );
-        Tag.findOne(
-            { 'name': content.category },
-            function (errFind, tag) {
-                if (errFind) {
-                    return next(errFind);
-                }
-                if (!tag) {
-                    return res.status(404).json({
-                        data: null,
-                        err: 'tag not found',
-                        msg: null
-                    });
-                }
-                var post = {
-                    contentID: content._id,
-                    metadata: {
-                        activityDate: content.touchDate,
-                        description: content.body,
-                        image: content.image,
-                        title: content.title
-                    },
-                    tags: [tag],
-                    type: 'c'
-                };
-                Newsfeed.create(post, function (err) {
-                    if (err) {
-                        return next(err);
-                    }
-                    console.log('creating');
-                });
 
+        var post = {
+            contentID: content._id,
+            metadata: {
+                activityDate: content.touchDate,
+                description: content.body,
+                image: content.image,
+                title: content.title
+            },
+            tags: [content.category],
+            type: 'c'
+        };
+        Newsfeed.create(post, function (err) {
+            if (err) {
+                return next(err);
             }
-        );
+        });
 
         return res.status(201).json({
             data: content,

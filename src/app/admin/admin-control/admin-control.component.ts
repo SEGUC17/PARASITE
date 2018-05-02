@@ -60,7 +60,7 @@ export class AdminControlComponent implements OnInit {
       }
       if (res.data && !res.data.isAdmin) {
         self.toasterService.error('You are not an admin', 'failure');
-        self.router.navigateByUrl('/content/list');
+        self.router.navigateByUrl('/newsfeed');
       }
     });
   }
