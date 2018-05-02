@@ -157,7 +157,7 @@ module.exports.requestUserValidation = function (req, res, next) {
       console.log('duplicate key');
       if (err.message.startsWith('E11000 duplicate key error')) {
         // if request already existed
-        return res.status(400).json({
+        return res.status(409).json({
           err: null,
           msg: 'the request already submitted',
           data: null

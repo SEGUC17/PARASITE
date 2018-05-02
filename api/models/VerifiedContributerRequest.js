@@ -9,13 +9,9 @@ var Schema = mongoose.Schema;
 
 var VCRSchema = mongoose.Schema({
     creator: {
-        type: [
-            {
-                ref: 'User',
-                type: Schema.Types.ObjectId
-            }
-        ],
-        unique: true
+      trim: true,
+      type: String,
+      unique: true
     },
 
     email: {
