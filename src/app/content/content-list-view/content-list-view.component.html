@@ -28,7 +28,7 @@
     </div>
   </div>
   <div class="container-fluid">
-    <ul *ngIf="currentUser" class="nav nav-tabs">
+    <ul *ngIf="currentUser" class="nav nav-tabs" [style.padding]="translate.currentLang === 'ara'? '13px': null" >
       <li class="nav-item">
         <a class="nav-link active content-tab" data-toggle="tab" (click)="changeTab(0)">{{ 'CONTENT.LIST.BROWSE_CONTENT' | translate }}</a>
       </li>
