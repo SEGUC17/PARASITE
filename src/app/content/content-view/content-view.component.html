@@ -71,28 +71,28 @@
         </div>
         <div class="container-fluid mb-0" *ngIf="currentUser && content && content.approved">
           <div class="row clearfix">
-            <div class="col-lg-12">
+            <div class="col-lg-12" dir="ltr" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
               <div class="card">
                 <div class="body">
                   <ul class="cbp_tmtimeline mt-3">
                     <!--The part responsible for commenting-->
                     <li id="target">
                       <time class="cbp_tmtime" style="width: 20%;" datetime="2017-11-04T18:30">
-                        <span class="large mt-2 ">{{ 'CONTENT.VIEW.NOW' | translate }}</span>
+                        <span class="large mt-2 " [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">{{ 'CONTENT.VIEW.NOW' | translate }}</span>
                       </time>
                       <div class="cbp_tmicon">
-                        <img class="media-object rounded-circle" [src]="currentUser.avatar || defaultPP" alt="">
+                        <img  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="media-object rounded-circle" [src]="currentUser.avatar || defaultPP" alt="">
                       </div>
                       <div class="cbp_tmlabel empty">
                         <span>
                           <div class="form-group  w-80">
                             <input type="text" class="form-control" id="inputArea" placeholder="{{'CONTENT.VIEW.' + somePlaceholder | translate }}" #commentInput
-                              [(ngModel)]="changingComment">
+                              [(ngModel)]="changingComment" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"[style.text-align]="translate.currentLang === 'ara'? 'right': null" >
                           </div>
                         </span>
                         <div align="end">
                           <span>
-                            <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
+                            <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
                               {{ ((!isReplying)? 'CONTENT.VIEW.COMMENT_BUTTON' : 'CONTENT.VIEW.REPLY_BUTTON') | translate }}
                             </button>
                             <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary" data-toggle="tooltip" data-placement="bottom"
@@ -106,18 +106,18 @@
                     <!--.....................-->
                     <!--The Part responsible for comments-->
                     <li *ngFor="let comment of comments; let i = index">
-                      <time style="width: 20%;" class="cbp_tmtime" datetime="2017-11-04T03:45">
+                      <time style="width: 20%;" class="cbp_tmtime" datetime="2017-11-04T03:45"  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.padding]="translate.currentLang === 'ara'? '0px': null">
                         <span class="mt-2">{{comment.createdAt*1000 | date:'MM/dd/yyyy HH:mm': 'locale'}}</span>
                       </time>
                       <div class="cbp_tmicon">
-                        <img class="media-object bg-white rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
+                        <img class="media-object bg-white rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP"  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >
                         <i class="zmdi zmdi-label"></i>
                       </div>
                       <div class="cbp_tmlabel">
                         <div class="row">
                           <div class="col-md-6 ">
                             <div class="inner-content">
-                              <h2>
+                              <h2  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >
                                 <a routerLink="profile/{{comment.creator}}">{{comment.creator}}</a>
                               </h2>
                             </div>
@@ -142,7 +142,7 @@
                               </span>
                             </div>
                           </div>
-                          <div class="text-muted ml-4">
+                          <div class="text-muted ml-4"  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >
                             <p>{{comment.text}} </p>
                           </div>
                         </div>
@@ -152,10 +152,10 @@
                             <div class="col-md-12 row">
 
                               <div style="width: 35px; height: 35px;">
-                                <img style="width: 100%; height: 100%" class="rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
+                                <img [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" style="width: 100%; height: 100%" class="rounded-circle" *ngIf="comment.creatorInfo" [src]="comment.creatorInfo.avatar || defaultPP">
                               </div>
                               <div class="ml-3 mr-auto">
-                                <h2><a href="profile/{{comment.creator}}">{{reply.creator}}</a></h2>
+                                <h2 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null"><a href="profile/{{comment.creator}}">{{reply.creator}}</a></h2>
                               </div>
                               <div>
                                 <button type="button" class="btn btn-icon btn-round btn-danger btn-xs" *ngIf="reply.creator === currentUser.username || comment.creator === currentUser.username || currentUser.isAdmin || currentUser.username === content.creator"
@@ -165,7 +165,7 @@
                                 </button>
                               </div>
                             </div>
-                            <p style = "float: right" class="ml-3 text-muted" style="margin-left: 10% !important;">{{reply.text}}</p>
+                            <p style = "float: right" class="ml-3 text-muted" style="margin-left: 10% !important;" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{reply.text}}</p>
 
                             <div *ngIf=" j != comment.replies.length-1">
                               <hr />

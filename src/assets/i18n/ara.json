@@ -142,11 +142,24 @@
     },
     "AUTH": {},
     "CONTENT": {
+        "SHARED": {
+            "OUR_CONTENT": "المحتويات",
+            "POSTED_BY": " نشره: {{ creator }}",
+            "DASHBOARD": "الصفحة الرئيسية",
+            "CONTENT": "المحتويات",
+            "ARABIC": "العربية",
+            "NEXT": "التالى",
+            "ENGLISH": "الإنجليزية",
+            "LANGUAGE": "اللغة",
+            "CATEGORY": "الفئة",
+            "SECTION": "القسم",
+            "TAGS": "الإشارات"
+        },
         "LIST": {
             "ALL": "جميع الفئات",
             "BROWSE_CONTENT": "تصفح المحتويات",
             "CATEGORIES": "الفئات",
-            "CATEGORY_SPECIFIED": "{{ category }} الفئة:",
+            "CATEGORY_SPECIFIED": "الفئة: {{ category }}",
             "LANGUAGE_SPECIFIED": {
                 "ENGLISH": "اللغة: الإنجليزية",
                 "ARABIC": "اللغة: العربية"
@@ -156,7 +169,7 @@
             "RATING": "التقييم",
             "RELEVANCE": "مدى الصلة",
             "SEARCH": "...البحث",
-            "SECTION_SPECIFIED": "{{ section }} القسم:",
+            "SECTION_SPECIFIED": "القسم: {{ section }}",
             "SORT_BY": "التصنيف بحسب",
             "SORT_BY_SPECIFIED": {
                 "RATING": "التصنيف بحسب: التقييم",
@@ -167,12 +180,12 @@
             "WATCH_NOW": "شاهد الآن"
         },
         "VIEW": {
-            "COMMENTS": "{{ number }} :التعليقات",
+            "COMMENTS": "التعليقات: {{ number }}",
             "RECOMMENDED_CONTENT": {
                 "RECOMMENDED": "المحتويات",
                 "CONTENTS": "المقترحة"
             },
-            "RATING": " :التقييم",
+            "RATING": "التقييم:",
             "BY": "نشره:",
             "DELETE_FOREVER": "الحذف للأبد",
             "EDIT": "تعديل",
