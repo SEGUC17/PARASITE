@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ProductRequestsService } from './product-requests.service';
 import { CurrencyPipe } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-
+import { MessageService } from '../../messaging/messaging.service';
+declare const swal: any;
+declare const $: any;
 @Component({
   selector: 'app-view-product-requests',
   templateUrl: './view-product-requests.component.html',
-  styleUrls: ['./view-product-requests.component.scss']
+  styleUrls: ['./view-product-requests.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ViewProductRequestsComponent implements OnInit {
 
@@ -17,7 +20,8 @@ export class ViewProductRequestsComponent implements OnInit {
 
   constructor(private services: ProductRequestsService,
     private authService: AuthService,
-    private router: Router) {
+    private router: Router,
+    private _messageService: MessageService) {
 
     let self = this;
 
@@ -82,8 +86,35 @@ export class ViewProductRequestsComponent implements OnInit {
         if (index > -1) {
           self.requests.splice(i, 1);
         }
+        self.showPromptMessage(reqToSend.seller, self.currentUser.username);
       }
     });
   }
+  showPromptMessage(creator, sender): any {
+    // creator is the content creator
+    //sender in the currently logged in admin
+    // isUpdate : false if create
+    let self = this;
+    swal({
+      title: 'Want to send a message to ' + creator + '?',
+      text: 'Let ' + creator + ' know what\'s wrong',
+      type: 'input',
+      showCancelButton: true,
+      closeOnConfirm: false,
+      animation: 'slide-from-top',
+      inputPlaceholder: 'Write reason for disapproval here',
+    }, function (inputValue) {
+      if (inputValue === false) { return false; }
+      if (inputValue === '') {
+        swal.showInputError('You need to write something!'); return false;
+      }
+      let body = 'This is a message from an admin @ Nawwar.\n' + inputValue + '.\nDo not hesitate to contribute with us again.';
+      swal('Message sent', 'Message sent is :\n' + body, 'success');
+      let msg = { 'body': body, 'recipient': creator, 'sender': sender };
+      self._messageService.send(msg).subscribe(function (res2) {
 
+      });
+    }
+    );
+  }
 }

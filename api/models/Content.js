@@ -51,7 +51,10 @@ var contentSchema = mongoose.Schema({
         trim: true,
         type: String
     },
-    tags: { type: [String] },
+    tags: {
+        default: [],
+        type: [String]
+    },
     title: {
         required: true,
         trim: true,
@@ -94,6 +97,9 @@ contentSchema.index(
     }
 );
 contentSchema.post('findOneAndUpdate', function (doc) {
+    if (doc.rating.sum === 0 || doc.rating.number === 0) {
+        return;
+    }
     var newRating = doc.rating.sum / doc.rating.number;
     this.model.update(
         { _id: doc._id },

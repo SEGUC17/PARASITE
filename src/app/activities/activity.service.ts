@@ -24,6 +24,15 @@ export class ActivityService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
+  getPendingActivities(page): Observable<any> {
+    /*
+      Getting all activities
+    */
+    return this.http.get<any>(`${this.activitiesUrl}?page=${page}&status=pending`).pipe(
+      catchError(this.handleError('getNumberOfActivityPages', []))
+    );
+  }
+
   getActivities(page): Observable<any> {
     /*
       Getting all activities
@@ -62,6 +71,9 @@ export class ActivityService {
     return this.http.delete(this.activitiesUrl + '/' + activity._id);
   }
 
+  bookActivity(activity: any, body: any): Observable<any> {
+    return this.http.post<any>(this.activitiesUrl + '/' + activity._id + '/book', body);
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return function (error: any): Observable<T> {

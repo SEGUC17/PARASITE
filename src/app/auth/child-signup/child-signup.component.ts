@@ -35,7 +35,7 @@ export class ChildSignupComponent implements OnInit {
   Educational_level: String = '';
   Educational_system: String = '';
 systems: any = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
-levels: any = ['KG', 'Primary School', 'Middle School', 'High School'];
+levels: any = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
 
   ngOnInit() {
 const self = this;

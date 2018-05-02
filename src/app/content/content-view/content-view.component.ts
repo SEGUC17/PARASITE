@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { User } from '../../auth/user';
@@ -9,6 +9,7 @@ import { DiscussionService } from '../../discussion.service';
 import { VideoIdExtractorPipe } from '../video-id-extractor.pipe';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-content-view',
@@ -30,6 +31,7 @@ export class ContentViewComponent implements OnInit {
   somePlaceholder: String = 'LEAVE_A_COMMENT';
   showReplies: String = 'Show replies';
   hideReplies: String = 'Hide replies';
+  defaultPP: String = '../../../assets/images/profile-view/defaultPP.png';
   isReplying: boolean;
   commentReplyingOn: any;
   public YT: any;
@@ -50,10 +52,10 @@ export class ContentViewComponent implements OnInit {
 
 
   ngOnInit() {
-    window.scrollTo(0, 0);
     const self = this;
+    window.scrollTo(0, 0);
     // retrieve the user data
-    this.authService.getUserData(['username', 'isAdmin']).
+    this.authService.getUserData(['username', 'isAdmin', 'avatar', 'verified']).
       subscribe(function (user) {
         self.currentUser = user.data;
       }, function (error) {
@@ -70,27 +72,32 @@ export class ContentViewComponent implements OnInit {
     const self = this;
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
-      self.comments = retrievedContent.data.discussion;
+      self.comments = retrievedContent.data.discussion.reverse();
+      console.log(self.comments[self.comments.length - 1]);
       if (self.content) {
         self.getRecommendedContent();
       }
     }, function (error) {
       if (error.status === 404) {
-        self.toasterService.error('The requested content could not be found', 'failure');
+        self.translate.get('CONTENT.TOASTER.NOT_FOUND').subscribe(
+          function (translation) {
+            self.toasterService.error(translation);
+          }
+        );
       }
     });
   }
 
   // admin is done with reviewing the content, send him back to his page
   returnToContentRequests(): void {
-    this.router.navigate(['admin']);
+    this.router.navigate(['/admin/content-req']);
   }
 
   // delete Content function
   deleteContentById(id: any): void {
     const self = this;
     this.contentService.deleteContentById(id).subscribe(function (retrievedContent) {
-      self.router.navigate(['/content-list-view']);
+      self.router.navigate(['/content/list']);
     });
   }
 
@@ -101,16 +108,13 @@ export class ContentViewComponent implements OnInit {
     }
     if (!isEmpty(inputtext)) {
       if (this.isReplying) {
-        console.log('replying');
         this.discussionService.postReplyOnCommentOnContent(
           this.content._id,
           this.commentReplyingOn,
           self.changingComment).subscribe(function (err) {
             if (err.msg !== 'reply created successfully') {
-              console.log('err in posting');
               self.refreshComments(false);
             }
-            console.log('no error elhamdulla ');
             self.refreshComments(false);
             self.changingComment = '';
             let input = document.getElementById('input');
@@ -119,10 +123,8 @@ export class ContentViewComponent implements OnInit {
 
           });
       } else {
-        console.log('commenting');
         this.discussionService.postCommentOnContent(this.content._id, self.changingComment).subscribe(function (err) {
           if (err.msg === 'reply created successfully') {
-            console.log('err in posting');
           }
           self.refreshComments(false);
           self.changingComment = '';
@@ -184,7 +186,7 @@ export class ContentViewComponent implements OnInit {
 
   // admin or owner user of content wishes to edit the content
   redirectToContentEdit(): void {
-    this.router.navigateByUrl('/content-edit/' + this.content._id);
+    this.router.navigateByUrl('/content/edit/' + this.content._id);
   }
 
   // retrieve the recommended content related to the content the user is viewing
@@ -214,12 +216,24 @@ export class ContentViewComponent implements OnInit {
   }
   onPlayerStateChange(event) {
     const self = this;
-    if (event.data === window['YT'].PlayerState.ENDED) {
-      this.contentService.addLearningScore(self.content._id).subscribe(function (res) {
+    if (event.data === window['YT'].PlayerState.ENDED && this.currentUser) {
+      this.contentService.addLearningScore(self.content._id, self.content.video).subscribe(function (res) {
         if (!res) {
           return;
         }
-        self.toasterService.success(res.msg, 'success');
+        if (res.msg === '') {
+          self.translate.get('CONTENT.TOASTER.ALREADY_WATCHED').subscribe(
+            function (translation) {
+              self.toasterService.success(translation);
+            }
+          );
+        } else {
+          self.translate.get('CONTENT.TOASTER.LEARNING_POINTS_ADDED').subscribe(
+            function (translation) {
+              self.toasterService.success(translation + res.msg);
+            }
+          );
+        }
       });
     }
   }

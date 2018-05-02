@@ -4,7 +4,7 @@
         <div class="m-t-30">
             <img class="zmdi-hc-spin" src="assets/images/favicon.ico" width="48" height="48" alt="sQuare">
         </div>
-        <p>Please wait...</p>
+        <p>{{ 'APP.LOADING_MESSAGE' | translate}}</p>
     </div>
 </div>
 <div class="overlay_menu">
@@ -125,7 +125,7 @@
 <!-- Overlay For Sidebars -->
 <div class="overlay"></div>
 <!-- Top Bar -->
-<nav class="navbar col-lg-12 col-md-12 mr-4">
+<nav class="navbar col-lg-12 col-md-12">
     <ul class="nav navbar-nav navbar-left ">
         <li>
             <div class="navbar-header">
@@ -320,8 +320,8 @@
                 </li>
                 <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin ">
                     <a [routerLink]="link.url">
-                        <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                        <span>{{link.name}}</span>
+                       <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                        <span>{{ link.name | translate }}</span>
                     </a>
                 </li>
             </ul>

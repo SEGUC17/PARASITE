@@ -447,26 +447,23 @@ module.exports.getVCRs = function (req, res, next) {
 
 module.exports.VCRResponde = function (req, res, next) {
     var notification = null;
-    // Checks if Admin
-    console.log('in bakend');
-    notification = {
-        body: 'You are now a Verified Contributer',
-        date: moment().toDate(),
-        type: 'contributer'
-    };
-
     if (req.user.isAdmin) {
-        // Update the request with the given responce.
-        VCRmodel.update(
-            { _id: req.params.targetId },
-            { $set: { status: req.body.responce } }, { new: false },
-            function (err) {
-                if (err) {
-                    throw err;
-                }
-            }
-        );
-
+      // Update the request with the given responce.
+      VCRmodel.update(
+          { _id: req.params.targetId },
+          { $set: { status: req.body.responce } }, { new: false },
+          function (err) {
+              if (err) {
+                  throw err;
+              }
+          }
+      );
+        console.log('in bakend');
+        notification = {
+            body: 'You are now a Verified Contributer',
+            date: moment().toDate(),
+            type: 'contributer'
+        };
 
         var userId = null;
         VCRmodel.find({ _id: req.params.targetId }).
