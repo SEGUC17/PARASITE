@@ -8,7 +8,7 @@
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
-        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" *ngIf="isCreator && !isBooked"
+        <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" *ngIf="isCreator && !isBooked"
           (click)="openDialog()">
           <i class="zmdi zmdi-edit"></i>
         </button>
@@ -38,8 +38,11 @@
           <div class="body col-white">
             <div class="row">
               <div class="col-lg-3 col-md-4 col-12">
-                <div class="profile-image float-md-right"> <img style="object-fit: cover; width:230px;height:230px;
-" [src]="activity.image" alt=""> </div>
+                <div class="profile-image float-md-right">
+                  <img [src]="activity.image" alt=""> </div>
+                  <a *ngIf="isCreator && !isBooked" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right">
+                    <i class="zmdi zmdi-edit"></i>
+                  </a>
               </div>
               <div class="col-lg-9 col-md-8 col-12">
                 <h4 class="m-t-0 m-b-0">{{activity.name}}</h4>

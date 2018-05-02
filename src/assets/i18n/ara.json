@@ -46,18 +46,26 @@
         "WRITE_COMMENT": "...اترك تعليق",
         "BOOK_SUCCESS": "....تم الحجز بنجاح"
     },
-    "EDIT": {
-        "EDIT_ACTIVITY": "تعديل النشاط",
-        "ACTIVITY_NAME": "الاسم",
-        "START_DATE":"تاريخ النهاية",
-        "END_DATE":"تاريخ البداية",
-        "PRICE":"السعر",
-        "DESCRIPTION":"الوصف",
-        "CANCEL":"الغاء",
-        "SAVE_CHANGES":"حفظ التغييرات",
-        "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
-        "ACTIVITY_IMAGE":"تغيير صورة النشاط"
-    },
+    "EDIT":{
+            "EDIT_ACTIVITY": "تعديل النشاط",
+            "ACTIVITY_NAME": "الاسم",
+            "START_DATE":"تاريخ البداية",
+            "END_DATE":"تاريخ النهاية",
+            "PRICE":"السعر",
+            "DESCRIPTION":"الوصف",
+            "CANCEL":"الغاء",
+            "SAVE_CHANGES":"حفظ التغييرات",
+            "ACTIVITY_NAME_PLACEHOLDER": "اسم النشاط",
+            "ACTIVITY_IMAGE":"تغيير صورة النشاط",
+            "FROM_AFTER_TO":"تاريخ البداية لا يجب ان يكون بعد تاريخ النهاية "
+            
+            
+        },
+        "TOASTER":{
+            "TOASTER_FAIL":"رفع الصورة فشل",
+             "TOASTER_SUCCESS":"تم رفع الصورة بنجاح",
+             "TOASTER_SELECT":"من فضلك اختر صورة"
+        },
     "REVIEW": {
         "ACCEPT": "تم قبول النشاط",
         "REJECT": "تم رفض النشاط",
