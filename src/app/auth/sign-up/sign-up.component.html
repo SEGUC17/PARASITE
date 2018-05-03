@@ -15,13 +15,13 @@
               <div [hidden]="this.tabNumber != 1">
                 <div class="input-group input-lg">
                   <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.FIRST_NAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.firstName"
-                    name="firstName" required>
+                    name="firstName" autocomplete="given-name" required>
                   <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.LAST_NAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.lastName"
-                    name="lastName" required>
+                    name="lastName" autocomplete="family-name" required>
                 </div>
                 <div class="input-group">
                   <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" [(ngModel)]="user.phone"
-                    name="phone" pattern="\d*" required>
+                    name="phone" pattern="\d*" autocomplete="tel" required>
                   <span class="input-group-addon">
                     <i class="zmdi zmdi-smartphone"></i>
                   </span>
@@ -48,28 +48,28 @@
               <div [hidden]="this.tabNumber != 2">
                 <div class="input-group">
                   <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.username"
-                    name="username" required>
+                    name="username" autocomplete="username" required>
                   <span class="input-group-addon">
                     <i class="zmdi zmdi-account-circle"></i>
                   </span>
                 </div>
                 <div class="input-group">
                   <input type="email" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.EMAIL_PLACEHOLDER' | translate }}" [(ngModel)]="user.email"
-                    name="email" required>
+                    name="email" autocomplete="email" required>
                   <span class="input-group-addon">
                     <i class="zmdi zmdi-email"></i>
                   </span>
                 </div>
                 <div class="input-group">
                   <input type="password" minlength="8" placeholder="{{ 'AUTH.SIGN_UP.PASSWORD_PLACEHOLDER' | translate }}" class="form-control"
-                    [(ngModel)]="user.password" name="password" required/>
+                    [(ngModel)]="user.password" name="password" autocomplete="new-password" required/>
                   <span class="input-group-addon">
                     <i class="zmdi zmdi-lock"></i>
                   </span>
                 </div>
                 <div class="input-group">
                   <input type="password" minlength="8" placeholder="{{ 'AUTH.SIGN_UP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}" class="form-control"
-                    [(ngModel)]="user.confirmPassword" name="confirmPassword" required/>
+                    [(ngModel)]="user.confirmPassword" name="confirmPassword" autocomplete="new-password" required/>
                   <span class="input-group-addon">
                     <i class="zmdi zmdi-lock"></i>
                   </span>

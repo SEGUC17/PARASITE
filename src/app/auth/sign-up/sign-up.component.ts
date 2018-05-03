@@ -46,7 +46,7 @@ export class SignUpComponent implements OnInit {
     $('.datetimepicker').bootstrapMaterialDatePicker({
       clearButton: true,
       format: 'DD MMMM YYYY',
-      maxDate: new Date(),
+      maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDay()),
       shortTime: true,
       time: false
     });

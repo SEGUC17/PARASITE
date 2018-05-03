@@ -13,14 +13,14 @@
               <div class="content">
                 <div class="input-group input-lg">
                   <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.USERNAME_OR_EMAIL' | translate }}" [(ngModel)]="user.username"
-                    name="username" required>
+                    name="username" autocomplete="username" required>
                   <span class="input-group-addon">
                     <i class="zmdi zmdi-account-circle"></i>
                   </span>
                 </div>
                 <div class="input-group input-lg">
                   <input type="password" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="user.password"
-                    name="password" required/>
+                    name="password" autocomplete="current-password" required/>
                   <span class="input-group-addon">
                     <i class="zmdi zmdi-lock"></i>
                   </span>
