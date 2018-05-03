@@ -1,4 +1,4 @@
-<section class="content">
+<section class="content" style="overflow: hidden;">
   <div class="authentication sidebar-collapse">
     <div class="container">
       <div class="col-md-12 content-center">
@@ -10,39 +10,39 @@
               </div>
               <h5>{{ 'AUTH.SIGN_IN.SIGN_IN' | translate }}</h5>
             </div>
-            <div class="content">
-              <div class="input-group input-lg">
-                <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.USERNAME_OR_EMAIL' | translate }}" [(ngModel)]="user.username"
-                  name="username" required>
-                <span class="input-group-addon">
-                  <i class="zmdi zmdi-account-circle"></i>
-                </span>
+              <div class="content">
+                <div class="input-group input-lg">
+                  <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.USERNAME_OR_EMAIL' | translate }}" [(ngModel)]="user.username"
+                    name="username" required>
+                  <span class="input-group-addon">
+                    <i class="zmdi zmdi-account-circle"></i>
+                  </span>
+                </div>
+                <div class="input-group input-lg">
+                  <input type="password" placeholder="{{ 'AUTH.SIGN_IN.PASSWORD_PLACEHOLDER' | translate }}" class="form-control" [(ngModel)]="user.password"
+                    name="password" required/>
+                  <span class="input-group-addon">
+                    <i class="zmdi zmdi-lock"></i>
+                  </span>
+                </div>
+                <div class="checkbox" style="margin-left: 8%">
+                  <input type="checkbox" class="form-control" id="rememberMe" [(ngModel)]="user.rememberMe" name="rememberMe" />
+                  <label for="rememberMe">{{ 'AUTH.SIGN_IN.REMEMBER_ME' | translate }}</label>
+                </div>
               </div>
-              <div class="input-group input-lg">
-                <input type="password" placeholder="{{ 'AUTH.SIGN_IN.PASSWORD_PLACEHOLDER' | translate }}" class="form-control" [(ngModel)]="user.password"
-                  name="password" required/>
-                <span class="input-group-addon">
-                  <i class="zmdi zmdi-lock"></i>
-                </span>
+              <div class="footer">
+                <a class="btn btn-primary btn-round btn-lg btn-block" (click)="signIn()">{{ 'AUTH.SIGN_IN.SIGN_IN_CAPS' | translate }}</a>
+                <h5>
+                  <a routerLink="/auth/forgot-password" class="link">{{ 'AUTH.SIGN_IN.FORGOT_PASSWORD' | translate }}</a>
+                </h5>
+                <h5>
+                  <a routerLink="/auth/sign-up" class="link">{{ 'AUTH.SIGN_IN.JOIN_US' | translate }}</a>
+                </h5>
+                <div class="footer input-group">
+                  <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
+                  <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()">
+                </div>
               </div>
-              <div class="checkbox">
-                <input type="checkbox" class="form-control" id="rememberMe" [(ngModel)]="user.rememberMe" name="rememberMe" />
-                <label for="rememberMe">{{ 'AUTH.SIGN_IN.REMEMBER_ME' | translate }}</label>
-              </div>
-            </div>
-            <div class="footer">
-              <a class="btn btn-primary btn-round btn-lg btn-block" (click)="signIn()">{{ 'AUTH.SIGN_IN.SIGN_IN_CAPS' | translate }}</a>
-              <h5>
-                <a routerLink="/auth/forgot-password" class="link">{{ 'AUTH.SIGN_IN.FORGOT_PASSWORD' | translate }}</a>
-              </h5>
-              <h5>
-                <a routerLink="/auth/sign-up" class="link">{{ 'AUTH.SIGN_IN.JOIN_US' | translate }}</a>
-              </h5>
-              <div class="footer input-group">
-                <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
-                <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()">
-              </div>
-            </div>
           </form>
         </div>
       </div>
