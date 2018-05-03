@@ -17,9 +17,7 @@ export class VerifyEmailComponent implements OnInit {
     private toastrService: ToastrService,
     private router: Router,
     private translate: TranslateService
-  ) { }
-
-  ngOnInit() {
+  ) {
     const self = this;
     this.activatedRoute.params.subscribe(function (params) {
       self.authService.verifyEmail(params['id']).subscribe(function (res) {
@@ -30,9 +28,12 @@ export class VerifyEmailComponent implements OnInit {
               self.toastrService.success(translation);
             });
         }
-        self.router.navigateByUrl('/newsfeed');
+        self.authService.redirectToHomePage();
       });
     });
+  }
+
+  ngOnInit() {
   }
 
 }

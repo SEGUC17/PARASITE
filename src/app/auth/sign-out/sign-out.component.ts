@@ -16,9 +16,7 @@ export class SignOutComponent implements OnInit {
     private toastrService: ToastrService,
     private router: Router,
     private translate: TranslateService
-  ) { }
-
-  ngOnInit() {
+  ) {
     const self = this;
     this.authService.setToken(null);
     self.translate.get('AUTH.TOASTER.SIGN_OUT_SUCCESSFULL').subscribe(
@@ -27,6 +25,9 @@ export class SignOutComponent implements OnInit {
       }
     );
     this.router.navigateByUrl('/content/list');
+  }
+
+  ngOnInit() {
   }
 
 }
