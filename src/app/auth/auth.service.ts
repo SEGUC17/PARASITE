@@ -18,6 +18,7 @@ const httpOptions = {
 export class AuthService {
 
   private localStorageTokenName = 'jwtToken';
+  private homepageUrl = '/newsfeed';
 
   constructor(
     private http: HttpClient,
@@ -92,7 +93,7 @@ export class AuthService {
                 self.toastrService.success(translation);
               }
             );
-            self.router.navigateByUrl('/newsfeed');
+            self.redirectToHomePage();
           }
         });
       })
@@ -126,7 +127,7 @@ export class AuthService {
                   self.toastrService.success(translation);
                 }
               );
-              self.router.navigateByUrl('/newsfeed');
+              self.redirectToHomePage();
             }
           });
         })
@@ -143,9 +144,7 @@ export class AuthService {
 
   isSignedIn(): Observable<any> {
     const self = this;
-    return this.http.get<any>(environment.apiUrl + 'isSignedIn').pipe(
-      catchError(self.handleError('isSignedIn', []))
-    );
+    return this.http.get<any>(environment.apiUrl + 'isSignedIn');
   }
 
   signOut(): void {
@@ -219,6 +218,33 @@ export class AuthService {
       }
       return of(result as T);
     };
+  }
+
+  isAuthenticated() {
+    const self = this;
+    this.isSignedIn().subscribe(function (res) {
+
+    }, function (err) {
+      if (err.status === 401) {
+        self.router.navigateByUrl('/landing');
+      }
+    });
+  }
+
+  isNotAuthenticated() {
+    const self = this;
+    this.isSignedIn().subscribe(function (res) {
+
+    }, function (err) {
+      if (err.status === 403) {
+        self.redirectToHomePage();
+      }
+    });
+  }
+
+  redirectToHomePage(): void {
+    // this.router.navigateByUrl(this.homepageUrl);
+    window.location.replace(this.homepageUrl);
   }
 
 }
