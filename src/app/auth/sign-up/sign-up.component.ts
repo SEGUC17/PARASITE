@@ -41,12 +41,15 @@ export class SignUpComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit() {
+
+    this.authService.isNotAuthenticated();
+
     const self = this;
 
     $('.datetimepicker').bootstrapMaterialDatePicker({
       clearButton: true,
       format: 'DD MMMM YYYY',
-      maxDate: new Date(),
+      maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDay()),
       shortTime: true,
       time: false
     });
@@ -77,17 +80,9 @@ export class SignUpComponent implements OnInit {
             self.toastrService.success(translation);
           }
         );
-        self.router.navigateByUrl('/newsfeed');
+        self.authService.redirectToHomePage();
       }
     });
-  }
-
-  tabsUp() {
-    this.tabNumber++;
-  }
-
-  tabsDown() {
-    this.tabNumber--;
   }
 
   addInterest() {

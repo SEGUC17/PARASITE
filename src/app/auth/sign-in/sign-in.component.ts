@@ -26,6 +26,7 @@ export class SignInComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.authService.isNotAuthenticated();
   }
 
   signIn() {
@@ -38,8 +39,7 @@ export class SignInComponent implements OnInit {
             self.toastrService.success(translation);
           }
         );
-        // self.router.navigateByUrl('/newsfeed');
-        window.location.replace('/newsfeed');
+        self.authService.redirectToHomePage();
       }
     });
   }
