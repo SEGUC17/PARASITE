@@ -35,7 +35,7 @@ export class SignUpComponent implements OnInit {
   public tabNumber = 1;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private toastrService: ToastrService,
     private router: Router,
     public translate: TranslateService) { }
