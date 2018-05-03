@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material';
 import { SingleMailComponent } from '../single-mail/single-mail.component';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 declare const $: any;
 
@@ -34,7 +34,7 @@ export class MessagingComponent implements OnInit {
   msg: any;
   allisWell: Boolean = true;
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
-  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
+    'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog,
     private router: Router, private toastrService: ToastrService, private _TranslateService: TranslateService) { }
@@ -57,7 +57,6 @@ export class MessagingComponent implements OnInit {
       self.getInbox();
       self.getSent();
       self.getContacts();
-      console.log(self.contacts);
     });
   }
 
@@ -79,13 +78,13 @@ export class MessagingComponent implements OnInit {
     });
   }
 
- // getting a list of recently contacted users
- getContacts(): void {
-  const self = this;
-  this.messageService.getContacts(this.currentUser.username).subscribe(function (contacts) {
-    self.contacts = contacts.data;
-  });
-}
+  // getting a list of recently contacted users
+  getContacts(): void {
+    const self = this;
+    this.messageService.getContacts(this.currentUser.username).subscribe(function (contacts) {
+      self.contacts = contacts.data;
+    });
+  }
 
   setMessage(message: any): void {
     this.messageService.read(message).subscribe();
@@ -96,16 +95,16 @@ export class MessagingComponent implements OnInit {
     const self = this;
 
     if (this.Body === '') {
-      self._TranslateService.get('MESSAGING.TOASTR.EMPTY_MSG').subscribe(function(translation) {
+      self._TranslateService.get('MESSAGING.TOASTR.EMPTY_MSG').subscribe(function (translation) {
         self.toastrService.warning(translation);
 
       });
     } else {
-      this.authService.getAnotherUserData(this.UserList, this.replyTo.toString()).subscribe((user)  => {
+      this.authService.getAnotherUserData(this.UserList, this.replyTo.toString()).subscribe((user) => {
         const list = user.data.blocked;
-        for ( let i = 0 ; i < user.data.blocked.length ; i++) {
-          if ( this.currentUser.username === list[i] ) {
-            self._TranslateService.get('MESSAGING.TOASTR.SEND_SELF').subscribe(function(translation) {
+        for (let i = 0; i < user.data.blocked.length; i++) {
+          if (this.currentUser.username === list[i]) {
+            self._TranslateService.get('MESSAGING.TOASTR.SEND_SELF').subscribe(function (translation) {
               self.toastrService.error(translation);
 
             });
@@ -115,17 +114,18 @@ export class MessagingComponent implements OnInit {
 
         // make a POST request using messaging service
         if (this.allisWell === true) {
-          console.log(user.data.avatar);
-          this.msg = {'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
-          'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
+          this.msg = {
+            'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
+            'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar
+          };
           this.messageService.send(this.msg)
-          .subscribe(function(res) {
-            self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
-              self.toastrService.success(translation);
+            .subscribe(function (res) {
+              self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function (translation) {
+                self.toastrService.success(translation);
 
+              });
+              self.getSent();
             });
-            self.getSent();
-          });
         }// end if
       });
     }

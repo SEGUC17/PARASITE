@@ -396,7 +396,6 @@ export class AppComponent implements OnInit {
           }
 
           retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId + '/' + itemUsername;
-          console.log(retrievednotifications[i].link);
         } else if (type === 'product') {
           // do not need id in market
           if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('new product was approved') !== -1) {

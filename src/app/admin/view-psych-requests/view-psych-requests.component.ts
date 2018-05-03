@@ -95,7 +95,6 @@ export class ViewPsychRequestsComponent implements OnInit {
     // Send the POST request
     let self = this;
     this.service.evalRequest(reqToSend).subscribe(function (res) {
-      console.log(res.msg);
       if (res.err === null) {
         // If a 200 OK is received, remove the request from the view
         self.requests = self.removeElement(self.requests, index);
@@ -103,7 +102,6 @@ export class ViewPsychRequestsComponent implements OnInit {
       } else {
         self.toasterService.error('Request was not found.', 'failure');
         self.getRequests();
-        console.log(self.state);
         self.loadRequests(self.state);
       }
     });
@@ -118,7 +116,6 @@ export class ViewPsychRequestsComponent implements OnInit {
     // Send the POST request
     let self = this;
     this.service.evalRequest(reqToSend).subscribe(function (res) {
-      console.log(res.msg);
       if (res.err === null) {
         // If a 200 OK is received, remove the request from the view
         self.requests = self.removeElement(self.requests, index);

@@ -34,11 +34,11 @@ export class ChildSignupComponent implements OnInit {
   private switch = false;
   Educational_level: String = '';
   Educational_system: String = '';
-systems: any = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
-levels: any = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
+  systems: any = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
+  levels: any = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
 
   ngOnInit() {
-const self = this;
+    const self = this;
     $('.datetimepicker').bootstrapMaterialDatePicker({
       clearButton: true,
       format: 'DD MMMM YYYY',
@@ -57,24 +57,22 @@ const self = this;
   register(): void {
     const self = this;
     if (this.AllisWell) {
-   //   console.log('birthdate: ', self.Birthdate);
-    //  console.log('educationSystem ', self.Educational_system);
-    //  console.log('educationLevel ', self.Educational_level );
-            this.User = { 'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
-      'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone,
-       'address': this.Address, 'educationLevel': self.Educational_level, 'educationSystem': self.Educational_system};
+      this.User = {
+        'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
+        'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone,
+        'address': this.Address, 'educationLevel': self.Educational_level, 'educationSystem': self.Educational_system
+      };
       self.authService.childSignUp(this.User).subscribe(function (res) {
-         this.Div3 = true;
-         if ( res.msg ) {
+        this.Div3 = true;
+        if (res.msg) {
           self.translate.get('AUTH.TOASTER.CHILD_SIGN_UP_SUCCESSFULL').subscribe(
             function (translation) {
               self.toastrService.success(translation);
             }
           );
-           }
-       });
+        }
+      });
     }// end if
-   //  this.location.back();
   }// end method
 
 
@@ -91,43 +89,39 @@ const self = this;
     const self = this;
     self.translate.get('AUTH.CHILD_SIGN_UP.DONE').subscribe(
       function (translation) {
-    $('#interests').prop('hidden', true);
-    $('#personalInfo').prop('hidden', true);
-    $('#credentials').prop('hidden', false);
-    $('#prevTab').prop('disabled', false);
-    $('#prevTab').prop('value', translation);
-    $('#lastTab').prop('disabled', false);
-  });
-}
+        $('#interests').prop('hidden', true);
+        $('#personalInfo').prop('hidden', true);
+        $('#credentials').prop('hidden', false);
+        $('#prevTab').prop('disabled', false);
+        $('#prevTab').prop('value', translation);
+        $('#lastTab').prop('disabled', false);
+      });
+  }
 
   showInterestsTab(): void {
     const self = this;
     self.translate.get('AUTH.CHILD_SIGN_UP.DONE').subscribe(
       function (translation) {
-    $('#interests').prop('hidden', false);
-    $('#personalInfo').prop('hidden', true);
-    $('#credentials').prop('hidden', true);
-    $('#prevTab').prop('disabled', false);
-    $('#prevTab').prop('value', translation);
-    $('#nextTab').prop('value', translation);
+        $('#interests').prop('hidden', false);
+        $('#personalInfo').prop('hidden', true);
+        $('#credentials').prop('hidden', true);
+        $('#prevTab').prop('disabled', false);
+        $('#prevTab').prop('value', translation);
+        $('#nextTab').prop('value', translation);
 
-    this.done = true;
-  });
+        this.done = true;
+      });
   }
 
   systemIs(sys): void {
     const self = this;
-  //  console.log('entered sys meth');
-        self.Educational_system = sys;
-        self.toastrService.success('Education System selected ', sys );
-    //    console.log(self.Educational_system);
+    self.Educational_system = sys;
+    self.toastrService.success('Education System selected ', sys);
   }
 
   levelIs(lev): void {
     const self = this;
-  //  console.log('entered lev meth');
-        self.Educational_level = lev;
-        self.toastrService.success('Eduacation Level selected ', lev);
-    //    console.log(self.Educational_level);
+    self.Educational_level = lev;
+    self.toastrService.success('Eduacation Level selected ', lev);
   }
 }

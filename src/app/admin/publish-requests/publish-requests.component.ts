@@ -102,7 +102,6 @@ export class PublishRequestsComponent implements OnInit {
   }
 
   respondStudyPlanPublishReqs(response, id, studyPlan): void {
-    console.log(studyPlan);
     let self = this;
     self.adminService.respondStudyPlanPublishReqs(response, id, studyPlan._id).subscribe(function (res) {
       if (res.err) {

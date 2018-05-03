@@ -63,7 +63,6 @@ export class SendDialogComponent implements OnInit {
 
     if ( self.Receiver.match(/\S+@\S+\.\S+/)) {
     self.allisWell = false;
-    // console.log('all is well= ', self.allisWell);
     this.messageService.send(self.msg)
     .subscribe();
     this._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
@@ -72,7 +71,6 @@ export class SendDialogComponent implements OnInit {
     }// end if
     // retrieveing the reciepient's info as an object
     if (self.allisWell === true) {
-    // console.log('all is well= ', self.allisWell);
     this.authService.getAnotherUserData(this.UserList, this.Receiver.toString()).subscribe((user) => {
     if (!user.data) {
     self.allisWell = false;
@@ -89,7 +87,6 @@ export class SendDialogComponent implements OnInit {
     self.allisWell = false;
     } // end if
     }// end for
-    // console.log('allIsWell', this.allisWell);
     if ( self.allisWell === true) {
     self.msg.recipientAvatar = user.data.avatar;
     self.messageService.send(this.msg)

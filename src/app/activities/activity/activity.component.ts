@@ -87,8 +87,6 @@ export class ActivityComponent implements OnInit {
 
     let pageNumbers = [];
     let counter = 1;
-
-    console.log(this.pageIndex);
     if (this.pageIndex < 3) {
       // we are in page 1 or 2
       while (counter < 6 && counter <= this.totalNumberOfPages) {

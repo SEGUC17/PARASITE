@@ -64,7 +64,6 @@ export class ProfileService {
 
   // author: Heidi
   getChildren(username): any {
-    console.log(username);
     return this.http.get(this.getChildrenUrl + username + '/getChildren');
   }
   private handleError<T>(operation = 'operation', result?: T) {
