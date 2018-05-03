@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivityService } from '../activity.service';
 import { Activity } from '../activity';
 import { AuthService } from '../../auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 declare const $: any;
 
 @Component({
@@ -32,7 +33,8 @@ export class ActivityComponent implements OnInit {
 
   constructor(
     private activityService: ActivityService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -85,8 +87,6 @@ export class ActivityComponent implements OnInit {
 
     let pageNumbers = [];
     let counter = 1;
-
-    console.log(this.pageIndex);
     if (this.pageIndex < 3) {
       // we are in page 1 or 2
       while (counter < 6 && counter <= this.totalNumberOfPages) {

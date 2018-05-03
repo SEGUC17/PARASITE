@@ -604,28 +604,29 @@ module.exports.signUpChild = function (req, res, next) {
                         'Verification Mail Was Sent To Your Child\'s Email!'
                 });
             });
+            User.findByIdAndUpdate(
+                req.user._id, {
+                    $push:
+                        { 'children': req.body.username },
+                    $set:
+                        { 'isParent': true }
+                }
+                , { new: true }, function (err, updatedob) {
+                    if (err) {
+                        //  console.log('entered the error stage of update');
+        
+                        return res.status(402).json({
+                            data: null,
+                            msg: 'error occurred during updating ' +
+                                'parents attributes, parent is: ' +
+                                req.user._id.isParent
+                        });
+                    }
+                }
+            );
         }
     );
-    User.findByIdAndUpdate(
-        req.user._id, {
-            $push:
-                { 'children': req.body.username },
-            $set:
-                { 'isParent': true }
-        }
-        , { new: true }, function (err, updatedob) {
-            if (err) {
-                //  console.log('entered the error stage of update');
 
-                return res.status(402).json({
-                    data: null,
-                    msg: 'error occurred during updating ' +
-                        'parents attributes, parent is: ' +
-                        req.user._id.isParent
-                });
-            }
-        }
-    );
 };
 
 module.exports.getUserData = function (req, res, next) {

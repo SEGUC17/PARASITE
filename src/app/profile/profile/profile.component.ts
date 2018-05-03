@@ -210,7 +210,6 @@ export class ProfileComponent implements OnInit {
           if (!(this.listOfChildren.indexOf(this.vUsername.toLowerCase()) < 0)) {
             this.visitedIsMyChild = true;
           }
-          console.log(this.listOfChildren);
           if (!(this.vListOfChildren.indexOf(this.username.toLowerCase()) < 0)) {
             this.visitedIsMyParent = true;
           }
@@ -411,7 +410,6 @@ let self =this;
     };
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
-    console.log(new Date(info.birthdate) <= new Date());
     if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
       this.vUsername = info.username;
       this.vFirstName = info.firstName;
@@ -447,7 +445,6 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
       birthdate: (<HTMLInputElement>document.getElementById('qBirthday')).value,
       email: (<HTMLInputElement>document.getElementById('qEmail')).value
     };
-    console.log(info);
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
     if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
@@ -501,14 +498,12 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
         reporter: this.username,
         reason: inputValue
       };
-      // console.log(report.reporter + ' ' + report.reason + ' ' + report.reportedPerson);
       this.sendReport(report);
       swal('Report sent!', 'reason: ' + inputValue, 'success');
     });
 
   }
   sendReport(report) {
-    // console.log('wasalt el sendReport');
     this._ProfileService.reportUser(report, this.vId).subscribe();
   }
 
@@ -521,8 +516,6 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
       if (this.blocklist[i] === blocked) {
 
         this.blocklist.splice(i, 1);
-        //   console.log('this user is no longer blocked', blocked);
-        //  console.log('updated list is', this.blocklist);
       }  //end if
     }//end for
 
@@ -538,13 +531,10 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
 
   uploaded(url: string) {
     if (url === 'imageFailedToUpload') {
-      // console.log('image upload failed');
-      //this.toastrService.error('Image upload failed');
       this.translate.get('PROFILE.TOASTER.UPLOAD_FAIL').subscribe(function(translation){
         this.toastrService.error(translation);
       })
     } else if (url === 'noFileToUpload') {
-    //  this.toastrService.error('Please select a photo');
     this.translate.get('PROFILE.TOASTER.NO_FILE_TO_UPLOAD').subscribe(function(translation){
       this.toastrService.error(translation);
     })  
@@ -553,16 +543,13 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
         id: this.id,
         url: url
       };
-      // console.log('in vcC and its uploaded with url = '+ url);
       this.avatar = upload.url;
       this._ProfileService.changeProfilePic(upload).subscribe((res) => {
         if (res.data) {
-         // this.toastrService.success('Profile picture changed successfully');
          this.translate.get('PROFILE.TOASTER.PROFILE_PIC_UPDATE').subscribe(function(translation){
           this.toastrService.success(translation);
         }) 
         } else {
-         // this.toastrService.error('Image upload failed')
          this.translate.get('PROFILE.TOASTER.UPLOAD_FAIL').subscribe(function(translation){
           this.toastrService.error(translation);
         })

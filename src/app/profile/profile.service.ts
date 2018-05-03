@@ -64,7 +64,6 @@ export class ProfileService {
 
   // author: Heidi
   getChildren(username): any {
-    console.log(username);
     return this.http.get(this.getChildrenUrl + username + '/getChildren');
   }
   private handleError<T>(operation = 'operation', result?: T) {
@@ -96,7 +95,7 @@ export class ProfileService {
   // Author: Heidi
   UnlinkMyself(visitedParentUsername): any {
     // adding username of the visited parent to the patch request
-    return this.http.patch('http://localhost:3000/api/profile/' + visitedParentUsername + '/UnlinkMyself', null);
+    return this.http.patch( this.getChildrenUrl + visitedParentUsername + '/UnlinkMyself', null);
   }
 
   reportUser(report, Id): any {

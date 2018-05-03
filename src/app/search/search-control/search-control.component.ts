@@ -122,8 +122,6 @@ export class SearchControlComponent implements OnInit {
        self.users = retreivedUsers.data.docs,
         self.totPages = retreivedUsers.data.pages,
         self.totParents = retreivedUsers.data.total;
-        // console.log(self.users[0]);
-
     });
   }
   changePage(pageNumber: number): void {

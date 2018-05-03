@@ -31,6 +31,7 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MessageService } from './messaging/messaging.service';
 import { LandingService } from './landing.service';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -70,7 +71,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    LoadingBarRouterModule
   ],
   providers: [
     AuthService,

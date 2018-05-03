@@ -2,7 +2,7 @@
 <nav class="navbar navbar-light bg-light IhateCss">
   <div class="container" style="background-color: #F3F6DC;">
     <img class="img-fluid" style="height: 1cm;" src="assets/images/landing/header.png" />
-    <a class="btn btn-primary" routerLink="/auth/sign-in">Sign In</a>
+    <a class="btn btn-primary" routerLink="/auth/sign-in">{{ 'LANDING.SIGN_IN' | translate }}</a>
   </div>
 </nav>
 
@@ -23,30 +23,30 @@
     <div class="row no-gutters">
       <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/images/landing/study.jpeg');"></div>
       <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-        <h2>{{ 'LANDING.ENHANCE' | translate }}</h2>
-        <p class="lead mb-0">{{ 'LANDING.ENHANCE_DESC' | translate }}</p>
+        <h2 [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{ 'LANDING.ENHANCE' | translate }}</h2>
+        <p [style.text-align]="translate.currentLang === 'ara'? 'justify': 'justify'" class="lead mb-0">{{ 'LANDING.ENHANCE_DESC' | translate }}</p>
       </div>
     </div>
     <div class="row no-gutters">
       <div class="col-lg-6 text-white showcase-img" style="background-image: url('assets/images/landing/activity.jpeg');"></div>
       <div class="col-lg-6 my-auto showcase-text">
-        <h2>{{ 'LANDING.ENJOY' | translate }}</h2>
-        <p class="lead mb-0">{{ 'LANDING.ENJOY_DESC' | translate }}</p>
+        <h2 [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{ 'LANDING.ENJOY' | translate }}</h2>
+        <p [style.text-align]="translate.currentLang === 'ara'? 'justify': 'justify'" class="lead mb-0">{{ 'LANDING.ENJOY_DESC' | translate }}</p>
       </div>
     </div>
     <div class="row no-gutters">
       <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('assets/images/landing/teacher.jpeg');"></div>
       <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-        <h2>{{ 'LANDING.CONNECT' | translate }}</h2>
-        <p class="lead mb-0">{{ 'LANDING.CONNECT_DESC' | translate }}
+        <h2 [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{ 'LANDING.CONNECT' | translate }}</h2>
+        <p [style.text-align]="translate.currentLang === 'ara'? 'justify': 'justify'" class="lead mb-0">{{ 'LANDING.CONNECT_DESC' | translate }}
         </p>
       </div>
     </div>
     <div class="row no-gutters">
       <div class="col-lg-6 text-white showcase-img" style="background-image: url('assets/images/landing/notall.jpg');"></div>
       <div class="col-lg-6 my-auto showcase-text">
-        <h2>{{ 'LANDING.MARKET' | translate }}</h2>
-        <p class="lead mb-0">{{ 'LANDING.MARKET_DESC' | translate }}</p>
+        <h2 [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{ 'LANDING.MARKET' | translate }}</h2>
+        <p [style.text-align]="translate.currentLang === 'ara'? 'justify': 'justify'" class="lead mb-0">{{ 'LANDING.MARKET_DESC' | translate }}</p>
       </div>
     </div>
   </div>
@@ -111,7 +111,7 @@
           </li>
           <li class="list-inline-item">&sdot;</li>
           <li class="list-inline-item">
-            <a title="contact us" href="#largeModal" data-toggle="modal" data-target="#largeModal">{{ 'LANDING.CONTACT_US' | translate }}</a>
+            <a title="{{ 'LANDING.CONTACT_US' | translate }}" href="#largeModal" data-toggle="modal" data-target="#largeModal">{{ 'LANDING.CONTACT_US' | translate }}</a>
           </li>
         </ul>
         <p class="text-muted small mb-4 mb-lg-0">&copy; {{ 'LANDING.RIGHTS' | translate }}</p>

@@ -37,7 +37,6 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
   }
 
   acceptedRadio() { // triggered by Radio button to change the filter
-    console.log('accept');
     this.filter = 'approved';
     this.viewVCRs(this.filter);
   }
@@ -54,35 +53,27 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
 
     this._adminService.viewPendingVCR(FilteredBy).subscribe(function (res) {
       self.Requests = res.data.dataField;
-      if (res.msg === 'VCRs retrieved successfully.') {
-        console.log(res.data.dataField);
-        console.log('loaded response.data');
-      } else {
-        console.log('failed');
-      }
     });
   }
 
   onNameClick(request) {  // redirect the Admin to the user's page.
-    console.log('clicked');
     this.router.navigate(['/profile/' + request.creator]);
   }
 
   Accept(request) { // Accepted by Admin.
-    var self = this;
+    const self = this;
     this._adminService.respondToContributerValidationRequest(request._id, 'approved').subscribe(function (res) {
       self.viewVCRs(self.filter);
-    });;
+    });
 
   }
 
   Reject(request) { // rejected by Admin.
-    console.log(request);
     const self = this;
     this._adminService.respondToContributerValidationRequest(request._id, 'disapproved').subscribe(function (res) {
       self.viewVCRs(self.filter);
       self._authService.getUserData(['username']).subscribe(function (res) {
-        self.viewVCRs(self.filter)
+        self.viewVCRs(self.filter);
         self.showPromptMessage(request.creator, res.data.username);
       });
     });

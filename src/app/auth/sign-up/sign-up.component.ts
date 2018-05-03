@@ -85,16 +85,7 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  tabsUp() {
-    this.tabNumber++;
-  }
-
-  tabsDown() {
-    this.tabNumber--;
-  }
-
   addInterest() {
-    console.log(this.interest);
     this.interests.add(this.interest);
   }
 

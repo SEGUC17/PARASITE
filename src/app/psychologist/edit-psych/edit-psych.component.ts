@@ -70,7 +70,6 @@ export class EditPsychComponent implements OnInit {
 
   editPsychologists(): void {
     const self = this;
-    console.log(this.firstNameFormControl.value);
     const req = {
       editID: this.psychologist._id,
       firstName: (this.firstNameFormControl.value) ? this.firstNameFormControl.value : this.psychologist.firstName,
@@ -84,11 +83,9 @@ export class EditPsychComponent implements OnInit {
     };
     this.psychologistService.editRequest(req).subscribe(function (res) {
       if (res.err == null) {
-        console.log(res.err);
       }
     });
     self.dialogRef.close();
-    console.log(req);
   }
 
   close(): void {

@@ -29,15 +29,15 @@
             </h3>
             <ul class="meta">
               <li *ngIf="post.type=='a'">
-                <a href="/activities/{{post.contentID}}">
+                <a routerLink="/activities/{{post.contentID}}">
                   <i class="zmdi zmdi-run col-blue"></i>{{ 'NEWSFEED.POSTED_ON' | translate }} {{post.metadata.activityDate | date}}</a>
               </li>
               <li *ngIf="post.type=='c'">
-                <a href="/content/view/{{post.contentID}}">
+                <a routerLink="/content/view/{{post.contentID}}">
                   <i class="zmdi zmdi-book col-blue"></i>{{ 'NEWSFEED.POSTED_ON' | translate }} {{post.metadata.activityDate | date}}</a>
               </li>
               <li>
-                <a href="/newsfeed">
+                <a routerLink="/newsfeed">
                   <i class="zmdi zmdi-label col-amber"></i>{{post.tags[0]}}</a>
               </li>
             </ul>
@@ -94,7 +94,7 @@
                   <p class="m-b-0 col-white">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</p>
                 </div>
                 <div class="border single_post m-t-20" *ngFor="let person of people">
-                  <a href="/profile/{{person.username}}">
+                  <a routerLink="/profile/{{person.username}}">
                     <div class="img-post m-b-5">
                       <img src={{person.avatar}} onerror="src='assets/images/profile-view/defaultPP.png'" alt="Awesome Image">
                     </div>
