@@ -1,15 +1,16 @@
-<section class="content" style="overflow: hidden;">
-  <div class="authentication sidebar-collapse">
-    <div class="container">
-      <div class="col-md-12 content-center">
-        <div class="card-plain">
-          <form class="form" style="color: white;">
-            <div class="header" style="text-align-last: center;">
-              <div class="logo-container expandUp">
-                <img src="assets/images/logo.svg" alt="">
+<section class="vertical-center">
+  <div class="mr-auto ml-auto">
+    <div class="authentication sidebar-collapse">
+      <div class="container">
+        <div class="col-md-12 content-center">
+          <div class="card-plain">
+            <form class="form" style="color: white;">
+              <div class="header" style="text-align-last: center;">
+                <div class="logo-container expandUp">
+                  <img src="assets/images/logo.svg" alt="">
+                </div>
+                <h5>{{ 'AUTH.SIGN_IN.SIGN_IN' | translate }}</h5>
               </div>
-              <h5>{{ 'AUTH.SIGN_IN.SIGN_IN' | translate }}</h5>
-            </div>
               <div class="content">
                 <div class="input-group input-lg">
                   <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.USERNAME_OR_EMAIL' | translate }}" [(ngModel)]="user.username"
@@ -43,7 +44,8 @@
                   <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()">
                 </div>
               </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>
