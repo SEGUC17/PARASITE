@@ -6,11 +6,11 @@
     background-color: #d34836 !important;
 }
 
-.form-control-invalid {
+.form-control:invalid {
     border-color: red !important;
 }
 
-.form-control-valid {
+.form-control:valid {
     border-color: green !important;
 }
 

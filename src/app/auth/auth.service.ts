@@ -18,6 +18,7 @@ const httpOptions = {
 export class AuthService {
 
   private localStorageTokenName = 'jwtToken';
+  private homepageUrl = '/newsfeed';
 
   constructor(
     private http: HttpClient,
@@ -92,7 +93,7 @@ export class AuthService {
                 self.toastrService.success(translation);
               }
             );
-            self.router.navigateByUrl('/newsfeed');
+            self.redirectToHomePage();
           }
         });
       })
@@ -126,7 +127,7 @@ export class AuthService {
                   self.toastrService.success(translation);
                 }
               );
-              self.router.navigateByUrl('/newsfeed');
+              self.redirectToHomePage();
             }
           });
         })
@@ -219,6 +220,10 @@ export class AuthService {
       }
       return of(result as T);
     };
+  }
+
+  redirectToHomePage(): void {
+    this.router.navigateByUrl(this.homepageUrl);
   }
 
 }
