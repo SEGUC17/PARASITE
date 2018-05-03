@@ -1,10 +1,10 @@
-<div class="authentication sidebar-collapse">
-  <div class="page-header">
+<section class="content">
+  <div class="authentication sidebar-collapse">
     <div class="container">
       <div class="col-md-12 content-center">
         <div class="card-plain">
-          <form class="form">
-            <div class="header">
+          <form class="form" style="color: white;">
+            <div class="header" style="text-align-last: center;">
               <div class="logo-container expandUp">
                 <img src="assets/images/logo.svg" alt="">
               </div>
@@ -12,13 +12,15 @@
             </div>
             <div class="content">
               <div class="input-group input-lg">
-                <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.USERNAME_OR_EMAIL' | translate }}" [(ngModel)]="user.username" name="username" required>
+                <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.USERNAME_OR_EMAIL' | translate }}" [(ngModel)]="user.username"
+                  name="username" required>
                 <span class="input-group-addon">
                   <i class="zmdi zmdi-account-circle"></i>
                 </span>
               </div>
               <div class="input-group input-lg">
-                <input type="password" placeholder="{{ 'AUTH.SIGN_IN.PASSWORD_PLACEHOLDER' | translate }}" class="form-control" [(ngModel)]="user.password" name="password" required/>
+                <input type="password" placeholder="{{ 'AUTH.SIGN_IN.PASSWORD_PLACEHOLDER' | translate }}" class="form-control" [(ngModel)]="user.password"
+                  name="password" required/>
                 <span class="input-group-addon">
                   <i class="zmdi zmdi-lock"></i>
                 </span>
@@ -46,4 +48,4 @@
       </div>
     </div>
   </div>
-</div>
+</section>
