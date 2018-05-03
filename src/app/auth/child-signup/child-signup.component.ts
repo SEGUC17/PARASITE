@@ -15,7 +15,7 @@ declare const $: any;
 })
 export class ChildSignupComponent implements OnInit {
   constructor(private location: Location, private authService: AuthService,
-    private toastrService: ToastrService, private router: Router, private translate: TranslateService) { }
+    private toastrService: ToastrService, private router: Router, public translate: TranslateService) { }
   Firstname: String = '';
   Lastname: String = '';
   Username: String = '';

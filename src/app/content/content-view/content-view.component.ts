@@ -47,7 +47,7 @@ export class ContentViewComponent implements OnInit {
     private discussionService: DiscussionService,
     private toasterService: ToastrService,
     private router: Router,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
 
 

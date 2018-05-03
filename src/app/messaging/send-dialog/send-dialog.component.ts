@@ -28,7 +28,7 @@ export class SendDialogComponent implements OnInit {
   'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
   constructor(private messageService: MessageService, private authService: AuthService,
-    private toastrService: ToastrService, private _TranslateService: TranslateService) { }
+    private toastrService: ToastrService, public  _TranslateService: TranslateService) { }
 
 
   ngOnInit() {

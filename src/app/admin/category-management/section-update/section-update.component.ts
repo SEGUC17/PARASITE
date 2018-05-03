@@ -22,7 +22,7 @@ export class SectionUpdateComponent implements OnInit {
   constructor(
     private adminService: AdminService,
     private toasterService: ToastrService,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
 
   ngOnInit() {

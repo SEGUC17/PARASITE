@@ -9,7 +9,7 @@ import { LandingService } from '../landing.service';
 })
 export class LandingPageComponent implements OnInit, OnDestroy {
 
-  constructor(private translate: TranslateService, private landingService: LandingService) { }
+  constructor(public translate: TranslateService, private landingService: LandingService) { }
 
   ngOnInit() {
     this.landingService.setLandingView(true);

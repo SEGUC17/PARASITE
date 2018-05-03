@@ -25,7 +25,7 @@ childListIsFilled: boolean;
     lastName: string, birthdate: Number , username: string , learningScore: Number}];
   constructor (private profileService: ProfileService,
      private authService: AuthService , private activatedRoute: ActivatedRoute
-     , private toaster: ToastrService , private translate: TranslateService) { }
+     , private toaster: ToastrService , public translate: TranslateService) { }
 
   ngOnInit() {
     this.childListIsFilled = true;

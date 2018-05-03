@@ -50,7 +50,7 @@ export class DirectMessagingComponent implements OnInit {
   Recipient: String = '';
 
   constructor(private messageService: MessageService, private authService: AuthService, private route: ActivatedRoute,
-    public dialog: MatDialog, private toastrService: ToastrService, private translate: TranslateService) {
+    public dialog: MatDialog, private toastrService: ToastrService, public translate: TranslateService) {
   }
 
   ngOnInit() {

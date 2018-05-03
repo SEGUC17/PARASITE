@@ -28,7 +28,7 @@ export class ViewContentRequestsComponent implements OnInit {
     private router: Router,
     private _authService: AuthService,
     private _messageService: MessageService,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
 
   ngOnInit() {

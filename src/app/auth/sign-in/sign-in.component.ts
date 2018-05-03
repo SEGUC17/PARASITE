@@ -19,10 +19,10 @@ export class SignInComponent implements OnInit {
   };
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private toastrService: ToastrService,
     private router: Router,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
 
   ngOnInit() {

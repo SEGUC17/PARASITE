@@ -37,7 +37,7 @@ export class MessagingComponent implements OnInit {
     'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
   constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog,
-    private router: Router, private toastrService: ToastrService, private _TranslateService: TranslateService) { }
+    private router: Router, private toastrService: ToastrService, public  _TranslateService: TranslateService) { }
 
   openDialog(): void {
     $('#send').modal('show');

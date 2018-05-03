@@ -22,7 +22,7 @@ export class CreateProductComponent {
 
   constructor(private marketService: MarketService, private toasterService: ToastrService, private authService: AuthService,
     public dialogRef: MatDialogRef<CreateProductComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private translate: TranslateService) {
+    @Inject(MAT_DIALOG_DATA) public data: any, public translate: TranslateService) {
 
     const userDataColumns = ['username', 'isAdmin']; // The two attributes we need from the current user
     let self = this;

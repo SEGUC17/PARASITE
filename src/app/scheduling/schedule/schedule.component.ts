@@ -83,7 +83,7 @@ export class ScheduleComponent implements OnInit {
 
 
   constructor(private scheduleService: ScheduleService, private route: ActivatedRoute,
-    private _AuthService: AuthService, private translate: TranslateService) { }
+    private _AuthService: AuthService, public translate: TranslateService) { }
 
   ngOnInit() {
     this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {

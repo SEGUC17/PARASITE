@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private route: ActivatedRoute,
     public landingService: LandingService
   ) {

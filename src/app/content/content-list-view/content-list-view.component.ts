@@ -48,7 +48,7 @@ export class ContentListViewComponent implements OnInit {
 
   constructor(private contentService: ContentService, private authService: AuthService,
     private router: Router, private route: ActivatedRoute, private toasterService: ToastrService,
-    private translate: TranslateService) { }
+    public translate: TranslateService) { }
 
   ngOnInit() {
     // scroll to the top

@@ -30,7 +30,7 @@ export class ContactUsComponent implements OnInit {
 
   constructor(private _MessageService: MessageService,
     private _Toastr: ToastrService,
-    private _AuthService: AuthService, private translate: TranslateService) {
+    private _AuthService: AuthService, public translate: TranslateService) {
 
     const self = this;
     const userDataColumns = ['username'];

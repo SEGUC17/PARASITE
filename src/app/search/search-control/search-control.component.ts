@@ -33,7 +33,7 @@ export class SearchControlComponent implements OnInit {
 
 
   constructor(private searchService: SearchService,
-              private translate: TranslateService) { }
+              public translate: TranslateService) { }
 
   firstPage(): void {
     const self = this;

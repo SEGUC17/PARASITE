@@ -19,7 +19,7 @@ export class ForgotPasswordComponent implements OnInit {
   email = '';
 
   constructor(private _AuthService: AuthService, private _Location: Location,
-    private toastrService: ToastrService, private translate: TranslateService) { }
+    private toastrService: ToastrService, public translate: TranslateService) { }
 
   ngOnInit() {
   }

@@ -38,7 +38,7 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     private activityService: ActivityService,
     private authService: AuthService,
     private _messageService: MessageService,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private toaster: ToastrService
   ) { }
 
