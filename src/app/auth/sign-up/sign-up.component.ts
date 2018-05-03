@@ -41,6 +41,9 @@ export class SignUpComponent implements OnInit {
     private translate: TranslateService) { }
 
   ngOnInit() {
+
+    this.authService.isNotAuthenticated();
+
     const self = this;
 
     $('.datetimepicker').bootstrapMaterialDatePicker({
