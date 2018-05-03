@@ -216,6 +216,7 @@
           "SIGN_IN": "Get back to the website"
       },
       "TOASTER": {
+          "CONNECTION_ERROR": "No Response From Server!",
           "SIGN_UP_SUCCESSFULL": "Sign Up Is Successful!\nVerification Mail Was Sent To Your Email!",
           "SIGN_IN_SUCCESSFULL": "Sign In Is Successful! Welcome!",
           "NOT_MATCH_WARNING": "New and confirmed passwords do not match!",
