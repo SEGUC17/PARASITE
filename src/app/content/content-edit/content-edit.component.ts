@@ -63,7 +63,7 @@ export class ContentEditComponent implements OnInit {
     private toasterService: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
-    private translate: TranslateService) {
+    public translate: TranslateService) {
     const self = this;
     this.authService.getUserData(['username']).subscribe(function (res) {
       return;

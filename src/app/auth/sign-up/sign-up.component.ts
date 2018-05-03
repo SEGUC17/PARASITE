@@ -28,17 +28,17 @@ export class SignUpComponent implements OnInit {
     address: '',
     isTeacher: false,
   };
+
   public interests = new Set();
   public interest;
-
-  private tags = [];
-  private tabNumber = 1;
+  public tags = [];
+  public tabNumber = 1;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private toastrService: ToastrService,
     private router: Router,
-    private translate: TranslateService
+    public translate: TranslateService
   ) {
     this.authService.isNotAuthenticated();
   }

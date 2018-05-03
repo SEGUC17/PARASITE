@@ -15,7 +15,7 @@ export class VerifyChildEmailComponent implements OnInit {
     private authService: AuthService,
     private toastrService: ToastrService,
     private router: Router,
-    private translate: TranslateService
+    public translate: TranslateService
   ) {
     const self = this;
     this.activatedRoute.params.subscribe(function (params) {

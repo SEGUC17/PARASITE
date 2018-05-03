@@ -47,7 +47,7 @@ export class PublishRequestsComponent implements OnInit {
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
 
-  constructor(private adminService: AdminService, private router: Router, private translate: TranslateService,
+  constructor(private adminService: AdminService, private router: Router, public translate: TranslateService,
     private _messageService: MessageService, private _authService: AuthService, private toastrService: ToastrService) { }
 
   ngOnInit() {

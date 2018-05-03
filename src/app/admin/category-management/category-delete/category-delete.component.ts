@@ -22,7 +22,7 @@ export class CategoryDeleteComponent implements OnInit {
     private adminService: AdminService,
     private toasterService: ToastrService,
     private contentService: ContentService,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
 
   ngOnInit() {

@@ -34,7 +34,7 @@ export class ActivityComponent implements OnInit {
   constructor(
     private activityService: ActivityService,
     private authService: AuthService,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
 
   ngOnInit() {

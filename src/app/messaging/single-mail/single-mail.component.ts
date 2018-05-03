@@ -49,7 +49,7 @@ export class SingleMailComponent implements OnInit {
   Recipient: String = '';
 
   constructor(private messageService: MessageService, private authService: AuthService, private route: ActivatedRoute,
-    private toastrService: ToastrService, private _TranslateService: TranslateService) { }
+    private toastrService: ToastrService, public  _TranslateService: TranslateService) { }
 
   ngOnInit() {
     const self = this;

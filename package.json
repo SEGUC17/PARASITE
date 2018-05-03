@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "cover": "nyc report --reporter=html",
-    "postinstall": "ng build --env=prod"
+    "postinstall": "ng build --prod --aot --env=prod"
   },
   "private": true,
   "dependencies": {

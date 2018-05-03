@@ -27,7 +27,7 @@ export class AuthService {
     private facebookService: FacebookService,
     private googleApiService: GoogleApiService,
     private googleAuthService: GoogleAuthService,
-    private translate: TranslateService
+    public translate: TranslateService
   ) {
     let initParams: InitParams = {
       appId: environment.facebookAppID,

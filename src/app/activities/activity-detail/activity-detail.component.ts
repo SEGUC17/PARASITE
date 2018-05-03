@@ -78,7 +78,7 @@ export class ActivityDetailComponent implements OnInit {
     private discussionService: DiscussionService,
     private router: Router,
     private authService: AuthService,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private toastrService: ToastrService
   ) { }
 

@@ -39,7 +39,7 @@ export class ActivityCreateComponent implements OnInit {
     private router: Router,
     private activityService: ActivityService,
     private activityComponent: ActivityComponent,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private imageUploader: ImageUploaderComponent,
     private toaster: ToastrService
   ) { }

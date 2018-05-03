@@ -46,7 +46,7 @@ export class PsychologistComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private dialog: MatDialog,
-    private translate: TranslateService) {
+    public translate: TranslateService) {
     }
 
   formInput = <any>{};

@@ -98,7 +98,7 @@ export class StudyPlanComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
     private router: Router, private _AuthService: AuthService, private toastrService: ToastrService,
-    private translate: TranslateService) { }
+    public translate: TranslateService) { }
 
   ngOnInit() {
 
