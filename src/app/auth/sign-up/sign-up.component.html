@@ -18,18 +18,18 @@
                       name="lastName" autocomplete="family-name" required>
                   </div>
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" [(ngModel)]="user.phone"
-                      name="phone" pattern="\d*" autocomplete="tel" required>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-smartphone"></i>
                     </span>
+                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" [(ngModel)]="user.phone"
+                      name="phone" pattern="\d*" autocomplete="tel" required>
                   </div>
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}" [(ngModel)]="user.address"
-                      name="address" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <span class="input-group-addon" style="border-left: transparent">
                       <i class="zmdi zmdi-gps-dot"></i>
                     </span>
+                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}" [(ngModel)]="user.address"
+                      name="address" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <ul class="dropdown-menu dropdown-menu-right pullDown" style="width: 100%">
                       <li *ngFor="let city of cities" (click)="user.address = city">
                         <a href="javascript:void(0);">{{ city }}</a>
@@ -37,11 +37,11 @@
                     </ul>
                   </div>
                   <div class="input-group">
-                    <input id="birthdate" type="text" class="form-control datetimepicker" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}"
-                      required>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-calendar"></i>
                     </span>
+                    <input id="birthdate" type="text" class="form-control datetimepicker" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}"
+                      required>
                   </div>
                   <div class="checkbox" style="text-align: left; margin-left: 7%">
                     <input id="isTeacher" type="checkbox" [(ngModel)]="user.isTeacher" name="isTeacher">
@@ -50,32 +50,32 @@
                 </div>
                 <div [hidden]="this.tabNumber != 2">
                   <div class="input-group">
-                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.username"
-                      name="username" autocomplete="username" required>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-account-circle"></i>
                     </span>
+                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.username"
+                      name="username" autocomplete="username" required>
                   </div>
                   <div class="input-group">
-                    <input type="email" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.EMAIL_PLACEHOLDER' | translate }}" [(ngModel)]="user.email"
-                      name="email" autocomplete="email" required>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-email"></i>
                     </span>
+                    <input type="email" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.EMAIL_PLACEHOLDER' | translate }}" [(ngModel)]="user.email"
+                      name="email" autocomplete="email" required>
                   </div>
                   <div class="input-group">
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-lock"></i>
+                    </span>
                     <input type="password" minlength="8" placeholder="{{ 'AUTH.SIGN_UP.PASSWORD_PLACEHOLDER' | translate }}" class="form-control"
                       [(ngModel)]="user.password" name="password" autocomplete="new-password" required/>
-                    <span class="input-group-addon">
-                      <i class="zmdi zmdi-lock"></i>
-                    </span>
                   </div>
                   <div class="input-group">
-                    <input type="password" minlength="8" placeholder="{{ 'AUTH.SIGN_UP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}" class="form-control"
-                      [(ngModel)]="user.confirmPassword" name="confirmPassword" autocomplete="new-password" required/>
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-lock"></i>
                     </span>
+                    <input type="password" minlength="8" placeholder="{{ 'AUTH.SIGN_UP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}" class="form-control"
+                      [(ngModel)]="user.confirmPassword" name="confirmPassword" autocomplete="new-password" required/>
                   </div>
                   <div class="checkbox" style="text-align: left; margin-left: 7%">
                     <input id="terms" type="checkbox" required>
