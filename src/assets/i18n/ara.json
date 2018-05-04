@@ -707,6 +707,7 @@
         "SWITCH_LANGUAGE": "Switch Language",
         "SEND": "إرسال",
         "CANCEL": "إلغاء",
-        "SIGN_IN": "تسجيل الدخول"
+        "SIGN_IN": "تسجيل الدخول",
+        "CHECK_CONTENT": "استكشف مواردنا التعليمية"
     }
 }
