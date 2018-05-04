@@ -238,13 +238,13 @@
               </div>
               <div class="body">
                 <div class="form-group">
-                  <input #Oldpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.CPASSWORD' | translate}}" [(ngModel)]=oldpw>
+                  <input #Oldpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.CPASSWORD' | translate}}">
                 </div>
                 <div class="form-group">
-                  <input #Newpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.NPASSWORD' | translate}}" [(ngModel)]=newpw>
+                  <input #Newpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.NPASSWORD' | translate}}" >
                 </div>
                 <div class="form-group">
-                  <input #Confirmpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.CNPASSWORD' | translate}}" [(ngModel)]=confirmpw>
+                  <input #Confirmpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.CNPASSWORD' | translate}}" >
                 </div>
                 <button class="btn btn-raised btn-primary btn-round waves-effect" (click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">{{'PROFILE.PROFILE.CHANGE_PASSWORD' |translate}}</button>
               </div>
