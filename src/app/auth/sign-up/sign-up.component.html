@@ -26,10 +26,15 @@
                   </div>
                   <div class="input-group">
                     <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}" [(ngModel)]="user.address"
-                      name="address">
-                    <span class="input-group-addon">
+                      name="address" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="input-group-addon" style="border-left: transparent">
                       <i class="zmdi zmdi-gps-dot"></i>
                     </span>
+                    <ul class="dropdown-menu dropdown-menu-right pullDown" style="width: 100%">
+                      <li *ngFor="let city of cities" (click)="user.address = city">
+                        <a href="javascript:void(0);">{{ city }}</a>
+                      </li>
+                    </ul>
                   </div>
                   <div class="input-group">
                     <input id="birthdate" type="text" class="form-control datetimepicker" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}"
@@ -38,7 +43,7 @@
                       <i class="zmdi zmdi-calendar"></i>
                     </span>
                   </div>
-                  <div class="checkbox" style="margin-left: 7%">
+                  <div class="checkbox" style="text-align: left; margin-left: 7%">
                     <input id="isTeacher" type="checkbox" [(ngModel)]="user.isTeacher" name="isTeacher">
                     <label for="isTeacher">{{ 'AUTH.SIGN_UP.ARE_YOU_A_TEACHER' | translate }}</label>
                   </div>
@@ -72,7 +77,7 @@
                       <i class="zmdi zmdi-lock"></i>
                     </span>
                   </div>
-                  <div class="checkbox" style="margin-left: 7%">
+                  <div class="checkbox" style="text-align: left; margin-left: 7%">
                     <input id="terms" type="checkbox" required>
                     <label for="terms">
                       {{ 'AUTH.SIGN_UP.I_READ_AND_AGREED_TO' | translate }}

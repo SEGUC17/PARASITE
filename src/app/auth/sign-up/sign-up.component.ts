@@ -29,6 +29,7 @@ export class SignUpComponent implements OnInit {
     isTeacher: false,
   };
 
+  public cities = cities;
   public interests = new Set();
   public interest;
   public tags = [];
