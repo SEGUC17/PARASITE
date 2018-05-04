@@ -535,6 +535,7 @@
           "NAWWAR": "Nawwar"
       },
       "INFO": {
+          "NONE": "Sorry no psychologists found.",
           "PHONE": "Phone",
           "EMAIL": "Email",
           "DAYSOFF": "Days Off",

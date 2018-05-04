@@ -22,73 +22,81 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
+  <div class="container-fluid search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
     [scrollWindow]="false">
     <div class="row">
       <div class="container-fluid">
         <div class="card-deck" id="cards">
-          <div class="card-deck col-lg-9 col-md-12">
-            <div class="col-lg-6 col-md-12" *ngFor="let psych of psychologists; let i = index;">
-              <div class="card single_post clearfix js-sweetalert" style="margin-bottom: 5px">
-                <div class="header">
-                  <span >
-                  <h2 style="font-size:25px" [align]="translate.currentLang === 'ara'? 'right': null">
-                    <strong>{{psych.firstName}} {{psych.lastName}}</strong>
-                  </h2>
-                  </span>
-                  <ul class="header-dropdown">
-                    <li class="dropdown">
-                      <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                        aria-expanded="false">
-                        <i class="zmdi zmdi-more"></i>
-                      </a>
-                      <ul class="dropdown-menu dropdown-menu-right" >
-                        <li>
-                          <a [routerLink]="" (click)="showEditPrompt(i)">{{ 'PSYCHOLOGIST.INFO.EDIT' | translate }}</a>
-                        </li>
-                        <li>
-                          <a [routerLink]="" (click)="showDeletePrompt(i)">{{ 'PSYCHOLOGIST.INFO.DELETE' | translate }}</a>
-                        </li>
-                      </ul>
-                  </ul>
-                </div>
-                <div class="body" style="padding-top:0px">
-                  <div class="body text-secondary" style="font-size:15px" dir="auto">
-                    <div class="row">
-                      <i class="zmdi zmdi-local-phone" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  style="margin-right:3%"> </i>
-                      <span>
-                        <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.PHONE' | translate }}</strong> {{psych.phone}}</span>
-                    </div>
-                    <div class="row">
-                      <i class="zmdi zmdi-email" style="margin-right:3%"> </i>
-                      <span>
-                        <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.EMAIL' | translate }}</strong> {{psych.email}}</span>
-                    </div>
-                    <div class="row">
-                      <i class="zmdi zmdi-calendar-close" style="margin-right:3%"> </i>
-                      <span>
-                        <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> 
-                          {{ 'PSYCHOLOGIST.INFO.DAYSOFF' | translate }}
-                        </strong>
-                      </span>
-                    </div>
-                    <div [style.height]="translate.currentLang === 'ara'? '20px': null" [style.margin-right]="translate.currentLang === 'ara'? '5px': null">
-                      <span *ngFor="let day of psych.daysOff" class="badge badge-default" [style.float]="translate.currentLang === 'ara'? 'right': null"> {{ 'PSYCHOLOGIST.DAYS.' + day.toUpperCase() | translate }}</span>
-                    </div>
-                    <br>
-                    <div class="row">
-                      <i class="zmdi zmdi-money-box" style="margin-right:3%"> </i>
-                      <span>
-                        <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.PRICE' | translate }}</strong> {{psych.priceRange}}</span>
-                    </div>
-                    <div class="row">
-                      <i class="zmdi zmdi-home" style="margin-right:3%"> </i>
-                      <span>
-                        <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.ADD' | translate }}</strong>
-                      </span>
-                    </div>
-                    <div style="height:70px"  [align]="translate.currentLang === 'ara'? 'right': null">
-                      <span>{{psych.address}}</span>
+          <div class="col-lg-9 col-md-12">
+            <div class="body text-center" *ngIf="!this.psychologists.length">
+              <div class="not_found">
+                <i class="zmdi zmdi-mood-bad zmdi-hc-4x"></i>
+                <h4 class="m-b-0">{{'PSYCHOLOGIST.INFO.NONE' | translate}}</h4>
+              </div>
+            </div>
+            <div class="card-deck">
+              <div class="col-lg-6 col-md-12" *ngFor="let psych of psychologists; let i = index;">
+                <div class="card single_post clearfix js-sweetalert" style="margin-bottom: 5px">
+                  <div class="header">
+                    <span >
+                    <h2 style="font-size:25px" [align]="translate.currentLang === 'ara'? 'right': null">
+                      <strong>{{psych.firstName}} {{psych.lastName}}</strong>
+                    </h2>
+                    </span>
+                    <ul class="header-dropdown">
+                      <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                          aria-expanded="false">
+                          <i class="zmdi zmdi-more"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-right" >
+                          <li>
+                            <a [routerLink]="" (click)="showEditPrompt(i)">{{ 'PSYCHOLOGIST.INFO.EDIT' | translate }}</a>
+                          </li>
+                          <li>
+                            <a [routerLink]="" (click)="showDeletePrompt(i)">{{ 'PSYCHOLOGIST.INFO.DELETE' | translate }}</a>
+                          </li>
+                        </ul>
+                    </ul>
+                  </div>
+                  <div class="body" style="padding-top:0px">
+                    <div class="body text-secondary" style="font-size:15px" dir="auto">
+                      <div class="row">
+                        <i class="zmdi zmdi-local-phone" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  style="margin-right:3%"> </i>
+                        <span>
+                          <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.PHONE' | translate }}</strong> {{psych.phone}}</span>
+                      </div>
+                      <div class="row">
+                        <i class="zmdi zmdi-email" style="margin-right:3%"> </i>
+                        <span>
+                          <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.EMAIL' | translate }}</strong> {{psych.email}}</span>
+                      </div>
+                      <div class="row">
+                        <i class="zmdi zmdi-calendar-close" style="margin-right:3%"> </i>
+                        <span>
+                          <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> 
+                            {{ 'PSYCHOLOGIST.INFO.DAYSOFF' | translate }}
+                          </strong>
+                        </span>
+                      </div>
+                      <div [style.height]="translate.currentLang === 'ara'? '20px': null" [style.margin-right]="translate.currentLang === 'ara'? '5px': null">
+                        <span *ngFor="let day of psych.daysOff" class="badge badge-default" [style.float]="translate.currentLang === 'ara'? 'right': null"> {{ 'PSYCHOLOGIST.DAYS.' + day.toUpperCase() | translate }}</span>
+                      </div>
+                      <br>
+                      <div class="row">
+                        <i class="zmdi zmdi-money-box" style="margin-right:3%"> </i>
+                        <span>
+                          <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.PRICE' | translate }}</strong> {{psych.priceRange}}</span>
+                      </div>
+                      <div class="row">
+                        <i class="zmdi zmdi-home" style="margin-right:3%"> </i>
+                        <span>
+                          <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.ADD' | translate }}</strong>
+                        </span>
+                      </div>
+                      <div style="height:70px"  [align]="translate.currentLang === 'ara'? 'right': null">
+                        <span>{{psych.address}}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -101,8 +109,8 @@
                 <div>
                 <div class="input-group m-b-0">
                   <input type="text" class="form-control" [style.text-align]="translate.currentLang === 'ara'? 'right': null" 
-                  placeholder="{{ 'PSYCHOLOGIST.FILTERS.NAME_SEARCH' | translate }}" [(ngModel)]="writtenSearch">
-                  <span class="input-group-addon" (click)="this.applySearch()">
+                  placeholder="{{ 'PSYCHOLOGIST.FILTERS.NAME_SEARCH' | translate }}" [(ngModel)]="writtenSearch" [style.border-radius] = "translate.cuurentLAng == 'ara'? '33px 30px 30px 30px': null">
+                 <span class="input-group-addon" (click)="this.applySearch()">
                     <i class="zmdi zmdi-search"></i>
                   </span>
                 </div>
