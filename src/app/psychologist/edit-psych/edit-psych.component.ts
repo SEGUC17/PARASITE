@@ -3,18 +3,10 @@ import { PsychologistService } from '../psychologist.service';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PsychologistComponent } from '../psychologist/psychologist.component';
 import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { Psychologist } from '../psychologist/psychologist';
 import { TranslateService } from '@ngx-translate/core';
 declare const $: any;
 
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-edit-psych',
@@ -48,8 +40,6 @@ export class EditPsychComponent implements OnInit {
   phoneFormControl = new FormControl();
   daysOff = new FormControl();
   priceFormControl = new FormControl();
-
-  matcher = new MyErrorStateMatcher();
 
   daysOfWeek = ['Sat', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
