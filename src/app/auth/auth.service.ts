@@ -210,7 +210,12 @@ export class AuthService {
         operation === 'resetPassword' ||
         operation === 'modifyNotification'
       ) {
-        if (self.translate.currentLang === 'en') {
+        if (error.status === 0) {
+          self.translate.get('AUTH.TOASTER.CONNECTION_ERROR').subscribe(
+            function (translation) {
+              self.toastrService.error(translation);
+            });
+        } else if (self.translate.currentLang === 'en') {
           self.toastrService.error(error.error.msg);
         } else {
           self.toastrService.error('حدث خطأ ما؛ حاول مرة أخرى لاحقًا');

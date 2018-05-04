@@ -29,6 +29,7 @@ export class SignUpComponent implements OnInit {
     isTeacher: false,
   };
 
+  public cities = cities;
   public interests = new Set();
   public interest;
   public tags = [];
@@ -38,12 +39,12 @@ export class SignUpComponent implements OnInit {
     public authService: AuthService,
     private toastrService: ToastrService,
     private router: Router,
-    public translate: TranslateService) { }
+    public translate: TranslateService
+  ) {
+    this.authService.isNotAuthenticated();
+  }
 
   ngOnInit() {
-
-    this.authService.isNotAuthenticated();
-
     const self = this;
 
     $('.datetimepicker').bootstrapMaterialDatePicker({

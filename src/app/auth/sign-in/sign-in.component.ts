@@ -22,11 +22,12 @@ export class SignInComponent implements OnInit {
     public authService: AuthService,
     private toastrService: ToastrService,
     private router: Router,
-    public translate: TranslateService
-  ) { }
+    private translate: TranslateService
+  ) {
+    this.authService.isNotAuthenticated();
+  }
 
   ngOnInit() {
-    this.authService.isNotAuthenticated();
   }
 
   signIn() {
