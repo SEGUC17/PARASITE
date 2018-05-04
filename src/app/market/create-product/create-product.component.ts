@@ -38,7 +38,7 @@ export class CreateProductComponent {
   user: any = {};
   img: string;
 
-  createProduct(product: any) {
+  createProduct() {
 
     // this.user = this.authService.getUser(); // here i get the currently logged in user
 

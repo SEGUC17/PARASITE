@@ -115,7 +115,6 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     $(function () {
       'use strict';
-      skinChanger();
       CustomScrollbar();
       initCounters();
       CustomPageJS();
@@ -123,21 +122,6 @@ export class AppComponent implements OnInit {
     // Counters JS
     function initCounters() {
       $('.count-to').countTo();
-    }
-    // Skin changer
-    function skinChanger() {
-      $('.right-sidebar .choose-skin li').on('click', function () {
-        const $body = $('body');
-        const $this = $(this);
-
-        const existTheme = $('.right-sidebar .choose-skin li.active').data(
-          'theme'
-        );
-        $('.right-sidebar .choose-skin li').removeClass('active');
-        $body.removeClass('theme-' + existTheme);
-        $this.addClass('active');
-        $body.addClass('theme-' + $this.data('theme'));
-      });
     }
     // All Custom Scrollbar JS
     function CustomScrollbar() {
@@ -188,22 +172,6 @@ export class AppComponent implements OnInit {
       $('.menu-sm').on('click', function () {
         $('body').toggleClass('menu_sm');
       });
-      // Chat widget js ====
-      $(document).ready(function () {
-        $('.btn_overlay').on('click', function () {
-          $('.overlay_menu').fadeToggle(200);
-          $(this)
-            .toggleClass('btn-open')
-            .toggleClass('btn-close');
-        });
-      });
-      $('.overlay_menu').on('click', function () {
-        $('.overlay_menu').fadeToggle(200);
-        $('.overlay_menu button.btn')
-          .toggleClass('btn-open')
-          .toggleClass('btn-close');
-      });
-      // =========
       $('.form-control')
         .on('focus', function () {
           $(this)

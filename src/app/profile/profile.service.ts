@@ -20,7 +20,7 @@ const apiUrl = environment.apiUrl;
 export class ProfileService {
   // ------------- Profile Page Method(s) -------------- AUTHOR:
   constructor(private http: HttpClient, private authService: AuthService,
- private toastrService: ToastrService, private messageService: MessageService) { }
+    private toastrService: ToastrService, private messageService: MessageService) { }
   UserData = ['username'];
   private linkAnotherParentUrl = apiUrl + 'profile/LinkAnotherParent';
   private UnlinkUrl = apiUrl + 'profile/UnLinkChild';
@@ -95,7 +95,7 @@ export class ProfileService {
   // Author: Heidi
   UnlinkMyself(visitedParentUsername): any {
     // adding username of the visited parent to the patch request
-    return this.http.patch( this.getChildrenUrl + visitedParentUsername + '/UnlinkMyself', null);
+    return this.http.patch(this.getChildrenUrl + visitedParentUsername + '/UnlinkMyself', null);
   }
 
   reportUser(report, Id): any {
