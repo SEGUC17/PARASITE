@@ -17,3 +17,8 @@
 .form-control:focus {
     border-color: white !important;
 }
+
+.cen-wh-content {
+    text-align: center;
+    color: white;
+}
