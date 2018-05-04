@@ -51,7 +51,7 @@
                   {{ 'ACTIVITIES.DETAIL.TO' | translate }} : {{activity.toDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}</p>
                 <div>
                   <span style="color: #ff5722; margin-right: 4px">{{ activity.price | currency: 'EGP'}}</span>
-                  <button (click)="onReply(); cancelReplying();" class="btn btn-primary btn-round btn-simple">{{ 'ACTIVITIES.DETAIL.COMMENT' | translate }}</button>
+                  <button (click)="onReply(null); cancelReplying();" class="btn btn-primary btn-round btn-simple">{{ 'ACTIVITIES.DETAIL.COMMENT' | translate }}</button>
                   <div *ngIf="signedIn && !currentUser.isChild">
                     <button class="btn btn-primary btn-round" [disabled]="!bookingUser" (click)="bookActivity()">{{ 'ACTIVITIES.DETAIL.BOOK_FOR' | translate }}</button>
                     <select class="form-control-sm form-control btn-primary col-sm-2" [(ngModel)]="bookingUser">

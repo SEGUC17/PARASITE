@@ -35,8 +35,8 @@ export class ActivityDetailComponent implements OnInit {
     isAdmin: false,
     verified: false,
     avatar: null,
-    username: 'Mohamed Maher'
-
+    username: 'Mohamed Maher',
+    isChild: false
   };
   // updatedActivity: ActivityCreate;
   isCreator = false;
