@@ -323,4 +323,4 @@
     </div>
 </div>
 <ngx-loading-bar [includeSpinner]="false"></ngx-loading-bar>
-<router-outlet></router-outlet>
+<router-outlet (activate)="ngOnInit()"></router-outlet>
