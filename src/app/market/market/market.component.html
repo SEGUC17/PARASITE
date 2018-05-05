@@ -47,21 +47,21 @@
                     <div class="row clearfix">
                       <div class="col-lg-8 col-md-6 col-12">
                         <div class="input-group search" *ngIf="filter=='Name'" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-                          <input type="text" class="form-control" placeholder="{{'MARKET.MAIN.SEARCH_BAR' | translate}}" [(ngModel)]="writtenName" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >
-                          <span class="input-group-addon">
-                            <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyName()">
-                              <i class="zmdi zmdi-search"></i> {{'MARKET.MAIN.PROD_SEARCH' | translate}}
-                            </button>
-                          </span>
-                        </div>
+                        <span class="input-group-addon">
+                          <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyName()">
+                            <i class="zmdi zmdi-search"></i> {{'MARKET.MAIN.PROD_SEARCH' | translate}}
+                          </button>
+                        </span>
+                        <input type="text" class="form-control" placeholder="{{'MARKET.MAIN.SEARCH_BAR' | translate}}" [(ngModel)]="writtenName" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >
+                          </div>
                         <div div class="input-group search" *ngIf="filter=='Price'" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-                          <input type="number" class="form-control" placeholder="" [(ngModel)]="writtenPrice" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >
-
                           <span class="input-group-addon">
                             <button class="btn btn-primary btn-round btn-sm" type="button" (click)="applyPrice()">
                               <i class="zmdi zmdi-search"></i> {{'MARKET.MAIN.PRICE_SEARCH' | translate}}
                             </button>
                           </span>
+                          <input type="number" class="form-control" placeholder="" [(ngModel)]="writtenPrice" [style.text-align]="translate.currentLang === 'ara'? 'right': null" >
+
                         </div>
                         <div *ngIf="filter=='Sort'">
                           <div class="radio">

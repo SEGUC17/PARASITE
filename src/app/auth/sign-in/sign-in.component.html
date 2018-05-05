@@ -10,18 +10,18 @@
               </div>
               <div class="content">
                 <div class="input-group input-lg">
-                  <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.USERNAME_OR_EMAIL' | translate }}" [(ngModel)]="user.username"
-                    name="username" autocomplete="username" required>
                   <span class="input-group-addon">
                     <i class="zmdi zmdi-account-circle"></i>
                   </span>
+                  <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.USERNAME_OR_EMAIL' | translate }}" [(ngModel)]="user.username"
+                    name="username" autocomplete="username" required>
                 </div>
                 <div class="input-group input-lg">
-                  <input type="password" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="user.password"
-                    name="password" autocomplete="current-password" required/>
                   <span class="input-group-addon">
                     <i class="zmdi zmdi-lock"></i>
                   </span>
+                  <input type="password" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="user.password"
+                    name="password" autocomplete="current-password" required/>
                 </div>
                 <div class="checkbox" style="text-align: left; margin-left: 8%">
                   <input type="checkbox" class="form-control" id="rememberMe" [(ngModel)]="user.rememberMe" name="rememberMe" />
