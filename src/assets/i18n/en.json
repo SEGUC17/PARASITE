@@ -13,7 +13,9 @@
       "CONNECT_PARENTS": "Connect Parents",
       "STUDY_PLANS": "Study Plans",
       "CHANGE_LANGUAGE": "Change Language",
-      "NEWSFEED": "Newsfeed"
+      "NEWSFEED": "Newsfeed",
+      "SIGN_UP_FOR_FULL_ACCESS": "Sign Up to Enjoy All the Features of Our Website",
+      "SIGN_IN_ADMIN": "You Don't Have Permission to Access This Page"
   },
   "ACTIVITIES": {
       "CREATE": {
@@ -673,7 +675,8 @@
       "SYSTEM_OF_EDUCATION": "System of education",
       "REMOVE_ALL_TAGS": "Remove all tags",
       "PREVIOUS": "Previous",
-      "NEXT": "Next"
+      "NEXT": "Next",
+      "SEARCH_PLACEHOLDER": "Search for other parents"
   },
   "LANDING": {
       "ENHANCE": "Enhance Your Learning Experience",
