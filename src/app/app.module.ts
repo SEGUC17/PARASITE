@@ -33,6 +33,7 @@ import { MessageService } from './messaging/messaging.service';
 import { LandingService } from './landing.service';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { FeatureGuardService } from './feature-guard.service';
+import { AdminGuardService } from './admin-guard.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -86,7 +87,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ToastrService,
     MessageService,
     LandingService,
-    FeatureGuardService
+    FeatureGuardService,
+    AdminGuardService
   ],
   bootstrap: [AppComponent]
 })

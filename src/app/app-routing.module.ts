@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { FeatureGuardService } from './feature-guard.service';
+import { AdminGuardService } from './admin-guard.service';
 
 const routes = [
   {
@@ -23,7 +24,7 @@ const routes = [
   {
     path: 'admin',
     loadChildren: 'app/admin/admin.module#AdminModule',
-    canLoad: [FeatureGuardService]
+    canLoad: [AdminGuardService]
   },
   {
     path: 'auth',
