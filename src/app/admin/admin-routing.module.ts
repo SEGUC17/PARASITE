@@ -12,11 +12,13 @@ import { PublishRequestsComponent } from './publish-requests/publish-requests.co
 import { ViewVerifiedContributerRequestsComponent } from
   './view-verified-contributer-requests/view-verified-contributer-requests.component';
 import { ViewReportsComponent } from './view-reports/view-reports.component';
+import { AdminGuardService } from '../admin-guard.service';
 
 const routes = [
   {
     path: '',
     component: AdminControlComponent,
+    canActivate: [AdminGuardService],
     children: [
       {
         path: 'product-req',
