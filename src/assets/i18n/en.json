@@ -14,7 +14,8 @@
       "STUDY_PLANS": "Study Plans",
       "CHANGE_LANGUAGE": "Change Language",
       "NEWSFEED": "Newsfeed",
-      "SIGN_UP_FOR_FULL_ACCESS": "Sign Up to Enjoy All the Features of Our Website"
+      "SIGN_UP_FOR_FULL_ACCESS": "Sign Up to Enjoy All the Features of Our Website",
+      "SIGN_IN_ADMIN": "You Don't Have Permission to Access This Page"
   },
   "ACTIVITIES": {
       "CREATE": {
