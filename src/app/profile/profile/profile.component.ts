@@ -370,10 +370,10 @@ export class ProfileComponent implements OnInit {
     // method to add it to the patch request
     this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
       if (res.msg.indexOf('13') < 0) {
-      self.visitedIsChild = false; self.translate.get('PROFILE.TOASTER.MAKE_INDEPENDENT_SUCCESS').subscribe(
-        function (translation) {
-          self.toastrService.success(translation);
-        });
+        self.visitedIsChild = false; self.translate.get('PROFILE.TOASTER.MAKE_INDEPENDENT_SUCCESS').subscribe(
+          function (translation) {
+            self.toastrService.success(translation);
+          });
       }
       else {
         self.translate.get('PROFILE.TOASTER.MAKE_INDEPENDENT_FAIL').subscribe(
@@ -389,7 +389,7 @@ export class ProfileComponent implements OnInit {
     let self = this;
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
       if (res.msg.indexOf('Successefully') > -1) {
-      self.visitedIsMyParent = false;
+        self.visitedIsMyParent = false;
         self.translate.get('PROFILE.TOASTER.UNLINK_INDEPENDENT').subscribe(
           function (translation) {
             self.toastrService.success(translation);
