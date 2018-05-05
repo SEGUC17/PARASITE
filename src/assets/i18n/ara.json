@@ -686,7 +686,8 @@
         "SYSTEM_OF_EDUCATION": "نظام التعليم",
         "REMOVE_ALL_TAGS": "احذف جميع الاشارات",
         "PREVIOUS": "السابق",
-        "NEXT": "التالى"
+        "NEXT": "التالى",
+        "SEARCH_PLACEHOLDER": "ابحث عن أولياء أمور آخرين"
     },
     "LANDING": {
         "ENHANCE": "عزز تجربتك التعليمية",
