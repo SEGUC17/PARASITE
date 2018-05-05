@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../messaging.service';
 import { AuthService } from '../../auth/auth.service';
-import {ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs/Subscription';
 import { OnDestroy } from '@angular/core';
@@ -37,9 +37,9 @@ export class SingleMailComponent implements OnInit {
 
   msg: any;
   allisWell: Boolean = true;
-  list: any [];
+  list: any[];
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
-  'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
+    'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
   // reply
   Body: String = '';
@@ -49,7 +49,7 @@ export class SingleMailComponent implements OnInit {
   Recipient: String = '';
 
   constructor(private messageService: MessageService, private authService: AuthService, private route: ActivatedRoute,
-    private toastrService: ToastrService, private _TranslateService: TranslateService) {}
+    private toastrService: ToastrService, public  _TranslateService: TranslateService) { }
 
   ngOnInit() {
     const self = this;
@@ -94,7 +94,6 @@ export class SingleMailComponent implements OnInit {
     const self = this;
     this.messageService.getContacts(this.currentUser.username).subscribe(function (contacts) {
       self.contacts = contacts.data;
-      console.log(self.contacts);
     });
   }
 
@@ -103,10 +102,10 @@ export class SingleMailComponent implements OnInit {
   }
 
   openReplyDialog(user: any): void {
-    if (user !== this.currentUser.username ) {
-        this.replyTo = user;
-      } else {
-        this.replyTo = this.sender;
+    if (user !== this.currentUser.username) {
+      this.replyTo = user;
+    } else {
+      this.replyTo = this.sender;
     }
     $('#reply').modal('show');
   }
@@ -123,149 +122,156 @@ export class SingleMailComponent implements OnInit {
     const self = this;
     this.allisWell = true;
 
-    if ( self.replyTo.match(/\S+@\S+\.\S+/) && self.Body !== '') {
+    if (self.replyTo.match(/\S+@\S+\.\S+/) && self.Body !== '') {
       this.allisWell = false;
-      this.msg = {'body': this.Body, 'recipient': this.replyTo,
-        'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
+      this.msg = {
+        'body': this.Body, 'recipient': this.replyTo,
+        'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar
+      };
       this.messageService.send(self.msg)
-      .subscribe(function(res) {
-        this._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
-          self.toastrService.success(translation);
+        .subscribe(function (res) {
+          this._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function (translation) {
+            self.toastrService.success(translation);
 
+          });
         });
-      });
     }// end if
 
     if (this.Body === '') {
       this.allisWell = false;
-      this._TranslateService.get('MESSAGING.TOASTR.EMPTY_MSG').subscribe(function(translation) {
+      this._TranslateService.get('MESSAGING.TOASTR.EMPTY_MSG').subscribe(function (translation) {
         self.toastrService.warning(translation);
 
       });
       this.allisWell = false;
     } else {
-       this.authService.getAnotherUserData(this.UserList, this.replyTo.toString()).subscribe((user)  => {
+      this.authService.getAnotherUserData(this.UserList, this.replyTo.toString()).subscribe((user) => {
         this.list = user.data.blocked;
-        for ( let i = 0 ; i < user.data.blocked.length ; i++) {
-          if ( this.currentUser.username === this.list[i] ) {
-            this._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function(translation) {
-             self.toastrService.error(translation);
+        for (let i = 0; i < user.data.blocked.length; i++) {
+          if (this.currentUser.username === this.list[i]) {
+            this._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function (translation) {
+              self.toastrService.error(translation);
             });
             this.allisWell = false;
           } // end if
         }// end for
 
-       // make a POST request using messaging service
-       if (this.allisWell === true) {
-        this.msg = {'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
-        'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
-        this.messageService.send(this.msg)
-         .subscribe(function(res) {
+        // make a POST request using messaging service
+        if (this.allisWell === true) {
+          this.msg = {
+            'body': this.Body, 'recipient': this.replyTo, 'recipientAvatar': user.data.avatar,
+            'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar
+          };
+          this.messageService.send(this.msg)
+            .subscribe(function (res) {
 
-          self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
-          self.toastrService.success(translation);
+              self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function (translation) {
+                self.toastrService.success(translation);
 
-        });
-         });
-       }// end if
-    });
-   }
-}
-
-forward(): void {
-  const self = this;
-  this.allisWell = true;
-
-  if (this.Recipient === '') {
-    this.allisWell = false;
-    self._TranslateService.get('MESSAGING.TOASTR.ENTER_RECIPIENT').subscribe(function(translation){
-      self.toastrService.warning(translation);
-    });     this.allisWell = false;
-  } else {
-  this.authService.getAnotherUserData(this.UserList, this.Recipient.toString()).subscribe((user)  => {
-    if (!user.data) {
-      self.allisWell = false;
-      this._TranslateService.get('MESSAGING.TOASTR.VALID_NAME').subscribe(function(translation) {
-        self.toastrService.error(translation);
-      });    } else {
-    this.list = user.data.blocked;
-    for ( let i = 0 ; i < user.data.blocked.length ; i++) {
-      if ( this.currentUser.username === this.list[i] ) {
-        this._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function(translation) {
-          self.toastrService.error(translation);
-        });
-        this.allisWell = false;
-      } // end if
-    }// end for
-
-    // make a POST request using messaging service
-    if (this.allisWell === true) {
-      // create a message object with the info the user entered
-      this.msg = {'body': this.body, 'recipient': this.Recipient, 'recipientAvatar': user.data.avatar,
-      'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar};
-      this.messageService.send(this.msg)
-      .subscribe(function(res) {
-        self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
-          self.toastrService.success(translation);
-
-        });
+              });
+            });
+        }// end if
       });
-    }// end if
-  }
-});
-}
-}
-
-// deleteing a message from inbox or sent (on pressing delete button)
-deleteMessage(): void {
-  const self = this;
-  // make DELETE request using messaging service
-  this.messageService.deleteMessage(this.message).subscribe(function (res) {
-    self._TranslateService.get('MESSAGING.TOASTR.MSG_DELETED').subscribe(function(translation) {
-      self.toastrService.success(translation);
-
-    });
-  });
-}
-
-// blocking the reciever of the message from messaging the current user again
-block(): void {
-  const self = this;
-  //  if the currentUser is the sender then the receipent is the person to block
- if (this.recipient !== this.currentUser.username ) {
-    this.blockedUser = this.recipient;
-    // else the recipient is the currentUser & the sender is the person to block
-  } else {
-    this.blockedUser = this.sender;
-  }
-  if (this.blockedUser === this.currentUser.username ) {
-    self._TranslateService.get('MESSAGING.TOASTR.BLOCK_SELF').subscribe(function(translation) {
-      self.toastrService.error(translation);
-    });
-      this.allIsWell = false;
+    }
   }
 
+  forward(): void {
+    const self = this;
+    this.allisWell = true;
 
-  for (let i = 0 ; i < this.currentUser.blocked.length; i++) {
-       if (this.currentUser.blocked[i] === this.blockedUser) {
-         self._TranslateService.get('MESSAGING.TOASTR.ALREADY_BLOCKED').subscribe(function(translation) {
-          self.toastrService.error(translation);
+    if (this.Recipient === '') {
+      this.allisWell = false;
+      self._TranslateService.get('MESSAGING.TOASTR.ENTER_RECIPIENT').subscribe(function (translation) {
+        self.toastrService.warning(translation);
+      }); this.allisWell = false;
+    } else {
+      this.authService.getAnotherUserData(this.UserList, this.Recipient.toString()).subscribe((user) => {
+        if (!user.data) {
+          self.allisWell = false;
+          this._TranslateService.get('MESSAGING.TOASTR.VALID_NAME').subscribe(function (translation) {
+            self.toastrService.error(translation);
+          });
+        } else {
+          this.list = user.data.blocked;
+          for (let i = 0; i < user.data.blocked.length; i++) {
+            if (this.currentUser.username === this.list[i]) {
+              this._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function (translation) {
+                self.toastrService.error(translation);
+              });
+              this.allisWell = false;
+            } // end if
+          }// end for
 
-         });
-           this.allIsWell = false;
-       }// end if
-  } // end for
-  if (this.allIsWell === true) {
-    this.currentUser.blocked.push(this.blockedUser);
-  self.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
-    if (res.msg) {
-      this.translate.get('MESSAGING.TOASTR.BLOCK').subscribe(function(translation) {
+          // make a POST request using messaging service
+          if (this.allisWell === true) {
+            // create a message object with the info the user entered
+            this.msg = {
+              'body': this.body, 'recipient': this.Recipient, 'recipientAvatar': user.data.avatar,
+              'sender': this.currentUser.username, 'senderAvatar': this.currentUser.avatar
+            };
+            this.messageService.send(this.msg)
+              .subscribe(function (res) {
+                self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function (translation) {
+                  self.toastrService.success(translation);
+
+                });
+              });
+          }// end if
+        }
+      });
+    }
+  }
+
+  // deleteing a message from inbox or sent (on pressing delete button)
+  deleteMessage(): void {
+    const self = this;
+    // make DELETE request using messaging service
+    this.messageService.deleteMessage(this.message).subscribe(function (res) {
+      self._TranslateService.get('MESSAGING.TOASTR.MSG_DELETED').subscribe(function (translation) {
         self.toastrService.success(translation);
 
       });
+    });
+  }
+
+  // blocking the reciever of the message from messaging the current user again
+  block(): void {
+    const self = this;
+    //  if the currentUser is the sender then the receipent is the person to block
+    if (this.recipient !== this.currentUser.username) {
+      this.blockedUser = this.recipient;
+      // else the recipient is the currentUser & the sender is the person to block
+    } else {
+      this.blockedUser = this.sender;
+    }
+    if (this.blockedUser === this.currentUser.username) {
+      self._TranslateService.get('MESSAGING.TOASTR.BLOCK_SELF').subscribe(function (translation) {
+        self.toastrService.error(translation);
+      });
+      this.allIsWell = false;
+    }
+
+
+    for (let i = 0; i < this.currentUser.blocked.length; i++) {
+      if (this.currentUser.blocked[i] === this.blockedUser) {
+        self._TranslateService.get('MESSAGING.TOASTR.ALREADY_BLOCKED').subscribe(function (translation) {
+          self.toastrService.error(translation);
+
+        });
+        this.allIsWell = false;
+      }// end if
+    } // end for
+    if (this.allIsWell === true) {
+      this.currentUser.blocked.push(this.blockedUser);
+      self.messageService.block(this.blockedUser, this.currentUser).subscribe(function (res) {
+        if (res.msg) {
+          this.translate.get('MESSAGING.TOASTR.BLOCK').subscribe(function (translation) {
+            self.toastrService.success(translation);
+
+          });
+        }// end if
+      });
     }// end if
-});
-}// end if
-}// end method
+  }// end method
 
 }

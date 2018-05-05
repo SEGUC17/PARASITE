@@ -216,6 +216,7 @@
           "SIGN_IN": "Get back to the website"
       },
       "TOASTER": {
+          "CONNECTION_ERROR": "No Response From Server!",
           "SIGN_UP_SUCCESSFULL": "Sign Up Is Successful!\nVerification Mail Was Sent To Your Email!",
           "SIGN_IN_SUCCESSFULL": "Sign In Is Successful! Welcome!",
           "NOT_MATCH_WARNING": "New and confirmed passwords do not match!",
@@ -224,7 +225,7 @@
           "VALID_EMAIL_WARNING": "Kindly provide a valid email address",
           "CHILD_SIGN_UP_SUCCESSFULL": "Child sign up successfull! A verification email has been sent.",
           "EMAIL_VERIFICATION": "Email Verification Is Successful!",
-          "EMAIL_VERIFICATION_SENT": "An message was sent to the provided email!"
+          "EMAIL_VERIFICATION_SENT": "A message was sent to the provided email!"
       },
       "CHILD_SIGN_UP": {
           "DONE": "Done",
@@ -535,6 +536,7 @@
           "NAWWAR": "Nawwar"
       },
       "INFO": {
+          "NONE": "Sorry no psychologists found.",
           "PHONE": "Phone",
           "EMAIL": "Email",
           "DAYSOFF": "Days Off",
@@ -674,15 +676,15 @@
       "NEXT": "Next"
   },
   "LANDING": {
-      "ENHANCE": "Enhance your learning experience",
-      "ENHANCE_DESC": "Whether you are a home-schooled student, or a typical student, we got your back, with educational resources, study plans, and more.",
-      "ENJOY": "Enjoy some extracurricular time",
-      "ENJOY_DESC": "Want to learn photography? Or maybe attend a little session on pre-medieval alchemy? How about some Yoga then? Check out the activities offered on our website.",
+      "ENHANCE": "Enhance Your Learning Experience",
+      "ENHANCE_DESC": "Whether you are a home-schooled student or a typical student, we've got your back! Our website provides educational resources, study plans, and even more!",
+      "ENJOY": "Enjoy Some Extracurricular Time",
+      "ENJOY_DESC": "Do you want to learn photography? Or maybe attend a little session on pre-medieval alchemy? How about some Yoga then? Check out the activities offered on our website!",
       "CONNECT": "Connect with Teachers and Parents",
-      "CONNECT_DESC": "Look for parents and teachers in your area and get in touch with them. Have them recommend content to you and your children.",
-      "MARKET": "That's not all...",
-      "MARKET_DESC": "We have a marketplace full of educational stuff,  an address book of verified psychologists, study plans to organize students' time and more!",
-      "FOUNDERS": "The Lovely Founders",
+      "CONNECT_DESC": "Look for parents and teachers in your area and get in touch with them. Have them recommend study material for you and your children.",
+      "MARKET": "That's Not All!",
+      "MARKET_DESC": "We have a marketplace full of educational equipment,  an address book of verified psychologists, study plans to organize students' time, and more!",
+      "FOUNDERS": "The Founders",
       "GET_STARTED": "Ready to get started? Sign up now!",
       "SIGNUP": "Sign up!",
       "ABOUT_US": "About Us",
@@ -691,6 +693,8 @@
       "RIGHTS": "Nawwar 2018. All Rights Reserved.",
       "SWITCH_LANGUAGE": "تبديل اللغة",
       "SEND": "Send",
-      "CANCEL": "Cancel"
+      "CANCEL": "Cancel",
+      "SIGN_IN": "Sign In",
+      "CHECK_CONTENT": "Discover Our Educational Resources"
   }
 }

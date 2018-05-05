@@ -12,7 +12,6 @@ export class PsychologistService {
   host: String = environment.apiUrl;
   constructor(private http: HttpClient) { }
   addRequest(req: PsychologistRequest): Observable<any> {
-    console.log("lkjhghfgdfgghh");
     return this.http.post<any>(this.host + 'psychologist/request/add/addRequest', req, httpOptions);
   }
   editRequest(req: PsychologistRequest): Observable<any> {
@@ -20,7 +19,6 @@ export class PsychologistService {
   }
   deletePsychologist(id: String): Observable<any> {
     const url = this.host + 'psychologist/delete/' + id;
-    console.log(id);
     return this.http.delete<any>(url, httpOptions);
   }
   getPsychologists(limiters: string): Observable<any> {

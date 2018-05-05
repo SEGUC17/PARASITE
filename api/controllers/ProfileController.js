@@ -298,10 +298,7 @@ module.exports.unLinkChild = function (req, res, next) {
     req.params.parentId,
     {
       $pull: { children: { $in: [req.body.child] } },
-      $push: {
-        children: req.body.child,
-        notifications: notification
-      }
+      $push: { notifications: notification }
     },
     { new: true },
     function (err, user) {

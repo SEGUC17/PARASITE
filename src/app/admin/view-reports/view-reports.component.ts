@@ -31,7 +31,7 @@ export class ViewReportsComponent implements OnInit {
         private _authService: AuthService,
         private toaster: ToastrService,
         private router: Router,
-        private translate: TranslateService) {
+        public translate: TranslateService) {
         this.getReports();
 
     }

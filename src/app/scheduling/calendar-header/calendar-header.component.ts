@@ -17,5 +17,5 @@ export class CalendarHeaderComponent {
 
   @Output() viewDateChange: EventEmitter<Date> = new EventEmitter();
 
-  constructor(private translate: TranslateService) { }
+  constructor(public translate: TranslateService) { }
 }

@@ -14,7 +14,7 @@ export class CategoryManagementComponent implements OnInit {
   constructor(
     private adminservice: AdminService,
     private contentService: ContentService,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
   // retrieve all categories from server
   getCategories(): void {

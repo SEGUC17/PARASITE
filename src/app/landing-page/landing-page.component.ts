@@ -9,7 +9,7 @@ import { LandingService } from '../landing.service';
 })
 export class LandingPageComponent implements OnInit, OnDestroy {
 
-  constructor(private translate: TranslateService, private landingService: LandingService) { }
+  constructor(public translate: TranslateService, private landingService: LandingService) { }
 
   ngOnInit() {
     this.landingService.setLandingView(true);
@@ -18,9 +18,12 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   switchLang() {
     if (this.translate.currentLang === 'en') {
       this.translate.use('ara');
+      $('body').addClass('rtl');
     } else {
       this.translate.use('en');
+      $('body').removeClass('rtl');
     }
+    window.scrollTo(0, 0);
   }
   ngOnDestroy() {
     this.landingService.setLandingView(false);

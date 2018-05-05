@@ -30,12 +30,13 @@ export class ContactUsComponent implements OnInit {
 
   constructor(private _MessageService: MessageService,
     private _Toastr: ToastrService,
-    private _AuthService: AuthService, private translate: TranslateService) {
+    private _AuthService: AuthService, public translate: TranslateService) {
 
     const self = this;
     const userDataColumns = ['username'];
     this._AuthService.getUserData(userDataColumns).subscribe(function (response) {
       self.user = true;
+      self.msg.sender = response.data.username;
     }, function (error) {
       if (error.status === 401) {
         self.visitor = true;
@@ -48,6 +49,7 @@ export class ContactUsComponent implements OnInit {
   ngOnInit() {
   }
   contact_us() {
+    // tslint:disable-next-line:max-line-length
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     const self = this;

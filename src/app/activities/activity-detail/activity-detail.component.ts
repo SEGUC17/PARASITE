@@ -35,8 +35,8 @@ export class ActivityDetailComponent implements OnInit {
     isAdmin: false,
     verified: false,
     avatar: null,
-    username: 'Mohamed Maher'
-
+    username: 'Mohamed Maher',
+    isChild: false
   };
   // updatedActivity: ActivityCreate;
   isCreator = false;
@@ -78,7 +78,7 @@ export class ActivityDetailComponent implements OnInit {
     private discussionService: DiscussionService,
     private router: Router,
     private authService: AuthService,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private toastrService: ToastrService
   ) { }
 
@@ -98,17 +98,8 @@ export class ActivityDetailComponent implements OnInit {
     });
     this.authService.getUserData(['username']).subscribe(function (res) {
       this.username = res.data.username;
-      console.log('booked? ' + self.isBooked);
-      console.log('creator? ' + self.isCreator);
     });
   }
-
-  testForDiscussion() {
-    console.log('printing the date here');
-    console.log(new Date(this.activity.discussion[0].createdAt).getTime());
-    console.log('after date');
-  }
-
 
   getCurrentUser() {
     let self = this;
@@ -129,8 +120,6 @@ export class ActivityDetailComponent implements OnInit {
         self.canBookFor = res.data.children;
         self.canBookFor.push(res.data.username);
       }
-      console.log('signed in : ' + self.signedIn);
-      console.log(res);
     }
     );
 
@@ -157,9 +146,6 @@ export class ActivityDetailComponent implements OnInit {
   onDelete(i: any) {
     let self = this;
     this.discussionService.deleteCommentOnActivity(this.activity._id, i).subscribe(function (err) {
-      if (err) {
-        console.log(err);
-      }
       self.refreshComments(false);
     });
   }
@@ -167,9 +153,6 @@ export class ActivityDetailComponent implements OnInit {
   onDeleteReply(commentId: any, replyId: any) {
     let self = this;
     this.discussionService.deleteReplyOnCommentOnActivity(this.activity._id, commentId, replyId).subscribe(function (err) {
-      if (err) {
-        console.log(err);
-      }
       self.refreshComments(false);
     });
   }
@@ -224,22 +207,17 @@ export class ActivityDetailComponent implements OnInit {
   addComment() {
 
     if (!this.changingComment || 0 === this.changingComment.length || !this.changingComment.trim()) {
-      console.log('you have to write something.');
       return;
     }
     if (this.isReplying) {
-
-      console.log('replying');
       let self = this;
       this.discussionService.postReplyOnCommentOnActivity(
         this.activity._id,
         this.commentReplyingOn,
         self.changingComment).subscribe(function (err) {
           if (err.msg !== 'reply created successfully') {
-            console.log('err in posting');
             self.refreshComments(false);
           }
-          console.log('no error elhamdulla ');
           self.refreshComments(false);
           self.changingComment = '';
         });
@@ -247,7 +225,6 @@ export class ActivityDetailComponent implements OnInit {
       let self = this;
       this.discussionService.postCommentOnActivity(this.activity._id, self.changingComment).subscribe(function (err) {
         if (err.msg === 'reply created successfully') {
-          console.log('err in posting');
         }
         self.refreshComments(false);
         self.changingComment = '';
@@ -296,7 +273,6 @@ export class ActivityDetailComponent implements OnInit {
     let id = this.route.snapshot.paramMap.get('id');
     this.activityService.EditActivity(this.updatedActivity, id).subscribe(
       res => {
-        console.log(res);
       }
 
     );
@@ -336,7 +312,6 @@ export class ActivityDetailComponent implements OnInit {
             });
         }
       });
-      // TODO: handle image uploading success and use the url to retrieve the image later
     }
     document.getElementById('closeModal').click();
     document.focus();
@@ -352,10 +327,8 @@ export class ActivityDetailComponent implements OnInit {
   bookActivity() {
     this.activityService.bookActivity(this.activity, { username: this.bookingUser }).subscribe(
       res => {
-        console.log(this.canBookFor);
         let index = this.canBookFor.indexOf(this.bookingUser);
         this.canBookFor.splice(index, 1);
-        console.log(this.canBookFor);
         this.bookingUser = null;
         this.translate.get('ACTIVITIES.DETAIL.BOOK_SUCCESS').subscribe((res: string) => {
           this.toastrService.success(res);

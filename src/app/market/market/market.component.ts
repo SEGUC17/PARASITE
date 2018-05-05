@@ -42,7 +42,7 @@ export class MarketComponent implements OnInit {
 
   constructor(public dialog: MatDialog, public router: Router,
     private marketService: MarketService, private authService: AuthService,
-    @Inject(DOCUMENT) private document: Document, private translate: TranslateService) {
+    @Inject(DOCUMENT) private document: Document, public translate: TranslateService) {
   }
 
   // initializes the current pages in the market and user item

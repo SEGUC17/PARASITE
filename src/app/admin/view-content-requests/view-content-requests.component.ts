@@ -28,7 +28,7 @@ export class ViewContentRequestsComponent implements OnInit {
     private router: Router,
     private _authService: AuthService,
     private _messageService: MessageService,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -63,7 +63,6 @@ export class ViewContentRequestsComponent implements OnInit {
     let self = this;
     let wantedCols: string[] = ['contributionScore'];
     self._authService.getAnotherUserData(wantedCols, username).subscribe(function (res) {
-      console.log('old contribution score is ' + res.data.contributionScore);
       self._adminService.respondContentRequest('approved', Rid, Cid, true, res.data.contributionScore).subscribe(function (res1) {
         self.viewPendingContReqs();
       });

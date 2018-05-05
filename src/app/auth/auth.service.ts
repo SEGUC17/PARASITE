@@ -18,6 +18,7 @@ const httpOptions = {
 export class AuthService {
 
   private localStorageTokenName = 'jwtToken';
+  private homepageUrl = '/newsfeed';
 
   constructor(
     private http: HttpClient,
@@ -26,7 +27,7 @@ export class AuthService {
     private facebookService: FacebookService,
     private googleApiService: GoogleApiService,
     private googleAuthService: GoogleAuthService,
-    private translate: TranslateService
+    public translate: TranslateService
   ) {
     let initParams: InitParams = {
       appId: environment.facebookAppID,
@@ -92,7 +93,7 @@ export class AuthService {
                 self.toastrService.success(translation);
               }
             );
-            self.router.navigateByUrl('/newsfeed');
+            self.redirectToHomePage();
           }
         });
       })
@@ -126,7 +127,7 @@ export class AuthService {
                   self.toastrService.success(translation);
                 }
               );
-              self.router.navigateByUrl('/newsfeed');
+              self.redirectToHomePage();
             }
           });
         })
@@ -143,9 +144,7 @@ export class AuthService {
 
   isSignedIn(): Observable<any> {
     const self = this;
-    return this.http.get<any>(environment.apiUrl + 'isSignedIn').pipe(
-      catchError(self.handleError('isSignedIn', []))
-    );
+    return this.http.get<any>(environment.apiUrl + 'isSignedIn');
   }
 
   signOut(): void {
@@ -211,7 +210,12 @@ export class AuthService {
         operation === 'resetPassword' ||
         operation === 'modifyNotification'
       ) {
-        if (self.translate.currentLang === 'en') {
+        if (error.status === 0) {
+          self.translate.get('AUTH.TOASTER.CONNECTION_ERROR').subscribe(
+            function (translation) {
+              self.toastrService.error(translation);
+            });
+        } else if (self.translate.currentLang === 'en') {
           self.toastrService.error(error.error.msg);
         } else {
           self.toastrService.error('حدث خطأ ما؛ حاول مرة أخرى لاحقًا');
@@ -219,6 +223,33 @@ export class AuthService {
       }
       return of(result as T);
     };
+  }
+
+  isAuthenticated() {
+    const self = this;
+    this.isSignedIn().subscribe(function (res) {
+
+    }, function (err) {
+      if (err.status === 401) {
+        self.router.navigateByUrl('/landing');
+      }
+    });
+  }
+
+  isNotAuthenticated() {
+    const self = this;
+    this.isSignedIn().subscribe(function (res) {
+
+    }, function (err) {
+      if (err.status === 403) {
+        self.redirectToHomePage();
+      }
+    });
+  }
+
+  redirectToHomePage(): void {
+    // this.router.navigateByUrl(this.homepageUrl);
+    window.location.replace(this.homepageUrl);
   }
 
 }

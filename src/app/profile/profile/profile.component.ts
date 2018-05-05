@@ -1,12 +1,13 @@
 /* tslint:disable-next-line:max-line-length */
-/* tslint:disable */
+/* tslint:disable:max-line-length */
+
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ProfileService } from '../profile.service';
 import { AuthService } from '../../auth/auth.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
-import {  DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -24,7 +25,7 @@ declare const $: any;
 })
 
 export class ProfileComponent implements OnInit {
- 
+
   reportReason: string;
   _this;
   // ---------- FLAGS --------------------
@@ -36,7 +37,7 @@ export class ProfileComponent implements OnInit {
   currCanBeParent = false;
   currHasPP = false;
   currIsAdmin = false;
-  
+
   visitedIsParent = false;
   visitedIsChild = false;
   visitedIsMyChild = false;
@@ -67,10 +68,10 @@ export class ProfileComponent implements OnInit {
   birthdayView: string;
 
   // -------------------------------------
-  educationalSystem: string = 'Educational System';
-  educationalLevel: string = 'Educational Level';
-  vEducationalSystem: string = 'Educational System';
-  vEducationalLevel: string = 'Educational Level';
+  educationalSystem = 'Educational System';
+  educationalLevel = 'Educational Level';
+  vEducationalSystem = 'Educational System';
+  vEducationalLevel = 'Educational Level';
   vSystems: any[] = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
   vLevels: any[] = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
   // ---------Visited User Info-----------
@@ -97,9 +98,11 @@ export class ProfileComponent implements OnInit {
   // ----------- Other Lists ------------
   listOfUncommonChildren: any[];
   listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username',
-    'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'isAdmin', 'educationSystem', 'educationLevel'];
+    'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent',
+    'blocked', 'isAdmin', 'educationSystem', 'educationLevel'];
   vListOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'email',
-    'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username', 'isAdmin', 'educationSystem', 'educationLevel'];
+    'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username',
+    'isAdmin', 'educationSystem', 'educationLevel'];
   // ------------------------------------
   // ------------ edited values ---------
   dFirstName: string;
@@ -119,7 +122,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
     private activatedRoute: ActivatedRoute, private messageService: MessageService,
-    private toastrService: ToastrService, private _datePipe: DatePipe, private translate: TranslateService ) { }
+    private toastrService: ToastrService, private _datePipe: DatePipe, public translate: TranslateService) { }
 
   ngOnInit() {
 
@@ -139,7 +142,7 @@ export class ProfileComponent implements OnInit {
       });
 
       // Fetching logged in user info
-      this.avatar = user.data.avatar
+      this.avatar = user.data.avatar;
       this.username = user.data.username;
       this.firstName = user.data.firstName;
       this.lastName = user.data.lastName;
@@ -181,7 +184,7 @@ export class ProfileComponent implements OnInit {
         this.vUsername = this.username;
       }
 
-      if (this.avatar != '') {
+      if (this.avatar !== '') {
         this.currHasPP = true;
       }
 
@@ -210,7 +213,6 @@ export class ProfileComponent implements OnInit {
           if (!(this.listOfChildren.indexOf(this.vUsername.toLowerCase()) < 0)) {
             this.visitedIsMyChild = true;
           }
-          console.log(this.listOfChildren);
           if (!(this.vListOfChildren.indexOf(this.username.toLowerCase()) < 0)) {
             this.visitedIsMyParent = true;
           }
@@ -220,7 +222,7 @@ export class ProfileComponent implements OnInit {
           if (this.vAge >= 18) {
             this.visitedCanBeParent = true;
           }
-          if (this.vAvatar != '') {
+          if (this.vAvatar !== '') {
             this.visitedHasPP = true;
           }
 
@@ -265,11 +267,11 @@ export class ProfileComponent implements OnInit {
     //     image: 'imageMaher.com',
     //     creator: '5ac12591a813a63e419ebce5'
     // }
-    var self = this;
+    let self = this;
     this._ProfileService.makeContributerValidationRequest({}).pipe(
       catchError(this.handleError('evalRequest', 'duplicate'))
     ).subscribe(function (res) {
-      if(res !== 'duplicate' ) {
+      if (res !== 'duplicate') {
         self.toastrService.success('request submitted');
       }
     });
@@ -281,20 +283,20 @@ export class ProfileComponent implements OnInit {
     };
     const self = this;
     this._ProfileService.linkAnotherParent(object, this.vId).subscribe(function (res) {
-      if(res.msg == 'User not found.'){
-      self.translate.get('PROFILE.TOASTER.USER_NOT_FOUND').subscribe(function(translation){
-        self.toastrService.error(translation);
-      })
-      // alert(res.msg);
+      if (res.msg === 'User not found.') {
+        self.translate.get('PROFILE.TOASTER.USER_NOT_FOUND').subscribe(function (translation) {
+          self.toastrService.error(translation);
+        });
+        // alert(res.msg);
+      }
+      if (res.msg === 'Link added succesfully.') {
+        self.translate.get('PROFILE.TOASTER.LINK_ANOTHER_PARENT').subscribe(function (translation) {
+          self.toastrService.success(translation);
+        });
+        // alert(res.msg);
+      }
     }
-    if(res.msg === 'Link added succesfully.'){
-      self.translate.get('PROFILE.TOASTER.LINK_ANOTHER_PARENT').subscribe(function(translation){
-        self.toastrService.success(translation);
-      })
-      // alert(res.msg);
-    }
-  }
-  );
+    );
 
   }
 
@@ -306,15 +308,15 @@ export class ProfileComponent implements OnInit {
     const self = this;
     this._ProfileService.Unlink(object, this.id).subscribe(function (res) {
       self.toastrService.success(res.msg);
-      if(res.msg == 'User not found.'){
-        self.translate.get('PROFILE.TOASTER.USER_NOT_FOUND').subscribe(function(translation){
+      if (res.msg === 'User not found.') {
+        self.translate.get('PROFILE.TOASTER.USER_NOT_FOUND').subscribe(function (translation) {
           self.toastrService.error(translation);
-        })
+        });
       }
-      if(res.msg == 'Link removed succesfully.'){
-        self.translate.get('PROFILE.TOASTER.UNLINK_MY_CHILD').subscribe(function(translation){
+      if (res.msg === 'Link removed succesfully.') {
+        self.translate.get('PROFILE.TOASTER.UNLINK_MY_CHILD').subscribe(function (translation) {
           self.toastrService.success(translation);
-        })
+        });
       }
 
     });
@@ -326,71 +328,75 @@ export class ProfileComponent implements OnInit {
     };
     const self = this;
     this._ProfileService.linkAsParent(object, this.vId).subscribe(function (res) {
-//      self.toastrService.success(res.msg);
-      if(res.msg == 'User not found.'){
-        self.translate.get('PROFILE.TOASTER.USER_NOT_FOUND').subscribe(function(translation){
+      //      self.toastrService.success(res.msg);
+      if (res.msg === 'User not found.') {
+        self.translate.get('PROFILE.TOASTER.USER_NOT_FOUND').subscribe(function (translation) {
           self.toastrService.error(translation);
-        })
+        });
       }
-      if(res.msg == 'Link added succesfully.'){
-        self.translate.get('PROFILE.TOASTER.LINK_ANOTHER_PARENT').subscribe(function(translation){
+      if (res.msg === 'Link added succesfully.') {
+        self.translate.get('PROFILE.TOASTER.LINK_ANOTHER_PARENT').subscribe(function (translation) {
           self.toastrService.success(translation);
-        })
+        });
       }
     });
   }
 
 
   ChangePassword(pws: any): void {
-    const self = this; 
-     if ((pws.newpw.length < 8)) {
-   //   self.toastrService.warning('Password should be at least 8 characters.');
-      self.translate.get('PROFILE.TOASTER.PASSWORD_LENGTH').subscribe(function(translation){
+    const self = this;
+    if ((pws.newpw.length < 8)) {
+      //   self.toastrService.warning('Password should be at least 8 characters.');
+      self.translate.get('PROFILE.TOASTER.PASSWORD_LENGTH').subscribe(function (translation) {
         self.toastrService.warning(translation);
-      })
+      });
     } else if (!(pws.newpw === pws.confirmpw)) {
-    //  self.toastrService.warning('New and confirmed passwords do not match!');
-    self.translate.get('PROFILE.TOASTER.NPASSWORD_CNPASSWORD').subscribe(function(translation){
-      self.toastrService.warning(translation);
-    })
+      //  self.toastrService.warning('New and confirmed passwords do not match!');
+      self.translate.get('PROFILE.TOASTER.NPASSWORD_CNPASSWORD').subscribe(function (translation) {
+        self.toastrService.warning(translation);
+      });
     } else {
       this._ProfileService.changePassword(this.id, pws).subscribe(function (res) {
-        if(res.msg === 'User password updated successfully.'){
-     //   self.toastrService.success(res.msg);
-     self.translate.get('PROFILE.TOASTER.CHANGE_PASSWORD').subscribe(function(translation){
-      self.toastrService.success(translation);
-    })   
-    }
+        if (res.msg === 'User password updated successfully.') {
+          //   self.toastrService.success(res.msg);
+          self.translate.get('PROFILE.TOASTER.CHANGE_PASSWORD').subscribe(function (translation) {
+            self.toastrService.success(translation);
+          });
+        }
       });
 
     }
   } // Author: Heidi
   EditChildIndependence() {
-let self =this;
-// getting the visited profile username and passing it to service
-// method to add it to the patch request
+    let self = this;
+    // getting the visited profile username and passing it to service
+    // method to add it to the patch request
     this._ProfileService.EditChildIndependence(this.vUsername).subscribe((function (res) {
-      if( res.msg.indexOf('13') < 0){ self.visitedIsChild=false;     self.translate.get('PROFILE.TOASTER.MAKE_INDEPENDENT_SUCCESS').subscribe(
-        function(translation) {
-          self.toastrService.success(translation);
-        });  }
-       else{    self.translate.get('PROFILE.TOASTER.MAKE_INDEPENDENT_FAIL').subscribe(
-        function(translation) {
-          self.toastrService.error(translation);
-        }); }
-    }));// if res.msg contains 13 then the child is under age and action is not allowed
+      if (res.msg.indexOf('13') < 0) {
+        self.visitedIsChild = false; self.translate.get('PROFILE.TOASTER.MAKE_INDEPENDENT_SUCCESS').subscribe(
+          function (translation) {
+            self.toastrService.success(translation);
+          });
+      } else {
+        self.translate.get('PROFILE.TOASTER.MAKE_INDEPENDENT_FAIL').subscribe(
+          function (translation) {
+            self.toastrService.error(translation);
+          });
+      }
+    })); // if res.msg contains 13 then the child is under age and action is not allowed
 
   }  // Author :Heidi
   UnlinkMyself() {
-// getting the visited profile username and passing it to service method to add it to the patch request
-let self =this;
+    // getting the visited profile username and passing it to service method to add it to the patch request
+    let self = this;
     this._ProfileService.UnlinkMyself(this.vUsername).subscribe((function (res) {
-  if (res.msg.indexOf('Successefully')>-1) 
-  { self.visitedIsMyParent = false;     
-     self.translate.get('PROFILE.TOASTER.UNLINK_INDEPENDENT').subscribe(
-    function(translation) {
-      self.toastrService.success(translation);
-    }); ;}
+      if (res.msg.indexOf('Successefully') > -1) {
+        self.visitedIsMyParent = false;
+        self.translate.get('PROFILE.TOASTER.UNLINK_INDEPENDENT').subscribe(
+          function (translation) {
+            self.toastrService.success(translation);
+          });
+      }
     }));
   }
 
@@ -411,28 +417,27 @@ let self =this;
     };
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
-    console.log(new Date(info.birthdate) <= new Date());
     if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
       this.vUsername = info.username;
       this.vFirstName = info.firstName;
       this.vLastName = info.lastName;
       this.vAddress = info.address;
       this.vPhone = [info.phone];
-      this.vBirthdayView = this._datePipe.transform(info.birthdate, 'MM/dd/yyyy');;
+      this.vBirthdayView = this._datePipe.transform(info.birthdate, 'MM/dd/yyyy');
       this.vEmail = info.email;
       this._ProfileService.changeChildinfo(info).subscribe(function (res) {
-        //self.toastrService.success(res.msg);
-        self.translate.get('PROFILE.TOASTER.CHANGE_CHILD_INFO').subscribe(function(translation){
+        // self.toastrService.success(res.msg);
+        self.translate.get('PROFILE.TOASTER.CHANGE_CHILD_INFO').subscribe(function (translation) {
           self.toastrService.success(translation);
-        })     
-       });
+        });
+      });
 
     } else {
-     // self.toastrService.error('Please enter a valid email address');
-//      alert('Please enter a valid email address');
-self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translation){
-  self.toastrService.error(translation);
-})  
+      // self.toastrService.error('Please enter a valid email address');
+      //      alert('Please enter a valid email address');
+      self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function (translation) {
+        self.toastrService.error(translation);
+      });
     }
   }
 
@@ -447,7 +452,6 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
       birthdate: (<HTMLInputElement>document.getElementById('qBirthday')).value,
       email: (<HTMLInputElement>document.getElementById('qEmail')).value
     };
-    console.log(info);
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const self = this;
     if (re.test(info.email) && (new Date(info.birthdate) <= new Date())) {
@@ -456,21 +460,22 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
       this.lastName = info.lastName;
       this.address = info.address;
       this.phone = [info.phone];
-      this.birthdayView = this._datePipe.transform(info.birthdate, 'MM/dd/yyyy');;
+      this.birthdayView = this._datePipe.transform(info.birthdate, 'MM/dd/yyyy');
       this.email = info.email;
       this._ProfileService.ChangeInfo(this.id, info).subscribe(function (res) {
-       // self.toastrService.success(res.msg);
-        self.translate.get('PROFILE.TOASTER.CHANGE_INFO').subscribe(function(translation){
+        // self.toastrService.success(res.msg);
+        self.translate.get('PROFILE.TOASTER.CHANGE_INFO').subscribe(function (translation) {
           self.toastrService.success(translation);
-        })      });
+        });
+      });
 
     } else {
-  //    self.toastrService.error('Please enter a valid email address');
-//      alert('Please enter a valid email address');
-self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translation){
-  self.toastrService.error(translation);
-})     
-}
+      //    self.toastrService.error('Please enter a valid email address');
+      //      alert('Please enter a valid email address');
+      self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function (translation) {
+        self.toastrService.error(translation);
+      });
+    }
   }
 
   calculateAge(birthdate: Date): Number {
@@ -501,77 +506,67 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
         reporter: this.username,
         reason: inputValue
       };
-      // console.log(report.reporter + ' ' + report.reason + ' ' + report.reportedPerson);
       this.sendReport(report);
       swal('Report sent!', 'reason: ' + inputValue, 'success');
     });
 
   }
   sendReport(report) {
-    // console.log('wasalt el sendReport');
     this._ProfileService.reportUser(report, this.vId).subscribe();
   }
 
 
   unblockUser(blocked) {
-    //calling the unblocking method in the service
+    // calling the unblocking method in the service
 
     const self = this;
     for (let i = 0; i < this.blocklist.length; i++) {
       if (this.blocklist[i] === blocked) {
 
         this.blocklist.splice(i, 1);
-        //   console.log('this user is no longer blocked', blocked);
-        //  console.log('updated list is', this.blocklist);
-      }  //end if
-    }//end for
+      }  // end if
+    }// end for
 
     this.messageService.unBLock(this.id, this.blocklist).subscribe(function (res) {
       if (res.msg) {
-    //    self.toastrService.success(res.msg);
-        self.translate.get('PROFILE.TOASTER.UNBLOCK').subscribe(function(translation){
+        //    self.toastrService.success(res.msg);
+        self.translate.get('PROFILE.TOASTER.UNBLOCK').subscribe(function (translation) {
           self.toastrService.success(translation);
-        })
-      }//end if
+        });
+      }// end if
     });
   }
 
   uploaded(url: string) {
     if (url === 'imageFailedToUpload') {
-      // console.log('image upload failed');
-      //this.toastrService.error('Image upload failed');
-      this.translate.get('PROFILE.TOASTER.UPLOAD_FAIL').subscribe(function(translation){
+      this.translate.get('PROFILE.TOASTER.UPLOAD_FAIL').subscribe(function (translation) {
         this.toastrService.error(translation);
-      })
+      });
     } else if (url === 'noFileToUpload') {
-    //  this.toastrService.error('Please select a photo');
-    this.translate.get('PROFILE.TOASTER.NO_FILE_TO_UPLOAD').subscribe(function(translation){
-      this.toastrService.error(translation);
-    })  
-  } else {
-      var upload = {
+      this.translate.get('PROFILE.TOASTER.NO_FILE_TO_UPLOAD').subscribe(function (translation) {
+        this.toastrService.error(translation);
+      });
+    } else {
+      let upload = {
         id: this.id,
         url: url
       };
-      // console.log('in vcC and its uploaded with url = '+ url);
       this.avatar = upload.url;
       this._ProfileService.changeProfilePic(upload).subscribe((res) => {
         if (res.data) {
-         // this.toastrService.success('Profile picture changed successfully');
-         this.translate.get('PROFILE.TOASTER.PROFILE_PIC_UPDATE').subscribe(function(translation){
-          this.toastrService.success(translation);
-        }) 
+          this.translate.get('PROFILE.TOASTER.PROFILE_PIC_UPDATE').subscribe(function (translation) {
+            this.toastrService.success(translation);
+          });
         } else {
-         // this.toastrService.error('Image upload failed')
-         this.translate.get('PROFILE.TOASTER.UPLOAD_FAIL').subscribe(function(translation){
-          this.toastrService.error(translation);
-        })
+          this.translate.get('PROFILE.TOASTER.UPLOAD_FAIL').subscribe(function (translation) {
+            this.toastrService.error(translation);
+          });
         }
       });
       // TODO: handle image uploading success and use the url to retrieve the image later
     }
     document.getElementById('closeModal').click();
-    document.focus;
+    document.focus();
 
   }
 
@@ -598,7 +593,7 @@ self.translate.get('PROFILE.TOASTER.INVALID_EMAIL').subscribe(function(translati
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
-    var self = this;
+    let self = this;
     return function (error: any): Observable<T> {
       self.toastrService.error(error.error.msg);
       return of(result as T);

@@ -29,7 +29,7 @@ export class PublishedStudyPlansComponent implements OnInit {
   deleteIndex: number;
 
   constructor(private studyPlanService: StudyPlanService, private authService: AuthService, private router: Router,
-    private activatedRoute: ActivatedRoute, private toastrService: ToastrService, private translate: TranslateService) { }
+    private activatedRoute: ActivatedRoute, private toastrService: ToastrService, public translate: TranslateService) { }
 
   ngOnInit() {
     this.authService.getUserData(['username', 'isChild', 'isAdmin']).subscribe(currUser => {

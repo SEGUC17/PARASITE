@@ -16,7 +16,7 @@ export class SectionCreateComponent implements OnInit {
   constructor(
     private toasterService: ToastrService,
     private adminService: AdminService,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
   selectedCategory: Category;
   selectedSection = {
