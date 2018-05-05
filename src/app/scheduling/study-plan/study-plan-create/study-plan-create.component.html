@@ -7,7 +7,7 @@
           <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate }}</a>
       </li>
       <li class="breadcrumb-item">
-        <a routerLink="/profile/{{ profileUsername }}">
+        <a routerLink="/profile/{{ username }}">
           <i class="zmdi zmdi-account-circle">
           </i> {{ username }}</a>
       </li>
@@ -198,7 +198,7 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLANCREATE.SAVE_CHANGES' | translate }}</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLANCREATE.SAVE_CHANGES' | translate }}</button>
         <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLANCREATE.CANCEL' | translate }}</button>
       </div>
     </div>

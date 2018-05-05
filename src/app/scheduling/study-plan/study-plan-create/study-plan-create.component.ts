@@ -51,7 +51,7 @@ export class StudyPlanCreateComponent implements OnInit {
     [{ 'script': 'sub' }, { 'script': 'super' }],
     [{ 'direction': 'rtl' }],
   ];
-  private editorOptions: Object = {
+  editorOptions: Object = {
     placeholder: (this.translate.currentLang === 'ara') ? 'أدخل المحتوى هنا' : 'insert content here',
     modules: {
       toolbar: this.toolbarOptions
@@ -71,7 +71,13 @@ export class StudyPlanCreateComponent implements OnInit {
   editStart = new Date();
   editEnd = new Date();
 
+  // create modal
+  createTitle;
+  createDescription;
+
   // edit modal control
+  editTitle;
+  editDescription;
   editIndex = 0;
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
