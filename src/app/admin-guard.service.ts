@@ -15,7 +15,6 @@ export class AdminGuardService implements CanActivate {
     const self = this;
 
     return this.authService.getUserData(['isAdmin']).map(function (user) {
-      console.log(user.data.isAdmin);
       if (!user.data) {
         self.router.navigate(['/content/list']);
         return false;
