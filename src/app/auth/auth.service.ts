@@ -251,8 +251,7 @@ export class AuthService {
   }
 
   redirectToHomePage(): void {
-    // this.router.navigateByUrl(this.homepageUrl);
-    window.location.replace(this.homepageUrl);
+    this.router.navigateByUrl(this.homepageUrl);
   }
 
 }
