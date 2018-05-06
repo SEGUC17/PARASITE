@@ -2,11 +2,17 @@
 <nav class="navbar navbar-light bg-light IhateCss">
   <div class="container" style="background-color: #F3F6DC;">
     <img class="img-fluid" style="height: 1cm;" src="assets/images/landing/header.png" />
-    <a class="btn btn-primary" routerLink="/auth/sign-in">{{ 'LANDING.SIGN_IN' | translate }}</a>
+    <div class="row">
+      <div class="col">
+        <a *ngIf="!isSignedIn()" class="btn btn-primary" routerLink="/auth/sign-in">{{ 'LANDING.SIGN_IN' | translate }}</a>
+        <a *ngIf="isSignedIn()" class="btn btn-primary" routerLink="/newsfeed">{{ 'LANDING.GO_NEWSFEED' | translate }}</a>
+      </div>
+      <div class="col">
+        <a *ngIf="isSignedIn()" routerLink="/auth/sign-out" class="btn btn-warning">{{ 'LANDING.SIGN_OUT' | translate }}</a>
+      </div>
+    </div>
   </div>
 </nav>
-
-
 
 <!-- ADD SOMETHING LIKE, WHAT DO WE OFFER? here-->
 

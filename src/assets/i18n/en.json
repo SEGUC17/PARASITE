@@ -702,7 +702,8 @@
       "CHECK_CONTENT": "Discover Our Educational Resources",
       "TYPE_MSG": "Type your message . .",
       "PROVIDE_EMAIL": "Provide your e-mail here",
-      "EMPTY_EMAIL" : "You need to provide en e-mail"
-      
+      "EMPTY_EMAIL" : "You need to provide en e-mail",
+      "SIGN_OUT": "Sign Out",
+      "GO_NEWSFEED": "Enter Website"
   }
 }
