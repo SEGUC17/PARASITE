@@ -138,17 +138,6 @@ export class AppComponent implements OnInit {
         borderRadius: '3px',
         railBorderRadius: '0'
       });
-
-      $('.right_chat .chat_body .chat-widget').slimscroll({
-        height: 'calc(100vh - 145px)',
-        color: 'rgba(0,0,0,0.1)',
-        size: '2px',
-        alwaysVisible: false,
-        borderRadius: '3px',
-        railBorderRadius: '2px',
-        position: 'left'
-      });
-
       $('.right-sidebar .slim_scroll').slimscroll({
         height: 'calc(100vh - 60px)',
         color: 'rgba(0,0,0,0.4)',

@@ -1,12 +1,18 @@
 .nopadding {
     padding-right: 0 !important;
     margin-right: 0 !important;
- }
- button {
+}
+
+button {
     background-color: Transparent;
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     border: none;
-    cursor:pointer;
+    cursor: pointer;
     overflow: hidden;
-    outline:none;
+    outline: none;
+}
+
+.profile-img {
+    width: 32px;
+    height: 32px;
 }
