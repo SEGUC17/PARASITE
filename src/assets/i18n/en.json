@@ -420,7 +420,7 @@
       "TOASTR": {
           "EMPTY_MSG": "You can't send an empty message.",
           "BLOCKED": "Sorry, you are blocked.",
-          "MSG_SENT": "Message was sent!",
+          "MSG_SENT": "Message sent!",
           "ENTER_RECIPIENT": "Please specify a recipient.",
           "VALID_NAME": "Please enter a valid username.",
           "SEND_SELF": "You can't send a message to yourself",
@@ -698,6 +698,10 @@
       "SEND": "Send",
       "CANCEL": "Cancel",
       "SIGN_IN": "Sign In",
-      "CHECK_CONTENT": "Discover Our Educational Resources"
+      "CHECK_CONTENT": "Discover Our Educational Resources",
+      "TYPE_MSG": "Type your message . .",
+      "PROVIDE_EMAIL": "Provide your e-mail here",
+      "EMPTY_EMAIL" : "You need to provide en e-mail"
+      
   }
 }

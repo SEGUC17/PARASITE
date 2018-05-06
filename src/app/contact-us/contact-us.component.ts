@@ -28,13 +28,13 @@ export class ContactUsComponent implements OnInit {
   visitor;
 
 
-  constructor(private _MessageService: MessageService,
-    private _Toastr: ToastrService,
-    private _AuthService: AuthService, public translate: TranslateService) {
+  constructor(private Message: MessageService,
+    private Toastr: ToastrService,
+    private Auth: AuthService, public translate: TranslateService) {
 
     const self = this;
     const userDataColumns = ['username'];
-    this._AuthService.getUserData(userDataColumns).subscribe(function (response) {
+    this.Auth.getUserData(userDataColumns).subscribe(function (response) {
       self.user = true;
       self.msg.sender = response.data.username;
     }, function (error) {
@@ -54,12 +54,23 @@ export class ContactUsComponent implements OnInit {
 
     const self = this;
     if (self.msg.body === '') {
-      self._Toastr.warning('Cannot send an empty message');
+
+      this.translate.get('MESSAGING.TOASTR.EMPTY_MSG').subscribe(function(translation) {
+        self.Toastr.warning(translation);
+
+      });
     } else if (self.visitor === true && (!(re.test(self.msg.sender)))) {
-      self._Toastr.warning('You need to provide an email!');
+
+      this.translate.get('LANDING.EMPTY_EMAIL').subscribe(function(translation) {
+        self.Toastr.warning(translation);
+
+      });
     } else {
-      this._MessageService.contactus(self.msg).subscribe(function (res) {
-        self._Toastr.success(res.msg);
+
+      this.Message.contactus(self.msg).subscribe();
+      this.translate.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
+        self.Toastr.success(translation);
+
       });
     }
   }
