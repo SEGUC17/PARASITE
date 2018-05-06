@@ -3,61 +3,92 @@
   <div class="block-header">
     <div class="row">
       <div class="col-lg-7 col-md-6 col-sm-12">
-        <h2 [style.text-align]="translate.currentLang === 'ara'? 'right': null">{{ 'ACTIVITIES.LIST.ACTIVITY' | translate }}
+        <h2 [style.text-align]="translate.currentLang === 'ara'? 'right': left">{{ 'ACTIVITIES.LIST.ACTIVITY' | translate }}
           <small>{{ 'ACTIVITIES.DETAIL.WELCOME_MESSAGE' | translate }}</small>
         </h2>
       </div>
-      <div class="col-lg-5 col-md-6 col-sm-12" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" *ngIf="isCreator && !isBooked"
-          (click)="openDialog()">
-          <i class="zmdi zmdi-edit"></i>
-        </button>
-        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" *ngIf="(isCreator || currentUser.isAdmin) && !isBooked"
-          (click)="deleteActivity(activity)">
-          <i class="zmdi zmdi-delete"></i>
-        </button>
-        <ul class="breadcrumb float-md-right" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >
+      <div class="col-lg-5 col-md-6 col-sm-12" >
+         <div [class]="translate.currentLang === 'ara'? 'float-md-left':'float-md-right'">  
+            <button  [style]="translate.currentLang === 'ara'? 'margin-right:20px':null" class="btn btn-primary btn-icon btn-round hidden-sm-down  m-l-10" type="button" *ngIf="isCreator && !isBooked "
+            (click)="openDialog()">
+            <i class="zmdi zmdi-edit"></i>
+          </button>
+          <button class="btn btn-primary btn-icon btn-round hidden-sm-down  m-l-10" type="button" *ngIf="(isCreator || currentUser.isAdmin) && !isBooked" 
+            (click)="deleteActivity(activity)">
+            <i class="zmdi zmdi-delete"></i>
+          </button>
+        </div>
+        <ul [class]="translate.currentLang === 'ara'? 'breadcrumb float-md-left':'breadcrumb float-md-right'" >
+    
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">
-              <i class="zmdi zmdi-home"></i> Dasboard</a>
+              <i class="zmdi zmdi-home"></i> {{'APP.NAWWAR' | translate}}</a>
           </li>
           <li class="breadcrumb-item">
             <a routerLink="/activities">
               <i class="zmdi zmdi-home"></i> {{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}</a>
           </li>
-          <li class="breadcrumb-item active">{{activity.name}}</li>
+          <li class="breadcrumb-item active">{{ 'ACTIVITIES.DETAIL.DETAILS' | translate }}</li>
+ 
         </ul>
+  
       </div>
     </div>
   </div>
   <!--Activity Container -->
-  <div class="container-fluid">
+  <div class="container-fluid" [style.text-align]="translate.currentLang === 'ara'? 'right': left"
+  >    
     <div class="row clearfix">
       <div class="col-lg-12 col-md-12">
-        <div class="card profile-header bg-dark">
-          <div class="body col-white">
+      
+        <div class="card profile-header " >
+    
+          <div class="body ">
+              <div class="col-lg-18 col-md-18 col-72 ">
+                  
+                  <div >
+                      <a class=" m-l-10" *ngIf="isCreator && !isBooked"  href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture">
+                          <i class="zmdi zmdi-edit zmdi-hc-2x" ></i>
+                        </a>
+                      <img style="  margin-left:15px;margin-right:15px;width: 1000px; height: 450px;" [src]="activity.image" alt=""> </div>
+                      <div [align]="translate.currentLang === 'ara'? 'left':'right'">
+                   
+                      </div>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                  <div></div>
+                </div>
             <div class="row">
-              <div class="col-lg-3 col-md-4 col-12">
-                <div class="profile-image float-md-right">
-                  <img style="object-fit: cover; width: 230px; height: 230px;" [src]="activity.image" alt=""> </div>
-                  <a *ngIf="isCreator && !isBooked" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right">
-                    <i class="zmdi zmdi-edit"></i>
-                  </a>
-              </div>
+        
               <div class="col-lg-9 col-md-8 col-12">
-                <h4 class="m-t-0 m-b-0">{{activity.name}}</h4>
-                <span class="job_post">{{ 'ACTIVITIES.LIST.ACTIVITY' | translate }}</span>
-                <p>{{ 'ACTIVITIES.DETAIL.FROM' | translate }} : {{activity.fromDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}
-                  {{ 'ACTIVITIES.DETAIL.TO' | translate }} : {{activity.toDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}</p>
-                <div>
-                  <span style="color: #ff5722; margin-right: 4px">{{ activity.price | currency: 'EGP'}}</span>
-                  <button (click)="onReply(null); cancelReplying();" class="btn btn-primary btn-round btn-simple">{{ 'ACTIVITIES.DETAIL.COMMENT' | translate }}</button>
-                  <div *ngIf="signedIn && !currentUser.isChild">
-                    <button class="btn btn-primary btn-round" [disabled]="!bookingUser" (click)="bookActivity()">{{ 'ACTIVITIES.DETAIL.BOOK_FOR' | translate }}</button>
-                    <select class="form-control-sm form-control btn-primary col-sm-2" [(ngModel)]="bookingUser">
-                      <option *ngFor="let user of canBookFor" [ngValue]="user">{{user}}</option>
-                    </select>
-                  </div>
+                  <h4  ></h4>
+                <h4 class="m-t-0 m-b-0" style="margin-left:30px;margin-right:30px">{{activity.name}}</h4>
+                <p></p>
+              
+                <div style="margin-left:30px;margin-right:30px;" >
+                    <p>{{ 'ACTIVITIES.DETAIL.FROM' | translate }} : {{activity.fromDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}
+                        {{ 'ACTIVITIES.DETAIL.TO' | translate }} : {{activity.toDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}</p>  
+                  <span   style="color: #ff5722; margin-left: 4px">{{ activity.price | currency: 'EGP '}}
+                      <h4></h4>
+                      <div  style="margin-left: 4px"class ="row" *ngIf="signedIn && !currentUser.isChild" [align]="translate.currentLang === 'ara'? 'right':'left'">
+                          <button class="btn btn-primary btn-round" [disabled]=currentUser.booked  (click)="bookActivity(currentUser.username)">{{ 'ACTIVITIES.DETAIL.BOOK' | translate }}  <i *ngIf="currentUser.booked" class="zmdi zmdi-check"></i></button>
+                          <span class="dropdown">
+                          <button  *ngIf=!isEmpty style="margin-left: 30px;margin-right:30px" class="btn btn-primary btn-round" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" (click)="bookActivity()">{{ 'ACTIVITIES.DETAIL.BOOK_FOR' | translate }}<span class="caret"></span></button>
+                       <!--select class="form-control-sm form-control btn-primary col-sm-2" [(ngModel)]="bookingUser" >
+                           <option  *ngFor="let user of canBookFor">{{user}}</option>
+                          </select-->
+               
+                          <ul  class="dropdown-menu pullDown" >
+                              <li *ngFor="let user of canBookFor" (click)="bookActivity(user)">
+                                <a  >{{user}} </a>
+                              </li>
+                            </ul>
+                          </span>
+                        </div>
+                  </span>
+                
+                  
+                
                 </div>
                 <p class="social-icon m-t-5 m-b-0"></p>
               </div>
@@ -70,9 +101,9 @@
   </div>
   <!--....................-->
   <!--Activity Description-->
-  <div class="col-lg-12 col-md-12">
+  <div class="col-lg-12 col-md-12" >
     <div class="card" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
-      <div class="body">
+      <div class="body" style="margin-left:30px;margin-right:30px;">
         <h4>{{ 'ACTIVITIES.DETAIL.DESCRIPTION' | translate }}</h4>
         {{activity.description}}
       </div>
@@ -89,7 +120,7 @@
               <!--The part responsible for commenting-->
               <li *ngIf="signedIn" id="target">
                 <time [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="cbp_tmtime" style="width: 20%;" datetime="2017-11-04T18:30">
-                  <span class="large mt-2">Now</span>
+                  <span class="large mt-2">{{ 'ACTIVITIES.DETAIL.NOW' | translate }}</span>
                 </time>
                 <div class="cbp_tmicon bg-white">
                   <img [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="media-object rounded-circle" [src]="currentUser.avatar || defaultPP" alt="">
