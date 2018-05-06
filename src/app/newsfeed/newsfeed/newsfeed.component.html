@@ -44,7 +44,7 @@
           </div>
           <div class="body">
             <div class="img-post m-b-15">
-              <img src={{post.metadata.image}} alt="Awesome Image" width="100%">
+              <img src={{post.metadata.image}} onerror="src='assets/images/newsfeed/default.png'" alt="Awesome Image" width="100%">
             </div>
             <div *ngIf="post.metadata.description" class="preview text" [innerHTML]="post.metadata.description"></div>
             <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
