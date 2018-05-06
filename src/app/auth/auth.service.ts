@@ -82,8 +82,11 @@ export class AuthService {
 
   signInWithFacebook() {
     const self = this;
+    let loginOptions: LoginOptions = {
+      scope: 'email'
+    };
 
-    this.facebookService.login()
+    this.facebookService.login(loginOptions)
       .then(function (res: LoginResponse) {
         self.authFacebook(res.authResponse).subscribe(function (res2) {
           if (res2.msg === 'Sign In Is Successful!') {
