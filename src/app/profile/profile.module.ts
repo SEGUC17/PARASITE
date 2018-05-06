@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile/profile.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ProfileService } from './profile.service';
 import { ChildernComponent } from './profile/childern/childern.component';
 import {
@@ -40,7 +40,10 @@ import { FileUploadModule } from 'ng2-file-upload';
   ],
   declarations: [ProfileComponent, ChildernComponent, DirectMessagingComponent, ProfileImageUploaderComponent],
   providers: [
-    ProfileService, ToastrService, MessageService
+    ProfileService,
+    ToastrService,
+    MessageService,
+    DatePipe
   ]
 })
 export class ProfileModule { }

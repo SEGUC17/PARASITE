@@ -25,10 +25,10 @@
               <div class="row clearfix">
                 <div class="col-lg-5 col-md-4 col-6">
                   <div class="input-group search" *ngIf="filter[2]!='eduS'">
-                    <input type="text" class="form-control" placeholder="Search for Olfat" (keydown.enter)="this.getParents()" [(ngModel)]="searchKey">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-search"></i>
                     </span>
+                    <input type="text" class="form-control" placeholder="{{ 'SEARCH.SEARCH_PLACEHOLDER' | translate }}" (keydown.enter)="this.getParents()" [(ngModel)]="searchKey">
                   </div>
                   <div *ngIf="filter[2]=='eduS'">
                       <div class="radio">
@@ -79,27 +79,27 @@
         <button class="btn btn-primary btn-round btn-sm" type="button" (click) = "removeTags()">
           <i class="zmdi zmdi-search"></i> {{'SEARCH.REMOVE_ALL_TAGS'|translate}}
         </button>
-        </span>
+      </span>
       <span class="input-group-addon"  *ngIf="tags[0]!='NA'">
         <button class="btn btn-primary btn-round btn-sm" type="button" >
           <i class="zmdi zmdi-search"></i> {{ this.tags[0] }}
         </button>
-        </span>
-        <span class="input-group-addon"  *ngIf="tags[1]!='NA'">
-          <button class="btn btn-primary btn-round btn-sm" type="button" >
-            <i class="zmdi zmdi-search"></i> {{ this.tags[1] }}
-          </button>
-          </span>
-          <span class="input-group-addon"  *ngIf="tags[2]!='NA'">
-            <button class="btn btn-primary btn-round btn-sm" type="button" >
-              <i class="zmdi zmdi-search"></i> {{ this.tags[2] }}
-            </button>
-            </span>
-            <span class="input-group-addon"  *ngIf="tags[3]!='NA'">
-              <button class="btn btn-primary btn-round btn-sm" type="button" >
-                <i class="zmdi zmdi-search"></i> {{ this.tags[3] }}
-              </button>
-            </span>
+      </span>
+      <span class="input-group-addon"  *ngIf="tags[1]!='NA'">
+        <button class="btn btn-primary btn-round btn-sm" type="button" >
+          <i class="zmdi zmdi-search"></i> {{ this.tags[1] }}
+        </button>
+      </span>
+      <span class="input-group-addon"  *ngIf="tags[2]!='NA'">
+        <button class="btn btn-primary btn-round btn-sm" type="button" >
+          <i class="zmdi zmdi-search"></i> {{ this.tags[2] }}
+        </button>
+      </span>
+      <span class="input-group-addon"  *ngIf="tags[3]!='NA'">
+        <button class="btn btn-primary btn-round btn-sm" type="button" >
+          <i class="zmdi zmdi-search"></i> {{ this.tags[3] }}
+        </button>
+      </span>
               <div class="row clearfix">
                 
                 <div class="col-lg-3 col-md-4 col-sm-6 col-6" *ngFor="let user of users">

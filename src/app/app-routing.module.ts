@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
+import { FeatureGuardService } from './feature-guard.service';
+import { AdminGuardService } from './admin-guard.service';
 
 const routes = [
   {
@@ -16,11 +18,13 @@ const routes = [
   },
   {
     path: 'activities',
-    loadChildren: 'app/activities/activities.module#ActivitiesModule'
+    loadChildren: 'app/activities/activities.module#ActivitiesModule',
+    canLoad: [FeatureGuardService]
   },
   {
     path: 'admin',
-    loadChildren: 'app/admin/admin.module#AdminModule'
+    loadChildren: 'app/admin/admin.module#AdminModule',
+    canLoad: [AdminGuardService]
   },
   {
     path: 'auth',
@@ -32,15 +36,18 @@ const routes = [
   },
   {
     path: 'market',
-    loadChildren: 'app/market/market.module#MarketModule'
+    loadChildren: 'app/market/market.module#MarketModule',
+    canLoad: [FeatureGuardService]
   },
   {
     path: 'message',
-    loadChildren: 'app/messaging/messaging.module#MessagingModule'
+    loadChildren: 'app/messaging/messaging.module#MessagingModule',
+    canLoad: [FeatureGuardService]
   },
   {
     path: 'profile',
-    loadChildren: 'app/profile/profile.module#ProfileModule'
+    loadChildren: 'app/profile/profile.module#ProfileModule',
+    canLoad: [FeatureGuardService]
   },
   {
     path: 'psychologist',
@@ -48,14 +55,17 @@ const routes = [
   },
   {
     path: 'search',
-    loadChildren: 'app/search/search.module#SearchModule'
+    loadChildren: 'app/search/search.module#SearchModule',
+    canLoad: [FeatureGuardService]
   },
   {
     path: 'newsfeed',
-    loadChildren: 'app/newsfeed/newsfeed.module#NewsfeedModule'
+    loadChildren: 'app/newsfeed/newsfeed.module#NewsfeedModule',
+    canLoad: [FeatureGuardService]
   }, {
     path: 'scheduling',
-    loadChildren: 'app/scheduling/scheduling.module#SchedulingModule'
+    loadChildren: 'app/scheduling/scheduling.module#SchedulingModule',
+    canLoad: [FeatureGuardService]
   },
   {
     path: '**',

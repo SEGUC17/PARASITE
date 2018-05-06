@@ -13,7 +13,9 @@
         "CONNECT_PARENTS": "التواصل",
         "STUDY_PLANS": "الخطط الدراسية",
         "CHANGE_LANGUAGE": "تغيير اللغة",
-        "NEWSFEED": "اخر الأخبار"
+        "NEWSFEED": "اخر الأخبار",
+        "SIGN_UP_FOR_FULL_ACCESS": "قم بالتسجيل للاستمتاع بكل ميزات موقعنا",
+        "SIGN_IN_ADMIN": "ليس لديك إذن للوصول إلى هذه الصفحة"
     },
     "ACTIVITIES": {
         "CREATE": {
@@ -686,7 +688,8 @@
         "SYSTEM_OF_EDUCATION": "نظام التعليم",
         "REMOVE_ALL_TAGS": "احذف جميع الاشارات",
         "PREVIOUS": "السابق",
-        "NEXT": "التالى"
+        "NEXT": "التالى",
+        "SEARCH_PLACEHOLDER": "ابحث عن أولياء أمور آخرين"
     },
     "LANDING": {
         "ENHANCE": "عزز تجربتك التعليمية",
@@ -707,6 +710,7 @@
         "SWITCH_LANGUAGE": "Switch Language",
         "SEND": "إرسال",
         "CANCEL": "إلغاء",
-        "SIGN_IN": "تسجيل الدخول"
+        "SIGN_IN": "تسجيل الدخول",
+        "CHECK_CONTENT": "استكشف مواردنا التعليمية"
     }
 }
