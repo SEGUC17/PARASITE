@@ -30,8 +30,7 @@ module.exports.send = function (email, link) {
 
 
 module.exports.adminReply = function (email, emailBody) {
-    //console.log('reached adminReply');
-   // console.log('body is: ',emailBody);
+  
     var mailOptions = {
         from: 'email-verification@nawwar.com',
         to: email,
@@ -40,7 +39,6 @@ module.exports.adminReply = function (email, emailBody) {
     };
     transporter.sendMail(mailOptions, function (err, info) {
         if (err) {
-           // console.log('reached error of sendMail');
         }
     });
 };
@@ -60,4 +58,29 @@ module.exports.sendPsychID = function (email, id) {
             console.log(err);
         }
     });
+};
+
+module.exports.send_trueResetPW = function (firstName, email, link) {
+
+    var mailOptions = {
+        from:'email-verification@nawwar.com',
+        to: email,
+        subject: 'Reset Password Request - Nawwar.com',
+        html: ' <b><h3> Hello ' + firstName + ', <h3><br>' 
+        + '<p>You recently requested to reset your password for your Nawwar account so click on the link below'
+        + ' to reset your password <p>'
+        + '<br><a href= ' + link + '" class="button" type="reset" style="font-face: Comic Sans MS; font-size: larger'
+        +' ;color: red;margin-left:auto;margin-right:auto;display:block;margin-top:5%;margin-bottom:0%" >Reset Password</a><br>'
+        + '<p> If you did not request a password reset, kindly ignore this email or notify us by clicking on the'
+        +  '<b><i> CONTACT US <i><b> button back in our homepage.'
+        + '<b><h3>Nawwar<h3><b>'
+    };
+
+    transporter.sendMail(mailOptions, function(err, info) {
+
+        if(err) {
+            console.log(err);
+        }        
+    });
+
 };

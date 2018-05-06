@@ -894,7 +894,8 @@ module.exports.forgotPassword = function (req, res, next) {
                 throw err;
             } else if (user) {
                 // user exists in database
-                emailVerification.send(
+                emailVerification.send_trueResetPW(
+                    user.firstName,
                     user.email,
                     config.FRONTEND_URI +
                     'auth/forgot-password/reset-password/' + user._id
