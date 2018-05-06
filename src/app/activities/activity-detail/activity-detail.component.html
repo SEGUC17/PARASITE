@@ -139,7 +139,7 @@
                         </button>
                       </span>
                         <ng-template #elseTemplate>
-                          <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
+                          <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
                             {{ 'ACTIVITIES.DETAIL.REPLY' | translate }}
                           </button>
                         </ng-template>
