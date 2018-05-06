@@ -42,10 +42,13 @@
           "TO": "to",
           "COMMENT": "Comment",
           "REPLY": "Reply",
-          "BOOK_FOR": "Book for",
+          "BOOK_FOR": "Book for child",
           "DESCRIPTION": "Description",
           "WRITE_COMMENT": "leave a comment...",
-          "BOOK_SUCCESS": "Booked successfully"
+          "BOOK_SUCCESS": "Booked successfully",
+          "BOOK": "Book",
+          "NOW":"Now",
+          "DETAILS":"Details"
       },
       "EDIT": {
           "EDIT_ACTIVITY": "Edit Activity",

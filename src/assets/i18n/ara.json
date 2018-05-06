@@ -42,10 +42,13 @@
             "TO": "الى",
             "COMMENT": "اضف تعليق",
             "REPLY": "اضف رد",
-            "BOOK_FOR": "احجز لـ",
-            "DESCRIPTION": "الشرح",
+            "BOOK_FOR": "احجز لطفلك",
+            "DESCRIPTION":"الوصف",
             "WRITE_COMMENT": "...اترك تعليق",
-            "BOOK_SUCCESS": "....تم الحجز بنجاح"
+            "BOOK_SUCCESS": "....تم الحجز بنجاح",
+            "BOOK": "احجز ",
+            "NOW":"الآن",
+            "DETAILS":"تفاصيل"
         },
         "EDIT": {
             "EDIT_ACTIVITY": "تعديل النشاط",
