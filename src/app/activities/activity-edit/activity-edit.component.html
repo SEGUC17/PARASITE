@@ -32,7 +32,7 @@
             </div>
           <div class="col-md-12">
             <div class="form-group"[style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-              {{ 'ACTIVITIES.EDIT.DESCRIPTION' | translate }}<textarea rows=4 class="form-control no-resize"  matInput  [(ngModel)]= "data.description" name="description" required type="string" placeholder="{{ 'ACTIVITIES.EDIT.DESCRIPTION' | translate }}"></textarea>
+              {{ 'ACTIVITIES.EDIT.DESCRIPTION' | translate }}<textarea [rows]="translate.currentLang === 'ara'? 3: 4" class="form-control no-resize"  matInput  [(ngModel)]= "data.description" name="description" required type="string" placeholder="{{ 'ACTIVITIES.EDIT.DESCRIPTION' | translate }}"></textarea>
             </div>
           </div>
           <div  class="col-lg-8 col-md-8" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >

@@ -26,22 +26,27 @@ export class ActivityDetailComponent implements OnInit {
   isReplying: boolean;
   commentReplyingOn: any;
   signedIn: boolean;
+  toggle: String;
   canBookFor: String[];
+  BookFor: string[];
   bookingUser: String;
   defaultPP: String = 'assets/images/profile-view/defaultPP.png';
-
+isEmpty = false;
 
   currentUser = {
     isAdmin: false,
     verified: false,
     avatar: null,
     username: 'Mohamed Maher',
-    isChild: false
+    isChild: false,
+    booked: false
   };
   // updatedActivity: ActivityCreate;
   isCreator = false;
   isBooked = true;
   username = '';
+
+
   public updatedActivity: ActivityEdit = {
     name: '',
     description: null,
@@ -84,6 +89,7 @@ export class ActivityDetailComponent implements OnInit {
 
   ngOnInit() {
     let self = this;
+    self.BookFor = [''];
     self.getCurrentUser();
     self.getActivity();
     self.refreshComments(true);
@@ -96,9 +102,7 @@ export class ActivityDetailComponent implements OnInit {
         this.somePlaceholder = res;
       });
     });
-    this.authService.getUserData(['username']).subscribe(function (res) {
-      this.username = res.data.username;
-    });
+
   }
 
   getCurrentUser() {
@@ -118,9 +122,23 @@ export class ActivityDetailComponent implements OnInit {
         self.currentUser = res.data;
         self.signedIn = true;
         self.canBookFor = res.data.children;
-        self.canBookFor.push(res.data.username);
-      }
-    }
+
+        let id = self.route.snapshot.paramMap.get('id');
+        self.activityService.getActivity(id).subscribe(function(resp) {
+          if ( resp.data.bookedBy.includes(self.currentUser.username)) {
+  self.currentUser.booked = true;
+
+          }
+          self.BookFor = resp.data.bookedBy;
+        for (let x of self.BookFor ) {
+if ( self.canBookFor.includes(x)) {
+           self.canBookFor.splice(self.canBookFor.indexOf(x), 1);
+}
+if (self.canBookFor.length === 0) {
+  self.isEmpty = true; }
+
+      }});
+    }}
     );
 
   }
@@ -178,7 +196,7 @@ export class ActivityDetailComponent implements OnInit {
         if (this.activity.bookedBy.length < 1) { self.isBooked = false; }
         if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
         if (!this.activity.image) {
-          this.activity.image = 'assets/images/activity-view/default-activity-image.jpg';
+          this.activity.image = 'assets/images/activity-view/lam3y.png';
         }
       }
     );
@@ -324,17 +342,34 @@ export class ActivityDetailComponent implements OnInit {
 
   }
 
-  bookActivity() {
-    this.activityService.bookActivity(this.activity, { username: this.bookingUser }).subscribe(
+  bookActivity(user) {
+    let self = this;
+    this.authService.getUserData(['username']).subscribe(function (resp) {
+      this.bookingUser = resp.data.username;
+
+    self.activityService.bookActivity(self.activity, { username: user }).subscribe(
       res => {
-        let index = this.canBookFor.indexOf(this.bookingUser);
-        this.canBookFor.splice(index, 1);
-        this.bookingUser = null;
-        this.translate.get('ACTIVITIES.DETAIL.BOOK_SUCCESS').subscribe((res: string) => {
-          this.toastrService.success(res);
-        });
+
+if (user === resp.data.username) {
+self.currentUser.booked = true;
+ }
+
+
+if (self.canBookFor.includes(user.toLowerCase())) {
+        let index = self.canBookFor.indexOf(user.toLowerCase());
+        self.canBookFor.splice(index, 1);
+        self.bookingUser = null;
+
+
       }
-    );
+      if (self.canBookFor.length === 0) {
+        self.isEmpty = true; }
+        self.translate.get('ACTIVITIES.DETAIL.BOOK_SUCCESS').subscribe((res: string) => {
+          self.toastrService.success(res);
+        });
+    }
+
+    ); });
   }
 
 
