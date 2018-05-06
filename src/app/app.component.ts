@@ -116,13 +116,8 @@ export class AppComponent implements OnInit {
     $(function () {
       'use strict';
       CustomScrollbar();
-      initCounters();
       CustomPageJS();
     });
-    // Counters JS
-    function initCounters() {
-      $('.count-to').countTo();
-    }
     // All Custom Scrollbar JS
     function CustomScrollbar() {
       $('.sidebar .menu .list').slimscroll({
@@ -184,75 +179,6 @@ export class AppComponent implements OnInit {
             .removeClass('input-group-focus');
         });
     }
-    // Fullscreen
-    $(function () {
-      'use strict';
-      $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
-
-      if (!screenfull.enabled) {
-        return false;
-      }
-
-      $('#request').on('click', function () {
-        screenfull.request($('#container')[0]);
-        // Does not require jQuery. Can be used like this too:
-        // screenfull.request(document.getElementById('container'));
-      });
-
-      $('#exit').on('click', function () {
-        screenfull.exit();
-      });
-
-      $('[data-provide~="boxfull"]').on('click', function () {
-        screenfull.toggle($('.box')[0]);
-      });
-
-      $('[data-provide~="fullscreen"]').on('click', function () {
-        screenfull.toggle($('#container')[0]);
-      });
-
-      // let selector = '[data-provide~='boxfull']';
-      const selector = '[data-provide~="fullscreen"]';
-
-      $(selector).each(function () {
-        $(this).data('fullscreen-default-html', $(this).html());
-      });
-
-      document.addEventListener(screenfull.raw.fullscreenchange, function () {
-        if (screenfull.isFullscreen) {
-          $(selector).each(function () {
-            $(this).addClass('is-fullscreen');
-          });
-        } else {
-          $(selector).each(function () {
-            $(this).removeClass('is-fullscreen');
-          });
-        }
-      });
-
-      function fullscreenchange() {
-        const elem = screenfull.element;
-
-        $('#status').text('Is fullscreen: ' + screenfull.isFullscreen);
-
-        if (elem) {
-          $('#element').text(
-            'Element: ' + elem.localName + (elem.id ? '#' + elem.id : '')
-          );
-        }
-
-        if (!screenfull.isFullscreen) {
-          $('#external-iframe').remove();
-          document.body.style.overflow = 'auto';
-        }
-      }
-
-      screenfull.on('change', fullscreenchange);
-
-      // Set the initial values
-      fullscreenchange();
-    }); // End of use strict
-
     this.isSignedIn();
   }
 
@@ -312,6 +238,8 @@ export class AppComponent implements OnInit {
         let itemUsername = retrievednotifications[i].itemUsername;
         ///////////// all profile must be usernamesss
         // handle translating commenting
+
+        // translate the body of the notification
         if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('commented on your') !== -1) {
           retrievednotifications[i].body = 'قام أحدهم بالتعليق على إحدى مساهماتك على الموقع';
         }
@@ -320,56 +248,55 @@ export class AppComponent implements OnInit {
           retrievednotifications[i].body = 'قام أحدهم بالرد على إحدى تعليقاتك';
         }
 
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('Verified Contributer') !== -1) {
+          retrievednotifications[i].body = 'أصبحت الآن مساهم موثَّق';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unlinked you') !== -1) {
+          retrievednotifications[i].body = 'تم فصل حسابك الشخصي حساب متصل به بنجاح';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('booked your activity') !== -1) {
+          retrievednotifications[i].body = 'تمَّ حجز مكان في أحد أنشطتك';
+        }
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('activity was accepted') !== -1) {
+          retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد أنشطتك';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('content was accepted') !== -1) {
+          retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد مساهماتك التعليمية';
+        }
+
+        if (self.translate.currentLang === 'ara' &&
+          retrievednotifications[i].body.indexOf('updated Content has been successfully') !== -1) {
+          retrievednotifications[i].body = 'تم تحديث أحد مساهماتك التعليمية بنجاح';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('assigned you to') !== -1) {
+          retrievednotifications[i].body = 'تمَّ وضع خطة دراسية لك';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('study plan is now published') !== -1) {
+          retrievednotifications[i].body = 'تم نشر أحد خططك الدراسية بنجاح';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unassigned you from a Study Plan') !== -1) {
+          retrievednotifications[i].body = 'تمَّت إزالة خطة دراسية قد كانت معينة لك';
+        }
+
+        // attach links to notifications
         if ((type === 'link' || type === 'contributer') && itemUsername) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('are now a Verified Contributer') !== -1) {
-            retrievednotifications[i].body = 'أصبحت الآن مساهم موثَّق';
-          }
-
           retrievednotifications[i].link = '/profile/' + retrievednotifications[i].itemUsername;
-
         } else if ((type === 'activity' || type === 'discussion activity') && itemId) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('booked your activity') !== -1) {
-            retrievednotifications[i].body = 'تمَّ حجز مكان في أحد أنشطتك';
-          }
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('activity was accepted') !== -1) {
-            retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد أنشطتك';
-          }
-
           retrievednotifications[i].link = '/activities/' + retrievednotifications[i].itemId;
         } else if ((type === 'content' || type === 'discussion content') && itemId) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('content was accepted') !== -1) {
-            retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد مساهماتك التعليمية';
-          }
-
-          if (self.translate.currentLang === 'ara' &&
-            retrievednotifications[i].body.indexOf('updated Content has been successfully') !== -1) {
-            retrievednotifications[i].body = 'تم تحديث أحد مساهماتك التعليمية بنجاح';
-          }
-
           retrievednotifications[i].link = '/content/view/' + retrievednotifications[i].itemId;
         } else if (type === 'study plan A' && itemId) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('assigned you to') !== -1) {
-            retrievednotifications[i].body = 'تمَّ وضع خطة دراسية لك';
-          }
-
           retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId;
         } else if (type === 'study plan' && itemId && itemUsername) {
-
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('study plan is now published') !== -1) {
-            retrievednotifications[i].body = 'تم نشر أحد خططك الدراسية بنجاح';
-          }
-
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unassigned you from a Study Plan') !== -1) {
-            retrievednotifications[i].body = 'تمَّت إزالة خطة دراسية قد كانت معينة لك';
-          }
-
           retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId + '/' + itemUsername;
         } else if (type === 'product') {
           // do not need id in market
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('new product was approved') !== -1) {
-            retrievednotifications[i].body = 'تمَّ قبول منتجك وهو معروض في السوق الآن';
-          }
-
           retrievednotifications[i].link = '/market';
         } else {
           // if not any of these cases got to landing page
@@ -384,11 +311,9 @@ export class AppComponent implements OnInit {
   // method to change the website's language
   changeLanguage(): void {
     if (this.translate.currentLang === 'en') {
-      $('body').addClass('rtl');
       this.translate.use('ara');
       $('body').addClass('rtl');
     } else {
-      $('body').removeClass('rtl');
       this.translate.use('en');
       $('body').removeClass('rtl');
     }

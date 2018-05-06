@@ -41,6 +41,7 @@ export class ScheduleComponent implements OnInit {
   viewDate: Date = new Date();
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
+  index;
 
   // datetime picker variables
   createStart = new Date();
@@ -48,7 +49,14 @@ export class ScheduleComponent implements OnInit {
   editStart = new Date();
   editEnd = new Date();
 
+  // create modal
+  createTitle;
+  createDescription;
+
+
   // edit modal control
+  editTitle;
+  editDescription;
   editIndex = 0;
   editing = false;
 

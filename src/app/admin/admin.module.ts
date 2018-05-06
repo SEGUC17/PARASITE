@@ -41,6 +41,7 @@ import { ContentService } from '../content/content.service';
 import { ActivityService } from '../activities/activity.service';
 import { CalendarModule } from 'angular-calendar';
 import { TranslateModule } from '@ngx-translate/core';
+import { AdminGuardService } from '../admin-guard.service';
 
 @NgModule({
   imports: [
@@ -97,7 +98,8 @@ import { TranslateModule } from '@ngx-translate/core';
     AuthService,
     ActivityService,
     ContentService,
-    MessageService
+    MessageService,
+    AdminGuardService
   ]
 })
 export class AdminModule { }

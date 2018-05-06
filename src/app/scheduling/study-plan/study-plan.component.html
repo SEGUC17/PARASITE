@@ -3,11 +3,11 @@
     <ul [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'"
       class="breadcrumb float-right">
       <li class="breadcrumb-item">
-        <a routerLink="/dashboard">
+        <a routerLink="/newsfeed">
           <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate }}</a>
       </li>
       <li class="breadcrumb-item">
-        <a routerLink="{{ type === 'personal' ? '/profile/' + profileUsername : '/published-study-plans' }}">
+        <a routerLink="{{ type === 'personal' ? '/profile/' + profileUsername : '/scheduling/study-plan/published' }}">
           <i class="{{ type === 'personal' ? 'zmdi zmdi-account-circle' : 'zmdi zmdi-graduation-cap' }}">
           </i> {{ type === 'personal' ? ' ' + profileUsername : 'SCHEDULING.STUDYPLAN.STUDY_PLANS' | translate }}</a>
       </li>
@@ -237,7 +237,7 @@
       </div>
       <div class="modal-footer">
         <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-primary btn-round waves-effect"
-          data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLAN.SAVE_CHANGES' | translate }}</button>
+          data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLAN.SAVE_CHANGES' | translate }}</button>
         <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-danger btn-simple btn-round waves-effect"
           data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.STUDYPLAN.CANCEL' | translate }}</button>
       </div>

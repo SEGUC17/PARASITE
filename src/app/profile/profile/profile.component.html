@@ -166,19 +166,19 @@
                   <div class="body">
                     <label>{{'PROFILE.PROFILE.FIRST_NAME' | translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value={ {vFirstName}}>
+                      <input type="text" id="dFirstName" [ngModel]=dFirstName class="form-control" value={{this.vFirstName}}>
                     </div>
                     <label for="dLastName">{{'PROFILE.PROFILE.LAST_NAME' | translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value={ {vLastName}}>
+                      <input type="text" id="dLastName" [ngModel]=dLastName class="form-control" value={{vLastName}}>
                     </div>
                     <label for="dUsername">{{'PROFILE.PROFILE.USERNAME' | translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value={ {vUsername}} disabled>
+                      <input type="text" id="dUsername" [ngModel]=dUsername class="form-control" value={{vUsername}} disabled>
                     </div>
                     <label for="dEmail">{{'PROFILE.PROFILE.EDIT_EMAIL' | translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value={ {vEmail}} disabled>
+                      <input type="text" id="dEmail" [ngModel]=dEmail class="form-control" value={{vEmail}} disabled>
                     </div>
                     <label for="dEducationSystem">{{'PROFILE.PROFILE.EDUCATION_SYSTEM'| translate}}</label>
                     <br/>
@@ -208,18 +208,18 @@
                     <br/>
                     <label for="dAddress">{{'PROFILE.PROFILE.ADDRESS' |translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value={ {vAddress}}>
+                      <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value={{vAddress}}>
                     </div>
                     <label dir="ltr" for="dBirthday">{{'PROFILE.PROFILE.EDIT_BD' | translate}}</label>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <i class="zmdi zmdi-calendar"></i>
                       </span>
-                      <input type="text" id="dBirthday" class="form-control datetimepicker" value={ {vBirthdayView}}>
+                      <input type="text" id="dBirthday" class="form-control datetimepicker" value={{vBirthdayView}}>
                     </div>
                     <label for="dPhone">{{'PROFILE.PROFILE.EDIT_PHONE' | translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value={ {vPhone}}>
+                      <input type="text" id="dPhone" [ngModel]=dPhone class="form-control" value={{vPhone}}>
                     </div>
                     <button type="button" (click)="changeChildInfo()" class="btn btn-raised btn-primary btn-round waves-effect">{{'PROFILE.PROFILE.SAVE_CHANGES' | translate}}</button>
                   </div>
@@ -241,10 +241,10 @@
                   <input #Oldpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.CPASSWORD' | translate}}">
                 </div>
                 <div class="form-group">
-                  <input #Newpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.NPASSWORD' | translate}}" >
+                  <input #Newpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.NPASSWORD' | translate}}">
                 </div>
                 <div class="form-group">
-                  <input #Confirmpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.CNPASSWORD' | translate}}" >
+                  <input #Confirmpw type="password" class="form-control" placeholder="{{'PROFILE.PROFILE.CNPASSWORD' | translate}}">
                 </div>
                 <button class="btn btn-raised btn-primary btn-round waves-effect" (click)="ChangePassword({oldpw: Oldpw.value, newpw: Newpw.value, confirmpw: Confirmpw.value})">{{'PROFILE.PROFILE.CHANGE_PASSWORD' |translate}}</button>
               </div>
@@ -260,34 +260,34 @@
                   <div class="body">
                     <label for="dFirstName">{{'PROFILE.PROFILE.FIRST_NAME' | translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="qFirstName" [ngModel]=dFirstName class="form-control" value={ {firstName}}>
+                      <input type="text" id="qFirstName" [ngModel]=dFirstName class="form-control" value={{firstName}}>
                     </div>
                     <label for="dLastName">{{'PROFILE.PROFILE.LAST_NAME' | translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="qLastName" [ngModel]=dLastName class="form-control" value={ {lastName}}>
+                      <input type="text" id="qLastName" [ngModel]=dLastName class="form-control" value={{lastName}}>
                     </div>
                     <label for="dUsername">{{'PROFILE.PROFILE.USERNAME' | translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="qUsername" [ngModel]=dUsername class="form-control" value={ {username}} disabled>
+                      <input type="text" id="qUsername" [ngModel]=dUsername class="form-control" value={{username}} disabled>
                     </div>
                     <label for="dEmail">{{'PROFILE.PROFILE.EDIT_EMAIL' | translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="qEmail" [ngModel]=dEmail class="form-control" value={ {email}} disabled>
+                      <input type="text" id="qEmail" [ngModel]=dEmail class="form-control" value={{email}} disabled>
                     </div>
                     <label for="dAddress">{{'PROFILE.PROFILE.ADDRESS' |translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="qAddress" [ngModel]=dAddress class="form-control" value={ {address}}>
+                      <input type="text" id="qAddress" [ngModel]=dAddress class="form-control" value={{address}}>
                     </div>
                     <label for="dBirthday">{{'PROFILE.PROFILE.EDIT_BD' | translate}}</label>
                     <div class="input-group" dir="ltr">
                       <span class="input-group-addon">
                         <i class="zmdi zmdi-calendar"></i>
                       </span>
-                      <input type="text" id="qBirthday" class="form-control datetimepicker" value={ {birthdayView}}>
+                      <input type="text" id="qBirthday" class="form-control datetimepicker" value={{birthdayView}}>
                     </div>
                     <label for="dPhone">{{'PROFILE.PROFILE.EDIT_PHONE' | translate}}</label>
                     <div class="form-group">
-                      <input type="text" id="qPhone" [ngModel]=dPhone class="form-control" value={ {phone}}>
+                      <input type="text" id="qPhone" [ngModel]=dPhone class="form-control" value={{phone}}>
                     </div>
                     <button type="button" (click)="ChangeInfo()" class="btn btn-raised btn-primary btn-round waves-effect">{{'PROFILE.PROFILE.SAVE_CHANGES' | translate}}</button>
                   </div>

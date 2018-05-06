@@ -18,8 +18,10 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   switchLang() {
     if (this.translate.currentLang === 'en') {
       this.translate.use('ara');
+      $('body').addClass('rtl');
     } else {
       this.translate.use('en');
+      $('body').removeClass('rtl');
     }
     window.scrollTo(0, 0);
   }
