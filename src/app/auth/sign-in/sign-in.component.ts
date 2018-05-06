@@ -40,15 +40,7 @@ export class SignInComponent implements OnInit {
             self.toastrService.success(translation);
           }
         );
-<<<<<<< HEAD
-        // self.router.navigateByUrl('/newsfeed');
-        // used this instead in order for profile picture
-        // of the current user and the appropriate
-        // tabs appear to him
-        window.location.replace('/newsfeed');
-=======
         self.authService.redirectToHomePage();
->>>>>>> b0e19719ce59a107a6e8859b514eadba27798d3e
       }
     });
   }
