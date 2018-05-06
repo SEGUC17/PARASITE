@@ -88,15 +88,26 @@
           <div class="body widget popular-post">
             <div class="row">
               <div class="col-xl-12 col-lg-12">
-                <div class="border single_post">
-                  <div class="img-post m-b-5">
-                    <img src="assets/images/newsfeed/connectToMore.png" alt="Awesome Image">
+                <div class="card member-card" *ngFor="let person of people">
+
+                  <div class="header bg-blue-grey">
+                    <h4 class="m-t-10">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</h4>
                   </div>
-                  <p class="m-b-0 col-white">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</p>
+                  <div class="member-img">
+                    <a routerLink="/search" class="">
+                      <img src="assets/images/newsfeed/connectToMore.png" class="rounded-circle" alt="profile-image">
+                    </a>
+                  </div>
+                  <div class="body">
+                    <div class="col-12">
+                      <p class="text-muted">{{'NEWSFEED.CLICK_TO_CONNECT'|translate}}</p>
+                    </div>
+
+                  </div>
                 </div>
                 <div class="card member-card" *ngFor="let person of people">
                   <div *ngIf="person.username!=user.username">
-                    <div class="header l-pink">
+                    <div class="header bg-blue-grey">
                       <h4 class="m-t-10">{{person.firstName}} {{person.lastName}}</h4>
                     </div>
                     <div class="member-img">
