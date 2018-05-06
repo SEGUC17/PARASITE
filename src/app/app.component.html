@@ -1,11 +1,10 @@
-<!-- Page Loader -->
 <!-- Overlay For Sidebars -->
 <div class="overlay"></div>
 <!-- Navigation -->
 <div *ngIf="!landingService.getLandingView()">
     <div class="overlay"></div>
     <!-- Top Bar -->
-    <nav [ngClass]="'navbar col-lg-12 col-md-12' + (viewLanding ? ' d-none':'')">
+    <nav class="navbar col-lg-12 col-md-12">
         <ul class="nav navbar-nav navbar-left ">
             <li>
                 <div class="navbar-header">
@@ -134,49 +133,52 @@
                                 </span>
                             </li>
                         </ul>
-                        <!-- <li class="footer">
-                        <a href="javascript:void(0);">View All</a>
-                    </li> -->
+                    </li>
                 </ul>
-                </li>
-                <li class="dropdown app_menu mr-auto">
-                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        <i class="zmdi zmdi-apps"></i>
-                    </a>
-                    <ul class="dropdown-menu pullDown">
-                        <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
+            </li>
+            <li class="dropdown app_menu mr-auto">
+                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                    <i class="zmdi zmdi-apps"></i>
+                </a>
+                <ul class="dropdown-menu pullDown">
+                    <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
                         || link.url === '/profile' && username == undefined ">
-                            <a [routerLink]="link.url">
-                                <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                                <span>{{ link.name | translate }}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li>
-                    <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
-                        <i class="zmdi zmdi-globe"></i>
-                    </a>
-                    <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active"
-                        class="mega-menu">
-                        <i class="zmdi zmdi-power"></i>
-                    </a>
-                </li>
-                <li class="dropdown pulldown profile-img">
-                    <a *ngIf="username" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        <img class="img-responsive rounded-circle" [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
-                    </a>
-                    <ul class="dropdown-menu pullDown">
-                        <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
+                        <a [routerLink]="link.url">
+                            <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                            <span>{{ link.name | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="float-right">
+                <ul>
+                    <li>
+                        <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
+                            <i class="zmdi zmdi-globe"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active"
+                            class="mega-menu">
+                            <i class="zmdi zmdi-power"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown pulldown">
+                        <a *ngIf="username" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                            <img class="profile-img rounded-circle" [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
+                        </a>
+                        <ul class="dropdown-menu pullDown">
+                            <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
                             || link.url === '/profile' && username == undefined ">
-                            <a [routerLink]="link.url">
-                                <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                                <span>{{ link.name | translate }}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                                <a [routerLink]="link.url">
+                                    <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                                    <span>{{ link.name | translate }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
     <!-- Left Sidebar -->
