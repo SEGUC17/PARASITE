@@ -253,7 +253,7 @@ export class AppComponent implements OnInit {
         }
 
         if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unlinked you') !== -1) {
-          retrievednotifications[i].body = 'تم فصل حسابك الشخصي عن حساب أحد أبنائك بنجاح';
+          retrievednotifications[i].body = 'تم فصل حسابك الشخصي حساب متصل به بنجاح';
         }
 
         if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('booked your activity') !== -1) {
