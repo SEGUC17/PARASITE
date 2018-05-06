@@ -65,7 +65,7 @@ export class SendDialogComponent implements OnInit {
         this._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function(translation) {
           self.toastrService.success(translation);
         });
-      }// end if
+      } // end if
 
       // retrieveing the reciepient's info as an object
       if (self.allisWell === true) {
@@ -79,12 +79,12 @@ export class SendDialogComponent implements OnInit {
             const list = user.data.blocked;
             for ( let i = 0 ; i < user.data.blocked.length ; i++) {
               if ( self.currentUser.username === list[i] ) {
-                this._TranslateService.get('MESSAGING.TOASTR.SEND_SELF').subscribe(function(translation) {
+                this._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function(translation) {
                   self.toastrService.error(translation);
                 });
                 self.allisWell = false;
               } // end if
-            }// end for
+            } // end for
             if ( self.allisWell === true) {
               self.msg.recipientAvatar = user.data.avatar;
               self.messageService.send(this.msg).subscribe(function(res) {
