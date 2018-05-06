@@ -28,7 +28,7 @@
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-search"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="Search for Olfat" (keydown.enter)="this.getParents()" [(ngModel)]="searchKey">
+                    <input type="text" class="form-control" placeholder="{{ 'SEARCH.SEARCH_PLACEHOLDER' | translate }}" (keydown.enter)="this.getParents()" [(ngModel)]="searchKey">
                   </div>
                   <div *ngIf="filter[2]=='eduS'">
                       <div class="radio">

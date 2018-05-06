@@ -3,7 +3,6 @@ import { MessageService } from '../messaging.service';
 import { AuthService } from '../../auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Subscription } from 'rxjs/Subscription';
 import { OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 declare const $: any;
@@ -94,6 +93,9 @@ export class SingleMailComponent implements OnInit {
     const self = this;
     this.messageService.getContacts(this.currentUser.username).subscribe(function (contacts) {
       self.contacts = contacts.data;
+      self.contacts = self.contacts.filter(function (element, index, array) {
+        return element._id !== self.currentUser.username;
+     });
     });
   }
 
