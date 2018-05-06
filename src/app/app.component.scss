@@ -16,3 +16,18 @@ button {
     width: 32px;
     height: 32px;
 }
+
+.logo {
+    width: 30px;
+    height: 30px;
+}
+
+.navbar-nav>li>a{
+    padding: 0 9px !important;
+}
+
+@media only screen and(min-width: 1170px) {
+    .hide-lg {
+        display: none;
+    }
+}
