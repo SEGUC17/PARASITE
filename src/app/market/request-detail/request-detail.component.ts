@@ -22,7 +22,7 @@ export class RequestDetailComponent {
   newData = <any>{};
 
   constructor(private marketService: MarketService, public dialogRef: MatDialogRef<RequestDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private notify: ToastrService, private translate: TranslateService) {
+    @Inject(MAT_DIALOG_DATA) public data: any, private notify: ToastrService, public translate: TranslateService) {
     // Store the old data of the product
     this.oldData = data.product;
     // Set the image of the form

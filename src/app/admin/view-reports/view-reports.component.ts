@@ -31,7 +31,7 @@ export class ViewReportsComponent implements OnInit {
         private _authService: AuthService,
         private toaster: ToastrService,
         private router: Router,
-        private translate: TranslateService) {
+        public translate: TranslateService) {
         this.getReports();
 
     }
@@ -83,7 +83,7 @@ export class ViewReportsComponent implements OnInit {
         if ((<HTMLInputElement>document.getElementById('bannedUsername')).value) {
 
             this._authService.getAnotherUserData(['_id'], username).subscribe((resp) => {
-                if (resp.data._id) {
+                if (resp.data) {
                     this.banResponse = true;
                 } else {
                     this.banResponse = false;

@@ -27,11 +27,7 @@ export class ImageUploaderComponent implements OnInit {
   // Third in Component:
   //     uploaded(url: string) {
   //       if(url === 'imageFailedToUpload') {
-  //         console.log('image upload failed');
-  //         // TODO: handle image uploading failure
   //       } else {
-  //         console.log('in vcC and its uploaded with url = '+ url);
-  //         // TODO: handle image uploading success and use the url to retrieve the image later
   //       }
   //     }
   //

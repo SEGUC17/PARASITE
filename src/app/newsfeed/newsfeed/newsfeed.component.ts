@@ -19,7 +19,7 @@ export class NewsfeedComponent implements OnInit {
   user: any;
   constructor(private sanitizer: DomSanitizer, public router: Router,
     private newsfeedService: NewsfeedService, private authService: AuthService,
-    private translate: TranslateService) {
+    public translate: TranslateService) {
   }
 
   ngOnInit() {

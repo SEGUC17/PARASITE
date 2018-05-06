@@ -46,7 +46,7 @@ export class PsychologistComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private dialog: MatDialog,
-    private translate: TranslateService) {
+    public translate: TranslateService) {
     }
 
   formInput = <any>{};
@@ -205,9 +205,9 @@ export class PsychologistComponent implements OnInit {
       if (res.data) {
         self.admin = res.data.isAdmin;
       }
-      self.currentPageNumber = 1;
-      self.getPsychologists();
     });
+    self.currentPageNumber = 1;
+    self.getPsychologists();
   }
 
   // get a certain psychologist's data for editing

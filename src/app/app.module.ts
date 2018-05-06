@@ -31,6 +31,9 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MessageService } from './messaging/messaging.service';
 import { LandingService } from './landing.service';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { FeatureGuardService } from './feature-guard.service';
+import { AdminGuardService } from './admin-guard.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -70,7 +73,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    LoadingBarRouterModule
   ],
   providers: [
     AuthService,
@@ -82,7 +86,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     RatingService,
     ToastrService,
     MessageService,
-    LandingService
+    LandingService,
+    FeatureGuardService,
+    AdminGuardService
   ],
   bootstrap: [AppComponent]
 })

@@ -41,6 +41,7 @@ export class ScheduleComponent implements OnInit {
   viewDate: Date = new Date();
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
+  index;
 
   // datetime picker variables
   createStart = new Date();
@@ -48,7 +49,14 @@ export class ScheduleComponent implements OnInit {
   editStart = new Date();
   editEnd = new Date();
 
+  // create modal
+  createTitle;
+  createDescription;
+
+
   // edit modal control
+  editTitle;
+  editDescription;
   editIndex = 0;
   editing = false;
 
@@ -83,7 +91,7 @@ export class ScheduleComponent implements OnInit {
 
 
   constructor(private scheduleService: ScheduleService, private route: ActivatedRoute,
-    private _AuthService: AuthService, private translate: TranslateService) { }
+    private _AuthService: AuthService, public translate: TranslateService) { }
 
   ngOnInit() {
     this._AuthService.getUserData(['username', 'isChild', 'children']).subscribe((user) => {
@@ -274,6 +282,7 @@ export class ScheduleComponent implements OnInit {
   // delete corresponding event
   delete(index) {
     this.events.splice(index, 1);
+    this.scheduleService.saveScheduleChanges(this.profileUser, this.events).subscribe();
     this.refreshDocument();
   }
 

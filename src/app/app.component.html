@@ -283,10 +283,9 @@
                 </li>
         </ul>
     </nav>
-
     <!-- Left Sidebar -->
     <div>
-        <aside id="leftsidebar" [ngClass]="'sidebar' + (viewLanding ? ' d-none': '') ">
+        <aside id="leftsidebar" [ngClass]="'sidebar' + (viewLanding ? ' d-none': '') " [style.text-align]="translate.currentLang == 'ara'? 'right': null">
             <div class="menu">
                 <ul class="list">
                     <li>
@@ -323,4 +322,5 @@
         </aside>
     </div>
 </div>
-<router-outlet></router-outlet>
+<ngx-loading-bar [includeSpinner]="false" [height]="'4px'"></ngx-loading-bar>
+<router-outlet (activate)="ngOnInit()"></router-outlet>

@@ -2,19 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { PsychologistRequest } from '../PsychologistRequest';
 import { PsychologistService } from '../psychologist.service';
 import { FormBuilder, FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 declare const $: any;
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-add-psych-request',
@@ -45,7 +36,6 @@ export class AddPsychRequestComponent implements OnInit {
   daysOff = new FormControl();
   priceFormControl = new FormControl();
 
-  matcher = new MyErrorStateMatcher();
 
 
   constructor(private RequestService: PsychologistService,

@@ -23,7 +23,7 @@ export class CategoryUpdateComponent implements OnInit {
     private contentService: ContentService,
     private adminService: AdminService,
     private toasterService: ToastrService,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
 
   ngOnInit() {

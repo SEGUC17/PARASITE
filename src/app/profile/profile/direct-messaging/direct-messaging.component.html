@@ -1,7 +1,9 @@
-  <label [style.text-align]="translate.currentLang === 'ara'? 'right': null"><strong>{{'PROFILE.DIRECT_MSG.TO' | translate}}</strong></label>
-  <span class="badge bg-cyan">{{gazar}}</span>
-  <div class="form-group form-float">
-      <textarea #textarea class="form-control" placeholder="{{'PROFILE.DIRECT_MSG.MSG' | translate }}" style="height:350px;" [(ngModel)]="Body"></textarea>
-  </div>
+<label [style.text-align]="translate.currentLang === 'ara'? 'right': null">
+  <strong>{{'PROFILE.DIRECT_MSG.TO' | translate}}</strong>
+</label>
+<span class="badge bg-cyan">{{gazar}}</span>
+<div class="form-group form-float">
+  <textarea #textarea class="form-control" placeholder="{{'PROFILE.DIRECT_MSG.MSG' | translate }}" style="height:350px;" [(ngModel)]="Body"></textarea>
+</div>
 <button type="button" class="btn btn-primary btn-round waves-effect" (click)="reply(); textarea.value=''">{{'PROFILE.DIRECT_MSG.SEND' |translate}}</button>
 <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">{{'PROFILE.PROFILE.CANCEL' | translate}}</button>

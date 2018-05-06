@@ -22,7 +22,7 @@
                       <div class="card">
                         <div class="header">
                           <h2 [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
-                            <strong>{{ 'MESSAGING.MESSAGING.RECENTLY_CONTACTED' | translate }}<i [style.float]="_TranslateService.currentLang == 'ara'? 'right': null" class="material-icons">people</i></strong>
+                            <strong>{{ 'MESSAGING.MESSAGING.RECENTLY_CONTACTED' | translate }}<i [style.float]="_TranslateService.currentLang == 'ara'? 'right': 'left'" class="material-icons">people</i></strong>
                           </h2>
                         </div>
                         <div *ngIf="!contacts || !contacts.length">

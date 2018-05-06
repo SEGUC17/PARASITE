@@ -15,10 +15,8 @@ export class VerifyChildEmailComponent implements OnInit {
     private authService: AuthService,
     private toastrService: ToastrService,
     private router: Router,
-    private translate: TranslateService
-  ) { }
-
-  ngOnInit() {
+    public translate: TranslateService
+  ) {
     const self = this;
     this.activatedRoute.params.subscribe(function (params) {
       self.authService.verifyChildEmail(params['id']).subscribe(function (res) {
@@ -29,9 +27,12 @@ export class VerifyChildEmailComponent implements OnInit {
             self.toastrService.success('تم توثيق الحساب');
           }
         }
-        self.router.navigateByUrl('/newsfeed');
+        self.authService.redirectToHomePage();
       });
     });
+  }
+
+  ngOnInit() {
   }
 
 }

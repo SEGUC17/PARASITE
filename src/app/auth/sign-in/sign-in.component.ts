@@ -19,11 +19,13 @@ export class SignInComponent implements OnInit {
   };
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private toastrService: ToastrService,
     private router: Router,
     private translate: TranslateService
-  ) { }
+  ) {
+    this.authService.isNotAuthenticated();
+  }
 
   ngOnInit() {
   }
@@ -38,7 +40,7 @@ export class SignInComponent implements OnInit {
             self.toastrService.success(translation);
           }
         );
-        self.router.navigateByUrl('/newsfeed');
+        self.authService.redirectToHomePage();
       }
     });
   }

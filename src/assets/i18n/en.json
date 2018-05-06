@@ -13,7 +13,9 @@
       "CONNECT_PARENTS": "Connect Parents",
       "STUDY_PLANS": "Study Plans",
       "CHANGE_LANGUAGE": "Change Language",
-      "NEWSFEED": "Newsfeed"
+      "NEWSFEED": "Newsfeed",
+      "SIGN_UP_FOR_FULL_ACCESS": "Sign Up to Enjoy All the Features of Our Website",
+      "SIGN_IN_ADMIN": "You Don't Have Permission to Access This Page"
   },
   "ACTIVITIES": {
       "CREATE": {
@@ -73,6 +75,10 @@
           "TOASTER_FAIL": "Image upload failed",
           "TOASTER_SUCCESS": "Image uploaded successefully",
           "TOASTER_SELECT": " Please select a photo"
+      },
+      "UPLOAD": {
+          "UPLOAD_PHOTO": "Upload Photo",
+          "PLEASE_WAIT":"Please Wait"
       }
   },
   "ADMIN": {
@@ -212,6 +218,7 @@
           "SIGN_IN": "Get back to the website"
       },
       "TOASTER": {
+          "CONNECTION_ERROR": "No Response From Server!",
           "SIGN_UP_SUCCESSFULL": "Sign Up Is Successful!\nVerification Mail Was Sent To Your Email!",
           "SIGN_IN_SUCCESSFULL": "Sign In Is Successful! Welcome!",
           "NOT_MATCH_WARNING": "New and confirmed passwords do not match!",
@@ -220,7 +227,7 @@
           "VALID_EMAIL_WARNING": "Kindly provide a valid email address",
           "CHILD_SIGN_UP_SUCCESSFULL": "Child sign up successfull! A verification email has been sent.",
           "EMAIL_VERIFICATION": "Email Verification Is Successful!",
-          "EMAIL_VERIFICATION_SENT": "An message was sent to the provided email!"
+          "EMAIL_VERIFICATION_SENT": "A message was sent to the provided email!"
       },
       "CHILD_SIGN_UP": {
           "DONE": "Done",
@@ -413,7 +420,7 @@
       "TOASTR": {
           "EMPTY_MSG": "You can't send an empty message.",
           "BLOCKED": "Sorry, you are blocked.",
-          "MSG_SENT": "Message was sent!",
+          "MSG_SENT": "Message sent!",
           "ENTER_RECIPIENT": "Please specify a recipient.",
           "VALID_NAME": "Please enter a valid username.",
           "SEND_SELF": "You can't send a message to yourself",
@@ -531,6 +538,7 @@
           "NAWWAR": "Nawwar"
       },
       "INFO": {
+          "NONE": "Sorry no psychologists found.",
           "PHONE": "Phone",
           "EMAIL": "Email",
           "DAYSOFF": "Days Off",
@@ -667,18 +675,19 @@
       "SYSTEM_OF_EDUCATION": "System of education",
       "REMOVE_ALL_TAGS": "Remove all tags",
       "PREVIOUS": "Previous",
-      "NEXT": "Next"
+      "NEXT": "Next",
+      "SEARCH_PLACEHOLDER": "Search for other parents"
   },
   "LANDING": {
-      "ENHANCE": "Enhance your learning experience",
-      "ENHANCE_DESC": "Whether you are a home-schooled student, or a typical student, we got your back, with educational resources, study plans, and more.",
-      "ENJOY": "Enjoy some extracurricular time",
-      "ENJOY_DESC": "Want to learn photography? Or maybe attend a little session on pre-medieval alchemy? How about some Yoga then? Check out the activities offered on our website.",
+      "ENHANCE": "Enhance Your Learning Experience",
+      "ENHANCE_DESC": "Whether you are a home-schooled student or a typical student, we've got your back! Our website provides educational resources, study plans, and even more!",
+      "ENJOY": "Enjoy Some Extracurricular Time",
+      "ENJOY_DESC": "Do you want to learn photography? Or maybe attend a little session on pre-medieval alchemy? How about some Yoga then? Check out the activities offered on our website!",
       "CONNECT": "Connect with Teachers and Parents",
-      "CONNECT_DESC": "Look for parents and teachers in your area and get in touch with them. Have them recommend content to you and your children.",
-      "MARKET": "That's not all...",
-      "MARKET_DESC": "We have a marketplace full of educational stuff,  an address book of verified psychologists, study plans to organize students' time and more!",
-      "FOUNDERS": "The Lovely Founders",
+      "CONNECT_DESC": "Look for parents and teachers in your area and get in touch with them. Have them recommend study material for you and your children.",
+      "MARKET": "That's Not All!",
+      "MARKET_DESC": "We have a marketplace full of educational equipment,  an address book of verified psychologists, study plans to organize students' time, and more!",
+      "FOUNDERS": "The Founders",
       "GET_STARTED": "Ready to get started? Sign up now!",
       "SIGNUP": "Sign up!",
       "ABOUT_US": "About Us",
@@ -687,6 +696,12 @@
       "RIGHTS": "Nawwar 2018. All Rights Reserved.",
       "SWITCH_LANGUAGE": "تبديل اللغة",
       "SEND": "Send",
-      "CANCEL": "Cancel"
+      "CANCEL": "Cancel",
+      "SIGN_IN": "Sign In",
+      "CHECK_CONTENT": "Discover Our Educational Resources",
+      "TYPE_MSG": "Type your message . .",
+      "PROVIDE_EMAIL": "Provide your e-mail here",
+      "EMPTY_EMAIL" : "You need to provide en e-mail"
+      
   }
 }

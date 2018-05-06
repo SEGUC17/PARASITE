@@ -30,14 +30,21 @@ module.exports = function (passport) {
 
   // --------------------- Authentication Checkers --------------- //
   var authFacebook = function (req, res, next) {
-    passport.authenticate('facebook-token', { session: false }, function (err, user, info) {
-      if (err) {
-        return next(err);
-      }
-      req.user = user;
+    passport.authenticate(
+      'facebook-token',
+      {
+        scope: ['email'],
+        session: false
+      }, function (err, user, info) {
+        if (err) {
+          return next(err);
+        }
+        req.user = user;
+        req.profile = info.profile;
 
-      return next();
-    })(req, res, next);
+        return next();
+      }
+    )(req, res, next);
   };
 
   var optionalAuthentication = function (req, res, next) {
@@ -139,7 +146,7 @@ module.exports = function (passport) {
   router.delete('/activities/:activityId/', isAuthenticated, ActivityController.deleteActivity);
   router.patch('/activities/:activityId/EditActivityImage', isAuthenticated, ActivityController.editActivityImage);
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', optionalAuthentication, psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
   router.delete('/psychologist/delete/:id', optionalAuthentication, psychCtrl.deletePsychologist);
   router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
@@ -161,12 +168,12 @@ module.exports = function (passport) {
   router.patch('/productrequest/editPrice/:id/:username', isAuthenticated, productCtrl.editPrice);
   router.patch('/productrequest/deleteProduct', isAuthenticated, productCtrl.deleteProduct);
 
-   router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
+  router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
 
   // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/auth/facebook', isNotAuthenticated, authFacebook, userController.signInWithThirdPartyResponse);
+  router.post('/auth/facebook', isNotAuthenticated, authFacebook, userController.signInWithFacebook);
   router.post('/auth/google', isNotAuthenticated, userController.signInWithGoogle, userController.signInWithThirdPartyResponse);
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
@@ -426,8 +433,8 @@ module.exports = function (passport) {
   router.get('/message/contacts/:user', isAuthenticated, messageController.getRecentlyContacted);
 
   // Registered user contacts admins
-  router.post('/contactus', messageController.contactAdmin);
-    //Unblocking users
+  router.post('/message/contactus', messageController.contactAdmin);
+  //Unblocking users
   router.patch('/message/unblock/:id', isAuthenticated, messageController.unBlock);
 
   // Mark a message as read

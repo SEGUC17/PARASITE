@@ -84,10 +84,10 @@
         <div *ngIf="selectedTabIndex === 0" class="card">
           <div class="body search" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
             <div class="input-group m-b-0">
-              <input type="text" class="form-control" (keydown.enter)="searchContent()" placeholder="{{ 'CONTENT.LIST.SEARCH' | translate }}" [(ngModel)]="searchQuery">
               <span class="input-group-addon search-icon" (click)="searchContent()">
                 <i class="zmdi zmdi-search"></i>
               </span>
+              <input type="text" class="form-control" (keydown.enter)="searchContent()" placeholder="{{ 'CONTENT.LIST.SEARCH' | translate }}" [(ngModel)]="searchQuery">
             </div>
             <div class="current-category">
               <h6>

@@ -19,13 +19,14 @@ export class ForgotPasswordComponent implements OnInit {
   email = '';
 
   constructor(private _AuthService: AuthService, private _Location: Location,
-    private toastrService: ToastrService, private translate: TranslateService) { }
+    private toastrService: ToastrService, public translate: TranslateService) { }
 
   ngOnInit() {
   }
 
   submit(email): void {
     const self = this;
+    // tslint:disable-next-line:max-line-length
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (re.test(email)) {
       this._AuthService.forgotPassword(email).subscribe(function (res) {

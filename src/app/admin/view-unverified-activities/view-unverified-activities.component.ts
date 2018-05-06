@@ -38,7 +38,7 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     private activityService: ActivityService,
     private authService: AuthService,
     private _messageService: MessageService,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private toaster: ToastrService
   ) { }
 
@@ -90,7 +90,6 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     let activity = this.activities[i];
     let self = this;
     activity.status = 'verified';
-    console.log(activity);
     this.activityService.reviewActivity(activity).subscribe(
       res => {
         this.getActivities(this.pageIndex);
@@ -146,8 +145,6 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
 
     let pageNumbers = [];
     let counter = 1;
-
-    console.log(this.pageIndex);
     if (this.pageIndex < 3) {
       // we are in page 1 or 2
       while (counter < 6 && counter <= this.totalNumberOfPages) {

@@ -61,7 +61,7 @@ export class StudyPlanComponent implements OnInit {
     [{ 'script': 'sub' }, { 'script': 'super' }],
     [{ 'direction': 'rtl' }],
   ];
-  private editorOptions: Object = {
+  editorOptions: Object = {
     placeholder: (this.translate.currentLang === 'ara') ? 'أدخل المحتوى هنا' : 'insert content here',
     modules: {
       toolbar: this.toolbarOptions
@@ -84,7 +84,13 @@ export class StudyPlanComponent implements OnInit {
   editStart = new Date();
   editEnd = new Date();
 
+  // create modal
+  createTitle;
+  createDescription;
+
   // edit modal control
+  editTitle;
+  editDescription;
   editIndex = 0;
 
   // modification control
@@ -98,7 +104,7 @@ export class StudyPlanComponent implements OnInit {
 
   constructor(private sanitizer: DomSanitizer, private route: ActivatedRoute, private studyPlanService: StudyPlanService,
     private router: Router, private _AuthService: AuthService, private toastrService: ToastrService,
-    private translate: TranslateService) { }
+    public translate: TranslateService) { }
 
   ngOnInit() {
 
@@ -165,7 +171,6 @@ export class StudyPlanComponent implements OnInit {
       // fetch routing data
       this.route.params.subscribe(params => {
         this.type = params.type;
-        console.log('type' + this.type);
         this._id = params.id;
         this.profileUsername = params.username;
       });
