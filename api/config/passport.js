@@ -40,7 +40,7 @@ module.exports = function (passport) {
             refreshTokenField: 'refreshToken'
         },
         function (accessToken, refreshToken, profile, done) {
-            User.findOneAndUpdate(
+            User.findOne(
                 {
                     $or: [
                         { 'email': profile.emails[0].value },
@@ -56,7 +56,24 @@ module.exports = function (passport) {
                     if (err) {
                         return done(err);
                     } else if (user) {
-                        return done(null, user);
+                        if (
+                            user.email === profile.emails[0].value &&
+                            user.facebookId === profile.id &&
+                            user.isEmailVerified === true
+                        ) {
+                            return done(null, user);
+                        }
+
+                        user.email = profile.emails[0].value;
+                        user.facebookId = profile.id;
+                        user.isEmailVerified = true;
+                        user.save(function (err2, user2) {
+                            if (err2) {
+                                return done(err2);
+                            }
+
+                            return done(null, user2);
+                        });
                     }
 
                     var newUser = new User({
