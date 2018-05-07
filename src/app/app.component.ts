@@ -49,6 +49,16 @@ export class AppComponent implements OnInit {
       icon: 'book'
     },
     {
+      url: '/profile',
+      name: 'APP.PROFILE',
+      icon: 'account'
+    },
+    {
+      url: '/message',
+      name: 'APP.MESSAGING',
+      icon: 'email'
+    },
+    {
       url: '/market',
       name: 'APP.MARKET',
       icon: 'shopping-cart'
