@@ -90,10 +90,11 @@
               <div class="not_found text-center text-warning" *ngIf="!tags || !tags.length">
                 <i class="zmdi zmdi-mood-bad zmdi-hc-3x "></i>
                 <p class="m-b-0">
-                  Haven't added any interests ?!</p>
+                  {{ 'NEWSFEED.HAVE_NOT_ADDED_INTERESTS' | translate }}</p>
                 <p class="m-b-0">
-                  Add some now
-                  <i class="zmdi zmdi-arrow-right-top mr-2"></i>
+                  {{ 'NEWSFEED.ADD_SOME_NOW' | translate }}
+                  <i *ngIf="translate.currentLang === 'en'" class="zmdi zmdi-arrow-right-top mr-2"></i>
+                  <i *ngIf="translate.currentLang === 'ara'" class="zmdi zmdi-arrow-missed"></i>
                 </p>
 
               </div>

@@ -338,7 +338,9 @@
             "NOT_FOUND": "The requested content could not be found",
             "ALREADY_WATCHED": "This video is already watched before, no more learning points are added.",
             "LEARNING_POINTS_ADDED": "You just got 10 more learning points! Your score is: ",
-            "CONNECTION_ERROR": "An error has occurred. Please check your network connection."
+            "CONNECTION_ERROR": "An error has occurred. Please check your network connection.",
+            "UPLOADING": "Uploading file, please wait till you receive a success message.",
+            "UPLOADING_SUCCESS": "Your image was uploaded successfully."
         }
     },
     "MARKET": {
@@ -451,7 +453,9 @@
         "OTHER_PARENTS": "Other Parents",
         "READ_MORE": "Read More",
         "CONNECT_TO_MORE": "Connect to more",
-        "CLICK_TO_CONNECT": "click to search and view other parents and connect with them"
+        "CLICK_TO_CONNECT": "click to search and view other parents and connect with them",
+        "HAVE_NOT_ADDED_INTERESTS": "Haven't added any interests yet?",
+        "ADD_SOME_NOW": "Add some now"
     },
     "PROFILE": {
         "CHILDREN": {
