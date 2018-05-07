@@ -101,7 +101,17 @@ export class AppComponent implements OnInit {
     translate.setDefaultLang('en');
 
     // the language to use on load
-    translate.use('en');
+    if (!localStorage.getItem('cachedLang')) {
+      localStorage.setItem('cachedLang', this.translate.currentLang);
+      translate.use('en');
+    } else {
+      this.translate.use(localStorage.getItem('cachedLang'));
+      if (this.translate.currentLang === 'en') {
+        $('body').removeClass('rtl');
+      } else {
+        $('body').addClass('rtl');
+      }
+    }
 
     router.events
       .filter(function (event) {
@@ -301,12 +311,14 @@ export class AppComponent implements OnInit {
   changeLanguage(): void {
     if (this.translate.currentLang === 'en') {
       this.translate.use('ara');
+      localStorage.setItem('cachedLang', 'ara');
       $('body').addClass('rtl');
     } else {
       this.translate.use('en');
+      localStorage.setItem('cachedLang', 'en');
       $('body').removeClass('rtl');
     }
-
+    window.scrollTo(0, 0);
   }
   // method that makes all messages read
   onMessageIconClick() {

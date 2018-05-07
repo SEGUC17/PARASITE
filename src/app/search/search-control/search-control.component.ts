@@ -132,6 +132,7 @@ export class SearchControlComponent implements OnInit {
   }
   // initializing all the parameters to starter values
   ngOnInit() {
+    window.scrollTo(0, 0);
     let self = this;
     this.currPage = 1;
     this.tags = ['NA', 'NA', 'NA', 'NA'];

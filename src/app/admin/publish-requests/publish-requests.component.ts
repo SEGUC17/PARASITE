@@ -51,6 +51,7 @@ export class PublishRequestsComponent implements OnInit {
     private _messageService: MessageService, private _authService: AuthService, private toastrService: ToastrService) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.title = '';
     this.description = '';
     this.events = [];

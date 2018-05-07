@@ -14,3 +14,20 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
+  .nopadding {
+    padding: 0 !important;
+    margin: 0 !important;
+ }
+ .clickable-icon {
+    cursor: pointer;
+}
+.nopaddingtop {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+
+}
+.nopaddingbottom {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+
+}

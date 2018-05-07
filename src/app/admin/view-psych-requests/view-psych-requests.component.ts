@@ -84,6 +84,7 @@ export class ViewPsychRequestsComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
   }
 
   // Function for accepted requests

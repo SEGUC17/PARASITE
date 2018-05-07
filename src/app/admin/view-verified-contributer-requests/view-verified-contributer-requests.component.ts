@@ -28,6 +28,7 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
 
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.viewVCRs('pending');
   }
 
