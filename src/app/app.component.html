@@ -210,4 +210,4 @@
     </div>
 </div>
 <ngx-loading-bar [includeSpinner]="false" [height]="'4px'"></ngx-loading-bar>
-<router-outlet (activate)="ngOnInit()"></router-outlet>
+<router-outlet (activate)="isSignedIn()"></router-outlet>
