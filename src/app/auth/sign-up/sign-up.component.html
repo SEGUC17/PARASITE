@@ -1,6 +1,6 @@
 <section class="content">
   <div class="vertical-center">
-    <div class="mr-auto ml-auto">
+    <div class="mr-auto ml-auto mt-3">
       <div class="authentication">
         <div class="container-fluid pl-0 pr-0">
           <div class="col-md-12 content-center">
@@ -31,7 +31,7 @@
                       </span>
                       <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}" [(ngModel)]="user.address"
                         name="address" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                      <ul class="dropdown-menu dropdown-menu-right pullDown" style="width: 100%">
+                      <ul class="dropdown-menu dropdown-menu-right pullDown scroll-flow w-100">
                         <li *ngFor="let city of cities" (click)="user.address = city">
                           <a href="javascript:void(0);">{{ city }}</a>
                         </li>
