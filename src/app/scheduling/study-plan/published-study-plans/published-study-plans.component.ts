@@ -32,6 +32,7 @@ export class PublishedStudyPlansComponent implements OnInit {
     private activatedRoute: ActivatedRoute, private toastrService: ToastrService, public translate: TranslateService) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.authService.getUserData(['username', 'isChild', 'isAdmin']).subscribe(currUser => {
       this.currUsername = currUser.data.username;
       this.currIsChild = currUser.data.isChild;
