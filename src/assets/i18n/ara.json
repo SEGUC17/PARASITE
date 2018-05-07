@@ -207,7 +207,8 @@
             "TERMS_OF_USAGE": "الشروط",
             "PREVIOUS": "السابق",
             "NEXT": "التالي",
-            "YOU_ALREADY_HAVE_A_MEMBERSHIP": "هل سبق لك أن أنشأتَ حسابًا؟"
+            "YOU_ALREADY_HAVE_A_MEMBERSHIP": "هل سبق لك أن أنشأتَ حسابًا؟",
+            "CHILD_SIGN_UP_HEADER": "أنشئ حسابا لطفلك"
         },
         "SIGN_IN": {
             "SIGN_IN": "تسجيل الدخول",
