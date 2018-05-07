@@ -183,14 +183,14 @@
         </div>
       </div>
       <div class="modal-header text-center nopaddingbottom">
-        <h2 id="defaultModalLabel" class="nopadding">Pick what
-          <span style="color: #54a89b">interests you </span>
+        <h2 id="defaultModalLabel" class="nopadding">{{ 'NEWSFEED.MODAL.PICK' | translate }}
+          <span style="color: #54a89b">{{ 'NEWSFEED.MODAL.INTERESTS_YOU' | translate }}</span>
         </h2>
       </div>
       <div class="not_found text-center text-warning" *ngIf="!tagsIdonthave || !tagsIdonthave.length">
         <i class="zmdi zmdi-mood-bad zmdi-hc-4x "></i>
         <p class="m-b-0">
-          Seems like you have alot of interests, You have added all available tags.</p>
+          {{ 'NEWSFEED.MODAL.FULL' | translate }}</p>
       </div>
       <div class="modal-body widget tag-clouds mr-5 ">
         <span *ngFor="let tag of tagsIdonthave" >
@@ -217,8 +217,8 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
           <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="title text-center">
-              <h2 class="nopadding"> Your
-                <span style="color:#54a89b"> interests
+              <h2 class="nopadding"> {{ 'NEWSFEED.MODAL.YOUR' | translate }}
+                <span style="color:#54a89b"> {{ 'NEWSFEED.MODAL.INTERESTS' | translate }}
 
                 </span>
               </h2>
@@ -228,7 +228,7 @@
           <div class="not_found text-center text-warning mt-3" *ngIf="!tags || !tags.length">
             <i class="zmdi zmdi-mood-bad zmdi-hc-4x "></i>
             <p class="m-b-0">
-              You haven't added any interests yet</p>
+              {{ 'NEWSFEED.MODAL.NOT_ADDED_YET' | translate }}</p>
           </div>
 
           <div class="body widget tag-clouds mt-3">

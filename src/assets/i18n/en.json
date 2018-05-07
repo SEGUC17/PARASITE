@@ -455,7 +455,15 @@
         "CONNECT_TO_MORE": "Connect to more",
         "CLICK_TO_CONNECT": "click to search and view other parents and connect with them",
         "HAVE_NOT_ADDED_INTERESTS": "Haven't added any interests yet?",
-        "ADD_SOME_NOW": "Add some now"
+        "ADD_SOME_NOW": "Add some now",
+        "MODAL": {
+            "PICK": "Pick what",
+            "INTERESTS_YOU": "interests you ",
+            "FULL": "Seems like you have alot of interests, You have added all available tags.",
+            "YOUR": "Your",
+            "INTERESTS": "Interests",
+            "NOT_ADDED_YET": "You haven't added any interests yet"
+        }
     },
     "PROFILE": {
         "CHILDREN": {
