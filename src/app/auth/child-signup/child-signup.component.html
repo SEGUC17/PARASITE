@@ -4,9 +4,10 @@
       <div class="container">
         <div class="col-md-12 content-center">
           <div class="card-plain">
+              <form class="form cen-wh-content">
               <div class="header">
-                <h5>Sign Up For Your Child</h5>
-                <span>Register a new membership</span>
+                <h5>{{ 'AUTH.CHILD_SIGN_UP.CHILD_SIGN_UP' | translate }}</h5>
+                <span>{{ 'AUTH.SIGN_UP.REGISTER' | translate }} </span>
               </div>
               <div class="content">
                 <div id="personalInfo">
@@ -14,33 +15,33 @@
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-account-circle"></i>
                     </span>
-                    <input type="text" class="form-control" [(ngModel)]="Firstname" placeholder="{{ 'AUTH.SIGN_UP.FIRST_NAME_PLACEHOLDER' | translate }}">
+                    <input type="text" name="first" class="form-control" [(ngModel)]="Firstname" placeholder="{{ 'AUTH.SIGN_UP.FIRST_NAME_PLACEHOLDER' | translate }}">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-account-circle"></i>
                     </span>
-                    <input type="text" class="form-control" [(ngModel)]=Lastname placeholder="{{ 'AUTH.SIGN_UP.LAST_NAME_PLACEHOLDER' | translate }}"> 
+                    <input type="text" name= "last" class="form-control" [(ngModel)]=Lastname placeholder="{{ 'AUTH.SIGN_UP.LAST_NAME_PLACEHOLDER' | translate }}"> 
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-calendar"></i>
                     </span>
-                    <input id="birthdate" type="text" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}" class="form-control datetimepicker"
+                    <input id="birthdate" name= "birthdate" type="text" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}" class="form-control datetimepicker"
                     />
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-gps-dot"></i>
                     </span>
-                    <input type="text" [(ngModel)]=Address placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}" class="form-control"
+                    <input type="text" name= "address" [(ngModel)]=Address placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}" class="form-control"
                     />
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-smartphone"></i>
                     </span>
-                    <input type="text" [(ngModel)]=Phone placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" class="form-control"
+                    <input type="text" name="phone" [(ngModel)]=Phone placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" class="form-control"
                     />
                   </div>
                 </div>
@@ -49,26 +50,26 @@
                       <span class="input-group-addon">
                         <i class="zmdi zmdi-account-circle"></i>
                       </span>
-                    <input type="text" class="form-control" [(ngModel)]=Username placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}">
+                    <input type="text" class="form-control" name="username" [(ngModel)]=Username placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-email"></i>
                     </span>
-                    <input type="text" class="form-control" [(ngModel)]=Email placeholder="{{ 'AUTH.SIGN_UP.EMAIL_PLACEHOLDER' | translate }}">
+                    <input type="text" class="form-control" name="email" [(ngModel)]=Email placeholder="{{ 'AUTH.SIGN_UP.EMAIL_PLACEHOLDER' | translate }}">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-lock"></i>
                     </span>
-                    <input type="password" [(ngModel)]=Password placeholder="{{ 'AUTH.SIGN_UP.PASSWORD_PLACEHOLDER' | translate }}" class="form-control"
+                    <input type="password" [(ngModel)]=Password name="password" placeholder="{{ 'AUTH.SIGN_UP.PASSWORD_PLACEHOLDER' | translate }}" class="form-control"
                     />
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-lock"></i>
                     </span>
-                    <input type="password" [(ngModel)]=ConfirmPassword placeholder="{{ 'AUTH.SIGN_UP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}"
+                    <input type="password" [(ngModel)]=ConfirmPassword name="confirmpass" placeholder="{{ 'AUTH.SIGN_UP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}"
                       class="form-control" />
                   </div>
                   <div>
@@ -131,9 +132,12 @@
                       <button class="btn btn-raised btn-primary waves-effect btn-round" data-type="success">Yaaay!</button>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
+          </form>
+
           </div>
         </div>
       </div>

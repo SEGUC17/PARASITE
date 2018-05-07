@@ -231,7 +231,8 @@
           "DONE": "Done",
           "STEP_ONE": "Step 1",
           "STEP_TWO": "Step 2",
-          "STEP_THREE": "Step 3"
+          "STEP_THREE": "Step 3",
+          "CHILD_SIGN_UP": "Sign Up For Your Child"
       }
   },
   "CONTENT": {
