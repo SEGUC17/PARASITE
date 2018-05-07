@@ -81,3 +81,56 @@ module.exports.getPosts = function (req, res) {
     );
 
 };
+
+module.exports.deleteInterest = function (req, res) {
+    User.update(
+        { _id: req.user._id },
+        { $pull: { interests: { $in: [req.params.interestText] } } },
+        function (err, user) {
+            console.log('inside the callback function');
+            if (err) {
+                throw err;
+            } else if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User couldn\'t be found'
+                });
+            }
+
+            return res.status(200).json({
+                data: req.user.interests,
+                err: null,
+                msg: 'interest was deleted'
+            });
+            // user does not exist
+        }
+    );
+};
+
+module.exports.addInterest = function (req, res) {
+    User.update(
+        { _id: req.user._id },
+        { $push: { interests: req.body.text } },
+        function (err, user) {
+            console.log('inside the callback function');
+            if (err) {
+                throw err;
+            } else if (!user) {
+                return res.status(404).json({
+                    data: null,
+                    err: null,
+                    msg: 'User couldn\'t be found'
+                });
+            }
+
+            return res.status(200).json({
+                data: user.interests,
+                err: null,
+                msg: 'interest was deleted'
+            });
+            // user does not exist
+        }
+    );
+
+};
