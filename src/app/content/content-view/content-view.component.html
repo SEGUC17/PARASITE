@@ -51,11 +51,11 @@
               </li>
               <li *ngIf="content.type === 'resource'">
                 <a>
-                  <i class="material-icons">info_outline</i> {{ 'CONTENT.EDIT.RESOURCE' | translate }}</a>
+                  <i class="zmdi zmdi-badge-check col-green"></i> {{ 'CONTENT.EDIT.RESOURCE' | translate }}</a>
               </li>
               <li *ngIf="content.type === 'idea'">
                 <a>
-                  <i class="material-icons">info_outline</i> {{ 'CONTENT.EDIT.IDEA' | translate }}</a>
+                  <i class="zmdi zmdi-flash col-yellow"></i> {{ 'CONTENT.EDIT.IDEA' | translate }}</a>
               </li>
               <li *ngIf="currentUser">
                 <div *ngIf="currentUser.username" class="d-flex">
