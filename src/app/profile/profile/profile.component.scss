@@ -25,3 +25,10 @@
 .dummyLink {
     cursor: pointer;
 }
+
+#shouldAppearOnHover {
+    display: none; 
+}
+#myHover:hover #shouldAppearOnHover {
+    display: block !important; 
+}

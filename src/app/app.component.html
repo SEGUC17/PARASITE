@@ -140,8 +140,8 @@
                     <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
                         || link.url === '/profile' && username == undefined ">
                         <a [routerLink]="link.url">
-                            <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                            <span>{{ link.name | translate }}</span>
+                            <i  style= "color:#63c6b6" [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                            <span class = "pl-1">{{ link.name | translate }}</span>
                         </a>
                     </li>
                 </ul>

@@ -20,43 +20,107 @@
   <div class="container-fluid">
     <div class="row clearfix">
       <div class="col-lg-12 col-md-12">
-          <div class="card member-card">
-              <div class="header" style="background-image: url('assets/images/profile-view/stars.jpg');">
-                <h4 style="color:white" class="text-muted col-white m-t-10"><strong>{{currIsOwner? firstName : vFirstName}}</strong> {{currIsOwner? lastName : vLastName}}</h4>
+        <div class="card member-card">
+          <div class="header" style="background-image: url('assets/images/profile-view/stars.jpg');">
+            <h4 style="color:white" class="text-muted col-white m-t-10">
+              <strong>{{currIsOwner? firstName : vFirstName}}</strong> {{currIsOwner? lastName : vLastName}}</h4>
+          </div>
+          <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="member-img">
+            <img style="object-fit: cover; height:180px; width:180px" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
+              class="rounded-circle" src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
+              alt="Profile Picture">
+            <br>
+            <a *ngIf="currIsOwner" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right;">
+              <i class="zmdi zmdi-edit"></i>
+            </a>
+          </div>
+
+          <div class="body">
+            <div class="col-12">
+              <p class="text-muted">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-4 pt-1">
+                <small>
+                  <strong style="color:#63c6b6">Learning</strong> Score</small>
+                <h5 class = "pt-1">{{learningScore}}</h5>
               </div>
-              <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  class="member-img">
-                <img style="object-fit: cover; height:180px; width:180px" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  class="rounded-circle"
-                  src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
-                  alt="Profile Picture">
-                  <br>
-                <a *ngIf="currIsOwner" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right;">
-                  <i class="zmdi zmdi-edit"></i>
-                </a>
+              <div class="col-4">
+                <div class="col-lg-12 col-md-12 col-sm-12 justify-content-center">
+                  <div class = "container pt-3">
+                  <div class="row justify-content-md-center">
+                    
+                    <!-- admin icon -->
+                    <div class="col-lg-3 col-md-3 col-sm-3" id="myHover" align="center" *ngIf="(currIsOwner && currIsAdmin)">
+                      <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post" *ngIf="(currIsOwner && currIsAdmin) || visitedIsAdmin">
+                        <div [align]="translate.currentLang === 'ara'? 'right': null">
+                          <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-accounts-list zmdi-hc-2x "  style= "color:#f96332">
+                          </i>
+                          <small id = "shouldAppearOnHover">Admin medal</small>
+                        </div>
+                      </a>
+                    </div>
+                    <!-- verified contributer icon -->
+                    <div class="col-lg-3 col-md-3 col-sm-3 "  id="myHover" align="center" *ngIf="(currIsOwner && verified)">
+                      <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="(currIsOwner && verified) || visitedIsAdmin">
+                        <div [align]="translate.currentLang === 'ara'? 'right': null">
+                          <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-shield-check zmdi-hc-2x"  style= "color:#f96332">
+                          </i>
+                          <small id = "shouldAppearOnHover">Verified contributer medal</small>
+
+                        </div>
+                      </a>
+                    </div>
+                    <!-- teacher icon -->
+                    <div class="col-lg-3 col-md-3 col-sm-3" align="center"  id="myHover" *ngIf="(currIsOwner && currIsTeacher)">
+                      <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="(currIsOwner && currIsTeacher) || visitedIsAdmin">
+                        <div [align]="translate.currentLang === 'ara'? 'right': null">
+                          <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-case zmdi-hc-2x"  style= "color:#f96332">
+                          </i>
+                          <small id = "shouldAppearOnHover">Teacher medal</small>
+
+                        </div>
+                      </a>
+                    </div>
+
+                    <!-- child icon -->
+                    <div class="col-lg-3 col-md-3 col-sm-3 " align="center"  id="myHover" *ngIf="(currIsOwner && currIsChild)">
+                      <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="(currIsOwner && currIsChild) || visitedIsAdmin">
+                        <div [align]="translate.currentLang === 'ara'? 'right': null">
+                          <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-directions-bike zmdi-hc-2x" style= "color:#f96332">
+                          </i>
+                          <small id = "shouldAppearOnHover" >Child medal</small>
+
+                        </div>
+                      </a>
+                    </div>
+                    <!-- parent icon -->
+                    <div class="col-lg-3 col-md-3 col-sm-3" align="center"  id="myHover" *ngIf="(currIsOwner && currIsParent)">
+                      <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="(currIsOwner && currIsParent) || visitedIsAdmin">
+                        <div [align]="translate.currentLang === 'ara'? 'right': null">
+                          <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-accounts zmdi-hc-2x" style= "color:#f96332">
+                          </i>
+                          <small id = "shouldAppearOnHover">Parent medal</small>
+
+                        </div>
+                      </a>
+                    </div>
+
+                  </div>
+                  </div>
+                </div>
+
+
               </div>
-              
-              <div class="body">
-                <div class="col-12">
-                  <p class="text-muted">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-4">
-                    <h5>18</h5>
-                    <small>Files</small>
-                  </div>
-                  <div class="col-4">
-                    <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post" href="javascript:void(0);" *ngIf="(currIsOwner && currIsAdmin) || visitedIsAdmin">
-                      <div [align]="translate.currentLang === 'ara'? 'right': null">
-                        <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="material-icons">verified_user</i> {{currIsOwner? (currIsAdmin? 'Admin' : '' ) : (visitedIsAdmin? 'Admin' : '' ) }}</div>
-                    </a>
-                  </div>
-                  <div class="col-4">
-                    <h5>65,6$</h5>
-                    <small>Spent</small>
-                  </div>
-                </div>
+              <div class="col-4 pt-1">
+                <small>
+                  <strong style="color:#63c6b6">Contribution</strong> Score</small>
+                <h5 class = "pt-1">{{contributionScore}}</h5>
               </div>
             </div>
+          </div>
+        </div>
         <!-- <div class="card profile-header bg-dark"> 
           <div class="body col-white" style="padding-bottom:5px !important">
             <div class="row">
@@ -129,8 +193,7 @@
             </li>
           </ul>
           <div class="tab-content">
-            <div class="tab-pane body active" id="about" 
-            [align]="translate.currentLang === 'ara'? 'right': null">
+            <div class="tab-pane body active" id="about" [align]="translate.currentLang === 'ara'? 'right': null">
               <small class="text-muted">{{'PROFILE.PROFILE.EMAIL' | translate}} </small>
               <p>{{currIsOwner? email : vEmail}}</p>
               <hr>
@@ -264,8 +327,7 @@
 
             <!-- End Child Info -->
           </div>
-          <div role="tabpanel" class="tab-pane" id="userSettings"
-            dir="auto" [align]="translate.currentLang === 'ara'? 'right': null">
+          <div role="tabpanel" class="tab-pane" id="userSettings" dir="auto" [align]="translate.currentLang === 'ara'? 'right': null">
             <div class="card">
               <div class="header">
                 <h2>
