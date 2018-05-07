@@ -9,6 +9,12 @@
         left: 0 !important;
         right: 0 !important;
     }
+    .upper {
+        height: 250px !important;
+    }
+    #shouldAppearOnHover {
+        opacity: 1 !important;
+    }
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -37,19 +43,22 @@
 }
 
 #shouldAppearOnHover {
-    // display: none; 
     opacity: 0;
-    transition: all 0.5s;
+    position: absolute;
 }
 #myHover:hover #shouldAppearOnHover {
-    // display: block !important; 
     opacity: 1;
 }
 #AppearOnHoverDisplay {
-    display: none; 
+    display: none;
+     
+
 }
 #HoverDisplay:hover #AppearOnHoverDisplay {
     display: block !important; 
+}
+.upper {
+    height:190px
 }
 
 
