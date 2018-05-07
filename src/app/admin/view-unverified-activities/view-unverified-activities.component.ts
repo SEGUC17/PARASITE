@@ -1,10 +1,8 @@
-import { Component, OnInit, ViewEncapsulation} from '@angular/core';
-
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivityService } from '../../activities/activity.service';
 import { Activity } from '../../activities/activity';
-import { apiUrl } from '../../variables';
 import { AuthService } from '../../auth/auth.service';
-import { MessageService } from "../../messaging/messaging.service";
+import { MessageService } from '../../messaging/messaging.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
@@ -43,6 +41,7 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.getActivities(1);
   }
 
@@ -54,11 +53,11 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
       @author: Wessam
     */
     let page = pageNum;
-    let self  = this;
-    this.activityService.getPendingActivities(page).subscribe(function(res) {
-        self.updateLayout(res);
-        self.totalNumberOfPages = res.data.pages;
-      }
+    let self = this;
+    this.activityService.getPendingActivities(page).subscribe(function (res) {
+      self.updateLayout(res);
+      self.totalNumberOfPages = res.data.pages;
+    }
     );
     this.authService.getUserData(['isAdmin']).subscribe((user) => {
       this.user.isAdmin = user.data.isAdmin;
@@ -119,25 +118,25 @@ export class ViewUnverifiedActivitiesComponent implements OnInit {
     // isUpdate : false if create
     let self = this;
     swal({
-        title: 'Want to send a message to ' + creator + '?',
-        text: 'Let ' + creator + ' know what\'s wrong',
-        type: 'input',
-        showCancelButton: true,
-        closeOnConfirm: false,
-        animation: 'slide-from-top',
-        inputPlaceholder: 'Write reason for disapproval here',
-      }, function (inputValue) {
-        if (inputValue === false) { return false; }
-        if (inputValue === '') {
-          swal.showInputError('You need to write something!'); return false;
-        }
-        let body = 'This is a message from an admin @ Nawwar.\n' + inputValue + '.\nDo not hesitate to contribute with us again.';
-        swal('Message sent', 'Message sent is :\n' + body, 'success');
-        let msg = { 'body': body, 'recipient': creator, 'sender': sender };
-        self._messageService.send(msg).subscribe(function (res2) {
-
-        });
+      title: 'Want to send a message to ' + creator + '?',
+      text: 'Let ' + creator + ' know what\'s wrong',
+      type: 'input',
+      showCancelButton: true,
+      closeOnConfirm: false,
+      animation: 'slide-from-top',
+      inputPlaceholder: 'Write reason for disapproval here',
+    }, function (inputValue) {
+      if (inputValue === false) { return false; }
+      if (inputValue === '') {
+        swal.showInputError('You need to write something!'); return false;
       }
+      let body = 'This is a message from an admin @ Nawwar.\n' + inputValue + '.\nDo not hesitate to contribute with us again.';
+      swal('Message sent', 'Message sent is :\n' + body, 'success');
+      let msg = { 'body': body, 'recipient': creator, 'sender': sender };
+      self._messageService.send(msg).subscribe(function (res2) {
+
+      });
+    }
     );
   }
 

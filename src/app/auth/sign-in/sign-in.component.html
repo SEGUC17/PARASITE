@@ -1,47 +1,49 @@
 <section class="content">
-  <div class="mr-auto ml-auto">
-    <div class="authentication sidebar-collapse">
-      <div class="container">
-        <div class="col-md-12 content-center">
-          <div class="card-plain">
-            <form class="form cen-wh-content">
-              <div class="header">
-                <h5>{{ 'AUTH.SIGN_IN.SIGN_IN' | translate }}</h5>
-              </div>
-              <div class="content">
-                <div class="input-group input-lg">
-                  <span class="input-group-addon">
-                    <i class="zmdi zmdi-account-circle"></i>
-                  </span>
-                  <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.USERNAME_OR_EMAIL' | translate }}" [(ngModel)]="user.username"
-                    name="username" autocomplete="username" required>
+  <div class="vertical-center">
+    <div class="ml-auto mr-auto">
+      <div class="authentication">
+        <div class="container-fluid pl-0 pr-0">
+          <div class="col-md-12 content-center pl-0 pr-0">
+            <div class="card-plain width-300">
+              <form class="form cen-wh-content">
+                <div class="header">
+                  <h5>{{ 'AUTH.SIGN_IN.SIGN_IN' | translate }}</h5>
                 </div>
-                <div class="input-group input-lg">
-                  <span class="input-group-addon">
-                    <i class="zmdi zmdi-lock"></i>
-                  </span>
-                  <input type="password" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="user.password"
-                    name="password" autocomplete="current-password" required/>
+                <div class="content">
+                  <div class="input-group input-lg">
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-account-circle"></i>
+                    </span>
+                    <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.USERNAME_OR_EMAIL' | translate }}" [(ngModel)]="user.username"
+                      name="username" autocomplete="username" required>
+                  </div>
+                  <div class="input-group input-lg">
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-lock"></i>
+                    </span>
+                    <input type="password" class="form-control" placeholder="{{ 'AUTH.SIGN_IN.PASSWORD_PLACEHOLDER' | translate }}" [(ngModel)]="user.password"
+                      name="password" autocomplete="current-password" required/>
+                  </div>
+                  <div class="checkbox" style="text-align: left; margin-left: 8%">
+                    <input type="checkbox" class="form-control" id="rememberMe" [(ngModel)]="user.rememberMe" name="rememberMe" />
+                    <label for="rememberMe">{{ 'AUTH.SIGN_IN.REMEMBER_ME' | translate }}</label>
+                  </div>
                 </div>
-                <div class="checkbox" style="text-align: left; margin-left: 8%">
-                  <input type="checkbox" class="form-control" id="rememberMe" [(ngModel)]="user.rememberMe" name="rememberMe" />
-                  <label for="rememberMe">{{ 'AUTH.SIGN_IN.REMEMBER_ME' | translate }}</label>
+                <div class="footer">
+                  <a class="btn btn-primary btn-round btn-lg btn-block" (click)="signIn()">{{ 'AUTH.SIGN_IN.SIGN_IN_CAPS' | translate }}</a>
+                  <h5>
+                    <a routerLink="/auth/forgot-password" class="link">{{ 'AUTH.SIGN_IN.FORGOT_PASSWORD' | translate }}</a>
+                  </h5>
+                  <h5>
+                    <a routerLink="/auth/sign-up" class="link">{{ 'AUTH.SIGN_IN.JOIN_US' | translate }}</a>
+                  </h5>
+                  <div class="footer">
+                    <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
+                    <!-- <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()"> -->
+                  </div>
                 </div>
-              </div>
-              <div class="footer">
-                <a class="btn btn-primary btn-round btn-lg btn-block" (click)="signIn()">{{ 'AUTH.SIGN_IN.SIGN_IN_CAPS' | translate }}</a>
-                <h5>
-                  <a routerLink="/auth/forgot-password" class="link">{{ 'AUTH.SIGN_IN.FORGOT_PASSWORD' | translate }}</a>
-                </h5>
-                <h5>
-                  <a routerLink="/auth/sign-up" class="link">{{ 'AUTH.SIGN_IN.JOIN_US' | translate }}</a>
-                </h5>
-                <div class="footer input-group">
-                  <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
-                  <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()">
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>

@@ -6,8 +6,8 @@
           <div class="card-plain">
             <form class="form cen-wh-content">
               <div class="header">
-                <h5>Sign Up For Your Child</h5>
-                <span>Register a new membership</span>
+                <h5 style="color: white;">{{ 'AUTH.CHILD_SIGN_UP.CHILD_SIGN_UP' | translate }}</h5>
+                <span style="color: white;">{{ 'AUTH.SIGN_UP.REGISTER' | translate }} </span>
               </div>
               <div class="content">
                 <div id="personalInfo">
@@ -15,61 +15,61 @@
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-account-circle"></i>
                     </span>
-                    <input type="text" class="form-control" [(ngModel)]="Firstname" placeholder="{{ 'AUTH.SIGN_UP.FIRST_NAME_PLACEHOLDER' | translate }}">
+                    <input type="text" name="first" class="form-control" [(ngModel)]="Firstname" placeholder="{{ 'AUTH.SIGN_UP.FIRST_NAME_PLACEHOLDER' | translate }}">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-account-circle"></i>
                     </span>
-                    <input type="text" class="form-control" [(ngModel)]=Lastname placeholder="{{ 'AUTH.SIGN_UP.LAST_NAME_PLACEHOLDER' | translate }}"> 
+                    <input type="text" name="last" class="form-control" [(ngModel)]=Lastname placeholder="{{ 'AUTH.SIGN_UP.LAST_NAME_PLACEHOLDER' | translate }}">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-calendar"></i>
                     </span>
-                    <input id="birthdate" type="text" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}" class="form-control datetimepicker"
+                    <input id="birthdate" name="birthdate" type="text" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}" class="form-control datetimepicker"
                     />
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-gps-dot"></i>
                     </span>
-                    <input type="text" [(ngModel)]=Address placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}" class="form-control"
-                    />
+                    <input type="text" name="address" [(ngModel)]=Address placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}"
+                      class="form-control" />
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-smartphone"></i>
                     </span>
-                    <input type="text" [(ngModel)]=Phone placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" class="form-control"
+                    <input type="text" name="phone" [(ngModel)]=Phone placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" class="form-control"
                     />
                   </div>
                 </div>
                 <div id="credentials" hidden>
                   <div class="input-group">
-                      <span class="input-group-addon">
-                        <i class="zmdi zmdi-account-circle"></i>
-                      </span>
-                    <input type="text" class="form-control" [(ngModel)]=Username placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}">
+                    <span class="input-group-addon">
+                      <i class="zmdi zmdi-account-circle"></i>
+                    </span>
+                    <input type="text" class="form-control" name="username" [(ngModel)]=Username placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-email"></i>
                     </span>
-                    <input type="text" class="form-control" [(ngModel)]=Email placeholder="{{ 'AUTH.SIGN_UP.EMAIL_PLACEHOLDER' | translate }}">
+                    <input type="text" class="form-control" name="email" [(ngModel)]=Email placeholder="{{ 'AUTH.SIGN_UP.EMAIL_PLACEHOLDER' | translate }}">
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-lock"></i>
                     </span>
-                    <input type="password" [(ngModel)]=Password placeholder="{{ 'AUTH.SIGN_UP.PASSWORD_PLACEHOLDER' | translate }}" class="form-control"
-                    />
+                    <input type="password" [(ngModel)]=Password name="password" placeholder="{{ 'AUTH.SIGN_UP.PASSWORD_PLACEHOLDER' | translate }}"
+                      class="form-control" />
                   </div>
                   <div class="input-group">
                     <span class="input-group-addon">
                       <i class="zmdi zmdi-lock"></i>
                     </span>
-                    <input type="password" [(ngModel)]=ConfirmPassword placeholder="{{ 'AUTH.SIGN_UP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}"
+                    <input type="password" [(ngModel)]=ConfirmPassword name="confirmpass" placeholder="{{ 'AUTH.SIGN_UP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}"
                       class="form-control" />
                   </div>
                   <div>
@@ -97,14 +97,22 @@
                   </div>
                 </div>
                 <div id="interests" hidden>
+                  <h6>Pick some interests for your child:</h6>
+                  <select class="form-control show-tick" placeholder="Pick an interest" id="interest" [(ngModel)]="interest" [ngModelOptions]="{standalone: true}">
+                    <option *ngFor="let tag of tags">{{tag.name}}</option>
+                  </select>
+                  <input type="button" style="width: 40% !important;" value="Add Interest" class="form-control btn btn-sm" (click)="this.addInterest()">
+                  <h6>You picked: </h6>
+                  <span *ngFor="let tag of interests">-{{tag}}-</span>
                   <div class="checkbox">
                     <input id="terms" type="checkbox">
-                    <label for="terms">
+                    <label for="terms" style="color: white;">
                       {{ 'AUTH.SIGN_UP.I_READ_AND_AGREED_TO' | translate }}
                       <a href="javascript:void(0);">
                         {{ 'AUTH.SIGN_UP.TERMS_OF_USAGE' | translate }}</a>
                     </label>
                   </div>
+                  <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="register()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
                 </div>
               </div>
               <div class="footer">
@@ -116,26 +124,22 @@
                   <input id="lastTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_THREE' | translate }}"
                     (click)="showInterestsTab()">
                 </div>
-                <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="register()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
-
-                <!--  <a routerLink="/dashboard" class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click) ="register()"  >SUBMIT</a>-->
-                <h5>
-                  <a class="link" routerLink="/authentication/sign-in">{{ 'AUTH.SIGN_UP.YOU_ALREADY_HAVE_A_MEMBERSHIP' | translate }}</a>
-                </h5>
               </div>
-            </form>
-            <div class="container-fluid">
-              <div class="row clearfix js-sweetalert">
-                <div class="col-md-12 col-lg-6">
-                  <div *ngIf="Div3" class="card">
-                    <div class="body">
-                      <p>Your Child Account has been created!</p>
-                      <button class="btn btn-raised btn-primary waves-effect btn-round" data-type="success">Yaaay!</button>
+              <div class="container-fluid">
+                <div class="row clearfix js-sweetalert">
+                  <div class="col-md-12 col-lg-6">
+                    <div *ngIf="Div3" class="card">
+                      <div class="body">
+                        <p>Your Child Account has been created!</p>
+                        <button class="btn btn-raised btn-primary waves-effect btn-round" data-type="success">Yaaay!</button>
+                      </div>
                     </div>
+
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
+
           </div>
         </div>
       </div>

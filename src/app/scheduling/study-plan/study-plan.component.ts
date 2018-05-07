@@ -108,6 +108,8 @@ export class StudyPlanComponent implements OnInit {
 
   ngOnInit() {
 
+    window.scrollTo(0, 0);
+
     // datetime pickers
     $('.datetimepicker').bootstrapMaterialDatePicker({
       format: 'dddd DD MMMM YYYY - hh:mm a',

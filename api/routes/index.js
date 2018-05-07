@@ -32,14 +32,21 @@ module.exports = function (passport) {
 
   // --------------------- Authentication Checkers --------------- //
   var authFacebook = function (req, res, next) {
-    passport.authenticate('facebook-token', { session: false }, function (err, user, info) {
-      if (err) {
-        return next(err);
-      }
-      req.user = user;
+    passport.authenticate(
+      'facebook-token',
+      {
+        scope: ['email'],
+        session: false
+      }, function (err, user, info) {
+        if (err) {
+          return next(err);
+        }
+        req.user = user;
+        req.profile = info.profile;
 
-      return next();
-    })(req, res, next);
+        return next();
+      }
+    )(req, res, next);
   };
 
   var optionalAuthentication = function (req, res, next) {
@@ -163,12 +170,12 @@ module.exports = function (passport) {
   router.patch('/productrequest/editPrice/:id/:username', isAuthenticated, productCtrl.editPrice);
   router.patch('/productrequest/deleteProduct', isAuthenticated, productCtrl.deleteProduct);
 
-   router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
+  router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
 
   // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/auth/facebook', isNotAuthenticated, authFacebook, userController.signInWithThirdPartyResponse);
+  router.post('/auth/facebook', isNotAuthenticated, authFacebook, userController.signInWithFacebook);
   router.post('/auth/google', isNotAuthenticated, userController.signInWithGoogle, userController.signInWithThirdPartyResponse);
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
@@ -429,7 +436,7 @@ module.exports = function (passport) {
 
   // Registered user contacts admins
   router.post('/message/contactus', messageController.contactAdmin);
-    //Unblocking users
+  //Unblocking users
   router.patch('/message/unblock/:id', isAuthenticated, messageController.unBlock);
 
   // Mark a message as read
@@ -446,6 +453,8 @@ module.exports = function (passport) {
   router.post('/tags/addTag', isAuthenticated, tagController.addTag);
   router.patch('/newsfeed/:entriesPerPage/:pageNumber', newsfeedController.getPosts);
   router.get('/newsfeed/findPeople', newsfeedController.findRandomFive);
+  router.delete('/newsfeed/delete/:interestText', isAuthenticated, newsfeedController.deleteInterest);
+  router.patch('/newsfeed/addInterest', isAuthenticated, newsfeedController.addInterest);
   //------------------- End of Newsfeed Endpoints-----------//
   router.post('/testencoder', ClassifierController.test);
   // -------------------------------------------------------------------- //

@@ -212,6 +212,11 @@ export class ContentEditComponent implements OnInit {
     let self = this;
     if (this.uploader.queue.length > 0) {
       this.loading = true;
+      self.translate.get('CONTENT.TOASTER.UPLOADING').subscribe(
+        function (msg) {
+          self.toasterService.info(msg);
+        }
+      );
       this.uploader.uploadAll();
       this.uploader.onSuccessItem = (
         item: any,
@@ -220,6 +225,11 @@ export class ContentEditComponent implements OnInit {
         headers: any): any => {
         let res: any = JSON.parse(response);
         this.loading = false;
+        self.translate.get('CONTENT.TOASTER.UPLOADING_SUCCESS').subscribe(
+          function (msg) {
+            self.toasterService.success(msg);
+          }
+        );
         self.content.image = res.url;
       };
       this.uploader.onErrorItem =
@@ -241,6 +251,7 @@ export class ContentEditComponent implements OnInit {
 
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
     const contentID = self.route.snapshot.params.id;
     if (contentID) {

@@ -198,6 +198,7 @@ export class PsychologistComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
     const userDataColumns = ['isAdmin'];
     // set 'admin' flag to true if the signed in user is an admin

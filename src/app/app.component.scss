@@ -1,12 +1,44 @@
 .nopadding {
     padding-right: 0 !important;
     margin-right: 0 !important;
- }
- button {
+}
+
+button {
     background-color: Transparent;
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     border: none;
-    cursor:pointer;
+    cursor: pointer;
     overflow: hidden;
-    outline:none;
+    outline: none;
+}
+
+.profile-img {
+    width: 32px;
+    height: 32px;
+}
+
+.logo {
+    width: 30px;
+    height: 30px;
+}
+
+.navbar-nav>li>a {
+    padding: 0 9px !important;
+}
+
+.scroll-flow {
+    overflow-y: auto;
+    height: 300px;
+}
+
+@media only screen and(min-width: 1170px) {
+    .hide-lg {
+        display: none;
+    }
+}
+
+@media only screen and(max-width: 350px) {
+    .hide-sm {
+        display: none !important;
+    }
 }

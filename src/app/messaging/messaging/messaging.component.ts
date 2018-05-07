@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
 import { Inject } from '@angular/core';
 import { SendDialogComponent } from '../send-dialog/send-dialog.component';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
-import { MatButtonModule } from '@angular/material';
 import { SingleMailComponent } from '../single-mail/single-mail.component';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -28,6 +26,7 @@ export class MessagingComponent implements OnInit {
   contacts: any[];
   avatars: any[];
   flag: Boolean = true;
+
   // send to contact
   replyTo: string;
   Body: String = '';
@@ -36,7 +35,7 @@ export class MessagingComponent implements OnInit {
   UserList: string[] = ['_id', 'firstName', 'lastName', 'username', 'schedule', 'studyPlans',
     'email', 'address', 'phone', 'birthday', 'children', 'verified', 'isChild', 'isParent', 'blocked', 'avatar'];
 
-  constructor(private messageService: MessageService, private authService: AuthService, public dialog: MatDialog,
+  constructor(private messageService: MessageService, private authService: AuthService,
     private router: Router, private toastrService: ToastrService, public  _TranslateService: TranslateService) { }
 
   openDialog(): void {
@@ -49,6 +48,7 @@ export class MessagingComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
     const userDataColumns = ['_id', 'username', 'isChild', 'avatar'];
     // get info of logged in user
@@ -83,6 +83,9 @@ export class MessagingComponent implements OnInit {
     const self = this;
     this.messageService.getContacts(this.currentUser.username).subscribe(function (contacts) {
       self.contacts = contacts.data;
+      self.contacts = self.contacts.filter(function (element, index, array) {
+        return element._id !== self.currentUser.username;
+     });
     });
   }
 
@@ -104,7 +107,7 @@ export class MessagingComponent implements OnInit {
         const list = user.data.blocked;
         for (let i = 0; i < user.data.blocked.length; i++) {
           if (this.currentUser.username === list[i]) {
-            self._TranslateService.get('MESSAGING.TOASTR.SEND_SELF').subscribe(function (translation) {
+            self._TranslateService.get('MESSAGING.TOASTR.BLOCKED').subscribe(function (translation) {
               self.toastrService.error(translation);
 
             });
@@ -122,7 +125,6 @@ export class MessagingComponent implements OnInit {
             .subscribe(function (res) {
               self._TranslateService.get('MESSAGING.TOASTR.MSG_SENT').subscribe(function (translation) {
                 self.toastrService.success(translation);
-
               });
               self.getSent();
             });

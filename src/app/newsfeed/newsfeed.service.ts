@@ -12,11 +12,20 @@ const httpOptions = {
 export class NewsfeedService {
   host: String = environment.apiUrl;
   constructor(private http: HttpClient) { }
-  getNewsfeedPage(tags: any[], entriesPerPage: number, pageNumber: number):  Observable<any> {
-    return this.http.patch<any>(this.host + 'newsfeed/' + entriesPerPage + '/' + pageNumber , {tags}, httpOptions);
+  getNewsfeedPage(tags: any[], entriesPerPage: number, pageNumber: number): Observable<any> {
+    return this.http.patch<any>(this.host + 'newsfeed/' + entriesPerPage + '/' + pageNumber, { tags }, httpOptions);
 
   }
   getPeople(): Observable<any> {
     return this.http.get<any>(this.host + 'newsfeed/findPeople');
+  }
+  deleteInterest(interestText): any {
+    return this.http.delete<any>(this.host + 'newsfeed/delete/' + interestText);
+  }
+  addInterest(interestText): any {
+    return this.http.patch<any>(this.host+'newsfeed/addInterest', {text: interestText});
+  }
+  getTags(): any {
+    return this.http.get<any> (this.host + 'tags/getTags');
   }
 }

@@ -3,8 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
-
-import { apiUrl } from '../variables';
 import { ActivityCreate, ActivityEdit } from './activity';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';

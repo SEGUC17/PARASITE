@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
   ];
   constructor(
     private router: Router,
-    private authService: AuthService,
+    public authService: AuthService,
     public translate: TranslateService,
     private route: ActivatedRoute,
     public landingService: LandingService
@@ -101,7 +101,17 @@ export class AppComponent implements OnInit {
     translate.setDefaultLang('en');
 
     // the language to use on load
-    translate.use('en');
+    if (!localStorage.getItem('cachedLang')) {
+      localStorage.setItem('cachedLang', this.translate.currentLang);
+      translate.use('en');
+    } else {
+      this.translate.use(localStorage.getItem('cachedLang'));
+      if (this.translate.currentLang === 'en') {
+        $('body').removeClass('rtl');
+      } else {
+        $('body').addClass('rtl');
+      }
+    }
 
     router.events
       .filter(function (event) {
@@ -113,56 +123,11 @@ export class AppComponent implements OnInit {
       });
   }
   ngOnInit() {
+    this.CustomScrollbar();
     $(function () {
       'use strict';
-      CustomScrollbar();
-      initCounters();
       CustomPageJS();
     });
-    // Counters JS
-    function initCounters() {
-      $('.count-to').countTo();
-    }
-    // All Custom Scrollbar JS
-    function CustomScrollbar() {
-      $('.sidebar .menu .list').slimscroll({
-        height: 'calc(100vh - 65px)',
-        color: 'rgba(0,0,0,0.2)',
-        position: 'left',
-        size: '6px',
-        alwaysVisible: true,
-        borderRadius: '3px',
-        railBorderRadius: '0'
-      });
-
-      $('.navbar-left .dropdown-menu .body .menu').slimscroll({
-        height: '300px',
-        color: 'rgba(0,0,0,0.2)',
-        size: '3px',
-        alwaysVisible: false,
-        borderRadius: '3px',
-        railBorderRadius: '0'
-      });
-
-      $('.right_chat .chat_body .chat-widget').slimscroll({
-        height: 'calc(100vh - 145px)',
-        color: 'rgba(0,0,0,0.1)',
-        size: '2px',
-        alwaysVisible: false,
-        borderRadius: '3px',
-        railBorderRadius: '2px',
-        position: 'left'
-      });
-
-      $('.right-sidebar .slim_scroll').slimscroll({
-        height: 'calc(100vh - 60px)',
-        color: 'rgba(0,0,0,0.4)',
-        size: '2px',
-        alwaysVisible: false,
-        borderRadius: '3px',
-        railBorderRadius: '0'
-      });
-    }
     function CustomPageJS() {
       $('.boxs-close').on('click', function () {
         const element = $(this);
@@ -184,76 +149,36 @@ export class AppComponent implements OnInit {
             .removeClass('input-group-focus');
         });
     }
-    // Fullscreen
-    $(function () {
-      'use strict';
-      $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
-
-      if (!screenfull.enabled) {
-        return false;
-      }
-
-      $('#request').on('click', function () {
-        screenfull.request($('#container')[0]);
-        // Does not require jQuery. Can be used like this too:
-        // screenfull.request(document.getElementById('container'));
-      });
-
-      $('#exit').on('click', function () {
-        screenfull.exit();
-      });
-
-      $('[data-provide~="boxfull"]').on('click', function () {
-        screenfull.toggle($('.box')[0]);
-      });
-
-      $('[data-provide~="fullscreen"]').on('click', function () {
-        screenfull.toggle($('#container')[0]);
-      });
-
-      // let selector = '[data-provide~='boxfull']';
-      const selector = '[data-provide~="fullscreen"]';
-
-      $(selector).each(function () {
-        $(this).data('fullscreen-default-html', $(this).html());
-      });
-
-      document.addEventListener(screenfull.raw.fullscreenchange, function () {
-        if (screenfull.isFullscreen) {
-          $(selector).each(function () {
-            $(this).addClass('is-fullscreen');
-          });
-        } else {
-          $(selector).each(function () {
-            $(this).removeClass('is-fullscreen');
-          });
-        }
-      });
-
-      function fullscreenchange() {
-        const elem = screenfull.element;
-
-        $('#status').text('Is fullscreen: ' + screenfull.isFullscreen);
-
-        if (elem) {
-          $('#element').text(
-            'Element: ' + elem.localName + (elem.id ? '#' + elem.id : '')
-          );
-        }
-
-        if (!screenfull.isFullscreen) {
-          $('#external-iframe').remove();
-          document.body.style.overflow = 'auto';
-        }
-      }
-
-      screenfull.on('change', fullscreenchange);
-
-      // Set the initial values
-      fullscreenchange();
-    }); // End of use strict
-
     this.isSignedIn();
+  }
+  // All Custom Scrollbar JS
+  public CustomScrollbar(): void {
+    $('.sidebar .menu .list').slimscroll({
+      height: 'calc(100vh - 65px)',
+      color: 'rgba(0,0,0,0.2)',
+      position: 'left',
+      size: '6px',
+      alwaysVisible: true,
+      borderRadius: '3px',
+      railBorderRadius: '0'
+    });
+
+    $('.navbar-left .dropdown-menu .body .menu').slimscroll({
+      height: '300px',
+      color: 'rgba(0,0,0,0.2)',
+      size: '6px',
+      alwaysVisible: true,
+      borderRadius: '3px',
+      railBorderRadius: '0'
+    });
+    $('.right-sidebar .slim_scroll').slimscroll({
+      height: 'calc(100vh - 60px)',
+      color: 'rgba(0,0,0,0.4)',
+      size: '2px',
+      alwaysVisible: false,
+      borderRadius: '3px',
+      railBorderRadius: '0'
+    });
   }
 
   public isSignedIn(): void {
@@ -312,6 +237,8 @@ export class AppComponent implements OnInit {
         let itemUsername = retrievednotifications[i].itemUsername;
         ///////////// all profile must be usernamesss
         // handle translating commenting
+
+        // translate the body of the notification
         if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('commented on your') !== -1) {
           retrievednotifications[i].body = 'قام أحدهم بالتعليق على إحدى مساهماتك على الموقع';
         }
@@ -320,56 +247,55 @@ export class AppComponent implements OnInit {
           retrievednotifications[i].body = 'قام أحدهم بالرد على إحدى تعليقاتك';
         }
 
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('Verified Contributer') !== -1) {
+          retrievednotifications[i].body = 'أصبحت الآن مساهم موثَّق';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unlinked you') !== -1) {
+          retrievednotifications[i].body = 'تم فصل حسابك الشخصي عن حساب متصل به بنجاح';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('booked your activity') !== -1) {
+          retrievednotifications[i].body = 'تمَّ حجز مكان في أحد أنشطتك';
+        }
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('activity was accepted') !== -1) {
+          retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد أنشطتك';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('content was accepted') !== -1) {
+          retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد مساهماتك التعليمية';
+        }
+
+        if (self.translate.currentLang === 'ara' &&
+          retrievednotifications[i].body.indexOf('updated Content has been successfully') !== -1) {
+          retrievednotifications[i].body = 'تم تحديث أحد مساهماتك التعليمية بنجاح';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('assigned you to') !== -1) {
+          retrievednotifications[i].body = 'تمَّ وضع خطة دراسية لك';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('study plan is now published') !== -1) {
+          retrievednotifications[i].body = 'تم نشر أحد خططك الدراسية بنجاح';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unassigned you from a Study Plan') !== -1) {
+          retrievednotifications[i].body = 'تمَّت إزالة خطة دراسية قد كانت معينة لك';
+        }
+
+        // attach links to notifications
         if ((type === 'link' || type === 'contributer') && itemUsername) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('are now a Verified Contributer') !== -1) {
-            retrievednotifications[i].body = 'أصبحت الآن مساهم موثَّق';
-          }
-
           retrievednotifications[i].link = '/profile/' + retrievednotifications[i].itemUsername;
-
         } else if ((type === 'activity' || type === 'discussion activity') && itemId) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('booked your activity') !== -1) {
-            retrievednotifications[i].body = 'تمَّ حجز مكان في أحد أنشطتك';
-          }
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('activity was accepted') !== -1) {
-            retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد أنشطتك';
-          }
-
           retrievednotifications[i].link = '/activities/' + retrievednotifications[i].itemId;
         } else if ((type === 'content' || type === 'discussion content') && itemId) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('content was accepted') !== -1) {
-            retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد مساهماتك التعليمية';
-          }
-
-          if (self.translate.currentLang === 'ara' &&
-            retrievednotifications[i].body.indexOf('updated Content has been successfully') !== -1) {
-            retrievednotifications[i].body = 'تم تحديث أحد مساهماتك التعليمية بنجاح';
-          }
-
           retrievednotifications[i].link = '/content/view/' + retrievednotifications[i].itemId;
         } else if (type === 'study plan A' && itemId) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('assigned you to') !== -1) {
-            retrievednotifications[i].body = 'تمَّ وضع خطة دراسية لك';
-          }
-
           retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId;
         } else if (type === 'study plan' && itemId && itemUsername) {
-
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('study plan is now published') !== -1) {
-            retrievednotifications[i].body = 'تم نشر أحد خططك الدراسية بنجاح';
-          }
-
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unassigned you from a Study Plan') !== -1) {
-            retrievednotifications[i].body = 'تمَّت إزالة خطة دراسية قد كانت معينة لك';
-          }
-
           retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId + '/' + itemUsername;
         } else if (type === 'product') {
           // do not need id in market
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('new product was approved') !== -1) {
-            retrievednotifications[i].body = 'تمَّ قبول منتجك وهو معروض في السوق الآن';
-          }
-
           retrievednotifications[i].link = '/market';
         } else {
           // if not any of these cases got to landing page
@@ -385,12 +311,14 @@ export class AppComponent implements OnInit {
   changeLanguage(): void {
     if (this.translate.currentLang === 'en') {
       this.translate.use('ara');
+      localStorage.setItem('cachedLang', 'ara');
       $('body').addClass('rtl');
     } else {
       this.translate.use('en');
+      localStorage.setItem('cachedLang', 'en');
       $('body').removeClass('rtl');
     }
-
+    window.scrollTo(0, 0);
   }
   // method that makes all messages read
   onMessageIconClick() {

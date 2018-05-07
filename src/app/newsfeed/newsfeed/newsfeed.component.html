@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
-        <ul class="breadcrumb"  [style.float]="translate.currentLang == 'ara' ? 'left': 'right' ">
+        <ul class="breadcrumb" [style.float]="translate.currentLang == 'ara' ? 'left': 'right' ">
           <li class="breadcrumb-item">
             <a routerLink="/">
               <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate}}
@@ -44,9 +44,9 @@
           </div>
           <div class="body">
             <div class="img-post m-b-15">
-              <img src={{post.metadata.image}} alt="Awesome Image" width="100%">
+              <img src={{post.metadata.image}} onerror="src='assets/images/newsfeed/default.png'" alt="Awesome Image" width="100%">
             </div>
-            <div *ngIf="post.metadata.description" class="preview text" [innerHTML]="post.metadata.description" ></div>
+            <div *ngIf="post.metadata.description" class="preview text" [innerHTML]="post.metadata.description"></div>
             <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
             <a *ngIf="post.type=='a'" routerLink="/activities/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
 
@@ -59,22 +59,60 @@
           <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currentPageNumber === pageNumberForPagination}">
             <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
           </li>
-          <li *ngIf="currentPageNumber<totalNumberOfPages" class="page-item">
+          <li *ngIf="currentPageNumbertotalNumberOfPages" class="page-item">
             <a class="page-link" (click)="changePage(this.currentPageNumber + 1)">{{ 'NEWSFEED.NEXT' | translate }}</a>
           </li>
         </ul>
       </div>
       <div class="col-lg-4 col-md-12 right-box">
         <div class="card">
-          <div class="header">
-            <h2>
-              <strong>{{ 'NEWSFEED.INTERESTS' | translate }}</strong>
-            </h2>
+          <div class="header nopaddingbottom">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                  <h2 class="pt-3">
+                    <strong>{{ 'NEWSFEED.INTERESTS' | translate }}</strong>
+                  </h2>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6" align="end">
+                  <a href="#defaultModal" data-toggle="modal" data-target="#defaultModal">
+                    <button class="btn btn-primary btn-round btn-icon">
+                      <i class="zmdi zmdi-plus"></i>
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <div class="body widget tag-clouds">
-            <ul class="list-unstyled m-b-0">
-              <li *ngFor = "let tag of tags">
-                <p class="tag badge badge-default">{{tag}}</p>
+          <div class="body widget tag-clouds nopaddingtop ">
+            <ul class="list-unstyled mt-2">
+              <div class="not_found text-center text-warning" *ngIf="!tags || !tags.length">
+                <i class="zmdi zmdi-mood-bad zmdi-hc-3x "></i>
+                <p class="m-b-0">
+                  {{ 'NEWSFEED.HAVE_NOT_ADDED_INTERESTS' | translate }}</p>
+                <p class="m-b-0">
+                  {{ 'NEWSFEED.ADD_SOME_NOW' | translate }}
+                  <i *ngIf="translate.currentLang === 'en'" class="zmdi zmdi-arrow-right-top mr-2"></i>
+                  <i *ngIf="translate.currentLang === 'ara'" class="zmdi zmdi-arrow-missed"></i>
+                </p>
+
+              </div>
+              <li *ngFor="let tag of tags">
+                <div class="tag badge badge-default"  style="color:#54a89b; border-color:#54a89b;"  *ngIf="tags && tags.length > 0">
+                  <div class="col-lg-12 col-md-12 col-sm-12 nopadding">
+                    <div class="row">
+                      <div class="col-lg-6 col-md-6 col-sm-6 ">
+                        <p class="nopadding">
+                          {{tag}}
+                        </p>
+                      </div>
+                      <div class="col-lg-6 col-md-6 col-sm-6 clickable-icon"  align="end" (click)="deleteInterest(tag)">
+                          <i class="zmdi zmdi-minus" style="color:#ba4823"></i>
+                        </div>
+                    </div>
+                  </div>
+                </div>
               </li>
             </ul>
           </div>
@@ -82,27 +120,47 @@
         <div class="card bg-dark">
           <div class="header">
             <h2>
-              <strong>{{ 'NEWSFEED.OTHER_PARENTS' | translate }}</strong></h2>
+              <strong>{{ 'NEWSFEED.OTHER_PARENTS' | translate }}</strong>
+            </h2>
           </div>
           <div class="body widget popular-post">
             <div class="row">
               <div class="col-xl-12 col-lg-12">
-                <div class="border single_post">
-                  <div class="img-post m-b-5">
-                    <img src="assets/images/newsfeed/connectToMore.png" alt="Awesome Image">
+                <div class="card member-card">
+
+                  <div class="header bg-blue-grey">
+                    <h4 class="m-t-10">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</h4>
                   </div>
-                  <p class="m-b-0 col-white">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</p>
-                </div>
-                <div class="border single_post m-t-20" *ngFor="let person of people">
-                  <a routerLink="/profile/{{person.username}}">
-                    <div class="img-post m-b-5">
-                      <img src={{person.avatar}} onerror="src='assets/images/profile-view/defaultPP.png'" alt="Awesome Image">
+                  <div class="member-img">
+                    <a routerLink="/search" class="">
+                      <img src="assets/images/newsfeed/connectToMore.png" class="rounded-circle" alt="profile-image">
+                    </a>
+                  </div>
+                  <div class="body">
+                    <div class="col-12">
+                      <p class="text-muted">{{'NEWSFEED.CLICK_TO_CONNECT'|translate}}</p>
                     </div>
-                    <p class="m-b-0 col-white">{{person.firstName}} {{person.lastName}}</p>
-                    <small class="text-muted">{{person.username}}</small>
-                  </a>
+
+                  </div>
                 </div>
-                
+                <div class="card member-card" *ngFor="let person of people">
+                  <div *ngIf="person.username!=user.username">
+                    <div class="header bg-blue-grey">
+                      <h4 class="m-t-10">{{person.firstName}} {{person.lastName}}</h4>
+                    </div>
+                    <div class="member-img">
+                      <a routerLink="/profile/{{person.username}}" class="">
+                        <img src={{person.avatar}} onerror="src='assets/images/profile-view/defaultPP.png'" class="rounded-circle" alt="profile-image">
+                      </a>
+                    </div>
+                    <div class="body">
+                      <div class="col-12">
+                        <p class="text-muted">{{person.address}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
           </div>
@@ -111,3 +169,94 @@
     </div>
   </div>
 </section>
+<!-- <button type="button" class="btn btn-danger btn-simple btn-round waves-effect float-right" data-dismiss="modal" align="end">Finish</button> -->
+
+<div class="modal fade " id="defaultModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="col-lg-12 col-md-12 col-sm-12 ">
+        <div class="row mt-2">
+          <div class="col-lg-9 col-md-9 col-sm-9"></div>
+          <div class = "col-lg-3 col-md-3 col-sm-3" align = "end">
+            <i class="zmdi zmdi-close text-danger clickable-icon" data-dismiss="modal" ></i>
+          </div>
+        </div>
+      </div>
+      <div class="modal-header text-center nopaddingbottom">
+        <h2 id="defaultModalLabel" class="nopadding">Pick what
+          <span style="color: #54a89b">interests you </span>
+        </h2>
+      </div>
+      <div class="not_found text-center text-warning" *ngIf="!tagsIdonthave || !tagsIdonthave.length">
+        <i class="zmdi zmdi-mood-bad zmdi-hc-4x "></i>
+        <p class="m-b-0">
+          Seems like you have alot of interests, You have added all available tags.</p>
+      </div>
+      <div class="modal-body widget tag-clouds mr-5 ">
+        <span *ngFor="let tag of tagsIdonthave" >
+          <span class="tag badge badge-default mt-2" *ngIf="tagsIdonthave && tagsIdonthave.length">
+            <div class="col-lg-12 col-md-12 col-sm-12 ">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 ">
+                  <p class="nopadding">
+                    {{tag.name}}
+                  </p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 clickable-icon" align="end" (click)="addInterest(tag.name)">
+                  <i class="zmdi zmdi-plus" style="color:#54a89b"></i>
+                </div>
+              </div>
+            </div>
+          </span>
+        </span>
+        <hr>
+      </div>
+      
+
+      <div class="modal-footer justify-content-center">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="title text-center">
+              <h2 class="nopadding"> Your
+                <span style="color:#54a89b"> interests
+
+                </span>
+              </h2>
+            </div>
+          </div>
+
+          <div class="not_found text-center text-warning mt-3" *ngIf="!tags || !tags.length">
+            <i class="zmdi zmdi-mood-bad zmdi-hc-4x "></i>
+            <p class="m-b-0">
+              You haven't added any interests yet</p>
+          </div>
+
+          <div class="body widget tag-clouds mt-3">
+            <div>
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <span *ngFor="let tag of tags">
+                    <span class="tag badge badge-default mt-2" style="color:#54a89b; border-color:#54a89b;" *ngIf="tags && tags.length">
+                      <div class="col-lg-12 col-md-12 col-sm-12 ">
+                        <div class="row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 ">
+                            <p class="nopadding">
+                              {{tag}}
+                            </p>
+                          </div>
+                          <div class="col-lg-6 col-md-6 col-sm-6 clickable-icon" align="end" (click)="deleteInterest(tag)">
+                            <i class="zmdi zmdi-minus" style="color:#ba4823"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

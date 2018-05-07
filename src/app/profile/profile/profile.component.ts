@@ -4,7 +4,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ProfileService } from '../profile.service';
 import { AuthService } from '../../auth/auth.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationStart } from '@angular/router';
 import { MessageService } from '../../messaging/messaging.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
@@ -13,21 +13,17 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
 
-
 declare const swal: any;
 declare const $: any;
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
-  providers: [AuthService, MessageService, ToastrService, DatePipe],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./profile.component.scss']
 })
 
 export class ProfileComponent implements OnInit {
 
   reportReason: string;
-  _this;
   // ---------- FLAGS --------------------
   // User Flags
   currIsOwner = false;
@@ -120,12 +116,22 @@ export class ProfileComponent implements OnInit {
   // study plan delete modal
   studyPlanIndex: number;
 
-  constructor(private _ProfileService: ProfileService, private _AuthService: AuthService,
-    private activatedRoute: ActivatedRoute, private messageService: MessageService,
-    private toastrService: ToastrService, private _datePipe: DatePipe, public translate: TranslateService) { }
+  constructor(
+    private _ProfileService: ProfileService,
+    private _AuthService: AuthService,
+    private activatedRoute: ActivatedRoute,
+    private messageService: MessageService,
+    private toastrService: ToastrService,
+    private router: Router,
+    private _datePipe: DatePipe,
+    public translate: TranslateService
+  ) {
+
+  }
 
   ngOnInit() {
-
+    window.scrollTo(0, 0);
+    const self = this;
     $('.datetimepicker').bootstrapMaterialDatePicker({
       format: 'MM DD YYYY',
       time: false,
@@ -133,128 +139,138 @@ export class ProfileComponent implements OnInit {
       weekStart: 1,
       maxDate: new Date()
     });
+    this.updateProfileInfo();
+    // listen to route changes in case of username changes in URL while being in the profile component
+    this.router.events.filter(function (event) {
+      return event instanceof NavigationStart;
+    }).subscribe(function (event: NavigationStart) {
+      if (event.url.includes('/profile/')) {
+        self.updateProfileInfo();
+      }
+    });
+  }
 
-
-    this._this = this;
-    this._AuthService.getUserData(this.listOfWantedVariables).subscribe((user) => {
-      this.activatedRoute.params.subscribe((params: Params) => { // getting the visited username
-        this.vUsername = params.username;
+  updateProfileInfo() {
+    const self = this;
+    this._AuthService.getUserData(self.listOfWantedVariables).subscribe((user) => {
+      self.activatedRoute.params.subscribe((params: Params) => { // getting the visited username
+        self.vUsername = params.username;
+        self.updateUserData(user);
       });
+    });
+  }
+  updateUserData(user) {
+    // Fetching logged in user info
+    this.avatar = user.data.avatar;
+    this.username = user.data.username;
+    this.firstName = user.data.firstName;
+    this.lastName = user.data.lastName;
+    this.email = user.data.email;
+    this.address = user.data.address;
+    this.age = this.calculateAge(user.data.birthdate);
+    this.phone = user.data.phone;
+    this.listOfChildren = user.data.children;
+    this.verified = user.data.verified;
+    this.id = user.data._id;
+    this.currIsChild = user.data.isChild;
+    this.currIsParent = user.data.isParent;
+    this.birthday = user.data.birthdate;
+    this.birthdayView = this._datePipe.transform(user.data.birthdate, 'MM/dd/yyyy');
+    this.educationalSystem = user.data.educationSystem;
+    this.systemIs(user.data.educationSystem);
+    this.educationalLevel = user.data.educationLevel;
+    this.levelIs(user.data.educationLevel);
+    this.dFirstName = this.firstName;
+    this.dLastName = this.lastName;
+    this.dAddress = this.address;
+    this.dPhone = this.phone[0];
+    this.dEmail = this.email;
+    this.dBirthday = this.birthday;
+    this.dUsername = this.username;
+    this.blocklist = user.data.blocked;
+    this.currIsAdmin = user.data.isAdmin;
+    if (this.age > 13) {
+      this.currIsOfAge = true;
+    }
+    if (this.age >= 18) {
+      this.currCanBeParent = true;
+    }
 
-      // Fetching logged in user info
-      this.avatar = user.data.avatar;
-      this.username = user.data.username;
-      this.firstName = user.data.firstName;
-      this.lastName = user.data.lastName;
-      this.email = user.data.email;
-      this.address = user.data.address;
-      this.age = this.calculateAge(user.data.birthdate);
-      this.phone = user.data.phone;
-      this.listOfChildren = user.data.children;
-      this.verified = user.data.verified;
-      this.id = user.data._id;
-      this.currIsChild = user.data.isChild;
-      this.currIsParent = user.data.isParent;
-      this.birthday = user.data.birthdate;
-      this.birthdayView = this._datePipe.transform(user.data.birthdate, 'MM/dd/yyyy');
-      this.educationalSystem = user.data.educationSystem;
-      this.systemIs(user.data.educationSystem);
-      this.educationalLevel = user.data.educationLevel;
-      this.levelIs(user.data.educationLevel);
-      this.dFirstName = this.firstName;
-      this.dLastName = this.lastName;
-      this.dAddress = this.address;
-      this.dPhone = this.phone[0];
-      this.dEmail = this.email;
-      this.dBirthday = this.birthday;
-      this.dUsername = this.username;
-      this.blocklist = user.data.blocked;
-      this.currIsAdmin = user.data.isAdmin;
-      if (this.age > 13) {
-        this.currIsOfAge = true;
-      }
-      if (this.age >= 18) {
-        this.currCanBeParent = true;
-      }
 
 
-
-      if (!this.vUsername || this.vUsername === this.username) {
-        this.currIsOwner = true;
-        this.vUsername = this.username;
-      }
+    if (!this.vUsername || this.vUsername === this.username) {
+      this.currIsOwner = true;
+      this.vUsername = this.username;
+    }
 
       if (this.avatar !== '') {
         this.currHasPP = true;
       }
 
 
-      if (!this.currIsOwner) { // Fetching other user's info, if the logged in user is not the owner of the profile
-        this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
-          this.vAvatar = info.data.avatar;
-          this.vFirstName = info.data.firstName;
-          this.vLastName = info.data.lastName;
-          this.vEmail = info.data.email;
-          this.vAddress = info.data.address;
-          this.vPhone = info.data.phone;
-          this.vBirthday = info.data.birthdate;
-          this.vBirthdayView = this._datePipe.transform(info.data.birthdate, 'MM/dd/yyyy');
-          this.vListOfChildren = info.data.children;
-          this.vAge = this.calculateAge(this.vBirthday);
-          this.vVerified = info.data.verified;
-          this.vId = info.data._id;
-          this.vEducationalSystem = info.data.educationSystem;
-          this.systemIs(info.data.educationSystem);
-          this.vEducationalLevel = info.data.educationLevel;
-          this.levelIs(info.data.educationLevel);
-          this.visitedIsParent = info.data.isParent;
-          this.visitedIsChild = info.data.isChild;
-          this.visitedIsAdmin = info.data.isAdmin;
-          if (!(this.listOfChildren.indexOf(this.vUsername.toLowerCase()) < 0)) {
-            this.visitedIsMyChild = true;
-          }
-          if (!(this.vListOfChildren.indexOf(this.username.toLowerCase()) < 0)) {
-            this.visitedIsMyParent = true;
-          }
-          if (this.vAge > 13) {
-            this.visitedIsOfAge = true;
-          }
-          if (this.vAge >= 18) {
-            this.visitedCanBeParent = true;
-          }
-          if (this.vAvatar !== '') {
-            this.visitedHasPP = true;
-          }
+    if (!this.currIsOwner) { // Fetching other user's info, if the logged in user is not the owner of the profile
+      this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
+        this.vAvatar = info.data.avatar;
+        this.vFirstName = info.data.firstName;
+        this.vLastName = info.data.lastName;
+        this.vEmail = info.data.email;
+        this.vAddress = info.data.address;
+        this.vPhone = info.data.phone;
+        this.vBirthday = info.data.birthdate;
+        this.vBirthdayView = this._datePipe.transform(info.data.birthdate, 'MM/dd/yyyy');
+        this.vListOfChildren = info.data.children;
+        this.vAge = this.calculateAge(this.vBirthday);
+        this.vVerified = info.data.verified;
+        this.vId = info.data._id;
+        this.vEducationalSystem = info.data.educationSystem;
+        this.systemIs(info.data.educationSystem);
+        this.vEducationalLevel = info.data.educationLevel;
+        this.levelIs(info.data.educationLevel);
+        this.visitedIsParent = info.data.isParent;
+        this.visitedIsChild = info.data.isChild;
+        this.visitedIsAdmin = info.data.isAdmin;
+        if (!(this.listOfChildren.indexOf(this.vUsername.toLowerCase()) < 0)) {
+          this.visitedIsMyChild = true;
+        }
+        if (!(this.vListOfChildren.indexOf(this.username.toLowerCase()) < 0)) {
+          this.visitedIsMyParent = true;
+        }
+        if (this.vAge > 13) {
+          this.visitedIsOfAge = true;
+        }
+        if (this.vAge >= 18) {
+          this.visitedCanBeParent = true;
+        }
+        if (this.vAvatar !== '') {
+          this.visitedHasPP = true;
+        }
 
-          this.dFirstName = info.data.firstName;
-          this.dLastName = info.data.lastName;
-          this.dAddress = info.data.address;
-          this.dPhone = info.data.phone[0];
-          this.dEmail = info.data.email;
-          this.dBirthday = info.data.birthdate;
-          this.dUsername = info.data.username;
-          // Getting the list of uncommon children
-          this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
+        this.dFirstName = info.data.firstName;
+        this.dLastName = info.data.lastName;
+        this.dAddress = info.data.address;
+        this.dPhone = info.data.phone[0];
+        this.dEmail = info.data.email;
+        this.dBirthday = info.data.birthdate;
+        this.dUsername = info.data.username;
+        // Getting the list of uncommon children
+        this.listOfUncommonChildren = this.listOfChildren.filter(item => this.vListOfChildren.indexOf(item) < 0);
 
-          // fetching study plans
-          if (this.visitedIsMyChild) {
-            this._AuthService.getAnotherUserData(['studyPlans'], this.vUsername).subscribe(resStudyPlans => {
-              this.studyPlans = resStudyPlans.data.studyPlans;
-            });
-          }
+        // fetching study plans
+        if (this.visitedIsMyChild) {
+          this._AuthService.getAnotherUserData(['studyPlans'], this.vUsername).subscribe(resStudyPlans => {
+            this.studyPlans = resStudyPlans.data.studyPlans;
+          });
+        }
 
-        }));
-      }
+      }));
+    }
 
-      // fetching study plan
-      if (this.currIsOwner) {
-        this._AuthService.getUserData(['studyPlans']).subscribe(resStudyPlans => {
-          this.studyPlans = resStudyPlans.data.studyPlans;
-        });
-      }
-
-    });
-
+    // fetching study plan
+    if (this.currIsOwner) {
+      this._AuthService.getUserData(['studyPlans']).subscribe(resStudyPlans => {
+        this.studyPlans = resStudyPlans.data.studyPlans;
+      });
+    }
   }
 
   requestContributerValidation() {
@@ -563,7 +579,6 @@ export class ProfileComponent implements OnInit {
           });
         }
       });
-      // TODO: handle image uploading success and use the url to retrieve the image later
     }
     document.getElementById('closeModal').click();
     document.focus();

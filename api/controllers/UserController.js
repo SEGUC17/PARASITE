@@ -365,6 +365,97 @@ module.exports.signIn = function (req, res, next) {
 
 };
 
+module.exports.signInWithFacebook = function (req, res, next) {
+
+    if (
+        req.user &&
+        req.profile &&
+        (req.user.facebookId !== req.profile.id ||
+            req.user.isEmailVerified !== true)
+    ) {
+        User.findByIdAndUpdate(
+            req.user._id,
+            {
+                'facebookId': req.profile.id,
+                'isEmailVerified': true
+            },
+            function (err) {
+                if (err) {
+                    throw err;
+                }
+            }
+        );
+    }
+
+    var time = '1d';
+    if (req.user) {
+        generateJWTToken(req.user._id, time, function (jwtToken) {
+            return res.status(200).json({
+                data: null,
+                err: null,
+                msg: 'Sign In Is Successful!',
+                token: jwtToken
+            });
+        });
+
+        return;
+    }
+
+    if (!req.profile) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: 'Profile Is Required!'
+        });
+    }
+
+    if (!req.profile.emails[0]) {
+        return res.status(422).json({
+            data: null,
+            err: null,
+            msg: 'Email Is Required!'
+        });
+    }
+
+    var generateUniqueUsernameAndSignIn = function () {
+        var username = generateString(10);
+
+        User.findOne({ 'username': username }, function (err, user) {
+            if (err) {
+                throw err;
+            } else if (user) {
+                return generateUniqueUsernameAndSignIn();
+            }
+
+            var newUser = new User({
+                email: req.profile.emails[0].value,
+                facebookId: req.profile.id,
+                firstName: req.profile.name.givenName,
+                isEmailVerified: true,
+                lastName: req.profile.name.familyName,
+                password: generateString(12),
+                username: username
+            });
+
+            newUser.save(function (err2, user2) {
+                if (err2) {
+                    throw err2;
+                }
+
+                generateJWTToken(user2._id, time, function (jwtToken) {
+                    return res.status(200).json({
+                        data: null,
+                        err: null,
+                        msg: 'Sign In Is Successful!',
+                        token: jwtToken
+                    });
+                });
+            });
+        });
+    };
+    generateUniqueUsernameAndSignIn();
+};
+
 module.exports.signInWithThirdPartyResponse = function (req, res, next) {
     var time = '1d';
     generateJWTToken(req.user._id, time, function (jwtToken) {
@@ -444,6 +535,7 @@ module.exports.signUpChild = function (req, res, next) {
     newUser.password = req.body.password;
     newUser.phone = req.body.phone;
     newUser.username = req.body.username;
+    newUser.interests = req.body.interests;
     // --- End of "Variable Assign" --- //
 
     //  console.log('updated attributes of child set');
@@ -614,7 +706,7 @@ module.exports.signUpChild = function (req, res, next) {
                 , { new: true }, function (err, updatedob) {
                     if (err) {
                         //  console.log('entered the error stage of update');
-        
+
                         return res.status(402).json({
                             data: null,
                             msg: 'error occurred during updating ' +
@@ -669,7 +761,7 @@ module.exports.getUserData = function (req, res, next) {
         User.findByIdAndUpdate(
             req._id,
             { $set: { notifications: Nots } },
-            function(err) {
+            function (err) {
                 if (err) {
                     console.log(err);
                 }
@@ -803,7 +895,8 @@ module.exports.forgotPassword = function (req, res, next) {
                 throw err;
             } else if (user) {
                 // user exists in database
-                emailVerification.send(
+                emailVerification.send_trueResetPW(
+                    user.firstName,
                     user.email,
                     config.FRONTEND_URI +
                     'auth/forgot-password/reset-password/' + user._id

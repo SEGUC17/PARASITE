@@ -2,11 +2,17 @@
 <nav class="navbar navbar-light bg-light IhateCss">
   <div class="container" style="background-color: #F3F6DC;">
     <img class="img-fluid" style="height: 1cm;" src="assets/images/landing/header.png" />
-    <a class="btn btn-primary" routerLink="/auth/sign-in">{{ 'LANDING.SIGN_IN' | translate }}</a>
+    <div class="row">
+      <div class="col">
+        <a *ngIf="!isSignedIn()" class="btn btn-primary" routerLink="/auth/sign-in">{{ 'LANDING.SIGN_IN' | translate }}</a>
+        <a *ngIf="isSignedIn()" class="btn btn-primary" routerLink="/newsfeed">{{ 'LANDING.GO_NEWSFEED' | translate }}</a>
+      </div>
+      <div class="col">
+        <a *ngIf="isSignedIn()" routerLink="/auth/sign-out" class="btn btn-warning">{{ 'LANDING.SIGN_OUT' | translate }}</a>
+      </div>
+    </div>
   </div>
 </nav>
-
-
 
 <!-- ADD SOMETHING LIKE, WHAT DO WE OFFER? here-->
 
@@ -108,7 +114,7 @@
       <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
         <ul class="list-inline mb-2">
           <li class="list-inline-item">
-            <a href="#">{{ 'LANDING.ABOUT_US' | translate }}</a>
+            <a href="#aboutUsModal" data-toggle="modal" data-target="#aboutUsModal">{{ 'LANDING.ABOUT_US' | translate }}</a>
           </li>
           <li class="list-inline-item">&sdot;</li>
           <li class="list-inline-item">
@@ -142,6 +148,21 @@
         </div>
         <div class="modal-body">
           <app-contact-us></app-contact-us>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="modal fade" id="aboutUsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="title" id="defaultModalLabel">{{ 'LANDING.ABOUT_US' | translate }}</h4>
+        </div>
+        <div class="modal-body">
+          <p>Here you can add any information you want the people to know.</p>
         </div>
       </div>
     </div>

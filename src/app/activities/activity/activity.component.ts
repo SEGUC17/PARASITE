@@ -38,6 +38,7 @@ export class ActivityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.getActivities(1);
   }
 
@@ -78,7 +79,7 @@ export class ActivityComponent implements OnInit {
     this.pageSize = res.data.limit;
     for (let activity of this.activities) {
       if (!activity.image) {
-        activity.image = 'assets/images/activity-view/default-activity-image.jpg';
+        activity.image = 'assets/images/activity-view/lam3y.png';
       }
     }
   }
