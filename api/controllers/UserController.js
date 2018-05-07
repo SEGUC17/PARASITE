@@ -366,6 +366,27 @@ module.exports.signIn = function (req, res, next) {
 };
 
 module.exports.signInWithFacebook = function (req, res, next) {
+
+    if (
+        req.user &&
+        req.profile &&
+        (req.user.facebookId !== req.profile.id ||
+            req.user.isEmailVerified !== true)
+    ) {
+        User.findByIdAndUpdate(
+            req.user._id,
+            {
+                'facebookId': req.profile.id,
+                'isEmailVerified': true
+            },
+            function (err) {
+                if (err) {
+                    throw err;
+                }
+            }
+        );
+    }
+
     var time = '1d';
     if (req.user) {
         generateJWTToken(req.user._id, time, function (jwtToken) {
@@ -873,7 +894,8 @@ module.exports.forgotPassword = function (req, res, next) {
                 throw err;
             } else if (user) {
                 // user exists in database
-                emailVerification.send(
+                emailVerification.send_trueResetPW(
+                    user.firstName,
                     user.email,
                     config.FRONTEND_URI +
                     'auth/forgot-password/reset-password/' + user._id

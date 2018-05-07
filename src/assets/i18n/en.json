@@ -44,10 +44,13 @@
           "TO": "to",
           "COMMENT": "Comment",
           "REPLY": "Reply",
-          "BOOK_FOR": "Book for",
+          "BOOK_FOR": "Book for child",
           "DESCRIPTION": "Description",
           "WRITE_COMMENT": "leave a comment...",
-          "BOOK_SUCCESS": "Booked successfully"
+          "BOOK_SUCCESS": "Booked successfully",
+          "BOOK": "Book",
+          "NOW":"Now",
+          "DETAILS":"Details"
       },
       "EDIT": {
           "EDIT_ACTIVITY": "Edit Activity",
@@ -420,7 +423,7 @@
       "TOASTR": {
           "EMPTY_MSG": "You can't send an empty message.",
           "BLOCKED": "Sorry, you are blocked.",
-          "MSG_SENT": "Message was sent!",
+          "MSG_SENT": "Message sent!",
           "ENTER_RECIPIENT": "Please specify a recipient.",
           "VALID_NAME": "Please enter a valid username.",
           "SEND_SELF": "You can't send a message to yourself",
@@ -440,7 +443,8 @@
       "TAG": "tag",
       "OTHER_PARENTS": "Other Parents",
       "READ_MORE": "Read More",
-      "CONNECT_TO_MORE": "Connect to more"
+      "CONNECT_TO_MORE": "Connect to more",
+      "CLICK_TO_CONNECT": "click to search and view other parents and connect with them"
   },
   "PROFILE": {
       "CHILDREN": {
@@ -698,6 +702,11 @@
       "SEND": "Send",
       "CANCEL": "Cancel",
       "SIGN_IN": "Sign In",
-      "CHECK_CONTENT": "Discover Our Educational Resources"
+      "CHECK_CONTENT": "Discover Our Educational Resources",
+      "TYPE_MSG": "Type your message . .",
+      "PROVIDE_EMAIL": "Provide your e-mail here",
+      "EMPTY_EMAIL" : "You need to provide en e-mail",
+      "SIGN_OUT": "Sign Out",
+      "GO_NEWSFEED": "Enter Website"
   }
 }

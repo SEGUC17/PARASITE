@@ -44,10 +44,13 @@
             "TO": "الى",
             "COMMENT": "اضف تعليق",
             "REPLY": "اضف رد",
-            "BOOK_FOR": "احجز لـ",
-            "DESCRIPTION": "الشرح",
+            "BOOK_FOR": "احجز لطفلك",
+            "DESCRIPTION":"الوصف",
             "WRITE_COMMENT": "...اترك تعليق",
-            "BOOK_SUCCESS": "....تم الحجز بنجاح"
+            "BOOK_SUCCESS": "....تم الحجز بنجاح",
+            "BOOK": "احجز ",
+            "NOW":"الآن",
+            "DETAILS":"تفاصيل"
         },
         "EDIT": {
             "EDIT_ACTIVITY": "تعديل النشاط",
@@ -77,12 +80,11 @@
             "TOASTER_SUCCESS": "تم رفع الصورة بنجاح",
             "TOASTER_SELECT": "من فضلك اختر صورة"
         },
-            "UPLOAD": {
-          "UPLOAD_PHOTO": "رفع صورة",
-          "PLEASE_WAIT":"انتظر قليلا"
-      }
+        "UPLOAD": {
+            "UPLOAD_PHOTO": "رفع صورة",
+            "PLEASE_WAIT": "انتظر قليلا"
         }
-    ,
+    },
     "ADMIN": {
         "REPORTS": {
             "BAN": "حظر",
@@ -453,7 +455,8 @@
         "TAG": "اشاره",
         "OTHER_PARENTS": "اولياء الامور الاخرين",
         "READ_MORE": "اقرأ المزيد",
-        "CONNECT_TO_MORE": "تواصل مع المزيد"
+        "CONNECT_TO_MORE": "تواصل مع المزيد",
+        "CLICK_TO_CONNECT": "اضغط هنا لتبحث عن وتتواصل مع اولياء الامور الاخرين"
     },
     "PROFILE": {
         "PROFILE": {
@@ -711,6 +714,11 @@
         "SEND": "إرسال",
         "CANCEL": "إلغاء",
         "SIGN_IN": "تسجيل الدخول",
-        "CHECK_CONTENT": "استكشف مواردنا التعليمية"
+        "CHECK_CONTENT": "استكشف مواردنا التعليمية",
+        "TYPE_MSG": "..أدخل رسالتك هنا",
+        "PROVIDE_EMAIL": "أدخل بريدك الإلكتروني",
+        "EMPTY_EMAIL": "من فضلك أدخل بريدك الإلكتروني",
+        "SIGN_OUT": "تسجيل الخروج",
+        "GO_NEWSFEED": "دخول الموقع"
     }
 }

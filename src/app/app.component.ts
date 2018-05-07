@@ -227,6 +227,8 @@ export class AppComponent implements OnInit {
         let itemUsername = retrievednotifications[i].itemUsername;
         ///////////// all profile must be usernamesss
         // handle translating commenting
+
+        // translate the body of the notification
         if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('commented on your') !== -1) {
           retrievednotifications[i].body = 'قام أحدهم بالتعليق على إحدى مساهماتك على الموقع';
         }
@@ -235,56 +237,55 @@ export class AppComponent implements OnInit {
           retrievednotifications[i].body = 'قام أحدهم بالرد على إحدى تعليقاتك';
         }
 
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('Verified Contributer') !== -1) {
+          retrievednotifications[i].body = 'أصبحت الآن مساهم موثَّق';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unlinked you') !== -1) {
+          retrievednotifications[i].body = 'تم فصل حسابك الشخصي عن حساب متصل به بنجاح';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('booked your activity') !== -1) {
+          retrievednotifications[i].body = 'تمَّ حجز مكان في أحد أنشطتك';
+        }
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('activity was accepted') !== -1) {
+          retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد أنشطتك';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('content was accepted') !== -1) {
+          retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد مساهماتك التعليمية';
+        }
+
+        if (self.translate.currentLang === 'ara' &&
+          retrievednotifications[i].body.indexOf('updated Content has been successfully') !== -1) {
+          retrievednotifications[i].body = 'تم تحديث أحد مساهماتك التعليمية بنجاح';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('assigned you to') !== -1) {
+          retrievednotifications[i].body = 'تمَّ وضع خطة دراسية لك';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('study plan is now published') !== -1) {
+          retrievednotifications[i].body = 'تم نشر أحد خططك الدراسية بنجاح';
+        }
+
+        if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unassigned you from a Study Plan') !== -1) {
+          retrievednotifications[i].body = 'تمَّت إزالة خطة دراسية قد كانت معينة لك';
+        }
+
+        // attach links to notifications
         if ((type === 'link' || type === 'contributer') && itemUsername) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('are now a Verified Contributer') !== -1) {
-            retrievednotifications[i].body = 'أصبحت الآن مساهم موثَّق';
-          }
-
           retrievednotifications[i].link = '/profile/' + retrievednotifications[i].itemUsername;
-
         } else if ((type === 'activity' || type === 'discussion activity') && itemId) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('booked your activity') !== -1) {
-            retrievednotifications[i].body = 'تمَّ حجز مكان في أحد أنشطتك';
-          }
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('activity was accepted') !== -1) {
-            retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد أنشطتك';
-          }
-
           retrievednotifications[i].link = '/activities/' + retrievednotifications[i].itemId;
         } else if ((type === 'content' || type === 'discussion content') && itemId) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('content was accepted') !== -1) {
-            retrievednotifications[i].body = 'تمَّ قبول طلب إنشاء أحد مساهماتك التعليمية';
-          }
-
-          if (self.translate.currentLang === 'ara' &&
-            retrievednotifications[i].body.indexOf('updated Content has been successfully') !== -1) {
-            retrievednotifications[i].body = 'تم تحديث أحد مساهماتك التعليمية بنجاح';
-          }
-
           retrievednotifications[i].link = '/content/view/' + retrievednotifications[i].itemId;
         } else if (type === 'study plan A' && itemId) {
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('assigned you to') !== -1) {
-            retrievednotifications[i].body = 'تمَّ وضع خطة دراسية لك';
-          }
-
           retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId;
         } else if (type === 'study plan' && itemId && itemUsername) {
-
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('study plan is now published') !== -1) {
-            retrievednotifications[i].body = 'تم نشر أحد خططك الدراسية بنجاح';
-          }
-
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('unassigned you from a Study Plan') !== -1) {
-            retrievednotifications[i].body = 'تمَّت إزالة خطة دراسية قد كانت معينة لك';
-          }
-
           retrievednotifications[i].link = '/scheduling/study-plan/personal/' + itemId + '/' + itemUsername;
         } else if (type === 'product') {
           // do not need id in market
-          if (self.translate.currentLang === 'ara' && retrievednotifications[i].body.indexOf('new product was approved') !== -1) {
-            retrievednotifications[i].body = 'تمَّ قبول منتجك وهو معروض في السوق الآن';
-          }
-
           retrievednotifications[i].link = '/market';
         } else {
           // if not any of these cases got to landing page
