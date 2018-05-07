@@ -15,6 +15,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
     private authService: AuthService) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.landingService.setLandingView(true);
   }
 
