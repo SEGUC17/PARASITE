@@ -7,7 +7,7 @@
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12">
-        <ul class="breadcrumb"  [style.float]="translate.currentLang == 'ara' ? 'left': 'right' ">
+        <ul class="breadcrumb" [style.float]="translate.currentLang == 'ara' ? 'left': 'right' ">
           <li class="breadcrumb-item">
             <a routerLink="/">
               <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate}}
@@ -44,9 +44,9 @@
           </div>
           <div class="body">
             <div class="img-post m-b-15">
-              <img src={{post.metadata.image}} alt="Awesome Image" width="100%">
+              <img src={{post.metadata.image}} onerror="src='assets/images/newsfeed/default.png'" alt="Awesome Image" width="100%">
             </div>
-            <div *ngIf="post.metadata.description" class="preview text" [innerHTML]="post.metadata.description" ></div>
+            <div *ngIf="post.metadata.description" class="preview text" [innerHTML]="post.metadata.description"></div>
             <a *ngIf="post.type=='c'" routerLink="/content/view/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
             <a *ngIf="post.type=='a'" routerLink="/activities/{{post.contentID}}" title="read more" class="btn btn-round btn-info">{{ 'NEWSFEED.READ_MORE'| translate }}</a>
 
@@ -73,7 +73,7 @@
           </div>
           <div class="body widget tag-clouds">
             <ul class="list-unstyled m-b-0">
-              <li *ngFor = "let tag of tags">
+              <li *ngFor="let tag of tags">
                 <p class="tag badge badge-default">{{tag}}</p>
               </li>
             </ul>
@@ -82,27 +82,46 @@
         <div class="card bg-dark">
           <div class="header">
             <h2>
-              <strong>{{ 'NEWSFEED.OTHER_PARENTS' | translate }}</strong></h2>
+              <strong>{{ 'NEWSFEED.OTHER_PARENTS' | translate }}</strong>
+            </h2>
           </div>
           <div class="body widget popular-post">
             <div class="row">
               <div class="col-xl-12 col-lg-12">
-                <div class="border single_post">
-                  <div class="img-post m-b-5">
-                    <img src="assets/images/newsfeed/connectToMore.png" alt="Awesome Image">
+                <div class="card member-card">
+
+                  <div class="header bg-blue-grey">
+                    <h4 class="m-t-10">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</h4>
                   </div>
-                  <p class="m-b-0 col-white">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</p>
-                </div>
-                <div class="border single_post m-t-20" *ngFor="let person of people">
-                  <a routerLink="/profile/{{person.username}}">
-                    <div class="img-post m-b-5">
-                      <img src={{person.avatar}} onerror="src='assets/images/profile-view/defaultPP.png'" alt="Awesome Image">
+                  <div class="member-img">
+                    <a routerLink="/search" class="">
+                      <img src="assets/images/newsfeed/connectToMore.png" class="rounded-circle" alt="profile-image">
+                    </a>
+                  </div>
+                  <div class="body">
+                    <div class="col-12">
+                      <p class="text-muted">{{'NEWSFEED.CLICK_TO_CONNECT'|translate}}</p>
                     </div>
-                    <p class="m-b-0 col-white">{{person.firstName}} {{person.lastName}}</p>
-                    <small class="text-muted">{{person.username}}</small>
-                  </a>
+
+                  </div>
                 </div>
-                
+                <div class="card member-card" *ngFor="let person of people">
+                  <div *ngIf="person.username!=user.username">
+                    <div class="header bg-blue-grey">
+                      <h4 class="m-t-10">{{person.firstName}} {{person.lastName}}</h4>
+                    </div>
+                    <div class="member-img">
+                      <a routerLink="/profile/{{person.username}}" class="">
+                        <img src={{person.avatar}} onerror="src='assets/images/profile-view/defaultPP.png'" class="rounded-circle" alt="profile-image">
+                      </a>
+                    </div>
+                    <div class="body">
+                      <div class="col-12">
+                        <p class="text-muted">{{person.address}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

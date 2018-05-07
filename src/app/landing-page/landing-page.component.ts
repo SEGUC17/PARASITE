@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LandingService } from '../landing.service';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -9,10 +10,16 @@ import { LandingService } from '../landing.service';
 })
 export class LandingPageComponent implements OnInit, OnDestroy {
 
-  constructor(public translate: TranslateService, private landingService: LandingService) { }
+  constructor(public translate: TranslateService,
+    private landingService: LandingService,
+    private authService: AuthService) { }
 
   ngOnInit() {
     this.landingService.setLandingView(true);
+  }
+
+  isSignedIn() {
+    return this.authService.getToken();
   }
 
   switchLang() {

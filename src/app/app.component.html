@@ -1,143 +1,22 @@
 <!-- Page Loader -->
+<!-- Overlay For Sidebars -->
+<div class="overlay"></div>
 <!-- Navigation -->
-<div *ngIf="!landingService.getLandingView()">
-    <div class="overlay_menu">
-        <button class="btn btn-primary btn-icon btn-icon-mini btn-round">
-            <i class="zmdi zmdi-close"></i>
-        </button>
-        <div class="container">
-            <div class="row clearfix">
-                <div class="card links">
-                    <div class="body">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <h6>App</h6>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a routerLink="/app/inbox">Inbox</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/app/chat">Chat</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/app/calendar">Calendar</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/app/file-dashboard">File Manager</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/app/contact">Contact list</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <h6>User Interface (UI)</h6>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a routerLink="/user-interface/ui-kit">UI KIT</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/user-interface/tabs">Tabs</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/user-interface/range-sliders">Range Sliders</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/user-interface/modals">Modals</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/user-interface/alerts">Alerts</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/user-interface/dialogs">Dialogs</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/user-interface/collapse">Collapse</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <h6>Sample Pages</h6>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a routerLink="/sample-pages/image-gallery">Image Gallery</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/sample-pages/profile">Profile</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/sample-pages/timeline">Timeline</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/sample-pages/pricing">Pricing</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/sample-pages/invoices">Invoices</a>
-                                    </li>
-                                    <li>
-                                        <a routerLink="/sample-pages/search-results">Search Results</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-3 col-md-6 col-sm-12">
-                                <h6>About</h6>
-                                <ul class="list-unstyled">
-                                    <li>
-                                        <a href="http://thememakker.com/about/" target="_blank">About</a>
-                                    </li>
-                                    <li>
-                                        <a href="http://thememakker.com/contact/" target="_blank">Contact Us</a>
-                                    </li>
-                                    <li>
-                                        <a href="http://thememakker.com/admin-templates/" target="_blank">Admin Templates</a>
-                                    </li>
-                                    <li>
-                                        <a href="http://thememakker.com/services/" target="_blank">Services</a>
-                                    </li>
-                                    <li>
-                                        <a href="http://thememakker.com/portfolio/" target="_blank">Portfolio</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12">
-                    <div class="social">
-                        <a class="icon" href="https://www.facebook.com/Project.Nawwar/" target="_blank">
-                            <i class="zmdi zmdi-facebook"></i>
-                        </a>
-                        <p>Nawwar
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Overlay For Sidebars -->
+<div [hidden]="landingService.getLandingView()">
     <div class="overlay"></div>
     <!-- Top Bar -->
-    <nav [ngClass]="'navbar col-lg-12 col-md-12' + (viewLanding ? ' d-none':'')">
-        <ul class="nav navbar-nav navbar-left ">
-            <li>
+    <nav class="navbar col-lg-12 col-md-12">
+        <ul class="nav navbar-nav navbar-left">
+            <li class="main-nav">
                 <div class="navbar-header">
-                    <a href="javascript:void(0);" class="bars"></a>
-                    <a class="navbar-brand" routerLink="/dashboard">
-                        <img src="assets/images/favicon.ico" width="30" alt="sQuare">
-                        <span class="m-l-10">{{ 'APP.NAWWAR' | translate }}</span>
+
+                    <a href="javascript:void(0);" class="bars hide-lg m-3"></a>
+                    <a routerLink="/landing" class="m-1">
+                        <img src="favicon.ico" class="" alt="Nawwar">
+                        <span class="text-black">{{ 'APP.NAWWAR' | translate }}</span>
                     </a>
                 </div>
             </li>
-            <li>
-                <a href="javascript:void(0);" class="menu-sm" data-close="true">
-                    <i class="zmdi zmdi-arrow-left"></i>
-                    <i class="zmdi zmdi-arrow-right"></i>
-                </a>
-            </li>
-
-
             <li class="dropdown notifications hidden-sm-down" *ngIf="username">
                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" (click)="getNotifications()">
                     <i class="zmdi zmdi-notifications"></i>
@@ -250,42 +129,50 @@
                                 </span>
                             </li>
                         </ul>
-                        <!-- <li class="footer">
-                        <a href="javascript:void(0);">View All</a>
-                    </li> -->
+                    </li>
                 </ul>
-                </li>
-                <li class="dropdown app_menu">
-                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                        <i class="zmdi zmdi-apps"></i>
-                    </a>
-                    <ul class="dropdown-menu pullDown">
-                        <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
+            </li>
+            <li class="dropdown app_menu mr-auto hide-sm">
+                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                    <i class="zmdi zmdi-apps"></i>
+                </a>
+                <ul class="dropdown-menu pullDown">
+                    <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
                         || link.url === '/profile' && username == undefined ">
-                            <a [routerLink]="link.url">
-                                <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                                <span>{{ link.name | translate }}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="float-right">
-                    <a href="javascript:void(0);" class="fullscreen hidden-md-down hidden-sm-down" data-provide="fullscreen">
-                        <i class="zmdi zmdi-fullscreen"></i>
-                    </a>
-                    <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
-                        <i class="zmdi zmdi-globe"></i>
-                    </a>
-                    <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" (click)="isSignedIn()" routerLinkActive="active"
-                        class="mega-menu">
-                        <i class="zmdi zmdi-power"></i>
-                    </a>
-                </li>
+                        <a [routerLink]="link.url">
+                            <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                            <span>{{ link.name | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="float-right">
+                <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
+                    <i class="zmdi zmdi-globe"></i>
+                </a>
+                <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" routerLinkActive="active" class="mega-menu">
+                    <i class="zmdi zmdi-power"></i>
+                </a>
+            </li>
+            <li class="dropdown pulldown float-right">
+                <a *ngIf="username" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
+                    <img class="profile-img rounded-circle" [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
+                </a>
+                <ul class="dropdown-menu pullDown">
+                    <li routerLinkActive="active open" *ngFor="let link of links">
+                        
+                        <a *ngIf="(link.url === '/admin' && isAdmin) || link.url === '/profile' || link.url === '/message'" [routerLink]="link.url">
+                            <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                            <span>{{ link.name | translate }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
         </ul>
     </nav>
     <!-- Left Sidebar -->
     <div>
-        <aside id="leftsidebar" [ngClass]="'sidebar' + (viewLanding ? ' d-none': '') " [style.text-align]="translate.currentLang == 'ara'? 'right': null">
+        <aside id="leftsidebar" class="sidebar" [style.text-align]="translate.currentLang == 'ara'? 'right': null">
             <div class="menu">
                 <ul class="list">
                     <li>
@@ -323,4 +210,4 @@
     </div>
 </div>
 <ngx-loading-bar [includeSpinner]="false" [height]="'4px'"></ngx-loading-bar>
-<router-outlet (activate)="ngOnInit()"></router-outlet>
+<router-outlet (activate)="isSignedIn()"></router-outlet>

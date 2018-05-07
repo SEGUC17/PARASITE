@@ -13,7 +13,9 @@
         "CONNECT_PARENTS": "التواصل",
         "STUDY_PLANS": "الخطط الدراسية",
         "CHANGE_LANGUAGE": "تغيير اللغة",
-        "NEWSFEED": "اخر الأخبار"
+        "NEWSFEED": "اخر الأخبار",
+        "SIGN_UP_FOR_FULL_ACCESS": "قم بالتسجيل للاستمتاع بكل ميزات موقعنا",
+        "SIGN_IN_ADMIN": "ليس لديك إذن للوصول إلى هذه الصفحة"
     },
     "ACTIVITIES": {
         "CREATE": {
@@ -42,10 +44,13 @@
             "TO": "الى",
             "COMMENT": "اضف تعليق",
             "REPLY": "اضف رد",
-            "BOOK_FOR": "احجز لـ",
-            "DESCRIPTION": "الشرح",
+            "BOOK_FOR": "احجز لطفلك",
+            "DESCRIPTION":"الوصف",
             "WRITE_COMMENT": "...اترك تعليق",
-            "BOOK_SUCCESS": "....تم الحجز بنجاح"
+            "BOOK_SUCCESS": "....تم الحجز بنجاح",
+            "BOOK": "احجز ",
+            "NOW":"الآن",
+            "DETAILS":"تفاصيل"
         },
         "EDIT": {
             "EDIT_ACTIVITY": "تعديل النشاط",
@@ -75,12 +80,11 @@
             "TOASTER_SUCCESS": "تم رفع الصورة بنجاح",
             "TOASTER_SELECT": "من فضلك اختر صورة"
         },
-            "UPLOAD": {
-          "UPLOAD_PHOTO": "رفع صورة",
-          "PLEASE_WAIT":"انتظر قليلا"
-      }
+        "UPLOAD": {
+            "UPLOAD_PHOTO": "رفع صورة",
+            "PLEASE_WAIT": "انتظر قليلا"
         }
-    ,
+    },
     "ADMIN": {
         "REPORTS": {
             "BAN": "حظر",
@@ -203,7 +207,8 @@
             "TERMS_OF_USAGE": "الشروط",
             "PREVIOUS": "السابق",
             "NEXT": "التالي",
-            "YOU_ALREADY_HAVE_A_MEMBERSHIP": "هل سبق لك أن أنشأتَ حسابًا؟"
+            "YOU_ALREADY_HAVE_A_MEMBERSHIP": "هل سبق لك أن أنشأتَ حسابًا؟",
+            "CHILD_SIGN_UP_HEADER": "أنشئ حسابا لطفلك"
         },
         "SIGN_IN": {
             "SIGN_IN": "تسجيل الدخول",
@@ -452,7 +457,8 @@
         "TAG": "اشاره",
         "OTHER_PARENTS": "اولياء الامور الاخرين",
         "READ_MORE": "اقرأ المزيد",
-        "CONNECT_TO_MORE": "تواصل مع المزيد"
+        "CONNECT_TO_MORE": "تواصل مع المزيد",
+        "CLICK_TO_CONNECT": "اضغط هنا لتبحث عن وتتواصل مع اولياء الامور الاخرين"
     },
     "PROFILE": {
         "PROFILE": {
@@ -491,7 +497,7 @@
             "EDIT_BD": "تاريخ الميلاد",
             "EDIT_PHONE": "الهانف",
             "SAVE_CHANGES": "حفظ التغيرات",
-            "MESSAGES_BLOCK": "الممنوعين من مراسلى",
+            "MESSAGES_BLOCK": "الممنوعون من مراسلتى",
             "BLOCK_LIST": "قائمه",
             "CREATE_STUDY_PALN": "إنشاء خطه دراسيه جديدة",
             "PROFILE_PIC": "تحميل الصوره الشخصيه",
@@ -537,7 +543,7 @@
             "PASSWORD_IS_INCORRECT": "كلمة المرور غير صحيحة",
             "REPORT_USER": "تم ارسال البلاغ بنجاح",
             "PROFILE_PIC_UPDATE": "تم تحديث صورة الملف الشخصي بنجاح",
-            "UNLINK_UNDER_13": "يجب أن يكون الطفل اكبرمن 13 عامًا أو أكثر",
+            "UNLINK_UNDER_13": "يجب أن يكون الطفل 13 عامًا أو أكثر",
             "MAKE_INDEPENDENT_SUCCESS": "طفلك اللآن مستقل",
             "MAKE_INDEPENDENT_FAIL": "لا يمكنك جعله مستقلا ,الطفل دون السن",
             "UNLINK_INDEPENDENT": "تم الغاء الارتباط بنجاح"
@@ -687,7 +693,8 @@
         "SYSTEM_OF_EDUCATION": "نظام التعليم",
         "REMOVE_ALL_TAGS": "احذف جميع الاشارات",
         "PREVIOUS": "السابق",
-        "NEXT": "التالى"
+        "NEXT": "التالى",
+        "SEARCH_PLACEHOLDER": "ابحث عن أولياء أمور آخرين"
     },
     "LANDING": {
         "ENHANCE": "عزز تجربتك التعليمية",
@@ -709,6 +716,11 @@
         "SEND": "إرسال",
         "CANCEL": "إلغاء",
         "SIGN_IN": "تسجيل الدخول",
-        "CHECK_CONTENT": "استكشف مواردنا التعليمية"
+        "CHECK_CONTENT": "استكشف مواردنا التعليمية",
+        "TYPE_MSG": "..أدخل رسالتك هنا",
+        "PROVIDE_EMAIL": "أدخل بريدك الإلكتروني",
+        "EMPTY_EMAIL": "من فضلك أدخل بريدك الإلكتروني",
+        "SIGN_OUT": "تسجيل الخروج",
+        "GO_NEWSFEED": "دخول الموقع"
     }
 }

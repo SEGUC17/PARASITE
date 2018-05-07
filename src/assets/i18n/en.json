@@ -13,7 +13,9 @@
       "CONNECT_PARENTS": "Connect Parents",
       "STUDY_PLANS": "Study Plans",
       "CHANGE_LANGUAGE": "Change Language",
-      "NEWSFEED": "Newsfeed"
+      "NEWSFEED": "Newsfeed",
+      "SIGN_UP_FOR_FULL_ACCESS": "Sign Up to Enjoy All the Features of Our Website",
+      "SIGN_IN_ADMIN": "You Don't Have Permission to Access This Page"
   },
   "ACTIVITIES": {
       "CREATE": {
@@ -42,10 +44,13 @@
           "TO": "to",
           "COMMENT": "Comment",
           "REPLY": "Reply",
-          "BOOK_FOR": "Book for",
+          "BOOK_FOR": "Book for child",
           "DESCRIPTION": "Description",
           "WRITE_COMMENT": "leave a comment...",
-          "BOOK_SUCCESS": "Booked successfully"
+          "BOOK_SUCCESS": "Booked successfully",
+          "BOOK": "Book",
+          "NOW":"Now",
+          "DETAILS":"Details"
       },
       "EDIT": {
           "EDIT_ACTIVITY": "Edit Activity",
@@ -190,7 +195,8 @@
           "TERMS_OF_USAGE": "terms of usage",
           "PREVIOUS": "Previous",
           "NEXT": "Next",
-          "YOU_ALREADY_HAVE_A_MEMBERSHIP": "You already have a membership?"
+          "YOU_ALREADY_HAVE_A_MEMBERSHIP": "You already have a membership?",
+          "CHILD_SIGN_UP_HEADER": "Sign Up For Your Child"
       },
       "SIGN_IN": {
           "SIGN_IN": "Sign In",
@@ -419,7 +425,7 @@
       "TOASTR": {
           "EMPTY_MSG": "You can't send an empty message.",
           "BLOCKED": "Sorry, you are blocked.",
-          "MSG_SENT": "Message was sent!",
+          "MSG_SENT": "Message sent!",
           "ENTER_RECIPIENT": "Please specify a recipient.",
           "VALID_NAME": "Please enter a valid username.",
           "SEND_SELF": "You can't send a message to yourself",
@@ -439,7 +445,8 @@
       "TAG": "tag",
       "OTHER_PARENTS": "Other Parents",
       "READ_MORE": "Read More",
-      "CONNECT_TO_MORE": "Connect to more"
+      "CONNECT_TO_MORE": "Connect to more",
+      "CLICK_TO_CONNECT": "click to search and view other parents and connect with them"
   },
   "PROFILE": {
       "CHILDREN": {
@@ -674,7 +681,8 @@
       "SYSTEM_OF_EDUCATION": "System of education",
       "REMOVE_ALL_TAGS": "Remove all tags",
       "PREVIOUS": "Previous",
-      "NEXT": "Next"
+      "NEXT": "Next",
+      "SEARCH_PLACEHOLDER": "Search for other parents"
   },
   "LANDING": {
       "ENHANCE": "Enhance Your Learning Experience",
@@ -696,6 +704,11 @@
       "SEND": "Send",
       "CANCEL": "Cancel",
       "SIGN_IN": "Sign In",
-      "CHECK_CONTENT": "Discover Our Educational Resources"
+      "CHECK_CONTENT": "Discover Our Educational Resources",
+      "TYPE_MSG": "Type your message . .",
+      "PROVIDE_EMAIL": "Provide your e-mail here",
+      "EMPTY_EMAIL" : "You need to provide en e-mail",
+      "SIGN_OUT": "Sign Out",
+      "GO_NEWSFEED": "Enter Website"
   }
 }

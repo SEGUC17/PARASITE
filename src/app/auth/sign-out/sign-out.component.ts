@@ -24,7 +24,7 @@ export class SignOutComponent implements OnInit {
         self.toastrService.success(translation);
       }
     );
-    window.location.replace('/content/list');
+    this.router.navigateByUrl('/landing');
   }
 
   ngOnInit() {
