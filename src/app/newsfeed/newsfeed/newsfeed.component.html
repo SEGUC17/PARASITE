@@ -74,7 +74,7 @@
                     <strong>{{ 'NEWSFEED.INTERESTS' | translate }}</strong>
                   </h2>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6" align="end">
+                <div class="col-lg-6 col-md-6 col-sm-6" align="end" style="transform:scaleX(-1)">
                   <a href="#defaultModal" data-toggle="modal" data-target="#defaultModal">
                     <button class="btn btn-primary btn-round btn-icon">
                       <i class="zmdi zmdi-plus"></i>
@@ -108,8 +108,8 @@
                         </p>
                       </div>
                       <div class="col-lg-6 col-md-6 col-sm-6 clickable-icon"  align="end" (click)="deleteInterest(tag)">
-                          <i class="zmdi zmdi-minus" style="color:#ba4823"></i>
-                        </div>
+                        <i class="zmdi zmdi-minus" style="color:#ba4823"></i>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -117,7 +117,7 @@
             </ul>
           </div>
         </div>
-        <div class="card bg-dark">
+        <div class="card">
           <div class="header">
             <h2>
               <strong>{{ 'NEWSFEED.OTHER_PARENTS' | translate }}</strong>
@@ -128,12 +128,12 @@
               <div class="col-xl-12 col-lg-12">
                 <div class="card member-card">
 
-                  <div class="header bg-blue-grey">
-                    <h4 class="m-t-10">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</h4>
+                  <div class="header"  style="background-image: url('assets/images/profile-view/stars.jpg');">
+                    <h4 style="color:white" class="text-muted col-white m-t-10">{{ 'NEWSFEED.CONNECT_TO_MORE' | translate }}</h4>
                   </div>
                   <div class="member-img">
                     <a routerLink="/search" class="">
-                      <img src="assets/images/newsfeed/connectToMore.png" class="rounded-circle" alt="profile-image">
+                      <img style="object-fit: cover; height:180px; width:180px" src="assets/images/newsfeed/connectToMore.png" class="rounded-circle" alt="profile-image">
                     </a>
                   </div>
                   <div class="body">
@@ -145,12 +145,12 @@
                 </div>
                 <div class="card member-card" *ngFor="let person of people">
                   <div *ngIf="person.username!=user.username">
-                    <div class="header bg-blue-grey">
-                      <h4 class="m-t-10">{{person.firstName}} {{person.lastName}}</h4>
+                    <div class="header" style="background-image: url('assets/images/profile-view/stars.jpg');">
+                      <h4 style="color:white" class="text-muted col-white m-t-10">{{person.firstName}} {{person.lastName}}</h4>
                     </div>
                     <div class="member-img">
                       <a routerLink="/profile/{{person.username}}" class="">
-                        <img src={{person.avatar}} onerror="src='assets/images/profile-view/defaultPP.png'" class="rounded-circle" alt="profile-image">
+                        <img style="object-fit: cover; height:180px; width:180px" src={{person.avatar}} onerror="src='assets/images/profile-view/defaultPP.png'" class="rounded-circle" alt="profile-image">
                       </a>
                     </div>
                     <div class="body">
@@ -176,8 +176,8 @@
     <div class="modal-content">
       <div class="col-lg-12 col-md-12 col-sm-12 ">
         <div class="row mt-2">
-          <div class="col-lg-9 col-md-9 col-sm-9"></div>
-          <div class = "col-lg-3 col-md-3 col-sm-3" align = "end">
+          <div class="col-lg-11 col-md-11 col-sm-11"></div>
+          <div class = "col-lg-1 col-md-1 col-sm-1" align = "end">
             <i class="zmdi zmdi-close text-danger clickable-icon" data-dismiss="modal" ></i>
           </div>
         </div>

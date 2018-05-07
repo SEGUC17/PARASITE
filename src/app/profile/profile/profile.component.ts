@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit {
   currCanBeParent = false;
   currHasPP = false;
   currIsAdmin = false;
+  currIsTeacher = false;
 
   visitedIsParent = false;
   visitedIsChild = false;
@@ -62,6 +63,8 @@ export class ProfileComponent implements OnInit {
   pws: { oldpw: '', newpw: '', confirmpw: '' };
   info: { address: '', birthdate: Date, email: '', firstName: '', lastName: '', phone: '', username: '' };
   birthdayView: string;
+  contributionScore: number;
+  learningScore: number;
 
   // -------------------------------------
   educationalSystem = 'Educational System';
@@ -95,7 +98,7 @@ export class ProfileComponent implements OnInit {
   listOfUncommonChildren: any[];
   listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username',
     'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent',
-    'blocked', 'isAdmin', 'educationSystem', 'educationLevel'];
+    'blocked', 'isAdmin', 'educationSystem', 'educationLevel','learningScore','contributionScore', 'isTeacher'];
   vListOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'email',
     'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username',
     'isAdmin', 'educationSystem', 'educationLevel'];
@@ -139,6 +142,7 @@ export class ProfileComponent implements OnInit {
       weekStart: 1,
       maxDate: new Date()
     });
+    $('#userSettings').addClass('active show');
     this.updateProfileInfo();
     // listen to route changes in case of username changes in URL while being in the profile component
     this.router.events.filter(function (event) {
@@ -189,6 +193,9 @@ export class ProfileComponent implements OnInit {
     this.dUsername = this.username;
     this.blocklist = user.data.blocked;
     this.currIsAdmin = user.data.isAdmin;
+    this.contributionScore = user.data.contributionScore;
+    this.learningScore = user.data.learningScore;
+    this.currIsTeacher = user.data.isTeacher;
     if (this.age > 13) {
       this.currIsOfAge = true;
     }
