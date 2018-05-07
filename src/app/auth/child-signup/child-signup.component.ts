@@ -36,6 +36,9 @@ export class ChildSignupComponent implements OnInit {
   Educational_system: String = '';
   systems: any = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
   levels: any = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
+  public interests = new Set();
+  public interest;
+  public tags = [];
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -53,6 +56,15 @@ export class ChildSignupComponent implements OnInit {
         self.Birthdate = date._d;
       }
     });
+
+    this.authService.getTags().subscribe(function (res) {
+      if (res.err) {
+        self.toastrService.error(res.err);
+      } else {
+        self.tags = res.data;
+        self.interest = self.tags[0];
+      }
+    });
   }
 
   register(): void {
@@ -61,7 +73,8 @@ export class ChildSignupComponent implements OnInit {
       this.User = {
         'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
         'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone,
-        'address': this.Address, 'educationLevel': self.Educational_level, 'educationSystem': self.Educational_system
+        'address': this.Address, 'educationLevel': self.Educational_level, 'educationSystem': self.Educational_system,
+        'interests': Array.from(this.interests)
       };
       self.authService.childSignUp(this.User).subscribe(function (res) {
         this.Div3 = true;
@@ -124,5 +137,9 @@ export class ChildSignupComponent implements OnInit {
     const self = this;
     self.Educational_level = lev;
     self.toastrService.success('Eduacation Level selected ', lev);
+  }
+
+  addInterest() {
+    this.interests.add(this.interest);
   }
 }
