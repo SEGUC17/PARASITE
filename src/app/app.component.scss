@@ -22,8 +22,13 @@ button {
     height: 30px;
 }
 
-.navbar-nav>li>a{
+.navbar-nav>li>a {
     padding: 0 9px !important;
+}
+
+.scroll-flow {
+    overflow-y: auto;
+    height: 300px;
 }
 
 @media only screen and(min-width: 1170px) {
@@ -32,8 +37,8 @@ button {
     }
 }
 
-@media only screen and(max-width: 350px){
-    .hide-sm{
-        display:none !important;
+@media only screen and(max-width: 350px) {
+    .hide-sm {
+        display: none !important;
     }
 }
