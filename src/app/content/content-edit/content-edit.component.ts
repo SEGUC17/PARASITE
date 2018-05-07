@@ -212,6 +212,7 @@ export class ContentEditComponent implements OnInit {
     let self = this;
     if (this.uploader.queue.length > 0) {
       this.loading = true;
+      self.toasterService.info('uploading file, please wait till you receive a success message');
       this.uploader.uploadAll();
       this.uploader.onSuccessItem = (
         item: any,
@@ -220,6 +221,7 @@ export class ContentEditComponent implements OnInit {
         headers: any): any => {
         let res: any = JSON.parse(response);
         this.loading = false;
+        self.toasterService.success('File was uploaded successfully');
         self.content.image = res.url;
       };
       this.uploader.onErrorItem =

@@ -4,7 +4,7 @@
       <div class="authentication">
         <div class="container-fluid pl-0 pr-0">
           <div class="col-md-12 content-center pl-0 pr-0">
-            <div class="card-plain">
+            <div class="card-plain width-300">
               <form class="form cen-wh-content">
                 <div class="header">
                   <h5>{{ 'AUTH.SIGN_IN.SIGN_IN' | translate }}</h5>
@@ -37,7 +37,7 @@
                   <h5>
                     <a routerLink="/auth/sign-up" class="link">{{ 'AUTH.SIGN_IN.JOIN_US' | translate }}</a>
                   </h5>
-                  <div class="footer input-group">
+                  <div class="footer">
                     <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
                     <!-- <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()"> -->
                   </div>
