@@ -30,14 +30,21 @@ module.exports = function (passport) {
 
   // --------------------- Authentication Checkers --------------- //
   var authFacebook = function (req, res, next) {
-    passport.authenticate('facebook-token', { session: false }, function (err, user, info) {
-      if (err) {
-        return next(err);
-      }
-      req.user = user;
+    passport.authenticate(
+      'facebook-token',
+      {
+        scope: ['email'],
+        session: false
+      }, function (err, user, info) {
+        if (err) {
+          return next(err);
+        }
+        req.user = user;
+        req.profile = info.profile;
 
-      return next();
-    })(req, res, next);
+        return next();
+      }
+    )(req, res, next);
   };
 
   var optionalAuthentication = function (req, res, next) {
@@ -139,7 +146,7 @@ module.exports = function (passport) {
   router.delete('/activities/:activityId/', isAuthenticated, ActivityController.deleteActivity);
   router.patch('/activities/:activityId/EditActivityImage', isAuthenticated, ActivityController.editActivityImage);
   // ------------- psychologist's requests Controller ------------- //
-  router.get('/psychologist/search/:limiters', psychCtrl.getPsychologists);
+  router.get('/psychologist/search/:limiters', optionalAuthentication, psychCtrl.getPsychologists);
   router.get('/psychologist/:id', psychCtrl.getPsychologistData);
   router.delete('/psychologist/delete/:id', optionalAuthentication, psychCtrl.deletePsychologist);
   router.post('/psychologist/request/edit', optionalAuthentication, psychCtrl.editRequest);
@@ -161,12 +168,12 @@ module.exports = function (passport) {
   router.patch('/productrequest/editPrice/:id/:username', isAuthenticated, productCtrl.editPrice);
   router.patch('/productrequest/deleteProduct', isAuthenticated, productCtrl.deleteProduct);
 
-   router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
+  router.patch('/productrequest/updateProdRequest/:id/:username', isAuthenticated, productCtrl.updateRequest);
 
   // --------------End Of Product Contoller ---------------------- //
 
   // ---------------------- User Controller ---------------------- //
-  router.post('/auth/facebook', isNotAuthenticated, authFacebook, userController.signInWithThirdPartyResponse);
+  router.post('/auth/facebook', isNotAuthenticated, authFacebook, userController.signInWithFacebook);
   router.post('/auth/google', isNotAuthenticated, userController.signInWithGoogle, userController.signInWithThirdPartyResponse);
   router.post('/signUp', isNotAuthenticated, userController.signUp);
   router.get('/verifyEmail/:id', isNotAuthenticated, userController.verifyEmail);
@@ -408,30 +415,30 @@ module.exports = function (passport) {
   //-------------------- Messaging Module Endpoints ------------------//
 
   // Send message
-  router.post('/message/sendMessage', messageController.sendMessage);
+  router.post('/message/sendMessage', isAuthenticated, messageController.sendMessage);
 
   //View inbox
-  router.get('/message/inbox/:user', messageController.getInbox);
+  router.get('/message/inbox/:user', isAuthenticated, messageController.getInbox);
 
   //View sent
-  router.get('/message/sent/:user', messageController.getSent);
+  router.get('/message/sent/:user', isAuthenticated, messageController.getSent);
 
   //Delete message
-  router.delete('/message/:id', messageController.deleteMessage);
+  router.delete('/message/:id', isAuthenticated, messageController.deleteMessage);
 
   //Blocking users from messaging
-  router.patch('/message/block/:blocked', messageController.block);
+  router.patch('/message/block/:blocked', isAuthenticated, messageController.block);
 
   //Get recently contacted users
-  router.get('/message/contacts/:user', messageController.getRecentlyContacted);
+  router.get('/message/contacts/:user', isAuthenticated, messageController.getRecentlyContacted);
 
   // Registered user contacts admins
-  router.post('/contactus', messageController.contactAdmin);
-    //Unblocking users
-    router.patch('/message/unblock/:id', messageController.unBlock);
+  router.post('/message/contactus', messageController.contactAdmin);
+  //Unblocking users
+  router.patch('/message/unblock/:id', isAuthenticated, messageController.unBlock);
 
   // Mark a message as read
-  router.patch('/message/read', messageController.markAsRead);
+  router.patch('/message/read', isAuthenticated, messageController.markAsRead);
   //------------------- End of Messaging Module Endpoints-----------//
 
   //-------------------- Rating Endpoints ------------------//
@@ -444,6 +451,8 @@ module.exports = function (passport) {
   router.post('/tags/addTag', isAuthenticated, tagController.addTag);
   router.patch('/newsfeed/:entriesPerPage/:pageNumber', newsfeedController.getPosts);
   router.get('/newsfeed/findPeople', newsfeedController.findRandomFive);
+  router.delete('/newsfeed/delete/:interestText', isAuthenticated, newsfeedController.deleteInterest);
+  router.patch('/newsfeed/addInterest', isAuthenticated, newsfeedController.addInterest);
   //------------------- End of Newsfeed Endpoints-----------//
 
   // -------------------------------------------------------------------- //

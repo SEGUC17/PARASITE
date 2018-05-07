@@ -1,41 +1,51 @@
 <div class="card">
-        <div class="body">
-                <div class="header">
-                        <h2><strong>{{'ADMIN.REPORTS.BAN' | translate}}</strong> {{'ADMIN.REPORTS.USER' | translate}}</h2>
-                </div>
-                          <div class="card">
-                            <div class="body">
-                              <form>
-                                  <div>
-                                    <div class="form-group">
-                                      <input id="bannedUsername" #bannedUsername type="text" class="form-control" placeholder="{{'ADMIN.REPORTS.MSG' | translate}}">
-                                    </div>
-                                    <button type="button" style="float:right" class="btn btn-raised btn-primary btn-round waves-effect m-l-20" (click)="banUserPopUp(bannedUsername.value)">{{'ADMIN.REPORTS.BAN' | translate}}</button>
-                                </div>
-                            </form>
-                            </div>
-                          </div>
-        </div>
+  <div class="body">
+    <div class="header">
+      <h2>
+        <strong>{{'ADMIN.REPORTS.BAN' | translate}}</strong> {{'ADMIN.REPORTS.USER' | translate}}</h2>
+    </div>
+    <div class="card">
+      <div class="body">
+        <form>
+          <div>
+            <div class="form-group">
+              <input id="bannedUsername" #bannedUsername type="text" class="form-control" placeholder="{{'ADMIN.REPORTS.MSG' | translate}}">
+            </div>
+            <button type="button" style="float:right" class="btn btn-raised btn-primary btn-round waves-effect m-l-20" (click)="banUserPopUp(bannedUsername.value)">{{'ADMIN.REPORTS.BAN' | translate}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
-
-
 <div class="card">
-<div class="body">
-        <div class="header">
-                <h2><strong>{{'ADMIN.REPORTS.USER' | translate}}</strong>{{'ADMIN.REPORTS.REPORTS' | translate}}</h2>
-        </div>
-        <div class="card" style="height:unset"  *ngFor="let rep of reports.slice().reverse()">
-      <div class="block-header" style="height:unset">
-          <strong> {{'ADMIN.REPORTS.REPORTED_arabic' | translate}} </strong> <a href="/profile/{{rep.reportedPerson}}" ><strong>{{rep.reportedPerson}}</strong> </a> <strong> {{'ADMIN.REPORTS.REPORTED' | translate}} </strong> <a href="/profile/{{rep.reporter}}" ><strong>{{rep.reporter}}</strong> </a> 
-            <button type="button" class="btn btn-neutral" style="float:right" (click)="deleteReportPopUp(rep)">
-                    <i class="material-icons">delete</i> <!-- This "delete" shouldn't be translated, it's an icon      Author: H -->
-            </button>
-            <strong style="float:right">{{rep.reportedAt | date: "dd/MM/yyy  hh:mm a"}}</strong>
-            <br/>
-            
+  <div class="body">
+    <div class="header">
+      <h2>
+        <strong>{{'ADMIN.REPORTS.USER' | translate}}</strong>{{'ADMIN.REPORTS.REPORTS' | translate}}</h2>
+    </div>
+    <div *ngIf="reports && reports.length">
+      <div class="card" style="height:unset" *ngFor="let rep of reports.slice().reverse()">
+        <div class="block-header" style="height:unset">
+          <strong> {{'ADMIN.REPORTS.REPORTED_arabic' | translate}} </strong>
+          <a routerLink="/profile/{{rep.reportedPerson}}">
+            <strong>{{rep.reportedPerson}}</strong>
+          </a>
+          <strong> {{'ADMIN.REPORTS.REPORTED' | translate}} </strong>
+          <a routerLink="/profile/{{rep.reporter}}">
+            <strong>{{rep.reporter}}</strong>
+          </a>
+          <button type="button" class="btn btn-neutral" style="float:right" (click)="deleteReportPopUp(rep)">
+            <i class="material-icons">delete</i>
+            <!-- This "delete" shouldn't be translated, it's an icon      Author: H -->
+          </button>
+          <strong style="float:right">{{rep.reportedAt | date: "dd/MM/yyy hh:mm a"}}</strong>
+          <br/>
+
           <strong>{{'ADMIN.REPORTS.REASON' | translate}} </strong>
           <small>{{rep.reason}}</small>
         </div>
+      </div>
     </div>
   </div>
 </div>

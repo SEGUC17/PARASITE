@@ -6,11 +6,11 @@
     "ng": "ng",
     "start": "node ./bin/www",
     "build": "ng build",
-    "test": "nyc mocha ./tests/content/*.spec.js --exit --timeout 1200000",
+    "test": "nyc mocha ./tests/**/*.spec.js --exit --timeout 1200000",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "cover": "nyc report --reporter=html",
-    "postinstall": "ng build --env=prod"
+    "postinstall": "ng build --prod --aot --env=prod"
   },
   "private": true,
   "dependencies": {

@@ -24,7 +24,7 @@ export class ProductDetailComponent {
   user: any;
   constructor(private marketService: MarketService, private toasterService: ToastrService, private authService: AuthService,
     public dialogRef: MatDialogRef<ProductDetailComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any, private translate: TranslateService) {
+    @Inject(MAT_DIALOG_DATA) public data: any, public translate: TranslateService) {
     let self = this;
     self.oldData = data.product;
     self.product = data.product;

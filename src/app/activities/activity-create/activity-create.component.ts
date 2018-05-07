@@ -39,7 +39,7 @@ export class ActivityCreateComponent implements OnInit {
     private router: Router,
     private activityService: ActivityService,
     private activityComponent: ActivityComponent,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private imageUploader: ImageUploaderComponent,
     private toaster: ToastrService
   ) { }
@@ -67,7 +67,6 @@ export class ActivityCreateComponent implements OnInit {
     this.activity.toDateTime = new Date(this.activity.toDateN).getTime();
     this.activityService.postActivities(this.activity).subscribe(
       res => {
-        console.log(res);
         this.close();
         this.router.navigate([`activities/${res.data._id}`]);
       }
@@ -88,7 +87,6 @@ export class ActivityCreateComponent implements OnInit {
     } else {
       this.activity.image = url;
     }
-    console.log(this.activity);
   }
 
   // Handle tag input on content edit

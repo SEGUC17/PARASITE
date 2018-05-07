@@ -47,7 +47,7 @@ export class ContentViewComponent implements OnInit {
     private discussionService: DiscussionService,
     private toasterService: ToastrService,
     private router: Router,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
 
 
@@ -73,7 +73,6 @@ export class ContentViewComponent implements OnInit {
     this.contentService.getContentById(id).subscribe(function (retrievedContent) {
       self.content = retrievedContent.data;
       self.comments = retrievedContent.data.discussion.reverse();
-      console.log(self.comments[self.comments.length - 1]);
       if (self.content) {
         self.getRecommendedContent();
       }
@@ -146,7 +145,6 @@ export class ContentViewComponent implements OnInit {
     let self = this;
     this.discussionService.deleteCommentOnContent(this.content._id, i).subscribe(function (err) {
       if (err) {
-        console.log(err);
       }
       self.refreshComments(false);
     });
@@ -155,7 +153,6 @@ export class ContentViewComponent implements OnInit {
     let self = this;
     this.discussionService.deleteReplyOnCommentOnContent(this.content._id, commentId, replyId).subscribe(function (err) {
       if (err) {
-        console.log(err);
       }
       self.refreshComments(false);
     });

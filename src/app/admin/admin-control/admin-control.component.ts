@@ -15,7 +15,7 @@ export class AdminControlComponent implements OnInit {
     private authService: AuthService,
     private toasterService: ToastrService,
     private router: Router,
-    private translate: TranslateService
+    public translate: TranslateService
   ) { }
   links = [
     {

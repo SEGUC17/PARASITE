@@ -29,7 +29,6 @@ export class ViewProductRequestsComponent implements OnInit {
     const userDataColumns = ['username', 'isAdmin'];
     this.authService.getUserData(userDataColumns).subscribe(function (user) {
       if (user.msg === 'Data Retrieval Is Successful!') {
-
         // If retrieval is successful, set currentUser variable
         self.currentUser = user.data;
 

@@ -26,22 +26,27 @@ export class ActivityDetailComponent implements OnInit {
   isReplying: boolean;
   commentReplyingOn: any;
   signedIn: boolean;
+  toggle: String;
   canBookFor: String[];
+  BookFor: string[];
   bookingUser: String;
   defaultPP: String = 'assets/images/profile-view/defaultPP.png';
-
+isEmpty = false;
 
   currentUser = {
     isAdmin: false,
     verified: false,
     avatar: null,
-    username: 'Mohamed Maher'
-
+    username: 'Mohamed Maher',
+    isChild: false,
+    booked: false
   };
   // updatedActivity: ActivityCreate;
   isCreator = false;
   isBooked = true;
   username = '';
+
+
   public updatedActivity: ActivityEdit = {
     name: '',
     description: null,
@@ -78,12 +83,13 @@ export class ActivityDetailComponent implements OnInit {
     private discussionService: DiscussionService,
     private router: Router,
     private authService: AuthService,
-    private translate: TranslateService,
+    public translate: TranslateService,
     private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
     let self = this;
+    self.BookFor = [''];
     self.getCurrentUser();
     self.getActivity();
     self.refreshComments(true);
@@ -96,19 +102,8 @@ export class ActivityDetailComponent implements OnInit {
         this.somePlaceholder = res;
       });
     });
-    this.authService.getUserData(['username']).subscribe(function (res) {
-      this.username = res.data.username;
-      console.log('booked? ' + self.isBooked);
-      console.log('creator? ' + self.isCreator);
-    });
-  }
 
-  testForDiscussion() {
-    console.log('printing the date here');
-    console.log(new Date(this.activity.discussion[0].createdAt).getTime());
-    console.log('after date');
   }
-
 
   getCurrentUser() {
     let self = this;
@@ -127,11 +122,23 @@ export class ActivityDetailComponent implements OnInit {
         self.currentUser = res.data;
         self.signedIn = true;
         self.canBookFor = res.data.children;
-        self.canBookFor.push(res.data.username);
-      }
-      console.log('signed in : ' + self.signedIn);
-      console.log(res);
-    }
+
+        let id = self.route.snapshot.paramMap.get('id');
+        self.activityService.getActivity(id).subscribe(function(resp) {
+          if ( resp.data.bookedBy.includes(self.currentUser.username)) {
+  self.currentUser.booked = true;
+
+          }
+          self.BookFor = resp.data.bookedBy;
+        for (let x of self.BookFor ) {
+if ( self.canBookFor.includes(x)) {
+           self.canBookFor.splice(self.canBookFor.indexOf(x), 1);
+}
+if (self.canBookFor.length === 0) {
+  self.isEmpty = true; }
+
+      }});
+    }}
     );
 
   }
@@ -157,9 +164,6 @@ export class ActivityDetailComponent implements OnInit {
   onDelete(i: any) {
     let self = this;
     this.discussionService.deleteCommentOnActivity(this.activity._id, i).subscribe(function (err) {
-      if (err) {
-        console.log(err);
-      }
       self.refreshComments(false);
     });
   }
@@ -167,9 +171,6 @@ export class ActivityDetailComponent implements OnInit {
   onDeleteReply(commentId: any, replyId: any) {
     let self = this;
     this.discussionService.deleteReplyOnCommentOnActivity(this.activity._id, commentId, replyId).subscribe(function (err) {
-      if (err) {
-        console.log(err);
-      }
       self.refreshComments(false);
     });
   }
@@ -195,7 +196,7 @@ export class ActivityDetailComponent implements OnInit {
         if (this.activity.bookedBy.length < 1) { self.isBooked = false; }
         if (this.activity.creator === self.currentUser.username) { self.isCreator = true; }
         if (!this.activity.image) {
-          this.activity.image = 'assets/images/activity-view/default-activity-image.jpg';
+          this.activity.image = 'assets/images/activity-view/lam3y.png';
         }
       }
     );
@@ -224,22 +225,17 @@ export class ActivityDetailComponent implements OnInit {
   addComment() {
 
     if (!this.changingComment || 0 === this.changingComment.length || !this.changingComment.trim()) {
-      console.log('you have to write something.');
       return;
     }
     if (this.isReplying) {
-
-      console.log('replying');
       let self = this;
       this.discussionService.postReplyOnCommentOnActivity(
         this.activity._id,
         this.commentReplyingOn,
         self.changingComment).subscribe(function (err) {
           if (err.msg !== 'reply created successfully') {
-            console.log('err in posting');
             self.refreshComments(false);
           }
-          console.log('no error elhamdulla ');
           self.refreshComments(false);
           self.changingComment = '';
         });
@@ -247,7 +243,6 @@ export class ActivityDetailComponent implements OnInit {
       let self = this;
       this.discussionService.postCommentOnActivity(this.activity._id, self.changingComment).subscribe(function (err) {
         if (err.msg === 'reply created successfully') {
-          console.log('err in posting');
         }
         self.refreshComments(false);
         self.changingComment = '';
@@ -296,7 +291,6 @@ export class ActivityDetailComponent implements OnInit {
     let id = this.route.snapshot.paramMap.get('id');
     this.activityService.EditActivity(this.updatedActivity, id).subscribe(
       res => {
-        console.log(res);
       }
 
     );
@@ -336,7 +330,6 @@ export class ActivityDetailComponent implements OnInit {
             });
         }
       });
-      // TODO: handle image uploading success and use the url to retrieve the image later
     }
     document.getElementById('closeModal').click();
     document.focus();
@@ -349,19 +342,34 @@ export class ActivityDetailComponent implements OnInit {
 
   }
 
-  bookActivity() {
-    this.activityService.bookActivity(this.activity, { username: this.bookingUser }).subscribe(
+  bookActivity(user) {
+    let self = this;
+    this.authService.getUserData(['username']).subscribe(function (resp) {
+      this.bookingUser = resp.data.username;
+
+    self.activityService.bookActivity(self.activity, { username: user }).subscribe(
       res => {
-        console.log(this.canBookFor);
-        let index = this.canBookFor.indexOf(this.bookingUser);
-        this.canBookFor.splice(index, 1);
-        console.log(this.canBookFor);
-        this.bookingUser = null;
-        this.translate.get('ACTIVITIES.DETAIL.BOOK_SUCCESS').subscribe((res: string) => {
-          this.toastrService.success(res);
-        });
+
+if (user === resp.data.username) {
+self.currentUser.booked = true;
+ }
+
+
+if (self.canBookFor.includes(user.toLowerCase())) {
+        let index = self.canBookFor.indexOf(user.toLowerCase());
+        self.canBookFor.splice(index, 1);
+        self.bookingUser = null;
+
+
       }
-    );
+      if (self.canBookFor.length === 0) {
+        self.isEmpty = true; }
+        self.translate.get('ACTIVITIES.DETAIL.BOOK_SUCCESS').subscribe((res: string) => {
+          self.toastrService.success(res);
+        });
+    }
+
+    ); });
   }
 
 

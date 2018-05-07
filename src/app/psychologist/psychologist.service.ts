@@ -12,18 +12,17 @@ export class PsychologistService {
   host: String = environment.apiUrl;
   constructor(private http: HttpClient) { }
   addRequest(req: PsychologistRequest): Observable<any> {
-    return this.http.post<any>(this.host + '/psychologist/request/add/addRequest', req, httpOptions);
+    return this.http.post<any>(this.host + 'psychologist/request/add/addRequest', req, httpOptions);
   }
   editRequest(req: PsychologistRequest): Observable<any> {
-    return this.http.post<any>(this.host + '/psychologist/request/edit', req, httpOptions);
+    return this.http.post<any>(this.host + 'psychologist/request/edit', req, httpOptions);
   }
   deletePsychologist(id: String): Observable<any> {
-    const url = this.host + '/psychologist/delete/' + id;
-    console.log(id);
+    const url = this.host + 'psychologist/delete/' + id;
     return this.http.delete<any>(url, httpOptions);
   }
   getPsychologists(limiters: string): Observable<any> {
-    return this.http.get<any>(this.host + '/psychologist/search/' + limiters).pipe(
+    return this.http.get<any>(this.host + 'psychologist/search/' + limiters).pipe(
       catchError(this.handleError('getPsychologists', []))
     );
   }
@@ -41,7 +40,7 @@ export class PsychologistService {
   }
 
   getPsychologistData(ID: String) {
-    return this.http.get<any>(this.host + '/psychologist/' + ID).pipe(
+    return this.http.get<any>(this.host + 'psychologist/' + ID).pipe(
       catchError(this.handleError('getPsychologists', []))
     );
   }

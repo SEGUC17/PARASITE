@@ -14,15 +14,15 @@
 					<fieldset>
 						<div class="form-group form-float">
 							<input type="text" class="form-control" placeholder="{{ 'PSYCHOLOGIST.POPUP.F_NAME' | translate }}" name="firstName" id="psychFirstName" 
-							[formControl]="firstNameFormControl" [(ngModel)]="value" value="{{psychologist.firstName}}" required>
+							[formControl]="firstNameFormControl" value="{{psychologist.firstName}}" required>
 						</div>
 						<div class="form-group form-float">
 								<input type="text" class="form-control" placeholder="{{ 'PSYCHOLOGIST.POPUP.L_NAME' | translate }}" name="lastName" id="psychLastName" 
-								[formControl]="lastNameFormControl" [(ngModel)]="value1" value="{{psychologist.lastName}}" required>
+								[formControl]="lastNameFormControl" value="{{psychologist.lastName}}" required>
 						</div>
 						<div class="form-group form-float">
 							<input type="text" class="form-control" placeholder="{{ 'PSYCHOLOGIST.INFO.PHONE' | translate }}"  id="psychPhoneNumber" name="confirm" 
-							[formControl]="phoneFormControl" [(ngModel)]="value2" value="{{psychologist.phone}}">
+							[formControl]="phoneFormControl" value="{{psychologist.phone}}">
 						</div>
 						<div class="form-group form-float">
 						  <input type="email" class="form-control required" placeholder="{{ 'PSYCHOLOGIST.POPUP.EMAIL' | translate }}" name="email"
@@ -31,20 +31,20 @@
 						<div class="row">
 							<div class="col-sm-6">
 								<mat-select class="form-control" placeholder="{{ 'PSYCHOLOGIST.INFO.DAYSOFF' | translate }}" [formControl]="daysOff" multiple value="{{psychologist.daysOff}}" >
-									<mat-option *ngFor="let day of daysOfWeek" [value]="day" dir="auto">{{ 'PSYCHOLOGIST.DAYS.' + day.toUpperCase() | translate }}</mat-option>
+									<mat-option *ngFor="let day of daysOfWeek" dir="auto">{{ 'PSYCHOLOGIST.DAYS.' + day.toUpperCase() | translate }}</mat-option>
 								</mat-select>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group form-float">
 									<input type="number" class="form-control" placeholder="{{ 'PSYCHOLOGIST.INFO.PRICE' | translate }}" id="psychPriceRange" 
-									[formControl]="priceFormControl" [(ngModel)]="value5" value="{{psychologist.priceRange}}">
+									[formControl]="priceFormControl" value="{{psychologist.priceRange}}">
 								</div>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="form-control">
 								<textarea rows="2" maxlength="120" class="form-control no-resize" placeholder="{{ 'PSYCHOLOGIST.POPUP.ADD' | translate }}"
-								id="psychAddress" [formControl]="addFormControl" [(ngModel)]="value3" style="font-size:15px" value="{{psychologist.address}}"></textarea>
+								id="psychAddress" [formControl]="addFormControl" style="font-size:15px" value="{{psychologist.address}}"></textarea>
 							</div>
 						</div>
 					</fieldset>

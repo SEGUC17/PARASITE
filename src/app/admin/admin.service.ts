@@ -38,11 +38,10 @@ export class AdminService {
       @author: MAHER.
       respond the requests.
    */
-    console.log('the Responce is sent el mafrood AUTHOR: Maher');
     return this.http.patch(
       this.baseURL + 'admin/VerifiedContributerRequestRespond/' + id,
       { responce: resp }
-    )
+    );
   }
 
   viewPendingVCR(FilterBy): any {

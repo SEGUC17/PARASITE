@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileComponent } from './profile/profile.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ProfileService } from './profile.service';
 import { ChildernComponent } from './profile/childern/childern.component';
-import { MatTabsModule, MatButtonModule, MatMenuModule,
+import {
+  MatTabsModule, MatButtonModule, MatMenuModule,
   MatChipsModule, MatCardModule, MatExpansionModule,
-  MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonToggleModule } from '@angular/material';
+  MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonToggleModule
+} from '@angular/material';
 import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MessageService } from '../messaging/messaging.service';
@@ -38,7 +40,10 @@ import { FileUploadModule } from 'ng2-file-upload';
   ],
   declarations: [ProfileComponent, ChildernComponent, DirectMessagingComponent, ProfileImageUploaderComponent],
   providers: [
-    ProfileService, ToastrService, MessageService
+    ProfileService,
+    ToastrService,
+    MessageService,
+    DatePipe
   ]
 })
 export class ProfileModule { }

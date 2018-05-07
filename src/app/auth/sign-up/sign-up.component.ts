@@ -28,17 +28,21 @@ export class SignUpComponent implements OnInit {
     address: '',
     isTeacher: false,
   };
+
+  public cities = cities;
   public interests = new Set();
   public interest;
-
-  private tags = [];
-  private tabNumber = 1;
+  public tags = [];
+  public tabNumber = 1;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private toastrService: ToastrService,
     private router: Router,
-    private translate: TranslateService) { }
+    public translate: TranslateService
+  ) {
+    this.authService.isNotAuthenticated();
+  }
 
   ngOnInit() {
     const self = this;
@@ -46,7 +50,7 @@ export class SignUpComponent implements OnInit {
     $('.datetimepicker').bootstrapMaterialDatePicker({
       clearButton: true,
       format: 'DD MMMM YYYY',
-      maxDate: new Date(),
+      maxDate: new Date(new Date().getFullYear() - 13, new Date().getMonth(), new Date().getDay()),
       shortTime: true,
       time: false
     });
@@ -77,21 +81,12 @@ export class SignUpComponent implements OnInit {
             self.toastrService.success(translation);
           }
         );
-        self.router.navigateByUrl('/newsfeed');
+        self.authService.redirectToHomePage();
       }
     });
   }
 
-  tabsUp() {
-    this.tabNumber++;
-  }
-
-  tabsDown() {
-    this.tabNumber--;
-  }
-
   addInterest() {
-    console.log(this.interest);
     this.interests.add(this.interest);
   }
 

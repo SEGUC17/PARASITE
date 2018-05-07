@@ -19,9 +19,13 @@ export class NewsfeedService {
   getPeople(): Observable<any> {
     return this.http.get<any>(this.host + 'newsfeed/findPeople');
   }
-
-  getTags(): any {
-    return this.http.get(environment.apiUrl + 'tags/getTags', httpOptions);
+  deleteInterest(interestText): any {
+    return this.http.delete<any>(this.host + 'newsfeed/delete/' + interestText);
   }
-
+  addInterest(interestText): any {
+    return this.http.patch<any>(this.host+'newsfeed/addInterest', {text: interestText});
+  }
+  getTags(): any {
+    return this.http.get<any> (this.host + 'tags/getTags');
+  }
 }

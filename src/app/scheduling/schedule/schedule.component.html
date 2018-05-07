@@ -113,16 +113,16 @@
             </div>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="createStart" placeholder="{{ 'SCHEDULING.SCHEDULE.EVENT_START' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
+            <input type="text" class="form-control datetimepicker" id="createStart" placeholder="{{ 'SCHEDULING.SCHEDULE.EVENT_START' | translate }}">
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="createEnd" placeholder="{{ 'SCHEDULING.SCHEDULE.EVENT_END' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
+            <input type="text" class="form-control datetimepicker" id="createEnd" placeholder="{{ 'SCHEDULING.SCHEDULE.EVENT_END' | translate }}">
           </div>
         </form>
       </div>
@@ -156,21 +156,21 @@
             </div>
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="editStart" placeholder="{{ 'SCHEDULING.SCHEDULE.EVENT_START' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
+            <input type="text" class="form-control datetimepicker" id="editStart" placeholder="{{ 'SCHEDULING.SCHEDULE.EVENT_START' | translate }}">
           </div>
           <div class="input-group">
-            <input type="text" class="form-control datetimepicker" id="editEnd" placeholder="{{ 'SCHEDULING.SCHEDULE.EVENT_END' | translate }}">
             <span class="input-group-addon">
               <i class="zmdi zmdi-calendar"></i>
             </span>
+            <input type="text" class="form-control datetimepicker" id="editEnd" placeholder="{{ 'SCHEDULING.SCHEDULE.EVENT_END' | translate }}">
           </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd, index); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.SCHEDULE.SAVE_CHANGES' | translate }}</button>
+        <button type="button" class="btn btn-primary btn-round waves-effect" data-dismiss="modal" (click)="editEvent(editTitle, editDescription, editStart, editEnd); editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.SCHEDULE.SAVE_CHANGES' | translate }}</button>
         <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal" (click)="editTitle = ''; editDescription = ''; editStart = null; editEnd = null;">{{ 'SCHEDULING.SCHEDULE.CANCEL' | translate }}</button>
       </div>
     </div>

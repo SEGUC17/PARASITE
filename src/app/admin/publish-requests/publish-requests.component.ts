@@ -47,7 +47,7 @@ export class PublishRequestsComponent implements OnInit {
   activeDayIsOpen: Boolean = false;
   refresh: Subject<any> = new Subject();
 
-  constructor(private adminService: AdminService, private router: Router, private translate: TranslateService,
+  constructor(private adminService: AdminService, private router: Router, public translate: TranslateService,
     private _messageService: MessageService, private _authService: AuthService, private toastrService: ToastrService) { }
 
   ngOnInit() {
@@ -102,7 +102,6 @@ export class PublishRequestsComponent implements OnInit {
   }
 
   respondStudyPlanPublishReqs(response, id, studyPlan): void {
-    console.log(studyPlan);
     let self = this;
     self.adminService.respondStudyPlanPublishReqs(response, id, studyPlan._id).subscribe(function (res) {
       if (res.err) {
