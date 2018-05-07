@@ -52,6 +52,7 @@ export class AdminControlComponent implements OnInit {
     }
   ];
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
     this.authService.getUserData(['username', 'isAdmin']).subscribe(function (res) {
       if (res.status === 401) {

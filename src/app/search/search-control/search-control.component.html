@@ -105,7 +105,7 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 col-6" *ngFor="let user of users">
                   <div class="card">
                     <div class="file">
-                      <a routerLink="profile/{{user.username}}">
+                      <a routerLink="/profile/{{user.username}}">
                         <div class="image">
                           <img src={{user.avatar}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
                         </div>

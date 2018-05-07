@@ -22,6 +22,7 @@ export class ForgotPasswordComponent implements OnInit {
     private toastrService: ToastrService, public translate: TranslateService) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
   }
 
   submit(email): void {

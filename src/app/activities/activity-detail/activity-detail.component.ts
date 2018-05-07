@@ -88,6 +88,7 @@ isEmpty = false;
   ) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     let self = this;
     self.BookFor = [''];
     self.getCurrentUser();

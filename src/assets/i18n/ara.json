@@ -24,7 +24,12 @@
             "REQUIRED_FIELDS": "الخانات المطلوبة",
             "SUBMIT": "اضافة",
             "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
-            "TAGS": "إشارات"
+            "TAGS": "إشارات",
+            "NAME_PLACEHOLDER": "اسم النشاط*",
+            "DESCRIPTION_PLACEHOLDER": "وصف النشاط",
+            "PRICE_PLACEHOLDER": "السعر*",
+            "DATE_PLACEHOLDER": "من* مثال: 30/07/2016",
+            "TO_DATE_PLACEHOLDER": "إلى* مثال: 30/07/2016"
         },
         "LIST": {
             "ACTIVITIES": "الانشطة",
@@ -458,7 +463,9 @@
         "OTHER_PARENTS": "اولياء الامور الاخرين",
         "READ_MORE": "اقرأ المزيد",
         "CONNECT_TO_MORE": "تواصل مع المزيد",
-        "CLICK_TO_CONNECT": "اضغط هنا لتبحث عن وتتواصل مع اولياء الامور الاخرين"
+        "CLICK_TO_CONNECT": "اضغط هنا لتبحث عن وتتواصل مع اولياء الامور الاخرين",
+        "HAVE_NOT_ADDED_INTERESTS": "لم تضف أية اهتمامات بعد؟",
+        "ADD_SOME_NOW": "ضفها الآن"
     },
     "PROFILE": {
         "PROFILE": {

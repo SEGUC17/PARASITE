@@ -45,6 +45,7 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
 
     $('.datetimepicker').bootstrapMaterialDatePicker({

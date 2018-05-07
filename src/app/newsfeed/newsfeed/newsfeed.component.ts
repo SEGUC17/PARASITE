@@ -28,6 +28,7 @@ export class NewsfeedComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
     const userDataColumns = ['username', 'isParent', 'interests'];
     this.authService.getUserData(userDataColumns).subscribe(function (res) {

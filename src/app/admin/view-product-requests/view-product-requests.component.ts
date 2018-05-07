@@ -49,6 +49,7 @@ export class ViewProductRequestsComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
   }
 
   // Function for accepted requests
