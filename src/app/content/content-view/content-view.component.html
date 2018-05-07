@@ -49,6 +49,14 @@
                 <a>
                   <i class="zmdi zmdi-comment-text col-blue"></i> {{ 'CONTENT.VIEW.COMMENTS' | translate: { number: content.discussion.length } }}</a>
               </li>
+              <li *ngIf="content.type === 'resource'">
+                <a>
+                  <i class="zmdi zmdi-badge-check col-green"></i> {{ 'CONTENT.EDIT.RESOURCE' | translate }}</a>
+              </li>
+              <li *ngIf="content.type === 'idea'">
+                <a>
+                  <i class="zmdi zmdi-flash col-yellow"></i> {{ 'CONTENT.EDIT.IDEA' | translate }}</a>
+              </li>
               <li *ngIf="currentUser">
                 <div *ngIf="currentUser.username" class="d-flex">
                   <i class="zmdi zmdi-star mr-2"></i>
@@ -61,9 +69,12 @@
           <div class="body">
             <div class="container">
               <div class="video-container">
-                <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
+                <div *ngIf="(content.video | safeResourceUrl) && content.type === 'resource'" class="embed-responsive embed-responsive-16by9">
                   <app-youtube-player [videoId]="content.video | videoIdExtractor" (change)="onPlayerStateChange($event)"></app-youtube-player>
                 </div>
+                <div *ngIf="(content.video | safeResourceUrl) && content.type === 'idea'" class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>
+                  </div>
               </div>
               <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
             </div>

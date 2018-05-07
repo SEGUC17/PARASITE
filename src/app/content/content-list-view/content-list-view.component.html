@@ -52,6 +52,14 @@
                 <a>
                   <i class="zmdi zmdi-label col-red"></i> {{ content.category }}, {{ content.section }}</a>
               </li>
+              <li *ngIf="content.type === 'resource'">
+                <a>
+                  <i class="zmdi zmdi-badge-check col-green"></i> {{ 'CONTENT.EDIT.RESOURCE' | translate }}</a>
+              </li>
+              <li *ngIf="content.type === 'idea'">
+                <a>
+                  <i class="zmdi zmdi-flash col-yellow"></i> {{ 'CONTENT.EDIT.IDEA' | translate }}</a>
+              </li>
             </ul>
           </div>
           <div class="body">

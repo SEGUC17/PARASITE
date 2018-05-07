@@ -1,6 +1,6 @@
 <section class="content">
   <div class="vertical-center">
-    <div class="mr-auto ml-auto">
+    <div class="mr-auto ml-auto mt-3">
       <div class="authentication">
         <div class="container-fluid pl-0 pr-0">
           <div class="col-md-12 content-center">
@@ -31,7 +31,7 @@
                       </span>
                       <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}" [(ngModel)]="user.address"
                         name="address" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                      <ul class="dropdown-menu dropdown-menu-right pullDown" style="width: 100%">
+                      <ul class="dropdown-menu dropdown-menu-right pullDown scroll-flow w-100">
                         <li *ngFor="let city of cities" (click)="user.address = city">
                           <a href="javascript:void(0);">{{ city }}</a>
                         </li>
@@ -94,6 +94,7 @@
                     <input type="button" style="width: 40% !important;" value="Add Interest" class="form-control btn btn-sm" (click)="this.addInterest()">
                     <h6>You picked: </h6>
                     <span *ngFor="let tag of interests">-{{tag}}-</span>
+                    <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
                   </div>
                 </div>
                 <div class="footer">
@@ -103,7 +104,6 @@
                     <input type="button" class="form-control btn btn-lg" [value]="'AUTH.SIGN_UP.NEXT' | translate" [disabled]="this.tabNumber == 3"
                       (click)="this.tabNumber = this.tabNumber + 1;">
                   </div>
-                  <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
                   <h5>
                     <a class="link" routerLink="/auth/sign-in">{{ 'AUTH.SIGN_UP.YOU_ALREADY_HAVE_A_MEMBERSHIP' | translate }}</a>
                   </h5>

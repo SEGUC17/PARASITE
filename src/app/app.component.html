@@ -138,7 +138,7 @@
                 </a>
                 <ul class="dropdown-menu pullDown">
                     <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
-                        || link.url === '/profile' && username == undefined ">
+                        || link.url === '/profile' && username == undefined || link.url === '/message' || link.url === '/profile'">
                         <a [routerLink]="link.url">
                             <i  style= "color:#63c6b6" [ngClass]="'zmdi zmdi-'+link.icon"></i>
                             <span class = "pl-1">{{ link.name | translate }}</span>

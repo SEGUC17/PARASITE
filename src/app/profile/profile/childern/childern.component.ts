@@ -79,7 +79,7 @@ export class ChildernComponent implements OnInit {
           // calling service method that sends get request and subscribing to the data from the response
           self.profileService.getChildren(self.username).
             subscribe(function (response) {
-            self.childrenList = response.data;
+              self.childrenList = response.data;
               if (self.childrenList.length < 1) { self.childListIsFilled = false; }
 
               // getting username , avatar , first name , lastname , birthdate of
@@ -90,11 +90,12 @@ export class ChildernComponent implements OnInit {
                   'lastName', 'birthdate', 'username', 'learningScore'], x).
                   subscribe(function (result) {
 
-                    if (!result.data.avatar) {
-                      result.data.avatar = 'assets/images/defaultProfilePic.png';
-                    }
+                    let resAvatar;
+
+                    resAvatar = !res.data.avatar ? 'assets/images/defaultProfilePic.png' : res.data.avatar;
+
                     self.singleArray.push({
-                      avatar: result.data.avatar,
+                      avatar: resAvatar,
                       firstName: result.data.firstName,
                       lastName: result.data.lastName,
                       birthdate: self.calculateAge(result.data.birthdate),

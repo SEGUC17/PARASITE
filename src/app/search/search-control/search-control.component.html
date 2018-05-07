@@ -103,20 +103,22 @@
               <div class="row clearfix">
                 
                 <div class="col-lg-3 col-md-4 col-sm-6 col-6" *ngFor="let user of users">
-                  <div class="card">
-                    <div class="file">
-                      <a routerLink="/profile/{{user.username}}">
-                        <div class="image">
-                          <img src={{user.avatar}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
+                    <div class="card member-card">
+                        <div class="header" style="background-image: url('assets/images/profile-view/stars.jpg');">
+                          <h4 style="color:white" class="text-muted col-white m-t-10">{{user.username}}</h4>
                         </div>
-                        <div class="file-name">
-                          <p class="m-b-5 text-muted">{{user.username}}</p>
-                          <small>{{user.firstName}} {{user.lastName}}
-                          </small>
+                        <div class="member-img">
+                          <a routerLink="/profile/{{user.username}}" class="">
+                            <img style="object-fit: cover; height:180px; width:180px"  src={{user.avatar}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="rounded-circle">
+                          </a>
                         </div>
-                      </a>
+                        <div class="body">
+                          <div class="col-12">
+                              <small>{{user.firstName}} {{user.lastName}}
+                              </small>
+                          </div>
+                      </div>
                     </div>
-                  </div>
                 </div>
                 
           <ul *ngIf="totPages>1" class="pagination pagination-primary">

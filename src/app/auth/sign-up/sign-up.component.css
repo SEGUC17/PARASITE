@@ -22,3 +22,8 @@
     text-align: center;
     color: white;
 }
+
+.scroll-flow {
+    overflow-y: auto;
+    height: 300px;
+}
