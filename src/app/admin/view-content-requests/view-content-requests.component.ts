@@ -32,6 +32,7 @@ export class ViewContentRequestsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     let self = this;
     self.viewPendingContReqs();
   }
