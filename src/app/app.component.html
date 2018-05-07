@@ -132,7 +132,7 @@
                     </li>
                 </ul>
             </li>
-            <li class="dropdown app_menu mr-auto">
+            <li class="dropdown app_menu mr-auto hide-sm">
                 <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
                     <i class="zmdi zmdi-apps"></i>
                 </a>
@@ -210,4 +210,4 @@
     </div>
 </div>
 <ngx-loading-bar [includeSpinner]="false" [height]="'4px'"></ngx-loading-bar>
-<router-outlet (activate)="ngOnInit()"></router-outlet>
+<router-outlet (activate)="isSignedIn()"></router-outlet>

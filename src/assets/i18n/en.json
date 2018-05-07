@@ -195,7 +195,8 @@
           "TERMS_OF_USAGE": "terms of usage",
           "PREVIOUS": "Previous",
           "NEXT": "Next",
-          "YOU_ALREADY_HAVE_A_MEMBERSHIP": "You already have a membership?"
+          "YOU_ALREADY_HAVE_A_MEMBERSHIP": "You already have a membership?",
+          "CHILD_SIGN_UP_HEADER": "Sign Up For Your Child"
       },
       "SIGN_IN": {
           "SIGN_IN": "Sign In",

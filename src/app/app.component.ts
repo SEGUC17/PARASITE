@@ -113,40 +113,11 @@ export class AppComponent implements OnInit {
       });
   }
   ngOnInit() {
+    this.CustomScrollbar();
     $(function () {
       'use strict';
-      CustomScrollbar();
       CustomPageJS();
     });
-    // All Custom Scrollbar JS
-    function CustomScrollbar() {
-      $('.sidebar .menu .list').slimscroll({
-        height: 'calc(100vh - 65px)',
-        color: 'rgba(0,0,0,0.2)',
-        position: 'left',
-        size: '6px',
-        alwaysVisible: true,
-        borderRadius: '3px',
-        railBorderRadius: '0'
-      });
-
-      $('.navbar-left .dropdown-menu .body .menu').slimscroll({
-        height: '300px',
-        color: 'rgba(0,0,0,0.2)',
-        size: '3px',
-        alwaysVisible: false,
-        borderRadius: '3px',
-        railBorderRadius: '0'
-      });
-      $('.right-sidebar .slim_scroll').slimscroll({
-        height: 'calc(100vh - 60px)',
-        color: 'rgba(0,0,0,0.4)',
-        size: '2px',
-        alwaysVisible: false,
-        borderRadius: '3px',
-        railBorderRadius: '0'
-      });
-    }
     function CustomPageJS() {
       $('.boxs-close').on('click', function () {
         const element = $(this);
@@ -169,6 +140,35 @@ export class AppComponent implements OnInit {
         });
     }
     this.isSignedIn();
+  }
+  // All Custom Scrollbar JS
+  public CustomScrollbar(): void {
+    $('.sidebar .menu .list').slimscroll({
+      height: 'calc(100vh - 65px)',
+      color: 'rgba(0,0,0,0.2)',
+      position: 'left',
+      size: '6px',
+      alwaysVisible: true,
+      borderRadius: '3px',
+      railBorderRadius: '0'
+    });
+
+    $('.navbar-left .dropdown-menu .body .menu').slimscroll({
+      height: '300px',
+      color: 'rgba(0,0,0,0.2)',
+      size: '3px',
+      alwaysVisible: false,
+      borderRadius: '3px',
+      railBorderRadius: '0'
+    });
+    $('.right-sidebar .slim_scroll').slimscroll({
+      height: 'calc(100vh - 60px)',
+      color: 'rgba(0,0,0,0.4)',
+      size: '2px',
+      alwaysVisible: false,
+      borderRadius: '3px',
+      railBorderRadius: '0'
+    });
   }
 
   public isSignedIn(): void {
@@ -311,6 +311,7 @@ export class AppComponent implements OnInit {
   // method that makes all messages read
   onMessageIconClick() {
     let self = this;
+    self.CustomScrollbar();
     for (let i = 0; i < self.messagesNotifications.length; i++) {
       self.modifyNotification(self.messagesNotifications[i]._id, true);
     }
