@@ -5,8 +5,8 @@
         <div class="col-md-12 content-center">
           <div class="card-plain">
               <div class="header">
-                <h5>{{ 'AUTH.SIGN_UP.CHILD_SIGN_UP_HEADER' | translate }}</h5>
-                <span>{{ 'AUTH.SIGN_UP.REGISTER' | translate }}</span>
+                <h5 style="color: white;">{{ 'AUTH.SIGN_UP.CHILD_SIGN_UP_HEADER' | translate }}</h5>
+                <span style="color: white;">{{ 'AUTH.SIGN_UP.REGISTER' | translate }}</span>
               </div>
               <div class="content">
                 <div id="personalInfo">
@@ -98,7 +98,7 @@
                 <div id="interests" hidden>
                   <div class="checkbox">
                     <input id="terms" type="checkbox">
-                    <label for="terms">
+                    <label for="terms" style="color: white;">
                       {{ 'AUTH.SIGN_UP.I_READ_AND_AGREED_TO' | translate }}
                       <a href="javascript:void(0);">
                         {{ 'AUTH.SIGN_UP.TERMS_OF_USAGE' | translate }}</a>
@@ -118,9 +118,6 @@
                 <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="register()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
 
                 <!--  <a routerLink="/dashboard" class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click) ="register()"  >SUBMIT</a>-->
-                <h5>
-                  <a class="link" routerLink="/authentication/sign-in">{{ 'AUTH.SIGN_UP.YOU_ALREADY_HAVE_A_MEMBERSHIP' | translate }}</a>
-                </h5>
               </div>
             <div class="container-fluid">
               <div class="row clearfix js-sweetalert">
