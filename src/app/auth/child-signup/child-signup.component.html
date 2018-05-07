@@ -1,58 +1,14 @@
 <section class="content">
-  <div class="mr-auto ml-auto">
-    <div class="authentication sidebar-collapse">
-      <div class="container">
-        <div class="col-md-12 content-center">
-          <div class="card-plain">
-            <form class="form cen-wh-content">
-              <div class="header">
-                <h5 style="color: white;">{{ 'AUTH.CHILD_SIGN_UP.CHILD_SIGN_UP' | translate }}</h5>
-                <span style="color: white;">{{ 'AUTH.SIGN_UP.REGISTER' | translate }} </span>
-              </div>
-              <div class="content">
-                <div id="personalInfo">
-                  <div class="input-group">
-                    <span class="input-group-addon">
-                      <i class="zmdi zmdi-account-circle"></i>
-                    </span>
-                    <input type="text" name="first" class="form-control" [(ngModel)]="Firstname" placeholder="{{ 'AUTH.SIGN_UP.FIRST_NAME_PLACEHOLDER' | translate }}">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">
-                      <i class="zmdi zmdi-account-circle"></i>
-                    </span>
-                    <input type="text" name="last" class="form-control" [(ngModel)]=Lastname placeholder="{{ 'AUTH.SIGN_UP.LAST_NAME_PLACEHOLDER' | translate }}">
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">
-                      <i class="zmdi zmdi-calendar"></i>
-                    </span>
-                    <input id="birthdate" name="birthdate" type="text" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}" class="form-control datetimepicker"
-                    />
-                  </div>
-                  <div>
-                    <div class="btn-group hidden-sm-down">
-                      <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational System
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-right pullDown">
-                        <li *ngFor="let system of systems" (click)="systemIs(system)">
-                          <a href="javascript:void(0);">{{system}}</a>
-                        </li>
-
-                      </ul>
-                    </div>
-                    <div class="btn-group hidden-sm-down">
-                      <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational Level
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-right pullDown">
-                        <li *ngFor="let level of levels" (click)="levelIs(level)">
-                          <a href="javascript:void(0);">{{level}}</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
+  <div class="vertical-center">
+    <div class="mr-auto ml-auto mt-3">
+      <div class="authentication">
+        <div class="container-fluid pl-0 pr-0">
+          <div class="col-md-12 content-center">
+            <div class="card-plain">
+              <form class="form cen-wh-content">
+                <div class="header">
+                  <h5 style="color: white;">{{ 'AUTH.CHILD_SIGN_UP.CHILD_SIGN_UP' | translate }}</h5>
+                  <span style="color: white;">{{ 'AUTH.SIGN_UP.REGISTER' | translate }} </span>
                 </div>
                 <div class="content">
                   <div id="personalInfo">
@@ -75,46 +31,92 @@
                       <input id="birthdate" name="birthdate" type="text" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}" class="form-control datetimepicker"
                       />
                     </div>
-                    <div class="input-group">
-                      <span class="input-group-addon">
-                        <i class="zmdi zmdi-gps-dot"></i>
-                      </span>
-                      <input type="text" name="address" [(ngModel)]=Address placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}"
-                        class="form-control" />
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon">
-                        <i class="zmdi zmdi-smartphone"></i>
-                      </span>
-                      <input type="text" name="phone" [(ngModel)]=Phone placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" class="form-control"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="footer">
-                  <div class="input-group">
-                    <input id="prevTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_ONE' | translate }}"
-                      (click)="showPersonalInfoTab()" disabled>
-                    <input id="nextTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_TWO' | translate }}"
-                      (click)="showCredentialsTab()">
-                    <input id="lastTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_THREE' | translate }}"
-                      (click)="showInterestsTab()">
-                  </div>
-                </div>
-                <div class="container-fluid">
-                  <div class="row clearfix js-sweetalert">
-                    <div class="col-md-12 col-lg-6">
-                      <div *ngIf="Div3" class="card">
-                        <div class="body">
-                          <p>Your Child Account has been created!</p>
-                          <button class="btn btn-raised btn-primary waves-effect btn-round" data-type="success">Yaaay!</button>
-                        </div>
-                      </div>
+                    <div>
+                      <div class="btn-group hidden-sm-down">
+                        <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational System
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right pullDown">
+                          <li *ngFor="let system of systems" (click)="systemIs(system)">
+                            <a href="javascript:void(0);">{{system}}</a>
+                          </li>
 
+                        </ul>
+                      </div>
+                      <div class="btn-group hidden-sm-down">
+                        <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational Level
+                          <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right pullDown">
+                          <li *ngFor="let level of levels" (click)="levelIs(level)">
+                            <a href="javascript:void(0);">{{level}}</a>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                </div>
+                  <div class="content">
+                    <div id="personalInfo">
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <i class="zmdi zmdi-account-circle"></i>
+                        </span>
+                        <input type="text" name="first" class="form-control" [(ngModel)]="Firstname" placeholder="{{ 'AUTH.SIGN_UP.FIRST_NAME_PLACEHOLDER' | translate }}">
+                      </div>
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <i class="zmdi zmdi-account-circle"></i>
+                        </span>
+                        <input type="text" name="last" class="form-control" [(ngModel)]=Lastname placeholder="{{ 'AUTH.SIGN_UP.LAST_NAME_PLACEHOLDER' | translate }}">
+                      </div>
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <i class="zmdi zmdi-calendar"></i>
+                        </span>
+                        <input id="birthdate" name="birthdate" type="text" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}" class="form-control datetimepicker"
+                        />
+                      </div>
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <i class="zmdi zmdi-gps-dot"></i>
+                        </span>
+                        <input type="text" name="address" [(ngModel)]=Address placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}"
+                          class="form-control" />
+                      </div>
+                      <div class="input-group">
+                        <span class="input-group-addon">
+                          <i class="zmdi zmdi-smartphone"></i>
+                        </span>
+                        <input type="text" name="phone" [(ngModel)]=Phone placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" class="form-control"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="footer">
+                    <div class="input-group">
+                      <input id="prevTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_ONE' | translate }}"
+                        (click)="showPersonalInfoTab()" disabled>
+                      <input id="nextTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_TWO' | translate }}"
+                        (click)="showCredentialsTab()">
+                      <input id="lastTab" type="button" class="form-control btn btn-lg" value="{{'AUTH.CHILD_SIGN_UP.STEP_THREE' | translate }}"
+                        (click)="showInterestsTab()">
+                    </div>
+                  </div>
+                  <div class="container-fluid">
+                    <div class="row clearfix js-sweetalert">
+                      <div class="col-md-12 col-lg-6">
+                        <div *ngIf="Div3" class="card">
+                          <div class="body">
+                            <p>Your Child Account has been created!</p>
+                            <button class="btn btn-raised btn-primary waves-effect btn-round" data-type="success">Yaaay!</button>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
               </form>
+              </div>
             </div>
           </div>
         </div>
