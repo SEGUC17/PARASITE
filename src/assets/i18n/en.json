@@ -514,7 +514,17 @@
             "UNBLOCK": "Unblock",
             "REPORT": "Report",
             "EDUCATION_SYSTEM": "Educational System",
-            "EDUCATION_LEVEL": "Educational Level"
+            "EDUCATION_LEVEL": "Educational Level",
+            "LEARNING": "Learning",
+            "LEARNING_SCORE": "Score",
+            "CONTRIBUTION_SCORE": "Score",
+            "CONTRIBUTION": "Contibution",
+            "PARENT_MEDAL": "Parent Medal",
+            "CHILD_MEDAL": "Child Medal",
+            "TEACHER_MEDAL": "Teacher Medal",
+            "VERIFIED_CONTRIBUTOR_MEDAL": "Verified Contributer Medal",
+            "ADMIN_MEDAL": "Admin Medal",
+            "CHANGE_PICTURE": "Change Your Picture"
         },
         "DIRECT_MSG": {
             "TO": "To:",

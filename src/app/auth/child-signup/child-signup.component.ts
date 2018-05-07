@@ -22,7 +22,6 @@ export class ChildSignupComponent implements OnInit {
   Password: String = '';
   ConfirmPassword: String = '';
   Email: String = '';
-  Address: String = '';
   Birthdate: Date;
   Div1 = false;
   Div2 = false;
@@ -31,8 +30,8 @@ export class ChildSignupComponent implements OnInit {
   User: any;
   private done = false;
   private switch = false;
-  Educational_level: String = '';
-  Educational_system: String = '';
+  Educational_level: String = 'Educational Level';
+  Educational_system: String = 'Educational System';
   systems: any = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
   levels: any = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
 
@@ -73,7 +72,7 @@ export class ChildSignupComponent implements OnInit {
       this.User = {
         'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
         'birthdate': this.Birthdate, 'email': this.Email,
-        'address': this.Address, 'educationLevel': self.Educational_level, 'educationSystem': self.Educational_system,
+        'educationLevel': self.Educational_level, 'educationSystem': self.Educational_system,
         'interests': Array.from(this.interests)
       };
       self.authService.childSignUp(this.User).subscribe(function (res) {

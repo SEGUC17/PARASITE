@@ -30,7 +30,7 @@
                     title="Change picture">
                     <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
                     <div>
-                      <small id="shouldAppearOnHover"> Change picture </small>
+                      <small id="shouldAppearOnHover"> {{ 'PROFILE.PROFILE.CHANGE_PICTURE' | translate }} </small>
                     </div>
                   </a>
                 </div>
@@ -152,7 +152,7 @@
             <div class="row">
               <div class="col-4 pt-1">
                 <small>
-                  <strong style="color:#63c6b6">Learning</strong> Score</small>
+                  <strong style="color:#63c6b6">{{ 'PROFILE.PROFILE.LEARNING' | translate }}</strong> {{ 'PROFILE.PROFILE.LEARNING_SCORE' | translate }}</small>
                 <h5 class="pt-1">{{learningScore}}</h5>
               </div>
               <div class="col-4">
@@ -166,7 +166,7 @@
                           <div [align]="translate.currentLang === 'ara'? 'right': null">
                             <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-accounts-list zmdi-hc-2x " style="color:#f96332">
                             </i>
-                            <small id="AppearOnHoverDisplay">Admin medal</small>
+                            <small id="AppearOnHoverDisplay">{{ 'PROFILE.PROFILE.ADMIN_MEDAL' | translate }}</small>
                           </div>
                         </a>
                       </div>
@@ -176,7 +176,7 @@
                           <div [align]="translate.currentLang === 'ara'? 'right': null">
                             <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-shield-check zmdi-hc-2x" style="color:#f96332">
                             </i>
-                            <small id="AppearOnHoverDisplay">Verified contributer medal</small>
+                            <small id="AppearOnHoverDisplay">{{ 'PROFILE.PROFILE.VERIFIED_CONTRIBUTOR_MEDAL' | translate }}</small>
 
                           </div>
                         </a>
@@ -187,7 +187,7 @@
                           <div [align]="translate.currentLang === 'ara'? 'right': null">
                             <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-case zmdi-hc-2x" style="color:#f96332">
                             </i>
-                            <small id="AppearOnHoverDisplay">Teacher medal</small>
+                            <small id="AppearOnHoverDisplay">{{ 'PROFILE.PROFILE.TEACHER_MEDAL' | translate }}</small>
 
                           </div>
                         </a>
@@ -199,7 +199,7 @@
                           <div [align]="translate.currentLang === 'ara'? 'right': null">
                             <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-directions-bike zmdi-hc-2x" style="color:#f96332">
                             </i>
-                            <small id="AppearOnHoverDisplay">Child medal</small>
+                            <small id="AppearOnHoverDisplay">{{ 'PROFILE.PROFILE.CHILD_MEDAL' | translate }}</small>
 
                           </div>
                         </a>
@@ -210,7 +210,7 @@
                           <div [align]="translate.currentLang === 'ara'? 'right': null">
                             <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-accounts zmdi-hc-2x" style="color:#f96332">
                             </i>
-                            <small id="AppearOnHoverDisplay">Parent medal</small>
+                            <small id="AppearOnHoverDisplay">{{ 'PROFILE.PROFILE.PARENT_MEDAL' | translate }}</small>
 
                           </div>
                         </a>
@@ -221,7 +221,8 @@
               </div>
               <div class="col-4 pt-1">
                 <small>
-                  <strong style="color:#63c6b6">Contibution</strong> Score</small>
+                  <strong style="color:#63c6b6">{{ 'PROFILE.PROFILE.CONTRIBUTION' | translate }}</strong> {{ 'PROFILE.PROFILE.CONTRIBUTION_SCORE' | translate
+                  }}</small>
                 <h5 class="pt-1">{{contributionScore}}</h5>
               </div>
 
@@ -438,7 +439,7 @@
             <div class="card">
               <div class="header">
                 <h2>
-                  <strong>{{'PROFILE.PROFILE.SECURITY' | translate}}</strong>{{'PROFILE.PROFILE.SETTINGS' | translate}} </h2>
+                  <strong>{{'PROFILE.PROFILE.SECURITY' | translate}}</strong> {{'PROFILE.PROFILE.SETTINGS' | translate}} </h2>
               </div>
               <div class="body">
                 <div class="form-group">
