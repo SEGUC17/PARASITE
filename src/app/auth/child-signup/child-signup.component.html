@@ -30,19 +30,28 @@
                     <input id="birthdate" name="birthdate" type="text" placeholder="{{ 'AUTH.SIGN_UP.BIRTHDATE_PLACEHOLDER' | translate }}" class="form-control datetimepicker"
                     />
                   </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">
-                      <i class="zmdi zmdi-gps-dot"></i>
-                    </span>
-                    <input type="text" name="address" [(ngModel)]=Address placeholder="{{ 'AUTH.SIGN_UP.ADDRESS_PLACEHOLDER' | translate }}"
-                      class="form-control" />
-                  </div>
-                  <div class="input-group">
-                    <span class="input-group-addon">
-                      <i class="zmdi zmdi-smartphone"></i>
-                    </span>
-                    <input type="text" name="phone" [(ngModel)]=Phone placeholder="{{ 'AUTH.SIGN_UP.PHONE_PLACEHOLDER' | translate }}" class="form-control"
-                    />
+                  <div>
+                    <div class="btn-group hidden-sm-down">
+                      <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational System
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-right pullDown">
+                        <li *ngFor="let system of systems" (click)="systemIs(system)">
+                          <a href="javascript:void(0);">{{system}}</a>
+                        </li>
+
+                      </ul>
+                    </div>
+                    <div class="btn-group hidden-sm-down">
+                      <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational Level
+                        <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu dropdown-menu-right pullDown">
+                        <li *ngFor="let level of levels" (click)="levelIs(level)">
+                          <a href="javascript:void(0);">{{level}}</a>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
                 <div id="credentials" hidden>
@@ -71,29 +80,6 @@
                     </span>
                     <input type="password" [(ngModel)]=ConfirmPassword name="confirmpass" placeholder="{{ 'AUTH.SIGN_UP.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}"
                       class="form-control" />
-                  </div>
-                  <div>
-                    <div class="btn-group hidden-sm-down">
-                      <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational System
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-right pullDown">
-                        <li *ngFor="let system of systems" (click)="systemIs(system)">
-                          <a href="javascript:void(0);">{{system}}</a>
-                        </li>
-
-                      </ul>
-                    </div>
-                    <div class="btn-group hidden-sm-down">
-                      <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Educational Level
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-right pullDown">
-                        <li *ngFor="let level of levels" (click)="levelIs(level)">
-                          <a href="javascript:void(0);">{{level}}</a>
-                        </li>
-                      </ul>
-                    </div>
                   </div>
                 </div>
                 <div id="interests" hidden>
