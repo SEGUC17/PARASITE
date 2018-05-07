@@ -1,12 +1,10 @@
 var mongoose = require('mongoose');
 var config = require('./config');
-var ClassifierController = require('../controllers/ClassifierController');
 
 mongoose.connect(config.MONGO_URI).
     then(function () {
         console.log('successfully connected to database on the url: ' +
             config.MONGO_URI);
-        ClassifierController.loadDictionary();
     }).
     catch(function (err) {
         if (err) {

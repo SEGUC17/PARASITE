@@ -31,11 +31,11 @@ module.exports.loadDictionary = function() {
   //   // read each line of text
   //   var line = file.readln().split(' ');
   //   dataset.push({word: line.get(0), id: i, title: line.get(1), label: line.get(2)});
-  //   // Word.create({word: line.get(0), id: i, title: line.get(1), label: line.get(2)}, function (err, activity) {
-  //   //   if (err) {
-  //   //     console.log('error Loading dictionary to the database');
-  //   //   }
-  //   // });
+  //   Word.create({word: line.get(0), id: i, title: line.get(1), label: line.get(2)}, function (err, activity) {
+  //     if (err) {
+  //       console.log('error Loading dictionary to the database');
+  //     }
+  //   });
   //   i++;
   // }
   // file.close();

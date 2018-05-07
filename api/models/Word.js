@@ -22,6 +22,6 @@ var wordSchema = Schema({
     }
 });
 
-var word = mongoose.model('Word', wordSchema, 'words');
+var word = mongoose.model('Word', wordSchema, 'Word');
 
 

@@ -12,12 +12,20 @@ var passport = require('passport');
 var path = require('path');
 require('./api/config/passport')(passport);
 var router = require('./api/routes/index')(passport);
+var ClassifierController = require('./api/controllers/ClassifierController');
 // -------------------------- End of "Requirements" --------------------- //
 
 // -------------------------- Dependancies ------------------------------ //
 var app = express();
 app.set(config.SECRET);
 // -------------------------- End of "Dependancies" --------------------- //
+
+
+// -------------------------- Dependancies ------------------------------ //
+ClassifierController.loadDictionary();
+// -------------------------- End of "Dependancies" --------------------- //
+
+
 
 // Create link to Angular build directory
 var distDir = path.join(__dirname, '/dist/');
