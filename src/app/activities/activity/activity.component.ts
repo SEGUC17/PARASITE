@@ -115,5 +115,8 @@ export class ActivityComponent implements OnInit {
     document.getElementById('btn11').click();
   }
 
+  testMachineLearning() {
+    this.activityService.testML().subscribe();
+  }
 
 }

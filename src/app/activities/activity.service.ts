@@ -88,4 +88,9 @@ export class ActivityService {
   EditActivityImage(upload , id): any {
     return this.http.patch( this.activitiesUrl + '/' + id + '/EditActivityImage', upload);
   }
+
+  testML(): Observable<any> {
+    return this.http.post<any>(environment.apiUrl + 'testencoder' , []);
+  }
+
 }

@@ -25,6 +25,8 @@ var DiscussionController = require('../controllers/DiscussionController');
 var UserRatingController = require('../controllers/UserRatingController');
 var tagController = require('../controllers/TagController');
 var newsfeedController = require('../controllers/NewsfeedController');
+// var encoder = require('../utils/Classifier/Encoder');
+var ClassifierController = require('../controllers/ClassifierController');
 
 module.exports = function (passport) {
 
@@ -445,7 +447,7 @@ module.exports = function (passport) {
   router.patch('/newsfeed/:entriesPerPage/:pageNumber', newsfeedController.getPosts);
   router.get('/newsfeed/findPeople', newsfeedController.findRandomFive);
   //------------------- End of Newsfeed Endpoints-----------//
-
+  router.post('/testencoder', ClassifierController.test);
   // -------------------------------------------------------------------- //
   module.exports = router;
 
