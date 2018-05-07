@@ -90,7 +90,7 @@ export class ViewContentRequestsComponent implements OnInit {
   }
   showPromptMessage(creator, sender, isUpdate): any {
     // creator is the content creator
-    //sender in the currently logged in admin
+    // sender in the currently logged in admin
     // isUpdate : false if create
     let self = this;
     swal({
