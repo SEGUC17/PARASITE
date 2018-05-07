@@ -2,7 +2,7 @@
   <div class="vertical-center">
     <div class="mr-auto ml-auto">
       <div class="authentication">
-        <div class="container">
+        <div class="container-fluid pl-0 pr-0">
           <div class="col-md-12 content-center">
             <div class="card-plain">
               <form class="form cen-wh-content">
@@ -107,7 +107,7 @@
                   <h5>
                     <a class="link" routerLink="/auth/sign-in">{{ 'AUTH.SIGN_UP.YOU_ALREADY_HAVE_A_MEMBERSHIP' | translate }}</a>
                   </h5>
-                  <div class="footer input-group">
+                  <div class="footer">
                     <input type="button" class="form-control btn btn-lg btn-facebook" value="Facebook" (click)="this.authService.signInWithFacebook()">
                     <!-- <input type="button" class="form-control btn btn-lg btn-google-plus" value="Google" (click)="this.authService.signInWithGoogle()"> -->
                   </div>
