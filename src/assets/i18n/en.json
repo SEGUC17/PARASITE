@@ -523,7 +523,8 @@
             "CHILD_MEDAL": "Child Medal",
             "TEACHER_MEDAL": "Teacher Medal",
             "VERIFIED_CONTRIBUTOR_MEDAL": "Verified Contributer Medal",
-            "ADMIN_MEDAL": "Admin Medal"
+            "ADMIN_MEDAL": "Admin Medal",
+            "CHANGE_PICTURE": "Change Your Picture"
         },
         "DIRECT_MSG": {
             "TO": "To:",

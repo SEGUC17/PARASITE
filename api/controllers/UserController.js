@@ -534,6 +534,8 @@ module.exports.signUpChild = function (req, res, next) {
     newUser.password = req.body.password;
     newUser.username = req.body.username;
     newUser.interests = req.body.interests;
+    newUser.address = 'NA';
+    newUser.phone = '00';
     // --- End of "Variable Assign" --- //
 
     //  console.log('updated attributes of child set');
