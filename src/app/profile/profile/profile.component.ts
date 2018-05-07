@@ -142,7 +142,6 @@ export class ProfileComponent implements OnInit {
       weekStart: 1,
       maxDate: new Date()
     });
-    $('#userSettings').addClass('active show');
     this.updateProfileInfo();
     // listen to route changes in case of username changes in URL while being in the profile component
     this.router.events.filter(function (event) {
@@ -208,6 +207,12 @@ export class ProfileComponent implements OnInit {
     if (!this.vUsername || this.vUsername === this.username) {
       this.currIsOwner = true;
       this.vUsername = this.username;
+      if (this.currIsOwner) {
+        $('#userSettings').addClass('active show');
+        $('#aboutt').addClass('col-lg-4');
+      } else {
+        $('#aboutt').removeClass('col-lg-12');
+      }
     }
 
       if (this.avatar !== '') {
