@@ -2,7 +2,7 @@
 <!-- Overlay For Sidebars -->
 <div class="overlay"></div>
 <!-- Navigation -->
-<div *ngIf="!landingService.getLandingView()">
+<div [hidden]="landingService.getLandingView()">
     <div class="overlay"></div>
     <!-- Top Bar -->
     <nav class="navbar col-lg-12 col-md-12">
