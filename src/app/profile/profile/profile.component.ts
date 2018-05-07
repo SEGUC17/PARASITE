@@ -138,6 +138,7 @@ export class ProfileComponent implements OnInit {
       weekStart: 1,
       maxDate: new Date()
     });
+    $('#userSettings').addClass('active show');
     this.updateProfileInfo();
     // listen to route changes in case of username changes in URL while being in the profile component
     this.router.events.filter(function (event) {
