@@ -2,6 +2,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../auth.service';
+import { cities } from '../../variables';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -36,6 +37,8 @@ export class ChildSignupComponent implements OnInit {
   Educational_system: String = '';
   systems: any = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
   levels: any = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
+  public cities = cities;
+
   public interests = new Set();
   public interest;
   public tags = [];
