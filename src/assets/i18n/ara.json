@@ -249,7 +249,8 @@
             "DONE": "تمَّت",
             "STEP_ONE": "الخطوة الأولى",
             "STEP_TWO": "الخطوةالثانية",
-            "STEP_THREE": "الخطوة الثالثة"
+            "STEP_THREE": "الخطوة الثالثة", 
+            "CHILD_SIGN_UP":"انشاء حساب جديد لطفلك"
         }
     },
     "CONTENT": {
@@ -496,7 +497,7 @@
             "EDIT_BD": "تاريخ الميلاد",
             "EDIT_PHONE": "الهانف",
             "SAVE_CHANGES": "حفظ التغيرات",
-            "MESSAGES_BLOCK": "الممنوعين من مراسلى",
+            "MESSAGES_BLOCK": "الممنوعون من مراسلتى",
             "BLOCK_LIST": "قائمه",
             "CREATE_STUDY_PALN": "إنشاء خطه دراسيه جديدة",
             "PROFILE_PIC": "تحميل الصوره الشخصيه",
@@ -542,7 +543,7 @@
             "PASSWORD_IS_INCORRECT": "كلمة المرور غير صحيحة",
             "REPORT_USER": "تم ارسال البلاغ بنجاح",
             "PROFILE_PIC_UPDATE": "تم تحديث صورة الملف الشخصي بنجاح",
-            "UNLINK_UNDER_13": "يجب أن يكون الطفل اكبرمن 13 عامًا أو أكثر",
+            "UNLINK_UNDER_13": "يجب أن يكون الطفل 13 عامًا أو أكثر",
             "MAKE_INDEPENDENT_SUCCESS": "طفلك اللآن مستقل",
             "MAKE_INDEPENDENT_FAIL": "لا يمكنك جعله مستقلا ,الطفل دون السن",
             "UNLINK_INDEPENDENT": "تم الغاء الارتباط بنجاح"
