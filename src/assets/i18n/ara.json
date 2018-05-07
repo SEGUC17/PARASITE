@@ -519,7 +519,16 @@
             "UNBLOCK": "رفع الحظر",
             "REPORT": "إبلاغ عن المستخدم",
             "EDUCATION_SYSTEM": "النظام التعليمي",
-            "EDUCATION_LEVEL": "المستوى التعليمي"
+            "EDUCATION_LEVEL": "المستوى التعليمي",
+            "LEARNING": "نقاط",
+            "LEARNING_SCORE": "التعلم",
+            "CONTRIBUTION_SCORE": "المساهمة",
+            "CONTRIBUTION": "نقاط",
+            "PARENT_MEDAL": "ميدالية ولي الأمر",
+            "CHILD_MEDAL": "ميدالية الطفل",
+            "TEACHER_MEDAL": "ميدالية المعلم",
+            "VERIFIED_CONTRIBUTOR_MEDAL": "ميدالية المساهم الموثَّق",
+            "ADMIN_MEDAL": "ميدالية مدير الموقع"
         },
         "DIRECT_MSG": {
             "TO": "إلى:",
