@@ -85,7 +85,7 @@ export class StudyPlanCreateComponent implements OnInit {
     public translate: TranslateService) { }
 
   ngOnInit() {
-
+    window.scrollTo(0, 0);
     // datetime pickers
     $('.datetimepicker').bootstrapMaterialDatePicker({
       format: 'dddd DD MMMM YYYY - hh:mm a',
