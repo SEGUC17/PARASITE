@@ -4,6 +4,7 @@ import { AuthService } from '../../auth/auth.service';
 import { NewsfeedService } from '../newsfeed.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Tag } from './tag';
 @Component({
   selector: 'app-newsfeed',
   templateUrl: './newsfeed.component.html',
@@ -15,8 +16,12 @@ export class NewsfeedComponent implements OnInit {
   entriesPerPage = 5;
   totalNumberOfPages = 0;
   people: any[];
-  tags: any[];
+  tags: String[]; // interests are in here
   user: any;
+  allTags: Tag[];
+  // tagsIdonthave: allTags - tags;
+  tagsIdonthave: Tag[];
+
   constructor(private sanitizer: DomSanitizer, public router: Router,
     private newsfeedService: NewsfeedService, private authService: AuthService,
     public translate: TranslateService) {
@@ -37,6 +42,7 @@ export class NewsfeedComponent implements OnInit {
         self.tags = self.user.interests;
         self.currentPageNumber = 1;
         self.firstNewsfeedPage();
+        self.getTags();
       }
     });
   }
@@ -107,4 +113,42 @@ export class NewsfeedComponent implements OnInit {
   }
 
   //         end of pagination actions         //
+
+  deleteInterest(interestText): any {
+    let self = this;
+    self.newsfeedService.deleteInterest(interestText).subscribe(function () {
+      self.authService.getUserData(['interests']).subscribe(function (res) {
+        self.tags = res.data.interests;
+        self.getTags();
+      });
+    });
+  }
+
+  addInterest(interestText): any {
+    let self = this;
+    self.newsfeedService.addInterest(interestText).subscribe(function () {
+      self.authService.getUserData(['interests']).subscribe(function (res) {
+        self.tags = res.data.interests;
+        self.getTags();
+          });
+        });
+  }
+  getTags(): any {
+    let self = this;
+    self.newsfeedService.getTags().subscribe(function(res) {
+      self.allTags = res.data;
+      self.tagsIdonthave = self.allTags.filter(function(notFound) {
+        if(self.tags.indexOf(notFound.name) < 0){
+          return notFound;
+        }
+      });
+    });
+  }
 }
+      // self.tagsIdonthave = self.allTags.filter(function(res) {
+      //   if (self.tags.find(res) < 0) {
+      //     return res;
+      //   } 
+      // })
+      
+      // item => self.tags.indexOf(item) < 0

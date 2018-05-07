@@ -22,7 +22,7 @@
                     <i class="zmdi zmdi-notifications"></i>
                     <span *ngIf="unreadNotificationsNumber != 0" class="label-count">{{unreadNotificationsNumber}}</span>
                 </a>
-                <ul class="dropdown-menu pullDown">
+                <ul class="dropdown-menu pullDown scroll-flow">
                     <li class="body">
                         <ul class="menu list-unstyled">
                             <li *ngFor="let not of notifications">

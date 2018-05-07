@@ -156,8 +156,8 @@ export class AppComponent implements OnInit {
     $('.navbar-left .dropdown-menu .body .menu').slimscroll({
       height: '300px',
       color: 'rgba(0,0,0,0.2)',
-      size: '3px',
-      alwaysVisible: false,
+      size: '6px',
+      alwaysVisible: true,
       borderRadius: '3px',
       railBorderRadius: '0'
     });
@@ -311,7 +311,6 @@ export class AppComponent implements OnInit {
   // method that makes all messages read
   onMessageIconClick() {
     let self = this;
-    self.CustomScrollbar();
     for (let i = 0; i < self.messagesNotifications.length; i++) {
       self.modifyNotification(self.messagesNotifications[i]._id, true);
     }
