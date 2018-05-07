@@ -212,7 +212,11 @@ export class ContentEditComponent implements OnInit {
     let self = this;
     if (this.uploader.queue.length > 0) {
       this.loading = true;
-      self.toasterService.info('uploading file, please wait till you receive a success message');
+      self.translate.get('CONTENT.TOASTER.UPLOADING').subscribe(
+        function (msg) {
+          self.toasterService.info(msg);
+        }
+      );
       this.uploader.uploadAll();
       this.uploader.onSuccessItem = (
         item: any,
@@ -221,7 +225,11 @@ export class ContentEditComponent implements OnInit {
         headers: any): any => {
         let res: any = JSON.parse(response);
         this.loading = false;
-        self.toasterService.success('File was uploaded successfully');
+        self.translate.get('CONTENT.TOASTER.UPLOADING_SUCCESS').subscribe(
+          function (msg) {
+            self.toasterService.success(msg);
+          }
+        );
         self.content.image = res.url;
       };
       this.uploader.onErrorItem =
