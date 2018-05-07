@@ -38,6 +38,7 @@ export class ActivityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.getActivities(1);
   }
 

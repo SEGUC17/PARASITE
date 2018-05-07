@@ -37,6 +37,7 @@ export class ViewReportsComponent implements OnInit {
     }
 
     ngOnInit() {
+        window.scrollTo(0, 0);
     }
 
     getReports() {

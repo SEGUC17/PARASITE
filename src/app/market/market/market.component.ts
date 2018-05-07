@@ -48,6 +48,7 @@ export class MarketComponent implements OnInit {
   // initializes the current pages in the market and user item
   // gets the products in the market and the products owned by the user)
   ngOnInit() {
+    window.scrollTo(0, 0);
     // get logged in user info
     const self = this;
     const userDataColumns = ['username', 'isAdmin'];

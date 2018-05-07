@@ -27,6 +27,7 @@ export class LandingPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.landingService.setLandingView(true);
   }
 

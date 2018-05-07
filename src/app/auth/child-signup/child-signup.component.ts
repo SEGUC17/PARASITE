@@ -38,6 +38,7 @@ export class ChildSignupComponent implements OnInit {
   levels: any = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
     $('.datetimepicker').bootstrapMaterialDatePicker({
       clearButton: true,
