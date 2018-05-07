@@ -48,6 +48,7 @@ export class MessagingComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     const self = this;
     const userDataColumns = ['_id', 'username', 'isChild', 'avatar'];
     // get info of logged in user
