@@ -61,9 +61,12 @@
           <div class="body">
             <div class="container">
               <div class="video-container">
-                <div *ngIf="content.video | safeResourceUrl" class="embed-responsive embed-responsive-16by9">
+                <div *ngIf="(content.video | safeResourceUrl) && content.type === 'resource'" class="embed-responsive embed-responsive-16by9">
                   <app-youtube-player [videoId]="content.video | videoIdExtractor" (change)="onPlayerStateChange($event)"></app-youtube-player>
                 </div>
+                <div *ngIf="(content.video | safeResourceUrl) && content.type === 'idea'" class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" [src]="content.video | safeResourceUrl" allowfullscreen></iframe>
+                  </div>
               </div>
               <div *ngIf="content.body" class="ql-editor preview" [innerHTML]="content.body | safeHtml"></div>
             </div>
