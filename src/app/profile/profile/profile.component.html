@@ -26,79 +26,90 @@
               <div class="col-lg-4 col-md-12 row">
                 <!-- -->
                 <div id="myHover">
-                  <a [routerLink]="" class="clickable-icon" style="color:white; margin:4px" *ngIf="currIsOwner" href="#defaultModal">
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="currIsOwner" href="#defaultModal">
                     <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
-                    <small id="shouldAppearOnHover"> Change picture </small>
+                    <div>
+                      <small id="shouldAppearOnHover"> Change picture </small>
+                    </div>
                   </a>
                 </div>
                 <div id="myHover">
 
-                  <a [routerLink]="" class="clickable-icon" style="color:white; margin:4px" data-toggle="modal" data-target="#directMessageModal"
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" data-toggle="modal" data-target="#directMessageModal"
                     *ngIf="!currIsOwner && !currIsChild && !visitedIsChild">
                     <i class="zmdi zmdi-comments zmdi-hc-2x"></i>
-                    <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.MESSAGE' | translate}} </small>
-
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.MESSAGE' | translate}} </small>
+                    </div>
                   </a>
                 </div>
                 <div id="myHover">
 
-                  <a [routerLink]="" class="clickable-icon" style="color:white; margin:4px" *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent"
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent"
                     (click)="linkToParent()">
                     <i class="zmdi zmdi-accounts-add zmdi-hc-2x"></i>
-                    <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.ADD-AS-PARENT'| translate}}</small>
-
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.ADD-AS-PARENT'| translate}}</small>
+                    </div>
                   </a>
                 </div>
                 <div id="myHover">
 
-                  <a [routerLink]="" class="clickable-icon" style="color:white; margin:4px" *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild"
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild"
                     (click)="EditChildIndependence()">
                     <i class="zmdi zmdi-male-alt zmdi-hc-2x"></i>
-                    <small id="shouldAppearOnHover">{{'PROFILE.PROFILE.MAKE_INDEPENDENT' | translate}} </small>
+                    <div>
+                      <small id="shouldAppearOnHover">{{'PROFILE.PROFILE.MAKE_INDEPENDENT' | translate}} </small>
+                    </div>
                   </a>
                 </div>
                 <div id="myHover">
 
-                  <a [routerLink]="" class="clickable-icon" style="color:white; margin:4px" *ngIf="currIsOwner && !currIsChild && !verified && currIsOfAge"
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="currIsOwner && !currIsChild && !verified && currIsOfAge"
                     (click)="requestContributerValidation()">
                     <i class="zmdi zmdi-check-circle-u zmdi-hc-2x"></i>
-                    <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.BE_VERIFIED_CONTRIBUTOR' |translate}}e </small>
-
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.BE_VERIFIED_CONTRIBUTOR' |translate}}e </small>
+                    </div>
                   </a>
                 </div>
                 <div id="myHover">
 
-                  <a [routerLink]="" class="clickable-icon" style="color:white; margin:4px" *ngIf="currIsOfAge && !currIsOwner && visitedIsOfAge"
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="currIsOfAge && !currIsOwner && visitedIsOfAge"
                     (click)="reportPopUp()">
                     <i class="zmdi zmdi-alert-polygon zmdi-hc-2x"></i>
-                    <small id="shouldAppearOnHover">{{'PROFILE.PROFILE.REPORT' | translate}} </small>
-
+                    <div>
+                      <small id="shouldAppearOnHover">{{'PROFILE.PROFILE.REPORT' | translate}} </small>
+                    </div>
                   </a>
                 </div>
                 <div id="myHover">
 
-                  <a class="clickable-icon" style="color:white; margin:4px" *ngIf="currCanBeParent && currIsOwner" routerLink="/auth/child-sign-up">
+                  <a class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="currCanBeParent && currIsOwner" routerLink="/auth/child-sign-up">
                     <i class="zmdi zmdi-face zmdi-hc-2x"></i>
-                    <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.CREATE_CHILD_ACCOUNT' | translate}} </small>
-
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.CREATE_CHILD_ACCOUNT' | translate}} </small>
+                    </div>
                   </a>
                 </div>
                 <div id="myHover">
 
-                  <a [routerLink]="" class="clickable-icon" style="color:white; margin:4px" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge && !currIsChild"
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge && !currIsChild"
                     (click)="UnlinkMyself()">
                     <i class="zmdi zmdi-close-circle zmdi-hc-2x"></i>
-                    <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}} </small>
-
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}} </small>
+                    </div>
                   </a>
                 </div>
                 <div id="myHover">
 
-                  <a [routerLink]="" class="clickable-icon" style="color:white; margin:4px" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge && !currIsChild"
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge && !currIsChild"
                     (click)="UnlinkMyself()">
                     <i class="zmdi zmdi-close-circle zmdi-hc-2x"></i>
-                    <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}} </small>
-
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}} </small>
+                    </div>
                   </a>
                 </div>
                 <!-- -->
