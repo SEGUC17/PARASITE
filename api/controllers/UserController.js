@@ -521,7 +521,6 @@ module.exports.signUpChild = function (req, res, next) {
     var newUser = new User();
     // --- Variable Assign --- //
     //  console.log('about to set attributes of child');
-    newUser.address = req.body.address;
     newUser.birthdate = req.body.birthdate;
     newUser.children = [];
     newUser.educationLevel = req.body.educationLevel;
@@ -533,7 +532,6 @@ module.exports.signUpChild = function (req, res, next) {
     newUser.isTeacher = false;
     newUser.lastName = req.body.lastName;
     newUser.password = req.body.password;
-    newUser.phone = req.body.phone;
     newUser.username = req.body.username;
     newUser.interests = req.body.interests;
     // --- End of "Variable Assign" --- //
@@ -543,8 +541,6 @@ module.exports.signUpChild = function (req, res, next) {
     //---types and formats validations--////
     var field = '';
     try {
-        field = 'Address';
-        isString(newUser.address ? newUser.address : '');
         field = 'Birtdate';
         isDate(newUser.birthdate ? newUser.birthdate : new Date());
         isArray(newUser.children ? newUser.children : []);
@@ -559,8 +555,6 @@ module.exports.signUpChild = function (req, res, next) {
         isString(newUser.lastName ? newUser.lastName : '');
         field = 'Password';
         isString(newUser.password ? newUser.password : '');
-        field = 'Phone';
-        isArray(newUser.phone ? newUser.phone : []);
         field = 'Username';
         isString(newUser.username ? newUser.username : '');
         field = 'EductaionLevel';
@@ -619,17 +613,6 @@ module.exports.signUpChild = function (req, res, next) {
         ? newUser.username.toLowerCase().trim()
         : newUser.username;
     // --- End of "Trimming & Lowering Cases"--- //
-    // --- Check: Phone Regex Match ---//
-    for (var index2 = 0; index2 < newUser.phone.length; index2 += 1) {
-        if (!newUser.phone[index2].match(REGEX.PHONE_REGEX)) {
-            return res.status(422).json({
-                data: null,
-                err5: null,
-                msg: 'Phone Is Not Valid!'
-            });
-        }
-    }
-    // --- End of "Check: Phone Regex Match" ---//
     // --- Check: Email Regex Match --- //
     if (!newUser.email.match(REGEX.MAIL_REGEX)) {
         return res.status(422).json({

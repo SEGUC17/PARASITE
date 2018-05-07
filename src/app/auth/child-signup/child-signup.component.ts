@@ -2,7 +2,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../auth.service';
-import { cities } from '../../variables';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -25,7 +24,6 @@ export class ChildSignupComponent implements OnInit {
   Email: String = '';
   Address: String = '';
   Birthdate: Date;
-  Phone: [String] = [''];
   Div1 = false;
   Div2 = false;
   Div3 = false;
@@ -37,7 +35,6 @@ export class ChildSignupComponent implements OnInit {
   Educational_system: String = '';
   systems: any = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
   levels: any = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
-  public cities = cities;
 
   public interests = new Set();
   public interest;
@@ -75,7 +72,7 @@ export class ChildSignupComponent implements OnInit {
     if (this.AllisWell) {
       this.User = {
         'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
-        'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone,
+        'birthdate': this.Birthdate, 'email': this.Email,
         'address': this.Address, 'educationLevel': self.Educational_level, 'educationSystem': self.Educational_system,
         'interests': Array.from(this.interests)
       };
@@ -85,6 +82,7 @@ export class ChildSignupComponent implements OnInit {
           self.translate.get('AUTH.TOASTER.CHILD_SIGN_UP_SUCCESSFULL').subscribe(
             function (translation) {
               self.toastrService.success(translation);
+              self.authService.redirectToHomePage();
             }
           );
         }
