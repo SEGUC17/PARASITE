@@ -24,7 +24,12 @@
             "REQUIRED_FIELDS": "الخانات المطلوبة",
             "SUBMIT": "اضافة",
             "FORM_FILL_ERROR": "بالرجاء ملءالبيانات بشكل صحيحة",
-            "TAGS": "إشارات"
+            "TAGS": "إشارات",
+            "NAME_PLACEHOLDER": "اسم النشاط*",
+            "DESCRIPTION_PLACEHOLDER": "وصف النشاط",
+            "PRICE_PLACEHOLDER": "السعر*",
+            "DATE_PLACEHOLDER": "من* مثال: 30/07/2016",
+            "TO_DATE_PLACEHOLDER": "إلى* مثال: 30/07/2016"
         },
         "LIST": {
             "ACTIVITIES": "الانشطة",
