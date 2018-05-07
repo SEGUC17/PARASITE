@@ -21,22 +21,79 @@
     <div class="row clearfix">
       <div class="col-lg-12 col-md-12">
           <div class="card member-card">
-              <div class="header" style="background-image: url('assets/images/profile-view/stars.jpg');">
-                <h4 style="color:white" class="text-muted col-white m-t-10"><strong>{{currIsOwner? firstName : vFirstName}}</strong> {{currIsOwner? lastName : vLastName}}</h4>
+              <div class="header " style="background-image: url('assets/images/profile-view/stars.jpg'); height:190px">
+                <div id="shifted" class="col-12 row" [style.left]="translate.currentLang === 'ara'? null: '40px'" [style.right]="translate.currentLang === 'ara'? '50px': null">
+                <div class="col-lg-4 col-md-12 row">
+                  <!-- -->
+                  <a  [routerLink]="" class="clickable-icon" style="color:white; margin:4px"
+                  *ngIf="currIsOwner" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture">
+                      <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
+                  </a>
+                  <a  [routerLink]="" class="clickable-icon" style="color:white; margin:4px"
+                  data-toggle="modal" data-target="#directMessageModal" *ngIf="!currIsOwner && !currIsChild && !visitedIsChild">
+                      <i class="zmdi zmdi-comments zmdi-hc-2x" data-toggle="tooltip" data-placement="bottom" title="{{'PROFILE.PROFILE.MESSAGE' | translate}}"></i>
+                  </a>
+                  <a  [routerLink]="" class="clickable-icon" style="color:white; margin:4px"
+                  *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent" (click)="linkToParent()">
+                      <i class="zmdi zmdi-accounts-add zmdi-hc-2x" data-toggle="tooltip" data-placement="bottom" title="{{'PROFILE.PROFILE.ADD-AS-PARENT'| translate}}"></i>
+                  </a>
+                  <a  [routerLink]="" class="clickable-icon" style="color:white; margin:4px"
+                  *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild" (click)="EditChildIndependence()">
+                      <i class="zmdi zmdi-male-alt zmdi-hc-2x" data-toggle="tooltip" data-placement="bottom" title="{{'PROFILE.PROFILE.MAKE_INDEPENDENT' | translate}}"></i>
+                  </a>
+                  <a  [routerLink]="" class="clickable-icon" style="color:white; margin:4px"
+                  *ngIf="currIsOwner && !currIsChild && !verified && currIsOfAge" (click)="requestContributerValidation()">
+                      <i class="zmdi zmdi-check-circle-u zmdi-hc-2x" data-toggle="tooltip" data-placement="bottom" title="{{'PROFILE.PROFILE.BE_VERIFIED_CONTRIBUTOR' |translate}}"></i>
+                  </a>
+                  <a  [routerLink]="" class="clickable-icon" style="color:white; margin:4px"
+                  *ngIf="currIsOfAge && !currIsOwner && visitedIsOfAge" (click)="reportPopUp()">
+                      <i class="zmdi zmdi-alert-polygon zmdi-hc-2x" data-toggle="tooltip" data-placement="bottom" title="{{'PROFILE.PROFILE.REPORT' | translate}}"></i>
+                  </a>
+                  <a class="clickable-icon" style="color:white; margin:4px"
+                  *ngIf="currCanBeParent && currIsOwner" routerLink="/auth/child-sign-up">
+                      <i class="zmdi zmdi-face zmdi-hc-2x" data-toggle="tooltip" data-placement="bottom" title="{{'PROFILE.PROFILE.CREATE_CHILD_ACCOUNT' | translate}}"></i>
+                  </a>
+                  <a  [routerLink]="" class="clickable-icon" style="color:white; margin:4px" 
+                  *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge && !currIsChild" (click)="UnlinkMyself()">
+                      <i class="zmdi zmdi-close-circle zmdi-hc-2x" data-toggle="tooltip" data-placement="bottom" title="{{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}}"></i>
+                  </a>
+                  <a  [routerLink]="" class="clickable-icon" style="color:white; margin:4px"
+                  *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge && !currIsChild" (click)="UnlinkMyself()">
+                      <i class="zmdi zmdi-close-circle zmdi-hc-2x" data-toggle="tooltip" data-placement="bottom" title="{{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}}"></i>
+                  </a>
+                  <!-- -->  
+                </div>
+
+                <div class="col-lg-4 col-md-12">
+                    <h4 style="color:white" class="text-muted col-white m-t-10"><strong>{{currIsOwner? firstName : vFirstName}}</strong> {{currIsOwner? lastName : vLastName}}</h4>
+                  </div>
+                <div class="col-lg-4 col-md-12">
+                    <span class="dropdown" [style.text-align]="translate.currentLang === 'ara'? 'right':'left'">
+                        <button class="btn btn-white btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                          *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
+                          <span>{{'PROFILE.PROFILE.LINK_TO_CHILD' | translate}}</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right pullDown">
+                          <li *ngFor="let child of listOfUncommonChildren">
+                            <a class="dummyLink" (click)="addChild(child)">
+                              <strong>{{child}}</strong>
+                            </a>
+                          </li>
+                        </ul>
+                      </span>
+                </div>
+              </div>
               </div>
               <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  class="member-img">
                 <img style="object-fit: cover; height:180px; width:180px" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  class="rounded-circle"
                   src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
                   alt="Profile Picture">
                   <br>
-                <a *ngIf="currIsOwner" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right;">
-                  <i class="zmdi zmdi-edit"></i>
-                </a>
               </div>
               
               <div class="body">
                 <div class="col-12">
-                  <p class="text-muted">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
+                  <p class="text-muted">{{currIsOwner? address : vAddress}}</p>
                 </div>
                 <hr>
                 <div class="row">
@@ -95,6 +152,7 @@
                     style="float: right" *ngIf="currCanBeParent && currIsOwner" routerLink="/auth/child-sign-up">{{'PROFILE.PROFILE.CREATE_CHILD_ACCOUNT' | translate}}</button>
                   <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple"
                     style="float: right" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge && !currIsChild" (click)="UnlinkMyself()">{{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}}</button>
+
                   <span class="dropdown" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
                     <button class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
                       *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
@@ -109,6 +167,7 @@
                       </li>
                     </ul>
                   </span>
+
                 </div>
               </div>
             </div>
