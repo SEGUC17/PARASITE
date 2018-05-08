@@ -102,7 +102,7 @@
                 <h4 style="color:white" class="text-muted col-white m-t-10">
                   <strong>{{currIsOwner? firstName : vFirstName}}</strong> {{currIsOwner? lastName : vLastName}}</h4>
               </div>
-              <div class="col-lg-4 col-md-12">
+              <div class="col-lg-4 col-md-12" [style.text-align]="translate.currentLang == 'ara'? 'left': 'right'">
                 <span class="dropdown">
                   <button class="btn btn-white btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
                     *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
