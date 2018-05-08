@@ -394,6 +394,10 @@
         "REQ_DETAIL": {
             "PROD_NAME": "Product's name",
             "ACQTYPELABEL": "Acquiring type: "
+        },
+        "TOASTER": {
+            "ALL_DATA": "Please make sure you have filled all the required fields.",
+            "IMAGE_FAILED": "Image upload failed. Please try again"
         }
     },
     "MESSAGING": {

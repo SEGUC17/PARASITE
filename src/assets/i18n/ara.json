@@ -50,12 +50,12 @@
             "COMMENT": "اضف تعليق",
             "REPLY": "اضف رد",
             "BOOK_FOR": "احجز لطفلك",
-            "DESCRIPTION":"الوصف",
+            "DESCRIPTION": "الوصف",
             "WRITE_COMMENT": "...اترك تعليق",
             "BOOK_SUCCESS": "....تم الحجز بنجاح",
             "BOOK": "احجز ",
-            "NOW":"الآن",
-            "DETAILS":"تفاصيل"
+            "NOW": "الآن",
+            "DETAILS": "تفاصيل"
         },
         "EDIT": {
             "EDIT_ACTIVITY": "تعديل النشاط",
@@ -254,8 +254,8 @@
             "DONE": "تمَّت",
             "STEP_ONE": "الخطوة الأولى",
             "STEP_TWO": "الخطوةالثانية",
-            "STEP_THREE": "الخطوة الثالثة", 
-            "CHILD_SIGN_UP":"انشاء حساب جديد لطفلك"
+            "STEP_THREE": "الخطوة الثالثة",
+            "CHILD_SIGN_UP": "انشاء حساب جديد لطفلك"
         }
     },
     "CONTENT": {
@@ -406,6 +406,10 @@
         "REQ_DETAIL": {
             "PROD_NAME": "اسم المنتج",
             "ACQTYPELABEL": ":نوع الشراء"
+        },
+        "TOASTER": {
+            "ALL_DATA": "يرجى التأكد من ملء جميع المعلومات المطلوبة",
+            "IMAGE_FAILED": "فشل تحميل الصورة. حاول مرة اخرى"
         }
     },
     "MESSAGING": {
