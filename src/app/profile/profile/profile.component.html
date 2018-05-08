@@ -1,82 +1,214 @@
-<section class="content profile-page" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-  <div class="block-header" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-    <div class="row">
-      <div class="col-lg-7 col-md-6 col-sm-12">
-        <!-- <h2>Profile
-        </h2> -->
-      </div>
-      <div class="col-lg-5 col-md-6 col-sm-12" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-        <!-- <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button">
-          <i class="zmdi zmdi-plus"></i>
-        </button> -->
-        <ul class="breadcrumb float-md-right" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [dir]="translate.currentLang === 'ara'? 'rtl': null"
-          [style.float]="translate.currentLang === 'ara'? 'left': 'left'">
-          <li class="breadcrumb-item">
-            <a routerLink="/dashboard">
-              <i class="zmdi zmdi-home"></i> {{ 'PROFILE.PROFILE.NAWWAR' | translate }}</a>
-          </li>
-          <li class="breadcrumb-item active">{{'PROFILE.PROFILE.MY_PROFILE' | translate }}</li>
-        </ul>
-      </div>
-    </div>
+<section class="content profile-page">
+  <div class="block-header">
   </div>
   <div class="container-fluid">
     <div class="row clearfix">
       <div class="col-lg-12 col-md-12">
-        <div class="card profile-header bg-dark">
-          <div class="body col-white">
-            <div class="row">
-              <div class="col-lg-3 col-md-4 col-12">
-                <div class="profile-image float-md-right">
-                  <img style="object-fit: cover; width: 230px; height: 230px;" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
-                    src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
-                    alt="Profile Picture">
-                  <br/>
-                  <a *ngIf="currIsOwner" href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture" style="float:right">
-                    <i class="zmdi zmdi-edit"></i>
+        <div class="card member-card">
+          <div class="header upper " style="background-image: url('assets/images/profile-view/stars.jpg');">
+            <div id="shifted" class="col-12 row" [style.left]="translate.currentLang === 'ara'? null: '40px'" [style.right]="translate.currentLang === 'ara'? '50px': null">
+              <div class="col-lg-4 col-md-12 row">
+                <!-- -->
+                <div id="myHover">
+                  <a class="clickable-icon" style="color:white; margin:4px" *ngIf="currIsOwner" href="#defaultModal" data-toggle="modal" data-target="#defaultModal"
+                    title="Change picture">
+                    <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
+                    <div>
+                      <small id="shouldAppearOnHover"> {{ 'PROFILE.PROFILE.CHANGE_PICTURE' | translate }} </small>
+                    </div>
                   </a>
                 </div>
+                <div id="myHover">
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" data-toggle="modal" data-target="#directMessageModal"
+                    *ngIf="!currIsOwner && !currIsChild && !visitedIsChild">
+                    <i class="zmdi zmdi-comments zmdi-hc-2x"></i>
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.MESSAGE' | translate}} </small>
+                    </div>
+                  </a>
+                </div>
+                <div id="myHover">
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent"
+                    (click)="linkToParent()">
+                    <i class="zmdi zmdi-accounts-add zmdi-hc-2x"></i>
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.ADD-AS-PARENT'| translate}}</small>
+                    </div>
+                  </a>
+                </div>
+                <div id="myHover">
+
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild"
+                    (click)="EditChildIndependence()">
+                    <i class="zmdi zmdi-male-alt zmdi-hc-2x"></i>
+                    <div>
+                      <small id="shouldAppearOnHover">{{'PROFILE.PROFILE.MAKE_INDEPENDENT' | translate}} </small>
+                    </div>
+                  </a>
+                </div>
+                <div id="myHover">
+
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="currIsOwner && !currIsChild && !verified && currIsOfAge"
+                    (click)="requestContributerValidation()">
+                    <i class="zmdi zmdi-check-circle-u zmdi-hc-2x"></i>
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.BE_VERIFIED_CONTRIBUTOR' |translate}}e </small>
+                    </div>
+                  </a>
+                </div>
+                <div id="myHover">
+
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="currIsOfAge && !currIsOwner && visitedIsOfAge"
+                    (click)="reportPopUp()">
+                    <i class="zmdi zmdi-alert-polygon zmdi-hc-2x"></i>
+                    <div>
+                      <small id="shouldAppearOnHover">{{'PROFILE.PROFILE.REPORT' | translate}} </small>
+                    </div>
+                  </a>
+                </div>
+                <div id="myHover">
+
+                  <a class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="currCanBeParent && currIsOwner" routerLink="/auth/child-sign-up">
+                    <i class="zmdi zmdi-face zmdi-hc-2x"></i>
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.CREATE_CHILD_ACCOUNT' | translate}} </small>
+                    </div>
+                  </a>
+                </div>
+                <div id="myHover">
+
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge && !currIsChild"
+                    (click)="UnlinkMyself()">
+                    <i class="zmdi zmdi-close-circle zmdi-hc-2x"></i>
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}} </small>
+                    </div>
+                  </a>
+                </div>
+                <div id="myHover">
+
+                  <a [routerLink]="" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge && !currIsChild"
+                    (click)="UnlinkMyself()">
+                    <i class="zmdi zmdi-close-circle zmdi-hc-2x"></i>
+                    <div>
+                      <small id="shouldAppearOnHover"> {{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}} </small>
+                    </div>
+                  </a>
+                </div>
+                <!-- -->
               </div>
-              <div class="col-lg-9 col-md-8 col-12">
-                <h4 class="m-t-0 m-b-0" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [align]="translate.currentLang === 'ara'? 'right': null">
+
+              <div class="col-lg-4 col-md-12">
+                <h4 style="color:white" class="text-muted col-white m-t-10">
                   <strong>{{currIsOwner? firstName : vFirstName}}</strong> {{currIsOwner? lastName : vLastName}}</h4>
-                <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post" href="javascript:void(0);" *ngIf="(currIsOwner && currIsAdmin) || visitedIsAdmin">
-                  <div [align]="translate.currentLang === 'ara'? 'right': null">
-                    <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="material-icons">verified_user</i> {{currIsOwner? (currIsAdmin? 'Admin' : '' ) : (visitedIsAdmin? 'Admin' : '' ) }}</div>
-                </a>
-                <p [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [align]="translate.currentLang === 'ara'? 'right': null">{{currIsOwner? address : vAddress}}</p>
-                <div>
-                  <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple"
-                    data-toggle="modal" data-target="#directMessageModal" *ngIf="!currIsOwner && !currIsChild && !visitedIsChild">{{'PROFILE.PROFILE.MESSAGE' | translate}}</button>
-                  <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple"
-                    *ngIf="!currIsOwner && currIsOfAge && !visitedIsChild && !visitedIsMyParent && visitedCanBeParent && !currIsParent"
-                    (click)="linkToParent()">{{'PROFILE.PROFILE.ADD-AS-PARENT'| translate}}</button>
-                  <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple"
-                    *ngIf="!currIsOwner && visitedIsMyChild && visitedIsOfAge && visitedIsChild" (click)="EditChildIndependence()">{{'PROFILE.PROFILE.MAKE_INDEPENDENT' | translate}}</button>
-                  <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple"
-                    *ngIf="currIsOwner && !currIsChild && !verified && currIsOfAge" (click)="requestContributerValidation()">{{'PROFILE.PROFILE.BE_VERIFIED_CONTRIBUTOR' |translate}}</button>
-                  <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple"
-                    style="float: right" *ngIf="currIsOfAge && !currIsOwner && visitedIsOfAge" (click)="reportPopUp()">{{'PROFILE.PROFILE.REPORT' | translate}}</button>
-                  <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple"
-                    style="float: right" *ngIf="currCanBeParent && currIsOwner" routerLink="/auth/child-sign-up">{{'PROFILE.PROFILE.CREATE_CHILD_ACCOUNT' | translate}}</button>
-                  <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-primary btn-round btn-simple"
-                    style="float: right" *ngIf="!currIsOwner && visitedIsMyParent && currIsOfAge && !currIsChild" (click)="UnlinkMyself()">{{'PROFILE.PROFILE.UNLINK_MY_PARENT' | translate}}</button>
-                  <span class="dropdown" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-                    <button class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-                      *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
-                      <span>{{'PROFILE.PROFILE.LINK_TO_CHILD' | translate}}</span>
-                    </button>
-                    <!-- class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" -->
-                    <ul class="dropdown-menu dropdown-menu-right pullDown">
-                      <li *ngFor="let child of listOfUncommonChildren">
-                        <a class="dummyLink" (click)="addChild(child)">
-                          <strong>{{child}}</strong>
+              </div>
+              <div class="col-lg-4 col-md-12" [style.text-align]="translate.currentLang == 'ara'? 'left': 'right'">
+                <span class="dropdown">
+                  <button class="btn btn-white btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+                    *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
+                    <span>{{'PROFILE.PROFILE.LINK_TO_CHILD' | translate}}</span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right pullDown">
+                    <li *ngFor="let child of listOfUncommonChildren">
+                      <a class="dummyLink" (click)="addChild(child)">
+                        <strong>{{child}}</strong>
+                      </a>
+                    </li>
+                  </ul>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="member-img">
+            <img style="object-fit: cover; height:200px; width:200px" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
+              class="rounded-circle" src="{{currIsOwner? (currHasPP? avatar : 'assets/images/defaultProfilePic.png') : (visitedHasPP? vAvatar : 'assets/images/defaultProfilePic.png')}}"
+              alt="Profile Picture">
+            <br>
+          </div>
+
+          <div class="body">
+            <div class="col-12">
+              <p class="text-muted">{{currIsOwner? address : vAddress}}</p>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-4 pt-1">
+                <small>
+                  <strong style="color:#63c6b6">{{ 'PROFILE.PROFILE.LEARNING' | translate }}</strong> {{ 'PROFILE.PROFILE.LEARNING_SCORE' | translate }}</small>
+                <h5 class="pt-1">{{learningScore}}</h5>
+              </div>
+              <div class="col-4">
+                <div class="col-lg-12 col-md-12 col-sm-12 justify-content-center">
+                  <div class="container pt-3">
+                    <div class="row justify-content-md-center">
+
+                      <!-- admin icon -->
+                      <div class="col-lg-3 col-md-3 col-sm-3" id="HoverDisplay" align="center" *ngIf="currIsAdmin">
+                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post" *ngIf="currIsAdmin">
+                          <div [align]="translate.currentLang === 'ara'? 'right': null">
+                            <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-accounts-list zmdi-hc-2x " style="color:#f96332">
+                            </i>
+                            <small id="AppearOnHoverDisplay">{{ 'PROFILE.PROFILE.ADMIN_MEDAL' | translate }}</small>
+                          </div>
                         </a>
-                      </li>
-                    </ul>
-                  </span>
+                      </div>
+                      <!-- verified contributer icon -->
+                      <div class="col-lg-3 col-md-3 col-sm-3 " id="HoverDisplay" align="center" *ngIf="verified">
+                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="verified">
+                          <div [align]="translate.currentLang === 'ara'? 'right': null">
+                            <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-shield-check zmdi-hc-2x" style="color:#f96332">
+                            </i>
+                            <small id="AppearOnHoverDisplay">{{ 'PROFILE.PROFILE.VERIFIED_CONTRIBUTOR_MEDAL' | translate }}</small>
+
+                          </div>
+                        </a>
+                      </div>
+                      <!-- teacher icon -->
+                      <div class="col-lg-3 col-md-3 col-sm-3" align="center" id="HoverDisplay" *ngIf="currIsTeacher">
+                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="currIsTeacher">
+                          <div [align]="translate.currentLang === 'ara'? 'right': null">
+                            <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-case zmdi-hc-2x" style="color:#f96332">
+                            </i>
+                            <small id="AppearOnHoverDisplay">{{ 'PROFILE.PROFILE.TEACHER_MEDAL' | translate }}</small>
+
+                          </div>
+                        </a>
+                      </div>
+
+                      <!-- child icon -->
+                      <div class="col-lg-3 col-md-3 col-sm-3 " align="center" id="HoverDisplay" *ngIf="currIsChild">
+                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="currIsChild">
+                          <div [align]="translate.currentLang === 'ara'? 'right': null">
+                            <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-directions-bike zmdi-hc-2x" style="color:#f96332">
+                            </i>
+                            <small id="AppearOnHoverDisplay">{{ 'PROFILE.PROFILE.CHILD_MEDAL' | translate }}</small>
+
+                          </div>
+                        </a>
+                      </div>
+                      <!-- parent icon -->
+                      <div class="col-lg-3 col-md-3 col-sm-3" align="center" id="HoverDisplay" *ngIf="currIsParent">
+                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="(currIsOwner && currIsParent) || visitedIsAdmin">
+                          <div [align]="translate.currentLang === 'ara'? 'right': null">
+                            <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-accounts zmdi-hc-2x" style="color:#f96332">
+                            </i>
+                            <small id="AppearOnHoverDisplay">{{ 'PROFILE.PROFILE.PARENT_MEDAL' | translate }}</small>
+
+                          </div>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              <div class="col-4 pt-1">
+                <small>
+                  <strong style="color:#63c6b6">{{ 'PROFILE.PROFILE.CONTRIBUTION' | translate }}</strong> {{ 'PROFILE.PROFILE.CONTRIBUTION_SCORE' | translate
+                  }}
+                </small>
+                <h5 class="pt-1">{{contributionScore}}</h5>
+              </div>
+
             </div>
           </div>
         </div>
@@ -84,8 +216,8 @@
 
     </div>
     <div class="row clearfix">
-      <div class="col-lg-4 col-md-12">
-        <div class="card" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" dir="auto">
+      <div class="col-md-12" id="aboutt">
+        <div class="card" dir="auto">
           <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" data-toggle="tab" href="#about">{{'PROFILE.PROFILE.ABOUT' | translate}}</a>
@@ -138,16 +270,16 @@
       <div class="col-lg-8 col-md-12">
         <div *ngIf="currIsOwner || visitedIsMyChild" class="card bg-dark">
           <ul class="nav nav-tabs">
-            <li class="nav-item" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+            <li class="nav-item">
               <a class="nav-link" data-toggle="tab" href="#children" *ngIf="currIsOwner && !currIsChild">{{'PROFILE.PROFILE.CHILDREN' | translate}}</a>
             </li>
-            <li class="nav-item" *ngIf="currIsOwner || visitedIsMyChild" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+            <li class="nav-item" *ngIf="currIsOwner || visitedIsMyChild">
               <a class="nav-link" data-toggle="tab" href="#studyplans">{{'PROFILE.PROFILE.STUDY_PLANS' | translate}}</a>
             </li>
-            <li class="nav-item" *ngIf="currIsOwner && currIsOfAge" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
-              <a class="nav-link" data-toggle="tab" href="#userSettings">{{'PROFILE.PROFILE.SETTINGS'| translate}}</a>
+            <li class="nav-item" *ngIf="currIsOwner && currIsOfAge">
+              <a class="nav-link active show" data-toggle="tab" href="#userSettings">{{'PROFILE.PROFILE.SETTINGS'| translate}}</a>
             </li>
-            <li class="nav-item" *ngIf="visitedIsMyChild" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+            <li class="nav-item" *ngIf="visitedIsMyChild">
               <a class="nav-link" data-toggle="tab" href="#childSettings">{{'PROFILE.PROFILE.SETTINGS' | translate}}</a>
             </li>
           </ul>
@@ -158,7 +290,7 @@
 
             <div class="row clearfix">
               <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="card" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
+                <div class="card" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
                   <div class="header">
                     <h2>
                       <strong>{{'PROFILE.PROFILE.MY_CHILE' | translate}}</strong> {{'PROFILE.PROFILE.CHILD_INFO' | translate}}</h2>
@@ -182,35 +314,35 @@
                     </div>
                     <label for="dEducationSystem">{{'PROFILE.PROFILE.EDUCATION_SYSTEM'| translate}}</label>
                     <br/>
-                    <div id="dEducationSystem" class="btn-group hidden-sm-down">
-                      <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{currIsOwner? educationalSystem : vEducationalSystem}}
-                        <span class="caret"></span>
-                      </button>
+                    <li class="dropdown hide-sm-down">
+                      <a class="dropdown-toggle btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" href="javascript:void(0);">
+                        <span>{{educationalSystem}}</span>
+                      </a>
                       <ul class="dropdown-menu dropdown-menu-right pullDown">
                         <li *ngFor="let system of vSystems" (click)="systemIs(system)">
                           <a href="javascript:void(0);">{{system}}</a>
                         </li>
                       </ul>
-                    </div>
+                    </li>
                     <br/>
                     <label for="dEducationLevel">{{'PROFILE.PROFILE.EDUCATION_LEVEL'| translate}}</label>
                     <br/>
-                    <div id="dEducationSystem" class="btn-group hidden-sm-down">
-                      <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{currIsOwner? educationalLevel : vEducationalLevel}}
-                        <span class="caret"></span>
-                      </button>
+                    <li class="dropdown hide-sm-down">
+                      <a class="dropdown-toggle btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" href="javascript:void(0);">
+                        <span>{{educationalLevel}}</span>
+                      </a>
                       <ul class="dropdown-menu dropdown-menu-right pullDown">
                         <li *ngFor="let level of vLevels" (click)="levelIs(level)">
                           <a href="javascript:void(0);">{{level}}</a>
                         </li>
                       </ul>
-                    </div>
+                    </li>
                     <br/>
                     <label for="dAddress">{{'PROFILE.PROFILE.ADDRESS' |translate}}</label>
                     <div class="form-group">
                       <input type="text" id="dAddress" [ngModel]=dAddress class="form-control" value={{vAddress}}>
                     </div>
-                    <label dir="ltr" for="dBirthday">{{'PROFILE.PROFILE.EDIT_BD' | translate}}</label>
+                    <label for="dBirthday">{{'PROFILE.PROFILE.EDIT_BD' | translate}}</label>
                     <div class="input-group">
                       <span class="input-group-addon">
                         <i class="zmdi zmdi-calendar"></i>
@@ -229,12 +361,11 @@
 
             <!-- End Child Info -->
           </div>
-          <div role="tabpanel" class="tab-pane" id="userSettings" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
-            dir="auto" [align]="translate.currentLang === 'ara'? 'right': null">
+          <div role="tabpanel" *ngIf="currIsOwner && currIsOfAge" class="tab-pane active" id="userSettings" dir="auto" [align]="translate.currentLang === 'ara'? 'right': null">
             <div class="card">
               <div class="header">
                 <h2>
-                  <strong>{{'PROFILE.PROFILE.SECURITY' | translate}}</strong>{{'PROFILE.PROFILE.SETTINGS' | translate}} </h2>
+                  <strong>{{'PROFILE.PROFILE.SECURITY' | translate}}</strong> {{'PROFILE.PROFILE.SETTINGS' | translate}} </h2>
               </div>
               <div class="body">
                 <div class="form-group">
@@ -279,7 +410,7 @@
                       <input type="text" id="qAddress" [ngModel]=dAddress class="form-control" value={{address}}>
                     </div>
                     <label for="dBirthday">{{'PROFILE.PROFILE.EDIT_BD' | translate}}</label>
-                    <div class="input-group" dir="ltr">
+                    <div class="input-group">
                       <span class="input-group-addon">
                         <i class="zmdi zmdi-calendar"></i>
                       </span>
@@ -307,7 +438,6 @@
                   -moz-column-count: 3;
                   /* Firefox */
                   column-count: 3;
-
                   -webkit-column-gap: 80px;
                   /* Chrome, Safari, Opera */
                   -moz-column-gap: 80px;
@@ -330,11 +460,10 @@
               </div>
             </div>
           </div>
-          <div role="tabpanel" class="tab-pane" id="children" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"
-            [align]="translate.currentLang === 'ara'? 'right': null">
+          <div role="tabpanel" class="tab-pane" id="children" [align]="translate.currentLang === 'ara'? 'right': null">
             <app-childern></app-childern>
           </div>
-          <div role="tabpanel" class="tab-pane" id="studyplans" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+          <div role="tabpanel" class="tab-pane" id="studyplans">
             <div class="card">
               <div class="body">
                 <div *ngIf="!currIsChild && currIsOwner">
@@ -343,21 +472,25 @@
                   <br />
                   <br />
                 </div>
-                <div class="row">
-                  <div class="card col-4" *ngFor="let studyPlan of studyPlans; let index = index">
-                    <div class="header">
-                      <h2>
-                        <span class="badge badge-assigned float-right" *ngIf="studyPlan.assigned">{{'PROFILE.PROFILE.ASSIGNED' | translate}}</span>
-                        <strong>{{studyPlan.title}}</strong>
-                        <br/> {{studyPlan.creator}}
-                      </h2>
-                    </div>
-                    <div class="body">
-                      <p>
-                        <a class="btn btn-primary" routerLink="/scheduling/study-plan/personal/{{ studyPlan._id }}/{{ currIsOwner ? username : vUsername }}">{{'PROFILE.PROFILE.VIEW' | translate}}</a>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#studyPlanDeleteModal" (click)="studyPlanIndex = index"
-                          color="primary" *ngIf="!currIsChild">{{'PROFILE.PROFILE.DELETE' | translate}}</button>
-                      </p>
+                <div class="container">
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-4" *ngFor="let studyPlan of studyPlans; let index = index">
+                      <div class="card">
+                        <div class="header">
+                          <h2>
+                            <span class="badge badge-assigned float-right" *ngIf="studyPlan.assigned">{{'PROFILE.PROFILE.ASSIGNED' | translate}}</span>
+                            <strong>{{studyPlan.title}}</strong>
+                            <br/> {{studyPlan.creator}}
+                          </h2>
+                        </div>
+                        <div class="body">
+                          <p>
+                            <a class="btn btn-primary" routerLink="/scheduling/study-plan/personal/{{ studyPlan._id }}/{{ currIsOwner ? username : vUsername }}">{{'PROFILE.PROFILE.VIEW' | translate}}</a>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#studyPlanDeleteModal" (click)="studyPlanIndex = index"
+                              color="primary" *ngIf="!currIsChild">{{'PROFILE.PROFILE.DELETE' | translate}}</button>
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

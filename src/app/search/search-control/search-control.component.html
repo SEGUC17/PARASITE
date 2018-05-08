@@ -1,135 +1,137 @@
 <section class="content search-control" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
-    <div class="block-header">
-      <div class="row">
-        <div class="col-lg-7 col-md-6 col-sm-12">
-          <h2>{{'SEARCH.CONNECTING_PARENTS' | translate}}
-            <small>{{'SEARCH.REACH_OUT_TO_OTHER_PARENTS' | translate}} !</small>
-          </h2>
-        </div>
-        <div class="col-lg-5 col-md-6 col-sm-12">
-          <ul class="breadcrumb" [style.float]="translate.currentLang === 'ara'? 'left': 'right'">
-            <li class="breadcrumb-item">
-              <a routerLink="/dashboard">
-                <i class="zmdi zmdi-home"></i> {{'APP.NAWWAR'| translate}} </a>
-            </li>
-            <li class="breadcrumb-item active">{{'SEARCH.CONNECTING_PARENTS' | translate}}</li>
-          </ul>
-        </div>
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-7 col-md-6 col-sm-12">
+        <h2>{{'SEARCH.CONNECTING_PARENTS' | translate}}
+          <small>{{'SEARCH.REACH_OUT_TO_OTHER_PARENTS' | translate}} !</small>
+        </h2>
+      </div>
+      <div class="col-lg-5 col-md-6 col-sm-12">
+        <ul class="breadcrumb" [style.float]="translate.currentLang === 'ara'? 'left': 'right'">
+          <li class="breadcrumb-item">
+            <a routerLink="/dashboard">
+              <i class="zmdi zmdi-home"></i> {{'APP.NAWWAR'| translate}} </a>
+          </li>
+          <li class="breadcrumb-item active">{{'SEARCH.CONNECTING_PARENTS' | translate}}</li>
+        </ul>
       </div>
     </div>
-    <div class="container-fluid">
-      <div class="row clearfix">
-        <div class="col-lg-12">
-          <div class="card action_bar">
-            <div class="body">
-              <div class="row clearfix">
-                <div class="col-lg-5 col-md-4 col-6">
-                  <div class="input-group search" *ngIf="filter[2]!='eduS'">
-                    <span class="input-group-addon">
-                      <i class="zmdi zmdi-search"></i>
-                    </span>
-                    <input type="text" class="form-control" placeholder="{{ 'SEARCH.SEARCH_PLACEHOLDER' | translate }}" (keydown.enter)="this.getParents()" [(ngModel)]="searchKey">
-                  </div>
-                  <div *ngIf="filter[2]=='eduS'">
-                      <div class="radio">
-                          <input type="radio" name="radio1" id="radio1" value="Thanaweya Amma" checked="" (click)="applyEDUS('Thanaweya Amma')">
-                          <label for="radio1">
-                            {{'SEARCH.THANAWEYA_AMMA'| translate}}
-                          </label>
-                        <input type="radio" name="radio1" id="radio2" value="IG" (click)="applyEDUS('IG')">
-                        <label for="radio2">
-                          {{'SEARCH.IG'|translate}}
-                        </label>
-                        <input type="radio" name="radio1" id="radio3" value="American Diploma"  (click)="applyEDUS('American Diploma')">
-                        <label for="radio3">
-                          {{'SEARCH.AMERICAN_DIPLOMA'|translate}}
-                        </label>
-                      </div>
-                    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row clearfix">
+      <div class="col-lg-12">
+        <div class="card action_bar">
+          <div class="body">
+            <div class="row clearfix">
+              <div class="col-lg-5 col-md-4 col-6">
+                <div class="input-group search" *ngIf="filter[2]!='eduS'">
+                  <span class="input-group-addon">
+                    <i class="zmdi zmdi-search"></i>
+                  </span>
+                  <input type="text" class="form-control" placeholder="{{ 'SEARCH.SEARCH_PLACEHOLDER' | translate }}" (keydown.enter)="this.getParents()"
+                    [(ngModel)]="searchKey">
                 </div>
-                  <div class="btn-group hidden-sm-down">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="zmdi zmdi-label"></i>
-                        <span class="caret"></span>
-                      </button>
-                      <ul class="dropdown-menu dropdown-menu-right pullDown" >
-                        <li>
-                          <a (click)="showFilter('user',0)">{{'SEARCH.USERNAME'|translate}}</a>
-                        </li>
-                        <li>
-                          <a (click)="showFilter('loc',3)">{{'SEARCH.LOCATION'|translate}}</a>
-                        </li>
-                        <li>
-                          <a  (click)="showFilter('eduL',1)">{{'SEARCH.LEVEL_OF_EDUCATION'|translate}}</a>
-                        </li>
-                        <li role="separator" class="divider"></li>
-                        <li>
-                          <a  (click)="showFilter('eduS',2)">{{'SEARCH.SYSTEM_OF_EDUCATION'|translate}}</a>
-                        </li>
-                      </ul>
-                    </div>
+                <div *ngIf="filter[2]=='eduS'">
+                  <div class="radio">
+                    <input type="radio" name="radio1" id="radio1" value="Thanaweya Amma" checked="" (click)="applyEDUS('Thanaweya Amma')">
+                    <label for="radio1">
+                      {{'SEARCH.THANAWEYA_AMMA'| translate}}
+                    </label>
+                    <input type="radio" name="radio1" id="radio2" value="IG" (click)="applyEDUS('IG')">
+                    <label for="radio2">
+                      {{'SEARCH.IG'|translate}}
+                    </label>
+                    <input type="radio" name="radio1" id="radio3" value="American Diploma" (click)="applyEDUS('American Diploma')">
+                    <label for="radio3">
+                      {{'SEARCH.AMERICAN_DIPLOMA'|translate}}
+                    </label>
                   </div>
+                </div>
+              </div>
+              <div class="btn-group hidden-sm-down">
+                <div class="btn-group">
+                  <button type="button" class="btn btn-neutral dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="zmdi zmdi-label"></i>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-right pullDown">
+                    <li>
+                      <a (click)="showFilter('user',0)">{{'SEARCH.USERNAME'|translate}}</a>
+                    </li>
+                    <li>
+                      <a (click)="showFilter('loc',3)">{{'SEARCH.LOCATION'|translate}}</a>
+                    </li>
+                    <li>
+                      <a (click)="showFilter('eduL',1)">{{'SEARCH.LEVEL_OF_EDUCATION'|translate}}</a>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li>
+                      <a (click)="showFilter('eduS',2)">{{'SEARCH.SYSTEM_OF_EDUCATION'|translate}}</a>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <span class="input-group-addon" style="padding:0px">
-        <button class="btn btn-primary btn-round btn-sm" type="button" (click) = "removeTags()">
-          <i class="zmdi zmdi-search"></i> {{'SEARCH.REMOVE_ALL_TAGS'|translate}}
-        </button>
-      </span>
-      <span class="input-group-addon"  *ngIf="tags[0]!='NA'">
-        <button class="btn btn-primary btn-round btn-sm" type="button" >
-          <i class="zmdi zmdi-search"></i> {{ this.tags[0] }}
-        </button>
-      </span>
-      <span class="input-group-addon"  *ngIf="tags[1]!='NA'">
-        <button class="btn btn-primary btn-round btn-sm" type="button" >
-          <i class="zmdi zmdi-search"></i> {{ this.tags[1] }}
-        </button>
-      </span>
-      <span class="input-group-addon"  *ngIf="tags[2]!='NA'">
-        <button class="btn btn-primary btn-round btn-sm" type="button" >
-          <i class="zmdi zmdi-search"></i> {{ this.tags[2] }}
-        </button>
-      </span>
-      <span class="input-group-addon"  *ngIf="tags[3]!='NA'">
-        <button class="btn btn-primary btn-round btn-sm" type="button" >
-          <i class="zmdi zmdi-search"></i> {{ this.tags[3] }}
-        </button>
-      </span>
-              <div class="row clearfix">
-                
-                <div class="col-lg-3 col-md-4 col-sm-6 col-6" *ngFor="let user of users">
-                  <div class="card">
-                    <div class="file">
-                      <a routerLink="/profile/{{user.username}}">
-                        <div class="image">
-                          <img src={{user.avatar}} onerror="this.src='assets/images/market-view/product.jpg'" alt="img" class="img-fluid">
-                        </div>
-                        <div class="file-name">
-                          <p class="m-b-5 text-muted">{{user.username}}</p>
-                          <small>{{user.firstName}} {{user.lastName}}
-                          </small>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                
-          <ul *ngIf="totPages>1" class="pagination pagination-primary">
-            <li *ngIf="currPage>1" class="page-item">
-              <a class="page-link" (click)="changePage(this.currPage - 1)">{{'SEARCH.PREVIOUS'|translate}}</a>
-            </li>
-            <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currPage === pageNumberForPagination}">
-              <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
-            </li>
-            <li *ngIf="currPage<totalNumberOfPages" class="page-item">
-              <a class="page-link" (click)="changePage(this.currPage + 1)">{{'NEXT'|translate}}</a>
-            </li>
-          </ul>
-        </div>
     </div>
-  </section>
+    <span class="input-group-addon" style="padding:0px">
+      <button class="btn btn-primary btn-round btn-sm" type="button" (click)="removeTags()">
+        <i class="zmdi zmdi-search"></i> {{'SEARCH.REMOVE_ALL_TAGS'|translate}}
+      </button>
+    </span>
+    <span class="input-group-addon" *ngIf="tags[0]!='NA'">
+      <button class="btn btn-primary btn-round btn-sm" type="button">
+        <i class="zmdi zmdi-search"></i> {{ this.tags[0] }}
+      </button>
+    </span>
+    <span class="input-group-addon" *ngIf="tags[1]!='NA'">
+      <button class="btn btn-primary btn-round btn-sm" type="button">
+        <i class="zmdi zmdi-search"></i> {{ this.tags[1] }}
+      </button>
+    </span>
+    <span class="input-group-addon" *ngIf="tags[2]!='NA'">
+      <button class="btn btn-primary btn-round btn-sm" type="button">
+        <i class="zmdi zmdi-search"></i> {{ this.tags[2] }}
+      </button>
+    </span>
+    <span class="input-group-addon" *ngIf="tags[3]!='NA'">
+      <button class="btn btn-primary btn-round btn-sm" type="button">
+        <i class="zmdi zmdi-search"></i> {{ this.tags[3] }}
+      </button>
+    </span>
+    <div class="row clearfix">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12" *ngFor="let user of users">
+        <div class="card member-card">
+          <div class="header" style="background-image: url('assets/images/profile-view/stars.jpg');">
+            <h4 style="color:white" class="text-muted col-white m-t-10">{{user.username}}</h4>
+          </div>
+          <div class="member-img">
+            <a routerLink="/profile/{{user.username}}" class="">
+              <img style="object-fit: cover; height:180px; width:180px" src={{user.avatar}} onerror="this.src='assets/images/market-view/product.jpg'"
+                alt="img" class="rounded-circle">
+            </a>
+          </div>
+          <div class="body">
+            <div class="col-12">
+              <small>{{user.firstName}} {{user.lastName}}
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul *ngIf="totPages>1" class="pagination pagination-primary">
+        <li *ngIf="currPage>1" class="page-item">
+          <a class="page-link" (click)="changePage(this.currPage - 1)">{{'SEARCH.PREVIOUS'|translate}}</a>
+        </li>
+        <li *ngFor="let pageNumberForPagination of getPaginationRange()" [ngClass]="{'page-item': true,'active': currPage === pageNumberForPagination}">
+          <a class="page-link" (click)="changePage(pageNumberForPagination)">{{ pageNumberForPagination }}</a>
+        </li>
+        <li *ngIf="currPage<totalNumberOfPages" class="page-item">
+          <a class="page-link" (click)="changePage(this.currPage + 1)">{{'NEXT'|translate}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>

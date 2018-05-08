@@ -2,7 +2,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { AuthService } from '../auth.service';
-import { cities } from '../../variables';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,9 +22,7 @@ export class ChildSignupComponent implements OnInit {
   Password: String = '';
   ConfirmPassword: String = '';
   Email: String = '';
-  Address: String = '';
   Birthdate: Date;
-  Phone: [String] = [''];
   Div1 = false;
   Div2 = false;
   Div3 = false;
@@ -33,15 +30,13 @@ export class ChildSignupComponent implements OnInit {
   User: any;
   private done = false;
   private switch = false;
-  Educational_level: String = '';
-  Educational_system: String = '';
+  Educational_level: String = 'Educational Level';
+  Educational_system: String = 'Educational System';
   systems: any = ['Thanaweya Amma', 'IGCSE', 'American Diploma'];
   levels: any = ['Kindergarten', 'Primary School', 'Middle School', 'High School'];
-  public cities = cities;
 
-  public interests = new Set();
-  public interest;
-  public tags = [];
+  public interests = [];
+  tagsIdonthave = [];
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -64,8 +59,9 @@ export class ChildSignupComponent implements OnInit {
       if (res.err) {
         self.toastrService.error(res.err);
       } else {
-        self.tags = res.data;
-        self.interest = self.tags[0];
+        for (let i = 0; i < res.data.length; i++) {
+          self.tagsIdonthave.push(res.data[i].name);
+        }
       }
     });
   }
@@ -75,9 +71,9 @@ export class ChildSignupComponent implements OnInit {
     if (this.AllisWell) {
       this.User = {
         'firstName': this.Firstname, 'lastName': this.Lastname, 'username': this.Username, 'password': this.Password,
-        'birthdate': this.Birthdate, 'email': this.Email, 'phone': this.Phone,
-        'address': this.Address, 'educationLevel': self.Educational_level, 'educationSystem': self.Educational_system,
-        'interests': Array.from(this.interests)
+        'birthdate': this.Birthdate, 'email': this.Email,
+        'educationLevel': self.Educational_level, 'educationSystem': self.Educational_system,
+        'interests': this.interests
       };
       self.authService.childSignUp(this.User).subscribe(function (res) {
         this.Div3 = true;
@@ -85,6 +81,7 @@ export class ChildSignupComponent implements OnInit {
           self.translate.get('AUTH.TOASTER.CHILD_SIGN_UP_SUCCESSFULL').subscribe(
             function (translation) {
               self.toastrService.success(translation);
+              self.authService.redirectToHomePage();
             }
           );
         }
@@ -142,7 +139,13 @@ export class ChildSignupComponent implements OnInit {
     self.toastrService.success('Eduacation Level selected ', lev);
   }
 
-  addInterest() {
-    this.interests.add(this.interest);
+  addInterest(tagName: String) {
+    this.tagsIdonthave.splice(this.tagsIdonthave.indexOf(tagName), 1);
+    this.interests.push(tagName);
+  }
+
+  deleteInterest(tagName: String) {
+    this.interests.splice(this.interests.indexOf(tagName), 1);
+    this.tagsIdonthave.push(tagName);
   }
 }

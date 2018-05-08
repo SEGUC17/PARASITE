@@ -1,9 +1,9 @@
-<div class="card">
+<div class="card" [style.text-align]="translate.currentLang == 'ara'? 'right' : null">
+  <div class="header">
+    <h2>
+      <strong>{{'ADMIN.REPORTS.BAN' | translate}}</strong> {{'ADMIN.REPORTS.USER' | translate}}</h2>
+  </div>
   <div class="body">
-    <div class="header">
-      <h2>
-        <strong>{{'ADMIN.REPORTS.BAN' | translate}}</strong> {{'ADMIN.REPORTS.USER' | translate}}</h2>
-    </div>
     <div class="card">
       <div class="body">
         <form>
@@ -18,12 +18,12 @@
     </div>
   </div>
 </div>
-<div class="card">
+<div class="card" [style.text-align]="translate.currentLang == 'ara'? 'right' : null">
+  <div class="header">
+    <h2>
+      <strong>{{'ADMIN.REPORTS.USER' | translate}}</strong>{{'ADMIN.REPORTS.REPORTS' | translate}}</h2>
+  </div>
   <div class="body">
-    <div class="header">
-      <h2>
-        <strong>{{'ADMIN.REPORTS.USER' | translate}}</strong>{{'ADMIN.REPORTS.REPORTS' | translate}}</h2>
-    </div>
     <div *ngIf="reports && reports.length">
       <div class="card" style="height:unset" *ngFor="let rep of reports.slice().reverse()">
         <div class="block-header" style="height:unset">

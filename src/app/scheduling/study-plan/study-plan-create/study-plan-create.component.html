@@ -1,7 +1,7 @@
 <section [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="content page-calendar">
-  <div class="block-header">
+  <div class="block-header row">
     <ul [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'"
-      class="breadcrumb float-right">
+      class="breadcrumb mr-auto">
       <li class="breadcrumb-item">
         <a routerLink="/newsfeed">
           <i class="zmdi zmdi-home"></i> {{ 'APP.NAWWAR' | translate }}</a>
@@ -14,17 +14,15 @@
       <li class="breadcrumb-item active">{{ 'SCHEDULING.STUDYPLANCREATE.CREATION' | translate }}</li>
     </ul>
     <div [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="row">
-      <div class="col-lg-6">
-        <div class="header">
-          <form id="titleForm" method="POST">
-            <div class="form-group">
-              <div class="form-line">
-                <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control col-md-6" name="title" [(ngModel)]="title"
-                  placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.TITLE' | translate }}" required>
-              </div>
+      <div class="header">
+        <form id="titleForm" method="POST">
+          <div class="form-group">
+            <div class="form-line mr-3 ml-3">
+              <input [dir]="translate.currentLang === 'ara'? 'rtl': 'ltr'" type="text" class="form-control" name="title" [(ngModel)]="title"
+                placeholder="{{ 'SCHEDULING.STUDYPLANCREATE.TITLE' | translate }}" required>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>

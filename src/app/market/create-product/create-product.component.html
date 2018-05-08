@@ -3,26 +3,23 @@
 <form #createproduct="ngForm">
   <div class="row clearfix">
     <div class="card col-lg-8 col-m-8 col-sm-12" dir="auto" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
-      <div class="form-group form-float">
+      <div class="form-group">
         <input type="text" class="form-control email" placeholder="{{'MARKET.CREATE.NAME' | translate}}" name="name" id="name" hintLabel="Product's name"
           [(ngModel)]="formInput.name">
       </div>
-        <div class="form-group form-float">
-          <textarea name="address" cols="30" rows="3" placeholder="{{'MARKET.CREATE.DESCRIPTION' | translate}}" name="description"
-            id="description" [(ngModel)]="formInput.description" class="form-control no-resize" required></textarea>
-        </div>
-
-      <div class="row col-12">
+      <div class="form-group">
+        <textarea name="address" cols="30" rows="3" placeholder="{{'MARKET.CREATE.DESCRIPTION' | translate}}" name="description"
+          id="description" [(ngModel)]="formInput.description" class="form-control no-resize" required></textarea>
+      </div>
+      <div class="row clearfix">
         <div class="col-lg-6 col-md-12">
-          <div class="form-group form-float" style="margin-bottom:0px;margin-top:24px">
-            <input type="number" class="form-control" placeholder="{{'MARKET.CREATE.PRICE' | translate}}"
-              name="price" id="price" [(ngModel)]="formInput.price">
+          <div class="form-group">
+            <input type="number" class="form-control" placeholder="{{'MARKET.CREATE.PRICE' | translate}}" name="price" id="price" [(ngModel)]="formInput.price">
           </div>
         </div>
         <div class="col-lg-6 col-md-12">
           {{'MARKET.CREATE.AQUIRE' | translate}}
-          <select class="form-control show-tick" name="acquiringType" id="acquiringType"
-            [(ngModel)]="formInput.acquiringType">
+          <select class="form-control show-tick" name="acquiringType" id="acquiringType" [(ngModel)]="formInput.acquiringType">
             <option>sell</option>
             <option>rent</option>
             <option>rent/sell</option>
@@ -30,7 +27,7 @@
         </div>
       </div>
       <div>
-        <div class="form-group form-float">
+        <div class="form-group">
           <input type="text" class="form-control email" placeholder="{{'MARKET.CREATE.RENTPERIOD' | translate}}" type="number" name="rentPeriod"
             id="rentPeriod" [(ngModel)]="formInput.rentPeriod">
         </div>
@@ -38,8 +35,8 @@
     </div>
     <div class="col-lg-4 col-m-4 col-sm-12">
       <img src={{img}} onerror="this.src='assets/images/market-view/product.jpg'" alt="{{'MARKET.CREATE.IMG' | translate}}" />
-      <app-market-image-uploader (ImageUploaded) = "uploaded($event)"></app-market-image-uploader>
-      <button  class="btn btn-primary float-right hidden-sm-down m-l-10" (click)="createProduct()">{{'MARKET.CREATE.CREATEPRODUCT' | translate}}</button>
+      <app-market-image-uploader (ImageUploaded)="uploaded($event)"></app-market-image-uploader>
+      <button class="btn btn-primary float-right hidden-sm-down m-l-10" (click)="createProduct()">{{'MARKET.CREATE.CREATEPRODUCT' | translate}}</button>
     </div>
   </div>
 </form>

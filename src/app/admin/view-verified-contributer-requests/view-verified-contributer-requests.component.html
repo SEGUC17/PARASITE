@@ -1,7 +1,7 @@
-<div class="row clearfix" xmlns:ng>
+<div class="row clearfix" xmlns:ng [style.text-align]="translate.currentLang == 'ara'? 'right' : null">
   <div class="col-sm-12 col-md-12 col-lg-12">
     <div class="card user-account">
-      <div class="header">
+      <div class="header" dir="auto">
         <h2><strong>{{'ADMIN.VERIFIED_CONTRIBUTORS_MANAGEMENT.LABLE' | translate}}</strong> {{'ADMIN.VERIFIED_CONTRIBUTORS_MANAGEMENT.REQUESTS' |translate}} <small>{{'ADMIN.VERIFIED_CONTRIBUTORS_MANAGEMENT.MSG' | translate}}</small></h2>
       </div>
       <div class="body" ng-cloak>
