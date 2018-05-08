@@ -27,7 +27,7 @@
     <div class="row">
       <div class="container-fluid">
         <div class="card-deck" id="cards">
-          <div class="col-lg-9 col-md-12">
+          <div id="psycho" class="col-lg-9 col-md-12">
             <div class="body text-center" *ngIf="!this.psychologists.length">
               <div class="not_found">
                 <i class="zmdi zmdi-mood-bad zmdi-hc-4x"></i>
@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="card-deck">
-              <div class="col-lg-4 col-md-12" *ngFor="let psych of psychologists; let i = index;">
+              <div id="psycho" class="col-lg-4 col-md-12" *ngFor="let psych of psychologists; let i = index;">
                 <div class="card single_post clearfix js-sweetalert" style="margin-bottom: 5px">
                   <div class="header">
                     <span >
@@ -69,7 +69,7 @@
                       <div class="row">
                         <i class="zmdi zmdi-email" style="margin-right:3%"> </i>
                         <span [style.text-align]="translate.currentLang === 'ara'? 'right': null">
-                          <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.EMAIL' | translate }}</strong> {{psych.email}}</span>
+                          <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.EMAIL' | translate }}</strong> <br> {{psych.email}}</span>
                       </div>
                       <div class="row">
                         <i class="zmdi zmdi-calendar-close" style="margin-right:3%"> </i>
