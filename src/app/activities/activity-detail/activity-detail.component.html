@@ -45,12 +45,12 @@
     
           <div class="body ">
               <div class="col-lg-18 col-md-18 col-72 ">
-                  
+                <a class=" m-l-10" *ngIf="isCreator && !isBooked"  href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture">
+                  <i class="zmdi zmdi-edit zmdi-hc-2x" ></i>
+                </a>
                   <div >
-                      <a class=" m-l-10" *ngIf="isCreator && !isBooked"  href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture">
-                          <i class="zmdi zmdi-edit zmdi-hc-2x" ></i>
-                        </a>
-                      <img style="  margin-left:15px;margin-right:15px;width: 1000px; height: 450px;" [src]="activity.image" alt=""> </div>
+                      
+                      <img style=" object-fit: cover;background-size: cover; margin-left:30px;margin-right:30px;width: 1215px; height: 550px;" [src]="activity.image" alt=""> </div>
                       <div [align]="translate.currentLang === 'ara'? 'left':'right'">
                    
                       </div>

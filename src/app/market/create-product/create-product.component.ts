@@ -87,7 +87,10 @@ export class CreateProductComponent {
     } else {
       // If error then send an alert message
       let self = this;
-      self.toasterService.error('Please make sure you have all data written', 'failure');
+      self.translate.get('MARKET.TOASTER.ALL_DATA').subscribe(function (msg) {
+        self.toasterService.error(msg);
+      });
+
     }
   }
 
@@ -96,7 +99,9 @@ export class CreateProductComponent {
   uploaded(url: string) {
     let self = this;
     if (url === 'imageFailedToUpload' || url === 'noFileToUpload') {
-      self.toasterService.error('image upload failed, try another image', 'failure');
+      self.translate.get('MARKET.TOASTER.IMAGE_FAILED').subscribe(function (msg) {
+        self.toasterService.error(msg);
+      });
     } else {
       self.img = url;
     }
