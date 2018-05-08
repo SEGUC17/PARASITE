@@ -316,6 +316,40 @@ module.exports.validateContent = function (req, res, next) {
     next();
 };
 
+var autoGenerateTags = function (content) {
+    var titleList = content.
+        title.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, '').
+        split(' ').
+        map(function (keyword) {
+            return {
+                title: 1,
+                word: keyword
+            };
+        });
+    var bodyList = content.
+        body.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, '').
+        split(' ').
+        map(function (keyword) {
+            return {
+                title: 0,
+                word: keyword
+            };
+        });
+
+    var wordList = titleList.concat(bodyList);
+    var newTags = [];
+    // uncomment to trigger content update
+    // Content.findByIdAndUpdate(
+    //     content._id,
+    //     { $push: { tags: { $each: newTags } } },
+    //     function (err) {
+    //         if (err) {
+    //             console.log(err);
+    //         }
+    //     }
+    // );
+};
+
 
 var handleAdminCreate = function (req, res, next) {
     req.body.approved = true;
@@ -361,11 +395,13 @@ var handleAdminCreate = function (req, res, next) {
             }
         });
 
-        return res.status(201).json({
+        res.status(201).json({
             data: content,
             err: null,
             msg: 'Content was created successfully'
         });
+
+        return autoGenerateTags(content);
     });
 };
 
@@ -386,7 +422,7 @@ var handleNonAdminCreate = function (req, res, next) {
                 return next(requestError);
             }
 
-            return res.status(201).json({
+            res.status(201).json({
                 data: {
                     content: content,
                     request: contentRequest
@@ -394,6 +430,8 @@ var handleNonAdminCreate = function (req, res, next) {
                 err: null,
                 msg: 'Created content and made a request successfully'
             });
+
+            return autoGenerateTags(content);
         });
     });
 };
