@@ -295,7 +295,7 @@
               <a class="nav-link" data-toggle="tab" href="#studyplans">{{'PROFILE.PROFILE.STUDY_PLANS' | translate}}</a>
             </li>
             <li class="nav-item" *ngIf="currIsOwner && currIsOfAge">
-              <a class="nav-link" data-toggle="tab" href="#userSettings">{{'PROFILE.PROFILE.SETTINGS'| translate}}</a>
+              <a class="nav-link active show" data-toggle="tab" href="#userSettings">{{'PROFILE.PROFILE.SETTINGS'| translate}}</a>
             </li>
             <li class="nav-item" *ngIf="visitedIsMyChild">
               <a class="nav-link" data-toggle="tab" href="#childSettings">{{'PROFILE.PROFILE.SETTINGS' | translate}}</a>
@@ -379,7 +379,7 @@
 
             <!-- End Child Info -->
           </div>
-          <div role="tabpanel" *ngIf="currIsOwner && currIsOfAge" class="tab-pane" id="userSettings" dir="auto" [align]="translate.currentLang === 'ara'? 'right': null">
+          <div role="tabpanel" *ngIf="currIsOwner && currIsOfAge" class="tab-pane active" id="userSettings" dir="auto" [align]="translate.currentLang === 'ara'? 'right': null">
             <div class="card">
               <div class="header">
                 <h2>

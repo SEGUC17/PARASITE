@@ -211,10 +211,12 @@ export class ProfileComponent implements OnInit {
 
     if (this.currIsOwner) {
       $('#userSettings').addClass('active show');
+      $('#aboutt').removeClass('col-lg-12');
       $('#aboutt').addClass('col-lg-4');
     } else {
       $('#userSettings').remove('active show');
-      $('#aboutt').removeClass('col-lg-12');
+      $('#aboutt').removeClass('col-lg-4');
+      $('#aboutt').addClass('col-lg-12');
     }
 
     if (this.avatar !== '') {
