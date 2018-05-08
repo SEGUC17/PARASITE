@@ -20,7 +20,8 @@ export class ViewVerifiedContributerRequestsComponent implements OnInit {
    */
 
   constructor(private _adminService: AdminService, private router: Router,
-    private _messageService: MessageService, private _authService: AuthService) { }
+    private _messageService: MessageService, private _authService: AuthService,
+    private translate: TranslateService) { }
 
 
   Requests: any[] = [];
