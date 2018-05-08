@@ -267,10 +267,16 @@ export class ProfileComponent implements OnInit {
             this.studyPlans = resStudyPlans.data.studyPlans;
           });
         }
+        if (this.visitedIsMyChild) {
+          $('#userSettings').addClass('active show');
+          $('#aboutt').removeClass('col-lg-12');
+          $('#aboutt').addClass('col-lg-4');
+        }
 
       });
     }
-    if (this.currIsOwner || this.visitedIsMyChild) {
+    console.log(this.visitedIsMyChild);
+    if (this.currIsOwner) {
       $('#userSettings').addClass('active show');
       $('#aboutt').removeClass('col-lg-12');
       $('#aboutt').addClass('col-lg-4');
