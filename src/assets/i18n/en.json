@@ -346,7 +346,7 @@
     "MARKET": {
         "MAIN": {
             "MARKET": "Marketplace",
-            "CAPTION": "Buy, sell or rent unwanted stuff",
+            "CAPTION": "Buy, Sell, or Rent Products",
             "PATH": "Market",
             "LABEL": "Products",
             "LABEL_REQ": "My Pending Products",
