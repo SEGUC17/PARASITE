@@ -575,6 +575,11 @@
         }
     },
     "PSYCHOLOGIST": {
+        "REQS": {
+            "FILTER":"Filter Requests",
+            "ADD":"Add requests",
+            "EDIT":"Edit requests"
+        },
         "TITLE": {
             "VERIFIED_PSYCHS": "Psychologists",
             "SUB": "Because your child mental health matters",

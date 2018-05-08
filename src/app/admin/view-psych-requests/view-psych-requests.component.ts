@@ -5,6 +5,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { PsychologistRequest } from '../../psychologist/PsychologistRequest';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-view-psych-requests',
@@ -23,7 +24,8 @@ export class ViewPsychRequestsComponent implements OnInit {
   constructor(private service: PsychRequestsService,
     private authService: AuthService,
     private router: Router,
-    private toasterService: ToastrService) {
+    private toasterService: ToastrService,
+    private translate: TranslateService) {
 
     let self = this;
     self.state = 'add';
