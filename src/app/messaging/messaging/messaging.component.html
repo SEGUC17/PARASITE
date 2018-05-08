@@ -50,7 +50,7 @@
                   <div *ngFor="let message of inbox">
                     <div *ngIf="message.state">
                       <li class="list-group-item unread">
-                        <div class="media">
+                        <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                           <div class="pull-left">
                             <div class="thumb hidden-sm-down m-r-20">
                               <img [src]="message.senderAvatar" class="rounded-circle" alt=""> </div>
@@ -60,11 +60,9 @@
                               <a (click)="setMessage(message)" routerLink="/message/single-mail" class="m-r-10">
                                 <strong style="font-size:18px;">{{message.sender}}</strong>
                               </a>
-                              <small class="float-right text-muted">
-                                <time class="hidden-sm-down" datetime="2017">{{message.sentAt|date}}</time>
-                                <i class="zmdi zmdi-attachment-alt"></i>
-                              </small>
                             </div>
+                            <a [routerLink]="" class="meta text-secondary"><i style="margin:4px;" class="zmdi zmdi-attachment-alt"></i><time class="hidden-sm-down" datetime="2017"><small>{{message.sentAt|date}}</small></time></a>
+                            <br>
                             <p class="msg" class="p">{{message.body}}</p>
                           </div>
                         </div>
@@ -72,7 +70,7 @@
                     </div>
                     <div *ngIf="!message.state">
                       <li class="list-group-item">
-                        <div class="media">
+                        <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                           <div class="pull-left">
                             <div class="thumb hidden-sm-down m-r-20">
                               <img [src]="message.senderAvatar" class="rounded-circle" alt=""> </div>
@@ -82,11 +80,8 @@
                               <a (click)="setMessage(message)" routerLink="/message/single-mail" class="m-r-10">
                                 <small style="font-size:18px;">{{message.sender}}</small>
                               </a>
-                              <small class="float-right text-muted">
-                                <time class="hidden-sm-down" datetime="2017">{{message.sentAt|date}}</time>
-                                <i class="zmdi zmdi-attachment-alt"></i>
-                              </small>
                             </div>
+                            <a [routerLink]="" class="meta text-secondary"><i style="margin:4px;" class="zmdi zmdi-attachment-alt"></i><time class="hidden-sm-down" datetime="2017"><small>{{message.sentAt|date}}</small></time></a>
                             <p class="msg" class="p">{{message.body}}</p>
                           </div>
                         </div>
@@ -110,7 +105,7 @@
                   <div *ngFor="let msg of sent">
                     <div *ngIf="msg.state">
                       <li class="list-group-item unread">
-                        <div class="media">
+                        <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                           <div class="pull-left">
                             <div class="thumb hidden-sm-down m-r-20">
                               <img [src]="msg.recipientAvatar" class="rounded-circle" alt=""> </div>
@@ -120,11 +115,8 @@
                               <a (click)="setMessage(msg)" routerLink="/message/single-mail" class="m-r-10">
                                 <strong style="font-size:18px;">{{msg.recipient}}</strong>
                               </a>
-                              <small class="float-right text-muted">
-                                <time class="hidden-sm-down" datetime="2017">{{msg.sentAt|date}}</time>
-                                <i class="zmdi zmdi-attachment-alt"></i>
-                              </small>
                             </div>
+                            <a [routerLink]="" class="meta text-secondary"><i style="margin:4px;" class="zmdi zmdi-attachment-alt"></i><time class="hidden-sm-down" datetime="2017"><small>{{msg.sentAt|date}}</small></time></a>
                             <p class="msg" class="p">{{msg.body}}</p>
                           </div>
                         </div>
@@ -132,7 +124,7 @@
                     </div>
                     <div *ngIf="!msg.state">
                       <li class="list-group-item">
-                        <div class="media">
+                        <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                           <div class="pull-left">
                             <div class="thumb hidden-sm-down m-r-20">
                               <img [src]="msg.recipientAvatar" class="rounded-circle" alt=""> </div>
@@ -142,11 +134,8 @@
                               <a (click)="setMessage(msg)" routerLink="/message/single-mail" class="m-r-10">
                                 <small style="font-size:18px;">{{msg.recipient}}</small>
                               </a>
-                              <small class="float-right text-muted">
-                                <time class="hidden-sm-down" datetime="2017">{{msg.sentAt|date}}</time>
-                                <i class="zmdi zmdi-attachment-alt"></i>
-                              </small>
                             </div>
+                            <a [routerLink]="" class="meta text-secondary"><i style="margin:4px;" class="zmdi zmdi-attachment-alt"></i><time class="hidden-sm-down" datetime="2017"><small>{{msg.sentAt|date}}</small></time></a>
                             <p class="msg" class="p">{{msg.body}}</p>
                           </div>
                         </div>
@@ -188,7 +177,7 @@
                     <ul class="mail_list list-group list-unstyled">
                       <div>
                         <li class="list-group-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <div class="media">
+                          <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                             <div class="pull-left">
                               <div class="thumb hidden-sm-down m-r-20">
                                 <img [src]="contact.recipientAvatar" class="rounded-circle" alt=""> </div>

@@ -1,5 +1,4 @@
-  <div class="block-header">
-  <div class="container-fluid">
+  <div class="container-fluid" [style.text-align]="translate.currentLang == 'ara'? 'right' : null">
     <div class="row clearfix">
       <div *ngFor="let activity of activities; let i = index" class="col-lg-4 col-md-12">
         <div class="card single_post">
