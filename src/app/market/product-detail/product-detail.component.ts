@@ -58,13 +58,17 @@ export class ProductDetailComponent {
         self.toggleEditForm = false;
         if (res.err == null) {
         }
-        self.toasterService.success('Price changed Successfully');
+        self.translate.get('MARKET.TOASTER.PRICE_CHANGE_SUCCESS').subscribe(function (msg) {
+          self.toasterService.success(msg);
+        });
       });
       self.dialogRef.close();
     } else {
       self.toggleEditForm = true;
       self.formInput = self.oldData;
-      self.toasterService.error('Price edit failed.');
+      self.translate.get('MARKET.TOASTER.PRICE_EDIT_FAILED').subscribe(function (msg) {
+        self.toasterService.error(msg);
+      });
 
     }
   }
@@ -85,9 +89,13 @@ export class ProductDetailComponent {
         let _this = self;
         self.marketService.deleteProduct(req).subscribe(function (res1) {
           if (res1.err) {
-            _this.toasterService.error(res1.err);
+            self.translate.get('MARKET.TOASTER.PRODUCT_DELETE_FAILED').subscribe(function (msg) {
+              self.toasterService.error(msg);
+            });
           } else {
-            _this.toasterService.success(res1.msg);
+            self.translate.get('MARKET.TOASTER.PRODUCT_DELETE_SUCCESS').subscribe(function (msg) {
+              self.toasterService.success(msg);
+            });
             _this.dialogRef.close();
           }
         });

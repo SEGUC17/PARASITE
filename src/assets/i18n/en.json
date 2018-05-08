@@ -346,7 +346,7 @@
     "MARKET": {
         "MAIN": {
             "MARKET": "Marketplace",
-            "CAPTION": "Buy, sell or rent unwanted stuff",
+            "CAPTION": "Buy, Sell, or Rent Products",
             "PATH": "Market",
             "LABEL": "Products",
             "LABEL_REQ": "My Pending Products",
@@ -394,6 +394,14 @@
         "REQ_DETAIL": {
             "PROD_NAME": "Product's name",
             "ACQTYPELABEL": "Acquiring type: "
+        },
+        "TOASTER": {
+            "ALL_DATA": "Please make sure you have filled all the required fields.",
+            "IMAGE_FAILED": "Image upload failed. Please try again",
+            "PRICE_CHANGE_SUCCESS": "Price changed Successfully",
+            "PRICE_EDIT_FAILED": "Failed to edit price. Try again.",
+            "PRODUCT_DELETE_FAILED": "The product was not deleted. Please try again.",
+            "PRODUCT_DELETE_SUCCESS": "The product was deleted successfully."
         }
     },
     "MESSAGING": {
@@ -455,7 +463,15 @@
         "CONNECT_TO_MORE": "Connect to more",
         "CLICK_TO_CONNECT": "click to search and view other parents and connect with them",
         "HAVE_NOT_ADDED_INTERESTS": "Haven't added any interests yet?",
-        "ADD_SOME_NOW": "Add some now"
+        "ADD_SOME_NOW": "Add some now",
+        "MODAL": {
+            "PICK": "Pick what",
+            "INTERESTS_YOU": "interests you ",
+            "FULL": "Seems like you have alot of interests, You have added all available tags.",
+            "YOUR": "Your",
+            "INTERESTS": "Interests",
+            "NOT_ADDED_YET": "You haven't added any interests yet"
+        }
     },
     "PROFILE": {
         "CHILDREN": {
