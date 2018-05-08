@@ -397,7 +397,11 @@
         },
         "TOASTER": {
             "ALL_DATA": "Please make sure you have filled all the required fields.",
-            "IMAGE_FAILED": "Image upload failed. Please try again"
+            "IMAGE_FAILED": "Image upload failed. Please try again",
+            "PRICE_CHANGE_SUCCESS": "Price changed Successfully",
+            "PRICE_EDIT_FAILED": "Failed to edit price. Try again.",
+            "PRODUCT_DELETE_FAILED": "The product was not deleted. Please try again.",
+            "PRODUCT_DELETE_SUCCESS": "The product was deleted successfully."
         }
     },
     "MESSAGING": {

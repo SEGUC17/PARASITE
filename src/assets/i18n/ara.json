@@ -409,7 +409,11 @@
         },
         "TOASTER": {
             "ALL_DATA": "يرجى التأكد من ملء جميع المعلومات المطلوبة",
-            "IMAGE_FAILED": "فشل تحميل الصورة. حاول مرة اخرى"
+            "IMAGE_FAILED": "فشل تحميل الصورة. حاول مرة اخرى",
+            "PRICE_CHANGE_SUCCESS": "تم تغيير السعر بنجاح",
+            "PRICE_EDIT_FAILED": "فشل تحديث السعر. حاول ثانية",
+            "PRODUCT_DELETE_FAILED": "لم يتم حذف المنتج. حاول مرة اخرى",
+            "PRODUCT_DELETE_SUCCESS": "تم حذف المنتج بنجاح"
         }
     },
     "MESSAGING": {
