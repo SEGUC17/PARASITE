@@ -87,7 +87,7 @@
                     </div>
                   </div>
                   <div id="interests" [hidden]="this.tabNumber != 3" style="height: 60% !important; overflow: auto !important">
-                      <h6>{{ 'AUTH.SIGN_UP.PICKED_INTERESTS' | translate }}</h6>
+                    <h6>{{ 'AUTH.SIGN_UP.PICKED_INTERESTS' | translate }}</h6>
                     <p *ngFor="let tag of interests">{{tag}} </p>
                     <a div="ml-auto" class="btn btn-primary btn-round btn-lg waves-effect waves-light" href="#defaultModal" data-toggle="modal"
                       data-target="#defaultModal">
@@ -214,16 +214,16 @@
 
 
 <section>
-    <div class="modal fade" id="aboutUsModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="title" id="defaultModalLabel">{{ 'AUTH.SIGN_UP.TERMS_OF_USAGE' | translate }}</h4>
-          </div>
-          <div class="modal-body">
-            <p>Here you can add any information you want the people to know.</p>
-          </div>
+  <div class="modal fade" id="aboutUsModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="title" id="defaultModalLabel">{{ 'AUTH.SIGN_UP.TERMS_OF_USAGE' | translate }}</h4>
+        </div>
+        <div class="modal-body">
+          <p>Here you can add any information you want the people to know.</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>

@@ -56,20 +56,20 @@ export class ProductDetailComponent {
       };
       this.marketService.editPrice(req, self.user.username).subscribe(function (res) {
         self.toggleEditForm = false;
-        if (res.err == null) {
+        if (!res.err) {
+          self.translate.get('MARKET.TOASTER.PRICE_CHANGE_SUCCESS').subscribe(function (msg) {
+            self.toasterService.success(msg);
+          });
+        } else {
+          self.translate.get('MARKET.TOASTER.PRICE_EDIT_FAILED').subscribe(function (msg) {
+            self.toasterService.error(msg);
+          });
         }
-        self.translate.get('MARKET.TOASTER.PRICE_CHANGE_SUCCESS').subscribe(function (msg) {
-          self.toasterService.success(msg);
-        });
       });
       self.dialogRef.close();
     } else {
       self.toggleEditForm = true;
       self.formInput = self.oldData;
-      self.translate.get('MARKET.TOASTER.PRICE_EDIT_FAILED').subscribe(function (msg) {
-        self.toasterService.error(msg);
-      });
-
     }
   }
 
