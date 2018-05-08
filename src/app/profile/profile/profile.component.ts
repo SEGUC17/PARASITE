@@ -207,12 +207,13 @@ export class ProfileComponent implements OnInit {
     if (!this.vUsername || this.vUsername === this.username) {
       this.currIsOwner = true;
       this.vUsername = this.username;
-      if (this.currIsOwner) {
-        $('#userSettings').addClass('active show');
-        $('#aboutt').addClass('col-lg-4');
-      } else {
-        $('#aboutt').removeClass('col-lg-12');
-      }
+    }
+
+    if (this.currIsOwner) {
+      $('#userSettings').addClass('active show');
+      $('#aboutt').addClass('col-lg-4');
+    } else {
+      $('#aboutt').removeClass('col-lg-12');
     }
 
       if (this.avatar !== '') {
