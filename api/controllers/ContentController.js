@@ -11,6 +11,7 @@ var moment = require('moment');
 var Newsfeed = mongoose.model('Newsfeed');
 var newsfeedController = require('../controllers/NewsfeedController');
 var tagController = require('../controllers/TagController');
+var ClassifierModel = require('../utils/Classifier/Model');
 // retrieve content (resource  or idea) by ObejctId
 module.exports.getContentById = function (req, res, next) {
 
@@ -374,22 +375,23 @@ var autoGenerateTags = function (content) {
 
     var wordList = titleList.concat(bodyList);
 
+    var newTags = ClassifierModel.predict(wordList, content._id);
 
 
-
-    var newTags = [];
-    // uncomment to trigger content update
-    // Content.findByIdAndUpdate(
-    //     content._id,
-    //     { $push: { tags: { $each: newTags } } },
-    //     function (err) {
-    //         if (err) {
-    //             console.log(err);
-    //         }
-    //     }
-    // );
 };
 
+
+module.exports.addTagToContent = function(id, newTags) {
+  Content.findByIdAndUpdate(
+    id,
+    { $push: { tags: { $each: newTags } } },
+    function (err) {
+      if (err) {
+        console.log(err);
+      }
+    }
+  );
+}
 
 var handleAdminCreate = function (req, res, next) {
     req.body.approved = true;
