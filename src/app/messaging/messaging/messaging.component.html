@@ -46,11 +46,11 @@
                     <br/> {{ 'MESSAGING.MESSAGING.NO_MSGS' | translate }}
                   </p>
                 </div>
-                <ul class="mail_list list-group list-unstyled">
+                <ul class="mail_list list-group list-unstyled" [style.transform]="_TranslateService.currentLang == 'ara'? 'scaleX(-1)': null">
                   <div *ngFor="let message of inbox">
                     <div *ngIf="message.state">
                       <li class="list-group-item unread">
-                        <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+                        <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null" [style.transform]="_TranslateService.currentLang == 'ara'? 'scaleX(-1)': null">
                           <div class="pull-left">
                             <div class="thumb hidden-sm-down m-r-20">
                               <img [src]="message.senderAvatar" class="rounded-circle" alt=""> </div>
@@ -63,7 +63,7 @@
                             </div>
                             <a [routerLink]="" class="meta text-secondary"><i style="margin:4px;" class="zmdi zmdi-attachment-alt"></i><time class="hidden-sm-down" datetime="2017"><small>{{message.sentAt|date}}</small></time></a>
                             <br>
-                            <p class="msg" class="p">{{message.body}}</p>
+                            <p style="overflow:hidden" class="msg" class="p">{{message.body}}</p>
                           </div>
                         </div>
                       </li>
@@ -82,7 +82,7 @@
                               </a>
                             </div>
                             <a [routerLink]="" class="meta text-secondary"><i style="margin:4px;" class="zmdi zmdi-attachment-alt"></i><time class="hidden-sm-down" datetime="2017"><small>{{message.sentAt|date}}</small></time></a>
-                            <p class="msg" class="p">{{message.body}}</p>
+                            <p style="overflow:hidden" class="msg" class="p">{{message.body}}</p>
                           </div>
                         </div>
                       </li>
@@ -101,11 +101,11 @@
                     <br/> {{ 'MESSAGING.MESSAGING.NO_MSGS' | translate }}
                   </p>
                 </div>
-                <ul class="mail_list list-group list-unstyled">
+                <ul class="mail_list list-group list-unstyled" [style.transform]="_TranslateService.currentLang == 'ara'? 'scaleX(-1)': null">
                   <div *ngFor="let msg of sent">
                     <div *ngIf="msg.state">
                       <li class="list-group-item unread">
-                        <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+                        <div class="media" [style.transform]="_TranslateService.currentLang == 'ara'? 'scaleX(-1)': null" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                           <div class="pull-left">
                             <div class="thumb hidden-sm-down m-r-20">
                               <img [src]="msg.recipientAvatar" class="rounded-circle" alt=""> </div>
@@ -117,14 +117,14 @@
                               </a>
                             </div>
                             <a [routerLink]="" class="meta text-secondary"><i style="margin:4px;" class="zmdi zmdi-attachment-alt"></i><time class="hidden-sm-down" datetime="2017"><small>{{msg.sentAt|date}}</small></time></a>
-                            <p class="msg" class="p">{{msg.body}}</p>
+                            <p style="overflow:hidden" class="msg" class="p">{{msg.body}}</p>
                           </div>
                         </div>
                       </li>
                     </div>
                     <div *ngIf="!msg.state">
                       <li class="list-group-item">
-                        <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+                        <div class="media" [style.transform]="_TranslateService.currentLang == 'ara'? 'scaleX(-1)': null" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                           <div class="pull-left">
                             <div class="thumb hidden-sm-down m-r-20">
                               <img [src]="msg.recipientAvatar" class="rounded-circle" alt=""> </div>
@@ -136,7 +136,7 @@
                               </a>
                             </div>
                             <a [routerLink]="" class="meta text-secondary"><i style="margin:4px;" class="zmdi zmdi-attachment-alt"></i><time class="hidden-sm-down" datetime="2017"><small>{{msg.sentAt|date}}</small></time></a>
-                            <p class="msg" class="p">{{msg.body}}</p>
+                            <p style="overflow:hidden" class="msg" class="p">{{msg.body}}</p>
                           </div>
                         </div>
                       </li>
@@ -174,10 +174,10 @@
               <tbody *ngFor="let contact of contacts">
                 <tr>
                   <a href="">
-                    <ul class="mail_list list-group list-unstyled">
+                    <ul class="mail_list list-group list-unstyled" [style.transform]="_TranslateService.currentLang == 'ara'? 'scaleX(-1)': null">
                       <div>
                         <li class="list-group-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+                          <div class="media" [style.transform]="_TranslateService.currentLang == 'ara'? 'scaleX(-1)': null" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                             <div class="pull-left">
                               <div class="thumb hidden-sm-down m-r-20">
                                 <img [src]="contact.recipientAvatar" class="rounded-circle" alt=""> </div>
