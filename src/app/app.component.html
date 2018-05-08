@@ -146,10 +146,10 @@
                 </ul>
             </li>
             <li class="float-right">
-                <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
+                <a href="javascript:void(0);" (click)="changeLanguage()" title="Change Language">
                     <i class="zmdi zmdi-globe"></i>
                 </a>
-                <a href="javascript:void(0)" (click)="foo()" title="contact us">
+                <a title="{{ 'LANDING.CONTACT_US' | translate }}" href="#largeModal" data-toggle="modal" data-target="#largeModal">
                     <i class="zmdi zmdi-comment"></i>
                 </a>
                 <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" routerLinkActive="active" class="mega-menu">
@@ -213,3 +213,18 @@
 </div>
 <ngx-loading-bar [includeSpinner]="false" [height]="'4px'"></ngx-loading-bar>
 <router-outlet (activate)="isSignedIn()"></router-outlet>
+
+<section>
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title" id="defaultModalLabel">{{ 'LANDING.CONTACT_NAWWAR' | translate }}</h4>
+                </div>
+                <div class="modal-body">
+                    <app-contact-us></app-contact-us>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
