@@ -316,19 +316,55 @@ module.exports.validateContent = function (req, res, next) {
     next();
 };
 
+function getUncommon(sentence, common) {
+  var wordArr = sentence.match(/\w+/g),
+    commonObj = {},
+    uncommonArr = [],
+    word, i;
+
+  common = common.split(',');
+  for ( i = 0; i < common.length; i++ ) {
+    commonObj[ common[i].trim() ] = true;
+  }
+
+  for ( i = 0; i < wordArr.length; i++ ) {
+    word = wordArr[i].trim().toLowerCase();
+    if ( !commonObj[word] ) {
+      uncommonArr.push(word);
+    }
+  }
+
+  return uncommonArr;
+}
+
 var autoGenerateTags = function (content) {
-    var titleList = content.
-        title.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, '').
-        split(' ').
-        map(function (keyword) {
-            return {
-                title: 1,
-                word: keyword
-            };
-        });
-    var bodyList = content.
-        body.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, '').
-        split(' ').
+
+    var common = 'the, be, to, of, and, a, in, that, have,' +
+      ' I, it, for, not, on, with, he, as, you, do, at, th' +
+      'is, but, his, by, from, they, we, say, her, she, or' +
+      ', an, will, my, one, all, would, there, their, what' +
+      ', so, up, out, if, about, who, get, which, go, me, ' +
+      'when, make, can, like, time, no, just, him, know, t' +
+      'ake, people, into, year, your, good, some, could, t' +
+      'hem, see, other, than, then, now, look, only, come,' +
+      ' its, over, think, also, back, after, use, two, how' +
+      ', our, work, first, well, way, even, new, want, bec' +
+      'ause, any, these, give, day, most, us, s';
+    var titleWords = content.
+        title.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, ' ');
+
+    var titleList = getUncommon(titleWords,common).
+      map(function (keyword) {
+        return {
+          title: 1,
+          word: keyword
+        };
+      });
+
+    var bodyWords = content.
+        body.replace(/[&/\\#,+()$~%.'":*?<>{}]/g, ' ');
+
+    var bodyList = getUncommon(bodyWords,common).
         map(function (keyword) {
             return {
                 title: 0,
@@ -337,6 +373,10 @@ var autoGenerateTags = function (content) {
         });
 
     var wordList = titleList.concat(bodyList);
+
+
+
+
     var newTags = [];
     // uncomment to trigger content update
     // Content.findByIdAndUpdate(

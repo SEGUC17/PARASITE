@@ -21,9 +21,9 @@ app.set(config.SECRET);
 // -------------------------- End of "Dependancies" --------------------- //
 
 
-// -------------------------- Dependancies ------------------------------ //
+// -------------------------- Tensorflow Model Classifier ------------------------------ //
 ClassifierController.loadDictionary();
-// -------------------------- End of "Dependancies" --------------------- //
+// -------------------------- End of "Tensorflow Model Classifier" --------------------- //
 
 
 
