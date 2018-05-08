@@ -87,13 +87,13 @@
                     </div>
                   </div>
                   <div id="interests" [hidden]="this.tabNumber != 3" style="height: 60% !important; overflow: auto !important">
-                    <h6>Pick some of your interests:</h6>
-                    <select class="form-control show-tick" placeholder="Pick an interest" id="interest" [(ngModel)]="interest" [ngModelOptions]="{standalone: true}">
-                      <option *ngFor="let tag of tags">{{tag.name}}</option>
-                    </select>
-                    <input type="button" style="width: 40% !important;" value="Add Interest" class="form-control btn btn-sm" (click)="this.addInterest()">
-                    <h6>You picked: </h6>
-                    <span *ngFor="let tag of interests">-{{tag}}-</span>
+                      <h6>Pick some of your interests:</h6>
+                    <p *ngFor="let tag of interests">{{tag}} </p>
+                    <a div="ml-auto" class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" href="#defaultModal" data-toggle="modal"
+                      data-target="#defaultModal">
+                      {{ 'AUTH.SIGN_UP.ADD_INTEREST' | translate }}
+                    </a>
+                    <br/>
                     <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
                   </div>
                 </div>
@@ -120,3 +120,94 @@
     </div>
   </div>
 </section>
+
+<!-- Interests Modal -->
+<div class="modal fade " id="defaultModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="col-lg-12 col-md-12 col-sm-12 ">
+        <div class="row mt-2">
+          <div class="col-lg-11 col-md-11 col-sm-11"></div>
+          <div class="col-lg-1 col-md-1 col-sm-1" align="end">
+            <i class="zmdi zmdi-close zmdi-hc-2x text-danger clickable-icon mt-1" data-dismiss="modal"></i>
+          </div>
+        </div>
+      </div>
+      <div class="modal-header text-center nopaddingbottom">
+        <h2 id="defaultModalLabel" class="nopadding">{{ 'NEWSFEED.MODAL.PICK' | translate }}
+          <span style="color: #54a89b">{{ 'NEWSFEED.MODAL.INTERESTS_YOU' | translate }}</span>
+        </h2>
+      </div>
+      <div class="not_found text-center text-warning" *ngIf="!tagsIdonthave || !tagsIdonthave.length">
+        <i class="zmdi zmdi-mood-bad zmdi-hc-4x "></i>
+        <p class="m-b-0">
+          {{ 'NEWSFEED.MODAL.FULL' | translate }}</p>
+      </div>
+      <div class="modal-body widget tag-clouds mr-5 ">
+        <span *ngFor="let tag of tagsIdonthave">
+          <span class="tag badge badge-default mt-2" *ngIf="tagsIdonthave && tagsIdonthave.length">
+            <div class="col-lg-12 col-md-12 col-sm-12 ">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 ">
+                  <p class="nopadding">
+                    {{tag}}
+                  </p>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 clickable-icon" align="end" (click)="addInterest(tag)">
+                  <i class="zmdi zmdi-plus" style="color:#54a89b"></i>
+                </div>
+              </div>
+            </div>
+          </span>
+        </span>
+        <hr>
+      </div>
+
+
+      <div class="modal-footer justify-content-center">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="title text-center">
+              <h2 class="nopadding"> {{ 'NEWSFEED.MODAL.YOUR' | translate }}
+                <span style="color:#54a89b"> {{ 'NEWSFEED.MODAL.INTERESTS' | translate }}
+
+                </span>
+              </h2>
+            </div>
+          </div>
+
+          <div class="not_found text-center text-warning mt-3" *ngIf="!interests || !interests.length">
+            <i class="zmdi zmdi-mood-bad zmdi-hc-4x "></i>
+            <p class="m-b-0">
+              {{ 'NEWSFEED.MODAL.NOT_ADDED_YET' | translate }}</p>
+          </div>
+
+          <div class="body widget tag-clouds mt-3">
+            <div>
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <span *ngFor="let tag of interests">
+                    <span class="tag badge badge-default mt-2" style="color:#54a89b; border-color:#54a89b;" *ngIf="interests && interests.length">
+                      <div class="col-lg-12 col-md-12 col-sm-12 ">
+                        <div class="row">
+                          <div class="col-lg-6 col-md-6 col-sm-6 ">
+                            <p class="nopadding">
+                              {{tag}}
+                            </p>
+                          </div>
+                          <div class="col-lg-6 col-md-6 col-sm-6 clickable-icon" align="end" (click)="deleteInterest(tag)">
+                            <i class="zmdi zmdi-minus" style="color:#ba4823"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -131,15 +131,15 @@ export class NewsfeedComponent implements OnInit {
       self.authService.getUserData(['interests']).subscribe(function (res) {
         self.tags = res.data.interests;
         self.getTags();
-          });
-        });
+      });
+    });
   }
   getTags(): any {
     let self = this;
-    self.newsfeedService.getTags().subscribe(function(res) {
+    self.newsfeedService.getTags().subscribe(function (res) {
       self.allTags = res.data;
-      self.tagsIdonthave = self.allTags.filter(function(notFound) {
-        if(self.tags.indexOf(notFound.name) < 0){
+      self.tagsIdonthave = self.allTags.filter(function (notFound) {
+        if (self.tags.indexOf(notFound.name) < 0) {
           return notFound;
         }
       });
@@ -151,5 +151,5 @@ export class NewsfeedComponent implements OnInit {
       //     return res;
       //   } 
       // })
-      
+
       // item => self.tags.indexOf(item) < 0

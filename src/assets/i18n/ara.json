@@ -213,7 +213,8 @@
             "PREVIOUS": "السابق",
             "NEXT": "التالي",
             "YOU_ALREADY_HAVE_A_MEMBERSHIP": "هل سبق لك أن أنشأتَ حسابًا؟",
-            "CHILD_SIGN_UP_HEADER": "أنشئ حسابا لطفلك"
+            "CHILD_SIGN_UP_HEADER": "أنشئ حسابا لطفلك",
+            "ADD_INTEREST": "أضف بعض الاهتمامات"
         },
         "SIGN_IN": {
             "SIGN_IN": "تسجيل الدخول",
