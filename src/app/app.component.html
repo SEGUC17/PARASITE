@@ -8,12 +8,11 @@
     <nav class="navbar col-lg-12 col-md-12">
         <ul class="nav navbar-nav navbar-left">
             <li class="main-nav">
-                <div class="navbar-header">
-
+                <div class="navbar-header no-padding">
                     <a href="javascript:void(0);" class="bars hide-lg m-3"></a>
-                    <a routerLink="/landing" class="m-1">
+                    <a routerLink="/landing">
                         <img src="favicon.ico" class="" alt="Nawwar">
-                        <span class="text-black">{{ 'APP.NAWWAR' | translate }}</span>
+                        <span class="text-black small-font">{{ 'APP.NAWWAR' | translate }}</span>
                     </a>
                 </div>
             </li>
@@ -140,8 +139,8 @@
                     <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
                         || link.url === '/profile' && username == undefined || link.url === '/message' || link.url === '/profile'">
                         <a [routerLink]="link.url">
-                            <i  style= "color:#63c6b6" [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                            <span class = "pl-1">{{ link.name | translate }}</span>
+                            <i style="color:#63c6b6" [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                            <span class="pl-1">{{ link.name | translate }}</span>
                         </a>
                     </li>
                 </ul>
@@ -149,6 +148,9 @@
             <li class="float-right">
                 <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
                     <i class="zmdi zmdi-globe"></i>
+                </a>
+                <a href="javascript:void(0)" (click)="foo()" title="contact us">
+                    <i class="zmdi zmdi-comment"></i>
                 </a>
                 <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" routerLinkActive="active" class="mega-menu">
                     <i class="zmdi zmdi-power"></i>
@@ -160,7 +162,7 @@
                 </a>
                 <ul class="dropdown-menu pullDown">
                     <li routerLinkActive="active open" *ngFor="let link of links">
-                        
+
                         <a *ngIf="(link.url === '/admin' && isAdmin) || link.url === '/profile' || link.url === '/message'" [routerLink]="link.url">
                             <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
                             <span>{{ link.name | translate }}</span>

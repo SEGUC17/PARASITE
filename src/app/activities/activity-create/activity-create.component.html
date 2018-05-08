@@ -30,7 +30,7 @@
   </form>
 </mat-card> -->
   <!-- ......................................................... -->
-  <div class="modal-content">
+  <div class="modal-content" [style.text-align]="translate.currentLang == 'ara'? 'right': null">
     <div class="card singel-post" style="margin : 0px">
       <form class="activity-form" (ngSubmit)="createActivity(activityForm.form.valid)" id="activityForm" #activityForm="ngForm">
         <div class="header">

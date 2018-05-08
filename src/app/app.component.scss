@@ -37,8 +37,19 @@ button {
     }
 }
 
-@media only screen and(max-width: 350px) {
+@media only screen and(max-width: 425px) {
     .hide-sm {
         display: none !important;
+    }
+    .small-font{
+        font-size: 0.8rem;
+    }
+
+    .no-padding{
+        padding: 0;
+    }
+
+    .no-margin{
+        margin:0;
     }
 }
