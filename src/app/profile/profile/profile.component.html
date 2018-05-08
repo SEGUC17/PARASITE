@@ -143,8 +143,8 @@
                     <div class="row justify-content-md-center">
 
                       <!-- admin icon -->
-                      <div class="col-lg-3 col-md-3 col-sm-3" id="HoverDisplay" align="center" *ngIf="(currIsOwner && currIsAdmin)">
-                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post" *ngIf="(currIsOwner && currIsAdmin) || visitedIsAdmin">
+                      <div class="col-lg-3 col-md-3 col-sm-3" id="HoverDisplay" align="center" *ngIf="currIsAdmin">
+                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post" *ngIf="currIsAdmin">
                           <div [align]="translate.currentLang === 'ara'? 'right': null">
                             <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-accounts-list zmdi-hc-2x " style="color:#f96332">
                             </i>
@@ -153,8 +153,8 @@
                         </a>
                       </div>
                       <!-- verified contributer icon -->
-                      <div class="col-lg-3 col-md-3 col-sm-3 " id="HoverDisplay" align="center" *ngIf="(currIsOwner && verified)">
-                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="(currIsOwner && verified) || visitedIsAdmin">
+                      <div class="col-lg-3 col-md-3 col-sm-3 " id="HoverDisplay" align="center" *ngIf="verified">
+                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="verified">
                           <div [align]="translate.currentLang === 'ara'? 'right': null">
                             <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-shield-check zmdi-hc-2x" style="color:#f96332">
                             </i>
@@ -164,8 +164,8 @@
                         </a>
                       </div>
                       <!-- teacher icon -->
-                      <div class="col-lg-3 col-md-3 col-sm-3" align="center" id="HoverDisplay" *ngIf="(currIsOwner && currIsTeacher)">
-                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="(currIsOwner && currIsTeacher) || visitedIsAdmin">
+                      <div class="col-lg-3 col-md-3 col-sm-3" align="center" id="HoverDisplay" *ngIf="currIsTeacher">
+                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="currIsTeacher">
                           <div [align]="translate.currentLang === 'ara'? 'right': null">
                             <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-case zmdi-hc-2x" style="color:#f96332">
                             </i>
@@ -176,8 +176,8 @@
                       </div>
 
                       <!-- child icon -->
-                      <div class="col-lg-3 col-md-3 col-sm-3 " align="center" id="HoverDisplay" *ngIf="(currIsOwner && currIsChild)">
-                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="(currIsOwner && currIsChild) || visitedIsAdmin">
+                      <div class="col-lg-3 col-md-3 col-sm-3 " align="center" id="HoverDisplay" *ngIf="currIsChild">
+                        <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="currIsChild">
                           <div [align]="translate.currentLang === 'ara'? 'right': null">
                             <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-directions-bike zmdi-hc-2x" style="color:#f96332">
                             </i>
@@ -187,7 +187,7 @@
                         </a>
                       </div>
                       <!-- parent icon -->
-                      <div class="col-lg-3 col-md-3 col-sm-3" align="center" id="HoverDisplay" *ngIf="(currIsOwner && currIsParent)">
+                      <div class="col-lg-3 col-md-3 col-sm-3" align="center" id="HoverDisplay" *ngIf="currIsParent">
                         <a [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="job_post " *ngIf="(currIsOwner && currIsParent) || visitedIsAdmin">
                           <div [align]="translate.currentLang === 'ara'? 'right': null">
                             <i [style.float]="translate.currentLang === 'ara'? 'right': null" class="zmdi zmdi-accounts zmdi-hc-2x" style="color:#f96332">
