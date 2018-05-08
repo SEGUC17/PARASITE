@@ -350,14 +350,14 @@ if (self.canBookFor.length === 0) {
 
     self.activityService.bookActivity(self.activity, { username: user }).subscribe(
       res => {
-
+self.isBooked = true;
 if (user === resp.data.username) {
 self.currentUser.booked = true;
  }
 
 
-if (self.canBookFor.includes(user.toLowerCase())) {
-        let index = self.canBookFor.indexOf(user.toLowerCase());
+if (self.canBookFor.includes(user)) {
+        let index = self.canBookFor.indexOf(user);
         self.canBookFor.splice(index, 1);
         self.bookingUser = null;
 
