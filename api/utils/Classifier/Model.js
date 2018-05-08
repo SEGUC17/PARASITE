@@ -68,7 +68,7 @@ module.exports.loadDict = function() {
       });
 
 
-      let dataset = datasetmain.slice(0,5000);
+      let dataset = datasetmain.slice(0,600);
 
       for(let k = 0; k< dataset.length; k= k+200) {
         let  X_train_tensor;
