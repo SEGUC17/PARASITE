@@ -332,29 +332,29 @@
                     </div>
                     <label for="dEducationSystem">{{'PROFILE.PROFILE.EDUCATION_SYSTEM'| translate}}</label>
                     <br/>
-                    <div id="dEducationSystem" class="btn-group hidden-sm-down">
-                      <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{currIsOwner? educationalSystem : vEducationalSystem}}
-                        <span class="caret"></span>
-                      </button>
+                    <li class="dropdown hide-sm-down">
+                      <a class="dropdown-toggle btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" href="javascript:void(0);">
+                        <span>{{educationalSystem}}</span>
+                      </a>
                       <ul class="dropdown-menu dropdown-menu-right pullDown">
                         <li *ngFor="let system of vSystems" (click)="systemIs(system)">
                           <a href="javascript:void(0);">{{system}}</a>
                         </li>
                       </ul>
-                    </div>
+                    </li>
                     <br/>
                     <label for="dEducationLevel">{{'PROFILE.PROFILE.EDUCATION_LEVEL'| translate}}</label>
                     <br/>
-                    <div id="dEducationSystem" class="btn-group hidden-sm-down">
-                      <button type="button" class="btn btn-primary btn-round btn-simple" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{currIsOwner? educationalLevel : vEducationalLevel}}
-                        <span class="caret"></span>
-                      </button>
+                    <li class="dropdown hide-sm-down">
+                      <a class="dropdown-toggle btn btn-primary btn-round btn-simple" data-toggle="dropdown" role="button" href="javascript:void(0);">
+                        <span>{{educationalLevel}}</span>
+                      </a>
                       <ul class="dropdown-menu dropdown-menu-right pullDown">
                         <li *ngFor="let level of vLevels" (click)="levelIs(level)">
                           <a href="javascript:void(0);">{{level}}</a>
                         </li>
                       </ul>
-                    </div>
+                    </li>
                     <br/>
                     <label for="dAddress">{{'PROFILE.PROFILE.ADDRESS' |translate}}</label>
                     <div class="form-group">
