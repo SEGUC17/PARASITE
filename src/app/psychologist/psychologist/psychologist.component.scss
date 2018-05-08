@@ -1,2 +1,9 @@
 @import "../../../assets/plugins/sweetalert/sweetalert.css";
 @import "../../../assets/css/blog.css";
+
+
+@media only screen and(max-width: 425px) {
+    #psycho {
+        padding: 0px !important;
+    }
+}

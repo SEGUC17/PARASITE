@@ -160,7 +160,7 @@ export class ContentViewComponent implements OnInit {
   refreshComments(refreshViewReplies: boolean): any {
     let self = this;
     this.contentService.getContentById(this.content._id).subscribe(function (retrievedContent) {
-      self.comments = retrievedContent.data.discussion;
+      self.comments = retrievedContent.data.discussion.reverse();
       if (refreshViewReplies) {
         self.viewedReplies = [];
         for (let i = 0; i < this.content.discussion.length; i++) {

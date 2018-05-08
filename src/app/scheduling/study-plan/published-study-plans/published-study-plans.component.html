@@ -52,19 +52,21 @@
                 <br />
             </div>
             <div class="body">
-                <div class="row">
-                    <div class="card col-3" *ngFor="let studyPlan of studyPlans; let index = index">
-                        <div class="header">
-                            <h2>
-                                <span class="badge badge-mine float-right" *ngIf="studyPlan.creator === this.currUsername">{{ 'SCHEDULING.PUBLISHEDLIST.MINE' | translate }}</span>
-                                <strong>{{studyPlan.title}}</strong>
-                                <br/> {{studyPlan.creator}}
-                            </h2>
-                        </div>
-                        <div class="body">
-                            <a class="btn btn-primary" routerLink="/scheduling/study-plan/{{type}}/{{studyPlan._id}}">{{ 'SCHEDULING.PUBLISHEDLIST.VIEW' | translate }}</a>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" (click)="deleteIndex = index" color="primary"
-                                *ngIf="(studyPlan.creator === this.currUsername && !currIsChild) || currIsAdmin">{{ 'SCHEDULING.PUBLISHEDLIST.DELETE' | translate }}</button>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="card col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let studyPlan of studyPlans; let index = index">
+                            <div class="header">
+                                <h2>
+                                    <span class="badge badge-mine float-right" *ngIf="studyPlan.creator === this.currUsername">{{ 'SCHEDULING.PUBLISHEDLIST.MINE' | translate }}</span>
+                                    <strong>{{studyPlan.title}}</strong>
+                                    <br/> {{studyPlan.creator}}
+                                </h2>
+                            </div>
+                            <div class="body">
+                                <a class="btn btn-primary" routerLink="/scheduling/study-plan/{{type}}/{{studyPlan._id}}">{{ 'SCHEDULING.PUBLISHEDLIST.VIEW' | translate }}</a>
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#deleteModal" (click)="deleteIndex = index" color="primary"
+                                    *ngIf="(studyPlan.creator === this.currUsername && !currIsChild) || currIsAdmin">{{ 'SCHEDULING.PUBLISHEDLIST.DELETE' | translate }}</button>
+                            </div>
                         </div>
                     </div>
                 </div>

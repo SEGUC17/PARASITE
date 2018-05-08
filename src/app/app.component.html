@@ -8,12 +8,11 @@
     <nav class="navbar col-lg-12 col-md-12">
         <ul class="nav navbar-nav navbar-left">
             <li class="main-nav">
-                <div class="navbar-header">
-
+                <div class="navbar-header" style="padding-left: 10px;padding-right: 10px;">
                     <a href="javascript:void(0);" class="bars hide-lg m-3"></a>
-                    <a routerLink="/landing" class="m-1">
+                    <a routerLink="/landing">
                         <img src="favicon.ico" class="" alt="Nawwar">
-                        <span class="text-black">{{ 'APP.NAWWAR' | translate }}</span>
+                        <span  class="text-black small-font">{{ 'APP.NAWWAR' | translate }}</span>
                     </a>
                 </div>
             </li>
@@ -138,17 +137,20 @@
                 </a>
                 <ul class="dropdown-menu pullDown">
                     <li routerLinkActive="active open" *ngFor="let link of links" [hidden]="link.url === '/admin' && !isAdmin || link.url === '/message' && username == undefined
-                        || link.url === '/profile' && username == undefined ">
+                        || link.url === '/profile' && username == undefined || link.url === '/message' || link.url === '/profile'">
                         <a [routerLink]="link.url">
-                            <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
-                            <span>{{ link.name | translate }}</span>
+                            <i style="color:#63c6b6" [ngClass]="'zmdi zmdi-'+link.icon"></i>
+                            <span class="pl-1">{{ link.name | translate }}</span>
                         </a>
                     </li>
                 </ul>
             </li>
             <li class="float-right">
-                <a href="javascript:void(0);" (click)="changeLanguage()" title="change language">
+                <a href="javascript:void(0);" (click)="changeLanguage()" title="Change Language">
                     <i class="zmdi zmdi-globe"></i>
+                </a>
+                <a title="{{ 'LANDING.CONTACT_US' | translate }}" href="#largeModal" data-toggle="modal" data-target="#largeModal">
+                    <i class="zmdi zmdi-comment"></i>
                 </a>
                 <a [routerLink]="authService.getToken() ? '/auth/sign-out' : '/auth/sign-in'" routerLinkActive="active" class="mega-menu">
                     <i class="zmdi zmdi-power"></i>
@@ -156,11 +158,11 @@
             </li>
             <li class="dropdown pulldown float-right">
                 <a *ngIf="username" href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                    <img class="profile-img rounded-circle" [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
+                    <img style=" object-fit: cover;" class="profile-img rounded-circle" [src]="!avatar ? 'assets/images/defaultProfilePic.png': avatar" alt="User">
                 </a>
                 <ul class="dropdown-menu pullDown">
                     <li routerLinkActive="active open" *ngFor="let link of links">
-                        
+
                         <a *ngIf="(link.url === '/admin' && isAdmin) || link.url === '/profile' || link.url === '/message'" [routerLink]="link.url">
                             <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
                             <span>{{ link.name | translate }}</span>
@@ -211,3 +213,18 @@
 </div>
 <ngx-loading-bar [includeSpinner]="false" [height]="'4px'"></ngx-loading-bar>
 <router-outlet (activate)="isSignedIn()"></router-outlet>
+
+<section>
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="title" id="defaultModalLabel">{{ 'LANDING.CONTACT_NAWWAR' | translate }}</h4>
+                </div>
+                <div class="modal-body">
+                    <app-contact-us></app-contact-us>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

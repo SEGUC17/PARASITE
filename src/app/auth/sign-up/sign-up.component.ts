@@ -5,6 +5,7 @@ import { cities } from '../../variables';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Tag } from '../../newsfeed/newsfeed/tag';
 
 declare const $: any;
 
@@ -30,9 +31,8 @@ export class SignUpComponent implements OnInit {
   };
 
   public cities = cities;
-  public interests = new Set();
-  public interest;
-  public tags = [];
+  public interests = [];
+  tagsIdonthave = [];
   public tabNumber = 1;
 
   constructor(
@@ -66,14 +66,15 @@ export class SignUpComponent implements OnInit {
       if (res.err) {
         self.toastrService.error(res.err);
       } else {
-        self.tags = res.data;
-        self.interest = self.tags[0];
+        for (let i = 0; i < res.data.length; i++) {
+          self.tagsIdonthave.push(res.data[i].name);
+        }
       }
     });
   }
 
   signUp() {
-    this.user.interests = Array.from(this.interests);
+    this.user.interests = this.interests;
     const self = this;
     self.authService.signUp(this.user).subscribe(function (res) {
       if (res.msg === 'Sign Up Is Successful!\nVerification Mail Was Sent To Your Email!') {
@@ -87,8 +88,14 @@ export class SignUpComponent implements OnInit {
     });
   }
 
-  addInterest() {
-    this.interests.add(this.interest);
+  addInterest(tagName: String) {
+    this.tagsIdonthave.splice(this.tagsIdonthave.indexOf(tagName), 1);
+    this.interests.push(tagName);
+  }
+
+  deleteInterest(tagName: String) {
+    this.interests.splice(this.interests.indexOf(tagName), 1);
+    this.tagsIdonthave.push(tagName);
   }
 
 }

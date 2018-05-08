@@ -1,23 +1,23 @@
-<div class="background container">  
-  <div class="card-deck">
+ 
+  <div class="card-deck" [style.text-align]="translate.currentLang === 'ara'? 'right': null">
     <div class="card-deck col-lg-9 col-md-12">
       <div class="col-lg-4 col-md-12" *ngFor="let req of requests; let i = index">
-        <div class="card single_post mt-4" >
+        <div class="card single_post mt-4" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" >
           <div class="header">
-            <h2>
+            <h2 [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
               <strong>{{req.firstName}} {{req.lastName}}</strong>
             </h2>
           </div>
-          <div class="body text-secondary" style="font-size:12px">
-            <span><strong> Phone</strong> {{req.phone}}</span><br>
-            <span><strong> Email</strong> {{req.email}}</span><br>
-            <span><strong> Days off </strong></span>
+          <div class="body text-secondary" style="font-size:12px" [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null">
+            <span><strong> {{ 'PSYCHOLOGIST.INFO.PHONE' | translate }}</strong> {{req.phone}}</span><br>
+            <span><strong> {{ 'PSYCHOLOGIST.INFO.EMAIL' | translate }}</strong> {{req.email}}</span><br>
+            <span><strong> {{ 'PSYCHOLOGIST.INFO.DAYSOFF' | translate }}</strong></span>
             <div>
-              <span *ngFor="let day of req.daysOff" class="badge badge-default">{{day}}</span>
+              <span *ngFor="let day of req.daysOff" class="badge badge-default"> {{ 'PSYCHOLOGIST.DAYS.' + day.toUpperCase() | translate }}</span>
             </div>
-            <span><strong> Maximum Price Range</strong> {{req.priceRange}}</span>
+            <span><strong> {{ 'PSYCHOLOGIST.INFO.PRICE' | translate }}</strong> {{req.priceRange}}</span>
             <br>
-            <span><strong> Address </strong></span>
+            <span><strong> {{ 'PSYCHOLOGIST.INFO.ADD' | translate }} </strong></span>
             <div style="height:60px">
               <span>{{req.address}}</span>
             </div>
@@ -25,7 +25,7 @@
           <div class="card-footer bg-transparent border-0" align="end">
             <a href="javascript:void(0);">
               <div class="hover" style="float:right">
-                <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="acceptReq(i)">
+                <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" type="button" class="btn btn-icon btn-icon-mini btn-round btn-primary waves-effect" (click)="acceptReq(i)">
                   <i class="zmdi zmdi-check"></i>
                 </button>
                 <button type="button" class="btn btn-icon btn-icon-mini btn-round btn-danger waves-effect" (click)="rejectReq(i)">
@@ -43,7 +43,7 @@
           <div class="header">
             <h2>
               <strong>
-                Filter Requests
+                {{ 'PSYCHOLOGIST.REQS.FILTER' | translate }}
               </strong>
             </h2>
           </div>
@@ -51,14 +51,14 @@
             <div cass="row">
               <div class="radio">
                 <input id="filter_add" style="margin-right: 3px" (click)="loadRequests('add')" name="filter" type="radio" checked="">
-                <label class="col-white" for="filter_add">
-                  Add requests
+                <label class="col-white" for="filter_add" style="padding-left: 35px;">
+                  {{ 'PSYCHOLOGIST.REQS.ADD' | translate }}
                 </label>
               </div>
               <div class="radio">
                 <input id="filter_edit" style="margin-right: 3px" (click)="loadRequests('edit')" name="filter" type="radio">
-                <label class="col-white" for="filter_edit">
-                  Edit requests
+                <label class="col-white" for="filter_edit" style="padding-left: 35px;">
+                  {{ 'PSYCHOLOGIST.REQS.EDIT' | translate }}
                 </label>
               </div>
             </div>
@@ -67,4 +67,3 @@
       </div>
     </div>
   </div>
-</div>

@@ -48,12 +48,16 @@ export class SingleMailComponent implements OnInit {
   Recipient: String = '';
 
   constructor(private messageService: MessageService, private authService: AuthService, private route: ActivatedRoute,
-    private toastrService: ToastrService, public  _TranslateService: TranslateService) { }
+    private toastrService: ToastrService, public _TranslateService: TranslateService) { }
 
   ngOnInit() {
     const self = this;
     this.message = this.messageService.getMessage();
-    this.sender = this.message.sender;
+    if (this.message.sender) {
+      this.sender = this.message.sender;
+    } else {
+      this.sender = null;
+    }
     this.recipient = this.message.recipient;
     this.body = this.message.body;
     this.sentAt = this.message.sentAt;
@@ -95,7 +99,7 @@ export class SingleMailComponent implements OnInit {
       self.contacts = contacts.data;
       self.contacts = self.contacts.filter(function (element, index, array) {
         return element._id !== self.currentUser.username;
-     });
+      });
     });
   }
 

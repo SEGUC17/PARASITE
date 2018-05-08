@@ -23,7 +23,7 @@ export class MessagingComponent implements OnInit {
   currentUser: any; // the currently logged in user
   inbox: any[];
   sent: any[];
-  contacts: any[];
+  public contacts: any[];
   avatars: any[];
   flag: Boolean = true;
 

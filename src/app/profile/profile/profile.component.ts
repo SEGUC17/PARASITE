@@ -33,6 +33,7 @@ export class ProfileComponent implements OnInit {
   currCanBeParent = false;
   currHasPP = false;
   currIsAdmin = false;
+  currIsTeacher = false;
 
   visitedIsParent = false;
   visitedIsChild = false;
@@ -62,6 +63,8 @@ export class ProfileComponent implements OnInit {
   pws: { oldpw: '', newpw: '', confirmpw: '' };
   info: { address: '', birthdate: Date, email: '', firstName: '', lastName: '', phone: '', username: '' };
   birthdayView: string;
+  contributionScore: number;
+  learningScore: number;
 
   // -------------------------------------
   educationalSystem = 'Educational System';
@@ -95,7 +98,7 @@ export class ProfileComponent implements OnInit {
   listOfUncommonChildren: any[];
   listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username',
     'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent',
-    'blocked', 'isAdmin', 'educationSystem', 'educationLevel'];
+    'blocked', 'isAdmin', 'educationSystem', 'educationLevel', 'learningScore', 'contributionScore', 'isTeacher'];
   vListOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'email',
     'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username',
     'isAdmin', 'educationSystem', 'educationLevel'];
@@ -189,6 +192,9 @@ export class ProfileComponent implements OnInit {
     this.dUsername = this.username;
     this.blocklist = user.data.blocked;
     this.currIsAdmin = user.data.isAdmin;
+    this.contributionScore = user.data.contributionScore;
+    this.learningScore = user.data.learningScore;
+    this.currIsTeacher = user.data.isTeacher;
     if (this.age > 13) {
       this.currIsOfAge = true;
     }
@@ -203,13 +209,13 @@ export class ProfileComponent implements OnInit {
       this.vUsername = this.username;
     }
 
-      if (this.avatar !== '') {
-        this.currHasPP = true;
-      }
+    if (this.avatar !== '') {
+      this.currHasPP = true;
+    }
 
 
     if (!this.currIsOwner) { // Fetching other user's info, if the logged in user is not the owner of the profile
-      this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe(((info) => {
+      this._AuthService.getAnotherUserData(this.vListOfWantedVariables, this.vUsername).subscribe((info) => {
         this.vAvatar = info.data.avatar;
         this.vFirstName = info.data.firstName;
         this.vLastName = info.data.lastName;
@@ -261,8 +267,23 @@ export class ProfileComponent implements OnInit {
             this.studyPlans = resStudyPlans.data.studyPlans;
           });
         }
+        if (this.visitedIsMyChild) {
+          $('#userSettings').addClass('active show');
+          $('#aboutt').removeClass('col-lg-12');
+          $('#aboutt').addClass('col-lg-4');
+        }
 
-      }));
+      });
+    }
+    console.log(this.visitedIsMyChild);
+    if (this.currIsOwner) {
+      $('#userSettings').addClass('active show');
+      $('#aboutt').removeClass('col-lg-12');
+      $('#aboutt').addClass('col-lg-4');
+    } else {
+      $('#userSettings').remove('active show');
+      $('#aboutt').removeClass('col-lg-4');
+      $('#aboutt').addClass('col-lg-12');
     }
 
     // fetching study plan

@@ -201,7 +201,9 @@
             "PREVIOUS": "Previous",
             "NEXT": "Next",
             "YOU_ALREADY_HAVE_A_MEMBERSHIP": "You already have a membership?",
-            "CHILD_SIGN_UP_HEADER": "Sign Up For Your Child"
+            "CHILD_SIGN_UP_HEADER": "Sign Up For Your Child",
+            "ADD_INTEREST": "Add Some Interests",
+            "PICKED_INTERESTS": "Your picked interests:"
         },
         "SIGN_IN": {
             "SIGN_IN": "Sign In",
@@ -346,7 +348,7 @@
     "MARKET": {
         "MAIN": {
             "MARKET": "Marketplace",
-            "CAPTION": "Buy, sell or rent unwanted stuff",
+            "CAPTION": "Buy, Sell, or Rent Products",
             "PATH": "Market",
             "LABEL": "Products",
             "LABEL_REQ": "My Pending Products",
@@ -394,6 +396,14 @@
         "REQ_DETAIL": {
             "PROD_NAME": "Product's name",
             "ACQTYPELABEL": "Acquiring type: "
+        },
+        "TOASTER": {
+            "ALL_DATA": "Please make sure you have filled all the required fields.",
+            "IMAGE_FAILED": "Image upload failed. Please try again",
+            "PRICE_CHANGE_SUCCESS": "Price changed Successfully",
+            "PRICE_EDIT_FAILED": "Failed to edit price. Try again.",
+            "PRODUCT_DELETE_FAILED": "The product was not deleted. Please try again.",
+            "PRODUCT_DELETE_SUCCESS": "The product was deleted successfully."
         }
     },
     "MESSAGING": {
@@ -455,7 +465,15 @@
         "CONNECT_TO_MORE": "Connect to more",
         "CLICK_TO_CONNECT": "click to search and view other parents and connect with them",
         "HAVE_NOT_ADDED_INTERESTS": "Haven't added any interests yet?",
-        "ADD_SOME_NOW": "Add some now"
+        "ADD_SOME_NOW": "Add some now",
+        "MODAL": {
+            "PICK": "Pick what",
+            "INTERESTS_YOU": "interests you ",
+            "FULL": "Seems like you have alot of interests, You have added all available tags.",
+            "YOUR": "Your",
+            "INTERESTS": "Interests",
+            "NOT_ADDED_YET": "You haven't added any interests yet"
+        }
     },
     "PROFILE": {
         "CHILDREN": {
@@ -514,7 +532,17 @@
             "UNBLOCK": "Unblock",
             "REPORT": "Report",
             "EDUCATION_SYSTEM": "Educational System",
-            "EDUCATION_LEVEL": "Educational Level"
+            "EDUCATION_LEVEL": "Educational Level",
+            "LEARNING": "Learning",
+            "LEARNING_SCORE": "Score",
+            "CONTRIBUTION_SCORE": "Score",
+            "CONTRIBUTION": "Contibution",
+            "PARENT_MEDAL": "Parent Medal",
+            "CHILD_MEDAL": "Child Medal",
+            "TEACHER_MEDAL": "Teacher Medal",
+            "VERIFIED_CONTRIBUTOR_MEDAL": "Verified Contributer Medal",
+            "ADMIN_MEDAL": "Admin Medal",
+            "CHANGE_PICTURE": "Change Your Picture"
         },
         "DIRECT_MSG": {
             "TO": "To:",
@@ -547,6 +575,11 @@
         }
     },
     "PSYCHOLOGIST": {
+        "REQS": {
+            "FILTER":"Filter Requests",
+            "ADD":"Add requests",
+            "EDIT":"Edit requests"
+        },
         "TITLE": {
             "VERIFIED_PSYCHS": "Psychologists",
             "SUB": "Because your child mental health matters",
