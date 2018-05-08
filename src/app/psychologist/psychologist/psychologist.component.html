@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="card-deck">
-              <div class="col-lg-6 col-md-12" *ngFor="let psych of psychologists; let i = index;">
+              <div class="col-lg-4 col-md-12" *ngFor="let psych of psychologists; let i = index;">
                 <div class="card single_post clearfix js-sweetalert" style="margin-bottom: 5px">
                   <div class="header">
                     <span >
@@ -68,7 +68,7 @@
                       </div>
                       <div class="row">
                         <i class="zmdi zmdi-email" style="margin-right:3%"> </i>
-                        <span>
+                        <span [style.text-align]="translate.currentLang === 'ara'? 'right': null">
                           <strong [style.margin-right]="translate.currentLang === 'ara'? '5px': null"> {{ 'PSYCHOLOGIST.INFO.EMAIL' | translate }}</strong> {{psych.email}}</span>
                       </div>
                       <div class="row">
