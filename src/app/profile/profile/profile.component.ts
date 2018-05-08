@@ -98,7 +98,7 @@ export class ProfileComponent implements OnInit {
   listOfUncommonChildren: any[];
   listOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'username',
     'email', 'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent',
-    'blocked', 'isAdmin', 'educationSystem', 'educationLevel','learningScore','contributionScore', 'isTeacher'];
+    'blocked', 'isAdmin', 'educationSystem', 'educationLevel', 'learningScore', 'contributionScore', 'isTeacher'];
   vListOfWantedVariables: string[] = ['_id', 'avatar', 'firstName', 'lastName', 'email',
     'address', 'phone', 'birthdate', 'children', 'verified', 'isChild', 'isParent', 'username',
     'isAdmin', 'educationSystem', 'educationLevel'];
@@ -217,9 +217,9 @@ export class ProfileComponent implements OnInit {
       $('#aboutt').removeClass('col-lg-12');
     }
 
-      if (this.avatar !== '') {
-        this.currHasPP = true;
-      }
+    if (this.avatar !== '') {
+      this.currHasPP = true;
+    }
 
 
     if (!this.currIsOwner) { // Fetching other user's info, if the logged in user is not the owner of the profile
