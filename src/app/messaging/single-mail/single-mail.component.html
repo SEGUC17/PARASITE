@@ -1,185 +1,212 @@
 <section class="content inbox">
-        <div class="block-header">
-          <div class="row">
-            <div class="col-lg-7 col-md-6 col-sm-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
-              <h2>{{ 'MESSAGING.MAIL.VIEW' | translate }}</h2>
-            </div>
-            <div class="col-lg-5 col-md-6 col-sm-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
-                <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" title="Compose" (click)="openDialog()">
-                    <i class="material-icons">create</i>
-                  </button>
-              <ul class="breadcrumb float-md-right" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
-                <li class="breadcrumb-item"><a routerLink="/content/edit"><i class="zmdi zmdi-home"></i>{{ 'MESSAGING.MESSAGING.DASHBOARD' | translate }}</a></li>
-                <li class="breadcrumb-item"><a routerLink="/message">{{ 'MESSAGING.MAIL.ALL_MSGS' | translate }}</a></li>
-                <li class="breadcrumb-item active">{{ 'MESSAGING.MAIL._VIEW' | translate }}</li>
-              </ul>
+  <div class="block-header">
+    <div class="row">
+      <div class="col-lg-7 col-md-6 col-sm-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+        <h2>{{ 'MESSAGING.MAIL.VIEW' | translate }}</h2>
+      </div>
+      <div class="col-lg-5 col-md-6 col-sm-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+        <button class="btn btn-primary btn-icon btn-round hidden-sm-down float-right m-l-10" type="button" title="Compose" (click)="openDialog()">
+          <i class="material-icons">create</i>
+        </button>
+        <ul class="breadcrumb float-md-right" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+          <li class="breadcrumb-item">
+            <a routerLink="/content/edit">
+              <i class="zmdi zmdi-home"></i>{{ 'MESSAGING.MESSAGING.DASHBOARD' | translate }}</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a routerLink="/message">{{ 'MESSAGING.MAIL.ALL_MSGS' | translate }}</a>
+          </li>
+          <li class="breadcrumb-item active">{{ 'MESSAGING.MAIL._VIEW' | translate }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8">
+        <div class="row clearfix">
+          <div class="col-lg-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+            <div class="card" style="margin-top:20px;">
+              <div class="body">
+                <div class="row">
+                  <div class="col-md-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+                    <div class="media">
+                      <div class="float-left">
+                        <div class="m-r-20">
+                          <img class="rounded" [src]="avatarDisplay" width="70" alt=""> </div>
+                      </div>
+                      <div class="media-body">
+                        <span class="float-right">
+                          <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openReplyDialog(recipient)">
+                            <i class="material-icons">reply</i>
+                          </button>
+                          <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openForwardDialog()">
+                            <i class="material-icons">forward</i>
+                          </button>
+                          <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openDeleteDialog()">
+                            <i class="material-icons">delete</i>
+                          </button>
+                          <button type="button" class="btn btn-neutral hidden-sm-down" (click)="block()">
+                            <i class="material-icons">block</i>
+                          </button>
+                        </span>
+                        <p class="m-b-0">
+                          <strong class="m-r-10">{{ 'MESSAGING.MAIL.FROM' | translate }}</strong>
+                          <a routerLink={{profile1}}>{{senderDisplay}}</a>
+                        </p>
+                        <p class="m-b-0">
+                          <strong class="m-r-10">{{ 'MESSAGING.DIALOG.TO' | translate }}</strong>
+                          <a routerLink={{profile2}}>{{recipientDisplay}}</a>
+                          <br/>
+                          <span class="text-muted text-sm">{{sentAt|date}}</span>
+                        </p>
+                      </div>
+                    </div>
+                    <hr>
+                  </div>
+                  <div class="col-md-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+                    <p>{{body}}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="container-fluid">
-                <div class="row clearfix" style="float:right; margin-left:10px; margin-top:20px; width:300px;">
-                        <div class="col-lg-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
-                          <div class="card">
-                              <div class="header">
-                                  <h2>
-                                    <strong>{{ 'MESSAGING.MESSAGING.RECENTLY_CONTACTED' | translate }}<i class="material-icons">people</i></strong>
-                                  </h2>
-                                </div>
-                                <div *ngIf="!contacts.length">
-                                    <div class="body table-responsive">
-                                      <table class="table m-b-0 c_list">
-                                        <tbody>
-                                          <tr>
-                                            <p>{{ 'MESSAGING.MESSAGING.NO_CONTACT' | translate }}</p><a href="javascript:void(0);" (click)="openDialog()">{{ 'MESSAGING.MESSAGING.START_CONVO' | translate }}</a>
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                     </div>
-                                </div>
-                            <div class="body table-responsive">
-                              <table class="table table-hover m-b-0 c_list">
-                                <tbody *ngFor="let contact of contacts">
-                                <tr>
-                                    <a href=""><ul class="mail_list list-group list-unstyled">
-                                        <div>
-                                        <li class="list-group-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                          <div class="media">
-                                            <div class="pull-left">
-                                              <div class="thumb hidden-sm-down m-r-20" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null"> <img src= {{contact.recipientAvatar}} class="rounded-circle" alt=""> </div>
-                                              <small style="color:black; font-size:15px;">{{contact._id}}</small>
-                                            </div>
-                                            </div>
-                                         </li>
-                                         <span class="caret"></span>
-                                         <ul class="dropdown-menu dropdown-menu-top pullDown">
-                                            <li><a id="contact" href="javascript:void(0);" (click)="openReplyDialog(contact._id)"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.SEND_MSG' | translate }}</small></a></li>
-                                            <li role="separator" class="divider"></li>
-                                            <li><a routerLink="/profile/{{contact._id}}"><small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.VIEW_PROFILE' | translate }}</small></a></li>
-                                          </ul>
-                                        </div>
-                                      </ul></a>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>  
-                        </div>
-                      </div>
-          <div class="row clearfix">
-            <div class="col-lg-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
-              <div class="card" style="margin-top:20px;">
-                <div class="body">
-                  <div class="row">
-                    <div class="col-md-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
-                            <div class="media">
-                              <div class="float-left">
-                                <div class="m-r-20"> <img class="rounded" src= {{avatarDisplay}} width="70" alt=""> </div>
-                              </div>
-                              <div class="media-body">
-                                    <span class="float-right" >
-                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openReplyDialog(recipient)">
-                                            <i class="material-icons">reply</i>
-                                        </button>
-                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openForwardDialog()">
-                                            <i class="material-icons">forward</i>
-                                        </button>
-                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="openDeleteDialog()">
-                                            <i class="material-icons">delete</i>
-                                        </button>
-                                        <button type="button" class="btn btn-neutral hidden-sm-down" (click)="block()">
-                                            <i class="material-icons">block</i>
-                                        </button>
-                                    </span>
-                                  <p class="m-b-0">
-                                    <strong class="m-r-10">{{ 'MESSAGING.MAIL.FROM' | translate }}</strong><a routerLink={{profile1}}>{{senderDisplay}}</a>
-                                  </p>
-                                  <p class="m-b-0">
-                                      <strong class="m-r-10">{{ 'MESSAGING.DIALOG.TO' | translate }}</strong><a routerLink={{profile2}}>{{recipientDisplay}}</a>
-                                      <br/>
-                                      <span class="text-muted text-sm">{{sentAt|date}}</span>
-                                  </p>
-                              </div>
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="col-md-12" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
-                            <p>{{body}}</p>
-                        </div>
-                    </div>
-                </div>
+      </div>
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-3" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+        <div class="card">
+          <div class="header">
+            <h2>
+              <strong>{{ 'MESSAGING.MESSAGING.RECENTLY_CONTACTED' | translate }}
+                <i class="material-icons">people</i>
+              </strong>
+            </h2>
+          </div>
+          <div *ngIf="!contacts || !contacts.length">
+            <div class="body table-responsive">
+              <table class="table m-b-0 c_list">
+                <tbody>
+                  <tr>
+                    <p>{{ 'MESSAGING.MESSAGING.NO_CONTACT' | translate }}</p>
+                    <a href="javascript:void(0);" (click)="openDialog()">{{ 'MESSAGING.MESSAGING.START_CONVO' | translate }}</a>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
+          <div class="body table-responsive">
+            <table class="table table-hover m-b-0 c_list">
+              <tbody *ngFor="let contact of contacts">
+                <tr>
+                  <a href="">
+                    <ul class="mail_list list-group list-unstyled">
+                      <div>
+                        <li class="list-group-item" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <div class="media">
+                            <div class="pull-left">
+                              <div class="thumb hidden-sm-down m-r-20" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+                                <img [src]="contact.recipientAvatar" class="rounded-circle" alt=""> </div>
+                              <small style="color:black; font-size:15px;">{{contact._id}}</small>
+                            </div>
+                          </div>
+                        </li>
+                        <span class="caret"></span>
+                        <ul class="dropdown-menu dropdown-menu-top pullDown">
+                          <li>
+                            <a id="contact" href="javascript:void(0);" (click)="openReplyDialog(contact._id)">
+                              <small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.SEND_MSG' | translate }}</small>
+                            </a>
+                          </li>
+                          <li role="separator" class="divider"></li>
+                          <li>
+                            <a routerLink="/profile/{{contact._id}}">
+                              <small style="color:#FF5722; font-size:16px;">{{ 'MESSAGING.MESSAGING.VIEW_PROFILE' | translate }}</small>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </ul>
+                  </a>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </section>
-
-  <div class="modal fade" id="send" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div>
-          <app-send-dialog></app-send-dialog>>
-        </div>
-      </div>
   </div>
+</section>
 
-  <div class="modal fade" id="reply" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="title" id="defaultModalLabel">{{ 'MESSAGING.MESSAGING.REPLY' | translate }}</h4>
-                </div>
-                <div class="modal-body">
-                    <label><strong>{{ 'MESSAGING.DIALOG.TO' | translate }}</strong></label>
-                    <span class="badge bg-cyan">{{replyTo}}</span>
-                    <div class="form-group form-float">
-                        <textarea #textarea class="form-control" placeholder="{{ 'MESSAGING.DIALOG.TYPE_MSG' | translate }}" style="height:350px;" [(ngModel)]="Body"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary btn-round waves-effect" (click)="reply(); textarea.value='';">{{ 'MESSAGING.MESSAGING.SEND_MSG' | translate }}</button>
-                  <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">{{ 'MESSAGING.MESSAGING.CANCEL' | translate }}</button>
-                </div>
-              </div>
+<div class="modal fade" id="send" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div>
+      <app-send-dialog></app-send-dialog>>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="reply" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="title" id="defaultModalLabel">{{ 'MESSAGING.MESSAGING.REPLY' | translate }}</h4>
+        </div>
+        <div class="modal-body">
+          <label>
+            <strong>{{ 'MESSAGING.DIALOG.TO' | translate }}</strong>
+          </label>
+          <span class="badge bg-cyan">{{replyTo}}</span>
+          <div class="form-group form-float">
+            <textarea #textarea class="form-control" placeholder="{{ 'MESSAGING.DIALOG.TYPE_MSG' | translate }}" style="height:350px;"
+              [(ngModel)]="Body"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-round waves-effect" (click)="reply(); textarea.value='';">{{ 'MESSAGING.MESSAGING.SEND_MSG' | translate }}</button>
+          <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">{{ 'MESSAGING.MESSAGING.CANCEL' | translate }}</button>
         </div>
       </div>
-   </div>
+    </div>
+  </div>
+</div>
 
-   <div class="modal fade" id="forward" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="title" id="defaultModalLabel">{{ 'MESSAGING.MAIL.FORWARD' | translate }}</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group form-float">
-                        <input #receiver type="text" placeholder="{{ 'MESSAGING.DIALOG.TO' | translate }}" class="form-control" [(ngModel)]="Recipient">
-                    </div>
-                    <div class="form-group form-float">
-                        <textarea class="form-control" style="height:350px;" [(ngModel)]="body"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-primary btn-round waves-effect" (click)="forward(); receiver.value='' ;">{{ 'MESSAGING.MESSAGING.SEND_MSG' | translate }}</button>
-                  <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">{{ 'MESSAGING.MESSAGING.CANCEL' | translate }}</button>
-                </div>
-              </div>
+<div class="modal fade" id="forward" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="title" id="defaultModalLabel">{{ 'MESSAGING.MAIL.FORWARD' | translate }}</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group form-float">
+            <input #receiver type="text" placeholder="{{ 'MESSAGING.DIALOG.TO' | translate }}" class="form-control" [(ngModel)]="Recipient">
+          </div>
+          <div class="form-group form-float">
+            <textarea class="form-control" style="height:350px;" [(ngModel)]="body"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary btn-round waves-effect" (click)="forward(); receiver.value='' ;">{{ 'MESSAGING.MESSAGING.SEND_MSG' | translate }}</button>
+          <button type="button" class="btn btn-danger btn-simple btn-round waves-effect" data-dismiss="modal">{{ 'MESSAGING.MESSAGING.CANCEL' | translate }}</button>
         </div>
       </div>
-   </div>
+    </div>
+  </div>
+</div>
 
-   <div class="modal fade" id="delete" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div>
-            <div class="modal-content">
-                <div class="modal-body">
-                    {{ 'MESSAGING.MAIL.DELETE' | translate }}
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger btn-round waves-effect" (click)="deleteMessage()" data-dismiss="modal">{{ 'MESSAGING.MAIL.YES' | translate }}</button>
-                  <button type="button" class="btn btn-default btn-simple btn-round waves-effect" data-dismiss="modal">{{ 'MESSAGING.MESSAGING.CANCEL' | translate }}</button>
-                </div>
-              </div>
+<div class="modal fade" id="delete" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div>
+      <div class="modal-content">
+        <div class="modal-body">
+          {{ 'MESSAGING.MAIL.DELETE' | translate }}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger btn-round waves-effect" (click)="deleteMessage()" data-dismiss="modal">{{ 'MESSAGING.MAIL.YES' | translate }}</button>
+          <button type="button" class="btn btn-default btn-simple btn-round waves-effect" data-dismiss="modal">{{ 'MESSAGING.MESSAGING.CANCEL' | translate }}</button>
         </div>
       </div>
-   </div>
+    </div>
+  </div>
+</div>
