@@ -52,7 +52,7 @@ module.exports.loadDict = function() {
       }));
       classifier.add(tf.layers.dense({
         units: 100,
-        activation: 'sigmoid',
+        activation: 'relu',
         kernelInitializer: 'glorotUniform'
       }));
       classifier.add(tf.layers.dense({
@@ -68,7 +68,7 @@ module.exports.loadDict = function() {
       });
 
 
-      let dataset = datasetmain.slice(0,600);
+      let dataset = datasetmain.slice(0,3500);
 
       for(let k = 0; k< dataset.length; k= k+200) {
         let  X_train_tensor;
@@ -202,7 +202,15 @@ module.exports.loadDict = function() {
             Y_test_tensor = tf.concat([Y_test_tensor, curr_y.as2D(1,1)], 0);
           }
           let p = classifier.predict(X_test_tensor);
-          console.log((p.data()));
+          // console.log(p.data().Int32Array);
+
+          p.data().then(function(value) {
+            console.log(value);
+            console.log(batch[value.indexOf(value.slice().sort()[0])]);
+            // expected output: Array [1, 2, 3]
+          });
+
+
           var equality = tf.equal(tf.round(p), Y_test_tensor);
           var accuracy = tf.mean(equality);
           console.log('The Accuracy of batch ' + f + ' is :');
