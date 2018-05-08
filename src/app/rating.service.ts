@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class RatingService {
-  endpoint: String = 'http://localhost:3000/api/';
+  endpoint: String = environment.apiUrl;
   constructor(private http: HttpClient) { }
 
   rate(userRating): Observable<any> {
