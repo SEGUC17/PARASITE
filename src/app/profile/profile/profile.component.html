@@ -121,7 +121,7 @@
                   <strong>{{currIsOwner? firstName : vFirstName}}</strong> {{currIsOwner? lastName : vLastName}}</h4>
               </div>
               <div class="col-lg-4 col-md-12">
-                <span class="dropdown" [style.text-align]="translate.currentLang === 'ara'? 'right':'left'">
+                <span class="dropdown">
                   <button class="btn btn-white btn-round btn-simple" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
                     *ngIf="currIsParent && !currIsOwner && !visitedIsChild && visitedCanBeParent">
                     <span>{{'PROFILE.PROFILE.LINK_TO_CHILD' | translate}}</span>
@@ -351,7 +351,7 @@
               <a class="nav-link" data-toggle="tab" href="#studyplans">{{'PROFILE.PROFILE.STUDY_PLANS' | translate}}</a>
             </li>
             <li class="nav-item" *ngIf="currIsOwner && currIsOfAge">
-              <a class="nav-link active show" data-toggle="tab" href="#userSettings">{{'PROFILE.PROFILE.SETTINGS'| translate}}</a>
+              <a class="nav-link" data-toggle="tab" href="#userSettings">{{'PROFILE.PROFILE.SETTINGS'| translate}}</a>
             </li>
             <li class="nav-item" *ngIf="visitedIsMyChild">
               <a class="nav-link" data-toggle="tab" href="#childSettings">{{'PROFILE.PROFILE.SETTINGS' | translate}}</a>
