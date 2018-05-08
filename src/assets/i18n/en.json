@@ -202,7 +202,8 @@
             "NEXT": "Next",
             "YOU_ALREADY_HAVE_A_MEMBERSHIP": "You already have a membership?",
             "CHILD_SIGN_UP_HEADER": "Sign Up For Your Child",
-            "ADD_INTEREST": "Add Some Interests"
+            "ADD_INTEREST": "Add Some Interests",
+            "PICKED_INTERESTS": "Your picked interests:"
         },
         "SIGN_IN": {
             "SIGN_IN": "Sign In",

@@ -214,7 +214,8 @@
             "NEXT": "التالي",
             "YOU_ALREADY_HAVE_A_MEMBERSHIP": "هل سبق لك أن أنشأتَ حسابًا؟",
             "CHILD_SIGN_UP_HEADER": "أنشئ حسابا لطفلك",
-            "ADD_INTEREST": "أضف بعض الاهتمامات"
+            "ADD_INTEREST": "أضف بعض الاهتمامات",
+            "PICKED_INTERESTS": "اهتماماتك:"
         },
         "SIGN_IN": {
             "SIGN_IN": "تسجيل الدخول",

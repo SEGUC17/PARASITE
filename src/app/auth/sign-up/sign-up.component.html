@@ -50,21 +50,21 @@
                     </div>
                   </div>
                   <div [hidden]="this.tabNumber != 2">
-                    <div class="input-group">
+                    <div class="input-group input-lg">
                       <span class="input-group-addon">
                         <i class="zmdi zmdi-account-circle"></i>
                       </span>
                       <input type="text" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.USERNAME_PLACEHOLDER' | translate }}" [(ngModel)]="user.username"
                         name="username" autocomplete="username" required>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group input-lg">
                       <span class="input-group-addon">
                         <i class="zmdi zmdi-email"></i>
                       </span>
                       <input type="email" class="form-control" placeholder="{{ 'AUTH.SIGN_UP.EMAIL_PLACEHOLDER' | translate }}" [(ngModel)]="user.email"
                         name="email" autocomplete="email" required>
                     </div>
-                    <div class="input-group">
+                    <div class="input-group input-lg">
                       <span class="input-group-addon">
                         <i class="zmdi zmdi-lock"></i>
                       </span>
@@ -82,12 +82,12 @@
                       <input id="terms" type="checkbox" required>
                       <label for="terms">
                         {{ 'AUTH.SIGN_UP.I_READ_AND_AGREED_TO' | translate }}
-                        <a href="javascript:void(0);">{{ 'AUTH.SIGN_UP.TERMS_OF_USAGE' | translate }}</a>
+                        <a href="#aboutUsModal" data-toggle="modal" data-target="#aboutUsModal">{{ 'AUTH.SIGN_UP.TERMS_OF_USAGE' | translate }}</a>
                       </label>
                     </div>
                   </div>
                   <div id="interests" [hidden]="this.tabNumber != 3" style="height: 60% !important; overflow: auto !important">
-                      <h6>Pick some of your interests:</h6>
+                      <h6>{{ 'AUTH.SIGN_UP.PICKED_INTERESTS' | translate }}</h6>
                     <p *ngFor="let tag of interests">{{tag}} </p>
                     <a div="ml-auto" class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" href="#defaultModal" data-toggle="modal"
                       data-target="#defaultModal">
@@ -211,3 +211,19 @@
     </div>
   </div>
 </div>
+
+
+<section>
+    <div class="modal fade" id="aboutUsModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="title" id="defaultModalLabel">{{ 'AUTH.SIGN_UP.TERMS_OF_USAGE' | translate }}</h4>
+          </div>
+          <div class="modal-body">
+            <p>Here you can add any information you want the people to know.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
