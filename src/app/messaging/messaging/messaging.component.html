@@ -70,7 +70,7 @@
                     </div>
                     <div *ngIf="!message.state">
                       <li class="list-group-item">
-                        <div class="media" [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
+                        <div class="media"  [style.transform]="_TranslateService.currentLang == 'ara'? 'scaleX(-1)': null"  [style.text-align]="_TranslateService.currentLang == 'ara'? 'right': null">
                           <div class="pull-left">
                             <div class="thumb hidden-sm-down m-r-20">
                               <img [src]="message.senderAvatar" class="rounded-circle" alt=""> </div>
