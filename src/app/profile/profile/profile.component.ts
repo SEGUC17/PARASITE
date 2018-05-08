@@ -213,6 +213,7 @@ export class ProfileComponent implements OnInit {
       $('#userSettings').addClass('active show');
       $('#aboutt').addClass('col-lg-4');
     } else {
+      $('#userSettings').remove('active show');
       $('#aboutt').removeClass('col-lg-12');
     }
 
