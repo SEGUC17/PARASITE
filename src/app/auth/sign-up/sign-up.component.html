@@ -89,12 +89,12 @@
                   <div id="interests" [hidden]="this.tabNumber != 3" style="height: 60% !important; overflow: auto !important">
                       <h6>Pick some of your interests:</h6>
                     <p *ngFor="let tag of interests">{{tag}} </p>
-                    <a div="ml-auto" class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" href="#defaultModal" data-toggle="modal"
+                    <a div="ml-auto" class="btn btn-primary btn-round btn-lg waves-effect waves-light" href="#defaultModal" data-toggle="modal"
                       data-target="#defaultModal">
                       {{ 'AUTH.SIGN_UP.ADD_INTEREST' | translate }}
                     </a>
                     <br/>
-                    <a class="btn btn-primary btn-round btn-lg btn-block waves-effect waves-light" (click)="signUp()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
+                    <a class="btn btn-primary btn-round btn-lg waves-effect waves-light" (click)="signUp()">{{ 'AUTH.SIGN_UP.SIGN_UP_CAPS' | translate }}</a>
                   </div>
                 </div>
                 <div class="footer">
