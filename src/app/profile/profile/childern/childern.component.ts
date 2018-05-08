@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class ChildernComponent implements OnInit {
 
   // initializing variabless
+
   childrenList: string[];
   childListIsFilled: boolean;
   username: string;
@@ -30,6 +31,7 @@ export class ChildernComponent implements OnInit {
     , private toaster: ToastrService, public translate: TranslateService) { }
 
   ngOnInit() {
+
     this.childListIsFilled = true;
     this.singleArray = [{
       avatar: '', firstName: '', lastName: '',
@@ -92,7 +94,7 @@ export class ChildernComponent implements OnInit {
 
                     let resAvatar;
 
-                    resAvatar = !res.data.avatar ? 'assets/images/defaultProfilePic.png' : res.data.avatar;
+                    resAvatar = !result.data.avatar ? 'assets/images/defaultProfilePic.png' : result.data.avatar;
 
                     self.singleArray.push({
                       avatar: resAvatar,
@@ -117,6 +119,7 @@ export class ChildernComponent implements OnInit {
       child: child
     };
     const self = this;
+
     // getting the birthdate of the child to get his/her age;
     this.authService.getAnotherUserData(['_id', 'birthdate'], child).subscribe(((user) => {
       age = this.calculateAge(user.data.birthdate);
@@ -125,6 +128,7 @@ export class ChildernComponent implements OnInit {
         // self.toaster.error('You can only unlink children 13 or above');
         self.translate.get('PROFILE.TOASTER.UNLINK_UNDER_13').subscribe(function (translation) {
           self.toaster.error(translation);
+
         });
       }
       if (age >= 13) {
