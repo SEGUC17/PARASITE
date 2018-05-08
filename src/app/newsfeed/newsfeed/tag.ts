@@ -1,4 +1,4 @@
 export interface Tag {
-    _id? : String;
-    name : String;
+    _id?: String;
+    name: String;
 }
