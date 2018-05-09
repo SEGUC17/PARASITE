@@ -17,7 +17,7 @@
       <div class="col-auto">
         <h2>
           {{ title }}
-          <a class="clickable col-md-12 col-lg-4 col-xl-4" *ngIf="!editingTitle" (click)="editingTitle = true">
+          <a class="clickable col-md-12 col-lg-4 col-xl-4" *ngIf="!editingTitle && !currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)" (click)="editingTitle = true">
             <i class="zmdi zmdi-edit"></i>
           </a>
         </h2>
@@ -52,7 +52,7 @@
             <div class="collapse-xs collapse-sm collapse" id="open-events">
               <br *ngIf="currIsChild || (type === 'published' && currUsername !== studyPlan.creator && !currIsAdmin)" />
               <br *ngIf="currIsChild || (type === 'published' && currUsername !== studyPlan.creator && !currIsAdmin)" />
-              <hr *ngIf="!currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)" />
+              <hr />
               <div class="event-name b-primary row" *ngFor="let event of events; let index = index" (click)="viewDate = event.start">
                 <div class="col-2 text-center">
                   <h4>{{ event.start | date:'dd' }}
@@ -110,7 +110,7 @@
     <div class="card">
       <div class="header">
         <h2>
-          <a class="clickable float-right" *ngIf="!editingDescription" (click)="editingDescription = true">
+          <a class="clickable float-right" *ngIf="!editingDescription && !currIsChild && (type === 'personal' || currUsername === studyPlan.creator || currIsAdmin)" (click)="editingDescription = true">
             <i [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="zmdi zmdi-edit zmdi-hc-2x"></i>
           </a>
           <a class="clickable float-right" *ngIf="editingDescription" (click)="editingDescription = false; changed = true;">
