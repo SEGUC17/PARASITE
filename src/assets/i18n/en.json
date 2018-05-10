@@ -15,7 +15,8 @@
         "CHANGE_LANGUAGE": "Change Language",
         "NEWSFEED": "Newsfeed",
         "SIGN_UP_FOR_FULL_ACCESS": "Sign Up to Enjoy All the Features of Our Website",
-        "SIGN_IN_ADMIN": "You Don't Have Permission to Access This Page"
+        "SIGN_IN_ADMIN": "You Don't Have Permission to Access This Page",
+        "SCHEDULE": "Schedule"
     },
     "ACTIVITIES": {
         "CREATE": {
@@ -490,6 +491,7 @@
             "MESSAGE": "Message",
             "CHILDREN": "Children",
             "STUDY_PLANS": "Study Plans",
+            "SCHEDULE": "Schedule",
             "SETTINGS": "Settings",
             "ABOUT": "About",
             "ADD-AS-PARENT": "Add As A Parent",

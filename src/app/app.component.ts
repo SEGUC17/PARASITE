@@ -87,6 +87,11 @@ export class AppComponent implements OnInit {
       url: '/scheduling/study-plan/published',
       name: 'APP.STUDY_PLANS',
       icon: 'graduation-cap'
+    },
+    {
+      url: '/scheduling/schedule',
+      name: 'APP.SCHEDULE',
+      icon: 'calendar'
     }
   ];
   constructor(

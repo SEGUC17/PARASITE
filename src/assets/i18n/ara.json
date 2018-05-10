@@ -15,7 +15,8 @@
         "CHANGE_LANGUAGE": "تغيير اللغة",
         "NEWSFEED": "اخر الأخبار",
         "SIGN_UP_FOR_FULL_ACCESS": "قم بالتسجيل للاستمتاع بكل ميزات موقعنا",
-        "SIGN_IN_ADMIN": "ليس لديك إذن للوصول إلى هذه الصفحة"
+        "SIGN_IN_ADMIN": "ليس لديك إذن للوصول إلى هذه الصفحة",
+        "SCHEDULE": "الجدول"
     },
     "ACTIVITIES": {
         "CREATE": {
@@ -495,6 +496,7 @@
             "MESSAGE": "إرسال رساله",
             "CHILDREN": "أطفالى",
             "STUDY_PLANS": "الخطط الدراسيه",
+            "SCHEDULE": "الجدول",
             "SETTINGS": "الإعدادات",
             "ABOUT": "عن المستخدم",
             "ADD-AS-PARENT": "أضفه كولى أمرى",
@@ -532,7 +534,7 @@
             "DELETE_EVENT": "حذف الحدث",
             "DELE_EVENT_CONF": "هل انت متأكد من أنك تريد حذف هذا الحدث ؟",
             "DELETE": "حذف",
-            "ASSIGNED": "تعين",
+            "ASSIGNED": "معينة",
             "VIEW": "عرض",
             "UNBLOCK": "رفع الحظر",
             "REPORT": "إبلاغ عن المستخدم",
