@@ -10,6 +10,15 @@
               <div class="col-lg-4 col-md-12 row">
                 <!-- -->
                 <div id="myHover">
+
+                  <a href="scheduling/schedule/{{ currIsOwner ? username : vUsername }}" class="clickable-icon ml-2" style="color:white; margin:4px" *ngIf="currIsOwner || visitedIsMyChild">
+                    <i class="zmdi zmdi-calendar zmdi-hc-2x"></i>
+                    <div>
+                      <small id="shouldAppearOnHover">{{'PROFILE.PROFILE.SCHEDULE' | translate}} </small>
+                    </div>
+                  </a>
+                </div>
+                <div id="myHover">
                   <a class="clickable-icon" style="color:white; margin:4px" *ngIf="currIsOwner" href="#defaultModal" data-toggle="modal" data-target="#defaultModal"
                     title="Change picture">
                     <i class="zmdi zmdi-edit zmdi-hc-2x"></i>
