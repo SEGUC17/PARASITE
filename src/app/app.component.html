@@ -163,7 +163,7 @@
                 <ul class="dropdown-menu pullDown">
                     <li routerLinkActive="active open" *ngFor="let link of links">
 
-                        <a *ngIf="(link.url === '/admin' && isAdmin) || link.url === '/profile' || link.url === '/message'" [routerLink]="link.url">
+                        <a *ngIf="(link.url === '/admin' && isAdmin) || link.url === '/profile' || link.url === '/message' || link.url === '/scheduling/schedule'" [routerLink]="link.url">
                             <i [ngClass]="'zmdi zmdi-'+link.icon"></i>
                             <span>{{ link.name | translate }}</span>
                         </a>
