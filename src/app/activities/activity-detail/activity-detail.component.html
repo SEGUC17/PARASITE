@@ -8,18 +8,18 @@
         </h2>
       </div>
       <div class="col-lg-5 col-md-6 col-sm-12" >
-         <div [class]="translate.currentLang === 'ara'? 'float-md-left':'float-md-right'">  
+         <div [class]="translate.currentLang === 'ara'? 'float-md-left':'float-md-right'">
             <button  [style]="translate.currentLang === 'ara'? 'margin-right:20px':null" class="btn btn-primary btn-icon btn-round hidden-sm-down  m-l-10" type="button" *ngIf="isCreator && !isBooked "
             (click)="openDialog()">
             <i class="zmdi zmdi-edit"></i>
           </button>
-          <button class="btn btn-primary btn-icon btn-round hidden-sm-down  m-l-10" type="button" *ngIf="(isCreator || currentUser.isAdmin) && !isBooked" 
+          <button class="btn btn-primary btn-icon btn-round hidden-sm-down  m-l-10" type="button" *ngIf="(isCreator || currentUser.isAdmin) && !isBooked"
             (click)="deleteActivity(activity)">
             <i class="zmdi zmdi-delete"></i>
           </button>
         </div>
         <ul [class]="translate.currentLang === 'ara'? 'breadcrumb float-md-left':'breadcrumb float-md-right'" >
-    
+
           <li class="breadcrumb-item">
             <a routerLink="/dashboard">
               <i class="zmdi zmdi-home"></i> {{'APP.NAWWAR' | translate}}</a>
@@ -29,45 +29,45 @@
               <i class="zmdi zmdi-home"></i> {{ 'ACTIVITIES.LIST.ACTIVITIES' | translate }}</a>
           </li>
           <li class="breadcrumb-item active">{{ 'ACTIVITIES.DETAIL.DETAILS' | translate }}</li>
- 
+
         </ul>
-  
+
       </div>
     </div>
   </div>
   <!--Activity Container -->
   <div class="container-fluid" [style.text-align]="translate.currentLang === 'ara'? 'right': 'left'"
-  >    
+  >
     <div class="row clearfix">
       <div class="col-lg-12 col-md-12">
-      
+
         <div class="card profile-header " >
-    
+
           <div class="body ">
               <div class="col-lg-18 col-md-18 col-72 ">
                 <a class=" m-l-10" *ngIf="isCreator && !isBooked"  href="#defaultModal" data-toggle="modal" data-target="#defaultModal" title="Change picture">
                   <i class="zmdi zmdi-edit zmdi-hc-2x" ></i>
                 </a>
                   <div >
-                      
+
                       <img style=" object-fit: cover;background-size: cover; margin-left:30px;margin-right:30px;width: 1215px; height: 550px;" [src]="activity.image" alt=""> </div>
                       <div [align]="translate.currentLang === 'ara'? 'left':'right'">
-                   
+
                       </div>
                 </div>
                 <div class="col-lg-12 col-md-12">
                   <div></div>
                 </div>
             <div class="row">
-        
+
               <div class="col-lg-9 col-md-8 col-12">
                   <h4  ></h4>
                 <h4 class="m-t-0 m-b-0" style="margin-left:30px;margin-right:30px">{{activity.name}}</h4>
                 <p></p>
-              
+
                 <div style="margin-left:30px;margin-right:30px;" >
                     <p>{{ 'ACTIVITIES.DETAIL.FROM' | translate }} : {{activity.fromDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}
-                        {{ 'ACTIVITIES.DETAIL.TO' | translate }} : {{activity.toDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}</p>  
+                        {{ 'ACTIVITIES.DETAIL.TO' | translate }} : {{activity.toDateTime | date:'yyyy-MM-dd HH:mm': 'locale'}}</p>
                   <span   style="color: #ff5722; margin-left: 4px">{{ activity.price | currency: 'EGP '}}
                       <h4></h4>
                       <div  style="margin-left: 4px"class ="row" *ngIf="signedIn && !currentUser.isChild" [align]="translate.currentLang === 'ara'? 'right':'left'">
@@ -77,7 +77,7 @@
                        <!--select class="form-control-sm form-control btn-primary col-sm-2" [(ngModel)]="bookingUser" >
                            <option  *ngFor="let user of canBookFor">{{user}}</option>
                           </select-->
-               
+
                           <ul  class="dropdown-menu pullDown" >
                               <li *ngFor="let user of canBookFor" (click)="bookActivity(user)">
                                 <a  >{{user}} </a>
@@ -86,9 +86,9 @@
                           </span>
                         </div>
                   </span>
-                
-                  
-                
+
+
+
                 </div>
                 <p class="social-icon m-t-5 m-b-0"></p>
               </div>
@@ -128,7 +128,8 @@
                 <div class="cbp_tmlabel empty">
                   <span>
                     <div  [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null"  class="form-group  w-80">
-                      <input  [style.text-align]="translate.currentLang === 'ara'? 'right': null" type="text" class="form-control" id="inputArea" placeholder={{somePlaceholder}} #commentInput [(ngModel)]="changingComment">
+                      <input #intitle [style.text-align]="translate.currentLang === 'ara'? 'right': null" type="text" class="form-control" id="inputArea" placeholder="title" [(ngModel)]="changingComment">
+                      <input #inBody [style.text-align]="translate.currentLang === 'ara'? 'right': null" type="text" class="form-control" id="Area" placeholder="body" >
                     </div>
                   </span>
                   <div align="end">
@@ -136,6 +137,12 @@
                       <span *ngIf="!isReplying; else elseTemplate">
                         <button [style.transform]="translate.currentLang === 'ara'? 'scaleX(-1)': null" class="btn btn-raised btn-primary waves-effect btn-round col-white" (disabled)="changingComment == ''" (click)="addComment(commentInput.value)">
                           {{ 'ACTIVITIES.DETAIL.COMMENT' | translate }}
+                        </button>
+                         <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (click)="train()">
+                          train
+                        </button>
+                        <button class="btn btn-raised btn-primary waves-effect btn-round col-white" (click)="autoGenerateTags(intitle.value, inBody.value)">
+                          predict
                         </button>
                       </span>
                         <ng-template #elseTemplate>

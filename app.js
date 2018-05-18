@@ -12,7 +12,8 @@ var passport = require('passport');
 var path = require('path');
 require('./api/config/passport')(passport);
 var router = require('./api/routes/index')(passport);
-var ClassifierController = require('./api/controllers/ClassifierController');
+var threads = require('webworker-threads');
+var model = require('./api/utils/Classifier/Model');
 // -------------------------- End of "Requirements" --------------------- //
 
 // -------------------------- Dependancies ------------------------------ //
@@ -22,7 +23,7 @@ app.set(config.SECRET);
 
 
 // -------------------------- Tensorflow Model Classifier ------------------------------ //
-ClassifierController.loadDictionary();
+// model.loadDict();
 // -------------------------- End of "Tensorflow Model Classifier" --------------------- //
 
 
